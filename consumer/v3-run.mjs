@@ -9,6 +9,7 @@ import * as F from 'hanaworlds-contracts/v3/fixture';
 const read = async name => JSON.parse(await readFile(new URL(import.meta.resolve(`hanaworlds-contracts/v3/fixtures/${name}`)), 'utf8'));
 const oracle = await read('contract-v3-oracles');
 const historyResponses = await read('history-allowlist-response-oracles');
+const digestResponses = await read('digest-allowlist-precedence-oracles');
 const goldens = (await read('production-goldens')).vectors;
 const wires = (await read('wire-inputs-v3')).requests;
 const closures = (await read('closure-oracles-v3')).cases;
@@ -42,6 +43,16 @@ for (const fixture of historyResponses.cases) {
     assert.throws(() => V3.validateResponse('world-adapter/v3', fixture.operation, fixture.response),
       error => error.publicError?.code === 'SCHEMA_INVALID', fixture.id);
 }
+assert.equal(digestResponses.cases.length, 8);
+for (const fixture of digestResponses.cases) {
+  assert.deepEqual(JSON.parse(JSON.stringify(V3.validateType(fixture.responseType, fixture.response))), fixture.response, `${fixture.id}.schema`);
+  assert.deepEqual(JSON.parse(JSON.stringify(V3.validateResponse('world-adapter/v3', fixture.operation, fixture.response))), fixture.response, fixture.id);
+  assert.equal(fixture.response.error.phase, fixture.expected.phase, fixture.id);
+  if (fixture.kind === 'precedence-negative') assert.notEqual(fixture.response.error.code, fixture.forbiddenCode, fixture.id);
+}
+assert.deepEqual(V3.operationContracts['world-adapter/v3']
+  .filter(value => value.failureCodes.includes('NON_CANONICAL_AMBIGUITY')).map(value => value.operation).sort(),
+  ['ApplyCompiledTransaction', 'ApplyHistoryTransaction', 'PrepareHistoryTransaction', 'PrepareRecoverableTransaction']);
 const historyPrepare = oracle.cases.find(value => value.id === 'A-VALID-AUTHOR-LINKED-UNDO').request;
 const historyQuery = oracle.cases.find(value => value.id === 'A-VALID-RESTART-QUERY').request;
 const historyApply = oracle.cases.find(value => value.id === 'A-AMBIGUOUS-AFTER-WRITE').request;
@@ -79,7 +90,7 @@ for (const [name, relative] of [['v3-runtime', './runtime.mjs'], ['v3-generated-
 }
 const result = { evidence: 'PACKAGE_REAL_RUNTIME', version: pkg.version, providerRuntime: 'NOT_RUN',
   historicalGoldens: goldens.length, v3WireRequests: wires.length, closureCases: closures.length,
-  eventCases: events.length, v3Oracles: oracle.cases.length, historyResponseCases: historyResponses.cases.length,
+  eventCases: events.length, v3Oracles: oracle.cases.length, historyResponseCases: historyResponses.cases.length, digestResponseCases: digestResponses.cases.length,
   loaded, specificationStatus: 'FIXTURE_PASS_INDEPENDENT_REVIEW_NOT_RUN' };
 await writeFile('consumer-result-v3.json', JSON.stringify(result, null, 2) + '\n');
 console.log(JSON.stringify(result));

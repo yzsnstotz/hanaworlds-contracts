@@ -22,6 +22,7 @@ const profile = JSON.parse(await readFile(new URL('../spec/v3/CONTRACT_SCHEMA_PR
 const closure = JSON.parse(await readFile(new URL('../spec/v3/CONTRACT_SEMANTIC_CLOSURE.json', import.meta.url), 'utf8'));
 const v3 = await read('contract-v3-oracles');
 const historyResponses = await read('history-allowlist-response-oracles');
+const digestResponses = await read('digest-allowlist-precedence-oracles');
 const wires = (await read('wire-inputs-v3')).requests;
 const closures = (await read('closure-oracles-v3')).cases;
 const events = (await read('canvas-events-v3')).cases;
@@ -140,7 +141,28 @@ for (const fixture of historyResponses.cases) {
       error => error.publicError?.code === 'SCHEMA_INVALID', fixture.id);
 }
 
+assert.equal(digestResponses.cases.length, 8);
+assert.equal(digestResponses.packageIdentity, 'hanaworlds-contracts@0.2.1');
+for (const fixture of digestResponses.cases) {
+  assert.equal(fixture.facts.sourceCaseId, 'WA-02-INVALID');
+  assert.deepEqual(plain(V3.validateType(fixture.responseType, fixture.response)), fixture.response, `${fixture.id}.schema`);
+  assert.deepEqual(plain(V3.validateResponse('world-adapter/v3', fixture.operation, fixture.response)), fixture.response, fixture.id);
+  assert.equal(fixture.response.error.phase, fixture.expected.phase, `${fixture.id}.phase`);
+  assert.equal(fixture.response.error.mutationState, fixture.expected.mutationState, `${fixture.id}.mutationState`);
+  if (fixture.kind === 'precedence-negative') {
+    assert.equal(fixture.facts.authorization, 'REVOKED');
+    assert.notEqual(fixture.response.error.code, fixture.forbiddenCode, `${fixture.id}.authorized-precedence`);
+  } else assert.equal(fixture.facts.authorization, 'VALID');
+}
+const ambiguityOps = V3.operationContracts['world-adapter/v3']
+  .filter(value => value.failureCodes.includes('NON_CANONICAL_AMBIGUITY')).map(value => value.operation).sort();
+assert.deepEqual(ambiguityOps, ['ApplyCompiledTransaction', 'ApplyHistoryTransaction', 'PrepareHistoryTransaction', 'PrepareRecoverableTransaction']);
+const ambiguityResponse = digestResponses.cases[0].response;
+for (const operation of ['QueryPreparedHistoryTransaction', 'AbortPreparedHistoryTransaction', 'QueryTransaction'])
+  assert.throws(() => V3.validateResponse('world-adapter/v3', operation, ambiguityResponse),
+    error => error.publicError?.code === 'SCHEMA_INVALID', `${operation}.does-not-admit-digest-response`);
+
 console.log(JSON.stringify({ result: 'PASS_FIXTURE', evidence: 'SOURCE/FIXTURE', version: V3.version, wires: wires.length,
-  closureCases: closures.length, eventCases: events.length, v3Cases: v3.cases.length, historyResponseCases: historyResponses.cases.length, goldens: goldens.length,
+  closureCases: closures.length, eventCases: events.length, v3Cases: v3.cases.length, historyResponseCases: historyResponses.cases.length, digestResponseCases: digestResponses.cases.length, goldens: goldens.length,
   types: V3.schemaInventory.length, projections: Object.keys(V3.digestProfile.projectionTypes).length,
   providerRuntime: 'NOT_RUN' }));

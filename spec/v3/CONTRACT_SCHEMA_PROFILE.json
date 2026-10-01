@@ -4230,7 +4230,8 @@
           "UNSUPPORTED_MUTATION_SEMANTICS",
           "CAPABILITY_UNAVAILABLE",
           "TRANSACTION_CONFLICT",
-          "LIMIT_EXCEEDED"
+          "LIMIT_EXCEEDED",
+          "NON_CANONICAL_AMBIGUITY"
         ],
         "idempotency": "requestId+exact validated payload; current auth/revocation before replay; identical record returned, changed payload REPLAY_MISMATCH"
       },
@@ -4258,7 +4259,8 @@
           "APPLY_FAILED",
           "RESTORE_FAILED",
           "RECOVERY_PENDING",
-          "UNSUPPORTED_MUTATION_SEMANTICS"
+          "UNSUPPORTED_MUTATION_SEMANTICS",
+          "NON_CANONICAL_AMBIGUITY"
         ],
         "idempotency": "requestId+exact validated payload; current auth/revocation before replay; identical record returned, changed payload REPLAY_MISMATCH"
       },
@@ -4381,7 +4383,8 @@
           "UNSUPPORTED_MUTATION_SEMANTICS",
           "UNDO_CONFLICT",
           "REDO_CONFLICT",
-          "SAVED_RESOURCE_UNAVAILABLE"
+          "SAVED_RESOURCE_UNAVAILABLE",
+          "NON_CANONICAL_AMBIGUITY"
         ],
         "idempotency": "same request/transaction and exact saved payload; changed payload fails REPLAY_MISMATCH before effect"
       },
@@ -4433,7 +4436,8 @@
           "CAPABILITY_UNAVAILABLE",
           "UNDO_CONFLICT",
           "REDO_CONFLICT",
-          "SAVED_RESOURCE_UNAVAILABLE"
+          "SAVED_RESOURCE_UNAVAILABLE",
+          "NON_CANONICAL_AMBIGUITY"
         ],
         "idempotency": "same request/transaction and exact saved payload; changed payload fails REPLAY_MISMATCH before effect"
       },

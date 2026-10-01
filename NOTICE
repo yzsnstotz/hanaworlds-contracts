@@ -11,7 +11,7 @@ canonicalize@5.1.0 from the public registry; it does not embed that snapshot
 as its production implementation. A separate copy of the Apache-2.0 license
 is retained at licenses/canonicalize-Apache-2.0.txt.
 
-This branch implements the approved Stage 1 2.0.0-rc.4 history response
+This branch implements the approved Stage 1 2.0.0-rc.5 response
 allowlist patch while preserving the public v2 lane and earlier v3 digest
 domains. Source and fixture checks are
 separate from independent admission, registry publication, release, and

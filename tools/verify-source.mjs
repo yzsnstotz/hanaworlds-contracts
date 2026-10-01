@@ -15,10 +15,10 @@ for(const binding of inventory.bindings){assert(Object.hasOwn(pkg.exports,'./'+b
 for(const path of inventory.schemas)await stat(path);
 const v3Profile=await read('spec/v3/CONTRACT_SCHEMA_PROFILE.json'),v3Closure=await read('spec/v3/CONTRACT_SEMANTIC_CLOSURE.json'),v3Inventory=await read('schemas/v3/inventory.json');
 const approvedInput=await read('spec/v3/APPROVED_INPUT.json');
-assert.equal(approvedInput.candidateDigest,'888a81af8849ffcde6544ae3221426ef8bd8ffefbd90c664c07666caa133a0ef');
-assert.equal(approvedInput.manifestCoreDigest,'ba523692b2b1a9d3aef2144a14fca4a7449914b0082b35ddfcdd43fd1c7be8bc');
-assert.equal(approvedInput.approvedZipSha256,'b11b3d6720a3ce6cc51002f7bd927034948c0fb173e2dbec6c38f90556a5d090');
-assert.equal(Object.keys(approvedInput.filesSha256).length,12);
+assert.equal(approvedInput.candidateDigest,'8bc7f14de26fb1323ffc882d95118dbbc06023497b59b637c3f65d87468422f1');
+assert.equal(approvedInput.manifestCoreDigest,'091ccbe31ec564f5ba2c46c1899f60e573ad04cd6b56794933fd7860796b10e6');
+assert.equal(approvedInput.approvedZipSha256,'63dcbb85b48f23fb0ae513c1c686a504e003704b1df1534b8690e05fbb94469f');
+assert.equal(Object.keys(approvedInput.filesSha256).length,13);
 for(const [path,digest] of Object.entries(approvedInput.filesSha256))
   assert.equal(createHash('sha256').update(await readFile('spec/v3/'+path)).digest('hex'),digest,'approved input drift: '+path);
 const v3=await import('../dist/v3/runtime.mjs');

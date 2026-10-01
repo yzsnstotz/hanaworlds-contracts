@@ -2,7 +2,7 @@
 
 Independent **non-runtime** contracts package containing the prior v2 surface and the candidate `canvas/v3` and `world-adapter/v3` surface. This repository does not register a gadget, establish a grant, instantiate a Session/store/transport, connect to an engine or write to a world. Provider gates remain `NOT_RUN`.
 
-The approved Stage 1 `2.0.0-rc.4` bundle corrects three `world-adapter/v3` history response failure-code lists and adds thirteen response oracles. The candidate source preserves the seven v2 wires, `operations/v2`, the contracts@0.1.0 digest domain and 19 production digest goldens. The `history-operation` projection retains its contracts@0.2.0 domain despite the package version change. Its public origin is [yzsnstotz/hanaworlds-contracts](https://github.com/yzsnstotz/hanaworlds-contracts). This branch is not an admitted release, registry publication or product acceptance.
+The approved Stage 1 `2.0.0-rc.5` bundle adds `NON_CANONICAL_AMBIGUITY` to exactly four `world-adapter/v3` operation response lists and eight response/authorization precedence oracles. It retains the rc.4 correction to three history response lists and thirteen response oracles. The candidate source preserves the seven v2 wires, `operations/v2`, the contracts@0.1.0 digest domain and 19 production digest goldens. The `history-operation` projection retains its contracts@0.2.0 domain. Its public origin is [yzsnstotz/hanaworlds-contracts](https://github.com/yzsnstotz/hanaworlds-contracts). This branch is not an admitted release, registry publication or product acceptance.
 
 HanaWorlds original code is MIT-licensed; the separate Apache-2.0 upstream source fixture retains its own license. See [LICENSE](LICENSE) and [NOTICE](NOTICE).
 
@@ -30,6 +30,8 @@ const historyDigest = digestValue('history-operation', exactHistoryProjection).s
 The approved rc.3 erratum makes `WA-09-VALID` and `CA-09-VALID` exact v3/v3 handshakes, adds v3/v2 mixed negative cases with zero writes, and sets only the outer `ObjectNameChanged` and `HistoryPositionChanged` event versions to `canvas/v3`. The four internal v2 digest projections and their nineteen goldens remain unchanged. `npm run test:v3` checks all approved valid, invalid and ambiguity cases without exemptions. Independent specification review and admission remain separate from the test result; see [SPEC_CONFLICTS.md](SPEC_CONFLICTS.md) for the correction record.
 
 The rc.4 response patch permits six additional Prepare errors, one QueryPrepared error, and three Apply errors for approved zero-write history outcomes. It leaves Abort and unrelated operations unchanged. Thirteen approved positive and negative response cases exercise the operation-level allowlists; they do not establish provider behavior.
+
+The rc.5 patch permits `NON_CANONICAL_AMBIGUITY` responses from `PrepareRecoverableTransaction`, `ApplyCompiledTransaction`, `PrepareHistoryTransaction` and `ApplyHistoryTransaction` after valid authorization and a mismatched digest. Eight approved response/precedence cases distinguish that outcome from revoked authorization. Query, Abort and unrelated operations remain excluded. This source package validates response shape and allowed codes; it does not verify a provider's authorization ordering.
 
 ```js
 import { admitRequest, digestValue, runtimeCompatibility } from 'hanaworlds-contracts';
