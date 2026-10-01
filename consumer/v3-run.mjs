@@ -32,6 +32,21 @@ for (const value of oracle.cases) {
   const actual = F.evaluateV3Fixture(value.type, value.request, value.context);
   for (const [key, expected] of Object.entries(value.expected)) assert.deepEqual(actual[key], expected, `${value.id}.${key}`);
 }
+const historyPrepare = oracle.cases.find(value => value.id === 'A-VALID-AUTHOR-LINKED-UNDO').request;
+const historyQuery = oracle.cases.find(value => value.id === 'A-VALID-RESTART-QUERY').request;
+const historyApply = oracle.cases.find(value => value.id === 'A-AMBIGUOUS-AFTER-WRITE').request;
+const historyAbort = { ...historyQuery, serviceRecoveryRef: 'FIXTURE-service-recovery' };
+delete historyAbort.direction;
+for (const [operation, request] of [
+  ['PrepareHistoryTransaction', historyPrepare], ['QueryPreparedHistoryTransaction', historyQuery],
+  ['ApplyHistoryTransaction', historyApply], ['AbortPreparedHistoryTransaction', historyAbort],
+]) assert.deepEqual(JSON.parse(JSON.stringify(V3.validateBoundRequest('world-adapter/v3', operation, request))), request, operation);
+assert.throws(() => V3.validateBoundRequest('world-adapter/v3', 'PrepareHistoryTransaction',
+  { ...historyPrepare, historyOperationDigest: '0'.repeat(64) }),
+  error => error.publicError?.code === 'NON_CANONICAL_AMBIGUITY');
+assert.throws(() => V3.validateBoundRequest('world-adapter/v3', 'ApplyHistoryTransaction',
+  { ...historyApply, preparedHistoryTransaction: { ...historyApply.preparedHistoryTransaction, historyOperationDigest: '0'.repeat(64) } }),
+  error => error.publicError?.code === 'NON_CANONICAL_AMBIGUITY');
 const assets = { requests: wires, goldens: goldens.map(({ id, kind, payload }) => ({ id, kind, payload })) };
 for (const value of closures) {
   const actual = F.evaluateClosureFixture(value.wire, value.dimension, value.input, assets);

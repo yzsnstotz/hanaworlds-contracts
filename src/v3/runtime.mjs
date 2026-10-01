@@ -128,8 +128,15 @@ export function validateBoundRequest(wire, operationName, value) {
   }
   if (Object.hasOwn(request, 'historyOperationDigest')) {
     const fields = schemaBundle.definitions.HistoryOperationProjection.properties;
-    const projection = Object.fromEntries(Object.keys(fields).map(field => [field, request[field]]));
-    validateDigestBinding('history-operation', projection, request.historyOperationDigest);
+    if (Object.keys(fields).every(field => Object.hasOwn(request, field))) {
+      const projection = Object.fromEntries(Object.keys(fields).map(field => [field, request[field]]));
+      validateDigestBinding('history-operation', projection, request.historyOperationDigest);
+    }
+  }
+  if (request.preparedHistoryTransaction) {
+    const prepared = request.preparedHistoryTransaction;
+    for (const field of ['originTransactionId', 'transactionId', 'direction', 'historyOperationDigest'])
+      requireFact(prepared[field] === request[field], 'NON_CANONICAL_AMBIGUITY', 'PAYLOAD_CHANGED');
   }
   return request;
 }

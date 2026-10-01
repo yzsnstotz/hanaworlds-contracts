@@ -98,6 +98,35 @@ assert.throws(() => V3.admitRequest('canvas/v3', 'ApplyRecoverableCommit', new T
 assert.throws(() => V3.validateRequest('canvas/v2', 'ApplyRecoverableCommit', apply),
   error => error.publicError?.code === 'UNSUPPORTED_VERSION');
 
+// A full history projection can be recomputed at admission. Later operations
+// carry only the previously bound digest or a prepared transaction reference.
+const historyPrepare = v3.cases.find(value => value.id === 'A-VALID-AUTHOR-LINKED-UNDO').request;
+const historyQuery = v3.cases.find(value => value.id === 'A-VALID-RESTART-QUERY').request;
+const historyApply = v3.cases.find(value => value.id === 'A-AMBIGUOUS-AFTER-WRITE').request;
+const historyAbort = { ...historyQuery, serviceRecoveryRef: 'FIXTURE-service-recovery' };
+delete historyAbort.direction;
+for (const [operation, request] of [
+  ['PrepareHistoryTransaction', historyPrepare],
+  ['QueryPreparedHistoryTransaction', historyQuery],
+  ['ApplyHistoryTransaction', historyApply],
+  ['AbortPreparedHistoryTransaction', historyAbort],
+]) assert.deepEqual(plain(V3.validateBoundRequest('world-adapter/v3', operation, request)), request, operation);
+assert.throws(() => V3.validateBoundRequest('world-adapter/v3', 'PrepareHistoryTransaction',
+  { ...historyPrepare, historyOperationDigest: '0'.repeat(64) }),
+  error => error.publicError?.code === 'NON_CANONICAL_AMBIGUITY');
+assert.throws(() => V3.validateBoundRequest('world-adapter/v3', 'PrepareHistoryTransaction',
+  { ...historyPrepare, expectedHistoryRevision: 'tampered-history-revision' }),
+  error => error.publicError?.code === 'NON_CANONICAL_AMBIGUITY');
+assert.throws(() => V3.validateBoundRequest('world-adapter/v3', 'QueryPreparedHistoryTransaction',
+  { ...historyQuery, historyOperationDigest: 'bad' }),
+  error => error.publicError?.code === 'SCHEMA_INVALID');
+assert.throws(() => V3.validateBoundRequest('world-adapter/v3', 'ApplyHistoryTransaction',
+  { ...historyApply, preparedHistoryTransaction: { ...historyApply.preparedHistoryTransaction, historyOperationDigest: '0'.repeat(64) } }),
+  error => error.publicError?.code === 'NON_CANONICAL_AMBIGUITY');
+assert.throws(() => V3.validateBoundRequest('world-adapter/v3', 'AbortPreparedHistoryTransaction',
+  { ...historyAbort, historyOperationDigest: 'bad' }),
+  error => error.publicError?.code === 'SCHEMA_INVALID');
+
 console.log(JSON.stringify({ result: 'PASS_FIXTURE', evidence: 'SOURCE/FIXTURE', version: V3.version, wires: wires.length,
   closureCases: closures.length, eventCases: events.length, v3Cases: v3.cases.length, goldens: goldens.length,
   types: V3.schemaInventory.length, projections: Object.keys(V3.digestProfile.projectionTypes).length,
