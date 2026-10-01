@@ -15,13 +15,16 @@ for(const binding of inventory.bindings){assert(Object.hasOwn(pkg.exports,'./'+b
 for(const path of inventory.schemas)await stat(path);
 const v3Profile=await read('spec/v3/CONTRACT_SCHEMA_PROFILE.json'),v3Closure=await read('spec/v3/CONTRACT_SEMANTIC_CLOSURE.json'),v3Inventory=await read('schemas/v3/inventory.json');
 const approvedInput=await read('spec/v3/APPROVED_INPUT.json');
-assert.equal(approvedInput.candidateDigest,'2679982cc250acb8cc43ad9dc5f25f67783d7ac438757efb4d7aa19127da0fb7');
-assert.equal(approvedInput.manifestCoreDigest,'0402690813873497d80d3f352dca69b56a4d5c3fd95290d49100131c4271113a');
+assert.equal(approvedInput.candidateDigest,'888a81af8849ffcde6544ae3221426ef8bd8ffefbd90c664c07666caa133a0ef');
+assert.equal(approvedInput.manifestCoreDigest,'ba523692b2b1a9d3aef2144a14fca4a7449914b0082b35ddfcdd43fd1c7be8bc');
+assert.equal(approvedInput.approvedZipSha256,'b11b3d6720a3ce6cc51002f7bd927034948c0fb173e2dbec6c38f90556a5d090');
+assert.equal(Object.keys(approvedInput.filesSha256).length,12);
 for(const [path,digest] of Object.entries(approvedInput.filesSha256))
   assert.equal(createHash('sha256').update(await readFile('spec/v3/'+path)).digest('hex'),digest,'approved input drift: '+path);
 const v3=await import('../dist/v3/runtime.mjs');
-assert.equal(v3.version,'0.2.0');
-assert.equal(v3.schemaBundle.$id,'https://hanaworlds.invalid/contracts/0.2.0/v3/schema.json');
+assert.equal(v3.version,'0.2.1');
+assert.equal(v3Profile.package,'hanaworlds-contracts@0.2.1');
+assert.equal(v3.schemaBundle.$id,'https://hanaworlds.invalid/contracts/0.2.1/v3/schema.json');
 assert.deepEqual(v3.wireVersions,v3Profile.wireVersions);
 assert.deepEqual(v3Inventory.types,Object.keys(v3Profile.types));
 assert.equal(v3Inventory.types.length,258);

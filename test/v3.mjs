@@ -21,6 +21,7 @@ const read = async name => JSON.parse(await readFile(new URL(`../spec/v3/fixture
 const profile = JSON.parse(await readFile(new URL('../spec/v3/CONTRACT_SCHEMA_PROFILE.json', import.meta.url), 'utf8'));
 const closure = JSON.parse(await readFile(new URL('../spec/v3/CONTRACT_SEMANTIC_CLOSURE.json', import.meta.url), 'utf8'));
 const v3 = await read('contract-v3-oracles');
+const historyResponses = await read('history-allowlist-response-oracles');
 const wires = (await read('wire-inputs-v3')).requests;
 const closures = (await read('closure-oracles-v3')).cases;
 const events = (await read('canvas-events-v3')).cases;
@@ -28,7 +29,7 @@ const goldens = (await read('production-goldens')).vectors;
 const utf8 = value => new TextEncoder().encode(JSON.stringify(value));
 const plain = value => JSON.parse(JSON.stringify(value));
 
-assert.equal(V3.version, '0.2.0');
+assert.equal(V3.version, '0.2.1');
 assert.deepEqual(V3.wireVersions, profile.wireVersions);
 assert.equal(V3.schemaInventory.length, 258);
 assert.equal(Object.keys(V3.digestProfile.projectionTypes).length, 20);
@@ -127,7 +128,19 @@ assert.throws(() => V3.validateBoundRequest('world-adapter/v3', 'AbortPreparedHi
   { ...historyAbort, historyOperationDigest: 'bad' }),
   error => error.publicError?.code === 'SCHEMA_INVALID');
 
+assert.equal(historyResponses.cases.length, 13);
+assert.equal(historyResponses.packageIdentity, 'hanaworlds-contracts@0.2.1');
+assert.equal(historyResponses.historyOperationDigestDomain, 'HanaWorlds|contracts@0.2.0|history-operation\n');
+for (const fixture of historyResponses.cases) {
+  assert.deepEqual(plain(V3.validateType(fixture.responseType, fixture.response)), fixture.response, `${fixture.id}.schema`);
+  if (fixture.kind === 'valid')
+    assert.deepEqual(plain(V3.validateResponse('world-adapter/v3', fixture.operation, fixture.response)), fixture.response, fixture.id);
+  else
+    assert.throws(() => V3.validateResponse('world-adapter/v3', fixture.operation, fixture.response),
+      error => error.publicError?.code === 'SCHEMA_INVALID', fixture.id);
+}
+
 console.log(JSON.stringify({ result: 'PASS_FIXTURE', evidence: 'SOURCE/FIXTURE', version: V3.version, wires: wires.length,
-  closureCases: closures.length, eventCases: events.length, v3Cases: v3.cases.length, goldens: goldens.length,
+  closureCases: closures.length, eventCases: events.length, v3Cases: v3.cases.length, historyResponseCases: historyResponses.cases.length, goldens: goldens.length,
   types: V3.schemaInventory.length, projections: Object.keys(V3.digestProfile.projectionTypes).length,
   providerRuntime: 'NOT_RUN' }));

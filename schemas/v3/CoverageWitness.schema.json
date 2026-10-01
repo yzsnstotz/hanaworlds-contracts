@@ -1,7 +1,7 @@
 {
   "$schema": "http://json-schema.org/draft-07/schema#",
-  "$id": "https://hanaworlds.invalid/contracts/0.2.0/v3/CoverageWitness.schema.json",
-  "title": "HanaWorlds contracts 0.2.0 — complete v3 type inventory",
+  "$id": "https://hanaworlds.invalid/contracts/0.2.1/v3/CoverageWitness.schema.json",
+  "title": "HanaWorlds contracts 0.2.1 — complete v3 type inventory",
   "description": "Select a definition. JSON Schema establishes structure; exported validators additionally enforce the normative domain rules. Validation never authenticates a provider.",
   "definitions": {
     "Ref": {

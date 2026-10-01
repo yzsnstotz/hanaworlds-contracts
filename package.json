@@ -1,6 +1,6 @@
 {
   "name": "hanaworlds-contracts",
-  "version": "0.2.0",
+  "version": "0.2.1",
   "description": "Independent non-runtime HanaWorlds seven-v2 public contracts, operations/v2, strict raw JSON, explicit digests and pure FIXTURE conformance models.",
   "type": "module",
   "private": true,

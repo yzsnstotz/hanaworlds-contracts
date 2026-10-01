@@ -1,10 +1,10 @@
 {
   "schemaVersion": "1.0.0",
-  "authority": "user-approved HanaWorlds Stage 1 BlueMap 2.0.0-rc.3",
-  "candidateDigest": "2679982cc250acb8cc43ad9dc5f25f67783d7ac438757efb4d7aa19127da0fb7",
-  "manifestCoreDigest": "0402690813873497d80d3f352dca69b56a4d5c3fd95290d49100131c4271113a",
+  "authority": "user-approved HanaWorlds Stage 1 BlueMap 2.0.0-rc.4 exact history response allowlist erratum",
+  "candidateDigest": "888a81af8849ffcde6544ae3221426ef8bd8ffefbd90c664c07666caa133a0ef",
+  "manifestCoreDigest": "ba523692b2b1a9d3aef2144a14fca4a7449914b0082b35ddfcdd43fd1c7be8bc",
   "filesSha256": {
-    "CONTRACT_SCHEMA_PROFILE.json": "221580b659996fc4b6d2cd060cd79c7fa99b256708dcd0415fb838dd8488b383",
+    "CONTRACT_SCHEMA_PROFILE.json": "0addd56053b60fe1be877d7b525786ac11f6f37f458bd213c84aca06546c8371",
     "CONTRACT_SEMANTIC_CLOSURE.json": "72ff3021bb33133654154b4e55a9e9769178f8ed8182ae39b3e7dcf39cc23c17",
     "fixtures/candidate/canvas-events-v3.json": "be3fafe1392d56f0d1a2dbf2c00ae1a0f8b76541cdf6a058690373971cc4dedb",
     "fixtures/candidate/canvas-events.json": "c4de1710428bb6271b83449941433578fe5bc6a85afaeb6027699e1053dc96e2",
@@ -14,7 +14,9 @@
     "fixtures/candidate/production-goldens.json": "aec60187352ca8b1caabfa62e681dbbe49efef13fd734770a09c1fbe035299c0",
     "fixtures/candidate/semantic-cases.json": "0a6d6f04a90c7e9eb633a95b02339be6b6d779268ebf0d484d18afc446f783ce",
     "fixtures/candidate/wire-inputs-v3.json": "f2592630275560c20f77264929917487a30ea89dd883d20afd26972de2502427",
-    "fixtures/candidate/wire-inputs.json": "f3a3bcc68a123d73f83c939bd473b7c6054ef57be85d74dee10e8413090f5e25"
+    "fixtures/candidate/wire-inputs.json": "f3a3bcc68a123d73f83c939bd473b7c6054ef57be85d74dee10e8413090f5e25",
+    "fixtures/candidate/history-allowlist-response-oracles.json": "10ce5cd8242c4aa13a2e59a4e5f6b4ea6fab9273c395d160e4d3bc88b7e8328c"
   },
-  "evidence": "SOURCE/FIXTURE; provider runtime NOT_RUN"
+  "evidence": "SOURCE/FIXTURE; provider runtime NOT_RUN",
+  "approvedZipSha256": "b11b3d6720a3ce6cc51002f7bd927034948c0fb173e2dbec6c38f90556a5d090"
 }

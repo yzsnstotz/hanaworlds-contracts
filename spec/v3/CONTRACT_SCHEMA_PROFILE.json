@@ -5,7 +5,7 @@
   "executable": false,
   "evidence": "SOURCE/FIXTURE",
   "runtime": "NOT_RUN",
-  "package": "hanaworlds-contracts@0.2.0",
+  "package": "hanaworlds-contracts@0.2.1",
   "purpose": "Normative proposed v3 wire profile; SOURCE/FIXTURE only, no provider implementation claim",
   "defaults": {
     "objects": "all declared fields required; additionalProperties=false recursively; only explicitly Metadata is extensible",
@@ -4375,7 +4375,13 @@
           "REPLAY_MISMATCH",
           "STALE_TRANSACTION",
           "RECOVERY_PENDING",
-          "CAPABILITY_UNAVAILABLE"
+          "CAPABILITY_UNAVAILABLE",
+          "OBJECT_SCOPE_MISMATCH",
+          "STALE_REVISION",
+          "UNSUPPORTED_MUTATION_SEMANTICS",
+          "UNDO_CONFLICT",
+          "REDO_CONFLICT",
+          "SAVED_RESOURCE_UNAVAILABLE"
         ],
         "idempotency": "same request/transaction and exact saved payload; changed payload fails REPLAY_MISMATCH before effect"
       },
@@ -4399,7 +4405,8 @@
           "REPLAY_MISMATCH",
           "STALE_TRANSACTION",
           "RECOVERY_PENDING",
-          "CAPABILITY_UNAVAILABLE"
+          "CAPABILITY_UNAVAILABLE",
+          "OBJECT_SCOPE_MISMATCH"
         ],
         "idempotency": "same request/transaction and exact saved payload; changed payload fails REPLAY_MISMATCH before effect"
       },
@@ -4423,7 +4430,10 @@
           "REPLAY_MISMATCH",
           "STALE_TRANSACTION",
           "RECOVERY_PENDING",
-          "CAPABILITY_UNAVAILABLE"
+          "CAPABILITY_UNAVAILABLE",
+          "UNDO_CONFLICT",
+          "REDO_CONFLICT",
+          "SAVED_RESOURCE_UNAVAILABLE"
         ],
         "idempotency": "same request/transaction and exact saved payload; changed payload fails REPLAY_MISMATCH before effect"
       },
