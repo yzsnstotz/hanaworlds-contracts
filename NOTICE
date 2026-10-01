@@ -1,4 +1,4 @@
-HanaWorlds Contracts source baseline 0.1.1
+HanaWorlds Contracts source candidate 0.2.0
 
 The top-level MIT license covers HanaWorlds original code and documentation.
 It does not change the license or copyright of third-party works.
@@ -11,6 +11,7 @@ canonicalize@5.1.0 from the public registry; it does not embed that snapshot
 as its production implementation. A separate copy of the Apache-2.0 license
 is retained at licenses/canonicalize-Apache-2.0.txt.
 
-This branch is a v2 source baseline for the proposed contracts@0.2.0 work.
-It is not a v3 implementation, admitted release, registry publication, or
+This branch implements the approved Stage 1 2.0.0-rc.3 v3 contract source
+candidate while preserving the public v2 lane. Source and fixture checks are
+separate from independent admission, registry publication, release, and
 HanaWorlds product acceptance.

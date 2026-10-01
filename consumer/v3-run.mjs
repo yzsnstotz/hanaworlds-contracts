@@ -10,6 +10,8 @@ const read = async name => JSON.parse(await readFile(new URL(import.meta.resolve
 const oracle = await read('contract-v3-oracles');
 const goldens = (await read('production-goldens')).vectors;
 const wires = (await read('wire-inputs-v3')).requests;
+const closures = (await read('closure-oracles-v3')).cases;
+const events = (await read('canvas-events-v3')).cases;
 const pkg = JSON.parse(await readFile(new URL(import.meta.resolve('hanaworlds-contracts/package.json')), 'utf8'));
 assert.equal(pkg.version, '0.2.0');
 assert.equal(V3.version, pkg.version);
@@ -30,6 +32,15 @@ for (const value of oracle.cases) {
   const actual = F.evaluateV3Fixture(value.type, value.request, value.context);
   for (const [key, expected] of Object.entries(value.expected)) assert.deepEqual(actual[key], expected, `${value.id}.${key}`);
 }
+const assets = { requests: wires, goldens: goldens.map(({ id, kind, payload }) => ({ id, kind, payload })) };
+for (const value of closures) {
+  const actual = F.evaluateClosureFixture(value.wire, value.dimension, value.input, assets);
+  for (const [key, expected] of Object.entries(value.expected)) assert.deepEqual(actual[key], expected, `${value.id}.${key}`);
+}
+for (const value of events) {
+  const actual = F.evaluateCanvasEventFixture(value.eventType, value.input);
+  for (const [key, expected] of Object.entries(value.expected)) assert.deepEqual(actual[key], expected, `${value.id}.${key}`);
+}
 const loaded = [];
 for (const name of ['v3', 'world-adapter/v3', 'canvas/v3', 'v3/fixture', 'v3/schemas']) {
   const specifier = `hanaworlds-contracts/${name}`;
@@ -37,8 +48,13 @@ for (const name of ['v3', 'world-adapter/v3', 'canvas/v3', 'v3/fixture', 'v3/sch
   const path = new URL(import.meta.resolve(specifier));
   loaded.push({ specifier, sha256: createHash('sha256').update(await readFile(path)).digest('hex') });
 }
+for (const [name, relative] of [['v3-runtime', './runtime.mjs'], ['v3-generated-profile', './generated/contracts.mjs']]) {
+  const path = new URL(relative, import.meta.resolve('hanaworlds-contracts/v3'));
+  loaded.push({ specifier: name, sha256: createHash('sha256').update(await readFile(path)).digest('hex') });
+}
 const result = { evidence: 'PACKAGE_REAL_RUNTIME', version: pkg.version, providerRuntime: 'NOT_RUN',
-  historicalGoldens: goldens.length, v3WireRequests: wires.length, v3Oracles: oracle.cases.length,
-  loaded, specificationStatus: 'PARTIAL_SPEC_CONFLICT' };
+  historicalGoldens: goldens.length, v3WireRequests: wires.length, closureCases: closures.length,
+  eventCases: events.length, v3Oracles: oracle.cases.length,
+  loaded, specificationStatus: 'FIXTURE_PASS_INDEPENDENT_REVIEW_NOT_RUN' };
 await writeFile('consumer-result-v3.json', JSON.stringify(result, null, 2) + '\n');
 console.log(JSON.stringify(result));

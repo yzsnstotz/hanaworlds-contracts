@@ -7535,7 +7535,7 @@
           "type": "object",
           "properties": {
             "contractVersion": {
-              "const": "canvas/v2"
+              "const": "canvas/v3"
             },
             "event": {
               "const": "ObjectNameChanged"
@@ -7559,7 +7559,7 @@
           "type": "object",
           "properties": {
             "contractVersion": {
-              "const": "canvas/v2"
+              "const": "canvas/v3"
             },
             "event": {
               "const": "ObjectNameChanged"
@@ -7775,7 +7775,7 @@
           "type": "object",
           "properties": {
             "contractVersion": {
-              "const": "canvas/v2"
+              "const": "canvas/v3"
             },
             "event": {
               "const": "HistoryPositionChanged"
@@ -7799,7 +7799,7 @@
           "type": "object",
           "properties": {
             "contractVersion": {
-              "const": "canvas/v2"
+              "const": "canvas/v3"
             },
             "event": {
               "const": "HistoryPositionChanged"

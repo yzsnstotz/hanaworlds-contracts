@@ -1073,7 +1073,7 @@
       "dimension": "compatibility",
       "status": "FROZEN",
       "statusMeaning": "concrete candidate rule+oracle pending exact user approval; no provider implementation claim",
-      "rule": "all seven v2 + operations/v2 handshake; guarantee RECOVERABLE_VERIFIED; no old v1/draft silent fallback",
+      "rule": "matching world-adapter/v3 consumer/provider wire plus operations/v2; guarantee RECOVERABLE_VERIFIED; no v2/v1/draft mutation fallback",
       "ruleRefs": [
         "CONTRACT_RULES.md#1",
         "CONTRACT_SCHEMA_PROFILE.json"
@@ -1640,7 +1640,7 @@
       "dimension": "compatibility",
       "status": "FROZEN",
       "statusMeaning": "concrete candidate rule+oracle pending exact user approval; no provider implementation claim",
-      "rule": "all seven v2 + operations/v2 handshake; guarantee RECOVERABLE_VERIFIED; no old v1/draft silent fallback",
+      "rule": "matching canvas/v3 consumer/provider wire plus operations/v2; guarantee RECOVERABLE_VERIFIED; no v2/v1/draft mutation fallback",
       "ruleRefs": [
         "CONTRACT_RULES.md#1",
         "CONTRACT_SCHEMA_PROFILE.json"

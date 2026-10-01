@@ -1512,12 +1512,12 @@ export type ObjectCreated = {
 };
 /** Emit only after successful atomic name/registry CAS that actually changes the display name/key; operation NameObject or RenameObject selects the exact receipt variant. receipt.result is the new name/registry state; failure/no-change emits nothing. | receipt is a typed public response envelope; receipt.error=null and receipt.result nonnull; authenticate subscriptions and preserve normal response privacy/scope; no new digest kind */
 export type ObjectNameChanged = {
-  readonly "contractVersion": "canvas/v2";
+  readonly "contractVersion": "canvas/v3";
   readonly "event": "ObjectNameChanged";
   readonly "operation": "NameObject";
   readonly "receipt": ObjectNamedReceipt;
 } | {
-  readonly "contractVersion": "canvas/v2";
+  readonly "contractVersion": "canvas/v3";
   readonly "event": "ObjectNameChanged";
   readonly "operation": "RenameObject";
   readonly "receipt": ObjectRenamedReceipt;
@@ -1567,12 +1567,12 @@ export type TransactionVerified = {
 };
 /** Emit only after the whole linked Undo or Redo transaction is VERIFIED with durable movement of all linked heads; operation Undo/Redo is the finite signal discriminator/direction. receipt.result is that verified receipt. Conflict proposal, rollback/failure and unchanged heads emit nothing. | receipt is a typed public response envelope; receipt.error=null and receipt.result nonnull; authenticate subscriptions and preserve normal response privacy/scope; no new digest kind */
 export type HistoryPositionChanged = {
-  readonly "contractVersion": "canvas/v2";
+  readonly "contractVersion": "canvas/v3";
   readonly "event": "HistoryPositionChanged";
   readonly "operation": "Undo";
   readonly "receipt": UndoReceipt;
 } | {
-  readonly "contractVersion": "canvas/v2";
+  readonly "contractVersion": "canvas/v3";
   readonly "event": "HistoryPositionChanged";
   readonly "operation": "Redo";
   readonly "receipt": RedoReceipt;

@@ -2800,7 +2800,7 @@
       "type": "discriminated-object",
       "discriminator": "operation",
       "common": {
-        "contractVersion": "=canvas/v2",
+        "contractVersion": "=canvas/v3",
         "event": "=ObjectNameChanged"
       },
       "variants": {
@@ -2901,7 +2901,7 @@
       "type": "discriminated-object",
       "discriminator": "operation",
       "common": {
-        "contractVersion": "=canvas/v2",
+        "contractVersion": "=canvas/v3",
         "event": "=HistoryPositionChanged"
       },
       "variants": {

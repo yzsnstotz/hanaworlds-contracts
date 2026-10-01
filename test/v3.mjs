@@ -1,5 +1,6 @@
 import assert from 'node:assert/strict';
 import { readFile } from 'node:fs/promises';
+import * as V2 from 'hanaworlds-contracts';
 
 let V3;
 let canvas;
@@ -36,6 +37,12 @@ assert.equal(adapter.contractVersion, 'world-adapter/v3');
 assert.equal(V3.operationContracts['canvas/v3'].length, 16);
 assert.equal(V3.operationContracts['world-adapter/v3'].length, 15);
 assert.equal(closure.rows.length, 76);
+for (const name of ['AffectedProjection', 'AuthProjection', 'TxProjection', 'ReceiptProjection'])
+  assert.deepEqual(V3.schemaBundle.definitions[name], V2.schemaBundle.definitions[name], `${name} v2 projection unchanged`);
+for (const prefix of ['WA', 'CA']) {
+  const row = closure.rows.find(value => value.id === `${prefix}-09`);
+  assert.ok(row.rule.includes('v3') && !row.rule.includes('seven v2'), `${prefix}-09 closure must describe current wire`);
+}
 
 for (const vector of goldens) {
   const actual = V3.digestValue(vector.kind, vector.payload);
@@ -55,29 +62,24 @@ for (const wire of wires) {
 }
 
 const assets = { requests: wires, goldens: goldens.map(({ id, kind, payload }) => ({ id, kind, payload })) };
-const specConflicts = [];
 for (const fixture of closures) {
   const actual = fixtures.evaluateClosureFixture(fixture.wire, fixture.dimension, fixture.input, assets);
-  if (['WA-09-VALID', 'CA-09-VALID'].includes(fixture.id)) {
-    assert.equal(actual.code, 'UNSUPPORTED_VERSION');
-    specConflicts.push(fixture.id);
-    continue;
-  }
   for (const [key, value] of Object.entries(fixture.expected)) assert.deepEqual(actual[key], value, `${fixture.id}.${key}`);
 }
-const wa09 = closures.find(value => value.id === 'WA-09-VALID');
-assert.equal(fixtures.evaluateClosureFixture(wa09.wire, wa09.dimension,
-  { ...wa09.input, consumerWire: 'world-adapter/v3', providerWire: 'world-adapter/v3' }, assets).result, 'HANDSHAKE_VERSION_MATCH');
-assert.equal(fixtures.evaluateClosureFixture(wa09.wire, wa09.dimension,
-  { ...wa09.input, consumerWire: 'world-adapter/v3', providerWire: 'world-adapter/v2' }, assets).code, 'UNSUPPORTED_VERSION');
+for (const prefix of ['WA', 'CA']) {
+  const valid = closures.find(value => value.id === `${prefix}-09-VALID`);
+  const mixed = closures.find(value => value.id === `${prefix}-09-MIXED-INVALID`);
+  assert.ok(valid && mixed, `${prefix} approved v3 positive and mixed negative must both exist`);
+  assert.equal(valid.input.consumerWire, valid.wire);
+  assert.equal(valid.input.providerWire, valid.wire);
+  assert.equal(mixed.input.consumerWire, valid.wire);
+  assert.notEqual(mixed.input.providerWire, valid.wire);
+  const rejected = fixtures.evaluateClosureFixture(mixed.wire, mixed.dimension, mixed.input, assets);
+  assert.equal(rejected.code, 'UNSUPPORTED_VERSION');
+  assert.equal(rejected.worldWrites, 0);
+}
 for (const fixture of events) {
   const actual = fixtures.evaluateCanvasEventFixture(fixture.eventType, fixture.input);
-  if (['ObjectNameChanged', 'HistoryPositionChanged'].includes(fixture.eventType)) {
-    assert.equal(actual.result, 'REJECT_EVENT_INPUT');
-    assert.equal(actual.worldWrites, 0);
-    specConflicts.push(fixture.id);
-    continue;
-  }
   for (const [key, value] of Object.entries(fixture.expected)) assert.deepEqual(actual[key], value, `${fixture.id}.${key}`);
 }
 for (const fixture of v3.cases) {
@@ -96,7 +98,7 @@ assert.throws(() => V3.admitRequest('canvas/v3', 'ApplyRecoverableCommit', new T
 assert.throws(() => V3.validateRequest('canvas/v2', 'ApplyRecoverableCommit', apply),
   error => error.publicError?.code === 'UNSUPPORTED_VERSION');
 
-console.log(JSON.stringify({ result: 'PARTIAL_SPEC_CONFLICT', evidence: 'SOURCE/FIXTURE', version: V3.version, wires: wires.length,
+console.log(JSON.stringify({ result: 'PASS_FIXTURE', evidence: 'SOURCE/FIXTURE', version: V3.version, wires: wires.length,
   closureCases: closures.length, eventCases: events.length, v3Cases: v3.cases.length, goldens: goldens.length,
   types: V3.schemaInventory.length, projections: Object.keys(V3.digestProfile.projectionTypes).length,
-  specConflicts, providerRuntime: 'NOT_RUN' }));
+  providerRuntime: 'NOT_RUN' }));

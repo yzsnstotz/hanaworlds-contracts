@@ -998,8 +998,8 @@
       "kind": "valid",
       "evidence": "FIXTURE",
       "input": {
-        "consumerWire": "world-adapter/v2",
-        "providerWire": "world-adapter/v2",
+        "consumerWire": "world-adapter/v3",
+        "providerWire": "world-adapter/v3",
         "compiledOperationsVersion": "operations/v2",
         "guarantee": "RECOVERABLE_VERIFIED",
         "runtimePackageVersion": "0.1.0"
@@ -1020,6 +1020,29 @@
         "providerWire": "world-adapter/v1",
         "compiledOperationsVersion": "operations/v1",
         "guarantee": "STRICT_ATOMIC",
+        "runtimePackageVersion": "0.1.0"
+      },
+      "expected": {
+        "result": "REJECT",
+        "code": "UNSUPPORTED_VERSION",
+        "phase": "decode",
+        "reason": "VERSION_UNSUPPORTED",
+        "mutationState": "NONE",
+        "fallback": false,
+        "worldWrites": 0
+      }
+    },
+    {
+      "id": "WA-09-MIXED-INVALID",
+      "wire": "world-adapter/v3",
+      "dimension": "compatibility",
+      "kind": "invalid",
+      "evidence": "FIXTURE",
+      "input": {
+        "consumerWire": "world-adapter/v3",
+        "providerWire": "world-adapter/v2",
+        "compiledOperationsVersion": "operations/v2",
+        "guarantee": "RECOVERABLE_VERIFIED",
         "runtimePackageVersion": "0.1.0"
       },
       "expected": {
@@ -1542,8 +1565,8 @@
       "kind": "valid",
       "evidence": "FIXTURE",
       "input": {
-        "consumerWire": "canvas/v2",
-        "providerWire": "canvas/v2",
+        "consumerWire": "canvas/v3",
+        "providerWire": "canvas/v3",
         "compiledOperationsVersion": "operations/v2",
         "guarantee": "RECOVERABLE_VERIFIED",
         "runtimePackageVersion": "0.1.0"
@@ -1564,6 +1587,29 @@
         "providerWire": "canvas/v1",
         "compiledOperationsVersion": "operations/v1",
         "guarantee": "STRICT_ATOMIC",
+        "runtimePackageVersion": "0.1.0"
+      },
+      "expected": {
+        "result": "REJECT",
+        "code": "UNSUPPORTED_VERSION",
+        "phase": "decode",
+        "reason": "VERSION_UNSUPPORTED",
+        "mutationState": "NONE",
+        "fallback": false,
+        "worldWrites": 0
+      }
+    },
+    {
+      "id": "CA-09-MIXED-INVALID",
+      "wire": "canvas/v3",
+      "dimension": "compatibility",
+      "kind": "invalid",
+      "evidence": "FIXTURE",
+      "input": {
+        "consumerWire": "canvas/v3",
+        "providerWire": "canvas/v2",
+        "compiledOperationsVersion": "operations/v2",
+        "guarantee": "RECOVERABLE_VERIFIED",
         "runtimePackageVersion": "0.1.0"
       },
       "expected": {

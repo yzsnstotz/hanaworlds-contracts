@@ -1,17 +1,11 @@
-# Contracts v3 frozen input conflicts
+# Contracts v3 rc.2 conflicts and rc.3 correction
 
-Status: `SOURCE/FIXTURE · SPEC_CONFLICT / NOT_PROVEN`. This is a worker diagnosis for the PM. It does not modify or approve the immutable Stage 1 `2.0.0-rc.2` BlueMap.
+Status: `SOURCE/FIXTURE` correction implemented from the user-approved Stage 1 `2.0.0-rc.3` BlueMap. This record does not claim independent component admission, provider conformance or product acceptance.
 
-## Handshake oracles
+The previous rc.2 source candidate at `6659bd440c5b0ff2f49ba8217145ab0cfe6c07c5` reported eight conflicting oracle cases. Under the approved rc.3 input:
 
-In approved `fixtures/candidate/closure-oracles-v3.json`, `WA-09-VALID` belongs to `world-adapter/v3` but its input is `consumerWire=providerWire=world-adapter/v2`. `CA-09-VALID` has the equivalent `canvas/v2` pair under a `canvas/v3` row. The v3 profile lists `world-adapter/v3` and `canvas/v3`, and the approved delta forbids silent v2 mutation fallback. The source validator therefore rejects these v3 row inputs with `UNSUPPORTED_VERSION`. The old v2/v2 positive case remains valid only through the separately exported v2 lane.
+- `WA-09-VALID` and `CA-09-VALID` use matching v3/v3 wires. `WA-09-MIXED-INVALID` and `CA-09-MIXED-INVALID` explicitly reject v3/v2 pairs as `UNSUPPORTED_VERSION`, with `mutationState=NONE` and zero writes. The two closure row descriptions now refer to the current v3 wire.
+- Only the **outer** `ObjectNameChanged` and `HistoryPositionChanged` event schema constants change to `=canvas/v3`. Their six v3 event fixtures are unchanged and now validate against the approved profile.
+- `AffectedProjection`, `AuthProjection`, `TxProjection` and `ReceiptProjection` retain their v2 versions. All nineteen old production digest goldens are byte-identical to rc.2. No version fallback has been added.
 
-Minimum proposed planning correction: set each v3 positive input's consumer and provider wire to the matching v3 wire. Add or retain an explicit v3/v2 mixed pair negative case expecting `UNSUPPORTED_VERSION/NONE`. Update the two closure row descriptions that say “seven v2” to the current seven wire versions. Recompute every affected fixture, closure, candidate and manifest digest in a newly approved immutable BlueMap. The Adapter-v3 and Canvas-v3 handshake consumers are affected.
-
-## Canvas event outer versions
-
-Approved `CONTRACT_SCHEMA_PROFILE.json` keeps `ObjectNameChanged.common.contractVersion` and `HistoryPositionChanged.common.contractVersion` at `=canvas/v2`, while the six matching approved `canvas-events-v3.json` cases have `canvas/v3` outer envelopes and nested v3 receipt envelopes. Four are marked valid and fail strict schema admission; the two invalid cases can fail at the old version check instead of their intended cause.
-
-Minimum proposed planning correction: change only these two **outer event** constants to `=canvas/v3`; preserve the four explicitly versioned v2 digest projection types (`AffectedProjection`, `AuthProjection`, `TxProjection`, `ReceiptProjection`) and their nineteen old digest values. Recompute the profile, fixture, closure, candidate and manifest digests under a new approval. Canvas-v3 event emitters and subscribed Shell/Luanti renderers are affected.
-
-All eight cases remain `SPEC_CONFLICT/NOT_PROVEN` in `npm run test:v3`; this test exit code does not mean complete specification compliance. Do not admit the component or start dependent implementation from this candidate until the PM reconciles the frozen inputs.
+The rc.3 approval is identified by candidate digest `2679982cc250acb8cc43ad9dc5f25f67783d7ac438757efb4d7aa19127da0fb7` and core digest `0402690813873497d80d3f352dca69b56a4d5c3fd95290d49100131c4271113a`. The source suite runs all 142 closure cases, 30 Canvas event cases and 18 A/B/C v3 cases. Specification and quality review remain PM-owned gates in that order.

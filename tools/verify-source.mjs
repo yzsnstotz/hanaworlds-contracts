@@ -14,6 +14,11 @@ assert.deepEqual(inventory.types,Object.keys(profile.types));assert.equal(invent
 for(const binding of inventory.bindings){assert(Object.hasOwn(pkg.exports,'./'+binding.wire));await stat(binding.javascript);await stat(binding.declarations);}
 for(const path of inventory.schemas)await stat(path);
 const v3Profile=await read('spec/v3/CONTRACT_SCHEMA_PROFILE.json'),v3Closure=await read('spec/v3/CONTRACT_SEMANTIC_CLOSURE.json'),v3Inventory=await read('schemas/v3/inventory.json');
+const approvedInput=await read('spec/v3/APPROVED_INPUT.json');
+assert.equal(approvedInput.candidateDigest,'2679982cc250acb8cc43ad9dc5f25f67783d7ac438757efb4d7aa19127da0fb7');
+assert.equal(approvedInput.manifestCoreDigest,'0402690813873497d80d3f352dca69b56a4d5c3fd95290d49100131c4271113a');
+for(const [path,digest] of Object.entries(approvedInput.filesSha256))
+  assert.equal(createHash('sha256').update(await readFile('spec/v3/'+path)).digest('hex'),digest,'approved input drift: '+path);
 const v3=await import('../dist/v3/runtime.mjs');
 assert.equal(v3.version,'0.2.0');
 assert.equal(v3.schemaBundle.$id,'https://hanaworlds.invalid/contracts/0.2.0/v3/schema.json');
@@ -36,5 +41,5 @@ await inspect('src');
 const specFixtures=await readdir('spec/fixtures/candidate');for(const f of specFixtures){const a=await readFile('spec/fixtures/candidate/'+f),b=await readFile('fixtures/candidate/'+f);assert(a.equals(b),'approved fixture changed '+f);}
 console.log(JSON.stringify({result:'PASS_SOURCE_INVENTORY_ONLY',evidence:'SOURCE',package:pkg.name,version:pkg.version,
   v2:{types:inventory.types.length,schemas:inventory.schemas.length,bindings:inventory.bindings.length,projections:Object.keys(inventory.projections).length},
-  v3:{types:v3Inventory.types.length,schemas:v3Inventory.schemas.length,bindings:v3Inventory.bindings.length,projections:Object.keys(v3Inventory.projections).length,semanticRows:v3Closure.rows.length},
+  v3:{types:v3Inventory.types.length,schemas:v3Inventory.schemas.length,bindings:v3Inventory.bindings.length,projections:Object.keys(v3Inventory.projections).length,semanticRows:v3Closure.rows.length,approvedInputFiles:Object.keys(approvedInput.filesSha256).length},
   sourceImportCount:sourceImports.length,providerRuntime:'NOT_RUN',actualWorldWrites:0,registryInstallClaimed:false,typescriptIntegrityPresent:!!lock.packages['node_modules/typescript'].integrity}));

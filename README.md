@@ -2,7 +2,7 @@
 
 Independent **non-runtime** contracts package containing the prior v2 surface and the candidate `canvas/v3` and `world-adapter/v3` surface. This repository does not register a gadget, establish a grant, instantiate a Session/store/transport, connect to an engine or write to a world. Provider gates remain `NOT_RUN`.
 
-The approved Stage 1 `2.0.0-rc.2` bundle defines the target semantics. The candidate source preserves the seven v2 wires, `operations/v2`, the contracts@0.1.0 digest domain and 19 production digest goldens. It adds the `history-operation` projection under the contracts@0.2.0 domain. Its public origin is [yzsnstotz/hanaworlds-contracts](https://github.com/yzsnstotz/hanaworlds-contracts). This branch is not an admitted release, registry publication or product acceptance.
+The approved Stage 1 `2.0.0-rc.3` bundle defines the target semantics and corrects the v3 oracle/profile erratum. The candidate source preserves the seven v2 wires, `operations/v2`, the contracts@0.1.0 digest domain and 19 production digest goldens. It adds the `history-operation` projection under the contracts@0.2.0 domain. Its public origin is [yzsnstotz/hanaworlds-contracts](https://github.com/yzsnstotz/hanaworlds-contracts). This branch is not an admitted release, registry publication or product acceptance.
 
 HanaWorlds original code is MIT-licensed; the separate Apache-2.0 upstream source fixture retains its own license. See [LICENSE](LICENSE) and [NOTICE](NOTICE).
 
@@ -27,7 +27,7 @@ const admitted = admitRequest('canvas/v3', 'ApplyRecoverableCommit', rawBytes);
 const historyDigest = digestValue('history-operation', exactHistoryProjection).sha256;
 ```
 
-The approved v3 source inputs currently conflict in eight oracle cases: `WA-09-VALID` and `CA-09-VALID` use v2/v2 handshake inputs for v3 rows; `ObjectNameChanged` and `HistoryPositionChanged` still pin their outer schema to `canvas/v2` while six v3 event fixtures use `canvas/v3`. The v3 test reports these as `PARTIAL_SPEC_CONFLICT`. The historical v2/v2 cases remain in the v2 regression suite. No v3 decoder fallback or fixture rewrite hides this conflict. Independent specification admission waits for an approved planning correction.
+The approved rc.3 erratum makes `WA-09-VALID` and `CA-09-VALID` exact v3/v3 handshakes, adds v3/v2 mixed negative cases with zero writes, and sets only the outer `ObjectNameChanged` and `HistoryPositionChanged` event versions to `canvas/v3`. The four internal v2 digest projections and their nineteen goldens remain unchanged. `npm run test:v3` checks all approved valid, invalid and ambiguity cases without exemptions. Independent specification review and admission remain separate from the test result; see [SPEC_CONFLICTS.md](SPEC_CONFLICTS.md) for the correction record.
 
 ```js
 import { admitRequest, digestValue, runtimeCompatibility } from 'hanaworlds-contracts';
