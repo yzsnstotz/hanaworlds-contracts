@@ -1,0 +1,11 @@
+node_modules/
+.isolation/
+artifacts/
+evidence/
+reports/
+RETURN_MANIFEST.json
+RETURN_SUMMARY.md
+REMOTE_REPORT.md
+SELF_VALIDATION.md
+FILE_SHA256SUMS
+SOURCE_REVISION

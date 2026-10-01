@@ -1,0 +1,92 @@
+{
+  "name": "hanaworlds-contracts",
+  "version": "0.1.1",
+  "description": "Independent non-runtime HanaWorlds seven-v2 public contracts, operations/v2, strict raw JSON, explicit digests and pure FIXTURE conformance models.",
+  "type": "module",
+  "private": true,
+  "license": "MIT",
+  "engines": {
+    "node": ">=22.0.0"
+  },
+  "types": "./types/index.d.ts",
+  "exports": {
+    ".": {
+      "types": "./types/index.d.ts",
+      "import": "./dist/index.mjs"
+    },
+    "./schemas": {
+      "types": "./types/schemas.d.ts",
+      "import": "./dist/schemas.mjs"
+    },
+    "./fixture": {
+      "types": "./types/fixture.d.ts",
+      "import": "./dist/fixture.mjs"
+    },
+    "./schema": "./schemas/contracts.schema.json",
+    "./schema/*": "./schemas/*.schema.json",
+    "./schema-inventory": "./schemas/inventory.json",
+    "./fixtures/*": "./fixtures/candidate/*.json",
+    "./package.json": "./package.json",
+    "./interaction-surface/v2": {
+      "types": "./bindings/interaction-surface-v2.d.ts",
+      "import": "./dist/bindings/interaction-surface-v2.mjs"
+    },
+    "./world-adapter/v2": {
+      "types": "./bindings/world-adapter-v2.d.ts",
+      "import": "./dist/bindings/world-adapter-v2.mjs"
+    },
+    "./canvas/v2": {
+      "types": "./bindings/canvas-v2.d.ts",
+      "import": "./dist/bindings/canvas-v2.mjs"
+    },
+    "./session/v2": {
+      "types": "./bindings/session-v2.d.ts",
+      "import": "./dist/bindings/session-v2.mjs"
+    },
+    "./painter/v2": {
+      "types": "./bindings/painter-v2.d.ts",
+      "import": "./dist/bindings/painter-v2.mjs"
+    },
+    "./ReferenceBrief/v2": {
+      "types": "./bindings/ReferenceBrief-v2.d.ts",
+      "import": "./dist/bindings/ReferenceBrief-v2.mjs"
+    },
+    "./BUILD/V2": {
+      "types": "./bindings/BUILD-V2.d.ts",
+      "import": "./dist/bindings/BUILD-V2.mjs"
+    },
+    "./operations/v2": {
+      "types": "./bindings/operations-v2.d.ts",
+      "import": "./dist/bindings/operations-v2.mjs"
+    }
+  },
+  "files": [
+    "dist/",
+    "types/",
+    "bindings/",
+    "schemas/",
+    "fixtures/",
+    "licenses/",
+    "LICENSE",
+    "NOTICE",
+    "README.md"
+  ],
+  "scripts": {
+    "build": "node tools/build.mjs",
+    "test": "node test/conformance.mjs",
+    "test:source-fixture": "node --experimental-loader ./test/source-fixture-loader.mjs test/conformance.mjs",
+    "test:strict": "node test/strict.mjs",
+    "test:local-repair": "node test/local-repair.mjs",
+    "test:return": "python3 test/verify-return.py",
+    "typecheck": "tsc --project consumer/tsconfig.json",
+    "compat": "node tools/compat.mjs",
+    "verify:source": "node tools/verify-source.mjs",
+    "pack:artifact": "npm pack --ignore-scripts --pack-destination artifacts --json"
+  },
+  "dependencies": {
+    "canonicalize": "5.1.0"
+  },
+  "devDependencies": {
+    "typescript": "5.8.3"
+  }
+}
