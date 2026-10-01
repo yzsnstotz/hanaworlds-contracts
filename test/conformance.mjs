@@ -49,7 +49,7 @@ function make(name,trail=[]){if(name.includes('|'))return null;if(name==='null')
 const sampleInventory=[];
 for(const name of C.schemaInventory)await check('TYPE-'+name,'type-inventory',({same})=>{const value=make(name);same(C.validateType(name,value),value);sampleInventory.push({name,value});});
 for(const[wire,ops]of Object.entries(C.operationContracts)){const binding=await import('hanaworlds-contracts/'+wire);for(const op of ops)await check('OP-'+wire+'/'+op.operation,'operation-binding',({same,expectedSubset})=>{const req=make(op.request),res=make(op.response);same(binding.validate(op.operation,req),req);same(binding.admit(op.operation,utf8(JSON.stringify(req))),req);same(binding.response(op.operation,res),res);expectedSubset(captureError(()=>binding.validate(op.operation,{...req,unapprovedExtension:true})),{code:'UNKNOWN_REQUIRED_FIELD',phase:'decode',reason:'UNKNOWN_FIELD',mutationState:'NONE'});if(op.alternateResult){const alt=make(op.alternateResult);same(binding.response(op.operation,alt),alt);}});}
-await writeFile('evidence/schema-samples.json',JSON.stringify({evidence:'FIXTURE',samples:sampleInventory},null,2)+'\n');
 const report=await finish();
+await writeFile('evidence/schema-samples.json',JSON.stringify({evidence:'FIXTURE',samples:sampleInventory},null,2)+'\n');
 const rowCoverage=closure.rows.map(row=>({id:row.id,protocol:row.protocol,dimension:row.dimension,rule:row.rule,authorityRefs:row.authorityRefs,cases:report.results.filter(x=>x.rowId===row.id).map(x=>({id:x.id,kind:x.kind,status:x.status,expectedFields:x.comparisons.map(c=>c.path)}))}));
 await writeFile('evidence/closure-coverage.json',JSON.stringify({evidence:'FIXTURE',rowCount:rowCoverage.length,rows:rowCoverage},null,2)+'\n');
