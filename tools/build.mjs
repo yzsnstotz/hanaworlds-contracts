@@ -5,7 +5,8 @@ const pkg = await readJSON('package.json');
 const profile = await readJSON('spec/CONTRACT_SCHEMA_PROFILE.json');
 const closure = await readJSON('spec/CONTRACT_SEMANTIC_CLOSURE.json');
 const oracles = await readJSON('spec/fixtures/candidate/closure-oracles.json');
-const schemaId = `https://hanaworlds.invalid/contracts/${pkg.version}/schema.json`;
+// The v2 schema identity stays byte-stable while the package adds a v3 lane.
+const schemaId = 'https://hanaworlds.invalid/contracts/0.1.1/schema.json';
 const definitions = Object.create(null);
 function literal(value) { const s = value.slice(1); return /^(?:true|false|null|-?(?:0|[1-9][0-9]*)(?:\.[0-9]+)?)$/.test(s) ? JSON.parse(s) : s; }
 function ref(name) {
@@ -33,7 +34,7 @@ for (const [name, type] of Object.entries(profile.types)) {
   definitions[name] = s;
 }
 const schemaBundle = { $schema: 'http://json-schema.org/draft-07/schema#', $id: schemaId,
-  title: `HanaWorlds contracts ${pkg.version} — complete v2 type inventory`,
+  title: 'HanaWorlds contracts 0.1.1 — complete v2 type inventory',
   description: 'Select a definition. JSON Schema establishes structure; exported validators additionally enforce the normative domain rules. Validation never authenticates a provider.', definitions };
 const owners = Object.fromEntries(oracles.cases.filter(x => x.dimension === 'ownership' && x.kind === 'valid').map(x => [x.wire, { domainOwner: x.input.domainOwner, mutationCaller: x.input.mutationCaller }]));
 const metadata = { package: `${pkg.name}@${pkg.version}`, version: pkg.version, wireVersions: profile.wireVersions, compiledOperationsVersion: profile.compiledOperationsVersion,
@@ -121,3 +122,4 @@ const manifest = { types: Object.keys(definitions), schemas: ['schemas/contracts
 await writeFile('schemas/inventory.json', JSON.stringify(manifest, null, 2) + '\n');
 console.log(JSON.stringify({ result: 'BUILT', types: manifest.types.length, schemas: manifest.schemas.length, bindings: bindingInventory.length,
   operations: Object.values(profile.operations).reduce((n, a) => n + a.length, 0), canvasEventTypes: manifest.canvasEventTypes.length, projections: Object.keys(manifest.projections).length, providerRuntime: 'NOT_RUN' }));
+await import('./build-v3.mjs');

@@ -1,6 +1,6 @@
 {
   "name": "hanaworlds-contracts",
-  "version": "0.1.1",
+  "version": "0.2.0",
   "description": "Independent non-runtime HanaWorlds seven-v2 public contracts, operations/v2, strict raw JSON, explicit digests and pure FIXTURE conformance models.",
   "type": "module",
   "private": true,
@@ -22,6 +22,22 @@
       "types": "./types/fixture.d.ts",
       "import": "./dist/fixture.mjs"
     },
+    "./v3": {
+      "types": "./types/v3/index.d.ts",
+      "import": "./dist/v3/index.mjs"
+    },
+    "./v3/schemas": {
+      "types": "./types/v3/schemas.d.ts",
+      "import": "./dist/v3/schemas.mjs"
+    },
+    "./v3/fixture": {
+      "types": "./types/v3/fixture.d.ts",
+      "import": "./dist/v3/fixture.mjs"
+    },
+    "./v3/schema": "./schemas/v3/contracts.schema.json",
+    "./v3/schema/*": "./schemas/v3/*.schema.json",
+    "./v3/schema-inventory": "./schemas/v3/inventory.json",
+    "./v3/fixtures/*": "./fixtures/v3/candidate/*.json",
     "./schema": "./schemas/contracts.schema.json",
     "./schema/*": "./schemas/*.schema.json",
     "./schema-inventory": "./schemas/inventory.json",
@@ -35,9 +51,17 @@
       "types": "./bindings/world-adapter-v2.d.ts",
       "import": "./dist/bindings/world-adapter-v2.mjs"
     },
+    "./world-adapter/v3": {
+      "types": "./bindings/v3/world-adapter-v3.d.ts",
+      "import": "./dist/v3/bindings/world-adapter-v3.mjs"
+    },
     "./canvas/v2": {
       "types": "./bindings/canvas-v2.d.ts",
       "import": "./dist/bindings/canvas-v2.mjs"
+    },
+    "./canvas/v3": {
+      "types": "./bindings/v3/canvas-v3.d.ts",
+      "import": "./dist/v3/bindings/canvas-v3.mjs"
     },
     "./session/v2": {
       "types": "./bindings/session-v2.d.ts",
@@ -73,6 +97,7 @@
   ],
   "scripts": {
     "build": "node tools/build.mjs",
+    "test:v3": "node test/v3.mjs",
     "test": "node test/conformance.mjs",
     "test:source-fixture": "node --experimental-loader ./test/source-fixture-loader.mjs test/conformance.mjs",
     "test:strict": "node test/strict.mjs",

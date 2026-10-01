@@ -30,13 +30,13 @@ await check('CA-02-corrected-projection-is-shape-valid-before-digest-check', 'se
   const actual = captureError(() => C.validateDigestBinding(golden.kind, projection, row.input.providedDigest));
   same(actual.code, 'NON_CANONICAL_AMBIGUITY'); same(actual.phase, 'validate'); same(actual.reason, 'PAYLOAD_CHANGED');
 });
-await check('PATCH-identity-consistent-with-stable-protocols', 'artifact-identity', async ({ same }) => {
-  same(pkg.version, '0.1.1'); same(C.version, pkg.version);
+await check('V2-identity-consistent-with-stable-protocols', 'artifact-identity', async ({ same }) => {
+  same(pkg.version, '0.2.0'); same(C.version, pkg.version);
   const lock = await read('package-lock.json');
   same(lock.version, pkg.version); same(lock.packages[''].version, pkg.version);
   const declarations = await readFile(new URL('../types/index.d.ts', import.meta.url), 'utf8');
   assert(declarations.includes(`export declare const version: '${pkg.version}';`));
-  same(C.schemaBundle.$id, `https://hanaworlds.invalid/contracts/${pkg.version}/schema.json`);
+  same(C.schemaBundle.$id, 'https://hanaworlds.invalid/contracts/0.1.1/schema.json');
   same(C.digestProfile.domainPrefix, 'HanaWorlds|contracts@0.1.0|');
   same(C.wireVersions, ['interaction-surface/v2', 'world-adapter/v2', 'canvas/v2', 'session/v2', 'painter/v2', 'ReferenceBrief/v2', 'BUILD/V2']);
   same(C.compiledOperationsVersion, 'operations/v2');

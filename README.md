@@ -1,8 +1,8 @@
-# hanaworlds-contracts 0.1.1
+# hanaworlds-contracts 0.2.0 source candidate
 
-Independent **non-runtime** contracts package implementing the approved HanaWorlds v2 profile. This repository does not register a gadget, establish a grant, instantiate a Session/store/transport, connect to an engine or write to a world. Provider gates remain `NOT_RUN`.
+Independent **non-runtime** contracts package containing the prior v2 surface and the candidate `canvas/v3` and `world-adapter/v3` surface. This repository does not register a gadget, establish a grant, instantiate a Session/store/transport, connect to an engine or write to a world. Provider gates remain `NOT_RUN`.
 
-This is the 0.1.1 v2 source baseline for the planned contracts@0.2.0 v3 work. It includes the CA-02-INVALID patch-field correction without changing the seven v2 wires, operations/v2, the contracts@0.1.0 digest domain or the 19 production digest goldens. The task branch is not a v3 implementation, admitted release, registry publication or product acceptance. Its public origin is [yzsnstotz/hanaworlds-contracts](https://github.com/yzsnstotz/hanaworlds-contracts).
+The approved Stage 1 `2.0.0-rc.2` bundle defines the target semantics. The candidate source preserves the seven v2 wires, `operations/v2`, the contracts@0.1.0 digest domain and 19 production digest goldens. It adds the `history-operation` projection under the contracts@0.2.0 domain. Its public origin is [yzsnstotz/hanaworlds-contracts](https://github.com/yzsnstotz/hanaworlds-contracts). This branch is not an admitted release, registry publication or product acceptance.
 
 HanaWorlds original code is MIT-licensed; the separate Apache-2.0 upstream source fixture retains its own license. See [LICENSE](LICENSE) and [NOTICE](NOTICE).
 
@@ -11,6 +11,23 @@ HanaWorlds original code is MIT-licensed; the separate Apache-2.0 upstream sourc
 The root export contains strict admission, typed validation, immutable protocol inventories, explicit production projections and digest functions. The eight versioned subpaths are `interaction-surface/v2`, `world-adapter/v2`, `canvas/v2`, `session/v2`, `painter/v2`, `ReferenceBrief/v2`, `BUILD/V2`, and `operations/v2`. Case is significant. The first seven expose `validate`, `admit` and `response`. Canvas also exposes `event`; operations exposes `validate`, `admit`, `digest` and `validateCompiledSet`. Painter preserves the explicit alternate `ClarificationNeed` result rather than inventing a Build.
 
 All 243 named types are emitted as TypeScript declarations and self-contained Draft-07 schemas. `schema-inventory` inventories the 244 schema documents, eight bindings, 38 operations, 14 Canvas event types, and 19 digest projections. JavaScript ES modules and TypeScript declarations are the minimum closed language bindings; no Lua provider is included. JSON Schema establishes structure; the public validators also enforce local normative domain invariants. Cross-provider authenticity, durable storage and engine safety cannot be inferred from structurally valid fields.
+
+### v3 migration surface
+
+`hanaworlds-contracts/v3` exposes the candidate v3 runtime and `history-operation` digest. `hanaworlds-contracts/world-adapter/v3` and `hanaworlds-contracts/canvas/v3` are the two changed wire bindings. `hanaworlds-contracts/v3/schemas`, `/v3/schema/*`, `/v3/schema-inventory`, `/v3/fixtures/*` and `/v3/fixture` expose the corresponding 258 named types, 259 schemas, 44 operations, 20 projections and pure oracles. The unchanged v2 paths remain explicit; a v3 mutation port rejects a v2 envelope. Existing v2 projections inside a v3 request keep their version and exact digest bytes.
+
+Canvas v3 `ApplyRecoverableCommit` removes caller `preparedTransaction`. Canvas owns a durable reservation before trusted Adapter Prepare. A direct v2 caller of `CreateObject` cannot use its selected `objectRef` as registration authority in v3; Canvas must pin and match the generated ref against its verified creating transaction. Adapter v3 adds prepare/query/apply/abort history transaction operations for the current verified HanaWorlds author and linked objects. These are contract shapes and synthetic fixture models; the owning providers must implement the authority, durability, recovery and world effects.
+
+```js
+import { admitRequest, digestValue } from 'hanaworlds-contracts/v3';
+import * as Adapter from 'hanaworlds-contracts/world-adapter/v3';
+import * as Canvas from 'hanaworlds-contracts/canvas/v3';
+
+const admitted = admitRequest('canvas/v3', 'ApplyRecoverableCommit', rawBytes);
+const historyDigest = digestValue('history-operation', exactHistoryProjection).sha256;
+```
+
+The approved v3 source inputs currently conflict in eight oracle cases: `WA-09-VALID` and `CA-09-VALID` use v2/v2 handshake inputs for v3 rows; `ObjectNameChanged` and `HistoryPositionChanged` still pin their outer schema to `canvas/v2` while six v3 event fixtures use `canvas/v3`. The v3 test reports these as `PARTIAL_SPEC_CONFLICT`. The historical v2/v2 cases remain in the v2 regression suite. No v3 decoder fallback or fixture rewrite hides this conflict. Independent specification admission waits for an approved planning correction.
 
 ```js
 import { admitRequest, digestValue, runtimeCompatibility } from 'hanaworlds-contracts';
@@ -44,6 +61,7 @@ npm run typecheck
 npm run compat
 npm run test:strict
 npm test
+npm run test:v3
 npm run pack:artifact
 ```
 
@@ -53,4 +71,4 @@ An explicit diagnostic command, `npm run test:source-fixture`, maps the bare can
 
 `hanaworlds-contracts/fixture` exports pure, clearly named fixture evaluators for authorization ordering, replay, recovery, history, retention, deletion and event eligibility. Inputs are synthetic explicit facts; no expected outcomes or fixture IDs are passed to semantic evaluators. Reported oracle `worldWrites` values are modelled counters, not actual effects. The actual number of world writes/provider queries is zero. Query success alone never implies a changed event. Source snapshots under `spec/` are evidence only, not runtime engine dependencies.
 
-This branch's public source and MIT license do not prove contracts@0.2.0, clean-host installation, provider conformance, release, deployment or user acceptance.
+To roll back this source candidate, use the recorded prior `0.1.1` public source revision and reinstall its matched artifact in a fresh consumer; do not overwrite a published package version. Provider conformance, product composition, release, deployment and user acceptance remain separate gates.
