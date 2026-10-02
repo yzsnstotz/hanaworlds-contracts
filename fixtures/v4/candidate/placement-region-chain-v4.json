@@ -2926,13 +2926,13 @@
             "surfaceActionDigest": "a84228622e2aec83f20a34d4f39686fef14f1fad93db17bab2922cf99fe2701f",
             "allowedAction": "APPLY_RECOVERABLE",
             "transactionId": "fixture-tx-first-1",
-            "operationDigest": "620373242e8a4385fd4e2a14064acf41ebef39ad5837140afee9b861945a1276",
+            "operationDigest": "de74aebcae960cdb1d6a1a3c5de88cd9b566df83979cba18b1ae6b4563737f43",
             "worldRevision": "fixture-world-10",
             "selectionRevision": "fixture-selection-0",
             "analysisDigest": "8a0c1da960c0481fa58e2c12404f7060481c000a6d15e954070bb6bc705dd883",
             "decisionRevision": null
           },
-          "authorizationBindingDigest": "bf8e0bfa6e33552ec99abfc7230fb134697e4f515fc0f766914a7d07679bd3dd",
+          "authorizationBindingDigest": "7f6bf84104ba31b56026c6129f0c0139a63f46215ad928ae2edef91ab91cdb50",
           "analysisDigest": "8a0c1da960c0481fa58e2c12404f7060481c000a6d15e954070bb6bc705dd883",
           "decisionRevision": null,
           "expectedWorldRevision": "fixture-world-10",
@@ -5674,13 +5674,13 @@
       "expected": {
         "result": "REJECT",
         "error": {
-          "code": "SCHEMA_INVALID",
+          "code": "UNSUPPORTED_VERSION",
           "phase": "decode",
           "retryability": "NEVER",
           "mutationState": "NONE",
           "transactionRef": null,
           "causeCode": null,
-          "reason": "INVALID_SHAPE"
+          "reason": "VERSION_UNSUPPORTED"
         },
         "treatedAsPlanned": false,
         "worldWrites": 0
@@ -5961,7 +5961,7 @@
       },
       "expected": {
         "result": "REJECT",
-        "code": "SCHEMA_INVALID",
+        "code": "UNKNOWN_REQUIRED_FIELD",
         "phase": "decode",
         "reason": "UNKNOWN_FIELD",
         "positionsReturned": false
@@ -6195,5 +6195,6 @@
       "TEXT"
     ]
   },
-  "rc9Note": "rc.9: non-MULTIPLE asks offer PICK_WORLD_POINT only; rendererCapabilities and INV-INWORLD-SELECT-CHOICE encode the Workshop/Shell vs Adapter in-world split (user decision authority/USER_DECISION_PLACEMENT_ASK_OPTIONS_2026-10-02.json)."
+  "rc9Note": "rc.9: non-MULTIPLE asks offer PICK_WORLD_POINT only; rendererCapabilities and INV-INWORLD-SELECT-CHOICE encode the Workshop/Shell vs Adapter in-world split (user decision authority/USER_DECISION_PLACEMENT_ASK_OPTIONS_2026-10-02.json).",
+  "rc10Note": "rc.10 erratum (contracts-v4 independent spec review SR-01..SR-03): SCHEMA-CHOICE-WITH-POSITION expects UNKNOWN_REQUIRED_FIELD/decode/UNKNOWN_FIELD; INV-V021-CONSUMER-REGION-SOURCE expects UNSUPPORTED_VERSION/decode/VERSION_UNSUPPORTED; INV-FORGED-EVIDENCE-AT-APPLY rebinds authorizationBinding.operationDigest and its digest."
 }

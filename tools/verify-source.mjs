@@ -40,10 +40,10 @@ for(const path of await readdir('spec/v3/fixtures/candidate')){
 }
 const v4Profile=await read('spec/v4/CONTRACT_SCHEMA_PROFILE.json'),v4Closure=await read('spec/v4/CONTRACT_SEMANTIC_CLOSURE.json'),v4Inventory=await read('schemas/v4/inventory.json');
 const v4Input=await read('spec/v4/APPROVED_INPUT.json');
-assert.equal(v4Input.bluemapVersion,'3.0.0-rc.9');
-assert.equal(v4Input.candidateDigest,'7016fdcb150190a83126e08d3de1b89aab5638d62682cad8c6fb3c3cc4e32ac7');
-assert.equal(v4Input.manifestCoreDigest,'18cbe9b95ab73e8ebe6c1042d535ea9449b3d1c6ce1eb45f3acb2eb35b868a3f');
-assert.equal(v4Input.contractSemanticClosureSha256,'44f3e9da9ed08291ed2ce9437800fb19af9eb1020e1dddc7271d8627c776e081');
+assert.equal(v4Input.bluemapVersion,'3.0.0-rc.10');
+assert.equal(v4Input.candidateDigest,'49b0fc7a73d4dedaa91c4aee6e1f4a0102eb3c6b5b00563ebdb4c8352cebcf49');
+assert.equal(v4Input.manifestCoreDigest,'1e81a7113ee820b6bf52826636e8c933dbc6abe3997730c10bb4474914a4c22b');
+assert.equal(v4Input.contractSemanticClosureSha256,'ef7e45788a0d3ed34819c381c9a8c34302843f22594427b5aabcd87d16a9accb');
 assert.equal(Object.keys(v4Input.filesSha256).length,29);
 for(const [path,digest] of Object.entries(v4Input.filesSha256))
   assert.equal(createHash('sha256').update(await readFile('spec/v4/'+path)).digest('hex'),digest,'approved v4 input drift: '+path);

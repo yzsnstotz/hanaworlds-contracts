@@ -233,10 +233,9 @@ for (const c of placement.invalidCases) {
   } else if (c.id === 'INV-V021-CONSUMER-REGION-SOURCE') {
     await record(PLACEMENT, c.id, 'package:v3 lane (the contracts@0.2.1 decoder)')(c.id, 'placement-invalid', ({ same }) => {
       const actual = captureError(() => V3.validateType('TargetFacts', c.materialized.message));
-      same(actual.phase, expected.phase, '$.rejectedAtDecode');
-      same(actual.mutationState, 'NONE');
+      // rc.10 (V4-03): the expected error is the sealed admitted 0.2.1 decoder's own answer.
+      same(actual, expected, '$.rejectedAtDecodeExactly');
       same(V4.validateType('TargetFacts', c.materialized.message), c.materialized.message, '$.v4Admits');
-      if (actual.code !== expected.code) deviations.push({ caseId: c.id, expected: err(expected), actual: err(actual), gap: 'CONTRACT_GAP-V4-03' });
     });
   } else {
     await record(PLACEMENT, c.id, `provider:${PROVIDER_DECIDED[c.id]} (approved reference oracle)`)(c.id, 'placement-invalid', ({ same }) => {
@@ -244,15 +243,9 @@ for (const c of placement.invalidCases) {
       same(V4.validateType('Error', expected), expected, '$.typedError');
       same(opOf(wire, operation).failureCodes.includes(expected.code), true, '$.codeAllowedByOperation');
       if (c.id === 'INV-FORGED-EVIDENCE-AT-APPLY') {
-        // The fixture changes the operation digest but keeps the original authorization binding, so the package's
-        // binding coherence rejects it first; with the binding re-bound, only the Canvas record match can reject it.
-        const message = c.materialized.message;
-        const early = captureError(() => V4.validateBoundRequest(wire, operation, message));
-        same(pick(early, ['phase', 'mutationState']), { phase: 'authorize', mutationState: 'NONE' }, '$.rejectedInAuthorizePhase');
-        deviations.push({ caseId: c.id, expected: err(expected), actual: err(early), gap: 'CONTRACT_GAP-V4-04' });
-        const authorizationBinding = { ...message.authorizationBinding, operationDigest: message.operationDigest };
-        const rebound = { ...message, authorizationBinding, authorizationBindingDigest: D('authorization-binding', authorizationBinding) };
-        same(V4.validateBoundRequest(wire, operation, rebound), rebound, '$.payloadCoherentWithoutRecord');
+        // rc.10 (V4-04): the forged request binds its own operation digest, so every payload check passes
+        // and only the Canvas record match can reject it.
+        same(V4.validateBoundRequest(wire, operation, c.materialized.message), c.materialized.message, '$.payloadCoherentWithoutRecord');
       } else if (c.materialized.type === 'PlacementRegionInspection') {
         same(admitMessage(c.materialized.type, c.materialized.message), c.materialized.message, '$.typedErrorResponse');
         same(c.materialized.message.error, expected, '$.carriesExpectedError');
@@ -269,10 +262,15 @@ for (const c of placement.invalidCases) {
 for (const c of placement.schemaRejectCases)
   await record(PLACEMENT, c.id, 'package:interaction-surface/v3')(c.id, 'placement-schema-reject', ({ same }) => {
     const actual = captureError(() => V4.validateType(c.type, c.message));
-    same(pick(actual, ['phase', 'reason']), pick(c.expected, ['phase', 'reason']));
-    if (actual.code !== c.expected.code) deviations.push({ caseId: c.id, expected: pick(c.expected, ['code', 'phase', 'reason']), actual: err(actual), gap: 'CONTRACT_GAP-V4-02' });
-    else same(actual.code, c.expected.code);
+    same(pick(actual, ['code', 'phase', 'reason']), pick(c.expected, ['code', 'phase', 'reason']));
   });
+await check('PLACEMENT-CHOICE-INPUT-KIND', 'placement-invalid', ({ same }) => {
+  // QR-M4: an input kind the action does not offer is INVALID_SELECTION (here PICK_WORLD_POINT on a SELECT_CHOICE-only action).
+  const valid = placement.validCases.find(x => x.id === 'PLACE-SHELL-NAMED-AFTER-ASK');
+  const request = { ...valid.invokeAction, input: { kind: 'PICK_WORLD_POINT', pickRef: 'adapter-pick-1' } };
+  same(pick(captureError(() => V4.validateChoiceSelection(valid.interactionFrame, request)), ['code', 'phase', 'reason', 'mutationState']),
+    { code: 'INVALID_SELECTION', phase: 'validate', reason: 'SCOPE_DENIED', mutationState: 'NONE' });
+});
 const v021Advertisement = { contracts: 'hanaworlds-contracts@0.2.1', wireVersions: [...V3.wireVersions].sort(), compiledOperationsVersion: V3.compiledOperationsVersion, factProfiles: ['target-facts/v2'] };
 for (const c of placement.compatibilityCases)
   await record(PLACEMENT, c.id, 'package:ContractHandshake')(c.id, 'handshake', ({ same }) => {
@@ -367,4 +365,5 @@ await writeFile('evidence/closure-coverage-v4.json', JSON.stringify({ evidence: 
   approvedChecks: approvedChecks ? Object.fromEntries(Object.entries(approvedChecks.results).map(([k, v]) => [k, v.status])) : 'NOT_RUN',
   summary, deviations, rows }, null, 2) + '\n');
 console.log(JSON.stringify({ closureRowTable: summary, deviations: deviations.map(d => d.caseId + '→' + d.gap) }));
-if (summary.bothPass !== closure.rows.length) process.exitCode = 1;
+// QR-I1: rc.10 resolved V4-02/03/04, so the known-deviation set is pinned to empty; any new mismatch fails.
+if (summary.bothPass !== closure.rows.length || deviations.length !== 0) process.exitCode = 1;

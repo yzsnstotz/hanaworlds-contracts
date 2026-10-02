@@ -2,7 +2,7 @@
   "schemaVersion": "1.0.0",
   "catalogScope": "FULL_PROJECT",
   "catalogId": "hanaworlds-full-project",
-  "version": "3.0.0-rc.9",
+  "version": "3.0.0-rc.10",
   "sourceInventory": {
     "requirementIds": [
       "HW-A001",

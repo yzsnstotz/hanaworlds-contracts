@@ -278,6 +278,8 @@ export function validateChoiceSelection(frameInput, requestInput) {
   requireFact(request.frameRef === frame.frameRef && request.frameRevision === frame.frameRevision, 'INVALID_FRAME', 'REVISION_CHANGED');
   const action = frame.actions.find(a => a.actionId === request.actionId);
   requireFact(action !== undefined, 'UNKNOWN_ACTION', 'SCOPE_DENIED');
+  // An input kind the action does not offer is not a listed selection.
+  requireFact(action.inputKinds.includes(request.input.kind), 'INVALID_SELECTION', 'SCOPE_DENIED');
   if (request.input.kind === 'SELECT_CHOICE')
     requireFact(action.choices !== null && action.choices.some(choice => choice.value === request.input.value), 'INVALID_SELECTION', 'SCOPE_DENIED');
   return request;

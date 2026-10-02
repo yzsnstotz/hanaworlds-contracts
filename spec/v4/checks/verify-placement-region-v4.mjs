@@ -1,4 +1,5 @@
 // SOURCE/FIXTURE only. rc.6 first-building region chain:
+// rc.10: V4-02/V4-03/V4-04 erratum codes and forged-case auth rebinding.
 // rc.9: non-MULTIPLE asks offer PICK_WORLD_POINT only; in-world SELECT_CHOICE -> RENDERER_CAPABILITY_UNAVAILABLE.
 // rc.8: Interior migrated to painter/v3 (R1). rc.7: painter/v3, interaction-surface/v3, target-facts/v3 value set, ContractHandshake, typed SELECT_CHOICE.
 // placement -> Adapter InspectRegion -> Canvas record -> Workshop/Exterior -> Brush -> Canvas Apply/Adapter Prepare recheck.
@@ -50,7 +51,7 @@ const ERR = (code, phase, reason) => ({code, phase, reason});
 const opOf = (wire, operation) => { const o = profile.operations[wire].find(x => x.operation === operation); assert(o, wire + ' ' + operation); return o; };
 
 // ------------------------------------------------------------ profile shape (C3 public values present)
-assert.equal(profile.candidate, '3.0.0-rc.9');
+assert.equal(profile.candidate, '3.0.0-rc.10');
 { const st = await get('PRODUCT_STRUCTURE.json'), ip = st.developmentCards.find(x => x.id === 'building-interior-painter');
   assert(ip.contributions.every(c => c.publicContractRef.startsWith('painter/v3')), 'Interior on painter/v3 (rc.8 R1)');
   assert(/building-interior-painter/.test(profile.compatibility.rc7.migration), 'Interior in the migration set (rc.8 R1)');
@@ -193,7 +194,7 @@ function painterOracle(req, precedingPlanExists = true) {
   if (tf.source === 'PLANNED' && !precedingPlanExists) return ERR('TARGET_REQUIRED', 'validate', 'REQUIRED_FACT_UNKNOWN');
   return null;
 }
-const decode021 = tf => ['INSPECTED', 'PLANNED'].includes(tf.source) && tf.profileVersion === 'target-facts/v2' ? null : ERR('SCHEMA_INVALID', 'decode', 'INVALID_SHAPE');
+const decode021 = tf => ['INSPECTED', 'PLANNED'].includes(tf.source) && tf.profileVersion === 'target-facts/v2' ? null : ERR('UNSUPPORTED_VERSION', 'decode', 'VERSION_UNSUPPORTED'); // rc.10 V4-03: sealed admitted 0.2.1 behavior
 function brushOracle(req) {
   const tf = req.targetFacts;
   if (D('frame', req.build.coordinateFrame) !== tf.frameDigest) return ERR('NON_CANONICAL_AMBIGUITY', 'validate', 'PAYLOAD_CHANGED');
@@ -267,8 +268,9 @@ for (const c of fx.compatibilityCases) {
   else { assert.deepEqual(got, {code: c.expected.code, phase: c.expected.phase, reason: c.expected.reason}, c.id); assert.equal(c.expected.requestsSent, 0); assert.equal(c.expected.fallback, false); }
 }
 for (const c of fx.schemaRejectCases) {
-  let rejected = false; try { validate(c.message, c.type, c.id); rejected = frameDomain(c.message) !== null; } catch { rejected = true; }
-  assert(rejected, c.id + ' must be rejected at decode');
+  let got = null; try { validate(c.message, c.type, c.id); got = frameDomain(c.message); } catch (e) { const extra = c.message.actions.some(a => (a.choices ?? []).some(ch => Object.keys(ch).some(k => !Object.keys(profile.types.ActionChoice.fields).includes(k)))); got = extra ? ERR('UNKNOWN_REQUIRED_FIELD', 'decode', 'UNKNOWN_FIELD') : ERR('SCHEMA_INVALID', 'decode', 'INVALID_SHAPE'); }
+  assert(got, c.id + ' must be rejected at decode');
+  assert.deepEqual(got, {code: c.expected.code, phase: c.expected.phase, reason: c.expected.reason}, c.id + ' code (rc.10 V4-02: unknown field -> UNKNOWN_REQUIRED_FIELD)');
 }
 
 // ------------------------------------------------------------ valid chain
@@ -430,6 +432,8 @@ for (const c of fx.invalidCases) {
 const forged = fx.invalidCases.find(c => c.id === 'INV-FORGED-EVIDENCE-AT-APPLY').materialized.message;
 assert.equal(forged.operations.buildDigest, D('build', forged.regionInspectionBinding.build));
 assert.equal(forged.operationDigest, D('operations', forged.operations));
+assert.equal(forged.authorizationBinding.operationDigest, forged.operationDigest, 'rc.10 V4-04: forged case binds its own operation digest');
+assert.equal(forged.authorizationBindingDigest, D('authorization-binding', forged.authorizationBinding), 'rc.10 V4-04: authorization binding digest recomputed');
 assert.notDeepEqual(forged.regionInspectionBinding.build.witnesses[1].facts.evidence, insp.evidence);
 
 // ------------------------------------------------------------ C9 privacy

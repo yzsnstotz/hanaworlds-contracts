@@ -33,3 +33,10 @@ Re-versioned existing assertions (package `0.2.1` → `0.3.0`, no behavior chang
 - `spec/v4` re-vendored from the rc.9 approved payload (29 files, each matching its `FILE_SHA256SUMS`); closure now 94 rows (`44f3e9da…e081`); the mutation checker has 24 mutations.
 
 V4-02 to V4-06 are unchanged and remain with the PM's independent specification review.
+
+## rc.10 erratum applied (approved `3.0.0-rc.10`, candidate `49b0fc7a73d4dedaa91c4aee6e1f4a0102eb3c6b5b00563ebdb4c8352cebcf49`, core `1e81a7113ee820b6bf52826636e8c933dbc6abe3997730c10bb4474914a4c22b`)
+
+- **V4-02, V4-03 and V4-04 are resolved by the erratum** (fixture codes and the forged-case authorization binding). The package needed no behavior change for them. `test/v4-chains.mjs` now asserts these cases exactly and pins the known-deviation set to empty, so any future mismatch fails the suite (QR-I1).
+- V4-05 conforms (independent specification review). V4-06 conforms; its part (c), the Apply region-evidence retry hint, stays a recorded minor with no change.
+- QR-M4: `validateChoiceSelection` now rejects an input kind the action does not offer with `INVALID_SELECTION/validate/SCOPE_DENIED`.
+- `spec/v4` re-vendored from the rc.10 payload (29 files, closure `ef7e4578…accb`, 94 rows); the mutation checker has 27 mutations.

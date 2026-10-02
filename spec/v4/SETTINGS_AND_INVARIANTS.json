@@ -1,6 +1,6 @@
 {
   "schemaVersion": "1.0.0",
-  "candidate": "3.0.0-rc.9",
+  "candidate": "3.0.0-rc.10",
   "scope": "Settings and correctness invariants introduced by rc.6 (first new building region). Every row must appear in the HanaWorlds Shell management interface through the owning plugin's administrative projection (gadget standard 4.6; acceptance HW-A023 and HW-A030). Earlier settings/invariants keep their existing rows in CONTRACT_RULES.md and are not restated here.",
   "surface": {
     "where": "HanaWorlds Shell (normal DSH plugin management interface) -> owning plugin administrative projection",

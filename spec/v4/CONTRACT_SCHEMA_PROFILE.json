@@ -1,6 +1,6 @@
 {
   "format": "HANAWORLDS_NORMATIVE_SCHEMA_PROFILE/3",
-  "candidate": "3.0.0-rc.9",
+  "candidate": "3.0.0-rc.10",
   "approval": false,
   "executable": false,
   "evidence": "SOURCE/FIXTURE",
