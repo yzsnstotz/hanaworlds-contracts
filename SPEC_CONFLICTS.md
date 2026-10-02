@@ -38,5 +38,5 @@ V4-02 to V4-06 are unchanged and remain with the PM's independent specification 
 
 - **V4-02, V4-03 and V4-04 are resolved by the erratum** (fixture codes and the forged-case authorization binding). The package needed no behavior change for them. `test/v4-chains.mjs` now asserts these cases exactly and pins the known-deviation set to empty, so any future mismatch fails the suite (QR-I1).
 - V4-05 conforms (independent specification review). V4-06 conforms; its part (c), the Apply region-evidence retry hint, stays a recorded minor with no change.
-- QR-M4: `validateChoiceSelection` now rejects an input kind the action does not offer with `INVALID_SELECTION/validate/SCOPE_DENIED`.
+- QR-M4 (narrowed after recheck RR-01): `validateChoiceSelection` matches the approved rule (`CONTRACT_RULES.md:154`) and reference model exactly. It rejects only a `SELECT_CHOICE` value not in the listed choices, or `SELECT_CHOICE` sent to an action without choices. Other input kinds are not rejected.
 - `spec/v4` re-vendored from the rc.10 payload (29 files, closure `ef7e4578…accb`, 94 rows); the mutation checker has 27 mutations.

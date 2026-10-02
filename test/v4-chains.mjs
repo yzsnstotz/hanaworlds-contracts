@@ -264,12 +264,12 @@ for (const c of placement.schemaRejectCases)
     const actual = captureError(() => V4.validateType(c.type, c.message));
     same(pick(actual, ['code', 'phase', 'reason']), pick(c.expected, ['code', 'phase', 'reason']));
   });
-await check('PLACEMENT-CHOICE-INPUT-KIND', 'placement-invalid', ({ same }) => {
-  // QR-M4: an input kind the action does not offer is INVALID_SELECTION (here PICK_WORLD_POINT on a SELECT_CHOICE-only action).
+await check('PLACEMENT-CHOICE-INPUT-KIND', 'placement-choice-scope', ({ same }) => {
+  // CONTRACT_RULES.md:154 and the approved choice oracle: only SELECT_CHOICE values are checked against the list.
+  // Another input kind on a choice-only action is not an INVALID_SELECTION (here PICK_WORLD_POINT).
   const valid = placement.validCases.find(x => x.id === 'PLACE-SHELL-NAMED-AFTER-ASK');
   const request = { ...valid.invokeAction, input: { kind: 'PICK_WORLD_POINT', pickRef: 'adapter-pick-1' } };
-  same(pick(captureError(() => V4.validateChoiceSelection(valid.interactionFrame, request)), ['code', 'phase', 'reason', 'mutationState']),
-    { code: 'INVALID_SELECTION', phase: 'validate', reason: 'SCOPE_DENIED', mutationState: 'NONE' });
+  same(V4.validateChoiceSelection(valid.interactionFrame, request), request);
 });
 const v021Advertisement = { contracts: 'hanaworlds-contracts@0.2.1', wireVersions: [...V3.wireVersions].sort(), compiledOperationsVersion: V3.compiledOperationsVersion, factProfiles: ['target-facts/v2'] };
 for (const c of placement.compatibilityCases)
