@@ -1,0 +1,43 @@
+{
+  "eventType": "USER_PRODUCT_DECISION",
+  "decisionId": "S1-FIRST-NEW-BUILDING-PLACEMENT-ROUND3",
+  "recordedAtUtc": "2026-10-02T00:20:00Z",
+  "recordedBy": "Stage 1 PM Claude session 967a034c-c0c1-44cb-8b7d-bcb1e0f76126",
+  "channel": "AskUserQuestion in PM session 967a034c",
+  "extends": "USER_DECISION_FIRST_PLACEMENT_2026-10-02.json",
+  "rawAnswers": [
+    {
+      "question": "从桌面 Shell 发起建造、而服务器上有多名玩家在线时，系统要请用户指定用谁的位置。这时能不能把在线玩家的名字列出来让用户点选？",
+      "offeredOptions": [
+        "列出在线玩家名字（推荐）: 只给已经授权绑定这个世界的用户看，点一下就能选；代价是发起者能看到当前有谁在线（不显示位置）",
+        "不列名单，只让用户输入"
+      ],
+      "rawAnswer": "列出在线玩家名字（推荐）"
+    },
+    {
+      "question": "新建筑放在玩家前方时，这几个距离用什么默认值？（以后都能在 Shell 管理界面里改，界面上看得到）",
+      "offeredOptions": [
+        "适中（推荐）: 离玩家 2 格开始建；往前最多找 16 格、左右各 8 格、上下各 4 格",
+        "紧凑: 2/8/4/2",
+        "宽松: 3/32/16/8",
+        "先不设默认值"
+      ],
+      "rawAnswer": "适中（推荐）"
+    }
+  ],
+  "decidedBehavior": {
+    "shellMultiPlayerAsk": "List online player names (no positions) only to a user authorized for the bound world; user taps one.",
+    "settingDefaults": {
+      "placement.frontGapCells": 2,
+      "placement.forwardSearchCells": 16,
+      "placement.lateralSearchCells": 8,
+      "placement.verticalSearchCells": 4
+    },
+    "settingVisibility": "named, editable, visible in Shell management UI"
+  },
+  "note": "Setting names are the audit's engineering proposal; the user decided the values as presented in plain language.",
+  "excluded": [
+    "not BlueMap approval",
+    "authorizes no implementation"
+  ]
+}

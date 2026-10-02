@@ -123,3 +123,4 @@ await writeFile('schemas/inventory.json', JSON.stringify(manifest, null, 2) + '\
 console.log(JSON.stringify({ result: 'BUILT', types: manifest.types.length, schemas: manifest.schemas.length, bindings: bindingInventory.length,
   operations: Object.values(profile.operations).reduce((n, a) => n + a.length, 0), canvasEventTypes: manifest.canvasEventTypes.length, projections: Object.keys(manifest.projections).length, providerRuntime: 'NOT_RUN' }));
 await import('./build-v3.mjs');
+await import('./build-v4.mjs');

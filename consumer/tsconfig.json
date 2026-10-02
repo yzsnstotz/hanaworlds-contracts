@@ -9,5 +9,5 @@
     "noEmit": true,
     "skipLibCheck": false
   },
-  "include": ["types.ts", "types-v3.ts"]
+  "include": ["types.ts", "types-v3.ts", "types-v4.ts"]
 }

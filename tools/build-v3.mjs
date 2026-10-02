@@ -5,7 +5,8 @@ const pkg = await readJSON('package.json');
 const profile = await readJSON('spec/v3/CONTRACT_SCHEMA_PROFILE.json');
 const closure = await readJSON('spec/v3/CONTRACT_SEMANTIC_CLOSURE.json');
 const oracles = await readJSON('spec/v3/fixtures/candidate/closure-oracles-v3.json');
-const schemaId = `https://hanaworlds.invalid/contracts/${pkg.version}/v3/schema.json`;
+// The v3 schema identity stays byte-stable at the release that introduced it while the package adds a v4 lane.
+const schemaId = 'https://hanaworlds.invalid/contracts/0.2.1/v3/schema.json';
 const definitions = Object.create(null);
 function literal(value) { const s = value.slice(1); return /^(?:true|false|null|-?(?:0|[1-9][0-9]*)(?:\.[0-9]+)?)$/.test(s) ? JSON.parse(s) : s; }
 function ref(name) {
@@ -33,7 +34,7 @@ for (const [name, type] of Object.entries(profile.types)) {
   definitions[name] = s;
 }
 const schemaBundle = { $schema: 'http://json-schema.org/draft-07/schema#', $id: schemaId,
-  title: `HanaWorlds contracts ${pkg.version} — complete v3 type inventory`,
+  title: 'HanaWorlds contracts 0.2.1 — complete v3 type inventory',
   description: 'Select a definition. JSON Schema establishes structure; exported validators additionally enforce the normative domain rules. Validation never authenticates a provider.', definitions };
 const owners = Object.fromEntries(oracles.cases.filter(x => x.dimension === 'ownership' && x.kind === 'valid').map(x => [x.wire, { domainOwner: x.input.domainOwner, mutationCaller: x.input.mutationCaller }]));
 const metadata = { package: `${pkg.name}@${pkg.version}`, version: pkg.version, wireVersions: profile.wireVersions, compiledOperationsVersion: profile.compiledOperationsVersion,

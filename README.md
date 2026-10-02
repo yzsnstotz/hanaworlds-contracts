@@ -1,6 +1,6 @@
-# hanaworlds-contracts 0.2.1 source candidate
+# hanaworlds-contracts 0.3.0 source candidate
 
-Independent **non-runtime** contracts package containing the prior v2 surface and the candidate `canvas/v3` and `world-adapter/v3` surface. This repository does not register a gadget, establish a grant, instantiate a Session/store/transport, connect to an engine or write to a world. Provider gates remain `NOT_RUN`.
+Independent **non-runtime** contracts package containing the prior v2 surface, the admitted `canvas/v3` and `world-adapter/v3` surface, and the approved Stage 1 `3.0.0-rc.8` v4 lane (`interaction-surface/v3`, `world-adapter/v4`, `canvas/v4`, `painter/v3`, `target-facts/v3`). This repository does not register a gadget, establish a grant, instantiate a Session/store/transport, connect to an engine or write to a world. Provider gates remain `NOT_RUN`.
 
 The approved Stage 1 `2.0.0-rc.5` bundle adds `NON_CANONICAL_AMBIGUITY` to exactly four `world-adapter/v3` operation response lists and eight response/authorization precedence oracles. It retains the rc.4 correction to three history response lists and thirteen response oracles. The candidate source preserves the seven v2 wires, `operations/v2`, the contracts@0.1.0 digest domain and 19 production digest goldens. The `history-operation` projection retains its contracts@0.2.0 domain. Its public origin is [yzsnstotz/hanaworlds-contracts](https://github.com/yzsnstotz/hanaworlds-contracts). This branch is not an admitted release, registry publication or product acceptance.
 
@@ -32,6 +32,23 @@ The approved rc.3 erratum makes `WA-09-VALID` and `CA-09-VALID` exact v3/v3 hand
 The rc.4 response patch permits six additional Prepare errors, one QueryPrepared error, and three Apply errors for approved zero-write history outcomes. It leaves Abort and unrelated operations unchanged. Thirteen approved positive and negative response cases exercise the operation-level allowlists; they do not establish provider behavior.
 
 The rc.5 patch permits `NON_CANONICAL_AMBIGUITY` responses from `PrepareRecoverableTransaction`, `ApplyCompiledTransaction`, `PrepareHistoryTransaction` and `ApplyHistoryTransaction` after valid authorization and a mismatched digest. Eight approved response/precedence cases distinguish that outcome from revoked authorization. Query, Abort and unrelated operations remain excluded. This source package validates response shape and allowed codes; it does not verify a provider's authorization ordering.
+
+### v4 lane (contracts@0.3.0, approved Stage 1 `3.0.0-rc.8`)
+
+`hanaworlds-contracts/v4` is the runtime for the seven current wires `interaction-surface/v3`, `world-adapter/v4`, `canvas/v4`, `session/v2`, `painter/v3`, `ReferenceBrief/v2` and `BUILD/V2`, plus `operations/v2`. The four changed majors have their own subpaths (`hanaworlds-contracts/interaction-surface/v3`, `/world-adapter/v4`, `/canvas/v4`, `/painter/v3`); the unchanged wires are bound to the v4 runtime under `/v4/session/v2`, `/v4/ReferenceBrief/v2`, `/v4/BUILD/V2` and `/v4/operations/v2`, so a `BUILD/V2` consumer on this lane admits `target-facts/v3` facts. `/v4/schemas`, `/v4/schema/*`, `/v4/schema-inventory`, `/v4/fixtures/*` and `/v4/fixture` expose 283 named types, 284 schemas, 46 operations, 20 projections and the pure oracles. `/v4/profile/*` ships the byte-pinned approved profile, semantic closure and settings registry. The v2 and v3 lanes and their schema identities are unchanged.
+
+What the approved slice adds, as contract shapes and admission only:
+
+- `world-adapter/v4`: `PrepareRecoverableTransaction`/`QueryPreparedTransaction` return `PreparedTransactionResult` (the seven `PreparedTransaction` fields plus `beforeStateReadbackDigest`); `projectPreparedTransaction` gives the seven fields Apply carries. Read-only `InspectRegion` returns `PlacementOutcome` (`REGION_INSPECTED` with a full `RegionInspection`, or `PLACEMENT_CHOICE_REQUIRED`). `validateRegionInspection` recomputes the facts, frame and coverage digests from the carried values. Prepare admits the body-recheck `SAFETY_INVARIANT_FAILED`.
+- `canvas/v4`: `ListObjects` with `expectedRevision: null` is the read-only current-inventory query; `InspectPlacementRegion` relays the Adapter outcome with `unavailableSettings`; `ApplyRecoverableCommit` carries `regionInspectionBinding` (required, nullable). `validateBoundRequest` checks only the payload-carried part of that binding (build, frame and facts digests); the Canvas record match, the issued `inspectionId` and the stale-record check need the Canvas record and are not decided here.
+- `painter/v3`: `regionInspection` is non-null exactly for `REGION_INSPECTED` facts, which only `picture-blocks` accepts; mismatched facts are `TARGET_FACTS_STALE`.
+- `interaction-surface/v3`: `PICK_WORLD_POINT`, typed `ActionDescriptor.choices` and `SELECT_CHOICE`; `validateChoiceSelection(frame, request)` returns `INVALID_SELECTION` for any value not listed for that frame and action.
+- `target-facts/v3` (`REGION_INSPECTED`) and `ContractHandshake`: `contractHandshake` is exactly what this package advertises, and `checkContractHandshake(advertised, required)` fails a mixed 0.2.1/0.3.0 pair with `UNSUPPORTED_VERSION/decode/VERSION_UNSUPPORTED` before any request.
+- `placement.*` settings: `placementSettingDescriptors` and `placementInvariants` carry the registry (owner, user-decided defaults 2/16/8/4, consequences) for the Shell management projection; `admitPlacementSettings` never applies a default and names every unset or invalid setting in `error.unavailableSettings`.
+
+No digest kind, projection or golden changes. No Adapter region search, Canvas record or Session logic is implemented here; those remain provider work and `NOT_RUN`.
+
+`npm test` runs the legacy 558 cases, the v3 lane, `test/v4.mjs`, the four approved rc.8 checkers unchanged against this package's exported profile/closure/fixtures (`test/v4-approved-checks.mjs`, including the 22-mutation falsifiability harness), and `test/v4-chains.mjs`, which admits every chain message through the package API and writes the per-closure-row table to `evidence/closure-coverage-v4.json`. Known differences between approved fixtures and package behavior are recorded in [SPEC_CONFLICTS.md](SPEC_CONFLICTS.md).
 
 ```js
 import { admitRequest, digestValue, runtimeCompatibility } from 'hanaworlds-contracts';
@@ -66,6 +83,8 @@ npm run compat
 npm run test:strict
 npm test
 npm run test:v3
+npm run test:v4
+npm run verify:source
 npm run pack:artifact
 ```
 
@@ -75,4 +94,4 @@ An explicit diagnostic command, `npm run test:source-fixture`, maps the bare can
 
 `hanaworlds-contracts/fixture` exports pure, clearly named fixture evaluators for authorization ordering, replay, recovery, history, retention, deletion and event eligibility. Inputs are synthetic explicit facts; no expected outcomes or fixture IDs are passed to semantic evaluators. Reported oracle `worldWrites` values are modelled counters, not actual effects. The actual number of world writes/provider queries is zero. Query success alone never implies a changed event. Source snapshots under `spec/` are evidence only, not runtime engine dependencies.
 
-To roll back this source candidate, use the recorded prior `0.1.1` public source revision and reinstall its matched artifact in a fresh consumer; do not overwrite a published package version. Provider conformance, product composition, release, deployment and user acceptance remain separate gates.
+To roll back this source candidate, consumers stay on (or return to) the admitted `0.2.1` source `5ecfce1ba47530b42bba60a674bd16f7bc39c665` and its matched artifact; the whole contracts@0.3.0 consumer set moves back together, because the handshake rejects any mixed 0.2.1/0.3.0 pair. Do not overwrite a published package version. Provider conformance, product composition, release, deployment and user acceptance remain separate gates.
