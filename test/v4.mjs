@@ -56,7 +56,7 @@ assert.equal(V4.operationContracts['canvas/v4'].length, 17);
 assert.equal(V4.operationContracts['world-adapter/v4'].length, 16);
 assert.deepEqual(V4.operationContracts['canvas/v4'].map(x => x.operation).filter(x => !V3.operationContracts['canvas/v3'].some(y => y.operation === x)), ['InspectPlacementRegion']);
 assert.deepEqual(V4.operationContracts['world-adapter/v4'].map(x => x.operation).filter(x => !V3.operationContracts['world-adapter/v3'].some(y => y.operation === x)), ['InspectRegion']);
-assert.equal(closure.rows.length, 93);
+assert.equal(closure.rows.length, 94);
 assert.deepEqual(closure.openUserDecisions, []);
 for (const name of ['AffectedProjection', 'AuthProjection', 'TxProjection', 'ReceiptProjection', 'ActionProjection', 'IntentProjection', 'BuildProjection', 'Frame', 'Coverage'])
   assert.deepEqual(V4.schemaBundle.definitions[name], V2.schemaBundle.definitions[name], `${name} v2 projection unchanged`);

@@ -1,4 +1,5 @@
 // SOURCE/FIXTURE only. rc.6 first-building region chain:
+// rc.9: non-MULTIPLE asks offer PICK_WORLD_POINT only; in-world SELECT_CHOICE -> RENDERER_CAPABILITY_UNAVAILABLE.
 // rc.8: Interior migrated to painter/v3 (R1). rc.7: painter/v3, interaction-surface/v3, target-facts/v3 value set, ContractHandshake, typed SELECT_CHOICE.
 // placement -> Adapter InspectRegion -> Canvas record -> Workshop/Exterior -> Brush -> Canvas Apply/Adapter Prepare recheck.
 // Reference oracles below re-derive every expected outcome from the frozen rules; they are not provider code.
@@ -49,7 +50,7 @@ const ERR = (code, phase, reason) => ({code, phase, reason});
 const opOf = (wire, operation) => { const o = profile.operations[wire].find(x => x.operation === operation); assert(o, wire + ' ' + operation); return o; };
 
 // ------------------------------------------------------------ profile shape (C3 public values present)
-assert.equal(profile.candidate, '3.0.0-rc.8');
+assert.equal(profile.candidate, '3.0.0-rc.9');
 { const st = await get('PRODUCT_STRUCTURE.json'), ip = st.developmentCards.find(x => x.id === 'building-interior-painter');
   assert(ip.contributions.every(c => c.publicContractRef.startsWith('painter/v3')), 'Interior on painter/v3 (rc.8 R1)');
   assert(/building-interior-painter/.test(profile.compatibility.rc7.migration), 'Interior in the migration set (rc.8 R1)');
@@ -232,7 +233,7 @@ function placementResponseRule(resp) {
   const named = resp.error && resp.error.code === 'CAPABILITY_UNAVAILABLE' && resp.error.reason === 'POLICY_UNAVAILABLE';
   assert.equal(resp.unavailableSettings !== null, Boolean(named), 'unavailableSettings iff POLICY_UNAVAILABLE');
   const ch = resp.result?.outcome === 'PLACEMENT_CHOICE_REQUIRED' ? resp.result.choice : null;
-  if (ch) { assert.equal(ch.candidatePlayerNames !== null, ch.reasons.includes('MULTIPLE_ONLINE_PLAYERS')); assert.deepEqual(ch.options, ch.reasons.includes('NO_ONLINE_PLAYER') ? ['PICK_WORLD_POINT'] : ['NAME_PLAYER', 'PICK_WORLD_POINT']); }
+  if (ch) { assert.equal(ch.candidatePlayerNames !== null, ch.reasons.includes('MULTIPLE_ONLINE_PLAYERS')); assert.deepEqual(ch.options, ch.reasons.includes('MULTIPLE_ONLINE_PLAYERS') ? ['NAME_PLAYER', 'PICK_WORLD_POINT'] : ['PICK_WORLD_POINT'], 'rc.9: NAME_PLAYER only for MULTIPLE_ONLINE_PLAYERS'); }
 }
 
 // ------------------------------------------------------------ typed choice (F3) and handshake (F1) oracles
@@ -247,6 +248,12 @@ function choiceOracle(frame, req) {
   if (!a.choices || !a.choices.some(ch => ch.value === req.input.value)) return ERR('INVALID_SELECTION', 'validate', 'SCOPE_DENIED');
   return null;
 }
+function rendererOracle(surface, req) {
+  const caps = fx.rendererCapabilities[surface]; assert(caps, surface);
+  return caps.includes(req.input.kind) ? null : ERR('RENDERER_CAPABILITY_UNAVAILABLE', 'validate', 'SCOPE_DENIED');
+}
+assert(!fx.rendererCapabilities.LUANTI_IN_WORLD.includes('SELECT_CHOICE') && fx.rendererCapabilities.LUANTI_IN_WORLD.includes('PICK_WORLD_POINT'), 'rc.9: in-world renders PICK_WORLD_POINT only');
+assert(fx.rendererCapabilities.SHELL.includes('SELECT_CHOICE') && !fx.rendererCapabilities.SHELL.includes('PICK_WORLD_POINT'), 'rc.9: Shell presents SELECT_CHOICE, cannot pick');
 function handshake(advertised, required) {
   const okW = required.wires.every(w => advertised.wireVersions.includes(w));
   const okF = required.factProfiles.every(f => advertised.factProfiles.includes(f));
@@ -350,12 +357,12 @@ for (const c of fx.validCases.filter(x => x !== main)) {
     const listed = c.interactionFrame.actions.find(a => a.actionId === c.invokeAction.actionId);
     assert.deepEqual(listed.choices.map(ch => ch.value), ask.canvasInspectResponse.result.choice.candidatePlayerNames, 'choices are exactly the Canvas-released names');
     assert(listed.choices.every(ch => ch.label === ch.value));
-    assert.equal(c.invokeAction.input.kind, 'SELECT_CHOICE');
+    assert.equal(c.invokeAction.input.kind, 'SELECT_CHOICE'); assert.equal(c.surface, 'SHELL'); assert.equal(rendererOracle(c.surface, c.invokeAction), null);
     assert.equal(choiceOracle(c.interactionFrame, c.invokeAction), null);
     assert.deepEqual(c.canvasInspectRequest.anchor, {kind: 'NAMED_PLAYER', engineActorName: c.invokeAction.input.value});
   }
   if (c.id === 'PLACE-PICKED-POINT') {
-    assert.equal(c.invokeAction.input.kind, 'PICK_WORLD_POINT');
+    assert.equal(c.invokeAction.input.kind, 'PICK_WORLD_POINT'); assert.equal(c.surface, 'LUANTI_IN_WORLD'); assert.equal(rendererOracle(c.surface, c.invokeAction), null);
     assert.deepEqual(c.canvasInspectRequest.anchor, {kind: 'PICKED_POINT', pickRef: c.invokeAction.input.pickRef});
   }
 }
@@ -369,6 +376,7 @@ for (const c of fx.askCases) {
   assert.deepEqual(ch.reasons, oc.reasons, c.id);
   assert.deepEqual(ch.candidatePlayerNames, oc.names ?? null, c.id);
   assert.deepEqual(ch.placementSettings, c.settings, c.id);
+  if (c.expected.options) assert.deepEqual(c.expected.options, ch.options, c.id);
   assert.equal(ch.anchorKind, c.anchor.kind);
   if (c.freeCandidateOutsideWindow) {
     const w = world(c), p = c.freeCandidateOutsideWindow.min;
@@ -398,6 +406,7 @@ const caseOracle = {
   'INV-NAMES-REVOKED-BEFORE-RELEASE': c => releaseOracle(c),
   'INV-SHELL-FORGED-PICKREF': c => adapterInspect({c, anchor: c.materialized.message.anchor, settings: c.materialized.message.placementSettings, fp: c.materialized.message.footprint, principal: 'alice', online: ['alice']}).error ?? null,
   'INV-V021-CONSUMER-REGION-SOURCE': c => decode021(c.materialized.message),
+  'INV-INWORLD-SELECT-CHOICE': c => { validate(c.response, 'InvokeActionResponse', c.id); assert.equal(c.response.result, null); assert.deepEqual(c.response.error, c.expected.error); assert.equal(c.expected.relayedToWorkshop, false); return rendererOracle(c.surface, c.materialized.message); },
   'INV-UNLISTED-CHOICE': c => choiceOracle(fx.validCases.find(v => v.id === c.frameCaseId).interactionFrame, c.materialized.message),
   'INV-CHOICE-ON-NON-CHOICE-ACTION': c => choiceOracle(fx.validCases.find(v => v.id === c.frameCaseId).interactionFrame, c.materialized.message)
 };
@@ -437,7 +446,7 @@ function scan(v, label, allowNames) {
 const publicOf = c => ['canvasInspectRequest', 'adapterInspectRequest', 'adapterInspectResponse', 'canvasInspectResponse', 'invokeAction', 'interactionFrame'].filter(k => c[k]).map(k => [k, c[k]]);
 for (const [k, v] of Object.entries(m)) if (!['canvasSettingsRecord', 'canvasDurableRecord'].includes(k)) scan(v, 'main.' + k, false);
 for (const c of [...fx.validCases.filter(x => x !== main), ...fx.askCases]) for (const [k, v] of publicOf(c)) scan(v, c.id + '.' + k, c.id === 'ASK-SHELL-MULTIPLE' || c.id === 'PLACE-SHELL-NAMED-AFTER-ASK');
-for (const c of fx.invalidCases) scan(c.materialized.message, c.id, c.rowIds.includes('IS-SELECT-CHOICE'));
+for (const c of fx.invalidCases) scan(c.materialized.message, c.id, c.rowIds.some(r => r.startsWith('IS-SELECT-CHOICE')));
 for (const c of fx.askCases) assert(!('inspection' in c.canvasInspectResponse.result), c.id + ': no bounds on choice');
 
 // ------------------------------------------------------------ C8 settings/invariants registry
@@ -454,8 +463,8 @@ assert.equal(registry.surface.where.includes('Shell'), true);
 
 // ------------------------------------------------------------ closure rows bind this chain
 const caseIds = new Set([...fx.validCases, ...fx.askCases, ...fx.invalidCases, ...fx.compatibilityCases, ...fx.schemaRejectCases].map(c => c.id));
-const newRows = closure.rows.filter(r => r.rc6Added || r.rc7Added);
-assert.equal(newRows.length, 15);
+const newRows = closure.rows.filter(r => r.rc6Added || r.rc7Added || r.rc9Added);
+assert.equal(newRows.length, 16);
 for (const id of ['IS-09', 'PA-09', 'BU-09']) { const r = closure.rows.find(x => x.id === id); assert(r.rc7Amendment && caseIds.has(r.validFixture.caseId) && caseIds.has(r.invalidFixture.caseId), id); assert.equal(r.expectedOutcomes.invalid.code, 'UNSUPPORTED_VERSION'); }
 assert(!/unchanged;/.test(closure.rows.find(x => x.id === 'BU-01').rc6Amendment.split('.')[0]) && closure.rows.find(x => x.id === 'BU-01').rc6Amendment.includes('target-facts/v3'));
 assert.equal(closure.rowCount, closure.rows.length);

@@ -24,3 +24,12 @@ Status: `SOURCE/FIXTURE`. Input: approved BlueMap `3.0.0-rc.8` (candidate `38687
 Observation, not a gap: `closure-oracles-v4.json` keeps 40 inherited IS/PA cases under their retired wire labels (`interaction-surface/v2`, `painter/v2`), byte-identical to the legacy file. `test/v4.mjs` checks that identity and replays each on its successor wire through the v4 lane; the legacy suite still runs them on v2.
 
 Re-versioned existing assertions (package `0.2.1` → `0.3.0`, no behavior change): `test/v3.mjs` (`V3.version`; the v3 schema `$id` stays pinned at 0.2.1), `test/local-repair.mjs` (artifact identity), `tools/verify-source.mjs` (v3 runtime version) and `consumer/v3-run.mjs` (installed package version). All 558 legacy conformance cases keep their outcomes.
+
+## rc.9 erratum applied (approved `3.0.0-rc.9`, candidate `7016fdcb150190a83126e08d3de1b89aab5638d62682cad8c6fb3c3cc4e32ac7`, core `18cbe9b95ab73e8ebe6c1042d535ea9449b3d1c6ce1eb45f3acb2eb35b868a3f`)
+
+- **Q1** (wording only): the rc.9 text states the digest-triggered rule and names Adapter Prepare's per-cell recheck as the backstop. No code change. **CONTRACT_GAP-V4-01 is closed by this erratum.**
+- **Q2**: `PlacementChoiceRequired.options` is `[NAME_PLAYER, PICK_WORLD_POINT]` only for `MULTIPLE_ONLINE_PLAYERS` and `[PICK_WORLD_POINT]` for every other reason (`src/v4/domain.mjs`).
+- **Q3**: the new closure row `IS-SELECT-CHOICE-RENDERER` (valid `PLACE-SHELL-NAMED-AFTER-ASK`, invalid `INV-INWORLD-SELECT-CHOICE`) is in the pass table. The in-world refusal is renderer (luanti-adapter-v4) behavior; the package admits the typed `InvokeAction` response `RENDERER_CAPABILITY_UNAVAILABLE/validate/SCOPE_DENIED`, and the approved reference oracle decides the case.
+- `spec/v4` re-vendored from the rc.9 approved payload (29 files, each matching its `FILE_SHA256SUMS`); closure now 94 rows (`44f3e9da…e081`); the mutation checker has 24 mutations.
+
+V4-02 to V4-06 are unchanged and remain with the PM's independent specification review.

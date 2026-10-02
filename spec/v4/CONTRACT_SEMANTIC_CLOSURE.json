@@ -1,6 +1,6 @@
 {
   "format": "CONTRACT_SEMANTIC_CLOSURE/3",
-  "candidate": "3.0.0-rc.8",
+  "candidate": "3.0.0-rc.9",
   "approved": false,
   "executable": false,
   "status": "V4_SOURCE_FIXTURE_CHAIN_PASS_PROVIDER_NOT_RUN",
@@ -18,7 +18,7 @@
     "compatibility",
     "ownership"
   ],
-  "rowCount": 93,
+  "rowCount": 94,
   "openUserDecisions": [],
   "authorityClasses": [
     "USER_DIRECTIVE",
@@ -5030,7 +5030,7 @@
       "dimension": "failure-mapping-precedence",
       "status": "FROZEN",
       "statusMeaning": "rc.6 candidate rule+chained SOURCE/FIXTURE oracle pending independent review and exact user approval; no provider implementation claim",
-      "rule": "PlacementChoiceRequired is a typed outcome (not an error): reasons set, options (NO_ONLINE_PLAYER -> PICK_WORLD_POINT only, else NAME_PLAYER+PICK_WORLD_POINT), candidatePlayerNames only for MULTIPLE_ONLINE_PLAYERS, no bounds/positions/facing; Workshop renders it on both surfaces and never guesses.",
+      "rule": "PlacementChoiceRequired is a typed outcome (not an error): reasons set; options are [NAME_PLAYER, PICK_WORLD_POINT] only for MULTIPLE_ONLINE_PLAYERS (NAME_PLAYER = tappable candidatePlayerNames via SELECT_CHOICE) and [PICK_WORLD_POINT] for every other reason; candidatePlayerNames only for MULTIPLE_ONLINE_PLAYERS; no bounds/positions/facing; Workshop renders it and never guesses.",
       "ruleRefs": [
         "CONTRACT_RULES.md#first-building-region-v4",
         "CONTRACT_SCHEMA_PROFILE.json"
@@ -5047,6 +5047,11 @@
         {
           "kind": "RETURN_CLAIM",
           "ref": "context/ext-first-building-audit/CONTRACT_GAP_PROPOSALS.json"
+        },
+        {
+          "kind": "USER_DIRECTIVE",
+          "ref": "authority/USER_DECISION_PLACEMENT_ASK_OPTIONS_2026-10-02.json",
+          "rawAnswer": "只让用户进游戏选点（推荐）"
         }
       ],
       "validFixture": {
@@ -5088,7 +5093,8 @@
         "hanaworlds-adapter-luanti in-world renderer"
       ],
       "providerEvidence": "NOT_RUN",
-      "rc6Added": true
+      "rc6Added": true,
+      "rc9Amendment": "Q2 user decision: non-MULTIPLE asks offer PICK_WORLD_POINT only"
     },
     {
       "id": "IS-PICK-WORLD-POINT",
@@ -5320,7 +5326,7 @@
       "dimension": "authorization-replay-revocation",
       "status": "FROZEN",
       "statusMeaning": "rc.6 candidate rule+chained SOURCE/FIXTURE oracle pending independent review and exact user approval; no provider implementation claim",
-      "rule": "ApplyRecoverableCommit regionInspectionBinding {inspectionId, build}: required for REGION_INSPECTED operations; Canvas verifies its own record, D(build)=operations.buildDigest, frame/target digests and PROTECTION/BODY_CLEARANCE witness evidence/positions; mismatch or missing -> PERMISSION_DENIED/authorize/IDENTITY_UNVERIFIED before any Adapter call; then stale record -> STALE_REVISION/validate/REVISION_CHANGED.",
+      "rule": "ApplyRecoverableCommit regionInspectionBinding {inspectionId, build}: required when operations.targetFactsDigest equals the digest of a REGION_INSPECTED record Canvas holds (an Apply whose facts digest Canvas has no record of is not recognised as a region build; Adapter Prepare per-cell protection/body recheck is the backstop); Canvas verifies its own record, D(build)=operations.buildDigest, frame/target digests and PROTECTION/BODY_CLEARANCE witness evidence/positions; mismatch or missing -> PERMISSION_DENIED/authorize/IDENTITY_UNVERIFIED before any Adapter call; then stale record -> STALE_REVISION/validate/REVISION_CHANGED.",
       "ruleRefs": [
         "CONTRACT_RULES.md#first-building-region-v4",
         "CONTRACT_SCHEMA_PROFILE.json"
@@ -5388,7 +5394,8 @@
         "hanaworlds-workshop"
       ],
       "providerEvidence": "NOT_RUN",
-      "rc6Added": true
+      "rc6Added": true,
+      "rc9Amendment": "Q1 text aligned to the approved digest-triggered rule; no semantic change"
     },
     {
       "id": "PAV2-REGION-INSPECTION",
@@ -5593,6 +5600,64 @@
       ],
       "providerEvidence": "NOT_RUN",
       "rc7Added": true
+    },
+    {
+      "id": "IS-SELECT-CHOICE-RENDERER",
+      "protocol": "interaction-surface/v3",
+      "dimension": "provider-consumer-ownership",
+      "status": "FROZEN",
+      "statusMeaning": "rc.9 rule+SOURCE/FIXTURE oracle pending review and exact user approval; no provider implementation claim",
+      "rule": "Workshop owns the SELECT_CHOICE content and its Shell-side presentation; the Luanti in-world renderer (luanti-adapter-v4) renders PICK_WORLD_POINT only and answers an in-world SELECT_CHOICE with RENDERER_CAPABILITY_UNAVAILABLE/validate/SCOPE_DENIED/NONE, not relayed to Workshop, showing \"choose in Shell\".",
+      "ruleRefs": [
+        "CONTRACT_RULES.md#first-building-region-v4",
+        "CONTRACT_SCHEMA_PROFILE.json"
+      ],
+      "authorityRefs": [
+        {
+          "kind": "USER_DIRECTIVE",
+          "ref": "authority/USER_DECISION_PLACEMENT_ASK_OPTIONS_2026-10-02.json",
+          "rawAnswer": "Workshop 画 Shell 里的；游戏内暂不提供（推荐）"
+        },
+        {
+          "kind": "PROJECT_RULE",
+          "ref": "authority/approved-stage1-design.md#8"
+        }
+      ],
+      "validFixture": {
+        "path": "fixtures/candidate/placement-region-chain-v4.json",
+        "caseId": "PLACE-SHELL-NAMED-AFTER-ASK"
+      },
+      "invalidFixture": {
+        "path": "fixtures/candidate/placement-region-chain-v4.json",
+        "caseId": "INV-INWORLD-SELECT-CHOICE"
+      },
+      "expectedOutcomes": {
+        "valid": {
+          "result": "REGION_INSPECTED",
+          "surface": "SHELL",
+          "choiceFromTypedList": true
+        },
+        "invalid": {
+          "result": "REJECT",
+          "code": "RENDERER_CAPABILITY_UNAVAILABLE",
+          "phase": "validate",
+          "reason": "SCOPE_DENIED",
+          "relayedToWorkshop": false,
+          "worldWrites": 0
+        }
+      },
+      "executedChecker": {
+        "path": "checks/verify-placement-region-v4.mjs",
+        "status": "PASS",
+        "evidence": "SOURCE/FIXTURE",
+        "providerRuntime": "NOT_RUN"
+      },
+      "affectedConsumers": [
+        "hanaworlds-workshop",
+        "hanaworlds-adapter-luanti in-world renderer"
+      ],
+      "providerEvidence": "NOT_RUN",
+      "rc9Added": true
     }
   ],
   "legacyRowCount": 70,

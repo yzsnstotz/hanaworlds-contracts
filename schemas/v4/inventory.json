@@ -944,6 +944,6 @@
     "placement.lateralSearchCells",
     "placement.verticalSearchCells"
   ],
-  "approvedProfileSha256": "3090fd1f224c9e5ceb890defa18452e24305140f9aa014eaf29e374be70a5f99",
-  "approvedClosureSha256": "595209a4bdd78d8a188ec41ba7a9b8bf6aedfb38982a43c813b0189d10731747"
+  "approvedProfileSha256": "b2f97d00a207e397af676257883fc1b036bcfdf490cca5b7f3df364df909fee9",
+  "approvedClosureSha256": "44f3e9da9ed08291ed2ce9437800fb19af9eb1020e1dddc7271d8627c776e081"
 }

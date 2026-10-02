@@ -40,11 +40,11 @@ for(const path of await readdir('spec/v3/fixtures/candidate')){
 }
 const v4Profile=await read('spec/v4/CONTRACT_SCHEMA_PROFILE.json'),v4Closure=await read('spec/v4/CONTRACT_SEMANTIC_CLOSURE.json'),v4Inventory=await read('schemas/v4/inventory.json');
 const v4Input=await read('spec/v4/APPROVED_INPUT.json');
-assert.equal(v4Input.bluemapVersion,'3.0.0-rc.8');
-assert.equal(v4Input.candidateDigest,'38687f19ff64b6fbff9da549015f2505eeff397a6d37c8e358f36a7b3764b41a');
-assert.equal(v4Input.manifestCoreDigest,'ae95aca6f7a5aa143fb7be3056ba29027a02fa94a6c13ad1a638ad2c72656173');
-assert.equal(v4Input.contractSemanticClosureSha256,'595209a4bdd78d8a188ec41ba7a9b8bf6aedfb38982a43c813b0189d10731747');
-assert.equal(Object.keys(v4Input.filesSha256).length,28);
+assert.equal(v4Input.bluemapVersion,'3.0.0-rc.9');
+assert.equal(v4Input.candidateDigest,'7016fdcb150190a83126e08d3de1b89aab5638d62682cad8c6fb3c3cc4e32ac7');
+assert.equal(v4Input.manifestCoreDigest,'18cbe9b95ab73e8ebe6c1042d535ea9449b3d1c6ce1eb45f3acb2eb35b868a3f');
+assert.equal(v4Input.contractSemanticClosureSha256,'44f3e9da9ed08291ed2ce9437800fb19af9eb1020e1dddc7271d8627c776e081');
+assert.equal(Object.keys(v4Input.filesSha256).length,29);
 for(const [path,digest] of Object.entries(v4Input.filesSha256))
   assert.equal(createHash('sha256').update(await readFile('spec/v4/'+path)).digest('hex'),digest,'approved v4 input drift: '+path);
 assert.equal(v4Input.filesSha256['CONTRACT_SEMANTIC_CLOSURE.json'],v4Input.contractSemanticClosureSha256);
@@ -53,7 +53,7 @@ assert.equal(v4.version,pkg.version);assert.equal(v4Profile.package,pkg.name+'@'
 assert.equal(v4.schemaBundle.$id,'https://hanaworlds.invalid/contracts/'+pkg.version+'/v4/schema.json');
 assert.deepEqual(v4.wireVersions,v4Profile.wireVersions);assert.deepEqual(v4Inventory.types,Object.keys(v4Profile.types));
 assert.equal(v4Inventory.types.length,283);assert.equal(v4Inventory.bindings.length,8);assert.equal(Object.keys(v4Inventory.projections).length,20);
-assert.equal(v4Closure.rows.length,93);assert.equal(v4Closure.openUserDecisions.length,0);assert.equal(v4Inventory.approvedClosureSha256,v4Input.contractSemanticClosureSha256);
+assert.equal(v4Closure.rows.length,94);assert.equal(v4Closure.openUserDecisions.length,0);assert.equal(v4Inventory.approvedClosureSha256,v4Input.contractSemanticClosureSha256);
 for(const binding of v4Inventory.bindings){assert(Object.hasOwn(pkg.exports,binding.specifier.replace('hanaworlds-contracts/','./')),binding.specifier);await stat(binding.javascript);await stat(binding.declarations);}
 for(const path of v4Inventory.schemas)await stat(path);
 for(const path of await readdir('spec/v4/fixtures/candidate')){

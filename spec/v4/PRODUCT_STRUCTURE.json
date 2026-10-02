@@ -2,7 +2,7 @@
   "schemaVersion": "1.0.0",
   "catalogScope": "FULL_PROJECT",
   "catalogId": "hanaworlds-full-project",
-  "version": "3.0.0-rc.8",
+  "version": "3.0.0-rc.9",
   "sourceInventory": {
     "requirementIds": [
       "HW-A001",
@@ -851,7 +851,7 @@
     },
     {
       "id": "HW-A029",
-      "title": "With several or no online players for a Shell-started turn, an offline initiator, or an unusable front area (occupied, protected, a player body, no ground, unknown), the plugin states why and asks the user to tap a listed online player name (names only, shown only to a user authorized for the bound world) or pick an in-game point; it never guesses a player or silently relocates, performs zero world writes before the choice, and Prepare rechecks protection and player bodies.",
+      "title": "With several online players for a Shell-started turn, the plugin lists their names (names only, shown only to a user authorized for the bound world) for the user to tap one, or to pick an in-game point; with no online player, an offline initiator, an ambiguous facing, or an unusable front area (occupied, protected, a player body, no ground, unknown), it states why and asks the user to pick an in-game point. It never guesses a player or silently relocates, performs zero world writes before the choice, and Prepare rechecks protection and player bodies.",
       "source": "authority/first-placement-user-decision.md",
       "productIds": [
         "S1-02"
@@ -6441,8 +6441,8 @@
         }
       ],
       "codeStartGate": "WAIT_FOR_REAL_CONSUMER_OR_TARGET_FACTS_SEAM",
-      "rc6Obligations": "For a confirmed first new BUILD_STRUCTURE with no selected object: send InspectPlacementRegion with DEFAULT_PLAYER {invocationId of the confirming input} and the footprint from confirmed node dimensions (ask when unknown); render PlacementChoiceRequired as a ClarificationNeed-style frame on Shell and Luanti (reasons in plain language, listed names as typed ActionDescriptor.choices answered by SELECT_CHOICE, PICK_WORLD_POINT); accept only a listed value; copy RegionInspection unchanged into CreateBuildPlanRequest; build ApplyRecoverableCommit.regionInspectionBinding; never guess or relocate.",
-      "rc7Obligations": "Speak painter/v3 and interaction-surface/v3 and complete the ContractHandshake with every peer before any request; the Shell-host and Luanti renderer obligations for SELECT_CHOICE and PICK_WORLD_POINT are owned here and checked at CP-S1-02 (REAL_UI)."
+      "rc6Obligations": "For a confirmed first new BUILD_STRUCTURE with no selected object: send InspectPlacementRegion with DEFAULT_PLAYER {invocationId of the confirming input} and the footprint from confirmed node dimensions (ask when unknown); render PlacementChoiceRequired as a ClarificationNeed-style frame (reasons in plain language; for MULTIPLE_ONLINE_PLAYERS only, listed names as typed ActionDescriptor.choices answered by SELECT_CHOICE in Shell; PICK_WORLD_POINT for every ask); accept only a listed value; copy RegionInspection unchanged into CreateBuildPlanRequest; build ApplyRecoverableCommit.regionInspectionBinding; never guess or relocate.",
+      "rc7Obligations": "Speak painter/v3 and interaction-surface/v3 and complete the ContractHandshake with every peer before any request. Workshop owns the placement-ask frame content and the Shell-side SELECT_CHOICE presentation (rc.9 user decision); in-world PICK_WORLD_POINT rendering and the in-world SELECT_CHOICE refusal belong to luanti-adapter-v4. Checked at CP-S1-02 (REAL_UI)."
     },
     {
       "id": "workshop-s2-extension",
@@ -8787,7 +8787,7 @@
             "S1-02/U03",
             "S1-02/U04"
           ],
-          "deliverable": "persist and return the saved before-state readback digest on Prepare and authorized QueryPrepared; no new world mutation operation; rc.6: read-only InspectRegion (relay record, online set, named player, Adapter-issued pick, frozen facing/search, per-cell protection and body facts, Adapter-computed Frame), in-world PICK_WORLD_POINT renderer, durable relay record, Prepare body recheck; raw pose never exported",
+          "deliverable": "persist and return the saved before-state readback digest on Prepare and authorized QueryPrepared; no new world mutation operation; rc.6: read-only InspectRegion (relay record, online set, named player, Adapter-issued pick, frozen facing/search, per-cell protection and body facts, Adapter-computed Frame), in-world PICK_WORLD_POINT renderer only (in-world SELECT_CHOICE answered with typed RENDERER_CAPABILITY_UNAVAILABLE \"choose in Shell\", not relayed), durable relay record, Prepare body recheck; raw pose never exported",
           "consumer": "Canvas world transport and game renderer",
           "publicContractRef": "world-adapter/v4; interaction-surface/v3",
           "checkpointId": "CP-S1-02",
@@ -8802,7 +8802,7 @@
             "S1-03/U03",
             "S1-03/U04"
           ],
-          "deliverable": "persist and return the saved before-state readback digest on Prepare and authorized QueryPrepared; no new world mutation operation; rc.6: read-only InspectRegion (relay record, online set, named player, Adapter-issued pick, frozen facing/search, per-cell protection and body facts, Adapter-computed Frame), in-world PICK_WORLD_POINT renderer, durable relay record, Prepare body recheck; raw pose never exported",
+          "deliverable": "persist and return the saved before-state readback digest on Prepare and authorized QueryPrepared; no new world mutation operation; rc.6: read-only InspectRegion (relay record, online set, named player, Adapter-issued pick, frozen facing/search, per-cell protection and body facts, Adapter-computed Frame), in-world PICK_WORLD_POINT renderer only (in-world SELECT_CHOICE answered with typed RENDERER_CAPABILITY_UNAVAILABLE \"choose in Shell\", not relayed), durable relay record, Prepare body recheck; raw pose never exported",
           "consumer": "Canvas world transport and game renderer",
           "publicContractRef": "world-adapter/v4; interaction-surface/v3",
           "checkpointId": "CP-S1-03",
@@ -8817,7 +8817,7 @@
             "S1-04/U03",
             "S1-04/U04"
           ],
-          "deliverable": "persist and return the saved before-state readback digest on Prepare and authorized QueryPrepared; no new world mutation operation; rc.6: read-only InspectRegion (relay record, online set, named player, Adapter-issued pick, frozen facing/search, per-cell protection and body facts, Adapter-computed Frame), in-world PICK_WORLD_POINT renderer, durable relay record, Prepare body recheck; raw pose never exported",
+          "deliverable": "persist and return the saved before-state readback digest on Prepare and authorized QueryPrepared; no new world mutation operation; rc.6: read-only InspectRegion (relay record, online set, named player, Adapter-issued pick, frozen facing/search, per-cell protection and body facts, Adapter-computed Frame), in-world PICK_WORLD_POINT renderer only (in-world SELECT_CHOICE answered with typed RENDERER_CAPABILITY_UNAVAILABLE \"choose in Shell\", not relayed), durable relay record, Prepare body recheck; raw pose never exported",
           "consumer": "Canvas world transport and game renderer",
           "publicContractRef": "world-adapter/v4; interaction-surface/v3",
           "checkpointId": "CP-S1-04",
@@ -8830,7 +8830,7 @@
             "S1-05/U01",
             "S1-05/U02"
           ],
-          "deliverable": "persist and return the saved before-state readback digest on Prepare and authorized QueryPrepared; no new world mutation operation; rc.6: read-only InspectRegion (relay record, online set, named player, Adapter-issued pick, frozen facing/search, per-cell protection and body facts, Adapter-computed Frame), in-world PICK_WORLD_POINT renderer, durable relay record, Prepare body recheck; raw pose never exported",
+          "deliverable": "persist and return the saved before-state readback digest on Prepare and authorized QueryPrepared; no new world mutation operation; rc.6: read-only InspectRegion (relay record, online set, named player, Adapter-issued pick, frozen facing/search, per-cell protection and body facts, Adapter-computed Frame), in-world PICK_WORLD_POINT renderer only (in-world SELECT_CHOICE answered with typed RENDERER_CAPABILITY_UNAVAILABLE \"choose in Shell\", not relayed), durable relay record, Prepare body recheck; raw pose never exported",
           "consumer": "Canvas world transport and game renderer",
           "publicContractRef": "world-adapter/v4; interaction-surface/v3",
           "checkpointId": "CP-S1-05",
@@ -9881,7 +9881,7 @@
         "S1-02"
       ],
       "relation": "REQUIREMENT",
-      "reason": "With several or no online players for a Shell-started turn, an offline initiator, or an unusable front area (occupied, protected, a player body, no ground, unknown), the plugin states why and asks the user to tap a listed online player name (names only, shown only to a user authorized for the bound world) or pick an in-game point; it never guesses a player or silently relocates, performs zero world writes before the choice, and Prepare rechecks protection and player bodies.",
+      "reason": "With several online players for a Shell-started turn, the plugin lists their names (names only, shown only to a user authorized for the bound world) for the user to tap one, or to pick an in-game point; with no online player, an offline initiator, an ambiguous facing, or an unusable front area (occupied, protected, a player body, no ground, unknown), it states why and asks the user to pick an in-game point. It never guesses a player or silently relocates, performs zero world writes before the choice, and Prepare rechecks protection and player bodies.",
       "sourceRef": "authority/first-placement-user-decision.md"
     },
     {

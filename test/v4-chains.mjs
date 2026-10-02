@@ -179,6 +179,12 @@ await check('PLACEMENT-CHOICE-DOMAIN-NEGATIVES', 'placement-ask', ({ same }) => 
   same(err(captureError(() => V4.validateResponse('canvas/v4', 'InspectPlacementRegion', set(none, { candidatePlayerNames: ['alice'] })))).code, 'SCHEMA_INVALID', '$.namesWithoutMultiple');
   same(err(captureError(() => V4.validateResponse('canvas/v4', 'InspectPlacementRegion', set(none, { options: ['NAME_PLAYER', 'PICK_WORLD_POINT'] })))).code, 'SCHEMA_INVALID', '$.noPlayerOffersOnlyPick');
   same(err(captureError(() => V4.validateResponse('canvas/v4', 'InspectPlacementRegion', set(multiple, { options: ['PICK_WORLD_POINT', 'NAME_PLAYER'] })))).code, 'SCHEMA_INVALID', '$.fixedOptionOrder');
+  same(err(captureError(() => V4.validateResponse('canvas/v4', 'InspectPlacementRegion', set(multiple, { options: ['PICK_WORLD_POINT'] })))).code, 'SCHEMA_INVALID', '$.multipleOffersNamePlayer');
+  for (const id of ['ASK-PLAYER-OFFLINE', 'ASK-FRONT-BLOCKED', 'ASK-FACING-TIE']) {
+    const ask = placement.askCases.find(x => x.id === id).canvasInspectResponse;
+    same(ask.result.choice.options, ['PICK_WORLD_POINT'], '$.' + id + '.pickOnly');
+    same(err(captureError(() => V4.validateResponse('canvas/v4', 'InspectPlacementRegion', set(ask, { options: ['NAME_PLAYER', 'PICK_WORLD_POINT'] })))).code, 'SCHEMA_INVALID', '$.' + id + '.noNamePlayer');
+  }
   same(err(captureError(() => V4.validateResponse('canvas/v4', 'InspectPlacementRegion', set(multiple, { candidatePlayerNames: ['bob', 'alice'] })))).code, 'SCHEMA_INVALID', '$.namesUTF16Sorted');
   same(err(captureError(() => V4.validateResponse('canvas/v4', 'InspectPlacementRegion', { ...multiple, unavailableSettings: ['placement.frontGapCells'] }))).code, 'SCHEMA_INVALID', '$.unavailableOnlyOnPolicyError');
   const unset = placement.invalidCases.find(x => x.id === 'INV-SETTING-UNSET').materialized.message;
@@ -211,7 +217,7 @@ const PROVIDER_DECIDED = {
   'INV-STALE-AT-APPLY': 'Canvas record vs current world revision', 'INV-PROTECTED-AT-PREPARE': 'Adapter engine is_protected at Prepare',
   'INV-BODY-AT-PREPARE': 'Adapter engine collision boxes at Prepare', 'INV-FICTITIOUS-OBJECT': 'Canvas object registry',
   'INV-INITIAL-PLANNED': 'painter preceding-plan record', 'INV-NAMES-UNAUTHORIZED': 'Canvas INSPECT grant', 'INV-NAMES-REVOKED-BEFORE-RELEASE': 'Canvas grant revocation',
-  'INV-SHELL-FORGED-PICKREF': 'Adapter pick record', 'INV-FORGED-EVIDENCE-AT-APPLY': 'Canvas durable inspection record',
+  'INV-SHELL-FORGED-PICKREF': 'Adapter pick record', 'INV-INWORLD-SELECT-CHOICE': 'Luanti in-world renderer capability (rc.9 Q3)', 'INV-FORGED-EVIDENCE-AT-APPLY': 'Canvas durable inspection record',
 };
 const deviations = [];
 for (const c of placement.invalidCases) {
@@ -251,6 +257,11 @@ for (const c of placement.invalidCases) {
         same(admitMessage(c.materialized.type, c.materialized.message), c.materialized.message, '$.typedErrorResponse');
         same(c.materialized.message.error, expected, '$.carriesExpectedError');
       } else same(admitMessage(c.materialized.type, c.materialized.message), c.materialized.message, '$.payloadAdmitted');
+      if (c.response) {
+        // rc.9 Q3: the renderer answers with the typed InvokeAction error; nothing is relayed to Workshop.
+        same(V4.validateResponse(wire, operation, c.response), c.response, '$.typedRendererResponse');
+        same(c.response.error, expected, '$.carriesExpectedError');
+      }
       same(approvedStatus('verify-placement-region-v4'), 'PASS', '$.approvedReferenceOracle');
     });
   }

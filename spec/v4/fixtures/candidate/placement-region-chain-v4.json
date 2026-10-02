@@ -2088,7 +2088,8 @@
             "choices": null
           }
         ]
-      }
+      },
+      "surface": "SHELL"
     },
     {
       "id": "PLACE-PICKED-POINT",
@@ -2182,7 +2183,8 @@
         "result": "REGION_INSPECTED",
         "frontGapApplied": 0,
         "searchShiftApplied": false
-      }
+      },
+      "surface": "LUANTI_IN_WORLD"
     }
   ],
   "askCases": [
@@ -2335,7 +2337,6 @@
               "PLAYER_OFFLINE"
             ],
             "options": [
-              "NAME_PLAYER",
               "PICK_WORLD_POINT"
             ],
             "candidatePlayerNames": null,
@@ -2358,7 +2359,10 @@
           "PLAYER_OFFLINE"
         ],
         "guessedPlayer": null,
-        "worldWrites": 0
+        "worldWrites": 0,
+        "options": [
+          "PICK_WORLD_POINT"
+        ]
       }
     },
     {
@@ -2422,7 +2426,6 @@
               "FRONT_AREA_OCCUPIED"
             ],
             "options": [
-              "NAME_PLAYER",
               "PICK_WORLD_POINT"
             ],
             "candidatePlayerNames": null,
@@ -2446,7 +2449,10 @@
         ],
         "silentRelocation": false,
         "regionReturned": null,
-        "worldWrites": 0
+        "worldWrites": 0,
+        "options": [
+          "PICK_WORLD_POINT"
+        ]
       }
     },
     {
@@ -2495,7 +2501,6 @@
               "FRONT_AREA_PROTECTED"
             ],
             "options": [
-              "NAME_PLAYER",
               "PICK_WORLD_POINT"
             ],
             "candidatePlayerNames": null,
@@ -2518,7 +2523,10 @@
           "FRONT_AREA_PROTECTED"
         ],
         "painterCalls": 0,
-        "worldWrites": 0
+        "worldWrites": 0,
+        "options": [
+          "PICK_WORLD_POINT"
+        ]
       }
     },
     {
@@ -2589,7 +2597,6 @@
               "FRONT_AREA_BODY_OCCUPIED"
             ],
             "options": [
-              "NAME_PLAYER",
               "PICK_WORLD_POINT"
             ],
             "candidatePlayerNames": null,
@@ -2611,7 +2618,10 @@
         "reasons": [
           "FRONT_AREA_BODY_OCCUPIED"
         ],
-        "worldWrites": 0
+        "worldWrites": 0,
+        "options": [
+          "PICK_WORLD_POINT"
+        ]
       }
     },
     {
@@ -2662,7 +2672,6 @@
               "FRONT_AREA_NO_GROUND"
             ],
             "options": [
-              "NAME_PLAYER",
               "PICK_WORLD_POINT"
             ],
             "candidatePlayerNames": null,
@@ -2684,7 +2693,10 @@
         "reasons": [
           "FRONT_AREA_NO_GROUND"
         ],
-        "worldWrites": 0
+        "worldWrites": 0,
+        "options": [
+          "PICK_WORLD_POINT"
+        ]
       }
     },
     {
@@ -2736,7 +2748,6 @@
               "FRONT_AREA_UNKNOWN"
             ],
             "options": [
-              "NAME_PLAYER",
               "PICK_WORLD_POINT"
             ],
             "candidatePlayerNames": null,
@@ -2759,7 +2770,10 @@
           "FRONT_AREA_UNKNOWN"
         ],
         "unknownTreatedAsAir": false,
-        "worldWrites": 0
+        "worldWrites": 0,
+        "options": [
+          "PICK_WORLD_POINT"
+        ]
       }
     },
     {
@@ -2812,7 +2826,6 @@
               "FACING_AMBIGUOUS"
             ],
             "options": [
-              "NAME_PLAYER",
               "PICK_WORLD_POINT"
             ],
             "candidatePlayerNames": null,
@@ -2834,7 +2847,10 @@
         "reasons": [
           "FACING_AMBIGUOUS"
         ],
-        "worldWrites": 0
+        "worldWrites": 0,
+        "options": [
+          "PICK_WORLD_POINT"
+        ]
       }
     }
   ],
@@ -5797,6 +5813,87 @@
         "canvasCalls": 0,
         "worldWrites": 0
       }
+    },
+    {
+      "id": "INV-INWORLD-SELECT-CHOICE",
+      "rowIds": [
+        "IS-SELECT-CHOICE-RENDERER"
+      ],
+      "operation": {
+        "wire": "interaction-surface/v3",
+        "operation": "InvokeAction"
+      },
+      "frameCaseId": "PLACE-SHELL-NAMED-AFTER-ASK",
+      "surface": "LUANTI_IN_WORLD",
+      "mutation": {
+        "producerResultPath": "renderer surface for the choose-placement-player action",
+        "consumerRequestPath": "InvokeActionRequest.input (SELECT_CHOICE) from the Luanti in-world renderer",
+        "originalProducedValue": "SHELL",
+        "mutatedValue": "LUANTI_IN_WORLD"
+      },
+      "materialized": {
+        "type": "InvokeActionRequest",
+        "message": {
+          "contractVersion": "interaction-surface/v3",
+          "actorRef": "fixture-actor",
+          "sessionRef": "fixture-session",
+          "requestId": "luanti-choose-1",
+          "authorizationRef": "fixture-current-grant",
+          "turnRevision": "fixture-turn-5",
+          "frameRevision": "fixture-render-5",
+          "frameRef": "fixture-render-frame",
+          "actionId": "choose-placement-player",
+          "invocationId": "fixture-luanti-invocation-11",
+          "surfaceAction": {
+            "contractVersion": "interaction-surface/v2",
+            "sessionRef": "fixture-session",
+            "turnRevision": "fixture-turn-5",
+            "frameRef": "fixture-render-frame",
+            "frameRevision": "fixture-render-5",
+            "actionId": "choose-placement-player",
+            "orderedTargetRefs": [],
+            "intentDigest": "5e8dc3bc221c919928f9121d1f48decdb3fbeccaf876dd0688bafc022eb9ef7e",
+            "operationDigest": null,
+            "analysisDigest": null,
+            "decisionRevision": null
+          },
+          "surfaceActionDigest": "bdd9c043f4ef133e772025a1dedef47d06df0d2dd6a89dd2a14d6a1cf462ec0b",
+          "input": {
+            "kind": "SELECT_CHOICE",
+            "value": "bob"
+          }
+        }
+      },
+      "response": {
+        "contractVersion": "interaction-surface/v3",
+        "requestId": "luanti-choose-1",
+        "result": null,
+        "error": {
+          "code": "RENDERER_CAPABILITY_UNAVAILABLE",
+          "phase": "validate",
+          "retryability": "NEVER",
+          "mutationState": "NONE",
+          "transactionRef": null,
+          "causeCode": null,
+          "reason": "SCOPE_DENIED"
+        }
+      },
+      "expected": {
+        "result": "REJECT",
+        "error": {
+          "code": "RENDERER_CAPABILITY_UNAVAILABLE",
+          "phase": "validate",
+          "retryability": "NEVER",
+          "mutationState": "NONE",
+          "transactionRef": null,
+          "causeCode": null,
+          "reason": "SCOPE_DENIED"
+        },
+        "relayedToWorkshop": false,
+        "userGuidance": "choose in Shell",
+        "canvasCalls": 0,
+        "worldWrites": 0
+      }
     }
   ],
   "privacy": {
@@ -6080,5 +6177,23 @@
         "note": "BUILD/V2 wire name and document contractVersion stay; the target-facts/v3 value set is what the handshake versions"
       }
     }
-  ]
+  ],
+  "rendererCapabilities": {
+    "rule": "rc.9 user decision: Workshop presents SELECT_CHOICE in Shell; the Luanti in-world renderer supports PICK_WORLD_POINT only for the placement ask",
+    "SHELL": [
+      "DECISION",
+      "NAME",
+      "SELECT_CHOICE",
+      "SELECT_OBJECTS",
+      "TEXT"
+    ],
+    "LUANTI_IN_WORLD": [
+      "DECISION",
+      "NAME",
+      "PICK_WORLD_POINT",
+      "SELECT_OBJECTS",
+      "TEXT"
+    ]
+  },
+  "rc9Note": "rc.9: non-MULTIPLE asks offer PICK_WORLD_POINT only; rendererCapabilities and INV-INWORLD-SELECT-CHOICE encode the Workshop/Shell vs Adapter in-world split (user decision authority/USER_DECISION_PLACEMENT_ASK_OPTIONS_2026-10-02.json)."
 }

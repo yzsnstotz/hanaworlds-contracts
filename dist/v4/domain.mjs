@@ -101,7 +101,8 @@ export function validateDomain(visits) {
     else if (name === 'ActionDescriptor') decodeShape((v.choices !== null) === v.inputKinds.includes('SELECT_CHOICE'));
     else if (name === 'PlacementChoiceRequired') {
       shape((v.candidatePlayerNames !== null) === v.reasons.includes('MULTIPLE_ONLINE_PLAYERS'));
-      shape(same(v.options, v.reasons.includes('NO_ONLINE_PLAYER') ? ['PICK_WORLD_POINT'] : PLACEMENT_OPTION_ORDER));
+      // rc.9 (Q2 user decision): NAME_PLAYER only for MULTIPLE_ONLINE_PLAYERS; every other reason offers PICK_WORLD_POINT only.
+      shape(same(v.options, v.reasons.includes('MULTIPLE_ONLINE_PLAYERS') ? PLACEMENT_OPTION_ORDER : ['PICK_WORLD_POINT']));
     } else if (name === 'RegionInspection') {
       decodeShape(v.targetFacts.source === 'REGION_INSPECTED');
       shape(v.evidence.worldRef === v.targetFacts.worldRef && v.evidence.worldRevision === v.targetFacts.worldRevision);

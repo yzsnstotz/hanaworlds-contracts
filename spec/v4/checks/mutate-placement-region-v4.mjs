@@ -24,6 +24,8 @@ const muts = {
   'choice-list-dropped': [F, d => { d.validCases.find(c => c.id === 'PLACE-SHELL-NAMED-AFTER-ASK').interactionFrame.actions[0].choices = null; }],
   'region-facts-left-at-v2': [F, d => { const i = d.validCases.find(c => c.id === 'PLACE-SHELL-SOLE-PLAYER').adapterInspectResponse.result.inspection; i.targetFacts.profileVersion = 'target-facts/v2'; i.targetFactsDigest = D('target-facts', i.targetFacts); }],
   'painter-wire-back-to-v2': ['CONTRACT_SCHEMA_PROFILE.json', d => { d.wireVersions = d.wireVersions.map(w => w === 'painter/v3' ? 'painter/v2' : w); }],
+  'name-player-on-non-multiple-ask': [F, d => { d.askCases.find(c => c.id === 'ASK-FRONT-BLOCKED').canvasInspectResponse.result.choice.options = ['NAME_PLAYER', 'PICK_WORLD_POINT']; }],
+  'inworld-renders-select-choice': [F, d => { d.rendererCapabilities.LUANTI_IN_WORLD = [...d.rendererCapabilities.LUANTI_IN_WORLD, 'SELECT_CHOICE'].sort(); }],
   'name-leak-main': [F, d => { d.validCases[0].materializedChain.painterRequest.referenceBrief.text = 'alice'; }],
   'gap-ignored': [F, d => { d.validCases[0].materializedChain.adapterInspectRequest.placementSettings.frontGapCells = 1; }],
   'multiple-names-dropped': [F, d => { d.askCases.find(c => c.id === 'ASK-SHELL-MULTIPLE').canvasInspectResponse.result.choice.candidatePlayerNames = null; }],

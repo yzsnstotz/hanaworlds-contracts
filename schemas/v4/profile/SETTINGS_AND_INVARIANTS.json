@@ -1,6 +1,6 @@
 {
   "schemaVersion": "1.0.0",
-  "candidate": "3.0.0-rc.8",
+  "candidate": "3.0.0-rc.9",
   "scope": "Settings and correctness invariants introduced by rc.6 (first new building region). Every row must appear in the HanaWorlds Shell management interface through the owning plugin's administrative projection (gadget standard 4.6; acceptance HW-A023 and HW-A030). Earlier settings/invariants keep their existing rows in CONTRACT_RULES.md and are not restated here.",
   "surface": {
     "where": "HanaWorlds Shell (normal DSH plugin management interface) -> owning plugin administrative projection",
@@ -116,7 +116,7 @@
         "ref": "authority/USER_DECISION_FIRST_PLACEMENT_ROUND3_2026-10-02.json",
         "rawAnswer": "列出在线玩家名字（推荐）"
       },
-      "text": "Online player names are returned only inside PlacementChoiceRequired(MULTIPLE_ONLINE_PLAYERS) to a principal whose current authorization for the bound world includes INSPECT, with revocation checked before release; Workshop offers them as typed interaction-surface/v3 ActionDescriptor.choices answered by SELECT_CHOICE (tap one); no positions are ever returned.",
+      "text": "Online player names are returned only inside PlacementChoiceRequired(MULTIPLE_ONLINE_PLAYERS) to a principal whose current authorization for the bound world includes INSPECT, with revocation checked before release; Workshop offers them in Shell as typed interaction-surface/v3 ActionDescriptor.choices answered by SELECT_CHOICE (tap one); the in-world renderer does not offer the list (rc.9); no positions are ever returned.",
       "whyNotSwitchable": "The user agreed to list names only to a user authorized for the bound world.",
       "consequence": "An unauthorized or revoked caller gets a typed error and no names."
     },
@@ -165,9 +165,10 @@
         "kind": "PROJECT_RULE",
         "ref": "CONTRACT_RULES.md#3 (caller自己填providerRef不构成证据)"
       },
-      "text": "ApplyRecoverableCommit for a REGION_INSPECTED build requires regionInspectionBinding naming a Canvas-issued durable inspection record; PROTECTION and BODY_CLEARANCE witness evidence must equal that record.",
+      "text": "When operations.targetFactsDigest equals the digest of a REGION_INSPECTED record Canvas holds, ApplyRecoverableCommit requires regionInspectionBinding naming that Canvas-issued durable inspection record, and PROTECTION and BODY_CLEARANCE witness evidence must equal the record. An Apply whose facts digest Canvas has no record of is not recognised as a region build; for such an unrecorded first-building facts digest, Adapter Prepare's per-cell protection and player-body recheck is the backstop.",
       "whyNotSwitchable": "Caller JSON is not evidence.",
-      "consequence": "PERMISSION_DENIED / authorize / IDENTITY_UNVERIFIED with zero writes."
+      "consequence": "PERMISSION_DENIED / authorize / IDENTITY_UNVERIFIED with zero writes.",
+      "rc9Amendment": "Q1: text aligned to the approved executable digest-triggered rule (CONTRACT_RULES.md \"Evidence at Apply\"; profile ApplyRecoverableCommitRequest rule); no semantic change"
     },
     {
       "id": "INV-ADAPTER-COMPUTED-FRAME",

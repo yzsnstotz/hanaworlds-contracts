@@ -722,7 +722,7 @@ export type ActionInput = {
 };
 /** Order: UTF16 ascending */
 export type ActionInputKinds = ReadonlyArray<ActionInputKind>;
-/** choices nonnull iff inputKinds includes SELECT_CHOICE; renderers show each choice as a tappable option and return the selected value; they never parse frame content for options | placement player choice: choices are exactly the Canvas-released PlacementChoiceRequired.candidatePlayerNames (value=label=engineActorName), names only, rendered only to the principal that Canvas released them to (INSPECT on the bound world, revocation checked) */
+/** choices nonnull iff inputKinds includes SELECT_CHOICE; renderers show each choice as a tappable option and return the selected value; they never parse frame content for options | placement player choice: choices are exactly the Canvas-released PlacementChoiceRequired.candidatePlayerNames (value=label=engineActorName), names only, rendered only to the principal that Canvas released them to (INSPECT on the bound world, revocation checked) | rendering ownership (rc.9 user decision): Workshop owns choice content and the Shell-side SELECT_CHOICE presentation; the Luanti in-world renderer (luanti-adapter-v4) renders PICK_WORLD_POINT only, does not advertise SELECT_CHOICE, shows such an action as "choose in Shell", and answers an in-world SELECT_CHOICE invocation itself with InvokeActionResponse error RENDERER_CAPABILITY_UNAVAILABLE/validate/SCOPE_DENIED/NONE without relaying it to Workshop */
 export type ActionDescriptor = {
   readonly "actionId": Ref;
   readonly "inputKinds": ActionInputKinds;
@@ -1811,7 +1811,7 @@ export type PlacementChoiceReasons = ReadonlyArray<PlacementChoiceReason>;
 export type PlacementOption = "NAME_PLAYER" | "PICK_WORLD_POINT";
 /** Order: fixed NAME_PLAYER then PICK_WORLD_POINT */
 export type PlacementOptions = ReadonlyArray<PlacementOption>;
-/** typed outcome, not an error; no bounds, positions or facing | candidatePlayerNames nonnull only with MULTIPLE_ONLINE_PLAYERS and only to a principal currently authorized for INSPECT on the bound world | options: NO_ONLINE_PLAYER -> [PICK_WORLD_POINT]; otherwise [NAME_PLAYER, PICK_WORLD_POINT] */
+/** typed outcome, not an error; no bounds, positions or facing | candidatePlayerNames nonnull only with MULTIPLE_ONLINE_PLAYERS and only to a principal currently authorized for INSPECT on the bound world | options: reasons include MULTIPLE_ONLINE_PLAYERS -> [NAME_PLAYER, PICK_WORLD_POINT] (NAME_PLAYER is the tappable candidatePlayerNames list returned through SELECT_CHOICE); every other reason -> [PICK_WORLD_POINT] only (rc.9 user decision authority/USER_DECISION_PLACEMENT_ASK_OPTIONS_2026-10-02.json) */
 export type PlacementChoiceRequired = {
   readonly "anchorKind": PlacementAnchorKind;
   readonly "reasons": PlacementChoiceReasons;
