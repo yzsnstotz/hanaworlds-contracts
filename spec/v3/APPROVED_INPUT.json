@@ -1,0 +1,23 @@
+{
+  "schemaVersion": "1.0.0",
+  "authority": "user-approved HanaWorlds Stage 1 BlueMap 2.0.0-rc.5 exact WA-02 response allowlist erratum",
+  "candidateDigest": "8bc7f14de26fb1323ffc882d95118dbbc06023497b59b637c3f65d87468422f1",
+  "manifestCoreDigest": "091ccbe31ec564f5ba2c46c1899f60e573ad04cd6b56794933fd7860796b10e6",
+  "filesSha256": {
+    "CONTRACT_SCHEMA_PROFILE.json": "617a2a3810d2eb3034bc4fbd16ee76948315b2e40cc3ebbaf7b6a37a39fbfbbc",
+    "CONTRACT_SEMANTIC_CLOSURE.json": "72ff3021bb33133654154b4e55a9e9769178f8ed8182ae39b3e7dcf39cc23c17",
+    "fixtures/candidate/canvas-events-v3.json": "be3fafe1392d56f0d1a2dbf2c00ae1a0f8b76541cdf6a058690373971cc4dedb",
+    "fixtures/candidate/canvas-events.json": "c4de1710428bb6271b83449941433578fe5bc6a85afaeb6027699e1053dc96e2",
+    "fixtures/candidate/closure-oracles-v3.json": "1729d5e910d1b0b071c00ea6c8c93c26e96811ca94f762e1983d791c496a6269",
+    "fixtures/candidate/closure-oracles.json": "a7c73d91d2a24a0d65a51e2cb92ee5571219ba8e075cf24761dba18441807a5d",
+    "fixtures/candidate/contract-v3-oracles.json": "b800ec0263c354e6c8257b7dd8c4e834249bfb982d99fd22505acd76dd61eff1",
+    "fixtures/candidate/production-goldens.json": "aec60187352ca8b1caabfa62e681dbbe49efef13fd734770a09c1fbe035299c0",
+    "fixtures/candidate/semantic-cases.json": "0a6d6f04a90c7e9eb633a95b02339be6b6d779268ebf0d484d18afc446f783ce",
+    "fixtures/candidate/wire-inputs-v3.json": "f2592630275560c20f77264929917487a30ea89dd883d20afd26972de2502427",
+    "fixtures/candidate/wire-inputs.json": "f3a3bcc68a123d73f83c939bd473b7c6054ef57be85d74dee10e8413090f5e25",
+    "fixtures/candidate/history-allowlist-response-oracles.json": "10ce5cd8242c4aa13a2e59a4e5f6b4ea6fab9273c395d160e4d3bc88b7e8328c",
+    "fixtures/candidate/digest-allowlist-precedence-oracles.json": "6fdda67abb08368f713d5b54576023fd37b6ffc98b7af96ab01cf7eb0612f9dd"
+  },
+  "evidence": "SOURCE/FIXTURE; provider runtime NOT_RUN",
+  "approvedZipSha256": "63dcbb85b48f23fb0ae513c1c686a504e003704b1df1534b8690e05fbb94469f"
+}

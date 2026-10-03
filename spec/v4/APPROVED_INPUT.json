@@ -1,0 +1,55 @@
+{
+  "schemaVersion": "1.0.0",
+  "authority": "user-approved HanaWorlds Stage 1 erratum BlueMap 3.0.0-rc.10 (bluemaps/hanaworlds-stage1/3.0.0-rc.10-approved, approval receipt approved=true); supersedes 3.0.0-rc.9 and 3.0.0-rc.8 for this card",
+  "bluemapVersion": "3.0.0-rc.10",
+  "candidateDigest": "49b0fc7a73d4dedaa91c4aee6e1f4a0102eb3c6b5b00563ebdb4c8352cebcf49",
+  "manifestCoreDigest": "1e81a7113ee820b6bf52826636e8c933dbc6abe3997730c10bb4474914a4c22b",
+  "contractSemanticClosureSha256": "ef7e45788a0d3ed34819c381c9a8c34302843f22594427b5aabcd87d16a9accb",
+  "filesSha256": {
+    "CONTRACT_RULES.md": "5b99d1fea7d5484cccd0a752ec602ba8e04782fd7ffd8ab3d0d07e236ebd595a",
+    "CONTRACT_SCHEMA_PROFILE.json": "7873aae0b8e8ad51bfcf13d537877441b76afeb1687392e9f52719bec8d6f9f9",
+    "CONTRACT_SEMANTIC_CLOSURE.json": "ef7e45788a0d3ed34819c381c9a8c34302843f22594427b5aabcd87d16a9accb",
+    "PRODUCT_STRUCTURE.json": "6438f65310d9b1efe41c45a165ecded68c10c24b27d1096cbeb54960dd0be049",
+    "SETTINGS_AND_INVARIANTS.json": "7642867f74b93de2d0efd71602a2d5faaf6989333faf32cc79d58e40f56694f6",
+    "authority/USER_DECISION_FIRST_PLACEMENT_ROUND3_2026-10-02.json": "161210c3f9ea2b058fe6aa657b2faf57180db05f6a00625e72b323f4b8c9239c",
+    "authority/USER_DECISION_PLACEMENT_ASK_OPTIONS_2026-10-02.json": "d298fb93961ab80cdeed137cdf0ca95aa69cae239bcc23df465a87f3a2d7b7e5",
+    "checks/mutate-placement-region-v4.mjs": "8986c9d7a981609b29ea473aa669844570b7715856a85b0336e8ff94baee3c3b",
+    "checks/verify-current-inventory-v4.mjs": "967af86822693c9013a239434dcae826c00444b911545b54c7fec1a9edbc1bfa",
+    "checks/verify-history-seam-v4.mjs": "97555ed660c56a4a6d9b8f0f1e72de4c2280ac488511115b4b632e5de0ac2b9d",
+    "checks/verify-placement-region-v4.mjs": "78d330ab33fdf9b49fc569f5cbb5f0a36c49c0e90fee8d16c25270402dabb02b",
+    "fixtures/candidate/canvas-events-v3.json": "be3fafe1392d56f0d1a2dbf2c00ae1a0f8b76541cdf6a058690373971cc4dedb",
+    "fixtures/candidate/canvas-events-v4.json": "83cad10bc621d704811b52ecb81686c95e077f5ca0a21b87a2d950308be68086",
+    "fixtures/candidate/canvas-events.json": "c4de1710428bb6271b83449941433578fe5bc6a85afaeb6027699e1053dc96e2",
+    "fixtures/candidate/closure-oracles-v3.json": "1729d5e910d1b0b071c00ea6c8c93c26e96811ca94f762e1983d791c496a6269",
+    "fixtures/candidate/closure-oracles-v4.json": "7ae4b8e0eec048df236ed87d89c22131b801f48bc6772ed0c0b36125bb581ae3",
+    "fixtures/candidate/closure-oracles.json": "a7c73d91d2a24a0d65a51e2cb92ee5571219ba8e075cf24761dba18441807a5d",
+    "fixtures/candidate/contract-v3-oracles.json": "b800ec0263c354e6c8257b7dd8c4e834249bfb982d99fd22505acd76dd61eff1",
+    "fixtures/candidate/contract-v4-oracles.json": "be187a604a0f4345bd386e9c9454f6b01ba0e5daeb5a60aaf17449c4f34c7559",
+    "fixtures/candidate/current-inventory-chain-v4.json": "c9af421359fd14e2571b58d573c8c170bbea6cdbb4803998940c1f960e005f28",
+    "fixtures/candidate/digest-allowlist-precedence-oracles.json": "6fdda67abb08368f713d5b54576023fd37b6ffc98b7af96ab01cf7eb0612f9dd",
+    "fixtures/candidate/history-allowlist-response-oracles.json": "10ce5cd8242c4aa13a2e59a4e5f6b4ea6fab9273c395d160e4d3bc88b7e8328c",
+    "fixtures/candidate/history-seam-chain-v4.json": "76443c3470f8903c15632d43910e5cc42a0ee43c84a43fa3c97dd6b9e1a76a70",
+    "fixtures/candidate/placement-region-chain-v4.json": "9f9c935186e612921cf186f0ec61f0bd1e27103719311fcf2e9faab7306993b2",
+    "fixtures/candidate/production-goldens.json": "aec60187352ca8b1caabfa62e681dbbe49efef13fd734770a09c1fbe035299c0",
+    "fixtures/candidate/semantic-cases.json": "0a6d6f04a90c7e9eb633a95b02339be6b6d779268ebf0d484d18afc446f783ce",
+    "fixtures/candidate/wire-inputs-v3.json": "f2592630275560c20f77264929917487a30ea89dd883d20afd26972de2502427",
+    "fixtures/candidate/wire-inputs-v4.json": "18c86781607867be4943e17bb93e67bd97ea23b9391ebab35b98e93676f26c55",
+    "fixtures/candidate/wire-inputs.json": "f3a3bcc68a123d73f83c939bd473b7c6054ef57be85d74dee10e8413090f5e25"
+  },
+  "copiedFrom": "approved BlueMap payload paths of the same relative name; every file matched the approved FILE_SHA256SUMS",
+  "evidence": "SOURCE/FIXTURE; provider runtime NOT_RUN",
+  "supersedes": [
+    {
+      "bluemapVersion": "3.0.0-rc.9",
+      "candidateDigest": "7016fdcb150190a83126e08d3de1b89aab5638d62682cad8c6fb3c3cc4e32ac7",
+      "manifestCoreDigest": "18cbe9b95ab73e8ebe6c1042d535ea9449b3d1c6ce1eb45f3acb2eb35b868a3f",
+      "contractSemanticClosureSha256": "44f3e9da9ed08291ed2ce9437800fb19af9eb1020e1dddc7271d8627c776e081"
+    },
+    {
+      "bluemapVersion": "3.0.0-rc.8",
+      "candidateDigest": "38687f19ff64b6fbff9da549015f2505eeff397a6d37c8e358f36a7b3764b41a",
+      "manifestCoreDigest": "ae95aca6f7a5aa143fb7be3056ba29027a02fa94a6c13ad1a638ad2c72656173",
+      "contractSemanticClosureSha256": "595209a4bdd78d8a188ec41ba7a9b8bf6aedfb38982a43c813b0189d10731747"
+    }
+  ]
+}

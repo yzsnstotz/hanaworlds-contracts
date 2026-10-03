@@ -1,0 +1,34 @@
+{
+  "eventType": "USER_PRODUCT_DECISION",
+  "decisionId": "S1-PLACEMENT-ASK-OPTIONS-AND-CHOICE-RENDERER",
+  "recordedAtUtc": "2026-10-02T05:45:00Z",
+  "recordedBy": "Stage 1 PM Claude session 967a034c",
+  "channel": "AskUserQuestion",
+  "closes": [
+    "rc.8 quality Q2",
+    "rc.8 quality Q3"
+  ],
+  "rawAnswers": [
+    {
+      "question": "新建筑前方放不下、发起的玩家已经下线、或者朝向判断不出来时，系统会停下来问用户。这时给哪些选项？（「多名玩家在线、从 Shell 发起」仍然是列出名字让你点选，这条不变。）",
+      "offeredOptions": [
+        "只让用户进游戏选点（推荐）",
+        "选点，或从在线名单里换一名玩家"
+      ],
+      "rawAnswer": "只让用户进游戏选点（推荐）"
+    },
+    {
+      "question": "「从名单里点选玩家」这个界面由哪个插件负责画？（只在从 Shell 发起时才会出现，游戏里发起的直接用发起者，用不到它。）",
+      "offeredOptions": [
+        "Workshop 画 Shell 里的；游戏内暂不提供（推荐）",
+        "游戏内也要能点选（Adapter 加做）"
+      ],
+      "rawAnswer": "Workshop 画 Shell 里的；游戏内暂不提供（推荐）"
+    }
+  ],
+  "decidedBehavior": {
+    "Q2": "PlacementChoiceRequired offers NAME_PLAYER (tappable candidatePlayerNames) only for MULTIPLE_ONLINE_PLAYERS; every other ask reason offers PICK_WORLD_POINT only; HW-A029 wording aligned",
+    "Q3": "Workshop owns choice content and Shell-side SELECT_CHOICE presentation; luanti-adapter-v4 owns in-world PICK_WORLD_POINT only and answers SELECT_CHOICE in-world with a typed renderer-capability-unavailable telling the user to choose in Shell"
+  },
+  "pmJudgmentQ1": "Align INV-REGION-EVIDENCE-RECORD-MATCH text to the approved executable digest-triggered rule and state Prepare per-cell protection/body recheck as backstop; uniquely determined by approved executable contract (2026-10-01 standing directive); no semantic change"
+}
