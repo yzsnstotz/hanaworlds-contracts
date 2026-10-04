@@ -1,0 +1,72 @@
+{
+  "baseProfile": "CONTRACT_SCHEMA_PROFILE.json",
+  "priorExtension": "SESSION_UNDO_EXTENSION.json",
+  "wire": "world-adapter/v5",
+  "types": {
+    "ScopedCellAvailability": { "type": "enum", "values": ["KNOWN", "UNKNOWN", "UNLOADED"] },
+    "ScopedCell": { "type": "object", "fields": {
+      "position": "Position", "availability": "ScopedCellAvailability", "stateDigest": "Digest|null"
+    }, "rules": ["Adapter must read the complete current node state under stateProfile from the same paired Luanti world; UNKNOWN and UNLOADED reject before PREPARED"] },
+    "ScopedCells": { "type": "array", "items": "ScopedCell", "minItems": 1, "order": "position numeric x,y,z", "uniqueBy": "position" },
+    "FootprintProvenance": { "type": "enum", "values": ["CANVAS_REGISTERED", "UNKNOWN", "CALLER_SUPPLIED"] },
+    "ScopedObjectFootprint": { "type": "object", "fields": {
+      "objectRef": "Ref", "worldRef": "Ref", "footprintRevision": "Revision", "provenance": "FootprintProvenance", "positions": "Positions"
+    }, "rules": ["Only a current, durable Canvas registry record is authority for this object's real footprint; positions must be nonempty"] },
+    "ScopedObjectFootprints": { "type": "array", "items": "ScopedObjectFootprint", "order": "objectRef UTF16 ascending", "uniqueBy": "objectRef" },
+    "ScopedWorldBinding": { "type": "object", "fields": {
+      "transactionId": "Ref", "worldRef": "Ref", "operationDigest": "Digest", "authorizationBindingDigest": "Digest",
+      "stateProfile": "StateProfile", "checkedPositions": "Positions", "objects": "ScopedObjectFootprints", "cells": "ScopedCells"
+    }, "rules": ["cells are exactly the union of checkedPositions and every registered object footprint", "every cell is freshly KNOWN from the same paired world", "scope digest binds world, transaction, operation and authorization; no world-wide revision freshness gate"] },
+    "ScopedTxProjection": { "type": "object", "fields": {
+      "contractVersion": "=world-adapter/v5", "transactionId": "Ref", "worldRef": "Ref", "operationDigest": "Digest",
+      "authorizationBindingDigest": "Digest", "scopeDigest": "Digest", "beforeImageDigest": "Digest"
+    } },
+    "ScopedPreparedTransaction": { "type": "object", "fields": {
+      "payload": "ScopedTxProjection", "transactionPayloadDigest": "Digest", "beforeImageDigest": "Digest",
+      "scopeDigest": "Digest", "guarantee": "Guarantee", "stateProfile": "StateProfile",
+      "protectedPositions": "Positions", "adapterExecutionRevision": "Revision"
+    } },
+    "ScopedPreparedTransactionResult": { "type": "object", "fields": {
+      "payload": "ScopedTxProjection", "transactionPayloadDigest": "Digest", "beforeImageDigest": "Digest",
+      "scopeDigest": "Digest", "guarantee": "Guarantee", "stateProfile": "StateProfile",
+      "protectedPositions": "Positions", "adapterExecutionRevision": "Revision", "beforeStateReadbackDigest": "Digest"
+    } },
+    "ScopedPrepareRequest": { "type": "object", "fields": {
+      "contractVersion": "=world-adapter/v5", "actorRef": "Ref", "sessionRef": "Ref", "requestId": "Ref",
+      "authorizationRef": "Ref", "worldRef": "Ref", "transactionId": "Ref", "operationDigest": "Digest",
+      "operations": "OperationsProjection", "authorizationBinding": "AuthProjection", "scope": "ScopedWorldBinding",
+      "scopeDigest": "Digest", "guarantee": "Guarantee"
+    } },
+    "ScopedPrepareResponse": { "type": "object", "fields": {
+      "contractVersion": "=world-adapter/v5", "requestId": "Ref", "result": "ScopedPreparedTransactionResult|null", "error": "Error|null"
+    } },
+    "ScopedApplyRequest": { "type": "object", "fields": {
+      "contractVersion": "=world-adapter/v5", "actorRef": "Ref", "sessionRef": "Ref", "requestId": "Ref",
+      "authorizationRef": "Ref", "worldRef": "Ref", "transactionId": "Ref", "operationDigest": "Digest",
+      "operations": "OperationsProjection", "authorizationBinding": "AuthProjection", "scope": "ScopedWorldBinding",
+      "scopeDigest": "Digest", "preparedTransaction": "ScopedPreparedTransaction", "guarantee": "Guarantee"
+    } },
+    "ScopedApplyResponse": { "type": "object", "fields": {
+      "contractVersion": "=world-adapter/v5", "requestId": "Ref", "result": "ReceiptProjection|null", "error": "Error|null"
+    } },
+    "ScopedQueryPreparedRequest": { "type": "object", "fields": {
+      "contractVersion": "=world-adapter/v5", "actorRef": "Ref", "sessionRef": "Ref", "requestId": "Ref",
+      "authorizationRef": "Ref", "worldRef": "Ref", "transactionId": "Ref", "operationDigest": "Digest",
+      "authorizationBindingDigest": "Digest", "scopeDigest": "Digest"
+    } },
+    "ScopedQueryPreparedResponse": { "type": "object", "fields": {
+      "contractVersion": "=world-adapter/v5", "requestId": "Ref", "result": "ScopedPreparedTransactionResult|null", "error": "Error|null"
+    } }
+  },
+  "operations": [
+    { "operation": "PrepareRecoverableTransaction", "request": "ScopedPrepareRequest", "response": "ScopedPrepareResponse",
+      "validationOrder": ["decode and scope digest", "authorize/revoke and trusted Canvas service identity", "replay exact transaction and scope", "same paired world and current Canvas registry footprint", "read every scoped cell KNOWN under stateProfile", "actual per-cell privilege/protection and connected-player collision boxes", "save full before image and scoped transaction durably before PREPARED"],
+      "successSemantics": "Only the current known scoped cells and Canvas registered footprints bind PREPARED; whole-world revision changes outside the scope do not stale it." },
+    { "operation": "ApplyCompiledTransaction", "request": "ScopedApplyRequest", "response": "ScopedApplyResponse",
+      "validationOrder": ["decode and scope digest", "authorize/revoke and trusted Canvas service identity", "replay exact transaction and scope", "match durable prepared scope and before image", "re-read the same cells from the same paired world and current Canvas registry footprint", "compare complete scoped facts and current protection/body clearance", "apply or recover"],
+      "successSemantics": "Any changed scoped cell or footprint rejects before write; a change outside the scoped union does not stale Apply. Engine apply alone is not VERIFIED." },
+    { "operation": "QueryPreparedTransaction", "request": "ScopedQueryPreparedRequest", "response": "ScopedQueryPreparedResponse",
+      "validationOrder": ["decode", "authorize/revoke and trusted Canvas service identity", "replay exact transaction and scope digest", "match durable prepared identity and scope", "return public saved metadata only"],
+      "successSemantics": "Read only the same saved PREPARED metadata and scope digest; never expose private before-state bytes." }
+  ]
+}

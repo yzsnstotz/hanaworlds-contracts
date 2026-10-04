@@ -1,0 +1,12 @@
+import type * as T from '../../types/v4/contracts.js';
+export declare const contractVersion: "world-adapter/v5";
+export declare const operations: ReadonlyArray<import('../../types/v4/index.js').OperationContract>;
+export declare function validate(operation: "PrepareRecoverableTransaction", value: unknown): T.ScopedPrepareRequest;
+export declare function admit(operation: "PrepareRecoverableTransaction", bytes: Uint8Array): T.ScopedPrepareRequest;
+export declare function response(operation: "PrepareRecoverableTransaction", value: unknown): T.ScopedPrepareResponse;
+export declare function validate(operation: "ApplyCompiledTransaction", value: unknown): T.ScopedApplyRequest;
+export declare function admit(operation: "ApplyCompiledTransaction", bytes: Uint8Array): T.ScopedApplyRequest;
+export declare function response(operation: "ApplyCompiledTransaction", value: unknown): T.ScopedApplyResponse;
+export declare function validate(operation: "QueryPreparedTransaction", value: unknown): T.ScopedQueryPreparedRequest;
+export declare function admit(operation: "QueryPreparedTransaction", bytes: Uint8Array): T.ScopedQueryPreparedRequest;
+export declare function response(operation: "QueryPreparedTransaction", value: unknown): T.ScopedQueryPreparedResponse;

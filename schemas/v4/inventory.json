@@ -295,7 +295,23 @@
     "ReadCurrentUndoStatusResponse",
     "UndoCurrentBuildRequest",
     "CurrentBuildUndoResult",
-    "UndoCurrentBuildResponse"
+    "UndoCurrentBuildResponse",
+    "ScopedCellAvailability",
+    "ScopedCell",
+    "ScopedCells",
+    "FootprintProvenance",
+    "ScopedObjectFootprint",
+    "ScopedObjectFootprints",
+    "ScopedWorldBinding",
+    "ScopedTxProjection",
+    "ScopedPreparedTransaction",
+    "ScopedPreparedTransactionResult",
+    "ScopedPrepareRequest",
+    "ScopedPrepareResponse",
+    "ScopedApplyRequest",
+    "ScopedApplyResponse",
+    "ScopedQueryPreparedRequest",
+    "ScopedQueryPreparedResponse"
   ],
   "schemas": [
     "schemas/v4/contracts.schema.json",
@@ -594,7 +610,23 @@
     "schemas/v4/ReadCurrentUndoStatusResponse.schema.json",
     "schemas/v4/UndoCurrentBuildRequest.schema.json",
     "schemas/v4/CurrentBuildUndoResult.schema.json",
-    "schemas/v4/UndoCurrentBuildResponse.schema.json"
+    "schemas/v4/UndoCurrentBuildResponse.schema.json",
+    "schemas/v4/ScopedCellAvailability.schema.json",
+    "schemas/v4/ScopedCell.schema.json",
+    "schemas/v4/ScopedCells.schema.json",
+    "schemas/v4/FootprintProvenance.schema.json",
+    "schemas/v4/ScopedObjectFootprint.schema.json",
+    "schemas/v4/ScopedObjectFootprints.schema.json",
+    "schemas/v4/ScopedWorldBinding.schema.json",
+    "schemas/v4/ScopedTxProjection.schema.json",
+    "schemas/v4/ScopedPreparedTransaction.schema.json",
+    "schemas/v4/ScopedPreparedTransactionResult.schema.json",
+    "schemas/v4/ScopedPrepareRequest.schema.json",
+    "schemas/v4/ScopedPrepareResponse.schema.json",
+    "schemas/v4/ScopedApplyRequest.schema.json",
+    "schemas/v4/ScopedApplyResponse.schema.json",
+    "schemas/v4/ScopedQueryPreparedRequest.schema.json",
+    "schemas/v4/ScopedQueryPreparedResponse.schema.json"
   ],
   "operations": {
     "interaction-surface/v3": [
@@ -872,6 +904,23 @@
         "request": "InspectRegionRequest",
         "response": "InspectRegionResponse"
       }
+    ],
+    "world-adapter/v5": [
+      {
+        "operation": "PrepareRecoverableTransaction",
+        "request": "ScopedPrepareRequest",
+        "response": "ScopedPrepareResponse"
+      },
+      {
+        "operation": "ApplyCompiledTransaction",
+        "request": "ScopedApplyRequest",
+        "response": "ScopedApplyResponse"
+      },
+      {
+        "operation": "QueryPreparedTransaction",
+        "request": "ScopedQueryPreparedRequest",
+        "response": "ScopedQueryPreparedResponse"
+      }
     ]
   },
   "canvasEventTypes": [
@@ -910,7 +959,9 @@
     "saved-work-resources": "SavedResources",
     "before-image": "BeforeImage",
     "readback": "ReadbackProjection",
-    "history-operation": "HistoryOperationProjection"
+    "history-operation": "HistoryOperationProjection",
+    "scoped-world": "ScopedWorldBinding",
+    "scoped-transaction-payload": "ScopedTxProjection"
   },
   "bindings": [
     {
@@ -956,6 +1007,12 @@
       "declarations": "bindings/v4/BUILD-V2.d.ts"
     },
     {
+      "wire": "world-adapter/v5",
+      "specifier": "hanaworlds-contracts/world-adapter/v5",
+      "javascript": "dist/v4/bindings/world-adapter-v5.mjs",
+      "declarations": "bindings/v4/world-adapter-v5.d.ts"
+    },
+    {
       "wire": "operations/v2",
       "specifier": "hanaworlds-contracts/v4/operations/v2",
       "javascript": "dist/v4/bindings/operations-v2.mjs",
@@ -963,7 +1020,7 @@
     }
   ],
   "contractHandshake": {
-    "contracts": "hanaworlds-contracts@0.3.2",
+    "contracts": "hanaworlds-contracts@0.3.3",
     "wireVersions": [
       "BUILD/V2",
       "ReferenceBrief/v2",
@@ -971,7 +1028,8 @@
       "interaction-surface/v3",
       "painter/v3",
       "session/v2",
-      "world-adapter/v4"
+      "world-adapter/v4",
+      "world-adapter/v5"
     ],
     "compiledOperationsVersion": "operations/v2",
     "factProfiles": [
@@ -988,5 +1046,6 @@
   "approvedProfileSha256": "7873aae0b8e8ad51bfcf13d537877441b76afeb1687392e9f52719bec8d6f9f9",
   "sessionReadbackExtensionSha256": "58c049186d4ff9d839469d193435563c08396714a29b24c283432e4c96dedfad",
   "sessionUndoExtensionSha256": "0b1d3ed6148b9158f756aae5fe03da828c35cdaa89252c9e470658842af86e25",
+  "scopedWorldExtensionSha256": "b1ea6a3a7d59065af4d7f64e42e2f9a09a5a8feef1dcdbef5f15c2969972bb56",
   "approvedClosureSha256": "ef7e45788a0d3ed34819c381c9a8c34302843f22594427b5aabcd87d16a9accb"
 }

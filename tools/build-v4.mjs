@@ -5,6 +5,7 @@ const pkg = await readJSON('package.json');
 const baseProfile = await readJSON('spec/v4/CONTRACT_SCHEMA_PROFILE.json');
 const readback = await readJSON('spec/v4/SESSION_READBACK_EXTENSION.json');
 const undo = await readJSON('spec/v4/SESSION_UNDO_EXTENSION.json');
+const scoped = await readJSON('spec/v4/SCOPED_WORLD_EXTENSION.json');
 if (baseProfile.package !== 'hanaworlds-contracts@0.3.0' ||
     readback.baseProfile !== 'CONTRACT_SCHEMA_PROFILE.json' ||
     readback.operation.operation !== 'ReadSessionTurnDetails' ||
@@ -17,16 +18,29 @@ if (undo.baseProfile !== 'CONTRACT_SCHEMA_PROFILE.json' ||
     Object.keys(undo.types).some(name => Object.hasOwn(baseProfile.types, name) || Object.hasOwn(readback.types, name)) ||
     undo.operations.some(op => [...baseProfile.operations['session/v2'], readback.operation].some(existing => existing.operation === op.operation)))
   throw new Error('Session undo extension is not a strict addition to the 0.3.1 package');
+if (scoped.baseProfile !== 'CONTRACT_SCHEMA_PROFILE.json' || scoped.priorExtension !== 'SESSION_UNDO_EXTENSION.json' ||
+    scoped.wire !== 'world-adapter/v5' || baseProfile.wireVersions.includes(scoped.wire) ||
+    Object.keys(scoped.types).some(name => Object.hasOwn(baseProfile.types, name) || Object.hasOwn(readback.types, name) || Object.hasOwn(undo.types, name)))
+  throw new Error('Scoped world extension is not a distinct, strictly added wire');
 const oldHistory = baseProfile.operations['canvas/v4'].find(op => op.operation === 'HistoryQuery');
 if (!oldHistory || baseProfile.types.HistoryQuery.fields.expectedHistoryRevision !== 'Revision')
   throw new Error('HistoryQuery base is not the pinned exact-CAS shape');
 const profile = {
   ...baseProfile,
+  wireVersions: [...baseProfile.wireVersions, scoped.wire],
+  digest: { ...baseProfile.digest, projectionTypes: {
+    ...baseProfile.digest.projectionTypes, 'scoped-world': 'ScopedWorldBinding',
+    'scoped-transaction-payload': 'ScopedTxProjection',
+  }, domainPrefixByKind: {
+    ...baseProfile.digest.domainPrefixByKind,
+    'scoped-world': 'HanaWorlds|contracts@0.3.3|',
+    'scoped-transaction-payload': 'HanaWorlds|contracts@0.3.3|',
+  } },
   types: {
     ...baseProfile.types,
     HistoryQuery: { ...baseProfile.types.HistoryQuery,
       fields: { ...baseProfile.types.HistoryQuery.fields, expectedHistoryRevision: undo.historyQuery.expectedHistoryRevision } },
-    ...readback.types, ...undo.types,
+    ...readback.types, ...undo.types, ...scoped.types,
   },
   operations: {
     ...baseProfile.operations,
@@ -38,13 +52,20 @@ const profile = {
       idempotency: undo.historyQuery.idempotency,
     } : op),
     'session/v2': [...baseProfile.operations['session/v2'], readback.operation, ...undo.operations],
+    'world-adapter/v5': scoped.operations.map(op => {
+      const old = baseProfile.operations['world-adapter/v4'].find(candidate => candidate.operation === op.operation);
+      if (!old) throw new Error('Scoped operation has no v4 predecessor: ' + op.operation);
+      return { ...old, ...op,
+        failureCodes: [...new Set([...old.failureCodes, 'TARGET_FACTS_INCOMPLETE', 'OBJECT_SCOPE_MISMATCH', 'STALE_REVISION', 'NON_CANONICAL_AMBIGUITY'])],
+        successSemantics: op.successSemantics };
+    }),
   },
 };
 const closure = await readJSON('spec/v4/CONTRACT_SEMANTIC_CLOSURE.json');
 const registry = await readJSON('spec/v4/SETTINGS_AND_INVARIANTS.json');
 const oracles = await readJSON('spec/v4/fixtures/candidate/closure-oracles-v4.json');
 const legacyOracles = await readJSON('spec/v4/fixtures/candidate/closure-oracles.json');
-if (pkg.version !== '0.3.2') throw new Error('Session undo extension requires package 0.3.2');
+if (pkg.version !== '0.3.3') throw new Error('Scoped world extension requires package 0.3.3');
 const schemaId = `https://hanaworlds.invalid/contracts/${pkg.version}/v4/schema.json`;
 const definitions = Object.create(null);
 function literal(value) { const s = value.slice(1); return /^(?:true|false|null|-?(?:0|[1-9][0-9]*)(?:\.[0-9]+)?)$/.test(s) ? JSON.parse(s) : s; }
@@ -86,6 +107,7 @@ for (const x of [...legacyOracles.cases, ...oracles.cases].filter(x => x.dimensi
   const wire = legacyWireSuccessors[x.wire] ?? x.wire;
   if (profile.wireVersions.includes(wire)) owners[wire] = { domainOwner: x.input.domainOwner, mutationCaller: x.input.mutationCaller };
 }
+owners[scoped.wire] = owners['world-adapter/v4']; // Same Adapter owner and Canvas-only mutation caller.
 if (Object.keys(owners).length !== profile.wireVersions.length) throw new Error('Every v4 wire needs an approved ownership fact');
 // ContractHandshake advertisement: the exact approved wire set (UTF16 order) and every TargetFacts profile constant.
 const factProfiles = profile.types.TargetFacts.fields.profileVersion.split('|').map(literal).sort();
@@ -101,7 +123,7 @@ const metadata = { package: `${pkg.name}@${pkg.version}`, version: pkg.version, 
   typeNames: Object.keys(definitions), closureRows: closure.rows.map(x => ({ id: x.id, protocol: x.protocol, dimension: x.dimension, rule: x.rule, authorityRefs: x.authorityRefs })) };
 await mkdir('src/v4/generated', { recursive: true }); await mkdir('types/v4', { recursive: true }); await mkdir('schemas/v4/profile', { recursive: true });
 const freezeSource = `const freeze = root => { const stack=[root]; while(stack.length){ const x=stack.pop(); if(x&&typeof x==='object'&&!Object.isFrozen(x)){ for(const v of Object.values(x))stack.push(v); Object.freeze(x); }} return root; };\n`;
-await writeFile('src/v4/generated/contracts.mjs', '// Generated deterministically from the pinned 0.3.0 v4 profile, 0.3.1 readback extension, 0.3.2 undo extension and settings registry.\n' + freezeSource +
+await writeFile('src/v4/generated/contracts.mjs', '// Generated deterministically from the pinned 0.3.0 v4 profile, readback/undo/scoped extensions and settings registry.\n' + freezeSource +
   'export const schemaBundle = freeze(' + JSON.stringify(schemaBundle) + ');\nexport const contractMetadata = freeze(' + JSON.stringify(metadata) + ');\n');
 await writeFile('schemas/v4/contracts.schema.json', JSON.stringify(schemaBundle, null, 2) + '\n');
 for (const name of Object.keys(definitions)) {
@@ -112,6 +134,7 @@ for (const item of ['CONTRACT_SCHEMA_PROFILE.json', 'CONTRACT_SEMANTIC_CLOSURE.j
   await copyFile('spec/v4/' + item, 'schemas/v4/profile/' + item);
 await copyFile('spec/v4/SESSION_READBACK_EXTENSION.json', 'schemas/v4/profile/SESSION_READBACK_EXTENSION.json');
 await copyFile('spec/v4/SESSION_UNDO_EXTENSION.json', 'schemas/v4/profile/SESSION_UNDO_EXTENSION.json');
+await copyFile('spec/v4/SCOPED_WORLD_EXTENSION.json', 'schemas/v4/profile/SCOPED_WORLD_EXTENSION.json');
 // TS binding is derived from the same DSL, but is an actual public declaration file.
 function tsref(name) {
   if (name.includes('|')) return name.split('|').map(tsref).join(' | ');
@@ -145,7 +168,7 @@ for (const [wire, ops] of Object.entries(profile.operations)) {
 }
 declarations += '}\nexport interface ProjectionMap {\n' + Object.entries(profile.digest.projectionTypes).map(([kind, type]) => '  readonly ' + JSON.stringify(kind) + ': ' + type + ';').join('\n') + '\n}\nexport type DigestKind = keyof ProjectionMap;\n';
 await writeFile('types/v4/contracts.d.ts', declarations);
-const wireExport = wire => 'hanaworlds-contracts/' + (['interaction-surface/v3', 'world-adapter/v4', 'canvas/v4', 'painter/v3'].includes(wire) ? wire : 'v4/' + wire);
+const wireExport = wire => 'hanaworlds-contracts/' + (['interaction-surface/v3', 'world-adapter/v4', 'world-adapter/v5', 'canvas/v4', 'painter/v3'].includes(wire) ? wire : 'v4/' + wire);
 const bindingName = wire => wire.replace('/', '-');
 const v2IndexDeclarations = await readFile('types/index.d.ts', 'utf8');
 const exportName = wire => bindingName(wire).replace(/-([a-zA-Z])/g, (_, c) => c.toUpperCase()).replace(/^BUILD/, 'build').replace(/^ReferenceBrief/, 'referenceBrief');
@@ -169,6 +192,10 @@ export declare function checkContractHandshake(advertised: unknown, required: Ha
 export declare function checkSessionReadbackHandshake(advertised: unknown): { readonly result: 'HANDSHAKE_OPERATION_MATCH'; readonly advertised: T.ContractHandshake };
 /** Requires a peer that advertises the 0.3.2 package containing the two current-build undo operations. */
 export declare function checkSessionUndoHandshake(advertised: unknown): { readonly result: 'HANDSHAKE_OPERATION_MATCH'; readonly advertised: T.ContractHandshake };
+/** Requires world-adapter/v5; matching v4 peers fail before Prepare. */
+export declare function checkScopedWorldHandshake(advertised: unknown): { readonly result: 'HANDSHAKE_OPERATION_MATCH'; readonly advertised: T.ContractHandshake };
+export declare function validateScopedTransition(prepare: unknown, apply: unknown): { readonly prepare: T.ScopedPrepareRequest; readonly apply: T.ScopedApplyRequest };
+export declare function projectScopedPreparedTransaction(result: unknown): T.ScopedPreparedTransaction;
 export declare function admitPlacementSettings(stored: Readonly<Record<string, unknown>>, settingsRevision: unknown): T.PlacementSettings;
 export declare function validateChoiceSelection(frame: unknown, request: unknown): T.InvokeActionRequest;
 export declare function validateRegionInspection(inspection: unknown): T.RegionInspection;
@@ -220,6 +247,7 @@ const manifest = { types: Object.keys(definitions), schemas: ['schemas/v4/contra
   approvedProfileSha256: createHash('sha256').update(await readFile('spec/v4/CONTRACT_SCHEMA_PROFILE.json')).digest('hex'),
   sessionReadbackExtensionSha256: createHash('sha256').update(await readFile('spec/v4/SESSION_READBACK_EXTENSION.json')).digest('hex'),
   sessionUndoExtensionSha256: createHash('sha256').update(await readFile('spec/v4/SESSION_UNDO_EXTENSION.json')).digest('hex'),
+  scopedWorldExtensionSha256: createHash('sha256').update(await readFile('spec/v4/SCOPED_WORLD_EXTENSION.json')).digest('hex'),
   approvedClosureSha256: createHash('sha256').update(await readFile('spec/v4/CONTRACT_SEMANTIC_CLOSURE.json')).digest('hex') };
 await writeFile('schemas/v4/inventory.json', JSON.stringify(manifest, null, 2) + '\n');
 console.log(JSON.stringify({ result: 'BUILT', lane: 'v4', types: manifest.types.length, schemas: manifest.schemas.length, bindings: bindingInventory.length,

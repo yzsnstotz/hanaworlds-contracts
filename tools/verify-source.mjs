@@ -38,7 +38,7 @@ for(const path of await readdir('spec/v3/fixtures/candidate')){
   const source=await readFile('spec/v3/fixtures/candidate/'+path),packaged=await readFile('fixtures/v3/candidate/'+path);
   assert(source.equals(packaged),'v3 fixture drift '+path);
 }
-const v4Profile=await read('spec/v4/CONTRACT_SCHEMA_PROFILE.json'),v4Readback=await read('spec/v4/SESSION_READBACK_EXTENSION.json'),v4Undo=await read('spec/v4/SESSION_UNDO_EXTENSION.json'),v4Closure=await read('spec/v4/CONTRACT_SEMANTIC_CLOSURE.json'),v4Inventory=await read('schemas/v4/inventory.json');
+const v4Profile=await read('spec/v4/CONTRACT_SCHEMA_PROFILE.json'),v4Readback=await read('spec/v4/SESSION_READBACK_EXTENSION.json'),v4Undo=await read('spec/v4/SESSION_UNDO_EXTENSION.json'),v4Scoped=await read('spec/v4/SCOPED_WORLD_EXTENSION.json'),v4Closure=await read('spec/v4/CONTRACT_SEMANTIC_CLOSURE.json'),v4Inventory=await read('schemas/v4/inventory.json');
 const v4Input=await read('spec/v4/APPROVED_INPUT.json');
 assert.equal(v4Input.bluemapVersion,'3.0.0-rc.10');
 assert.equal(v4Input.candidateDigest,'49b0fc7a73d4dedaa91c4aee6e1f4a0102eb3c6b5b00563ebdb4c8352cebcf49');
@@ -49,12 +49,13 @@ for(const [path,digest] of Object.entries(v4Input.filesSha256))
   assert.equal(createHash('sha256').update(await readFile('spec/v4/'+path)).digest('hex'),digest,'approved v4 input drift: '+path);
 assert.equal(v4Input.filesSha256['CONTRACT_SEMANTIC_CLOSURE.json'],v4Input.contractSemanticClosureSha256);
 const v4=await import('../dist/v4/runtime.mjs');
-assert.equal(v4.version,pkg.version);assert.equal(v4Profile.package,pkg.name+'@0.3.0');assert.equal(pkg.version,'0.3.2');
+assert.equal(v4.version,pkg.version);assert.equal(v4Profile.package,pkg.name+'@0.3.0');assert.equal(pkg.version,'0.3.3');
 assert.equal(v4.schemaBundle.$id,'https://hanaworlds.invalid/contracts/'+pkg.version+'/v4/schema.json');
-assert.deepEqual(v4.wireVersions,v4Profile.wireVersions);assert.deepEqual(v4Inventory.types,[...Object.keys(v4Profile.types),...Object.keys(v4Readback.types),...Object.keys(v4Undo.types)]);
-assert.equal(v4Inventory.types.length,296);assert.equal(v4Inventory.bindings.length,8);assert.equal(Object.keys(v4Inventory.projections).length,20);
+assert.deepEqual(v4.wireVersions,[...v4Profile.wireVersions,v4Scoped.wire]);assert.deepEqual(v4Inventory.types,[...Object.keys(v4Profile.types),...Object.keys(v4Readback.types),...Object.keys(v4Undo.types),...Object.keys(v4Scoped.types)]);
+assert.equal(v4Inventory.types.length,312);assert.equal(v4Inventory.bindings.length,9);assert.equal(Object.keys(v4Inventory.projections).length,22);
 assert.equal(v4Inventory.sessionReadbackExtensionSha256,createHash('sha256').update(await readFile('spec/v4/SESSION_READBACK_EXTENSION.json')).digest('hex'));
 assert.equal(v4Inventory.sessionUndoExtensionSha256,createHash('sha256').update(await readFile('spec/v4/SESSION_UNDO_EXTENSION.json')).digest('hex'));
+assert.equal(v4Inventory.scopedWorldExtensionSha256,createHash('sha256').update(await readFile('spec/v4/SCOPED_WORLD_EXTENSION.json')).digest('hex'));
 assert.equal(v4Closure.rows.length,94);assert.equal(v4Closure.openUserDecisions.length,0);assert.equal(v4Inventory.approvedClosureSha256,v4Input.contractSemanticClosureSha256);
 for(const binding of v4Inventory.bindings){assert(Object.hasOwn(pkg.exports,binding.specifier.replace('hanaworlds-contracts/','./')),binding.specifier);await stat(binding.javascript);await stat(binding.declarations);}
 for(const path of v4Inventory.schemas)await stat(path);
@@ -66,6 +67,7 @@ for(const path of ['CONTRACT_SCHEMA_PROFILE.json','CONTRACT_SEMANTIC_CLOSURE.jso
   assert((await readFile('spec/v4/'+path)).equals(await readFile('schemas/v4/profile/'+path)),'v4 profile drift '+path);
 assert((await readFile('spec/v4/SESSION_READBACK_EXTENSION.json')).equals(await readFile('schemas/v4/profile/SESSION_READBACK_EXTENSION.json')),'session readback extension drift');
 assert((await readFile('spec/v4/SESSION_UNDO_EXTENSION.json')).equals(await readFile('schemas/v4/profile/SESSION_UNDO_EXTENSION.json')),'session undo extension drift');
+assert((await readFile('spec/v4/SCOPED_WORLD_EXTENSION.json')).equals(await readFile('schemas/v4/profile/SCOPED_WORLD_EXTENSION.json')),'scoped world extension drift');
 const sourceImports=[];
 async function inspect(dir){for(const item of await readdir(dir,{withFileTypes:true})){const path=dir+'/'+item.name;if(item.isDirectory())await inspect(path);else if(path.endsWith('.mjs')){const text=await readFile(path,'utf8');for(const m of text.matchAll(/(?:from\s+|import\s*\()(['"])(.*?)\1/g)){const specifier=m[2];sourceImports.push({path,specifier});assert(specifier.startsWith('.')||specifier.startsWith('node:')||specifier==='canonicalize','undeclared runtime dependency '+specifier);}assert(!/\b(?:fetch|connect|createServer|listen|spawn|writeFile|appendFile|mkdir|unlink|rm|registerGadget)\s*\(/.test(text),'runtime side-effect API in '+path);}}}
 await inspect('src');

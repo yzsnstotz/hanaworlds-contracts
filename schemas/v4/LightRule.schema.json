@@ -1,7 +1,7 @@
 {
   "$schema": "http://json-schema.org/draft-07/schema#",
-  "$id": "https://hanaworlds.invalid/contracts/0.3.2/v4/LightRule.schema.json",
-  "title": "HanaWorlds contracts 0.3.2 — complete v4 type inventory",
+  "$id": "https://hanaworlds.invalid/contracts/0.3.3/v4/LightRule.schema.json",
+  "title": "HanaWorlds contracts 0.3.3 — complete v4 type inventory",
   "description": "Select a definition. JSON Schema establishes structure; exported validators additionally enforce the normative domain rules. Validation never authenticates a provider.",
   "definitions": {
     "Ref": {
@@ -9878,6 +9878,565 @@
       "x-rules": [
         "exactly one of result/error nonnull; pending, conflict and rollback cannot be reported as VERIFIED success"
       ]
+    },
+    "ScopedCellAvailability": {
+      "enum": [
+        "KNOWN",
+        "UNKNOWN",
+        "UNLOADED"
+      ],
+      "x-typeName": "ScopedCellAvailability"
+    },
+    "ScopedCell": {
+      "type": "object",
+      "properties": {
+        "position": {
+          "$ref": "#/definitions/Position"
+        },
+        "availability": {
+          "$ref": "#/definitions/ScopedCellAvailability"
+        },
+        "stateDigest": {
+          "anyOf": [
+            {
+              "$ref": "#/definitions/Digest"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        }
+      },
+      "required": [
+        "position",
+        "availability",
+        "stateDigest"
+      ],
+      "additionalProperties": false,
+      "x-typeName": "ScopedCell",
+      "x-rules": [
+        "Adapter must read the complete current node state under stateProfile from the same paired Luanti world; UNKNOWN and UNLOADED reject before PREPARED"
+      ]
+    },
+    "ScopedCells": {
+      "type": "array",
+      "items": {
+        "$ref": "#/definitions/ScopedCell"
+      },
+      "minItems": 1,
+      "x-typeName": "ScopedCells",
+      "x-order": "position numeric x,y,z",
+      "x-uniqueBy": "position"
+    },
+    "FootprintProvenance": {
+      "enum": [
+        "CANVAS_REGISTERED",
+        "UNKNOWN",
+        "CALLER_SUPPLIED"
+      ],
+      "x-typeName": "FootprintProvenance"
+    },
+    "ScopedObjectFootprint": {
+      "type": "object",
+      "properties": {
+        "objectRef": {
+          "$ref": "#/definitions/Ref"
+        },
+        "worldRef": {
+          "$ref": "#/definitions/Ref"
+        },
+        "footprintRevision": {
+          "$ref": "#/definitions/Revision"
+        },
+        "provenance": {
+          "$ref": "#/definitions/FootprintProvenance"
+        },
+        "positions": {
+          "$ref": "#/definitions/Positions"
+        }
+      },
+      "required": [
+        "objectRef",
+        "worldRef",
+        "footprintRevision",
+        "provenance",
+        "positions"
+      ],
+      "additionalProperties": false,
+      "x-typeName": "ScopedObjectFootprint",
+      "x-rules": [
+        "Only a current, durable Canvas registry record is authority for this object's real footprint; positions must be nonempty"
+      ]
+    },
+    "ScopedObjectFootprints": {
+      "type": "array",
+      "items": {
+        "$ref": "#/definitions/ScopedObjectFootprint"
+      },
+      "x-typeName": "ScopedObjectFootprints",
+      "x-order": "objectRef UTF16 ascending",
+      "x-uniqueBy": "objectRef"
+    },
+    "ScopedWorldBinding": {
+      "type": "object",
+      "properties": {
+        "transactionId": {
+          "$ref": "#/definitions/Ref"
+        },
+        "worldRef": {
+          "$ref": "#/definitions/Ref"
+        },
+        "operationDigest": {
+          "$ref": "#/definitions/Digest"
+        },
+        "authorizationBindingDigest": {
+          "$ref": "#/definitions/Digest"
+        },
+        "stateProfile": {
+          "$ref": "#/definitions/StateProfile"
+        },
+        "checkedPositions": {
+          "$ref": "#/definitions/Positions"
+        },
+        "objects": {
+          "$ref": "#/definitions/ScopedObjectFootprints"
+        },
+        "cells": {
+          "$ref": "#/definitions/ScopedCells"
+        }
+      },
+      "required": [
+        "transactionId",
+        "worldRef",
+        "operationDigest",
+        "authorizationBindingDigest",
+        "stateProfile",
+        "checkedPositions",
+        "objects",
+        "cells"
+      ],
+      "additionalProperties": false,
+      "x-typeName": "ScopedWorldBinding",
+      "x-rules": [
+        "cells are exactly the union of checkedPositions and every registered object footprint",
+        "every cell is freshly KNOWN from the same paired world",
+        "scope digest binds world, transaction, operation and authorization; no world-wide revision freshness gate"
+      ]
+    },
+    "ScopedTxProjection": {
+      "type": "object",
+      "properties": {
+        "contractVersion": {
+          "const": "world-adapter/v5"
+        },
+        "transactionId": {
+          "$ref": "#/definitions/Ref"
+        },
+        "worldRef": {
+          "$ref": "#/definitions/Ref"
+        },
+        "operationDigest": {
+          "$ref": "#/definitions/Digest"
+        },
+        "authorizationBindingDigest": {
+          "$ref": "#/definitions/Digest"
+        },
+        "scopeDigest": {
+          "$ref": "#/definitions/Digest"
+        },
+        "beforeImageDigest": {
+          "$ref": "#/definitions/Digest"
+        }
+      },
+      "required": [
+        "contractVersion",
+        "transactionId",
+        "worldRef",
+        "operationDigest",
+        "authorizationBindingDigest",
+        "scopeDigest",
+        "beforeImageDigest"
+      ],
+      "additionalProperties": false,
+      "x-typeName": "ScopedTxProjection"
+    },
+    "ScopedPreparedTransaction": {
+      "type": "object",
+      "properties": {
+        "payload": {
+          "$ref": "#/definitions/ScopedTxProjection"
+        },
+        "transactionPayloadDigest": {
+          "$ref": "#/definitions/Digest"
+        },
+        "beforeImageDigest": {
+          "$ref": "#/definitions/Digest"
+        },
+        "scopeDigest": {
+          "$ref": "#/definitions/Digest"
+        },
+        "guarantee": {
+          "$ref": "#/definitions/Guarantee"
+        },
+        "stateProfile": {
+          "$ref": "#/definitions/StateProfile"
+        },
+        "protectedPositions": {
+          "$ref": "#/definitions/Positions"
+        },
+        "adapterExecutionRevision": {
+          "$ref": "#/definitions/Revision"
+        }
+      },
+      "required": [
+        "payload",
+        "transactionPayloadDigest",
+        "beforeImageDigest",
+        "scopeDigest",
+        "guarantee",
+        "stateProfile",
+        "protectedPositions",
+        "adapterExecutionRevision"
+      ],
+      "additionalProperties": false,
+      "x-typeName": "ScopedPreparedTransaction"
+    },
+    "ScopedPreparedTransactionResult": {
+      "type": "object",
+      "properties": {
+        "payload": {
+          "$ref": "#/definitions/ScopedTxProjection"
+        },
+        "transactionPayloadDigest": {
+          "$ref": "#/definitions/Digest"
+        },
+        "beforeImageDigest": {
+          "$ref": "#/definitions/Digest"
+        },
+        "scopeDigest": {
+          "$ref": "#/definitions/Digest"
+        },
+        "guarantee": {
+          "$ref": "#/definitions/Guarantee"
+        },
+        "stateProfile": {
+          "$ref": "#/definitions/StateProfile"
+        },
+        "protectedPositions": {
+          "$ref": "#/definitions/Positions"
+        },
+        "adapterExecutionRevision": {
+          "$ref": "#/definitions/Revision"
+        },
+        "beforeStateReadbackDigest": {
+          "$ref": "#/definitions/Digest"
+        }
+      },
+      "required": [
+        "payload",
+        "transactionPayloadDigest",
+        "beforeImageDigest",
+        "scopeDigest",
+        "guarantee",
+        "stateProfile",
+        "protectedPositions",
+        "adapterExecutionRevision",
+        "beforeStateReadbackDigest"
+      ],
+      "additionalProperties": false,
+      "x-typeName": "ScopedPreparedTransactionResult"
+    },
+    "ScopedPrepareRequest": {
+      "type": "object",
+      "properties": {
+        "contractVersion": {
+          "const": "world-adapter/v5"
+        },
+        "actorRef": {
+          "$ref": "#/definitions/Ref"
+        },
+        "sessionRef": {
+          "$ref": "#/definitions/Ref"
+        },
+        "requestId": {
+          "$ref": "#/definitions/Ref"
+        },
+        "authorizationRef": {
+          "$ref": "#/definitions/Ref"
+        },
+        "worldRef": {
+          "$ref": "#/definitions/Ref"
+        },
+        "transactionId": {
+          "$ref": "#/definitions/Ref"
+        },
+        "operationDigest": {
+          "$ref": "#/definitions/Digest"
+        },
+        "operations": {
+          "$ref": "#/definitions/OperationsProjection"
+        },
+        "authorizationBinding": {
+          "$ref": "#/definitions/AuthProjection"
+        },
+        "scope": {
+          "$ref": "#/definitions/ScopedWorldBinding"
+        },
+        "scopeDigest": {
+          "$ref": "#/definitions/Digest"
+        },
+        "guarantee": {
+          "$ref": "#/definitions/Guarantee"
+        }
+      },
+      "required": [
+        "contractVersion",
+        "actorRef",
+        "sessionRef",
+        "requestId",
+        "authorizationRef",
+        "worldRef",
+        "transactionId",
+        "operationDigest",
+        "operations",
+        "authorizationBinding",
+        "scope",
+        "scopeDigest",
+        "guarantee"
+      ],
+      "additionalProperties": false,
+      "x-typeName": "ScopedPrepareRequest"
+    },
+    "ScopedPrepareResponse": {
+      "type": "object",
+      "properties": {
+        "contractVersion": {
+          "const": "world-adapter/v5"
+        },
+        "requestId": {
+          "$ref": "#/definitions/Ref"
+        },
+        "result": {
+          "anyOf": [
+            {
+              "$ref": "#/definitions/ScopedPreparedTransactionResult"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "error": {
+          "anyOf": [
+            {
+              "$ref": "#/definitions/Error"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        }
+      },
+      "required": [
+        "contractVersion",
+        "requestId",
+        "result",
+        "error"
+      ],
+      "additionalProperties": false,
+      "x-typeName": "ScopedPrepareResponse"
+    },
+    "ScopedApplyRequest": {
+      "type": "object",
+      "properties": {
+        "contractVersion": {
+          "const": "world-adapter/v5"
+        },
+        "actorRef": {
+          "$ref": "#/definitions/Ref"
+        },
+        "sessionRef": {
+          "$ref": "#/definitions/Ref"
+        },
+        "requestId": {
+          "$ref": "#/definitions/Ref"
+        },
+        "authorizationRef": {
+          "$ref": "#/definitions/Ref"
+        },
+        "worldRef": {
+          "$ref": "#/definitions/Ref"
+        },
+        "transactionId": {
+          "$ref": "#/definitions/Ref"
+        },
+        "operationDigest": {
+          "$ref": "#/definitions/Digest"
+        },
+        "operations": {
+          "$ref": "#/definitions/OperationsProjection"
+        },
+        "authorizationBinding": {
+          "$ref": "#/definitions/AuthProjection"
+        },
+        "scope": {
+          "$ref": "#/definitions/ScopedWorldBinding"
+        },
+        "scopeDigest": {
+          "$ref": "#/definitions/Digest"
+        },
+        "preparedTransaction": {
+          "$ref": "#/definitions/ScopedPreparedTransaction"
+        },
+        "guarantee": {
+          "$ref": "#/definitions/Guarantee"
+        }
+      },
+      "required": [
+        "contractVersion",
+        "actorRef",
+        "sessionRef",
+        "requestId",
+        "authorizationRef",
+        "worldRef",
+        "transactionId",
+        "operationDigest",
+        "operations",
+        "authorizationBinding",
+        "scope",
+        "scopeDigest",
+        "preparedTransaction",
+        "guarantee"
+      ],
+      "additionalProperties": false,
+      "x-typeName": "ScopedApplyRequest"
+    },
+    "ScopedApplyResponse": {
+      "type": "object",
+      "properties": {
+        "contractVersion": {
+          "const": "world-adapter/v5"
+        },
+        "requestId": {
+          "$ref": "#/definitions/Ref"
+        },
+        "result": {
+          "anyOf": [
+            {
+              "$ref": "#/definitions/ReceiptProjection"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "error": {
+          "anyOf": [
+            {
+              "$ref": "#/definitions/Error"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        }
+      },
+      "required": [
+        "contractVersion",
+        "requestId",
+        "result",
+        "error"
+      ],
+      "additionalProperties": false,
+      "x-typeName": "ScopedApplyResponse"
+    },
+    "ScopedQueryPreparedRequest": {
+      "type": "object",
+      "properties": {
+        "contractVersion": {
+          "const": "world-adapter/v5"
+        },
+        "actorRef": {
+          "$ref": "#/definitions/Ref"
+        },
+        "sessionRef": {
+          "$ref": "#/definitions/Ref"
+        },
+        "requestId": {
+          "$ref": "#/definitions/Ref"
+        },
+        "authorizationRef": {
+          "$ref": "#/definitions/Ref"
+        },
+        "worldRef": {
+          "$ref": "#/definitions/Ref"
+        },
+        "transactionId": {
+          "$ref": "#/definitions/Ref"
+        },
+        "operationDigest": {
+          "$ref": "#/definitions/Digest"
+        },
+        "authorizationBindingDigest": {
+          "$ref": "#/definitions/Digest"
+        },
+        "scopeDigest": {
+          "$ref": "#/definitions/Digest"
+        }
+      },
+      "required": [
+        "contractVersion",
+        "actorRef",
+        "sessionRef",
+        "requestId",
+        "authorizationRef",
+        "worldRef",
+        "transactionId",
+        "operationDigest",
+        "authorizationBindingDigest",
+        "scopeDigest"
+      ],
+      "additionalProperties": false,
+      "x-typeName": "ScopedQueryPreparedRequest"
+    },
+    "ScopedQueryPreparedResponse": {
+      "type": "object",
+      "properties": {
+        "contractVersion": {
+          "const": "world-adapter/v5"
+        },
+        "requestId": {
+          "$ref": "#/definitions/Ref"
+        },
+        "result": {
+          "anyOf": [
+            {
+              "$ref": "#/definitions/ScopedPreparedTransactionResult"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "error": {
+          "anyOf": [
+            {
+              "$ref": "#/definitions/Error"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        }
+      },
+      "required": [
+        "contractVersion",
+        "requestId",
+        "result",
+        "error"
+      ],
+      "additionalProperties": false,
+      "x-typeName": "ScopedQueryPreparedResponse"
     }
   },
   "$ref": "#/definitions/LightRule"

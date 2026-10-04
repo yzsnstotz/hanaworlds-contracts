@@ -31,7 +31,7 @@ await check('CA-02-corrected-projection-is-shape-valid-before-digest-check', 'se
   same(actual.code, 'NON_CANONICAL_AMBIGUITY'); same(actual.phase, 'validate'); same(actual.reason, 'PAYLOAD_CHANGED');
 });
 await check('V2-identity-consistent-with-stable-protocols', 'artifact-identity', async ({ same }) => {
-  same(pkg.version, '0.3.2'); same(C.version, pkg.version);
+  same(pkg.version, '0.3.3'); same(C.version, pkg.version);
   const lock = await read('package-lock.json');
   same(lock.version, pkg.version); same(lock.packages[''].version, pkg.version);
   const declarations = await readFile(new URL('../types/index.d.ts', import.meta.url), 'utf8');

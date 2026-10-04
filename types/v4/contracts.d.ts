@@ -1,4 +1,4 @@
-// GENERATED — 296 named types from approved base plus session readback extension; no any/open object fallback.
+// GENERATED — 312 named types from approved base plus session readback extension; no any/open object fallback.
 export type Ref = string;
 export type Revision = string;
 export type Digest = string;
@@ -1992,6 +1992,128 @@ export type UndoCurrentBuildResponse = {
   readonly "result": CurrentBuildUndoResult | null;
   readonly "error": Error | null;
 };
+export type ScopedCellAvailability = "KNOWN" | "UNKNOWN" | "UNLOADED";
+/** Adapter must read the complete current node state under stateProfile from the same paired Luanti world; UNKNOWN and UNLOADED reject before PREPARED */
+export type ScopedCell = {
+  readonly "position": Position;
+  readonly "availability": ScopedCellAvailability;
+  readonly "stateDigest": Digest | null;
+};
+/** Order: position numeric x,y,z */
+export type ScopedCells = ReadonlyArray<ScopedCell>;
+export type FootprintProvenance = "CANVAS_REGISTERED" | "UNKNOWN" | "CALLER_SUPPLIED";
+/** Only a current, durable Canvas registry record is authority for this object's real footprint; positions must be nonempty */
+export type ScopedObjectFootprint = {
+  readonly "objectRef": Ref;
+  readonly "worldRef": Ref;
+  readonly "footprintRevision": Revision;
+  readonly "provenance": FootprintProvenance;
+  readonly "positions": Positions;
+};
+/** Order: objectRef UTF16 ascending */
+export type ScopedObjectFootprints = ReadonlyArray<ScopedObjectFootprint>;
+/** cells are exactly the union of checkedPositions and every registered object footprint | every cell is freshly KNOWN from the same paired world | scope digest binds world, transaction, operation and authorization; no world-wide revision freshness gate */
+export type ScopedWorldBinding = {
+  readonly "transactionId": Ref;
+  readonly "worldRef": Ref;
+  readonly "operationDigest": Digest;
+  readonly "authorizationBindingDigest": Digest;
+  readonly "stateProfile": StateProfile;
+  readonly "checkedPositions": Positions;
+  readonly "objects": ScopedObjectFootprints;
+  readonly "cells": ScopedCells;
+};
+export type ScopedTxProjection = {
+  readonly "contractVersion": "world-adapter/v5";
+  readonly "transactionId": Ref;
+  readonly "worldRef": Ref;
+  readonly "operationDigest": Digest;
+  readonly "authorizationBindingDigest": Digest;
+  readonly "scopeDigest": Digest;
+  readonly "beforeImageDigest": Digest;
+};
+export type ScopedPreparedTransaction = {
+  readonly "payload": ScopedTxProjection;
+  readonly "transactionPayloadDigest": Digest;
+  readonly "beforeImageDigest": Digest;
+  readonly "scopeDigest": Digest;
+  readonly "guarantee": Guarantee;
+  readonly "stateProfile": StateProfile;
+  readonly "protectedPositions": Positions;
+  readonly "adapterExecutionRevision": Revision;
+};
+export type ScopedPreparedTransactionResult = {
+  readonly "payload": ScopedTxProjection;
+  readonly "transactionPayloadDigest": Digest;
+  readonly "beforeImageDigest": Digest;
+  readonly "scopeDigest": Digest;
+  readonly "guarantee": Guarantee;
+  readonly "stateProfile": StateProfile;
+  readonly "protectedPositions": Positions;
+  readonly "adapterExecutionRevision": Revision;
+  readonly "beforeStateReadbackDigest": Digest;
+};
+export type ScopedPrepareRequest = {
+  readonly "contractVersion": "world-adapter/v5";
+  readonly "actorRef": Ref;
+  readonly "sessionRef": Ref;
+  readonly "requestId": Ref;
+  readonly "authorizationRef": Ref;
+  readonly "worldRef": Ref;
+  readonly "transactionId": Ref;
+  readonly "operationDigest": Digest;
+  readonly "operations": OperationsProjection;
+  readonly "authorizationBinding": AuthProjection;
+  readonly "scope": ScopedWorldBinding;
+  readonly "scopeDigest": Digest;
+  readonly "guarantee": Guarantee;
+};
+export type ScopedPrepareResponse = {
+  readonly "contractVersion": "world-adapter/v5";
+  readonly "requestId": Ref;
+  readonly "result": ScopedPreparedTransactionResult | null;
+  readonly "error": Error | null;
+};
+export type ScopedApplyRequest = {
+  readonly "contractVersion": "world-adapter/v5";
+  readonly "actorRef": Ref;
+  readonly "sessionRef": Ref;
+  readonly "requestId": Ref;
+  readonly "authorizationRef": Ref;
+  readonly "worldRef": Ref;
+  readonly "transactionId": Ref;
+  readonly "operationDigest": Digest;
+  readonly "operations": OperationsProjection;
+  readonly "authorizationBinding": AuthProjection;
+  readonly "scope": ScopedWorldBinding;
+  readonly "scopeDigest": Digest;
+  readonly "preparedTransaction": ScopedPreparedTransaction;
+  readonly "guarantee": Guarantee;
+};
+export type ScopedApplyResponse = {
+  readonly "contractVersion": "world-adapter/v5";
+  readonly "requestId": Ref;
+  readonly "result": ReceiptProjection | null;
+  readonly "error": Error | null;
+};
+export type ScopedQueryPreparedRequest = {
+  readonly "contractVersion": "world-adapter/v5";
+  readonly "actorRef": Ref;
+  readonly "sessionRef": Ref;
+  readonly "requestId": Ref;
+  readonly "authorizationRef": Ref;
+  readonly "worldRef": Ref;
+  readonly "transactionId": Ref;
+  readonly "operationDigest": Digest;
+  readonly "authorizationBindingDigest": Digest;
+  readonly "scopeDigest": Digest;
+};
+export type ScopedQueryPreparedResponse = {
+  readonly "contractVersion": "world-adapter/v5";
+  readonly "requestId": Ref;
+  readonly "result": ScopedPreparedTransactionResult | null;
+  readonly "error": Error | null;
+};
 
 export interface TypeMap {
   readonly Ref: Ref;
@@ -2290,9 +2412,25 @@ export interface TypeMap {
   readonly UndoCurrentBuildRequest: UndoCurrentBuildRequest;
   readonly CurrentBuildUndoResult: CurrentBuildUndoResult;
   readonly UndoCurrentBuildResponse: UndoCurrentBuildResponse;
+  readonly ScopedCellAvailability: ScopedCellAvailability;
+  readonly ScopedCell: ScopedCell;
+  readonly ScopedCells: ScopedCells;
+  readonly FootprintProvenance: FootprintProvenance;
+  readonly ScopedObjectFootprint: ScopedObjectFootprint;
+  readonly ScopedObjectFootprints: ScopedObjectFootprints;
+  readonly ScopedWorldBinding: ScopedWorldBinding;
+  readonly ScopedTxProjection: ScopedTxProjection;
+  readonly ScopedPreparedTransaction: ScopedPreparedTransaction;
+  readonly ScopedPreparedTransactionResult: ScopedPreparedTransactionResult;
+  readonly ScopedPrepareRequest: ScopedPrepareRequest;
+  readonly ScopedPrepareResponse: ScopedPrepareResponse;
+  readonly ScopedApplyRequest: ScopedApplyRequest;
+  readonly ScopedApplyResponse: ScopedApplyResponse;
+  readonly ScopedQueryPreparedRequest: ScopedQueryPreparedRequest;
+  readonly ScopedQueryPreparedResponse: ScopedQueryPreparedResponse;
 }
 export type TypeName = keyof TypeMap;
-export type WireVersion = "interaction-surface/v3" | "world-adapter/v4" | "canvas/v4" | "session/v2" | "painter/v3" | "ReferenceBrief/v2" | "BUILD/V2";
+export type WireVersion = "interaction-surface/v3" | "world-adapter/v4" | "canvas/v4" | "session/v2" | "painter/v3" | "ReferenceBrief/v2" | "BUILD/V2" | "world-adapter/v5";
 export type FactProfile = "target-facts/v2" | "target-facts/v3";
 export interface OperationMap {
   readonly "interaction-surface/v3": {
@@ -2358,6 +2496,11 @@ export interface OperationMap {
     readonly "AbortPreparedHistoryTransaction": { readonly request: AbortPreparedHistoryTransactionRequest; readonly response: AbortPreparedHistoryTransactionResponse; };
     readonly "InspectRegion": { readonly request: InspectRegionRequest; readonly response: InspectRegionResponse; };
   };
+  readonly "world-adapter/v5": {
+    readonly "PrepareRecoverableTransaction": { readonly request: ScopedPrepareRequest; readonly response: ScopedPrepareResponse; };
+    readonly "ApplyCompiledTransaction": { readonly request: ScopedApplyRequest; readonly response: ScopedApplyResponse; };
+    readonly "QueryPreparedTransaction": { readonly request: ScopedQueryPreparedRequest; readonly response: ScopedQueryPreparedResponse; };
+  };
 }
 export interface ProjectionMap {
   readonly "build": BuildProjection;
@@ -2380,5 +2523,7 @@ export interface ProjectionMap {
   readonly "before-image": BeforeImage;
   readonly "readback": ReadbackProjection;
   readonly "history-operation": HistoryOperationProjection;
+  readonly "scoped-world": ScopedWorldBinding;
+  readonly "scoped-transaction-payload": ScopedTxProjection;
 }
 export type DigestKind = keyof ProjectionMap;
