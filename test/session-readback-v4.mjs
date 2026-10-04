@@ -29,14 +29,15 @@ const success = {
 };
 
 assert.ok(Session.operations.some(op => op.operation === 'ReadSessionTurnDetails'));
-assert.deepEqual(plain(Session.operations.slice(0, -1)), pinnedProfile.operations['session/v2'], 'all old operation metadata and request/response names stay unchanged');
+assert.deepEqual(plain(Session.operations.slice(0, pinnedProfile.operations['session/v2'].length)), pinnedProfile.operations['session/v2'], 'all old operation metadata and request/response names stay unchanged');
 assert.deepEqual(plain(V4.schemaBundle.definitions.StartOrResumeSessionRequest.properties), {
   contractVersion: { const: 'session/v2' }, actorRef: { $ref: '#/definitions/Ref' },
   sessionRef: { $ref: '#/definitions/Ref' }, requestId: { $ref: '#/definitions/Ref' },
   authorizationRef: { $ref: '#/definitions/Ref' }, expectedRevision: { anyOf: [{ $ref: '#/definitions/Revision' }, { type: 'null' }] },
 });
-assert.equal(V4.version, '0.3.1');
+assert.equal(V4.version, '0.3.2');
 assert.equal(V4.checkSessionReadbackHandshake(V4.contractHandshake).result, 'HANDSHAKE_OPERATION_MATCH');
+assert.equal(V4.checkSessionReadbackHandshake({ ...V4.contractHandshake, contracts: 'hanaworlds-contracts@0.3.1' }).result, 'HANDSHAKE_OPERATION_MATCH');
 assert.throws(() => V4.checkSessionReadbackHandshake({ ...V4.contractHandshake, contracts: 'hanaworlds-contracts@0.3.0' }), errorCode('UNSUPPORTED_VERSION'));
 assert.throws(() => V4.checkSessionReadbackHandshake({ ...V4.contractHandshake, wireVersions: V4.contractHandshake.wireVersions.filter(w => w !== 'session/v2') }), errorCode('UNSUPPORTED_VERSION'));
 assert.deepEqual(plain(Session.validate('ReadSessionTurnDetails', request)), request);

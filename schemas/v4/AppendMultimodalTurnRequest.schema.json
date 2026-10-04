@@ -1,7 +1,7 @@
 {
   "$schema": "http://json-schema.org/draft-07/schema#",
-  "$id": "https://hanaworlds.invalid/contracts/0.3.1/v4/AppendMultimodalTurnRequest.schema.json",
-  "title": "HanaWorlds contracts 0.3.1 — complete v4 type inventory",
+  "$id": "https://hanaworlds.invalid/contracts/0.3.2/v4/AppendMultimodalTurnRequest.schema.json",
+  "title": "HanaWorlds contracts 0.3.2 — complete v4 type inventory",
   "description": "Select a definition. JSON Schema establishes structure; exported validators additionally enforce the normative domain rules. Validation never authenticates a provider.",
   "definitions": {
     "Ref": {
@@ -5481,7 +5481,14 @@
           "$ref": "#/definitions/Ref"
         },
         "expectedHistoryRevision": {
-          "$ref": "#/definitions/Revision"
+          "anyOf": [
+            {
+              "$ref": "#/definitions/Revision"
+            },
+            {
+              "type": "null"
+            }
+          ]
         }
       },
       "required": [
@@ -9569,6 +9576,307 @@
       "x-typeName": "ReadSessionTurnDetailsResponse",
       "x-rules": [
         "exactly one of result/error nonnull; no partial turns on denial or readback failure"
+      ]
+    },
+    "UndoHistoryHead": {
+      "type": "object",
+      "properties": {
+        "historyRevision": {
+          "$ref": "#/definitions/Revision"
+        },
+        "headTransactionId": {
+          "anyOf": [
+            {
+              "$ref": "#/definitions/Ref"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        }
+      },
+      "required": [
+        "historyRevision",
+        "headTransactionId"
+      ],
+      "additionalProperties": false,
+      "x-typeName": "UndoHistoryHead",
+      "x-rules": [
+        "copied from one authorized durable Canvas HistoryView; a null headTransactionId means the history is at its empty head"
+      ]
+    },
+    "UndoAvailability": {
+      "enum": [
+        "AVAILABLE",
+        "NO_VERIFIED_BUILD",
+        "NO_UNDO_AT_HEAD"
+      ],
+      "x-typeName": "UndoAvailability"
+    },
+    "CurrentUndoStatus": {
+      "type": "object",
+      "properties": {
+        "sessionRef": {
+          "$ref": "#/definitions/Ref"
+        },
+        "worldRef": {
+          "$ref": "#/definitions/Ref"
+        },
+        "turnRef": {
+          "anyOf": [
+            {
+              "$ref": "#/definitions/Ref"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "turnRevision": {
+          "anyOf": [
+            {
+              "$ref": "#/definitions/Revision"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "availability": {
+          "$ref": "#/definitions/UndoAvailability"
+        },
+        "head": {
+          "anyOf": [
+            {
+              "$ref": "#/definitions/UndoHistoryHead"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        }
+      },
+      "required": [
+        "sessionRef",
+        "worldRef",
+        "turnRef",
+        "turnRevision",
+        "availability",
+        "head"
+      ],
+      "additionalProperties": false,
+      "x-typeName": "CurrentUndoStatus",
+      "x-rules": [
+        "AVAILABLE requires a persisted VERIFIED Apply for this Session/world/turn and a nonnull current head that Canvas reports undoable",
+        "NO_VERIFIED_BUILD requires null turnRef, turnRevision and head; NO_UNDO_AT_HEAD retains the identified turn and current head",
+        "authorization revocation, cross-world scope, external edits and missing persisted receipts return typed errors, not availability guesses"
+      ]
+    },
+    "ReadCurrentUndoStatusRequest": {
+      "type": "object",
+      "properties": {
+        "contractVersion": {
+          "const": "session/v2"
+        },
+        "actorRef": {
+          "$ref": "#/definitions/Ref"
+        },
+        "sessionRef": {
+          "$ref": "#/definitions/Ref"
+        },
+        "requestId": {
+          "$ref": "#/definitions/Ref"
+        },
+        "authorizationRef": {
+          "$ref": "#/definitions/Ref"
+        },
+        "worldRef": {
+          "$ref": "#/definitions/Ref"
+        }
+      },
+      "required": [
+        "contractVersion",
+        "actorRef",
+        "sessionRef",
+        "requestId",
+        "authorizationRef",
+        "worldRef"
+      ],
+      "additionalProperties": false,
+      "x-typeName": "ReadCurrentUndoStatusRequest",
+      "x-rules": [
+        "worldRef and actor/session/authorization binding must come from the trusted Shell host and be checked again by Workshop; caller JSON is no authorization proof",
+        "Workshop derives the current completed build and Canvas object/transaction identities from the durable same-Session VERIFIED Apply receipt"
+      ]
+    },
+    "ReadCurrentUndoStatusResponse": {
+      "type": "object",
+      "properties": {
+        "contractVersion": {
+          "const": "session/v2"
+        },
+        "requestId": {
+          "$ref": "#/definitions/Ref"
+        },
+        "result": {
+          "anyOf": [
+            {
+              "$ref": "#/definitions/CurrentUndoStatus"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "error": {
+          "anyOf": [
+            {
+              "$ref": "#/definitions/Error"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        }
+      },
+      "required": [
+        "contractVersion",
+        "requestId",
+        "result",
+        "error"
+      ],
+      "additionalProperties": false,
+      "x-typeName": "ReadCurrentUndoStatusResponse",
+      "x-rules": [
+        "exactly one of result/error nonnull; denied or unavailable durable facts never become guessed availability"
+      ]
+    },
+    "UndoCurrentBuildRequest": {
+      "type": "object",
+      "properties": {
+        "contractVersion": {
+          "const": "session/v2"
+        },
+        "actorRef": {
+          "$ref": "#/definitions/Ref"
+        },
+        "sessionRef": {
+          "$ref": "#/definitions/Ref"
+        },
+        "requestId": {
+          "$ref": "#/definitions/Ref"
+        },
+        "authorizationRef": {
+          "$ref": "#/definitions/Ref"
+        },
+        "worldRef": {
+          "$ref": "#/definitions/Ref"
+        },
+        "expectedTurnRevision": {
+          "$ref": "#/definitions/Revision"
+        },
+        "expectedHistoryRevision": {
+          "$ref": "#/definitions/Revision"
+        }
+      },
+      "required": [
+        "contractVersion",
+        "actorRef",
+        "sessionRef",
+        "requestId",
+        "authorizationRef",
+        "worldRef",
+        "expectedTurnRevision",
+        "expectedHistoryRevision"
+      ],
+      "additionalProperties": false,
+      "x-typeName": "UndoCurrentBuildRequest",
+      "x-rules": [
+        "expected revisions bind the displayed status to this request; no caller-supplied objectRef, transactionId or headTransactionId",
+        "Workshop rechecks current trusted binding and durable turn/history facts, then asks Canvas for one authorized CAS Undo"
+      ]
+    },
+    "CurrentBuildUndoResult": {
+      "type": "object",
+      "properties": {
+        "sessionRef": {
+          "$ref": "#/definitions/Ref"
+        },
+        "worldRef": {
+          "$ref": "#/definitions/Ref"
+        },
+        "turnRef": {
+          "$ref": "#/definitions/Ref"
+        },
+        "turnRevision": {
+          "$ref": "#/definitions/Revision"
+        },
+        "status": {
+          "const": "VERIFIED"
+        },
+        "beforeHead": {
+          "$ref": "#/definitions/UndoHistoryHead"
+        },
+        "afterHead": {
+          "$ref": "#/definitions/UndoHistoryHead"
+        }
+      },
+      "required": [
+        "sessionRef",
+        "worldRef",
+        "turnRef",
+        "turnRevision",
+        "status",
+        "beforeHead",
+        "afterHead"
+      ],
+      "additionalProperties": false,
+      "x-typeName": "CurrentBuildUndoResult",
+      "x-rules": [
+        "success only after Canvas Undo receipt is VERIFIED and a fresh durable HistoryQuery confirms the changed afterHead",
+        "beforeHead and afterHead must differ in historyRevision and headTransactionId; an Undo receipt alone does not contain afterHead"
+      ]
+    },
+    "UndoCurrentBuildResponse": {
+      "type": "object",
+      "properties": {
+        "contractVersion": {
+          "const": "session/v2"
+        },
+        "requestId": {
+          "$ref": "#/definitions/Ref"
+        },
+        "result": {
+          "anyOf": [
+            {
+              "$ref": "#/definitions/CurrentBuildUndoResult"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "error": {
+          "anyOf": [
+            {
+              "$ref": "#/definitions/Error"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        }
+      },
+      "required": [
+        "contractVersion",
+        "requestId",
+        "result",
+        "error"
+      ],
+      "additionalProperties": false,
+      "x-typeName": "UndoCurrentBuildResponse",
+      "x-rules": [
+        "exactly one of result/error nonnull; pending, conflict and rollback cannot be reported as VERIFIED success"
       ]
     }
   },

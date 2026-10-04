@@ -28,3 +28,9 @@ export declare function response(operation: "ReopenExistingArtifact", value: unk
 export declare function validate(operation: "ReadSessionTurnDetails", value: unknown): T.ReadSessionTurnDetailsRequest;
 export declare function admit(operation: "ReadSessionTurnDetails", bytes: Uint8Array): T.ReadSessionTurnDetailsRequest;
 export declare function response(operation: "ReadSessionTurnDetails", value: unknown): T.ReadSessionTurnDetailsResponse;
+export declare function validate(operation: "ReadCurrentUndoStatus", value: unknown): T.ReadCurrentUndoStatusRequest;
+export declare function admit(operation: "ReadCurrentUndoStatus", bytes: Uint8Array): T.ReadCurrentUndoStatusRequest;
+export declare function response(operation: "ReadCurrentUndoStatus", value: unknown): T.ReadCurrentUndoStatusResponse;
+export declare function validate(operation: "UndoCurrentBuild", value: unknown): T.UndoCurrentBuildRequest;
+export declare function admit(operation: "UndoCurrentBuild", bytes: Uint8Array): T.UndoCurrentBuildRequest;
+export declare function response(operation: "UndoCurrentBuild", value: unknown): T.UndoCurrentBuildResponse;

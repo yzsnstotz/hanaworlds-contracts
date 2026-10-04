@@ -5,7 +5,7 @@ export interface DigestResult<P> { readonly kind: T.DigestKind; readonly project
 export interface OperationContract { readonly operation: string; readonly request: T.TypeName; readonly response: T.TypeName; readonly alternateResult?: T.TypeName; readonly event?: string; readonly validationOrder: ReadonlyArray<string>; readonly failureCodes: ReadonlyArray<T.ErrorCode>; readonly successSemantics: string; readonly idempotency: string; readonly scope?: string; readonly requestName?: string; readonly responseName?: string; readonly baselineOperation?: string; }
 export declare class ContractError extends Error { constructor(code: T.ErrorCode, phase: T.Phase, reason: T.ErrorReason, details?: Partial<T.Error>); readonly publicError: T.Error; readonly code: T.ErrorCode; readonly phase: T.Phase; readonly reason: T.ErrorReason; readonly mutationState: T.MutationState; readonly retryability: T.Retryability; }
 export declare function publicError(error: unknown): T.Error;
-export declare const version: '0.3.1';
+export declare const version: '0.3.2';
 export declare const wireVersions: ReadonlyArray<T.WireVersion>;
 export declare const compiledOperationsVersion: 'operations/v2';
 export declare const operationContracts: { readonly [W in T.WireVersion]: ReadonlyArray<OperationContract> };
@@ -69,6 +69,8 @@ export declare const placementInvariants: ReadonlyArray<PlacementInvariantDescri
 export declare function checkContractHandshake(advertised: unknown, required: HandshakeRequirement): { readonly result: 'HANDSHAKE_VERSION_MATCH'; readonly advertised: T.ContractHandshake };
 /** Requires a peer that advertises the 0.3.1 package containing ReadSessionTurnDetails. */
 export declare function checkSessionReadbackHandshake(advertised: unknown): { readonly result: 'HANDSHAKE_OPERATION_MATCH'; readonly advertised: T.ContractHandshake };
+/** Requires a peer that advertises the 0.3.2 package containing the two current-build undo operations. */
+export declare function checkSessionUndoHandshake(advertised: unknown): { readonly result: 'HANDSHAKE_OPERATION_MATCH'; readonly advertised: T.ContractHandshake };
 export declare function admitPlacementSettings(stored: Readonly<Record<string, unknown>>, settingsRevision: unknown): T.PlacementSettings;
 export declare function validateChoiceSelection(frame: unknown, request: unknown): T.InvokeActionRequest;
 export declare function validateRegionInspection(inspection: unknown): T.RegionInspection;

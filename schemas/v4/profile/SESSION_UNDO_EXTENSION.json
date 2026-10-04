@@ -1,0 +1,157 @@
+{
+  "format": "HANAWORLDS_SESSION_V2_UNDO_EXTENSION/1",
+  "baseProfile": "CONTRACT_SCHEMA_PROFILE.json",
+  "priorExtension": "SESSION_READBACK_EXTENSION.json",
+  "historyQuery": {
+    "expectedHistoryRevision": "Revision|null",
+    "successSemantics": "A nonnull expectedHistoryRevision retains the exact current CAS query; null requests a fresh, authorized, read-only durable HistoryView snapshot of the current object and linked history heads. An event is not a substitute for that snapshot.",
+    "validationOrder": [
+      "strict decode",
+      "current actor/session/world/object authorization and revocation",
+      "object scope",
+      "nonnull expected history revision CAS or null current durable snapshot",
+      "linked entry integrity and complete committed snapshot"
+    ],
+    "idempotency": "nonnull retains requestId+exact validated payload replay semantics; null is a fresh authorized durable read on every call, never a cached event or stale replay",
+    "additionalFailureCodes": ["READBACK_FAILED"]
+  },
+  "types": {
+    "UndoHistoryHead": {
+      "type": "object",
+      "fields": {
+        "historyRevision": "Revision",
+        "headTransactionId": "Ref|null"
+      },
+      "rules": [
+        "copied from one authorized durable Canvas HistoryView; a null headTransactionId means the history is at its empty head"
+      ]
+    },
+    "UndoAvailability": {
+      "type": "enum",
+      "values": ["AVAILABLE", "NO_VERIFIED_BUILD", "NO_UNDO_AT_HEAD"]
+    },
+    "CurrentUndoStatus": {
+      "type": "object",
+      "fields": {
+        "sessionRef": "Ref",
+        "worldRef": "Ref",
+        "turnRef": "Ref|null",
+        "turnRevision": "Revision|null",
+        "availability": "UndoAvailability",
+        "head": "UndoHistoryHead|null"
+      },
+      "rules": [
+        "AVAILABLE requires a persisted VERIFIED Apply for this Session/world/turn and a nonnull current head that Canvas reports undoable",
+        "NO_VERIFIED_BUILD requires null turnRef, turnRevision and head; NO_UNDO_AT_HEAD retains the identified turn and current head",
+        "authorization revocation, cross-world scope, external edits and missing persisted receipts return typed errors, not availability guesses"
+      ]
+    },
+    "ReadCurrentUndoStatusRequest": {
+      "type": "object",
+      "fields": {
+        "contractVersion": "=session/v2",
+        "actorRef": "Ref",
+        "sessionRef": "Ref",
+        "requestId": "Ref",
+        "authorizationRef": "Ref",
+        "worldRef": "Ref"
+      },
+      "rules": [
+        "worldRef and actor/session/authorization binding must come from the trusted Shell host and be checked again by Workshop; caller JSON is no authorization proof",
+        "Workshop derives the current completed build and Canvas object/transaction identities from the durable same-Session VERIFIED Apply receipt"
+      ]
+    },
+    "ReadCurrentUndoStatusResponse": {
+      "type": "object",
+      "fields": {
+        "contractVersion": "=session/v2",
+        "requestId": "Ref",
+        "result": "CurrentUndoStatus|null",
+        "error": "Error|null"
+      },
+      "rules": [
+        "exactly one of result/error nonnull; denied or unavailable durable facts never become guessed availability"
+      ]
+    },
+    "UndoCurrentBuildRequest": {
+      "type": "object",
+      "fields": {
+        "contractVersion": "=session/v2",
+        "actorRef": "Ref",
+        "sessionRef": "Ref",
+        "requestId": "Ref",
+        "authorizationRef": "Ref",
+        "worldRef": "Ref",
+        "expectedTurnRevision": "Revision",
+        "expectedHistoryRevision": "Revision"
+      },
+      "rules": [
+        "expected revisions bind the displayed status to this request; no caller-supplied objectRef, transactionId or headTransactionId",
+        "Workshop rechecks current trusted binding and durable turn/history facts, then asks Canvas for one authorized CAS Undo"
+      ]
+    },
+    "CurrentBuildUndoResult": {
+      "type": "object",
+      "fields": {
+        "sessionRef": "Ref",
+        "worldRef": "Ref",
+        "turnRef": "Ref",
+        "turnRevision": "Revision",
+        "status": "=VERIFIED",
+        "beforeHead": "UndoHistoryHead",
+        "afterHead": "UndoHistoryHead"
+      },
+      "rules": [
+        "success only after Canvas Undo receipt is VERIFIED and a fresh durable HistoryQuery confirms the changed afterHead",
+        "beforeHead and afterHead must differ in historyRevision and headTransactionId; an Undo receipt alone does not contain afterHead"
+      ]
+    },
+    "UndoCurrentBuildResponse": {
+      "type": "object",
+      "fields": {
+        "contractVersion": "=session/v2",
+        "requestId": "Ref",
+        "result": "CurrentBuildUndoResult|null",
+        "error": "Error|null"
+      },
+      "rules": [
+        "exactly one of result/error nonnull; pending, conflict and rollback cannot be reported as VERIFIED success"
+      ]
+    }
+  },
+  "operations": [
+    {
+      "operation": "ReadCurrentUndoStatus",
+      "request": "ReadCurrentUndoStatusRequest",
+      "response": "ReadCurrentUndoStatusResponse",
+      "successSemantics": "Read same-Session current completed build undo availability from a persisted VERIFIED Apply receipt and fresh authorized Canvas HistoryView. No world mutation, event-as-snapshot or caller-supplied internal IDs.",
+      "validationOrder": [
+        "strict decode",
+        "trusted actor/session/world authorization and revocation",
+        "durable VERIFIED Apply receipt for this Session and world",
+        "fresh authorized Canvas current history snapshot",
+        "derive displayable availability and head"
+      ],
+      "failureCodes": ["SCHEMA_INVALID", "UNSUPPORTED_VERSION", "UNKNOWN_REQUIRED_FIELD", "PERMISSION_DENIED", "AUTHORIZATION_REVOKED", "WORLD_NOT_BOUND", "SESSION_NOT_FOUND", "OBJECT_NOT_FOUND", "STALE_REVISION", "UNDO_CONFLICT", "SAVED_RESOURCE_UNAVAILABLE", "CAPABILITY_UNAVAILABLE", "READBACK_FAILED"],
+      "idempotency": "read-only; requestId correlates one fresh authorized durable read, not a cached replay",
+      "scope": "session"
+    },
+    {
+      "operation": "UndoCurrentBuild",
+      "request": "UndoCurrentBuildRequest",
+      "response": "UndoCurrentBuildResponse",
+      "successSemantics": "Recheck current trusted binding and persisted same-Session VERIFIED build, compare expected turn/history revisions, ask Canvas for one authorized CAS Undo, then report VERIFIED only after a fresh durable Canvas HistoryQuery confirms the changed head.",
+      "validationOrder": [
+        "strict decode",
+        "trusted actor/session/world authorization and revocation",
+        "requestId replay and expected turn/history revisions",
+        "durable VERIFIED Apply receipt and derived internal object/transaction facts",
+        "Canvas authorized Undo CAS and verified receipt",
+        "fresh authorized durable HistoryQuery after-head confirmation"
+      ],
+      "failureCodes": ["SCHEMA_INVALID", "UNSUPPORTED_VERSION", "UNKNOWN_REQUIRED_FIELD", "PERMISSION_DENIED", "AUTHORIZATION_REVOKED", "REPLAY_MISMATCH", "WORLD_NOT_BOUND", "SESSION_NOT_FOUND", "OBJECT_NOT_FOUND", "OBJECT_SCOPE_MISMATCH", "STALE_REVISION", "UNDO_CONFLICT", "TRANSACTION_CONFLICT", "SAVED_RESOURCE_UNAVAILABLE", "CAPABILITY_UNAVAILABLE", "APPLY_FAILED", "READBACK_FAILED", "ROLLBACK_FAILED", "RESTORE_FAILED", "RECOVERY_PENDING"],
+      "idempotency": "requestId+exact validated payload; recheck authorization/revocation before replay; changed payload REPLAY_MISMATCH; never repeat a world write for the same request",
+      "scope": "session"
+    }
+  ]
+}

@@ -1,4 +1,4 @@
-// GENERATED — 288 named types from approved base plus session readback extension; no any/open object fallback.
+// GENERATED — 296 named types from approved base plus session readback extension; no any/open object fallback.
 export type Ref = string;
 export type Revision = string;
 export type Digest = string;
@@ -1075,7 +1075,7 @@ export type HistoryQuery = {
   readonly "authorizationRef": Ref;
   readonly "worldRef": Ref;
   readonly "objectRef": Ref;
-  readonly "expectedHistoryRevision": Revision;
+  readonly "expectedHistoryRevision": Revision | null;
 };
 /** exactly one of result/error nonnull; transport success never substitutes domain result */
 export type ObjectHistoryView = {
@@ -1933,6 +1933,65 @@ export type ReadSessionTurnDetailsResponse = {
   readonly "result": SessionTurnDetails | null;
   readonly "error": Error | null;
 };
+/** copied from one authorized durable Canvas HistoryView; a null headTransactionId means the history is at its empty head */
+export type UndoHistoryHead = {
+  readonly "historyRevision": Revision;
+  readonly "headTransactionId": Ref | null;
+};
+export type UndoAvailability = "AVAILABLE" | "NO_VERIFIED_BUILD" | "NO_UNDO_AT_HEAD";
+/** AVAILABLE requires a persisted VERIFIED Apply for this Session/world/turn and a nonnull current head that Canvas reports undoable | NO_VERIFIED_BUILD requires null turnRef, turnRevision and head; NO_UNDO_AT_HEAD retains the identified turn and current head | authorization revocation, cross-world scope, external edits and missing persisted receipts return typed errors, not availability guesses */
+export type CurrentUndoStatus = {
+  readonly "sessionRef": Ref;
+  readonly "worldRef": Ref;
+  readonly "turnRef": Ref | null;
+  readonly "turnRevision": Revision | null;
+  readonly "availability": UndoAvailability;
+  readonly "head": UndoHistoryHead | null;
+};
+/** worldRef and actor/session/authorization binding must come from the trusted Shell host and be checked again by Workshop; caller JSON is no authorization proof | Workshop derives the current completed build and Canvas object/transaction identities from the durable same-Session VERIFIED Apply receipt */
+export type ReadCurrentUndoStatusRequest = {
+  readonly "contractVersion": "session/v2";
+  readonly "actorRef": Ref;
+  readonly "sessionRef": Ref;
+  readonly "requestId": Ref;
+  readonly "authorizationRef": Ref;
+  readonly "worldRef": Ref;
+};
+/** exactly one of result/error nonnull; denied or unavailable durable facts never become guessed availability */
+export type ReadCurrentUndoStatusResponse = {
+  readonly "contractVersion": "session/v2";
+  readonly "requestId": Ref;
+  readonly "result": CurrentUndoStatus | null;
+  readonly "error": Error | null;
+};
+/** expected revisions bind the displayed status to this request; no caller-supplied objectRef, transactionId or headTransactionId | Workshop rechecks current trusted binding and durable turn/history facts, then asks Canvas for one authorized CAS Undo */
+export type UndoCurrentBuildRequest = {
+  readonly "contractVersion": "session/v2";
+  readonly "actorRef": Ref;
+  readonly "sessionRef": Ref;
+  readonly "requestId": Ref;
+  readonly "authorizationRef": Ref;
+  readonly "worldRef": Ref;
+  readonly "expectedTurnRevision": Revision;
+  readonly "expectedHistoryRevision": Revision;
+};
+/** success only after Canvas Undo receipt is VERIFIED and a fresh durable HistoryQuery confirms the changed afterHead | beforeHead and afterHead must differ in historyRevision and headTransactionId; an Undo receipt alone does not contain afterHead */
+export type CurrentBuildUndoResult = {
+  readonly "sessionRef": Ref;
+  readonly "worldRef": Ref;
+  readonly "turnRef": Ref;
+  readonly "turnRevision": Revision;
+  readonly "status": "VERIFIED";
+  readonly "beforeHead": UndoHistoryHead;
+  readonly "afterHead": UndoHistoryHead;
+};
+/** exactly one of result/error nonnull; pending, conflict and rollback cannot be reported as VERIFIED success */
+export type UndoCurrentBuildResponse = {
+  readonly "contractVersion": "session/v2";
+  readonly "requestId": Ref;
+  readonly "result": CurrentBuildUndoResult | null;
+  readonly "error": Error | null;
+};
 
 export interface TypeMap {
   readonly Ref: Ref;
@@ -2223,6 +2282,14 @@ export interface TypeMap {
   readonly SessionTurnDetails: SessionTurnDetails;
   readonly ReadSessionTurnDetailsRequest: ReadSessionTurnDetailsRequest;
   readonly ReadSessionTurnDetailsResponse: ReadSessionTurnDetailsResponse;
+  readonly UndoHistoryHead: UndoHistoryHead;
+  readonly UndoAvailability: UndoAvailability;
+  readonly CurrentUndoStatus: CurrentUndoStatus;
+  readonly ReadCurrentUndoStatusRequest: ReadCurrentUndoStatusRequest;
+  readonly ReadCurrentUndoStatusResponse: ReadCurrentUndoStatusResponse;
+  readonly UndoCurrentBuildRequest: UndoCurrentBuildRequest;
+  readonly CurrentBuildUndoResult: CurrentBuildUndoResult;
+  readonly UndoCurrentBuildResponse: UndoCurrentBuildResponse;
 }
 export type TypeName = keyof TypeMap;
 export type WireVersion = "interaction-surface/v3" | "world-adapter/v4" | "canvas/v4" | "session/v2" | "painter/v3" | "ReferenceBrief/v2" | "BUILD/V2";
@@ -2241,6 +2308,8 @@ export interface OperationMap {
     readonly "PersistRequiredArtifactResources": { readonly request: PersistRequiredArtifactResourcesRequest; readonly response: PersistRequiredArtifactResourcesResponse; };
     readonly "ReopenExistingArtifact": { readonly request: ReopenExistingArtifactRequest; readonly response: ReopenExistingArtifactResponse; };
     readonly "ReadSessionTurnDetails": { readonly request: ReadSessionTurnDetailsRequest; readonly response: ReadSessionTurnDetailsResponse; };
+    readonly "ReadCurrentUndoStatus": { readonly request: ReadCurrentUndoStatusRequest; readonly response: ReadCurrentUndoStatusResponse; };
+    readonly "UndoCurrentBuild": { readonly request: UndoCurrentBuildRequest; readonly response: UndoCurrentBuildResponse; };
   };
   readonly "painter/v3": {
     readonly "CreateBuildPlan": { readonly request: CreateBuildPlanRequest; readonly response: CreateBuildPlanResponse | ClarificationNeed; };

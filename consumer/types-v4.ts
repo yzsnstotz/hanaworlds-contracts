@@ -1,7 +1,7 @@
 import {
   validateRequest, validateBoundRequest, admitRequest, digestValue, checkContractHandshake, validateChoiceSelection,
   admitPlacementSettings, validateRegionInspection, projectPreparedTransaction, contractHandshake, placementSettingDescriptors,
-  checkSessionReadbackHandshake,
+  checkSessionReadbackHandshake, checkSessionUndoHandshake,
   type TypeMap, type OperationMap, type WireVersion, type FactProfile,
 } from 'hanaworlds-contracts/v4';
 import * as Canvas from 'hanaworlds-contracts/canvas/v4';
@@ -41,6 +41,14 @@ const readbackResponse: TypeMap['ReadSessionTurnDetailsResponse'] = Session.resp
 const readbackPeer: string = checkSessionReadbackHandshake(contractHandshake).advertised.contracts;
 const readbackText: string | undefined = readbackResponse.result?.turns[0]?.resultText;
 const readbackBrief: TypeMap['BriefProjection'] | null | undefined = readbackResponse.result?.turns[0]?.confirmedBrief;
+const historyQuery: TypeMap['HistoryQuery'] = Canvas.validate('HistoryQuery', raw);
+const nullableHistoryRevision: string | null = historyQuery.expectedHistoryRevision;
+const undoStatusRequest: OperationMap['session/v2']['ReadCurrentUndoStatus']['request'] = Session.validate('ReadCurrentUndoStatus', raw);
+const undoStatusResponse: TypeMap['ReadCurrentUndoStatusResponse'] = Session.response('ReadCurrentUndoStatus', raw);
+const undoRequest: OperationMap['session/v2']['UndoCurrentBuild']['request'] = Session.validate('UndoCurrentBuild', raw);
+const undoResponse: TypeMap['UndoCurrentBuildResponse'] = Session.response('UndoCurrentBuild', raw);
+const undoHead: TypeMap['UndoHistoryHead'] | null | undefined = undoStatusResponse.result?.head;
+const undoPeer: string = checkSessionUndoHandshake(contractHandshake).advertised.contracts;
 const typeName: keyof TypeMap = schemaInventory[0]!;
 const fixtureOutcome = evaluateV4Fixture('CreateObjectRequest', raw, { trustedCanvasDomain: false });
 const digest: string = digestValue('target-facts', raw).sha256;
@@ -54,4 +62,4 @@ digestValue('region-inspection', raw);
 // @ts-expect-error InspectRegion is an Adapter operation, not a Canvas one
 Canvas.validate('InspectRegion', raw);
 
-void [binding, bound, expected, region, prepared, inspection, invoke, document, handshake, selected, settings, checked, seven, profile, advertised, firstDefault, wire, request, readbackRequest, readbackResponse, readbackPeer, readbackText, readbackBrief, typeName, fixtureOutcome, digest];
+void [binding, bound, expected, region, prepared, inspection, invoke, document, handshake, selected, settings, checked, seven, profile, advertised, firstDefault, wire, request, readbackRequest, readbackResponse, readbackPeer, readbackText, readbackBrief, historyQuery, nullableHistoryRevision, undoStatusRequest, undoStatusResponse, undoRequest, undoResponse, undoHead, undoPeer, typeName, fixtureOutcome, digest];

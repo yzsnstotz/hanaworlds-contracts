@@ -15,7 +15,7 @@ const wires = (await read('wire-inputs-v3')).requests;
 const closures = (await read('closure-oracles-v3')).cases;
 const events = (await read('canvas-events-v3')).cases;
 const pkg = JSON.parse(await readFile(new URL(import.meta.resolve('hanaworlds-contracts/package.json')), 'utf8'));
-assert.equal(pkg.version, '0.3.1'); // re-versioned: the v3 lane ships inside contracts@0.3.1
+assert.equal(pkg.version, '0.3.2'); // re-versioned: the v3 lane ships inside contracts@0.3.2
 assert.equal(V3.version, pkg.version);
 assert.equal(Canvas.contractVersion, 'canvas/v3');
 assert.equal(Adapter.contractVersion, 'world-adapter/v3');
