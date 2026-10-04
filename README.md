@@ -1,4 +1,10 @@
-# hanaworlds-contracts 0.3.0 source candidate
+# hanaworlds-contracts 0.3.1 source candidate
+
+## session/v2 persisted turn readback (0.3.1 increment)
+
+`hanaworlds-contracts/v4/session/v2` adds `ReadSessionTurnDetails` as a separate read-only operation. Its request carries `actorRef`, `sessionRef`, `requestId` and `authorizationRef`. A successful response returns `sessionRef`, `sessionRevision` and turns in persisted order; every turn has `turnRef`, `turnRevision`, exact original `userText`, complete `resultText` and a confirmed `BriefProjection` or explicit `null` in `confirmedBrief`. A denial returns a typed `Error` and no turn data. The provider must authenticate the trusted context, check current revocation and read durable data; this package validates shape and response codes but cannot authenticate a caller or prove persistence.
+
+The frozen 0.3.0 v4 profile, its approved checker inputs, existing session/v2 operation shapes and digest domains remain unchanged. `spec/v4/SESSION_READBACK_EXTENSION.json` is the additive source for 0.3.1 generated schemas and bindings. Before calling the new operation across a provider boundary, use `checkSessionReadbackHandshake(peerAdvertisement)`: it requires the peer to advertise `hanaworlds-contracts@0.3.1` and `session/v2`, and rejects an old 0.3.0 peer with `UNSUPPORTED_VERSION`. The general `checkContractHandshake` checks wire majors and fact profiles only; a `session/v2` match alone does not advertise the new operation. Existing consumers can keep using their unchanged operations; a new consumer needs the 0.3.1 provider bytes. This branch is a source candidate, not a published package or runtime/UI acceptance.
 
 Independent **non-runtime** contracts package containing the prior v2 surface, the admitted `canvas/v3` and `world-adapter/v3` surface, and the approved Stage 1 `3.0.0-rc.8` v4 lane (`interaction-surface/v3`, `world-adapter/v4`, `canvas/v4`, `painter/v3`, `target-facts/v3`). This repository does not register a gadget, establish a grant, instantiate a Session/store/transport, connect to an engine or write to a world. Provider gates remain `NOT_RUN`.
 

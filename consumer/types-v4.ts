@@ -1,6 +1,7 @@
 import {
   validateRequest, validateBoundRequest, admitRequest, digestValue, checkContractHandshake, validateChoiceSelection,
   admitPlacementSettings, validateRegionInspection, projectPreparedTransaction, contractHandshake, placementSettingDescriptors,
+  checkSessionReadbackHandshake,
   type TypeMap, type OperationMap, type WireVersion, type FactProfile,
 } from 'hanaworlds-contracts/v4';
 import * as Canvas from 'hanaworlds-contracts/canvas/v4';
@@ -8,6 +9,7 @@ import * as Adapter from 'hanaworlds-contracts/world-adapter/v4';
 import * as Painter from 'hanaworlds-contracts/painter/v3';
 import * as Surface from 'hanaworlds-contracts/interaction-surface/v3';
 import * as Build from 'hanaworlds-contracts/v4/BUILD/V2';
+import * as Session from 'hanaworlds-contracts/v4/session/v2';
 import { evaluateV4Fixture } from 'hanaworlds-contracts/v4/fixture';
 import { schemaInventory } from 'hanaworlds-contracts/v4/schemas';
 
@@ -34,6 +36,11 @@ const advertised: ReadonlyArray<string> = contractHandshake.wireVersions;
 const firstDefault: number | undefined = placementSettingDescriptors[0]?.default;
 const wire: WireVersion = 'painter/v3';
 const request: OperationMap['world-adapter/v4']['InspectRegion']['request'] = inspect;
+const readbackRequest: OperationMap['session/v2']['ReadSessionTurnDetails']['request'] = Session.validate('ReadSessionTurnDetails', raw);
+const readbackResponse: TypeMap['ReadSessionTurnDetailsResponse'] = Session.response('ReadSessionTurnDetails', raw);
+const readbackPeer: string = checkSessionReadbackHandshake(contractHandshake).advertised.contracts;
+const readbackText: string | undefined = readbackResponse.result?.turns[0]?.resultText;
+const readbackBrief: TypeMap['BriefProjection'] | null | undefined = readbackResponse.result?.turns[0]?.confirmedBrief;
 const typeName: keyof TypeMap = schemaInventory[0]!;
 const fixtureOutcome = evaluateV4Fixture('CreateObjectRequest', raw, { trustedCanvasDomain: false });
 const digest: string = digestValue('target-facts', raw).sha256;
@@ -47,4 +54,4 @@ digestValue('region-inspection', raw);
 // @ts-expect-error InspectRegion is an Adapter operation, not a Canvas one
 Canvas.validate('InspectRegion', raw);
 
-void [binding, bound, expected, region, prepared, inspection, invoke, document, handshake, selected, settings, checked, seven, profile, advertised, firstDefault, wire, request, typeName, fixtureOutcome, digest];
+void [binding, bound, expected, region, prepared, inspection, invoke, document, handshake, selected, settings, checked, seven, profile, advertised, firstDefault, wire, request, readbackRequest, readbackResponse, readbackPeer, readbackText, readbackBrief, typeName, fixtureOutcome, digest];

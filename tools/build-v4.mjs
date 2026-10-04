@@ -2,12 +2,24 @@ import { readFile, writeFile, mkdir, readdir, copyFile } from 'node:fs/promises'
 import { createHash } from 'node:crypto';
 const readJSON = async p => JSON.parse(await readFile(p, 'utf8'));
 const pkg = await readJSON('package.json');
-const profile = await readJSON('spec/v4/CONTRACT_SCHEMA_PROFILE.json');
+const baseProfile = await readJSON('spec/v4/CONTRACT_SCHEMA_PROFILE.json');
+const readback = await readJSON('spec/v4/SESSION_READBACK_EXTENSION.json');
+if (baseProfile.package !== 'hanaworlds-contracts@0.3.0' ||
+    readback.baseProfile !== 'CONTRACT_SCHEMA_PROFILE.json' ||
+    readback.operation.operation !== 'ReadSessionTurnDetails' ||
+    Object.keys(readback.types).some(name => Object.hasOwn(baseProfile.types, name)) ||
+    baseProfile.operations['session/v2'].some(op => op.operation === readback.operation.operation))
+  throw new Error('Session readback extension is not a strict addition to the pinned 0.3.0 profile');
+const profile = {
+  ...baseProfile,
+  types: { ...baseProfile.types, ...readback.types },
+  operations: { ...baseProfile.operations, 'session/v2': [...baseProfile.operations['session/v2'], readback.operation] },
+};
 const closure = await readJSON('spec/v4/CONTRACT_SEMANTIC_CLOSURE.json');
 const registry = await readJSON('spec/v4/SETTINGS_AND_INVARIANTS.json');
 const oracles = await readJSON('spec/v4/fixtures/candidate/closure-oracles-v4.json');
 const legacyOracles = await readJSON('spec/v4/fixtures/candidate/closure-oracles.json');
-if (profile.package !== `${pkg.name}@${pkg.version}`) throw new Error('Approved v4 profile names another package version');
+if (pkg.version !== '0.3.1') throw new Error('Session readback extension requires package 0.3.1');
 const schemaId = `https://hanaworlds.invalid/contracts/${pkg.version}/v4/schema.json`;
 const definitions = Object.create(null);
 function literal(value) { const s = value.slice(1); return /^(?:true|false|null|-?(?:0|[1-9][0-9]*)(?:\.[0-9]+)?)$/.test(s) ? JSON.parse(s) : s; }
@@ -64,7 +76,7 @@ const metadata = { package: `${pkg.name}@${pkg.version}`, version: pkg.version, 
   typeNames: Object.keys(definitions), closureRows: closure.rows.map(x => ({ id: x.id, protocol: x.protocol, dimension: x.dimension, rule: x.rule, authorityRefs: x.authorityRefs })) };
 await mkdir('src/v4/generated', { recursive: true }); await mkdir('types/v4', { recursive: true }); await mkdir('schemas/v4/profile', { recursive: true });
 const freezeSource = `const freeze = root => { const stack=[root]; while(stack.length){ const x=stack.pop(); if(x&&typeof x==='object'&&!Object.isFrozen(x)){ for(const v of Object.values(x))stack.push(v); Object.freeze(x); }} return root; };\n`;
-await writeFile('src/v4/generated/contracts.mjs', '// Generated deterministically from the byte-pinned approved rc.8 profile and settings registry.\n' + freezeSource +
+await writeFile('src/v4/generated/contracts.mjs', '// Generated deterministically from the pinned 0.3.0 v4 profile, session readback extension and settings registry.\n' + freezeSource +
   'export const schemaBundle = freeze(' + JSON.stringify(schemaBundle) + ');\nexport const contractMetadata = freeze(' + JSON.stringify(metadata) + ');\n');
 await writeFile('schemas/v4/contracts.schema.json', JSON.stringify(schemaBundle, null, 2) + '\n');
 for (const name of Object.keys(definitions)) {
@@ -73,6 +85,7 @@ for (const name of Object.keys(definitions)) {
 // The approved normative inputs are shipped unchanged so consumers and the approved checkers read the package bytes.
 for (const item of ['CONTRACT_SCHEMA_PROFILE.json', 'CONTRACT_SEMANTIC_CLOSURE.json', 'SETTINGS_AND_INVARIANTS.json'])
   await copyFile('spec/v4/' + item, 'schemas/v4/profile/' + item);
+await copyFile('spec/v4/SESSION_READBACK_EXTENSION.json', 'schemas/v4/profile/SESSION_READBACK_EXTENSION.json');
 // TS binding is derived from the same DSL, but is an actual public declaration file.
 function tsref(name) {
   if (name.includes('|')) return name.split('|').map(tsref).join(' | ');
@@ -81,7 +94,7 @@ function tsref(name) {
   return name;
 }
 const fieldsTS = fields => '{\n' + Object.entries(fields).map(([k, v]) => '  readonly ' + JSON.stringify(k) + ': ' + tsref(v) + ';').join('\n') + '\n}';
-let declarations = `// GENERATED — all ${Object.keys(profile.types).length} approved named types, no any/open object fallback.\n`;
+let declarations = `// GENERATED — ${Object.keys(profile.types).length} named types from approved base plus session readback extension; no any/open object fallback.\n`;
 for (const [name, type] of Object.entries(profile.types)) {
   let value;
   if (type.type === 'object') value = fieldsTS(type.fields);
@@ -126,6 +139,8 @@ export declare const legacyWireSuccessors: Readonly<Record<string, T.WireVersion
 export declare const placementSettingDescriptors: ReadonlyArray<PlacementSettingDescriptor>;
 export declare const placementInvariants: ReadonlyArray<PlacementInvariantDescriptor>;
 export declare function checkContractHandshake(advertised: unknown, required: HandshakeRequirement): { readonly result: 'HANDSHAKE_VERSION_MATCH'; readonly advertised: T.ContractHandshake };
+/** Requires a peer that advertises the 0.3.1 package containing ReadSessionTurnDetails. */
+export declare function checkSessionReadbackHandshake(advertised: unknown): { readonly result: 'HANDSHAKE_OPERATION_MATCH'; readonly advertised: T.ContractHandshake };
 export declare function admitPlacementSettings(stored: Readonly<Record<string, unknown>>, settingsRevision: unknown): T.PlacementSettings;
 export declare function validateChoiceSelection(frame: unknown, request: unknown): T.InvokeActionRequest;
 export declare function validateRegionInspection(inspection: unknown): T.RegionInspection;
@@ -175,6 +190,7 @@ const manifest = { types: Object.keys(definitions), schemas: ['schemas/v4/contra
   canvasEventTypes: Object.keys(profile.canvasEventRules), projections: profile.digest.projectionTypes, bindings: bindingInventory, contractHandshake,
   placementSettings: placementSettings.map(s => s.name),
   approvedProfileSha256: createHash('sha256').update(await readFile('spec/v4/CONTRACT_SCHEMA_PROFILE.json')).digest('hex'),
+  sessionReadbackExtensionSha256: createHash('sha256').update(await readFile('spec/v4/SESSION_READBACK_EXTENSION.json')).digest('hex'),
   approvedClosureSha256: createHash('sha256').update(await readFile('spec/v4/CONTRACT_SEMANTIC_CLOSURE.json')).digest('hex') };
 await writeFile('schemas/v4/inventory.json', JSON.stringify(manifest, null, 2) + '\n');
 console.log(JSON.stringify({ result: 'BUILT', lane: 'v4', types: manifest.types.length, schemas: manifest.schemas.length, bindings: bindingInventory.length,

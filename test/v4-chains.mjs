@@ -277,7 +277,7 @@ for (const c of placement.compatibilityCases)
     const actual = captureError(() => V4.checkContractHandshake(c.advertised, c.required));
     if (c.expected.result === 'HANDSHAKE_VERSION_MATCH') {
       same(actual, { accepted: true });
-      same(c.advertised, V4.contractHandshake, '$.packageAdvertisesExactlyThis');
+      same(c.advertised, { ...V4.contractHandshake, contracts: 'hanaworlds-contracts@0.3.0' }, '$.pinned030Advertisement');
     } else {
       same(actual, { code: c.expected.code, phase: c.expected.phase, retryability: 'NEVER', mutationState: c.expected.mutationState, transactionRef: null, causeCode: null, reason: c.expected.reason });
       same(c.advertised, v021Advertisement, '$.matchesThe021Lane');

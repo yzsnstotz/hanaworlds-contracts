@@ -282,7 +282,12 @@
     "ActionChoices",
     "WireVersions",
     "FactProfiles",
-    "ContractHandshake"
+    "ContractHandshake",
+    "SessionTurnDetail",
+    "SessionTurnDetailsList",
+    "SessionTurnDetails",
+    "ReadSessionTurnDetailsRequest",
+    "ReadSessionTurnDetailsResponse"
   ],
   "schemas": [
     "schemas/v4/contracts.schema.json",
@@ -568,7 +573,12 @@
     "schemas/v4/ActionChoices.schema.json",
     "schemas/v4/WireVersions.schema.json",
     "schemas/v4/FactProfiles.schema.json",
-    "schemas/v4/ContractHandshake.schema.json"
+    "schemas/v4/ContractHandshake.schema.json",
+    "schemas/v4/SessionTurnDetail.schema.json",
+    "schemas/v4/SessionTurnDetailsList.schema.json",
+    "schemas/v4/SessionTurnDetails.schema.json",
+    "schemas/v4/ReadSessionTurnDetailsRequest.schema.json",
+    "schemas/v4/ReadSessionTurnDetailsResponse.schema.json"
   ],
   "operations": {
     "interaction-surface/v3": [
@@ -618,6 +628,11 @@
         "operation": "ReopenExistingArtifact",
         "request": "ReopenExistingArtifactRequest",
         "response": "ReopenExistingArtifactResponse"
+      },
+      {
+        "operation": "ReadSessionTurnDetails",
+        "request": "ReadSessionTurnDetailsRequest",
+        "response": "ReadSessionTurnDetailsResponse"
       }
     ],
     "painter/v3": [
@@ -922,7 +937,7 @@
     }
   ],
   "contractHandshake": {
-    "contracts": "hanaworlds-contracts@0.3.0",
+    "contracts": "hanaworlds-contracts@0.3.1",
     "wireVersions": [
       "BUILD/V2",
       "ReferenceBrief/v2",
@@ -945,5 +960,6 @@
     "placement.verticalSearchCells"
   ],
   "approvedProfileSha256": "7873aae0b8e8ad51bfcf13d537877441b76afeb1687392e9f52719bec8d6f9f9",
+  "sessionReadbackExtensionSha256": "58c049186d4ff9d839469d193435563c08396714a29b24c283432e4c96dedfad",
   "approvedClosureSha256": "ef7e45788a0d3ed34819c381c9a8c34302843f22594427b5aabcd87d16a9accb"
 }

@@ -1,7 +1,7 @@
 {
   "$schema": "http://json-schema.org/draft-07/schema#",
-  "$id": "https://hanaworlds.invalid/contracts/0.3.0/v4/RestoreTransactionResponse.schema.json",
-  "title": "HanaWorlds contracts 0.3.0 — complete v4 type inventory",
+  "$id": "https://hanaworlds.invalid/contracts/0.3.1/v4/RestoreTransactionResponse.schema.json",
+  "title": "HanaWorlds contracts 0.3.1 — complete v4 type inventory",
   "description": "Select a definition. JSON Schema establishes structure; exported validators additionally enforce the normative domain rules. Validation never authenticates a provider.",
   "definitions": {
     "Ref": {
@@ -9421,6 +9421,154 @@
         "exchanged by every provider/consumer pair before any request",
         "every wire the consumer needs must be advertised with the same major; every fact profile the consumer may send must be advertised; otherwise UNSUPPORTED_VERSION/decode/VERSION_UNSUPPORTED/NONE, zero requests, no fallback or downgrade",
         "contracts@0.3.0 advertises interaction-surface/v3, world-adapter/v4, canvas/v4, session/v2, painter/v3, ReferenceBrief/v2, BUILD/V2 and factProfiles target-facts/v2 + target-facts/v3; contracts@0.2.1 advertises the v2/v3 set and target-facts/v2 only"
+      ]
+    },
+    "SessionTurnDetail": {
+      "type": "object",
+      "properties": {
+        "turnRef": {
+          "$ref": "#/definitions/Ref"
+        },
+        "turnRevision": {
+          "$ref": "#/definitions/Revision"
+        },
+        "userText": {
+          "$ref": "#/definitions/Text"
+        },
+        "resultText": {
+          "$ref": "#/definitions/Text"
+        },
+        "confirmedBrief": {
+          "anyOf": [
+            {
+              "$ref": "#/definitions/BriefProjection"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        }
+      },
+      "required": [
+        "turnRef",
+        "turnRevision",
+        "userText",
+        "resultText",
+        "confirmedBrief"
+      ],
+      "additionalProperties": false,
+      "x-typeName": "SessionTurnDetail",
+      "x-rules": [
+        "userText is the exact original user text; resultText is the complete persisted reply, never a digest or summary",
+        "confirmedBrief is the confirmed ReferenceBrief/v2 projection or explicit null; when nonnull its sessionRef and turnRevision match this result and turn"
+      ]
+    },
+    "SessionTurnDetailsList": {
+      "type": "array",
+      "items": {
+        "$ref": "#/definitions/SessionTurnDetail"
+      },
+      "x-typeName": "SessionTurnDetailsList",
+      "x-order": "persisted Session turn order",
+      "x-uniqueBy": "turnRef"
+    },
+    "SessionTurnDetails": {
+      "type": "object",
+      "properties": {
+        "sessionRef": {
+          "$ref": "#/definitions/Ref"
+        },
+        "sessionRevision": {
+          "$ref": "#/definitions/Revision"
+        },
+        "turns": {
+          "$ref": "#/definitions/SessionTurnDetailsList"
+        }
+      },
+      "required": [
+        "sessionRef",
+        "sessionRevision",
+        "turns"
+      ],
+      "additionalProperties": false,
+      "x-typeName": "SessionTurnDetails",
+      "x-rules": [
+        "one authorized, durable snapshot of the requested existing Session; an empty turns array is valid"
+      ]
+    },
+    "ReadSessionTurnDetailsRequest": {
+      "type": "object",
+      "properties": {
+        "contractVersion": {
+          "const": "session/v2"
+        },
+        "actorRef": {
+          "$ref": "#/definitions/Ref"
+        },
+        "sessionRef": {
+          "$ref": "#/definitions/Ref"
+        },
+        "requestId": {
+          "$ref": "#/definitions/Ref"
+        },
+        "authorizationRef": {
+          "$ref": "#/definitions/Ref"
+        }
+      },
+      "required": [
+        "contractVersion",
+        "actorRef",
+        "sessionRef",
+        "requestId",
+        "authorizationRef"
+      ],
+      "additionalProperties": false,
+      "x-typeName": "ReadSessionTurnDetailsRequest",
+      "x-rules": [
+        "actorRef, sessionRef and authorizationRef are trusted context inputs to the provider, not authorization claims established by caller JSON",
+        "requestId correlates one read; authorization and revocation are rechecked before each durable read"
+      ]
+    },
+    "ReadSessionTurnDetailsResponse": {
+      "type": "object",
+      "properties": {
+        "contractVersion": {
+          "const": "session/v2"
+        },
+        "requestId": {
+          "$ref": "#/definitions/Ref"
+        },
+        "result": {
+          "anyOf": [
+            {
+              "$ref": "#/definitions/SessionTurnDetails"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "error": {
+          "anyOf": [
+            {
+              "$ref": "#/definitions/Error"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        }
+      },
+      "required": [
+        "contractVersion",
+        "requestId",
+        "result",
+        "error"
+      ],
+      "additionalProperties": false,
+      "x-typeName": "ReadSessionTurnDetailsResponse",
+      "x-rules": [
+        "exactly one of result/error nonnull; no partial turns on denial or readback failure"
       ]
     }
   },

@@ -25,3 +25,6 @@ export declare function response(operation: "PersistRequiredArtifactResources", 
 export declare function validate(operation: "ReopenExistingArtifact", value: unknown): T.ReopenExistingArtifactRequest;
 export declare function admit(operation: "ReopenExistingArtifact", bytes: Uint8Array): T.ReopenExistingArtifactRequest;
 export declare function response(operation: "ReopenExistingArtifact", value: unknown): T.ReopenExistingArtifactResponse;
+export declare function validate(operation: "ReadSessionTurnDetails", value: unknown): T.ReadSessionTurnDetailsRequest;
+export declare function admit(operation: "ReadSessionTurnDetails", bytes: Uint8Array): T.ReadSessionTurnDetailsRequest;
+export declare function response(operation: "ReadSessionTurnDetails", value: unknown): T.ReadSessionTurnDetailsResponse;

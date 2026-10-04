@@ -16,7 +16,7 @@ const closures = (await read('closure-oracles-v4')).cases;
 const events = (await read('canvas-events-v4')).cases;
 const placement = await read('placement-region-chain-v4');
 const seam = (await read('history-seam-chain-v4')).validCases[0].materializedChain;
-assert.equal(pkg.version, '0.3.0');
+assert.equal(pkg.version, '0.3.1');
 assert.equal(V4.version, pkg.version);
 assert.equal(V4.schemaInventory.length, 283);
 assert.equal(Object.keys(V4.digestProfile.projectionTypes).length, 20);

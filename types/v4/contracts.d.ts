@@ -1,4 +1,4 @@
-// GENERATED — all 283 approved named types, no any/open object fallback.
+// GENERATED — 288 named types from approved base plus session readback extension; no any/open object fallback.
 export type Ref = string;
 export type Revision = string;
 export type Digest = string;
@@ -1902,6 +1902,37 @@ export type ContractHandshake = {
   readonly "compiledOperationsVersion": "operations/v2";
   readonly "factProfiles": FactProfiles;
 };
+/** userText is the exact original user text; resultText is the complete persisted reply, never a digest or summary | confirmedBrief is the confirmed ReferenceBrief/v2 projection or explicit null; when nonnull its sessionRef and turnRevision match this result and turn */
+export type SessionTurnDetail = {
+  readonly "turnRef": Ref;
+  readonly "turnRevision": Revision;
+  readonly "userText": Text;
+  readonly "resultText": Text;
+  readonly "confirmedBrief": BriefProjection | null;
+};
+/** Order: persisted Session turn order */
+export type SessionTurnDetailsList = ReadonlyArray<SessionTurnDetail>;
+/** one authorized, durable snapshot of the requested existing Session; an empty turns array is valid */
+export type SessionTurnDetails = {
+  readonly "sessionRef": Ref;
+  readonly "sessionRevision": Revision;
+  readonly "turns": SessionTurnDetailsList;
+};
+/** actorRef, sessionRef and authorizationRef are trusted context inputs to the provider, not authorization claims established by caller JSON | requestId correlates one read; authorization and revocation are rechecked before each durable read */
+export type ReadSessionTurnDetailsRequest = {
+  readonly "contractVersion": "session/v2";
+  readonly "actorRef": Ref;
+  readonly "sessionRef": Ref;
+  readonly "requestId": Ref;
+  readonly "authorizationRef": Ref;
+};
+/** exactly one of result/error nonnull; no partial turns on denial or readback failure */
+export type ReadSessionTurnDetailsResponse = {
+  readonly "contractVersion": "session/v2";
+  readonly "requestId": Ref;
+  readonly "result": SessionTurnDetails | null;
+  readonly "error": Error | null;
+};
 
 export interface TypeMap {
   readonly Ref: Ref;
@@ -2187,6 +2218,11 @@ export interface TypeMap {
   readonly WireVersions: WireVersions;
   readonly FactProfiles: FactProfiles;
   readonly ContractHandshake: ContractHandshake;
+  readonly SessionTurnDetail: SessionTurnDetail;
+  readonly SessionTurnDetailsList: SessionTurnDetailsList;
+  readonly SessionTurnDetails: SessionTurnDetails;
+  readonly ReadSessionTurnDetailsRequest: ReadSessionTurnDetailsRequest;
+  readonly ReadSessionTurnDetailsResponse: ReadSessionTurnDetailsResponse;
 }
 export type TypeName = keyof TypeMap;
 export type WireVersion = "interaction-surface/v3" | "world-adapter/v4" | "canvas/v4" | "session/v2" | "painter/v3" | "ReferenceBrief/v2" | "BUILD/V2";
@@ -2204,6 +2240,7 @@ export interface OperationMap {
     readonly "DeleteSession": { readonly request: DeleteSessionRequest; readonly response: DeleteSessionResponse; };
     readonly "PersistRequiredArtifactResources": { readonly request: PersistRequiredArtifactResourcesRequest; readonly response: PersistRequiredArtifactResourcesResponse; };
     readonly "ReopenExistingArtifact": { readonly request: ReopenExistingArtifactRequest; readonly response: ReopenExistingArtifactResponse; };
+    readonly "ReadSessionTurnDetails": { readonly request: ReadSessionTurnDetailsRequest; readonly response: ReadSessionTurnDetailsResponse; };
   };
   readonly "painter/v3": {
     readonly "CreateBuildPlan": { readonly request: CreateBuildPlanRequest; readonly response: CreateBuildPlanResponse | ClarificationNeed; };

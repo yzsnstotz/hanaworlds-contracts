@@ -1,0 +1,86 @@
+{
+  "format": "HANAWORLDS_SESSION_V2_READBACK_EXTENSION/1",
+  "baseProfile": "CONTRACT_SCHEMA_PROFILE.json",
+  "types": {
+    "SessionTurnDetail": {
+      "type": "object",
+      "fields": {
+        "turnRef": "Ref",
+        "turnRevision": "Revision",
+        "userText": "Text",
+        "resultText": "Text",
+        "confirmedBrief": "BriefProjection|null"
+      },
+      "rules": [
+        "userText is the exact original user text; resultText is the complete persisted reply, never a digest or summary",
+        "confirmedBrief is the confirmed ReferenceBrief/v2 projection or explicit null; when nonnull its sessionRef and turnRevision match this result and turn"
+      ]
+    },
+    "SessionTurnDetailsList": {
+      "type": "array",
+      "items": "SessionTurnDetail",
+      "order": "persisted Session turn order",
+      "uniqueBy": "turnRef"
+    },
+    "SessionTurnDetails": {
+      "type": "object",
+      "fields": {
+        "sessionRef": "Ref",
+        "sessionRevision": "Revision",
+        "turns": "SessionTurnDetailsList"
+      },
+      "rules": [
+        "one authorized, durable snapshot of the requested existing Session; an empty turns array is valid"
+      ]
+    },
+    "ReadSessionTurnDetailsRequest": {
+      "type": "object",
+      "fields": {
+        "contractVersion": "=session/v2",
+        "actorRef": "Ref",
+        "sessionRef": "Ref",
+        "requestId": "Ref",
+        "authorizationRef": "Ref"
+      },
+      "rules": [
+        "actorRef, sessionRef and authorizationRef are trusted context inputs to the provider, not authorization claims established by caller JSON",
+        "requestId correlates one read; authorization and revocation are rechecked before each durable read"
+      ]
+    },
+    "ReadSessionTurnDetailsResponse": {
+      "type": "object",
+      "fields": {
+        "contractVersion": "=session/v2",
+        "requestId": "Ref",
+        "result": "SessionTurnDetails|null",
+        "error": "Error|null"
+      },
+      "rules": [
+        "exactly one of result/error nonnull; no partial turns on denial or readback failure"
+      ]
+    }
+  },
+  "operation": {
+    "operation": "ReadSessionTurnDetails",
+    "request": "ReadSessionTurnDetailsRequest",
+    "response": "ReadSessionTurnDetailsResponse",
+    "successSemantics": "Read the complete persisted user text, result text and confirmed BriefProjection (or explicit null) for turns of one currently authorized existing Session; no mutation or digest-as-reply substitution.",
+    "validationOrder": [
+      "strict request decode and supported session/v2 version",
+      "trusted actor/session/authorization binding and current revocation",
+      "existing Session scope",
+      "durable snapshot and complete turn details"
+    ],
+    "failureCodes": [
+      "SCHEMA_INVALID",
+      "UNSUPPORTED_VERSION",
+      "UNKNOWN_REQUIRED_FIELD",
+      "PERMISSION_DENIED",
+      "AUTHORIZATION_REVOKED",
+      "SESSION_NOT_FOUND",
+      "READBACK_FAILED"
+    ],
+    "idempotency": "read-only; requestId is correlation only, no replayed cached read; current authorization and durable state are checked on every call",
+    "scope": "session"
+  }
+}
