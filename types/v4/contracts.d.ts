@@ -1,4 +1,4 @@
-// GENERATED — 320 named types from approved base plus session readback extension; no any/open object fallback.
+// GENERATED — 332 named types from approved base plus session readback extension; no any/open object fallback.
 export type Ref = string;
 export type Revision = string;
 export type Digest = string;
@@ -2169,6 +2169,88 @@ export type UndoRecoveryRecord = {
   readonly "direction": "UNDO";
   readonly "status": UndoRecoveryRecordStatus;
 };
+export type BuildEntryStage = "PLACEMENT" | "PLAN" | "COMPILE" | "ANALYZE" | "APPLY" | "COMPLETE";
+export type BuildEntryPendingStage = "PLACEMENT" | "PLAN" | "COMPILE" | "ANALYZE" | "APPLY";
+export type BuildEntryTurnStatus = "CURRENT_CONFIRMED" | "UNCONFIRMED" | "SUPERSEDED";
+export type BuildEntryGrantStatus = "CURRENT" | "REVOKED";
+export type BuildEntryReplay = "NEW" | "EXACT_REPLAY" | "CONFLICT";
+/** host-supplied current actor/Session/world/original grant and user-confirmed displayed turn revision; Workshop resolves the current turn from its own durable state | no caller-supplied turnRef, transactionId, objectRef, invocationId, phase or Canvas authorization binding */
+export type AdvanceCurrentBuildRequest = {
+  readonly "contractVersion": "session/v2";
+  readonly "actorRef": Ref;
+  readonly "sessionRef": Ref;
+  readonly "requestId": Ref;
+  readonly "authorizationRef": Ref;
+  readonly "worldRef": Ref;
+  readonly "expectedTurnRevision": Revision;
+};
+/** fixture-only projection supplied by independently authenticated host and Workshop durable state, never by the external caller | EXACT_REPLAY means the durable requestId and exact validated payload match a prior call; the provider returns that recorded outcome with no new world write */
+export type BuildEntryProviderFacts = {
+  readonly "actorRef": Ref;
+  readonly "sessionRef": Ref;
+  readonly "authorizationRef": Ref;
+  readonly "worldRef": Ref;
+  readonly "currentTurnRevision": Revision;
+  readonly "turnStatus": BuildEntryTurnStatus;
+  readonly "stage": BuildEntryStage;
+  readonly "grantStatus": BuildEntryGrantStatus;
+  readonly "replay": BuildEntryReplay;
+};
+/** a durable current build phase without a verified world write; do not infer success from transport or an event */
+export type BuildEntryPending = {
+  readonly "sessionRef": Ref;
+  readonly "worldRef": Ref;
+  readonly "turnRevision": Revision;
+  readonly "outcome": "PENDING";
+  readonly "stage": BuildEntryPendingStage;
+};
+/** frame must belong to the same Session and confirmed turn revision; selection occurs through the published interaction surface */
+export type BuildEntryChoiceRequired = {
+  readonly "sessionRef": Ref;
+  readonly "worldRef": Ref;
+  readonly "turnRevision": Revision;
+  readonly "outcome": "CHOICE_REQUIRED";
+  readonly "stage": "PLACEMENT";
+  readonly "frame": InteractionFrame;
+};
+/** receipt must be a durable Canvas VERIFIED Apply receipt; Workshop may not synthesize transaction identity or report pending as success */
+export type BuildEntryVerified = {
+  readonly "sessionRef": Ref;
+  readonly "worldRef": Ref;
+  readonly "turnRevision": Revision;
+  readonly "outcome": "VERIFIED";
+  readonly "stage": "COMPLETE";
+  readonly "receipt": ReceiptProjection;
+};
+/** exactly one typed pending, player-choice or verified result */
+export type BuildEntryOutcome = {
+  readonly "sessionRef": Ref;
+  readonly "worldRef": Ref;
+  readonly "turnRevision": Revision;
+  readonly "stage": BuildEntryPendingStage;
+  readonly "outcome": "PENDING";
+} | {
+  readonly "sessionRef": Ref;
+  readonly "worldRef": Ref;
+  readonly "turnRevision": Revision;
+  readonly "stage": "PLACEMENT";
+  readonly "frame": InteractionFrame;
+  readonly "outcome": "CHOICE_REQUIRED";
+} | {
+  readonly "sessionRef": Ref;
+  readonly "worldRef": Ref;
+  readonly "turnRevision": Revision;
+  readonly "stage": "COMPLETE";
+  readonly "receipt": ReceiptProjection;
+  readonly "outcome": "VERIFIED";
+};
+/** exactly one of result/error nonnull; every result is correlated to the current request and durable turn */
+export type AdvanceCurrentBuildResponse = {
+  readonly "contractVersion": "session/v2";
+  readonly "requestId": Ref;
+  readonly "result": BuildEntryOutcome | null;
+  readonly "error": Error | null;
+};
 
 export interface TypeMap {
   readonly Ref: Ref;
@@ -2491,6 +2573,18 @@ export interface TypeMap {
   readonly CanvasUndoRecoveryResponse: CanvasUndoRecoveryResponse;
   readonly UndoRecoveryRecordStatus: UndoRecoveryRecordStatus;
   readonly UndoRecoveryRecord: UndoRecoveryRecord;
+  readonly BuildEntryStage: BuildEntryStage;
+  readonly BuildEntryPendingStage: BuildEntryPendingStage;
+  readonly BuildEntryTurnStatus: BuildEntryTurnStatus;
+  readonly BuildEntryGrantStatus: BuildEntryGrantStatus;
+  readonly BuildEntryReplay: BuildEntryReplay;
+  readonly AdvanceCurrentBuildRequest: AdvanceCurrentBuildRequest;
+  readonly BuildEntryProviderFacts: BuildEntryProviderFacts;
+  readonly BuildEntryPending: BuildEntryPending;
+  readonly BuildEntryChoiceRequired: BuildEntryChoiceRequired;
+  readonly BuildEntryVerified: BuildEntryVerified;
+  readonly BuildEntryOutcome: BuildEntryOutcome;
+  readonly AdvanceCurrentBuildResponse: AdvanceCurrentBuildResponse;
 }
 export type TypeName = keyof TypeMap;
 export type WireVersion = "interaction-surface/v3" | "world-adapter/v4" | "canvas/v4" | "session/v2" | "painter/v3" | "ReferenceBrief/v2" | "BUILD/V2" | "world-adapter/v5";
@@ -2512,6 +2606,7 @@ export interface OperationMap {
     readonly "ReadCurrentUndoStatus": { readonly request: ReadCurrentUndoStatusRequest; readonly response: ReadCurrentUndoStatusResponse; };
     readonly "UndoCurrentBuild": { readonly request: UndoCurrentBuildRequest; readonly response: UndoCurrentBuildResponse; };
     readonly "RecoverPendingUndo": { readonly request: SessionRecoverPendingUndoRequest; readonly response: SessionRecoverPendingUndoResponse; };
+    readonly "AdvanceCurrentBuild": { readonly request: AdvanceCurrentBuildRequest; readonly response: AdvanceCurrentBuildResponse; };
   };
   readonly "painter/v3": {
     readonly "CreateBuildPlan": { readonly request: CreateBuildPlanRequest; readonly response: CreateBuildPlanResponse | ClarificationNeed; };

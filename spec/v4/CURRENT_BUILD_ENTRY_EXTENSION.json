@@ -1,0 +1,92 @@
+{
+  "format": "HANAWORLDS_CURRENT_BUILD_ENTRY_EXTENSION/1",
+  "baseProfile": "CONTRACT_SCHEMA_PROFILE.json",
+  "priorExtension": "UNDO_RECOVERY_EXTENSION.json",
+  "packageVersion": "0.3.5",
+  "trustBoundary": "The Shell host supplies its verified live actor, Session, world and original game grant binding. Workshop rechecks that binding and reads its own durable latest confirmed turn before selecting a stage or any Canvas transaction identity. Caller JSON and this contract fixture do not authenticate a grant. An EXACT_REPLAY returns the stored outcome without another world write; a conflicting reuse is rejected. Every phase requires its current operation-specific grant scope. Only a durable Canvas VERIFIED Apply receipt may produce VERIFIED.",
+  "types": {
+    "BuildEntryStage": { "type": "enum", "values": ["PLACEMENT", "PLAN", "COMPILE", "ANALYZE", "APPLY", "COMPLETE"] },
+    "BuildEntryPendingStage": { "type": "enum", "values": ["PLACEMENT", "PLAN", "COMPILE", "ANALYZE", "APPLY"] },
+    "BuildEntryTurnStatus": { "type": "enum", "values": ["CURRENT_CONFIRMED", "UNCONFIRMED", "SUPERSEDED"] },
+    "BuildEntryGrantStatus": { "type": "enum", "values": ["CURRENT", "REVOKED"] },
+    "BuildEntryReplay": { "type": "enum", "values": ["NEW", "EXACT_REPLAY", "CONFLICT"] },
+    "AdvanceCurrentBuildRequest": {
+      "type": "object",
+      "fields": {
+        "contractVersion": "=session/v2", "actorRef": "Ref", "sessionRef": "Ref",
+        "requestId": "Ref", "authorizationRef": "Ref", "worldRef": "Ref",
+        "expectedTurnRevision": "Revision"
+      },
+      "rules": [
+        "host-supplied current actor/Session/world/original grant and user-confirmed displayed turn revision; Workshop resolves the current turn from its own durable state",
+        "no caller-supplied turnRef, transactionId, objectRef, invocationId, phase or Canvas authorization binding"
+      ]
+    },
+    "BuildEntryProviderFacts": {
+      "type": "object",
+      "fields": {
+        "actorRef": "Ref", "sessionRef": "Ref", "authorizationRef": "Ref",
+        "worldRef": "Ref", "currentTurnRevision": "Revision",
+        "turnStatus": "BuildEntryTurnStatus", "stage": "BuildEntryStage",
+        "grantStatus": "BuildEntryGrantStatus", "replay": "BuildEntryReplay"
+      },
+      "rules": [
+        "fixture-only projection supplied by independently authenticated host and Workshop durable state, never by the external caller",
+        "EXACT_REPLAY means the durable requestId and exact validated payload match a prior call; the provider returns that recorded outcome with no new world write"
+      ]
+    },
+    "BuildEntryPending": {
+      "type": "object",
+      "fields": {
+        "sessionRef": "Ref", "worldRef": "Ref", "turnRevision": "Revision",
+        "outcome": "=PENDING", "stage": "BuildEntryPendingStage"
+      },
+      "rules": ["a durable current build phase without a verified world write; do not infer success from transport or an event"]
+    },
+    "BuildEntryChoiceRequired": {
+      "type": "object",
+      "fields": {
+        "sessionRef": "Ref", "worldRef": "Ref", "turnRevision": "Revision",
+        "outcome": "=CHOICE_REQUIRED", "stage": "=PLACEMENT", "frame": "InteractionFrame"
+      },
+      "rules": ["frame must belong to the same Session and confirmed turn revision; selection occurs through the published interaction surface"]
+    },
+    "BuildEntryVerified": {
+      "type": "object",
+      "fields": {
+        "sessionRef": "Ref", "worldRef": "Ref", "turnRevision": "Revision",
+        "outcome": "=VERIFIED", "stage": "=COMPLETE", "receipt": "ReceiptProjection"
+      },
+      "rules": ["receipt must be a durable Canvas VERIFIED Apply receipt; Workshop may not synthesize transaction identity or report pending as success"]
+    },
+    "BuildEntryOutcome": {
+      "type": "discriminated-object",
+      "discriminator": "outcome",
+      "common": { "sessionRef": "Ref", "worldRef": "Ref", "turnRevision": "Revision" },
+      "variants": {
+        "PENDING": { "stage": "BuildEntryPendingStage" },
+        "CHOICE_REQUIRED": { "stage": "=PLACEMENT", "frame": "InteractionFrame" },
+        "VERIFIED": { "stage": "=COMPLETE", "receipt": "ReceiptProjection" }
+      },
+      "rules": ["exactly one typed pending, player-choice or verified result"]
+    },
+    "AdvanceCurrentBuildResponse": {
+      "type": "object",
+      "fields": {
+        "contractVersion": "=session/v2", "requestId": "Ref",
+        "result": "BuildEntryOutcome|null", "error": "Error|null"
+      },
+      "rules": ["exactly one of result/error nonnull; every result is correlated to the current request and durable turn"]
+    }
+  },
+  "operations": [
+    {
+      "operation": "AdvanceCurrentBuild", "request": "AdvanceCurrentBuildRequest", "response": "AdvanceCurrentBuildResponse",
+      "successSemantics": "Advance only the host-bound, latest confirmed Workshop turn through placement, plan, compile, analyze and Canvas-owned apply; return a typed pending phase, current choice frame or durable VERIFIED Apply receipt.",
+      "validationOrder": ["strict decode", "live host actor/Session/world/grant verification and revocation", "Workshop durable latest confirmed turn and expected revision", "durable requestId plus exact payload replay classification", "current phase and operation-specific grant scope", "derive internal IDs and ask the owning provider", "durable outcome and response correlation"],
+      "failureCodes": ["SCHEMA_INVALID", "UNSUPPORTED_VERSION", "UNKNOWN_REQUIRED_FIELD", "PERMISSION_DENIED", "AUTHORIZATION_REVOKED", "SESSION_NOT_FOUND", "WORLD_NOT_BOUND", "INTENT_UNCONFIRMED", "TURN_REVISION_MISMATCH", "STALE_REVISION", "TRANSACTION_CONFLICT", "RECOVERY_PENDING", "INVALID_FRAME", "TARGET_REQUIRED", "IMAGE_REQUIRED", "AMBIGUOUS_GEOMETRY", "OTHER_OBJECTS_AFFECTED", "CAPABILITY_UNAVAILABLE", "READBACK_FAILED"],
+      "idempotency": "requestId plus exact validated payload is durable; EXACT_REPLAY returns recorded outcome without another Canvas write; changed payload for the same requestId is TRANSACTION_CONFLICT; newer requests resolve the current phase and never replay a stale grant",
+      "scope": "session"
+    }
+  ]
+}

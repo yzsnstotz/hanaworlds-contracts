@@ -5,7 +5,7 @@ export interface DigestResult<P> { readonly kind: T.DigestKind; readonly project
 export interface OperationContract { readonly operation: string; readonly request: T.TypeName; readonly response: T.TypeName; readonly alternateResult?: T.TypeName; readonly event?: string; readonly validationOrder: ReadonlyArray<string>; readonly failureCodes: ReadonlyArray<T.ErrorCode>; readonly successSemantics: string; readonly idempotency: string; readonly scope?: string; readonly requestName?: string; readonly responseName?: string; readonly baselineOperation?: string; }
 export declare class ContractError extends Error { constructor(code: T.ErrorCode, phase: T.Phase, reason: T.ErrorReason, details?: Partial<T.Error>); readonly publicError: T.Error; readonly code: T.ErrorCode; readonly phase: T.Phase; readonly reason: T.ErrorReason; readonly mutationState: T.MutationState; readonly retryability: T.Retryability; }
 export declare function publicError(error: unknown): T.Error;
-export declare const version: '0.3.4';
+export declare const version: '0.3.5';
 export declare const wireVersions: ReadonlyArray<T.WireVersion>;
 export declare const compiledOperationsVersion: 'operations/v2';
 export declare const operationContracts: { readonly [W in T.WireVersion]: ReadonlyArray<OperationContract> };
@@ -73,6 +73,12 @@ export declare function checkSessionReadbackHandshake(advertised: unknown): { re
 export declare function checkSessionUndoHandshake(advertised: unknown): { readonly result: 'HANDSHAKE_OPERATION_MATCH'; readonly advertised: T.ContractHandshake };
 /** Requires the 0.3.4 service recovery extension on both peers. */
 export declare function checkUndoRecoveryHandshake(advertised: unknown): { readonly result: 'HANDSHAKE_OPERATION_MATCH'; readonly advertised: T.ContractHandshake };
+/** Requires the 0.3.5 current-build entry operation on the session/v2 peer. */
+export declare function checkBuildEntryHandshake(advertised: unknown): { readonly result: 'HANDSHAKE_OPERATION_MATCH'; readonly advertised: T.ContractHandshake };
+/** Pure fixture check using host-verified and Workshop-owned durable facts, never caller facts. */
+export declare function validateBuildEntryContext(request: unknown, providerFacts: unknown): { readonly request: T.AdvanceCurrentBuildRequest; readonly replay: T.BuildEntryReplay; readonly stage: T.BuildEntryStage };
+/** Correlates a typed build result to its request; provider authenticity remains external. */
+export declare function validateBuildEntryResponse(request: unknown, response: unknown): T.AdvanceCurrentBuildResponse;
 /** Pure fixture coherence check against a provider-owned durable pending Undo projection; not authentication. */
 export declare function validateUndoRecoveryRecord(request: unknown, durableRecord: unknown, operation?: 'RecoverPendingUndo' | 'ReadPendingUndoResult'): T.UndoRecoveryRecord;
 /** Pure request/response correlation; providers still authenticate service and durable state. */

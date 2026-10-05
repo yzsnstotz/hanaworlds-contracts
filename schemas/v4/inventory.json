@@ -319,7 +319,19 @@
     "SessionRecoverPendingUndoResponse",
     "CanvasUndoRecoveryResponse",
     "UndoRecoveryRecordStatus",
-    "UndoRecoveryRecord"
+    "UndoRecoveryRecord",
+    "BuildEntryStage",
+    "BuildEntryPendingStage",
+    "BuildEntryTurnStatus",
+    "BuildEntryGrantStatus",
+    "BuildEntryReplay",
+    "AdvanceCurrentBuildRequest",
+    "BuildEntryProviderFacts",
+    "BuildEntryPending",
+    "BuildEntryChoiceRequired",
+    "BuildEntryVerified",
+    "BuildEntryOutcome",
+    "AdvanceCurrentBuildResponse"
   ],
   "schemas": [
     "schemas/v4/contracts.schema.json",
@@ -642,7 +654,19 @@
     "schemas/v4/SessionRecoverPendingUndoResponse.schema.json",
     "schemas/v4/CanvasUndoRecoveryResponse.schema.json",
     "schemas/v4/UndoRecoveryRecordStatus.schema.json",
-    "schemas/v4/UndoRecoveryRecord.schema.json"
+    "schemas/v4/UndoRecoveryRecord.schema.json",
+    "schemas/v4/BuildEntryStage.schema.json",
+    "schemas/v4/BuildEntryPendingStage.schema.json",
+    "schemas/v4/BuildEntryTurnStatus.schema.json",
+    "schemas/v4/BuildEntryGrantStatus.schema.json",
+    "schemas/v4/BuildEntryReplay.schema.json",
+    "schemas/v4/AdvanceCurrentBuildRequest.schema.json",
+    "schemas/v4/BuildEntryProviderFacts.schema.json",
+    "schemas/v4/BuildEntryPending.schema.json",
+    "schemas/v4/BuildEntryChoiceRequired.schema.json",
+    "schemas/v4/BuildEntryVerified.schema.json",
+    "schemas/v4/BuildEntryOutcome.schema.json",
+    "schemas/v4/AdvanceCurrentBuildResponse.schema.json"
   ],
   "operations": {
     "interaction-surface/v3": [
@@ -712,6 +736,11 @@
         "operation": "RecoverPendingUndo",
         "request": "SessionRecoverPendingUndoRequest",
         "response": "SessionRecoverPendingUndoResponse"
+      },
+      {
+        "operation": "AdvanceCurrentBuild",
+        "request": "AdvanceCurrentBuildRequest",
+        "response": "AdvanceCurrentBuildResponse"
       }
     ],
     "painter/v3": [
@@ -1051,7 +1080,7 @@
     }
   ],
   "contractHandshake": {
-    "contracts": "hanaworlds-contracts@0.3.4",
+    "contracts": "hanaworlds-contracts@0.3.5",
     "wireVersions": [
       "BUILD/V2",
       "ReferenceBrief/v2",
@@ -1079,5 +1108,6 @@
   "sessionUndoExtensionSha256": "0b1d3ed6148b9158f756aae5fe03da828c35cdaa89252c9e470658842af86e25",
   "scopedWorldExtensionSha256": "b1ea6a3a7d59065af4d7f64e42e2f9a09a5a8feef1dcdbef5f15c2969972bb56",
   "undoRecoveryExtensionSha256": "039f08fd25cd1ee68701bb3d05c39fa3b7b8e4a167771d9198b74c78e7fecbcb",
+  "currentBuildEntryExtensionSha256": "43dcad3ad2792a7adf8d9af039c3b424a66d1238ea3fa97d79f24a16bdacc546",
   "approvedClosureSha256": "ef7e45788a0d3ed34819c381c9a8c34302843f22594427b5aabcd87d16a9accb"
 }

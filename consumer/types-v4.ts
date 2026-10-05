@@ -2,6 +2,7 @@ import {
   validateRequest, validateBoundRequest, admitRequest, digestValue, checkContractHandshake, validateChoiceSelection,
   admitPlacementSettings, validateRegionInspection, projectPreparedTransaction, contractHandshake, placementSettingDescriptors,
   checkSessionReadbackHandshake, checkSessionUndoHandshake, checkScopedWorldHandshake,
+  checkBuildEntryHandshake, validateBuildEntryContext, validateBuildEntryResponse,
   validateScopedTransition, projectScopedPreparedTransaction,
   type TypeMap, type OperationMap, type WireVersion, type FactProfile,
 } from 'hanaworlds-contracts/v4';
@@ -55,6 +56,12 @@ const scopedPeer: string = checkScopedWorldHandshake(contractHandshake).advertis
 const scopedPrepare: OperationMap['world-adapter/v5']['PrepareRecoverableTransaction']['request'] = ScopedAdapter.validate('PrepareRecoverableTransaction', raw);
 const scopedApply: TypeMap['ScopedApplyRequest'] = validateScopedTransition(raw, raw).apply;
 const scopedPrepared: TypeMap['ScopedPreparedTransaction'] = projectScopedPreparedTransaction(raw);
+const buildEntryRequest: OperationMap['session/v2']['AdvanceCurrentBuild']['request'] = Session.validate('AdvanceCurrentBuild', raw);
+const buildEntryResponse: TypeMap['AdvanceCurrentBuildResponse'] = Session.response('AdvanceCurrentBuild', raw);
+const buildEntryResult: TypeMap['BuildEntryOutcome'] | null = buildEntryResponse.result;
+const buildEntryPeer: string = checkBuildEntryHandshake(contractHandshake).advertised.contracts;
+const buildEntryReplay: TypeMap['BuildEntryReplay'] = validateBuildEntryContext(raw, raw).replay;
+const correlatedBuildEntry: TypeMap['AdvanceCurrentBuildResponse'] = validateBuildEntryResponse(raw, raw);
 const typeName: keyof TypeMap = schemaInventory[0]!;
 const fixtureOutcome = evaluateV4Fixture('CreateObjectRequest', raw, { trustedCanvasDomain: false });
 const digest: string = digestValue('target-facts', raw).sha256;
@@ -68,4 +75,4 @@ digestValue('region-inspection', raw);
 // @ts-expect-error InspectRegion is an Adapter operation, not a Canvas one
 Canvas.validate('InspectRegion', raw);
 
-void [binding, bound, expected, region, prepared, inspection, invoke, document, handshake, selected, settings, checked, seven, profile, advertised, firstDefault, wire, request, readbackRequest, readbackResponse, readbackPeer, readbackText, readbackBrief, historyQuery, nullableHistoryRevision, undoStatusRequest, undoStatusResponse, undoRequest, undoResponse, undoHead, undoPeer, scopedPeer, scopedPrepare, scopedApply, scopedPrepared, typeName, fixtureOutcome, digest];
+void [binding, bound, expected, region, prepared, inspection, invoke, document, handshake, selected, settings, checked, seven, profile, advertised, firstDefault, wire, request, readbackRequest, readbackResponse, readbackPeer, readbackText, readbackBrief, historyQuery, nullableHistoryRevision, undoStatusRequest, undoResponse, undoHead, undoPeer, scopedPeer, scopedPrepare, scopedApply, scopedPrepared, buildEntryRequest, buildEntryResponse, buildEntryResult, buildEntryPeer, buildEntryReplay, correlatedBuildEntry, typeName, fixtureOutcome, digest];
