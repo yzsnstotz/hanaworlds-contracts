@@ -1,0 +1,86 @@
+{
+  "format": "HANAWORLDS_SESSION_AUTH_EXTENSION/1",
+  "baseProfile": "CONTRACT_SCHEMA_PROFILE.json",
+  "priorExtension": "CURRENT_BUILD_ENTRY_EXTENSION.json",
+  "packageVersion": "0.3.6",
+  "wire": "session-authorization/v1",
+  "trustBoundary": "ReadOriginalBinding is a trusted Host service, not a renderer or arbitrary plugin call. The Host authenticates its service caller outside JSON, reads the live Core Session, and returns only the original binding it issued and durably stored for that exact Session incarnation. Missing legacy proof is UNKNOWN and read-only. VerifyCurrentGrant is a trusted Adapter service: it authenticates the caller outside JSON and checks the supplied original grantRef, world, player, epoch and action scope against the paired Luanti game now. Neither request JSON nor a contract validator authenticates a grant. Revocation, regrant, replacement and restart never infer authority from online players.",
+  "types": {
+    "OriginalSessionBinding": {
+      "type": "object",
+      "fields": {
+        "sessionRef": "Ref", "sessionIncarnationRef": "Ref", "hostIssuerRef": "Ref",
+        "worldRef": "Ref", "engineActorName": "Ref", "expectedGrantRef": "Ref",
+        "authorizationRef": "Ref", "actorRef": "Ref", "bindingRef": "Ref",
+        "grantEpoch": "Revision", "allowedActions": "Actions"
+      },
+      "rules": [
+        "only the trusted Host that issued this original game binding may persist and return it; its original record is durable before Host exposes CURRENT and survives Host restart",
+        "the Host checks exact live Core Session identity and incarnation against its durable record; deleted/replaced Session, revoked issuance or absent old proof cannot become CURRENT",
+        "expectedGrantRef is the original game grant reference, never discovered from an online player or substituted by a newer grant; allowedActions is nonempty and exact"
+      ]
+    },
+    "ReadOriginalBindingRequest": {
+      "type": "object",
+      "fields": { "contractVersion": "=session-authorization/v1", "requestId": "Ref", "sessionRef": "Ref" },
+      "rules": ["Host-only authenticated service call; sessionRef selects a live Core Session, not a caller assertion of authority"]
+    },
+    "OriginalBindingResult": {
+      "type": "discriminated-object",
+      "discriminator": "status",
+      "common": { "sessionRef": "Ref" },
+      "variants": {
+        "CURRENT": { "binding": "OriginalSessionBinding" },
+        "UNKNOWN": {},
+        "REVOKED": {},
+        "SESSION_REPLACED": {}
+      },
+      "rules": ["UNKNOWN includes legacy history without an original proof and is read-only; REVOKED includes original issuance revoked or superseded by regrant; SESSION_REPLACED includes deleted/reused Session identity; none may carry a binding"]
+    },
+    "ReadOriginalBindingResponse": {
+      "type": "object",
+      "fields": { "contractVersion": "=session-authorization/v1", "requestId": "Ref", "result": "OriginalBindingResult" },
+      "rules": ["untrusted caller is rejected before lookup with PERMISSION_DENIED; response status is not a game-side current grant check"]
+    },
+    "VerifyCurrentGrantRequest": {
+      "type": "object",
+      "fields": { "contractVersion": "=session-authorization/v1", "requestId": "Ref", "binding": "OriginalSessionBinding" },
+      "rules": ["trusted Host passes its previously issued original record; Adapter must authenticate service caller, never manufacture the record from a Session or online player"]
+    },
+    "CurrentGrantResult": {
+      "type": "discriminated-object",
+      "discriminator": "status",
+      "common": { "sessionRef": "Ref" },
+      "variants": {
+        "CURRENT": { "binding": "OriginalSessionBinding" },
+        "UNKNOWN": {},
+        "REVOKED": {},
+        "MISMATCH": {}
+      },
+      "rules": ["CURRENT requires paired Luanti to verify exact original grantRef, world, player, epoch and action scope now; UNKNOWN means game state cannot prove it; REVOKED covers revoked or regranted original grant; MISMATCH covers wrong world, player, binding identity or scope; all other statuses are read-only"]
+    },
+    "VerifyCurrentGrantResponse": {
+      "type": "object",
+      "fields": { "contractVersion": "=session-authorization/v1", "requestId": "Ref", "result": "CurrentGrantResult" },
+      "rules": ["a typed CURRENT result is Adapter game-side verification only; caller still rechecks live Host Session binding before a write"]
+    }
+  },
+  "operations": [
+    {
+      "operation": "ReadOriginalBinding", "request": "ReadOriginalBindingRequest", "response": "ReadOriginalBindingResponse",
+      "successSemantics": "Trusted Host returns the exact original durable binding for a live Core Session incarnation, or UNKNOWN, REVOKED or SESSION_REPLACED without proof.",
+      "validationOrder": ["strict decode and version", "authenticate trusted Host service caller", "read live Core Session and incarnation", "read Host-owned durable original issuance and revocation state", "exact correlation and typed result"],
+      "failureCodes": ["SCHEMA_INVALID", "UNSUPPORTED_VERSION", "UNKNOWN_REQUIRED_FIELD", "PERMISSION_DENIED"],
+      "idempotency": "read-only; restart reloads original durable issuance, never infers missing proof",
+      "scope": "trusted-host"
+    },
+    {
+      "operation": "VerifyCurrentGrant", "request": "VerifyCurrentGrantRequest", "response": "VerifyCurrentGrantResponse",
+      "successSemantics": "Trusted Adapter checks the caller-held original grant against the paired game's current grant and returns CURRENT only on exact match; no grant is issued.",
+      "validationOrder": ["strict decode and version", "authenticate trusted Host service caller", "verify paired game identity and exact original grantRef/world/player/epoch/actions", "exact correlation and typed result"],
+      "failureCodes": ["SCHEMA_INVALID", "UNSUPPORTED_VERSION", "UNKNOWN_REQUIRED_FIELD", "PERMISSION_DENIED"],
+      "idempotency": "read-only current check; every call rechecks game grant and revocation",
+      "scope": "trusted-adapter"
+    }
+  ]
+}

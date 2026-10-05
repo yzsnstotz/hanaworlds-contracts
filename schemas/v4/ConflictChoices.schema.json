@@ -1,7 +1,7 @@
 {
   "$schema": "http://json-schema.org/draft-07/schema#",
-  "$id": "https://hanaworlds.invalid/contracts/0.3.5/v4/ConflictChoices.schema.json",
-  "title": "HanaWorlds contracts 0.3.5 — complete v4 type inventory",
+  "$id": "https://hanaworlds.invalid/contracts/0.3.6/v4/ConflictChoices.schema.json",
+  "title": "HanaWorlds contracts 0.3.6 — complete v4 type inventory",
   "description": "Select a definition. JSON Schema establishes structure; exported validators additionally enforce the normative domain rules. Validation never authenticates a provider.",
   "definitions": {
     "Ref": {
@@ -11097,6 +11097,326 @@
       "x-typeName": "AdvanceCurrentBuildResponse",
       "x-rules": [
         "exactly one of result/error nonnull; every result is correlated to the current request and durable turn"
+      ]
+    },
+    "OriginalSessionBinding": {
+      "type": "object",
+      "properties": {
+        "sessionRef": {
+          "$ref": "#/definitions/Ref"
+        },
+        "sessionIncarnationRef": {
+          "$ref": "#/definitions/Ref"
+        },
+        "hostIssuerRef": {
+          "$ref": "#/definitions/Ref"
+        },
+        "worldRef": {
+          "$ref": "#/definitions/Ref"
+        },
+        "engineActorName": {
+          "$ref": "#/definitions/Ref"
+        },
+        "expectedGrantRef": {
+          "$ref": "#/definitions/Ref"
+        },
+        "authorizationRef": {
+          "$ref": "#/definitions/Ref"
+        },
+        "actorRef": {
+          "$ref": "#/definitions/Ref"
+        },
+        "bindingRef": {
+          "$ref": "#/definitions/Ref"
+        },
+        "grantEpoch": {
+          "$ref": "#/definitions/Revision"
+        },
+        "allowedActions": {
+          "$ref": "#/definitions/Actions"
+        }
+      },
+      "required": [
+        "sessionRef",
+        "sessionIncarnationRef",
+        "hostIssuerRef",
+        "worldRef",
+        "engineActorName",
+        "expectedGrantRef",
+        "authorizationRef",
+        "actorRef",
+        "bindingRef",
+        "grantEpoch",
+        "allowedActions"
+      ],
+      "additionalProperties": false,
+      "x-typeName": "OriginalSessionBinding",
+      "x-rules": [
+        "only the trusted Host that issued this original game binding may persist and return it; its original record is durable before Host exposes CURRENT and survives Host restart",
+        "the Host checks exact live Core Session identity and incarnation against its durable record; deleted/replaced Session, revoked issuance or absent old proof cannot become CURRENT",
+        "expectedGrantRef is the original game grant reference, never discovered from an online player or substituted by a newer grant; allowedActions is nonempty and exact"
+      ]
+    },
+    "ReadOriginalBindingRequest": {
+      "type": "object",
+      "properties": {
+        "contractVersion": {
+          "const": "session-authorization/v1"
+        },
+        "requestId": {
+          "$ref": "#/definitions/Ref"
+        },
+        "sessionRef": {
+          "$ref": "#/definitions/Ref"
+        }
+      },
+      "required": [
+        "contractVersion",
+        "requestId",
+        "sessionRef"
+      ],
+      "additionalProperties": false,
+      "x-typeName": "ReadOriginalBindingRequest",
+      "x-rules": [
+        "Host-only authenticated service call; sessionRef selects a live Core Session, not a caller assertion of authority"
+      ]
+    },
+    "OriginalBindingResult": {
+      "oneOf": [
+        {
+          "type": "object",
+          "properties": {
+            "sessionRef": {
+              "$ref": "#/definitions/Ref"
+            },
+            "binding": {
+              "$ref": "#/definitions/OriginalSessionBinding"
+            },
+            "status": {
+              "const": "CURRENT"
+            }
+          },
+          "required": [
+            "sessionRef",
+            "binding",
+            "status"
+          ],
+          "additionalProperties": false
+        },
+        {
+          "type": "object",
+          "properties": {
+            "sessionRef": {
+              "$ref": "#/definitions/Ref"
+            },
+            "status": {
+              "const": "UNKNOWN"
+            }
+          },
+          "required": [
+            "sessionRef",
+            "status"
+          ],
+          "additionalProperties": false
+        },
+        {
+          "type": "object",
+          "properties": {
+            "sessionRef": {
+              "$ref": "#/definitions/Ref"
+            },
+            "status": {
+              "const": "REVOKED"
+            }
+          },
+          "required": [
+            "sessionRef",
+            "status"
+          ],
+          "additionalProperties": false
+        },
+        {
+          "type": "object",
+          "properties": {
+            "sessionRef": {
+              "$ref": "#/definitions/Ref"
+            },
+            "status": {
+              "const": "SESSION_REPLACED"
+            }
+          },
+          "required": [
+            "sessionRef",
+            "status"
+          ],
+          "additionalProperties": false
+        }
+      ],
+      "x-discriminator": "status",
+      "x-variantKeys": [
+        "CURRENT",
+        "UNKNOWN",
+        "REVOKED",
+        "SESSION_REPLACED"
+      ],
+      "x-typeName": "OriginalBindingResult",
+      "x-rules": [
+        "UNKNOWN includes legacy history without an original proof and is read-only; REVOKED includes original issuance revoked or superseded by regrant; SESSION_REPLACED includes deleted/reused Session identity; none may carry a binding"
+      ]
+    },
+    "ReadOriginalBindingResponse": {
+      "type": "object",
+      "properties": {
+        "contractVersion": {
+          "const": "session-authorization/v1"
+        },
+        "requestId": {
+          "$ref": "#/definitions/Ref"
+        },
+        "result": {
+          "$ref": "#/definitions/OriginalBindingResult"
+        }
+      },
+      "required": [
+        "contractVersion",
+        "requestId",
+        "result"
+      ],
+      "additionalProperties": false,
+      "x-typeName": "ReadOriginalBindingResponse",
+      "x-rules": [
+        "untrusted caller is rejected before lookup with PERMISSION_DENIED; response status is not a game-side current grant check"
+      ]
+    },
+    "VerifyCurrentGrantRequest": {
+      "type": "object",
+      "properties": {
+        "contractVersion": {
+          "const": "session-authorization/v1"
+        },
+        "requestId": {
+          "$ref": "#/definitions/Ref"
+        },
+        "binding": {
+          "$ref": "#/definitions/OriginalSessionBinding"
+        }
+      },
+      "required": [
+        "contractVersion",
+        "requestId",
+        "binding"
+      ],
+      "additionalProperties": false,
+      "x-typeName": "VerifyCurrentGrantRequest",
+      "x-rules": [
+        "trusted Host passes its previously issued original record; Adapter must authenticate service caller, never manufacture the record from a Session or online player"
+      ]
+    },
+    "CurrentGrantResult": {
+      "oneOf": [
+        {
+          "type": "object",
+          "properties": {
+            "sessionRef": {
+              "$ref": "#/definitions/Ref"
+            },
+            "binding": {
+              "$ref": "#/definitions/OriginalSessionBinding"
+            },
+            "status": {
+              "const": "CURRENT"
+            }
+          },
+          "required": [
+            "sessionRef",
+            "binding",
+            "status"
+          ],
+          "additionalProperties": false
+        },
+        {
+          "type": "object",
+          "properties": {
+            "sessionRef": {
+              "$ref": "#/definitions/Ref"
+            },
+            "status": {
+              "const": "UNKNOWN"
+            }
+          },
+          "required": [
+            "sessionRef",
+            "status"
+          ],
+          "additionalProperties": false
+        },
+        {
+          "type": "object",
+          "properties": {
+            "sessionRef": {
+              "$ref": "#/definitions/Ref"
+            },
+            "status": {
+              "const": "REVOKED"
+            }
+          },
+          "required": [
+            "sessionRef",
+            "status"
+          ],
+          "additionalProperties": false
+        },
+        {
+          "type": "object",
+          "properties": {
+            "sessionRef": {
+              "$ref": "#/definitions/Ref"
+            },
+            "status": {
+              "const": "MISMATCH"
+            }
+          },
+          "required": [
+            "sessionRef",
+            "status"
+          ],
+          "additionalProperties": false
+        }
+      ],
+      "x-discriminator": "status",
+      "x-variantKeys": [
+        "CURRENT",
+        "UNKNOWN",
+        "REVOKED",
+        "MISMATCH"
+      ],
+      "x-typeName": "CurrentGrantResult",
+      "x-rules": [
+        "CURRENT requires paired Luanti to verify exact original grantRef, world, player, epoch and action scope now; UNKNOWN means game state cannot prove it; REVOKED covers revoked or regranted original grant; MISMATCH covers wrong world, player, binding identity or scope; all other statuses are read-only"
+      ]
+    },
+    "VerifyCurrentGrantResponse": {
+      "type": "object",
+      "properties": {
+        "contractVersion": {
+          "const": "session-authorization/v1"
+        },
+        "requestId": {
+          "$ref": "#/definitions/Ref"
+        },
+        "result": {
+          "$ref": "#/definitions/CurrentGrantResult"
+        }
+      },
+      "required": [
+        "contractVersion",
+        "requestId",
+        "result"
+      ],
+      "additionalProperties": false,
+      "x-typeName": "VerifyCurrentGrantResponse",
+      "x-rules": [
+        "a typed CURRENT result is Adapter game-side verification only; caller still rechecks live Host Session binding before a write"
       ]
     }
   },

@@ -98,6 +98,10 @@ export function validateDomain(visits) {
     const schema = schemaBundle.definitions[name];
     if (Array.isArray(v) && schema.type === 'array' && !Array.isArray(schema.items)) validateArrayOrder(name, v, parent);
     if (name === 'Box' || name === 'SetBox') assertBox(v);
+    else if (name === 'OriginalSessionBinding')
+      requireFact(v.allowedActions.length > 0, 'SCHEMA_INVALID', 'INVALID_SHAPE');
+    else if ((name === 'OriginalBindingResult' || name === 'CurrentGrantResult') && v.status === 'CURRENT')
+      requireFact(v.binding.sessionRef === v.sessionRef, 'SCHEMA_INVALID', 'INVALID_SHAPE');
     else if (name === 'Axes') geometry(new Set(v.map(x => x[1])).size === 3);
     else if (name === 'CollisionBox') geometry(v.slice(0, 3).every((x, a) => x <= v[a + 3]));
     else if (name === 'NodeCapability') {

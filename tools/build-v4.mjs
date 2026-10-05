@@ -8,6 +8,7 @@ const undo = await readJSON('spec/v4/SESSION_UNDO_EXTENSION.json');
 const scoped = await readJSON('spec/v4/SCOPED_WORLD_EXTENSION.json');
 const recovery = await readJSON('spec/v4/UNDO_RECOVERY_EXTENSION.json');
 const buildEntry = await readJSON('spec/v4/CURRENT_BUILD_ENTRY_EXTENSION.json');
+const sessionAuth = await readJSON('spec/v4/SESSION_AUTH_EXTENSION.json');
 if (baseProfile.package !== 'hanaworlds-contracts@0.3.0' ||
     readback.baseProfile !== 'CONTRACT_SCHEMA_PROFILE.json' ||
     readback.operation.operation !== 'ReadSessionTurnDetails' ||
@@ -33,18 +34,25 @@ if (recovery.baseProfile !== 'CONTRACT_SCHEMA_PROFILE.json' ||
         .some(existing => existing.operation === op.operation))))
   throw new Error('Undo recovery extension must be strictly additive to 0.3.3');
 if (buildEntry.baseProfile !== 'CONTRACT_SCHEMA_PROFILE.json' ||
-    buildEntry.priorExtension !== 'UNDO_RECOVERY_EXTENSION.json' || buildEntry.packageVersion !== pkg.version ||
+    buildEntry.priorExtension !== 'UNDO_RECOVERY_EXTENSION.json' || buildEntry.packageVersion !== '0.3.5' ||
     Object.keys(buildEntry.types).some(name => [baseProfile.types, readback.types, undo.types,
       scoped.types, recovery.types].some(types => Object.hasOwn(types, name))) ||
     buildEntry.operations.some(op => [...baseProfile.operations['session/v2'], readback.operation,
       ...undo.operations, ...recovery.operations['session/v2']].some(old => old.operation === op.operation)))
   throw new Error('Current build entry extension must be strictly additive to 0.3.4');
+if (sessionAuth.baseProfile !== 'CONTRACT_SCHEMA_PROFILE.json' ||
+    sessionAuth.priorExtension !== 'CURRENT_BUILD_ENTRY_EXTENSION.json' ||
+    sessionAuth.packageVersion !== pkg.version || sessionAuth.wire !== 'session-authorization/v1' ||
+    [...baseProfile.wireVersions, scoped.wire].includes(sessionAuth.wire) ||
+    Object.keys(sessionAuth.types).some(name => [baseProfile.types, readback.types, undo.types,
+      scoped.types, recovery.types, buildEntry.types].some(types => Object.hasOwn(types, name))))
+  throw new Error('Session authorization extension must be a distinct addition to 0.3.5');
 const oldHistory = baseProfile.operations['canvas/v4'].find(op => op.operation === 'HistoryQuery');
 if (!oldHistory || baseProfile.types.HistoryQuery.fields.expectedHistoryRevision !== 'Revision')
   throw new Error('HistoryQuery base is not the pinned exact-CAS shape');
 const profile = {
   ...baseProfile,
-  wireVersions: [...baseProfile.wireVersions, scoped.wire],
+  wireVersions: [...baseProfile.wireVersions, scoped.wire, sessionAuth.wire],
   digest: { ...baseProfile.digest, projectionTypes: {
     ...baseProfile.digest.projectionTypes, 'scoped-world': 'ScopedWorldBinding',
     'scoped-transaction-payload': 'ScopedTxProjection',
@@ -58,6 +66,7 @@ const profile = {
     HistoryQuery: { ...baseProfile.types.HistoryQuery,
       fields: { ...baseProfile.types.HistoryQuery.fields, expectedHistoryRevision: undo.historyQuery.expectedHistoryRevision } },
     ...readback.types, ...undo.types, ...scoped.types, ...recovery.types, ...buildEntry.types,
+    ...sessionAuth.types,
   },
   operations: {
     ...baseProfile.operations,
@@ -77,13 +86,14 @@ const profile = {
         failureCodes: [...new Set([...old.failureCodes, 'TARGET_FACTS_INCOMPLETE', 'OBJECT_SCOPE_MISMATCH', 'STALE_REVISION', 'NON_CANONICAL_AMBIGUITY'])],
         successSemantics: op.successSemantics };
     }),
+    [sessionAuth.wire]: sessionAuth.operations,
   },
 };
 const closure = await readJSON('spec/v4/CONTRACT_SEMANTIC_CLOSURE.json');
 const registry = await readJSON('spec/v4/SETTINGS_AND_INVARIANTS.json');
 const oracles = await readJSON('spec/v4/fixtures/candidate/closure-oracles-v4.json');
 const legacyOracles = await readJSON('spec/v4/fixtures/candidate/closure-oracles.json');
-if (pkg.version !== '0.3.5') throw new Error('Current build entry extension requires package 0.3.5');
+if (pkg.version !== '0.3.6') throw new Error('Session authorization extension requires package 0.3.6');
 const schemaId = `https://hanaworlds.invalid/contracts/${pkg.version}/v4/schema.json`;
 const definitions = Object.create(null);
 function literal(value) { const s = value.slice(1); return /^(?:true|false|null|-?(?:0|[1-9][0-9]*)(?:\.[0-9]+)?)$/.test(s) ? JSON.parse(s) : s; }
@@ -126,6 +136,7 @@ for (const x of [...legacyOracles.cases, ...oracles.cases].filter(x => x.dimensi
   if (profile.wireVersions.includes(wire)) owners[wire] = { domainOwner: x.input.domainOwner, mutationCaller: x.input.mutationCaller };
 }
 owners[scoped.wire] = owners['world-adapter/v4']; // Same Adapter owner and Canvas-only mutation caller.
+owners[sessionAuth.wire] = { domainOwner: 'trusted Host for original issuance; Adapter for current game verification', mutationCaller: 'none; read-only' };
 if (Object.keys(owners).length !== profile.wireVersions.length) throw new Error('Every v4 wire needs an approved ownership fact');
 // ContractHandshake advertisement: the exact approved wire set (UTF16 order) and every TargetFacts profile constant.
 const factProfiles = profile.types.TargetFacts.fields.profileVersion.split('|').map(literal).sort();
@@ -155,6 +166,7 @@ await copyFile('spec/v4/SESSION_UNDO_EXTENSION.json', 'schemas/v4/profile/SESSIO
 await copyFile('spec/v4/SCOPED_WORLD_EXTENSION.json', 'schemas/v4/profile/SCOPED_WORLD_EXTENSION.json');
 await copyFile('spec/v4/UNDO_RECOVERY_EXTENSION.json', 'schemas/v4/profile/UNDO_RECOVERY_EXTENSION.json');
 await copyFile('spec/v4/CURRENT_BUILD_ENTRY_EXTENSION.json', 'schemas/v4/profile/CURRENT_BUILD_ENTRY_EXTENSION.json');
+await copyFile('spec/v4/SESSION_AUTH_EXTENSION.json', 'schemas/v4/profile/SESSION_AUTH_EXTENSION.json');
 // TS binding is derived from the same DSL, but is an actual public declaration file.
 function tsref(name) {
   if (name.includes('|')) return name.split('|').map(tsref).join(' | ');
@@ -216,6 +228,12 @@ export declare function checkSessionUndoHandshake(advertised: unknown): { readon
 export declare function checkUndoRecoveryHandshake(advertised: unknown): { readonly result: 'HANDSHAKE_OPERATION_MATCH'; readonly advertised: T.ContractHandshake };
 /** Requires the 0.3.5 current-build entry operation on the session/v2 peer. */
 export declare function checkBuildEntryHandshake(advertised: unknown): { readonly result: 'HANDSHAKE_OPERATION_MATCH'; readonly advertised: T.ContractHandshake };
+/** Requires the exact session-authorization/v1 peer and package capability. */
+export declare function checkSessionAuthorizationHandshake(advertised: unknown): { readonly result: 'HANDSHAKE_OPERATION_MATCH'; readonly advertised: T.ContractHandshake };
+/** Fixture coherence only; Host authenticates the caller and reads its own durable issuance. */
+export declare function validateOriginalBindingResponse(request: unknown, response: unknown): T.ReadOriginalBindingResponse;
+/** Fixture coherence only; Adapter authenticates caller and queries the paired game. */
+export declare function validateCurrentGrantResponse(request: unknown, response: unknown): T.VerifyCurrentGrantResponse;
 /** Pure fixture check using host-verified and Workshop-owned durable facts, never caller facts. */
 export declare function validateBuildEntryContext(request: unknown, providerFacts: unknown): { readonly request: T.AdvanceCurrentBuildRequest; readonly replay: T.BuildEntryReplay; readonly stage: T.BuildEntryStage };
 /** Correlates a typed build result to its request; provider authenticity remains external. */
@@ -282,6 +300,7 @@ const manifest = { types: Object.keys(definitions), schemas: ['schemas/v4/contra
   scopedWorldExtensionSha256: createHash('sha256').update(await readFile('spec/v4/SCOPED_WORLD_EXTENSION.json')).digest('hex'),
   undoRecoveryExtensionSha256: createHash('sha256').update(await readFile('spec/v4/UNDO_RECOVERY_EXTENSION.json')).digest('hex'),
   currentBuildEntryExtensionSha256: createHash('sha256').update(await readFile('spec/v4/CURRENT_BUILD_ENTRY_EXTENSION.json')).digest('hex'),
+  sessionAuthExtensionSha256: createHash('sha256').update(await readFile('spec/v4/SESSION_AUTH_EXTENSION.json')).digest('hex'),
   approvedClosureSha256: createHash('sha256').update(await readFile('spec/v4/CONTRACT_SEMANTIC_CLOSURE.json')).digest('hex') };
 await writeFile('schemas/v4/inventory.json', JSON.stringify(manifest, null, 2) + '\n');
 console.log(JSON.stringify({ result: 'BUILT', lane: 'v4', types: manifest.types.length, schemas: manifest.schemas.length, bindings: bindingInventory.length,

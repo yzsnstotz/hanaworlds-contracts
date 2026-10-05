@@ -3,6 +3,7 @@ import {
   admitPlacementSettings, validateRegionInspection, projectPreparedTransaction, contractHandshake, placementSettingDescriptors,
   checkSessionReadbackHandshake, checkSessionUndoHandshake, checkScopedWorldHandshake,
   checkBuildEntryHandshake, validateBuildEntryContext, validateBuildEntryResponse,
+  checkSessionAuthorizationHandshake, validateOriginalBindingResponse, validateCurrentGrantResponse,
   validateScopedTransition, projectScopedPreparedTransaction,
   type TypeMap, type OperationMap, type WireVersion, type FactProfile,
 } from 'hanaworlds-contracts/v4';
@@ -13,6 +14,7 @@ import * as Painter from 'hanaworlds-contracts/painter/v3';
 import * as Surface from 'hanaworlds-contracts/interaction-surface/v3';
 import * as Build from 'hanaworlds-contracts/v4/BUILD/V2';
 import * as Session from 'hanaworlds-contracts/v4/session/v2';
+import * as SessionAuth from 'hanaworlds-contracts/v4/session-authorization/v1';
 import { evaluateV4Fixture } from 'hanaworlds-contracts/v4/fixture';
 import { schemaInventory } from 'hanaworlds-contracts/v4/schemas';
 
@@ -62,6 +64,11 @@ const buildEntryResult: TypeMap['BuildEntryOutcome'] | null = buildEntryResponse
 const buildEntryPeer: string = checkBuildEntryHandshake(contractHandshake).advertised.contracts;
 const buildEntryReplay: TypeMap['BuildEntryReplay'] = validateBuildEntryContext(raw, raw).replay;
 const correlatedBuildEntry: TypeMap['AdvanceCurrentBuildResponse'] = validateBuildEntryResponse(raw, raw);
+const originalRequest: OperationMap['session-authorization/v1']['ReadOriginalBinding']['request'] = SessionAuth.validate('ReadOriginalBinding', raw);
+const currentGrantRequest: OperationMap['session-authorization/v1']['VerifyCurrentGrant']['request'] = SessionAuth.validate('VerifyCurrentGrant', raw);
+const originalResponse: TypeMap['ReadOriginalBindingResponse'] = validateOriginalBindingResponse(raw, raw);
+const currentGrantResponse: TypeMap['VerifyCurrentGrantResponse'] = validateCurrentGrantResponse(raw, raw);
+const sessionAuthPeer: string = checkSessionAuthorizationHandshake(contractHandshake).advertised.contracts;
 const typeName: keyof TypeMap = schemaInventory[0]!;
 const fixtureOutcome = evaluateV4Fixture('CreateObjectRequest', raw, { trustedCanvasDomain: false });
 const digest: string = digestValue('target-facts', raw).sha256;
@@ -75,4 +82,4 @@ digestValue('region-inspection', raw);
 // @ts-expect-error InspectRegion is an Adapter operation, not a Canvas one
 Canvas.validate('InspectRegion', raw);
 
-void [binding, bound, expected, region, prepared, inspection, invoke, document, handshake, selected, settings, checked, seven, profile, advertised, firstDefault, wire, request, readbackRequest, readbackResponse, readbackPeer, readbackText, readbackBrief, historyQuery, nullableHistoryRevision, undoStatusRequest, undoResponse, undoHead, undoPeer, scopedPeer, scopedPrepare, scopedApply, scopedPrepared, buildEntryRequest, buildEntryResponse, buildEntryResult, buildEntryPeer, buildEntryReplay, correlatedBuildEntry, typeName, fixtureOutcome, digest];
+void [binding, bound, expected, region, prepared, inspection, invoke, document, handshake, selected, settings, checked, seven, profile, advertised, firstDefault, wire, request, readbackRequest, readbackResponse, readbackPeer, readbackText, readbackBrief, historyQuery, nullableHistoryRevision, undoStatusRequest, undoResponse, undoHead, undoPeer, scopedPeer, scopedPrepare, scopedApply, scopedPrepared, buildEntryRequest, buildEntryResponse, buildEntryResult, buildEntryPeer, buildEntryReplay, correlatedBuildEntry, originalRequest, currentGrantRequest, originalResponse, currentGrantResponse, sessionAuthPeer, typeName, fixtureOutcome, digest];

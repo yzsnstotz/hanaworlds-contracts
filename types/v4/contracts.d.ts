@@ -1,4 +1,4 @@
-// GENERATED — 332 named types from approved base plus session readback extension; no any/open object fallback.
+// GENERATED — 339 named types from approved base plus session readback extension; no any/open object fallback.
 export type Ref = string;
 export type Revision = string;
 export type Digest = string;
@@ -2251,6 +2251,74 @@ export type AdvanceCurrentBuildResponse = {
   readonly "result": BuildEntryOutcome | null;
   readonly "error": Error | null;
 };
+/** only the trusted Host that issued this original game binding may persist and return it; its original record is durable before Host exposes CURRENT and survives Host restart | the Host checks exact live Core Session identity and incarnation against its durable record; deleted/replaced Session, revoked issuance or absent old proof cannot become CURRENT | expectedGrantRef is the original game grant reference, never discovered from an online player or substituted by a newer grant; allowedActions is nonempty and exact */
+export type OriginalSessionBinding = {
+  readonly "sessionRef": Ref;
+  readonly "sessionIncarnationRef": Ref;
+  readonly "hostIssuerRef": Ref;
+  readonly "worldRef": Ref;
+  readonly "engineActorName": Ref;
+  readonly "expectedGrantRef": Ref;
+  readonly "authorizationRef": Ref;
+  readonly "actorRef": Ref;
+  readonly "bindingRef": Ref;
+  readonly "grantEpoch": Revision;
+  readonly "allowedActions": Actions;
+};
+/** Host-only authenticated service call; sessionRef selects a live Core Session, not a caller assertion of authority */
+export type ReadOriginalBindingRequest = {
+  readonly "contractVersion": "session-authorization/v1";
+  readonly "requestId": Ref;
+  readonly "sessionRef": Ref;
+};
+/** UNKNOWN includes legacy history without an original proof and is read-only; REVOKED includes original issuance revoked or superseded by regrant; SESSION_REPLACED includes deleted/reused Session identity; none may carry a binding */
+export type OriginalBindingResult = {
+  readonly "sessionRef": Ref;
+  readonly "binding": OriginalSessionBinding;
+  readonly "status": "CURRENT";
+} | {
+  readonly "sessionRef": Ref;
+  readonly "status": "UNKNOWN";
+} | {
+  readonly "sessionRef": Ref;
+  readonly "status": "REVOKED";
+} | {
+  readonly "sessionRef": Ref;
+  readonly "status": "SESSION_REPLACED";
+};
+/** untrusted caller is rejected before lookup with PERMISSION_DENIED; response status is not a game-side current grant check */
+export type ReadOriginalBindingResponse = {
+  readonly "contractVersion": "session-authorization/v1";
+  readonly "requestId": Ref;
+  readonly "result": OriginalBindingResult;
+};
+/** trusted Host passes its previously issued original record; Adapter must authenticate service caller, never manufacture the record from a Session or online player */
+export type VerifyCurrentGrantRequest = {
+  readonly "contractVersion": "session-authorization/v1";
+  readonly "requestId": Ref;
+  readonly "binding": OriginalSessionBinding;
+};
+/** CURRENT requires paired Luanti to verify exact original grantRef, world, player, epoch and action scope now; UNKNOWN means game state cannot prove it; REVOKED covers revoked or regranted original grant; MISMATCH covers wrong world, player, binding identity or scope; all other statuses are read-only */
+export type CurrentGrantResult = {
+  readonly "sessionRef": Ref;
+  readonly "binding": OriginalSessionBinding;
+  readonly "status": "CURRENT";
+} | {
+  readonly "sessionRef": Ref;
+  readonly "status": "UNKNOWN";
+} | {
+  readonly "sessionRef": Ref;
+  readonly "status": "REVOKED";
+} | {
+  readonly "sessionRef": Ref;
+  readonly "status": "MISMATCH";
+};
+/** a typed CURRENT result is Adapter game-side verification only; caller still rechecks live Host Session binding before a write */
+export type VerifyCurrentGrantResponse = {
+  readonly "contractVersion": "session-authorization/v1";
+  readonly "requestId": Ref;
+  readonly "result": CurrentGrantResult;
+};
 
 export interface TypeMap {
   readonly Ref: Ref;
@@ -2585,9 +2653,16 @@ export interface TypeMap {
   readonly BuildEntryVerified: BuildEntryVerified;
   readonly BuildEntryOutcome: BuildEntryOutcome;
   readonly AdvanceCurrentBuildResponse: AdvanceCurrentBuildResponse;
+  readonly OriginalSessionBinding: OriginalSessionBinding;
+  readonly ReadOriginalBindingRequest: ReadOriginalBindingRequest;
+  readonly OriginalBindingResult: OriginalBindingResult;
+  readonly ReadOriginalBindingResponse: ReadOriginalBindingResponse;
+  readonly VerifyCurrentGrantRequest: VerifyCurrentGrantRequest;
+  readonly CurrentGrantResult: CurrentGrantResult;
+  readonly VerifyCurrentGrantResponse: VerifyCurrentGrantResponse;
 }
 export type TypeName = keyof TypeMap;
-export type WireVersion = "interaction-surface/v3" | "world-adapter/v4" | "canvas/v4" | "session/v2" | "painter/v3" | "ReferenceBrief/v2" | "BUILD/V2" | "world-adapter/v5";
+export type WireVersion = "interaction-surface/v3" | "world-adapter/v4" | "canvas/v4" | "session/v2" | "painter/v3" | "ReferenceBrief/v2" | "BUILD/V2" | "world-adapter/v5" | "session-authorization/v1";
 export type FactProfile = "target-facts/v2" | "target-facts/v3";
 export interface OperationMap {
   readonly "interaction-surface/v3": {
@@ -2661,6 +2736,10 @@ export interface OperationMap {
     readonly "PrepareRecoverableTransaction": { readonly request: ScopedPrepareRequest; readonly response: ScopedPrepareResponse; };
     readonly "ApplyCompiledTransaction": { readonly request: ScopedApplyRequest; readonly response: ScopedApplyResponse; };
     readonly "QueryPreparedTransaction": { readonly request: ScopedQueryPreparedRequest; readonly response: ScopedQueryPreparedResponse; };
+  };
+  readonly "session-authorization/v1": {
+    readonly "ReadOriginalBinding": { readonly request: ReadOriginalBindingRequest; readonly response: ReadOriginalBindingResponse; };
+    readonly "VerifyCurrentGrant": { readonly request: VerifyCurrentGrantRequest; readonly response: VerifyCurrentGrantResponse; };
   };
 }
 export interface ProjectionMap {
