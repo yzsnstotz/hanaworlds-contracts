@@ -322,7 +322,7 @@ export function checkContractHandshake(advertisedInput, requiredInput) {
  * operation. Reject an older package peer before issuing this operation. */
 export function checkSessionReadbackHandshake(advertisedInput) {
   const { advertised } = checkContractHandshake(advertisedInput, { wires: ['session/v2'], factProfiles: [] });
-  requireFact(['hanaworlds-contracts@0.3.1', 'hanaworlds-contracts@0.3.2', 'hanaworlds-contracts@0.3.3'].includes(advertised.contracts) &&
+  requireFact(['hanaworlds-contracts@0.3.1', 'hanaworlds-contracts@0.3.2', 'hanaworlds-contracts@0.3.3', 'hanaworlds-contracts@0.3.4'].includes(advertised.contracts) &&
     operationContracts['session/v2'].some(op => op.operation === 'ReadSessionTurnDetails'),
     'UNSUPPORTED_VERSION', 'VERSION_UNSUPPORTED', 'decode');
   return deepFreeze({ result: 'HANDSHAKE_OPERATION_MATCH', advertised });
@@ -331,7 +331,7 @@ export function checkSessionReadbackHandshake(advertisedInput) {
  * canvas/v4 and session/v2 majors do not advertise these added operations. */
 export function checkSessionUndoHandshake(advertisedInput) {
   const { advertised } = checkContractHandshake(advertisedInput, { wires: ['canvas/v4', 'session/v2'], factProfiles: [] });
-  requireFact(['hanaworlds-contracts@0.3.2', 'hanaworlds-contracts@0.3.3'].includes(advertised.contracts) &&
+  requireFact(['hanaworlds-contracts@0.3.2', 'hanaworlds-contracts@0.3.3', 'hanaworlds-contracts@0.3.4'].includes(advertised.contracts) &&
     ['ReadCurrentUndoStatus', 'UndoCurrentBuild'].every(name =>
       operationContracts['session/v2'].some(op => op.operation === name)),
     'UNSUPPORTED_VERSION', 'VERSION_UNSUPPORTED', 'decode');
@@ -339,11 +339,58 @@ export function checkSessionUndoHandshake(advertisedInput) {
 }
 export function checkScopedWorldHandshake(advertisedInput) {
   const { advertised } = checkContractHandshake(advertisedInput, { wires: ['world-adapter/v5'], factProfiles: [] });
-  requireFact(advertised.contracts === 'hanaworlds-contracts@0.3.3' &&
+  requireFact(['hanaworlds-contracts@0.3.3', 'hanaworlds-contracts@0.3.4'].includes(advertised.contracts) &&
     ['PrepareRecoverableTransaction', 'ApplyCompiledTransaction', 'QueryPreparedTransaction'].every(name =>
       operationContracts['world-adapter/v5'].some(op => op.operation === name)),
     'UNSUPPORTED_VERSION', 'VERSION_UNSUPPORTED', 'decode');
   return deepFreeze({ result: 'HANDSHAKE_OPERATION_MATCH', advertised });
+}
+/** Service recovery is a package capability in the existing session/v2 and
+ * canvas/v4 wires. The matching wire majors alone do not advertise it. */
+export function checkUndoRecoveryHandshake(advertisedInput) {
+  const { advertised } = checkContractHandshake(advertisedInput,
+    { wires: ['canvas/v4', 'session/v2'], factProfiles: [] });
+  requireFact(advertised.contracts === 'hanaworlds-contracts@0.3.4' &&
+    operationContracts['session/v2'].some(op => op.operation === 'RecoverPendingUndo') &&
+    ['RecoverPendingUndo', 'ReadPendingUndoResult'].every(name =>
+      operationContracts['canvas/v4'].some(op => op.operation === name)),
+    'UNSUPPORTED_VERSION', 'VERSION_UNSUPPORTED', 'decode');
+  return deepFreeze({ result: 'HANDSHAKE_OPERATION_MATCH', advertised });
+}
+/** Coherence only: the record MUST come from the provider's own durable store
+ * after independent service authentication. Caller JSON is never that record. */
+export function validateUndoRecoveryRecord(requestInput, durableRecordInput, operationName = 'RecoverPendingUndo') {
+  requireFact(['RecoverPendingUndo', 'ReadPendingUndoResult'].includes(operationName),
+    'UNSUPPORTED_OPERATION', 'INVALID_SHAPE');
+  const request = validateRequest('canvas/v4', operationName, requestInput);
+  requireFact(durableRecordInput !== null && durableRecordInput !== undefined,
+    'TRANSACTION_CONFLICT', 'POLICY_UNAVAILABLE');
+  const record = validateType('UndoRecoveryRecord', durableRecordInput);
+  for (const field of ['actorRef', 'sessionRef', 'worldRef', 'authorizationRef'])
+    requireFact(record[field] === request[field], 'PERMISSION_DENIED', 'IDENTITY_UNVERIFIED', 'authorize');
+  requireFact(record.originalUndoRequestId === request.originalUndoRequestId && record.direction === 'UNDO',
+    'PERMISSION_DENIED', 'IDENTITY_UNVERIFIED', 'authorize');
+  requireFact(record.status !== 'RESERVED' && (operationName !== 'RecoverPendingUndo' ||
+    !['VERIFIED', 'ROLLED_BACK'].includes(record.status)),
+    'TRANSACTION_CONFLICT', 'POLICY_UNAVAILABLE');
+  return record;
+}
+/** Correlates a typed response to its request. No provider-authenticity claim. */
+export function validateUndoRecoveryResponse(wire, operationName, requestInput, responseInput) {
+  requireFact((wire === 'session/v2' && operationName === 'RecoverPendingUndo') ||
+    (wire === 'canvas/v4' && ['RecoverPendingUndo', 'ReadPendingUndoResult'].includes(operationName)),
+  'UNSUPPORTED_OPERATION', 'INVALID_SHAPE');
+  const request = validateRequest(wire, operationName, requestInput);
+  const response = validateResponse(wire, operationName, responseInput);
+  requireFact(response.requestId === request.requestId, 'SCHEMA_INVALID', 'INVALID_SHAPE');
+  if (response.result !== null) {
+    for (const field of ['sessionRef', 'worldRef'])
+      requireFact(response.result[field] === request[field], 'PERMISSION_DENIED', 'IDENTITY_UNVERIFIED', 'authorize');
+    if (wire === 'canvas/v4')
+      requireFact(response.result.originalUndoRequestId === request.originalUndoRequestId,
+        'PERMISSION_DENIED', 'IDENTITY_UNVERIFIED', 'authorize');
+  }
+  return response;
 }
 /** interaction-surface/v3 SELECT_CHOICE: the value must be one listed choice of the
  * same frameRef/frameRevision/actionId; renderers never parse frame text for options. */

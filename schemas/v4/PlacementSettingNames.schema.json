@@ -1,7 +1,7 @@
 {
   "$schema": "http://json-schema.org/draft-07/schema#",
-  "$id": "https://hanaworlds.invalid/contracts/0.3.3/v4/PlacementSettingNames.schema.json",
-  "title": "HanaWorlds contracts 0.3.3 — complete v4 type inventory",
+  "$id": "https://hanaworlds.invalid/contracts/0.3.4/v4/PlacementSettingNames.schema.json",
+  "title": "HanaWorlds contracts 0.3.4 — complete v4 type inventory",
   "description": "Select a definition. JSON Schema establishes structure; exported validators additionally enforce the normative domain rules. Validation never authenticates a provider.",
   "definitions": {
     "Ref": {
@@ -10437,6 +10437,281 @@
       ],
       "additionalProperties": false,
       "x-typeName": "ScopedQueryPreparedResponse"
+    },
+    "UndoRecoveryStatus": {
+      "enum": [
+        "VERIFIED",
+        "ROLLED_BACK",
+        "RECOVERY_PENDING",
+        "UNKNOWN"
+      ],
+      "x-typeName": "UndoRecoveryStatus"
+    },
+    "UndoRecoveryResult": {
+      "type": "object",
+      "properties": {
+        "sessionRef": {
+          "$ref": "#/definitions/Ref"
+        },
+        "worldRef": {
+          "$ref": "#/definitions/Ref"
+        },
+        "originalUndoRequestId": {
+          "$ref": "#/definitions/Ref"
+        },
+        "status": {
+          "$ref": "#/definitions/UndoRecoveryStatus"
+        },
+        "receipt": {
+          "anyOf": [
+            {
+              "$ref": "#/definitions/ReceiptProjection"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        }
+      },
+      "required": [
+        "sessionRef",
+        "worldRef",
+        "originalUndoRequestId",
+        "status",
+        "receipt"
+      ],
+      "additionalProperties": false,
+      "x-typeName": "UndoRecoveryResult",
+      "x-rules": [
+        "VERIFIED requires a matching durable VERIFIED Undo receipt; other statuses require receipt=null",
+        "UNKNOWN is an indeterminate outcome, never success; no durable pending record is a typed rejection, not UNKNOWN",
+        "response identifiers are derived from provider durable state, not client input"
+      ]
+    },
+    "SessionRecoverPendingUndoRequest": {
+      "type": "object",
+      "properties": {
+        "contractVersion": {
+          "const": "session/v2"
+        },
+        "actorRef": {
+          "$ref": "#/definitions/Ref"
+        },
+        "sessionRef": {
+          "$ref": "#/definitions/Ref"
+        },
+        "requestId": {
+          "$ref": "#/definitions/Ref"
+        },
+        "authorizationRef": {
+          "$ref": "#/definitions/Ref"
+        },
+        "worldRef": {
+          "$ref": "#/definitions/Ref"
+        },
+        "serviceRecoveryRef": {
+          "$ref": "#/definitions/Ref"
+        }
+      },
+      "required": [
+        "contractVersion",
+        "actorRef",
+        "sessionRef",
+        "requestId",
+        "authorizationRef",
+        "worldRef",
+        "serviceRecoveryRef"
+      ],
+      "additionalProperties": false,
+      "x-typeName": "SessionRecoverPendingUndoRequest",
+      "x-rules": [
+        "host service only; Workshop selects its own durable pending Undo; client cannot choose an original or internal transaction ID",
+        "authorizationRef is the original frozen reference, not a current UNDO grant; serviceRecoveryRef must be authenticated independently"
+      ]
+    },
+    "CanvasRecoverPendingUndoRequest": {
+      "type": "object",
+      "properties": {
+        "contractVersion": {
+          "const": "canvas/v4"
+        },
+        "actorRef": {
+          "$ref": "#/definitions/Ref"
+        },
+        "sessionRef": {
+          "$ref": "#/definitions/Ref"
+        },
+        "requestId": {
+          "$ref": "#/definitions/Ref"
+        },
+        "authorizationRef": {
+          "$ref": "#/definitions/Ref"
+        },
+        "worldRef": {
+          "$ref": "#/definitions/Ref"
+        },
+        "serviceRecoveryRef": {
+          "$ref": "#/definitions/Ref"
+        },
+        "originalUndoRequestId": {
+          "$ref": "#/definitions/Ref"
+        }
+      },
+      "required": [
+        "contractVersion",
+        "actorRef",
+        "sessionRef",
+        "requestId",
+        "authorizationRef",
+        "worldRef",
+        "serviceRecoveryRef",
+        "originalUndoRequestId"
+      ],
+      "additionalProperties": false,
+      "x-typeName": "CanvasRecoverPendingUndoRequest",
+      "x-rules": [
+        "Workshop obtains originalUndoRequestId only from its durable pending Undo; Canvas resolves its own durable post-barrier row and never accepts a transactionId or objectRef",
+        "Canvas authenticates the service and compares all original identity fields before touching pending state"
+      ]
+    },
+    "SessionRecoverPendingUndoResponse": {
+      "type": "object",
+      "properties": {
+        "contractVersion": {
+          "const": "session/v2"
+        },
+        "requestId": {
+          "$ref": "#/definitions/Ref"
+        },
+        "result": {
+          "anyOf": [
+            {
+              "$ref": "#/definitions/UndoRecoveryResult"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "error": {
+          "anyOf": [
+            {
+              "$ref": "#/definitions/Error"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        }
+      },
+      "required": [
+        "contractVersion",
+        "requestId",
+        "result",
+        "error"
+      ],
+      "additionalProperties": false,
+      "x-typeName": "SessionRecoverPendingUndoResponse",
+      "x-rules": [
+        "exactly one of result/error nonnull; no receipt or transport result is inferred as VERIFIED"
+      ]
+    },
+    "CanvasUndoRecoveryResponse": {
+      "type": "object",
+      "properties": {
+        "contractVersion": {
+          "const": "canvas/v4"
+        },
+        "requestId": {
+          "$ref": "#/definitions/Ref"
+        },
+        "result": {
+          "anyOf": [
+            {
+              "$ref": "#/definitions/UndoRecoveryResult"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "error": {
+          "anyOf": [
+            {
+              "$ref": "#/definitions/Error"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        }
+      },
+      "required": [
+        "contractVersion",
+        "requestId",
+        "result",
+        "error"
+      ],
+      "additionalProperties": false,
+      "x-typeName": "CanvasUndoRecoveryResponse",
+      "x-rules": [
+        "exactly one of result/error nonnull; result identity must match the selected durable row"
+      ]
+    },
+    "UndoRecoveryRecordStatus": {
+      "enum": [
+        "RESERVED",
+        "APPLYING",
+        "APPLIED_PENDING_READBACK",
+        "HISTORY_APPLYING",
+        "HISTORY_APPLIED_PENDING_READBACK",
+        "HISTORY_RECOVERY_PENDING",
+        "RECOVERY_PENDING",
+        "CANVAS_VERIFIED",
+        "VERIFIED",
+        "ROLLED_BACK"
+      ],
+      "x-typeName": "UndoRecoveryRecordStatus"
+    },
+    "UndoRecoveryRecord": {
+      "type": "object",
+      "properties": {
+        "actorRef": {
+          "$ref": "#/definitions/Ref"
+        },
+        "sessionRef": {
+          "$ref": "#/definitions/Ref"
+        },
+        "worldRef": {
+          "$ref": "#/definitions/Ref"
+        },
+        "authorizationRef": {
+          "$ref": "#/definitions/Ref"
+        },
+        "originalUndoRequestId": {
+          "$ref": "#/definitions/Ref"
+        },
+        "direction": {
+          "const": "UNDO"
+        },
+        "status": {
+          "$ref": "#/definitions/UndoRecoveryRecordStatus"
+        }
+      },
+      "required": [
+        "actorRef",
+        "sessionRef",
+        "worldRef",
+        "authorizationRef",
+        "originalUndoRequestId",
+        "direction",
+        "status"
+      ],
+      "additionalProperties": false,
+      "x-typeName": "UndoRecoveryRecord",
+      "x-rules": [
+        "fixture-only projection of a provider-owned durable pending record; never accepted from the external caller"
+      ]
     }
   },
   "$ref": "#/definitions/PlacementSettingNames"

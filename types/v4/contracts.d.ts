@@ -1,4 +1,4 @@
-// GENERATED — 312 named types from approved base plus session readback extension; no any/open object fallback.
+// GENERATED — 320 named types from approved base plus session readback extension; no any/open object fallback.
 export type Ref = string;
 export type Revision = string;
 export type Digest = string;
@@ -2114,6 +2114,61 @@ export type ScopedQueryPreparedResponse = {
   readonly "result": ScopedPreparedTransactionResult | null;
   readonly "error": Error | null;
 };
+export type UndoRecoveryStatus = "VERIFIED" | "ROLLED_BACK" | "RECOVERY_PENDING" | "UNKNOWN";
+/** VERIFIED requires a matching durable VERIFIED Undo receipt; other statuses require receipt=null | UNKNOWN is an indeterminate outcome, never success; no durable pending record is a typed rejection, not UNKNOWN | response identifiers are derived from provider durable state, not client input */
+export type UndoRecoveryResult = {
+  readonly "sessionRef": Ref;
+  readonly "worldRef": Ref;
+  readonly "originalUndoRequestId": Ref;
+  readonly "status": UndoRecoveryStatus;
+  readonly "receipt": ReceiptProjection | null;
+};
+/** host service only; Workshop selects its own durable pending Undo; client cannot choose an original or internal transaction ID | authorizationRef is the original frozen reference, not a current UNDO grant; serviceRecoveryRef must be authenticated independently */
+export type SessionRecoverPendingUndoRequest = {
+  readonly "contractVersion": "session/v2";
+  readonly "actorRef": Ref;
+  readonly "sessionRef": Ref;
+  readonly "requestId": Ref;
+  readonly "authorizationRef": Ref;
+  readonly "worldRef": Ref;
+  readonly "serviceRecoveryRef": Ref;
+};
+/** Workshop obtains originalUndoRequestId only from its durable pending Undo; Canvas resolves its own durable post-barrier row and never accepts a transactionId or objectRef | Canvas authenticates the service and compares all original identity fields before touching pending state */
+export type CanvasRecoverPendingUndoRequest = {
+  readonly "contractVersion": "canvas/v4";
+  readonly "actorRef": Ref;
+  readonly "sessionRef": Ref;
+  readonly "requestId": Ref;
+  readonly "authorizationRef": Ref;
+  readonly "worldRef": Ref;
+  readonly "serviceRecoveryRef": Ref;
+  readonly "originalUndoRequestId": Ref;
+};
+/** exactly one of result/error nonnull; no receipt or transport result is inferred as VERIFIED */
+export type SessionRecoverPendingUndoResponse = {
+  readonly "contractVersion": "session/v2";
+  readonly "requestId": Ref;
+  readonly "result": UndoRecoveryResult | null;
+  readonly "error": Error | null;
+};
+/** exactly one of result/error nonnull; result identity must match the selected durable row */
+export type CanvasUndoRecoveryResponse = {
+  readonly "contractVersion": "canvas/v4";
+  readonly "requestId": Ref;
+  readonly "result": UndoRecoveryResult | null;
+  readonly "error": Error | null;
+};
+export type UndoRecoveryRecordStatus = "RESERVED" | "APPLYING" | "APPLIED_PENDING_READBACK" | "HISTORY_APPLYING" | "HISTORY_APPLIED_PENDING_READBACK" | "HISTORY_RECOVERY_PENDING" | "RECOVERY_PENDING" | "CANVAS_VERIFIED" | "VERIFIED" | "ROLLED_BACK";
+/** fixture-only projection of a provider-owned durable pending record; never accepted from the external caller */
+export type UndoRecoveryRecord = {
+  readonly "actorRef": Ref;
+  readonly "sessionRef": Ref;
+  readonly "worldRef": Ref;
+  readonly "authorizationRef": Ref;
+  readonly "originalUndoRequestId": Ref;
+  readonly "direction": "UNDO";
+  readonly "status": UndoRecoveryRecordStatus;
+};
 
 export interface TypeMap {
   readonly Ref: Ref;
@@ -2428,6 +2483,14 @@ export interface TypeMap {
   readonly ScopedApplyResponse: ScopedApplyResponse;
   readonly ScopedQueryPreparedRequest: ScopedQueryPreparedRequest;
   readonly ScopedQueryPreparedResponse: ScopedQueryPreparedResponse;
+  readonly UndoRecoveryStatus: UndoRecoveryStatus;
+  readonly UndoRecoveryResult: UndoRecoveryResult;
+  readonly SessionRecoverPendingUndoRequest: SessionRecoverPendingUndoRequest;
+  readonly CanvasRecoverPendingUndoRequest: CanvasRecoverPendingUndoRequest;
+  readonly SessionRecoverPendingUndoResponse: SessionRecoverPendingUndoResponse;
+  readonly CanvasUndoRecoveryResponse: CanvasUndoRecoveryResponse;
+  readonly UndoRecoveryRecordStatus: UndoRecoveryRecordStatus;
+  readonly UndoRecoveryRecord: UndoRecoveryRecord;
 }
 export type TypeName = keyof TypeMap;
 export type WireVersion = "interaction-surface/v3" | "world-adapter/v4" | "canvas/v4" | "session/v2" | "painter/v3" | "ReferenceBrief/v2" | "BUILD/V2" | "world-adapter/v5";
@@ -2448,6 +2511,7 @@ export interface OperationMap {
     readonly "ReadSessionTurnDetails": { readonly request: ReadSessionTurnDetailsRequest; readonly response: ReadSessionTurnDetailsResponse; };
     readonly "ReadCurrentUndoStatus": { readonly request: ReadCurrentUndoStatusRequest; readonly response: ReadCurrentUndoStatusResponse; };
     readonly "UndoCurrentBuild": { readonly request: UndoCurrentBuildRequest; readonly response: UndoCurrentBuildResponse; };
+    readonly "RecoverPendingUndo": { readonly request: SessionRecoverPendingUndoRequest; readonly response: SessionRecoverPendingUndoResponse; };
   };
   readonly "painter/v3": {
     readonly "CreateBuildPlan": { readonly request: CreateBuildPlanRequest; readonly response: CreateBuildPlanResponse | ClarificationNeed; };
@@ -2477,6 +2541,8 @@ export interface OperationMap {
     readonly "Redo": { readonly request: RedoRequest; readonly response: RedoReceipt; };
     readonly "HistoryQuery": { readonly request: HistoryQuery; readonly response: ObjectHistoryView; };
     readonly "InspectPlacementRegion": { readonly request: InspectPlacementRegionRequest; readonly response: PlacementRegionInspection; };
+    readonly "RecoverPendingUndo": { readonly request: CanvasRecoverPendingUndoRequest; readonly response: CanvasUndoRecoveryResponse; };
+    readonly "ReadPendingUndoResult": { readonly request: CanvasRecoverPendingUndoRequest; readonly response: CanvasUndoRecoveryResponse; };
   };
   readonly "world-adapter/v4": {
     readonly "DiscoverConnections": { readonly request: DiscoverConnectionsRequest; readonly response: DiscoverConnectionsResponse; };

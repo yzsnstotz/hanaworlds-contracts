@@ -52,4 +52,10 @@ export declare function response(operation: "HistoryQuery", value: unknown): T.O
 export declare function validate(operation: "InspectPlacementRegion", value: unknown): T.InspectPlacementRegionRequest;
 export declare function admit(operation: "InspectPlacementRegion", bytes: Uint8Array): T.InspectPlacementRegionRequest;
 export declare function response(operation: "InspectPlacementRegion", value: unknown): T.PlacementRegionInspection;
+export declare function validate(operation: "RecoverPendingUndo", value: unknown): T.CanvasRecoverPendingUndoRequest;
+export declare function admit(operation: "RecoverPendingUndo", bytes: Uint8Array): T.CanvasRecoverPendingUndoRequest;
+export declare function response(operation: "RecoverPendingUndo", value: unknown): T.CanvasUndoRecoveryResponse;
+export declare function validate(operation: "ReadPendingUndoResult", value: unknown): T.CanvasRecoverPendingUndoRequest;
+export declare function admit(operation: "ReadPendingUndoResult", bytes: Uint8Array): T.CanvasRecoverPendingUndoRequest;
+export declare function response(operation: "ReadPendingUndoResult", value: unknown): T.CanvasUndoRecoveryResponse;
 export declare function event(typeName: keyof typeof import('../../types/v4/index.js').canvasEventRules, value: unknown): unknown;

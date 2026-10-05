@@ -150,6 +150,9 @@ export function validateDomain(visits) {
       shape(v.beforeHead.headTransactionId !== null &&
         v.beforeHead.historyRevision !== v.afterHead.historyRevision &&
         v.beforeHead.headTransactionId !== v.afterHead.headTransactionId);
+    } else if (name === 'UndoRecoveryResult') {
+      shape((v.status === 'VERIFIED') === (v.receipt !== null));
+      if (v.receipt !== null) shape(v.receipt.status === 'VERIFIED');
     } else if (name === 'CreateBuildPlanRequest') {
       // Payload-decidable painter/v3 rules in the approved order; digest coherence is in validateBoundRequest.
       if (v.targetFacts.source === 'REGION_INSPECTED') {

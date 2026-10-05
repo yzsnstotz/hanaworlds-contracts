@@ -1,0 +1,99 @@
+{
+  "format": "HANAWORLDS_UNDO_RECOVERY_EXTENSION/1",
+  "baseProfile": "CONTRACT_SCHEMA_PROFILE.json",
+  "priorExtension": "SCOPED_WORLD_EXTENSION.json",
+  "packageVersion": "0.3.4",
+  "trustBoundary": "serviceRecoveryRef is a separate host-service capability, never a user UNDO grant or a caller JSON assertion. Providers authenticate it out of band, retrieve their own durable pending Undo, compare actorRef, sessionRef, worldRef, original authorizationRef and originalUndoRequestId before any recovery or result release. Revocation forbids new Undo but does not erase a preexisting post-barrier pending transaction. A merely RESERVED record has not crossed the write barrier and cannot enter recovery after revocation. No record or an already settled record cannot enter recovery. Canvas alone decides the transaction; Workshop only correlates and reads back.",
+  "types": {
+    "UndoRecoveryStatus": { "type": "enum", "values": ["VERIFIED", "ROLLED_BACK", "RECOVERY_PENDING", "UNKNOWN"] },
+    "UndoRecoveryResult": {
+      "type": "object",
+      "fields": {
+        "sessionRef": "Ref",
+        "worldRef": "Ref",
+        "originalUndoRequestId": "Ref",
+        "status": "UndoRecoveryStatus",
+        "receipt": "ReceiptProjection|null"
+      },
+      "rules": [
+        "VERIFIED requires a matching durable VERIFIED Undo receipt; other statuses require receipt=null",
+        "UNKNOWN is an indeterminate outcome, never success; no durable pending record is a typed rejection, not UNKNOWN",
+        "response identifiers are derived from provider durable state, not client input"
+      ]
+    },
+    "SessionRecoverPendingUndoRequest": {
+      "type": "object",
+      "fields": {
+        "contractVersion": "=session/v2", "actorRef": "Ref", "sessionRef": "Ref",
+        "requestId": "Ref", "authorizationRef": "Ref", "worldRef": "Ref",
+        "serviceRecoveryRef": "Ref"
+      },
+      "rules": [
+        "host service only; Workshop selects its own durable pending Undo; client cannot choose an original or internal transaction ID",
+        "authorizationRef is the original frozen reference, not a current UNDO grant; serviceRecoveryRef must be authenticated independently"
+      ]
+    },
+    "CanvasRecoverPendingUndoRequest": {
+      "type": "object",
+      "fields": {
+        "contractVersion": "=canvas/v4", "actorRef": "Ref", "sessionRef": "Ref",
+        "requestId": "Ref", "authorizationRef": "Ref", "worldRef": "Ref",
+        "serviceRecoveryRef": "Ref", "originalUndoRequestId": "Ref"
+      },
+      "rules": [
+        "Workshop obtains originalUndoRequestId only from its durable pending Undo; Canvas resolves its own durable post-barrier row and never accepts a transactionId or objectRef",
+        "Canvas authenticates the service and compares all original identity fields before touching pending state"
+      ]
+    },
+    "SessionRecoverPendingUndoResponse": {
+      "type": "object",
+      "fields": { "contractVersion": "=session/v2", "requestId": "Ref", "result": "UndoRecoveryResult|null", "error": "Error|null" },
+      "rules": ["exactly one of result/error nonnull; no receipt or transport result is inferred as VERIFIED"]
+    },
+    "CanvasUndoRecoveryResponse": {
+      "type": "object",
+      "fields": { "contractVersion": "=canvas/v4", "requestId": "Ref", "result": "UndoRecoveryResult|null", "error": "Error|null" },
+      "rules": ["exactly one of result/error nonnull; result identity must match the selected durable row"]
+    },
+    "UndoRecoveryRecordStatus": { "type": "enum", "values": ["RESERVED", "APPLYING", "APPLIED_PENDING_READBACK", "HISTORY_APPLYING", "HISTORY_APPLIED_PENDING_READBACK", "HISTORY_RECOVERY_PENDING", "RECOVERY_PENDING", "CANVAS_VERIFIED", "VERIFIED", "ROLLED_BACK"] },
+    "UndoRecoveryRecord": {
+      "type": "object",
+      "fields": {
+        "actorRef": "Ref", "sessionRef": "Ref", "worldRef": "Ref",
+        "authorizationRef": "Ref", "originalUndoRequestId": "Ref",
+        "direction": "=UNDO", "status": "UndoRecoveryRecordStatus"
+      },
+      "rules": ["fixture-only projection of a provider-owned durable pending record; never accepted from the external caller"]
+    }
+  },
+  "operations": {
+    "session/v2": [
+      {
+        "operation": "RecoverPendingUndo", "request": "SessionRecoverPendingUndoRequest", "response": "SessionRecoverPendingUndoResponse",
+        "successSemantics": "Trusted service recovers or reads the sole previously persisted same-Session Undo; never creates a new Undo after revocation.",
+        "validationOrder": ["strict decode", "authenticate serviceRecoveryRef independently of user grant", "load own durable pending Undo", "compare original actor/session/world/authorization/request identity", "Canvas service recovery and durable result readback", "return typed outcome"],
+        "failureCodes": ["SCHEMA_INVALID", "UNSUPPORTED_VERSION", "UNKNOWN_REQUIRED_FIELD", "PERMISSION_DENIED", "WORLD_NOT_BOUND", "SESSION_NOT_FOUND", "RECOVERY_PENDING", "READBACK_FAILED", "CAPABILITY_UNAVAILABLE", "TRANSACTION_CONFLICT"],
+        "idempotency": "service requestId correlates the query; original Undo requestId is from durable record; no second world write",
+        "scope": "session"
+      }
+    ],
+    "canvas/v4": [
+      {
+        "operation": "RecoverPendingUndo", "request": "CanvasRecoverPendingUndoRequest", "response": "CanvasUndoRecoveryResponse",
+        "successSemantics": "Canvas alone resumes its own matching durable pending Undo; no new ordinary Undo and no arbitrary transaction selection.",
+        "validationOrder": ["strict decode", "authenticate serviceRecoveryRef", "resolve own durable pending Undo by originalUndoRequestId", "compare original actor/session/world/authorization/direction", "recover only preexisting pending transaction", "read durable result"],
+        "failureCodes": ["SCHEMA_INVALID", "UNSUPPORTED_VERSION", "UNKNOWN_REQUIRED_FIELD", "PERMISSION_DENIED", "WORLD_NOT_BOUND", "SESSION_NOT_FOUND", "RECOVERY_PENDING", "READBACK_FAILED", "CAPABILITY_UNAVAILABLE", "TRANSACTION_CONFLICT", "RESTORE_FAILED"],
+        "idempotency": "same durable original request identity; repeated service queries never reserve a new transaction",
+        "scope": "canvas"
+      },
+      {
+        "operation": "ReadPendingUndoResult", "request": "CanvasRecoverPendingUndoRequest", "response": "CanvasUndoRecoveryResponse",
+        "successSemantics": "Read Canvas's matching durable Undo outcome without mutation; UNKNOWN means indeterminate, not success.",
+        "validationOrder": ["strict decode", "authenticate serviceRecoveryRef", "resolve and compare own durable pending Undo", "read durable result"],
+        "failureCodes": ["SCHEMA_INVALID", "UNSUPPORTED_VERSION", "UNKNOWN_REQUIRED_FIELD", "PERMISSION_DENIED", "WORLD_NOT_BOUND", "SESSION_NOT_FOUND", "RECOVERY_PENDING", "READBACK_FAILED", "CAPABILITY_UNAVAILABLE", "TRANSACTION_CONFLICT"],
+        "idempotency": "fresh read of durable state for the original request identity",
+        "scope": "canvas"
+      }
+    ]
+  }
+}

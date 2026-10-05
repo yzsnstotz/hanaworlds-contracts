@@ -40,7 +40,7 @@ const denied = {
     mutationState: 'NONE', transactionRef: null, causeCode: null, reason: 'GRANT_REVOKED' },
 };
 
-assert.equal(V4.version, '0.3.3');
+assert.equal(V4.version, '0.3.4');
 assert.equal(V4.checkSessionUndoHandshake(V4.contractHandshake).result, 'HANDSHAKE_OPERATION_MATCH');
 assert.throws(() => V4.checkSessionUndoHandshake({ ...V4.contractHandshake, contracts: 'hanaworlds-contracts@0.3.1' }), code('UNSUPPORTED_VERSION'));
 assert.throws(() => V4.checkSessionUndoHandshake({ ...V4.contractHandshake,
@@ -55,9 +55,9 @@ assert.throws(() => Canvas.validate('HistoryQuery', { ...history, expectedHistor
 assert.throws(() => Canvas.validate('HistoryQuery', { ...history, expectedHistoryRevision: 7 }), code('SCHEMA_INVALID'));
 assert.throws(() => Canvas.validate('HistoryQuery', { ...history, currentSnapshot: true }), code('UNKNOWN_REQUIRED_FIELD'));
 
-assert.deepEqual(plain(Session.operations.slice(0, -3)), base.operations['session/v2'], 'old session operations unchanged');
-assert.deepEqual(plain(Session.operations.at(-3)), priorReadback.operation, 'readback operation unchanged');
-assert.deepEqual(Session.operations.slice(-2).map(op => op.operation), ['ReadCurrentUndoStatus', 'UndoCurrentBuild']);
+assert.deepEqual(plain(Session.operations.slice(0, -4)), base.operations['session/v2'], 'old session operations unchanged');
+assert.deepEqual(plain(Session.operations.at(-4)), priorReadback.operation, 'readback operation unchanged');
+assert.deepEqual(Session.operations.slice(-3, -1).map(op => op.operation), ['ReadCurrentUndoStatus', 'UndoCurrentBuild']);
 assert.deepEqual(plain(Session.validate('ReadCurrentUndoStatus', statusRequest)), statusRequest);
 assert.deepEqual(plain(Session.admit('ReadCurrentUndoStatus', bytes(statusRequest))), statusRequest);
 assert.deepEqual(plain(Session.response('ReadCurrentUndoStatus', available)), available);

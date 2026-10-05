@@ -6,6 +6,7 @@ const baseProfile = await readJSON('spec/v4/CONTRACT_SCHEMA_PROFILE.json');
 const readback = await readJSON('spec/v4/SESSION_READBACK_EXTENSION.json');
 const undo = await readJSON('spec/v4/SESSION_UNDO_EXTENSION.json');
 const scoped = await readJSON('spec/v4/SCOPED_WORLD_EXTENSION.json');
+const recovery = await readJSON('spec/v4/UNDO_RECOVERY_EXTENSION.json');
 if (baseProfile.package !== 'hanaworlds-contracts@0.3.0' ||
     readback.baseProfile !== 'CONTRACT_SCHEMA_PROFILE.json' ||
     readback.operation.operation !== 'ReadSessionTurnDetails' ||
@@ -22,6 +23,14 @@ if (scoped.baseProfile !== 'CONTRACT_SCHEMA_PROFILE.json' || scoped.priorExtensi
     scoped.wire !== 'world-adapter/v5' || baseProfile.wireVersions.includes(scoped.wire) ||
     Object.keys(scoped.types).some(name => Object.hasOwn(baseProfile.types, name) || Object.hasOwn(readback.types, name) || Object.hasOwn(undo.types, name)))
   throw new Error('Scoped world extension is not a distinct, strictly added wire');
+if (recovery.baseProfile !== 'CONTRACT_SCHEMA_PROFILE.json' ||
+    recovery.priorExtension !== 'SCOPED_WORLD_EXTENSION.json' || recovery.packageVersion !== pkg.version ||
+    Object.keys(recovery.types).some(name => Object.hasOwn(baseProfile.types, name) ||
+      Object.hasOwn(readback.types, name) || Object.hasOwn(undo.types, name) || Object.hasOwn(scoped.types, name)) ||
+    Object.entries(recovery.operations).some(([wire, ops]) => !['canvas/v4', 'session/v2'].includes(wire) ||
+      ops.some(op => [...baseProfile.operations[wire], ...(wire === 'session/v2' ? [readback.operation, ...undo.operations] : [])]
+        .some(existing => existing.operation === op.operation))))
+  throw new Error('Undo recovery extension must be strictly additive to 0.3.3');
 const oldHistory = baseProfile.operations['canvas/v4'].find(op => op.operation === 'HistoryQuery');
 if (!oldHistory || baseProfile.types.HistoryQuery.fields.expectedHistoryRevision !== 'Revision')
   throw new Error('HistoryQuery base is not the pinned exact-CAS shape');
@@ -40,18 +49,19 @@ const profile = {
     ...baseProfile.types,
     HistoryQuery: { ...baseProfile.types.HistoryQuery,
       fields: { ...baseProfile.types.HistoryQuery.fields, expectedHistoryRevision: undo.historyQuery.expectedHistoryRevision } },
-    ...readback.types, ...undo.types, ...scoped.types,
+    ...readback.types, ...undo.types, ...scoped.types, ...recovery.types,
   },
   operations: {
     ...baseProfile.operations,
-    'canvas/v4': baseProfile.operations['canvas/v4'].map(op => op.operation === 'HistoryQuery' ? {
+    'canvas/v4': [...baseProfile.operations['canvas/v4'].map(op => op.operation === 'HistoryQuery' ? {
       ...op,
       successSemantics: undo.historyQuery.successSemantics,
       validationOrder: undo.historyQuery.validationOrder,
       failureCodes: [...op.failureCodes, ...undo.historyQuery.additionalFailureCodes],
       idempotency: undo.historyQuery.idempotency,
-    } : op),
-    'session/v2': [...baseProfile.operations['session/v2'], readback.operation, ...undo.operations],
+    } : op), ...recovery.operations['canvas/v4']],
+    'session/v2': [...baseProfile.operations['session/v2'], readback.operation, ...undo.operations,
+      ...recovery.operations['session/v2']],
     'world-adapter/v5': scoped.operations.map(op => {
       const old = baseProfile.operations['world-adapter/v4'].find(candidate => candidate.operation === op.operation);
       if (!old) throw new Error('Scoped operation has no v4 predecessor: ' + op.operation);
@@ -65,7 +75,7 @@ const closure = await readJSON('spec/v4/CONTRACT_SEMANTIC_CLOSURE.json');
 const registry = await readJSON('spec/v4/SETTINGS_AND_INVARIANTS.json');
 const oracles = await readJSON('spec/v4/fixtures/candidate/closure-oracles-v4.json');
 const legacyOracles = await readJSON('spec/v4/fixtures/candidate/closure-oracles.json');
-if (pkg.version !== '0.3.3') throw new Error('Scoped world extension requires package 0.3.3');
+if (pkg.version !== '0.3.4') throw new Error('Undo recovery extension requires package 0.3.4');
 const schemaId = `https://hanaworlds.invalid/contracts/${pkg.version}/v4/schema.json`;
 const definitions = Object.create(null);
 function literal(value) { const s = value.slice(1); return /^(?:true|false|null|-?(?:0|[1-9][0-9]*)(?:\.[0-9]+)?)$/.test(s) ? JSON.parse(s) : s; }
@@ -123,7 +133,7 @@ const metadata = { package: `${pkg.name}@${pkg.version}`, version: pkg.version, 
   typeNames: Object.keys(definitions), closureRows: closure.rows.map(x => ({ id: x.id, protocol: x.protocol, dimension: x.dimension, rule: x.rule, authorityRefs: x.authorityRefs })) };
 await mkdir('src/v4/generated', { recursive: true }); await mkdir('types/v4', { recursive: true }); await mkdir('schemas/v4/profile', { recursive: true });
 const freezeSource = `const freeze = root => { const stack=[root]; while(stack.length){ const x=stack.pop(); if(x&&typeof x==='object'&&!Object.isFrozen(x)){ for(const v of Object.values(x))stack.push(v); Object.freeze(x); }} return root; };\n`;
-await writeFile('src/v4/generated/contracts.mjs', '// Generated deterministically from the pinned 0.3.0 v4 profile, readback/undo/scoped extensions and settings registry.\n' + freezeSource +
+await writeFile('src/v4/generated/contracts.mjs', '// Generated deterministically from the pinned 0.3.0 v4 profile and additive extensions.\n' + freezeSource +
   'export const schemaBundle = freeze(' + JSON.stringify(schemaBundle) + ');\nexport const contractMetadata = freeze(' + JSON.stringify(metadata) + ');\n');
 await writeFile('schemas/v4/contracts.schema.json', JSON.stringify(schemaBundle, null, 2) + '\n');
 for (const name of Object.keys(definitions)) {
@@ -135,6 +145,7 @@ for (const item of ['CONTRACT_SCHEMA_PROFILE.json', 'CONTRACT_SEMANTIC_CLOSURE.j
 await copyFile('spec/v4/SESSION_READBACK_EXTENSION.json', 'schemas/v4/profile/SESSION_READBACK_EXTENSION.json');
 await copyFile('spec/v4/SESSION_UNDO_EXTENSION.json', 'schemas/v4/profile/SESSION_UNDO_EXTENSION.json');
 await copyFile('spec/v4/SCOPED_WORLD_EXTENSION.json', 'schemas/v4/profile/SCOPED_WORLD_EXTENSION.json');
+await copyFile('spec/v4/UNDO_RECOVERY_EXTENSION.json', 'schemas/v4/profile/UNDO_RECOVERY_EXTENSION.json');
 // TS binding is derived from the same DSL, but is an actual public declaration file.
 function tsref(name) {
   if (name.includes('|')) return name.split('|').map(tsref).join(' | ');
@@ -192,6 +203,12 @@ export declare function checkContractHandshake(advertised: unknown, required: Ha
 export declare function checkSessionReadbackHandshake(advertised: unknown): { readonly result: 'HANDSHAKE_OPERATION_MATCH'; readonly advertised: T.ContractHandshake };
 /** Requires a peer that advertises the 0.3.2 package containing the two current-build undo operations. */
 export declare function checkSessionUndoHandshake(advertised: unknown): { readonly result: 'HANDSHAKE_OPERATION_MATCH'; readonly advertised: T.ContractHandshake };
+/** Requires the 0.3.4 service recovery extension on both peers. */
+export declare function checkUndoRecoveryHandshake(advertised: unknown): { readonly result: 'HANDSHAKE_OPERATION_MATCH'; readonly advertised: T.ContractHandshake };
+/** Pure fixture coherence check against a provider-owned durable pending Undo projection; not authentication. */
+export declare function validateUndoRecoveryRecord(request: unknown, durableRecord: unknown, operation?: 'RecoverPendingUndo' | 'ReadPendingUndoResult'): T.UndoRecoveryRecord;
+/** Pure request/response correlation; providers still authenticate service and durable state. */
+export declare function validateUndoRecoveryResponse(wire: 'session/v2' | 'canvas/v4', operation: 'RecoverPendingUndo' | 'ReadPendingUndoResult', request: unknown, response: unknown): T.SessionRecoverPendingUndoResponse | T.CanvasUndoRecoveryResponse;
 /** Requires world-adapter/v5; matching v4 peers fail before Prepare. */
 export declare function checkScopedWorldHandshake(advertised: unknown): { readonly result: 'HANDSHAKE_OPERATION_MATCH'; readonly advertised: T.ContractHandshake };
 export declare function validateScopedTransition(prepare: unknown, apply: unknown): { readonly prepare: T.ScopedPrepareRequest; readonly apply: T.ScopedApplyRequest };
@@ -248,6 +265,7 @@ const manifest = { types: Object.keys(definitions), schemas: ['schemas/v4/contra
   sessionReadbackExtensionSha256: createHash('sha256').update(await readFile('spec/v4/SESSION_READBACK_EXTENSION.json')).digest('hex'),
   sessionUndoExtensionSha256: createHash('sha256').update(await readFile('spec/v4/SESSION_UNDO_EXTENSION.json')).digest('hex'),
   scopedWorldExtensionSha256: createHash('sha256').update(await readFile('spec/v4/SCOPED_WORLD_EXTENSION.json')).digest('hex'),
+  undoRecoveryExtensionSha256: createHash('sha256').update(await readFile('spec/v4/UNDO_RECOVERY_EXTENSION.json')).digest('hex'),
   approvedClosureSha256: createHash('sha256').update(await readFile('spec/v4/CONTRACT_SEMANTIC_CLOSURE.json')).digest('hex') };
 await writeFile('schemas/v4/inventory.json', JSON.stringify(manifest, null, 2) + '\n');
 console.log(JSON.stringify({ result: 'BUILT', lane: 'v4', types: manifest.types.length, schemas: manifest.schemas.length, bindings: bindingInventory.length,

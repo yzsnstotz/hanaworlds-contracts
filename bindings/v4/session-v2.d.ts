@@ -34,3 +34,6 @@ export declare function response(operation: "ReadCurrentUndoStatus", value: unkn
 export declare function validate(operation: "UndoCurrentBuild", value: unknown): T.UndoCurrentBuildRequest;
 export declare function admit(operation: "UndoCurrentBuild", bytes: Uint8Array): T.UndoCurrentBuildRequest;
 export declare function response(operation: "UndoCurrentBuild", value: unknown): T.UndoCurrentBuildResponse;
+export declare function validate(operation: "RecoverPendingUndo", value: unknown): T.SessionRecoverPendingUndoRequest;
+export declare function admit(operation: "RecoverPendingUndo", bytes: Uint8Array): T.SessionRecoverPendingUndoRequest;
+export declare function response(operation: "RecoverPendingUndo", value: unknown): T.SessionRecoverPendingUndoResponse;
