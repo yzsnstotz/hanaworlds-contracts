@@ -55,7 +55,7 @@ assert.equal(V4.checkSessionAuthorizationHandshake({ ...V4.contractHandshake, co
 console.log('Session actions SOURCE/FIXTURE: separate issuance, append, read-only, illegal actions, revocation, regrant and exact correlation checks passed');
 assert.equal(V4.sessionOperationAuthorizationV1.contractVersion, wire);
 assert.deepEqual(V4.sessionOperationAuthorizationV1.validate('ReadOriginalSessionAuthority', read), read);
-assert.deepEqual(V4.sessionOperationAuthorizationV1.admit('ReadOriginalSessionAuthority', new TextEncoder().encode(JSON.stringify(read))), read);
+assert.deepEqual(clone(V4.sessionOperationAuthorizationV1.admit('ReadOriginalSessionAuthority', new TextEncoder().encode(JSON.stringify(read)))), read);
 assert.throws(() => V4.checkSessionOperationAuthorizationHandshake({ ...V4.contractHandshake,
   wireVersions: V4.contractHandshake.wireVersions.filter(x => x !== wire) }),
   e => e.publicError?.code === 'UNSUPPORTED_VERSION');
