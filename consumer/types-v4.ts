@@ -83,3 +83,12 @@ digestValue('region-inspection', raw);
 Canvas.validate('InspectRegion', raw);
 
 void [binding, bound, expected, region, prepared, inspection, invoke, document, handshake, selected, settings, checked, seven, profile, advertised, firstDefault, wire, request, readbackRequest, readbackResponse, readbackPeer, readbackText, readbackBrief, historyQuery, nullableHistoryRevision, undoStatusRequest, undoResponse, undoHead, undoPeer, scopedPeer, scopedPrepare, scopedApply, scopedPrepared, buildEntryRequest, buildEntryResponse, buildEntryResult, buildEntryPeer, buildEntryReplay, correlatedBuildEntry, originalRequest, currentGrantRequest, originalResponse, currentGrantResponse, sessionAuthPeer, typeName, fixtureOutcome, digest];
+
+// Separately issued Session rights must not widen the original game action type.
+import * as SessionOpsAuth from 'hanaworlds-contracts/v4/session-operation-authorization/v1';
+import { projectSessionAuthorityProof, validateOriginalSessionAuthorityResponse, checkSessionOperationAuthorizationHandshake } from 'hanaworlds-contracts/v4';
+const sessionAuthorityRequest = SessionOpsAuth.validate('ReadOriginalSessionAuthority', raw);
+const sessionAuthorityResponse = validateOriginalSessionAuthorityResponse(sessionAuthorityRequest, raw);
+const sessionProof = projectSessionAuthorityProof(sessionAuthorityRequest, sessionAuthorityResponse, raw, raw);
+checkSessionOperationAuthorizationHandshake(raw);
+void sessionProof;

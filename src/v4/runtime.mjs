@@ -323,7 +323,7 @@ export function checkContractHandshake(advertisedInput, requiredInput) {
  * operation. Reject an older package peer before issuing this operation. */
 export function checkSessionReadbackHandshake(advertisedInput) {
   const { advertised } = checkContractHandshake(advertisedInput, { wires: ['session/v2'], factProfiles: [] });
-  requireFact(['hanaworlds-contracts@0.3.1', 'hanaworlds-contracts@0.3.2', 'hanaworlds-contracts@0.3.3', 'hanaworlds-contracts@0.3.4', 'hanaworlds-contracts@0.3.5', 'hanaworlds-contracts@0.3.6'].includes(advertised.contracts) &&
+  requireFact(['hanaworlds-contracts@0.3.1', 'hanaworlds-contracts@0.3.2', 'hanaworlds-contracts@0.3.3', 'hanaworlds-contracts@0.3.4', 'hanaworlds-contracts@0.3.5', 'hanaworlds-contracts@0.3.6', 'hanaworlds-contracts@0.3.7'].includes(advertised.contracts) &&
     operationContracts['session/v2'].some(op => op.operation === 'ReadSessionTurnDetails'),
     'UNSUPPORTED_VERSION', 'VERSION_UNSUPPORTED', 'decode');
   return deepFreeze({ result: 'HANDSHAKE_OPERATION_MATCH', advertised });
@@ -332,7 +332,7 @@ export function checkSessionReadbackHandshake(advertisedInput) {
  * canvas/v4 and session/v2 majors do not advertise these added operations. */
 export function checkSessionUndoHandshake(advertisedInput) {
   const { advertised } = checkContractHandshake(advertisedInput, { wires: ['canvas/v4', 'session/v2'], factProfiles: [] });
-  requireFact(['hanaworlds-contracts@0.3.2', 'hanaworlds-contracts@0.3.3', 'hanaworlds-contracts@0.3.4', 'hanaworlds-contracts@0.3.5', 'hanaworlds-contracts@0.3.6'].includes(advertised.contracts) &&
+  requireFact(['hanaworlds-contracts@0.3.2', 'hanaworlds-contracts@0.3.3', 'hanaworlds-contracts@0.3.4', 'hanaworlds-contracts@0.3.5', 'hanaworlds-contracts@0.3.6', 'hanaworlds-contracts@0.3.7'].includes(advertised.contracts) &&
     ['ReadCurrentUndoStatus', 'UndoCurrentBuild'].every(name =>
       operationContracts['session/v2'].some(op => op.operation === name)),
     'UNSUPPORTED_VERSION', 'VERSION_UNSUPPORTED', 'decode');
@@ -340,7 +340,7 @@ export function checkSessionUndoHandshake(advertisedInput) {
 }
 export function checkScopedWorldHandshake(advertisedInput) {
   const { advertised } = checkContractHandshake(advertisedInput, { wires: ['world-adapter/v5'], factProfiles: [] });
-  requireFact(['hanaworlds-contracts@0.3.3', 'hanaworlds-contracts@0.3.4', 'hanaworlds-contracts@0.3.5', 'hanaworlds-contracts@0.3.6'].includes(advertised.contracts) &&
+  requireFact(['hanaworlds-contracts@0.3.3', 'hanaworlds-contracts@0.3.4', 'hanaworlds-contracts@0.3.5', 'hanaworlds-contracts@0.3.6', 'hanaworlds-contracts@0.3.7'].includes(advertised.contracts) &&
     ['PrepareRecoverableTransaction', 'ApplyCompiledTransaction', 'QueryPreparedTransaction'].every(name =>
       operationContracts['world-adapter/v5'].some(op => op.operation === name)),
     'UNSUPPORTED_VERSION', 'VERSION_UNSUPPORTED', 'decode');
@@ -351,7 +351,7 @@ export function checkScopedWorldHandshake(advertisedInput) {
 export function checkUndoRecoveryHandshake(advertisedInput) {
   const { advertised } = checkContractHandshake(advertisedInput,
     { wires: ['canvas/v4', 'session/v2'], factProfiles: [] });
-  requireFact(['hanaworlds-contracts@0.3.4', 'hanaworlds-contracts@0.3.5', 'hanaworlds-contracts@0.3.6'].includes(advertised.contracts) &&
+  requireFact(['hanaworlds-contracts@0.3.4', 'hanaworlds-contracts@0.3.5', 'hanaworlds-contracts@0.3.6', 'hanaworlds-contracts@0.3.7'].includes(advertised.contracts) &&
     operationContracts['session/v2'].some(op => op.operation === 'RecoverPendingUndo') &&
     ['RecoverPendingUndo', 'ReadPendingUndoResult'].every(name =>
       operationContracts['canvas/v4'].some(op => op.operation === name)),
@@ -362,7 +362,7 @@ export function checkUndoRecoveryHandshake(advertisedInput) {
 export function checkBuildEntryHandshake(advertisedInput) {
   const { advertised } = checkContractHandshake(advertisedInput,
     { wires: ['session/v2'], factProfiles: [] });
-  requireFact(['hanaworlds-contracts@0.3.5', 'hanaworlds-contracts@0.3.6'].includes(advertised.contracts) &&
+  requireFact(['hanaworlds-contracts@0.3.5', 'hanaworlds-contracts@0.3.6', 'hanaworlds-contracts@0.3.7'].includes(advertised.contracts) &&
     operationContracts['session/v2'].some(op => op.operation === 'AdvanceCurrentBuild'),
     'UNSUPPORTED_VERSION', 'VERSION_UNSUPPORTED', 'decode');
   return deepFreeze({ result: 'HANDSHAKE_OPERATION_MATCH', advertised });
@@ -371,7 +371,7 @@ export function checkBuildEntryHandshake(advertisedInput) {
 export function checkSessionAuthorizationHandshake(advertisedInput) {
   const { advertised } = checkContractHandshake(advertisedInput,
     { wires: ['session-authorization/v1'], factProfiles: [] });
-  requireFact(advertised.contracts === 'hanaworlds-contracts@0.3.6' &&
+  requireFact(['hanaworlds-contracts@0.3.6', 'hanaworlds-contracts@0.3.7'].includes(advertised.contracts) &&
     ['ReadOriginalBinding', 'VerifyCurrentGrant'].every(name =>
       operationContracts['session-authorization/v1'].some(op => op.operation === name)),
     'UNSUPPORTED_VERSION', 'VERSION_UNSUPPORTED', 'decode');
@@ -493,4 +493,37 @@ export function admitPlacementSettings(storedInput, settingsRevision) {
     throw error;
   }
   return validateType('PlacementSettings', { ...values, settingsRevision });
+}
+
+/** Separate Host-issued Session rights. These helpers never authenticate JSON. */
+export function checkSessionOperationAuthorizationHandshake(advertisedInput) {
+  const { advertised } = checkContractHandshake(advertisedInput,
+    { wires: ['session-operation-authorization/v1'], factProfiles: [] });
+  requireFact(advertised.contracts === 'hanaworlds-contracts@0.3.7',
+    'UNSUPPORTED_VERSION', 'VERSION_UNSUPPORTED', 'decode');
+  return deepFreeze({ result: 'HANDSHAKE_OPERATION_MATCH', advertised });
+}
+export function validateOriginalSessionAuthorityResponse(requestInput, responseInput) {
+  const wire = 'session-operation-authorization/v1';
+  const request = validateRequest(wire, 'ReadOriginalSessionAuthority', requestInput);
+  const response = validateResponse(wire, 'ReadOriginalSessionAuthority', responseInput);
+  requireFact(response.requestId === request.requestId && response.result.sessionRef === request.sessionRef,
+    'PERMISSION_DENIED', 'IDENTITY_UNVERIFIED', 'authorize');
+  return response;
+}
+/** Providers must authenticate both inputs and recheck live Host issuance after
+ * Adapter verification. This pure projection proves neither source nor freshness. */
+export function projectSessionAuthorityProof(hostRequest, hostResponse, grantRequest, grantResponse) {
+  const host = validateOriginalSessionAuthorityResponse(hostRequest, hostResponse).result;
+  const game = validateCurrentGrantResponse(grantRequest, grantResponse).result;
+  requireFact(host.status === 'CURRENT' && game.status === 'CURRENT',
+    'AUTHORIZATION_REVOKED', 'GRANT_REVOKED', 'authorize');
+  const { binding, sessionActions } = host.authority;
+  requireFact(Object.keys(binding).every(field =>
+    JSON.stringify(binding[field]) === JSON.stringify(game.binding[field])),
+    'PERMISSION_DENIED', 'IDENTITY_UNVERIFIED', 'authorize');
+  return validateType('SessionAuthorityProof', { current: true,
+    sessionRef: binding.sessionRef, actorRef: binding.actorRef,
+    authorizationRef: binding.authorizationRef, worldRef: binding.worldRef,
+    allowedActions: [...binding.allowedActions, ...sessionActions].sort(compareUTF16) });
 }

@@ -278,7 +278,7 @@ for (const c of placement.compatibilityCases)
     if (c.expected.result === 'HANDSHAKE_VERSION_MATCH') {
       same(actual, { accepted: true });
       same(c.advertised, { ...V4.contractHandshake, contracts: 'hanaworlds-contracts@0.3.0',
-        wireVersions: V4.contractHandshake.wireVersions.filter(wire => !['world-adapter/v5', 'session-authorization/v1'].includes(wire)) }, '$.pinned030Advertisement');
+        wireVersions: V4.contractHandshake.wireVersions.filter(wire => !['world-adapter/v5', 'session-authorization/v1', 'session-operation-authorization/v1'].includes(wire)) }, '$.pinned030Advertisement');
     } else {
       same(actual, { code: c.expected.code, phase: c.expected.phase, retryability: 'NEVER', mutationState: c.expected.mutationState, transactionRef: null, causeCode: null, reason: c.expected.reason });
       same(c.advertised, v021Advertisement, '$.matchesThe021Lane');

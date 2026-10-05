@@ -1,4 +1,4 @@
-// GENERATED — 339 named types from approved base plus session readback extension; no any/open object fallback.
+// GENERATED — 348 named types from approved base plus session readback extension; no any/open object fallback.
 export type Ref = string;
 export type Revision = string;
 export type Digest = string;
@@ -2319,6 +2319,50 @@ export type VerifyCurrentGrantResponse = {
   readonly "requestId": Ref;
   readonly "result": CurrentGrantResult;
 };
+export type SessionLocalAction = "APPEND";
+/** Order: UTF16 ascending */
+export type SessionLocalActions = ReadonlyArray<SessionLocalAction>;
+export type SessionAuthorityAction = "READ" | "SELECT" | "NAME" | "RENAME" | "INSPECT" | "ANALYZE" | "DECIDE" | "APPLY_RECOVERABLE" | "READBACK" | "UNDO" | "REDO" | "HISTORY" | "APPEND";
+/** Order: UTF16 ascending */
+export type SessionAuthorityActions = ReadonlyArray<SessionAuthorityAction>;
+/** binding remains the exact original game scope and MUST NOT contain APPEND; sessionActions is separately issued and durably persisted by the trusted Host for that same binding | empty sessionActions grants no APPEND; missing original Session issuance is UNKNOWN, never synthesized from a CURRENT game check | APPEND covers AppendMultimodalTurn, AnswerClarification, RecordActionReceipt and PersistRequiredArtifactResources only; all other session/v2 operation checks retain their existing action requirements; no world write is authorized by APPEND */
+export type OriginalSessionAuthority = {
+  readonly "binding": OriginalSessionBinding;
+  readonly "sessionActions": SessionLocalActions;
+};
+export type ReadOriginalSessionAuthorityRequest = {
+  readonly "contractVersion": "session-operation-authorization/v1";
+  readonly "requestId": Ref;
+  readonly "sessionRef": Ref;
+};
+export type OriginalSessionAuthorityResult = {
+  readonly "sessionRef": Ref;
+  readonly "authority": OriginalSessionAuthority;
+  readonly "status": "CURRENT";
+} | {
+  readonly "sessionRef": Ref;
+  readonly "status": "UNKNOWN";
+} | {
+  readonly "sessionRef": Ref;
+  readonly "status": "REVOKED";
+} | {
+  readonly "sessionRef": Ref;
+  readonly "status": "SESSION_REPLACED";
+};
+export type ReadOriginalSessionAuthorityResponse = {
+  readonly "contractVersion": "session-operation-authorization/v1";
+  readonly "requestId": Ref;
+  readonly "result": OriginalSessionAuthorityResult;
+};
+/** Workshop authority callback projection only; never pass this combined action array to a game binding or world authorization | a pure projection is not a credential: trusted Host supplies current durable issuance and Adapter current result, with live recheck at use */
+export type SessionAuthorityProof = {
+  readonly "current": true;
+  readonly "sessionRef": Ref;
+  readonly "actorRef": Ref;
+  readonly "authorizationRef": Ref;
+  readonly "worldRef": Ref;
+  readonly "allowedActions": SessionAuthorityActions;
+};
 
 export interface TypeMap {
   readonly Ref: Ref;
@@ -2660,9 +2704,18 @@ export interface TypeMap {
   readonly VerifyCurrentGrantRequest: VerifyCurrentGrantRequest;
   readonly CurrentGrantResult: CurrentGrantResult;
   readonly VerifyCurrentGrantResponse: VerifyCurrentGrantResponse;
+  readonly SessionLocalAction: SessionLocalAction;
+  readonly SessionLocalActions: SessionLocalActions;
+  readonly SessionAuthorityAction: SessionAuthorityAction;
+  readonly SessionAuthorityActions: SessionAuthorityActions;
+  readonly OriginalSessionAuthority: OriginalSessionAuthority;
+  readonly ReadOriginalSessionAuthorityRequest: ReadOriginalSessionAuthorityRequest;
+  readonly OriginalSessionAuthorityResult: OriginalSessionAuthorityResult;
+  readonly ReadOriginalSessionAuthorityResponse: ReadOriginalSessionAuthorityResponse;
+  readonly SessionAuthorityProof: SessionAuthorityProof;
 }
 export type TypeName = keyof TypeMap;
-export type WireVersion = "interaction-surface/v3" | "world-adapter/v4" | "canvas/v4" | "session/v2" | "painter/v3" | "ReferenceBrief/v2" | "BUILD/V2" | "world-adapter/v5" | "session-authorization/v1";
+export type WireVersion = "interaction-surface/v3" | "world-adapter/v4" | "canvas/v4" | "session/v2" | "painter/v3" | "ReferenceBrief/v2" | "BUILD/V2" | "world-adapter/v5" | "session-authorization/v1" | "session-operation-authorization/v1";
 export type FactProfile = "target-facts/v2" | "target-facts/v3";
 export interface OperationMap {
   readonly "interaction-surface/v3": {
@@ -2740,6 +2793,9 @@ export interface OperationMap {
   readonly "session-authorization/v1": {
     readonly "ReadOriginalBinding": { readonly request: ReadOriginalBindingRequest; readonly response: ReadOriginalBindingResponse; };
     readonly "VerifyCurrentGrant": { readonly request: VerifyCurrentGrantRequest; readonly response: VerifyCurrentGrantResponse; };
+  };
+  readonly "session-operation-authorization/v1": {
+    readonly "ReadOriginalSessionAuthority": { readonly request: ReadOriginalSessionAuthorityRequest; readonly response: ReadOriginalSessionAuthorityResponse; };
   };
 }
 export interface ProjectionMap {

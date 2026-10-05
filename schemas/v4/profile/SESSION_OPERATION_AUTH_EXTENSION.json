@@ -1,0 +1,127 @@
+{
+  "format": "HANAWORLDS_SESSION_OPERATION_AUTH_EXTENSION/1",
+  "baseProfile": "CONTRACT_SCHEMA_PROFILE.json",
+  "priorExtension": "SESSION_AUTH_EXTENSION.json",
+  "packageVersion": "0.3.7",
+  "wire": "session-operation-authorization/v1",
+  "trustBoundary": "Trusted Host only. Authenticate the service caller outside JSON. Issue and durably persist Session actions together with the exact original game binding before exposing CURRENT. APPEND authorizes Session content only, never a Luanti mutation. Do not derive APPEND from READ or any game grant; do not add it after current grant verification. Old records lacking this issuance are UNKNOWN and remain read-only. Every call checks live Session incarnation, original issuer and current revocation; restart reloads original records, and revocation/regrant/replacement invalidates the old authority. The Host must also serve the identical binding on session-authorization/v1 ReadOriginalBinding for the Adapter. Before using a projected proof, authenticate both providers, recheck live Host issuance after Adapter verification, and retain operation-specific game checks. Contract helpers validate shape/correlation only, not authenticity or freshness.",
+  "types": {
+    "SessionLocalAction": {
+      "type": "enum",
+      "values": [
+        "APPEND"
+      ]
+    },
+    "SessionLocalActions": {
+      "type": "array",
+      "items": "SessionLocalAction",
+      "order": "UTF16 ascending",
+      "unique": true
+    },
+    "SessionAuthorityAction": {
+      "type": "enum",
+      "values": [
+        "READ",
+        "SELECT",
+        "NAME",
+        "RENAME",
+        "INSPECT",
+        "ANALYZE",
+        "DECIDE",
+        "APPLY_RECOVERABLE",
+        "READBACK",
+        "UNDO",
+        "REDO",
+        "HISTORY",
+        "APPEND"
+      ]
+    },
+    "SessionAuthorityActions": {
+      "type": "array",
+      "items": "SessionAuthorityAction",
+      "order": "UTF16 ascending",
+      "unique": true
+    },
+    "OriginalSessionAuthority": {
+      "type": "object",
+      "fields": {
+        "binding": "OriginalSessionBinding",
+        "sessionActions": "SessionLocalActions"
+      },
+      "rules": [
+        "binding remains the exact original game scope and MUST NOT contain APPEND; sessionActions is separately issued and durably persisted by the trusted Host for that same binding",
+        "empty sessionActions grants no APPEND; missing original Session issuance is UNKNOWN, never synthesized from a CURRENT game check",
+        "APPEND covers AppendMultimodalTurn, AnswerClarification, RecordActionReceipt and PersistRequiredArtifactResources only; all other session/v2 operation checks retain their existing action requirements; no world write is authorized by APPEND"
+      ]
+    },
+    "ReadOriginalSessionAuthorityRequest": {
+      "type": "object",
+      "fields": {
+        "contractVersion": "=session-operation-authorization/v1",
+        "requestId": "Ref",
+        "sessionRef": "Ref"
+      }
+    },
+    "OriginalSessionAuthorityResult": {
+      "type": "discriminated-object",
+      "discriminator": "status",
+      "common": {
+        "sessionRef": "Ref"
+      },
+      "variants": {
+        "CURRENT": {
+          "authority": "OriginalSessionAuthority"
+        },
+        "UNKNOWN": {},
+        "REVOKED": {},
+        "SESSION_REPLACED": {}
+      }
+    },
+    "ReadOriginalSessionAuthorityResponse": {
+      "type": "object",
+      "fields": {
+        "contractVersion": "=session-operation-authorization/v1",
+        "requestId": "Ref",
+        "result": "OriginalSessionAuthorityResult"
+      }
+    },
+    "SessionAuthorityProof": {
+      "type": "object",
+      "fields": {
+        "current": "=true",
+        "sessionRef": "Ref",
+        "actorRef": "Ref",
+        "authorizationRef": "Ref",
+        "worldRef": "Ref",
+        "allowedActions": "SessionAuthorityActions"
+      },
+      "rules": [
+        "Workshop authority callback projection only; never pass this combined action array to a game binding or world authorization",
+        "a pure projection is not a credential: trusted Host supplies current durable issuance and Adapter current result, with live recheck at use"
+      ]
+    }
+  },
+  "operations": [
+    {
+      "operation": "ReadOriginalSessionAuthority",
+      "request": "ReadOriginalSessionAuthorityRequest",
+      "response": "ReadOriginalSessionAuthorityResponse",
+      "successSemantics": "Return original separately issued Session actions and exact game binding for the live Core Session, or a proof-free UNKNOWN/REVOKED/SESSION_REPLACED. Never issue or widen authority on read.",
+      "validationOrder": [
+        "strict decode and version",
+        "authenticate trusted service caller outside JSON",
+        "read live Core Session identity and incarnation",
+        "read original durable Host Session issuance and revocation",
+        "exact correlation and typed result"
+      ],
+      "failureCodes": [
+        "SCHEMA_INVALID",
+        "UNSUPPORTED_VERSION",
+        "UNKNOWN_REQUIRED_FIELD",
+        "PERMISSION_DENIED"
+      ],
+      "idempotency": "read-only original issuance lookup; restart never manufactures missing actions",
+      "scope": "trusted-host"
+    }
+  ]
+}

@@ -5,7 +5,7 @@ export interface DigestResult<P> { readonly kind: T.DigestKind; readonly project
 export interface OperationContract { readonly operation: string; readonly request: T.TypeName; readonly response: T.TypeName; readonly alternateResult?: T.TypeName; readonly event?: string; readonly validationOrder: ReadonlyArray<string>; readonly failureCodes: ReadonlyArray<T.ErrorCode>; readonly successSemantics: string; readonly idempotency: string; readonly scope?: string; readonly requestName?: string; readonly responseName?: string; readonly baselineOperation?: string; }
 export declare class ContractError extends Error { constructor(code: T.ErrorCode, phase: T.Phase, reason: T.ErrorReason, details?: Partial<T.Error>); readonly publicError: T.Error; readonly code: T.ErrorCode; readonly phase: T.Phase; readonly reason: T.ErrorReason; readonly mutationState: T.MutationState; readonly retryability: T.Retryability; }
 export declare function publicError(error: unknown): T.Error;
-export declare const version: '0.3.6';
+export declare const version: '0.3.7';
 export declare const wireVersions: ReadonlyArray<T.WireVersion>;
 export declare const compiledOperationsVersion: 'operations/v2';
 export declare const operationContracts: { readonly [W in T.WireVersion]: ReadonlyArray<OperationContract> };
@@ -81,6 +81,12 @@ export declare function checkSessionAuthorizationHandshake(advertised: unknown):
 export declare function validateOriginalBindingResponse(request: unknown, response: unknown): T.ReadOriginalBindingResponse;
 /** Fixture coherence only; Adapter authenticates caller and queries the paired game. */
 export declare function validateCurrentGrantResponse(request: unknown, response: unknown): T.VerifyCurrentGrantResponse;
+/** Requires the separate original Session action issuance capability. */
+export declare function checkSessionOperationAuthorizationHandshake(advertised: unknown): { readonly result: 'HANDSHAKE_OPERATION_MATCH'; readonly advertised: T.ContractHandshake };
+/** Shape and correlation only; not authentication or freshness. */
+export declare function validateOriginalSessionAuthorityResponse(request: unknown, response: unknown): T.ReadOriginalSessionAuthorityResponse;
+/** Trusted inputs only: project separately issued Session actions after exact current grant correlation. */
+export declare function projectSessionAuthorityProof(hostRequest: unknown, hostResponse: unknown, grantRequest: unknown, grantResponse: unknown): T.SessionAuthorityProof;
 /** Pure fixture check using host-verified and Workshop-owned durable facts, never caller facts. */
 export declare function validateBuildEntryContext(request: unknown, providerFacts: unknown): { readonly request: T.AdvanceCurrentBuildRequest; readonly replay: T.BuildEntryReplay; readonly stage: T.BuildEntryStage };
 /** Correlates a typed build result to its request; provider authenticity remains external. */
@@ -106,4 +112,5 @@ export * as referenceBriefV2 from '../../bindings/v4/ReferenceBrief-v2.js';
 export * as buildV2 from '../../bindings/v4/BUILD-V2.js';
 export * as worldAdapterV5 from '../../bindings/v4/world-adapter-v5.js';
 export * as sessionAuthorizationV1 from '../../bindings/v4/session-authorization-v1.js';
+export * as sessionOperationAuthorizationV1 from '../../bindings/v4/session-operation-authorization-v1.js';
 export * as operationsV2 from '../../bindings/v4/operations-v2.js';

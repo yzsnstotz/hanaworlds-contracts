@@ -338,7 +338,16 @@
     "ReadOriginalBindingResponse",
     "VerifyCurrentGrantRequest",
     "CurrentGrantResult",
-    "VerifyCurrentGrantResponse"
+    "VerifyCurrentGrantResponse",
+    "SessionLocalAction",
+    "SessionLocalActions",
+    "SessionAuthorityAction",
+    "SessionAuthorityActions",
+    "OriginalSessionAuthority",
+    "ReadOriginalSessionAuthorityRequest",
+    "OriginalSessionAuthorityResult",
+    "ReadOriginalSessionAuthorityResponse",
+    "SessionAuthorityProof"
   ],
   "schemas": [
     "schemas/v4/contracts.schema.json",
@@ -680,7 +689,16 @@
     "schemas/v4/ReadOriginalBindingResponse.schema.json",
     "schemas/v4/VerifyCurrentGrantRequest.schema.json",
     "schemas/v4/CurrentGrantResult.schema.json",
-    "schemas/v4/VerifyCurrentGrantResponse.schema.json"
+    "schemas/v4/VerifyCurrentGrantResponse.schema.json",
+    "schemas/v4/SessionLocalAction.schema.json",
+    "schemas/v4/SessionLocalActions.schema.json",
+    "schemas/v4/SessionAuthorityAction.schema.json",
+    "schemas/v4/SessionAuthorityActions.schema.json",
+    "schemas/v4/OriginalSessionAuthority.schema.json",
+    "schemas/v4/ReadOriginalSessionAuthorityRequest.schema.json",
+    "schemas/v4/OriginalSessionAuthorityResult.schema.json",
+    "schemas/v4/ReadOriginalSessionAuthorityResponse.schema.json",
+    "schemas/v4/SessionAuthorityProof.schema.json"
   ],
   "operations": {
     "interaction-surface/v3": [
@@ -1007,6 +1025,13 @@
         "request": "VerifyCurrentGrantRequest",
         "response": "VerifyCurrentGrantResponse"
       }
+    ],
+    "session-operation-authorization/v1": [
+      {
+        "operation": "ReadOriginalSessionAuthority",
+        "request": "ReadOriginalSessionAuthorityRequest",
+        "response": "ReadOriginalSessionAuthorityResponse"
+      }
     ]
   },
   "canvasEventTypes": [
@@ -1105,6 +1130,12 @@
       "declarations": "bindings/v4/session-authorization-v1.d.ts"
     },
     {
+      "wire": "session-operation-authorization/v1",
+      "specifier": "hanaworlds-contracts/v4/session-operation-authorization/v1",
+      "javascript": "dist/v4/bindings/session-operation-authorization-v1.mjs",
+      "declarations": "bindings/v4/session-operation-authorization-v1.d.ts"
+    },
+    {
       "wire": "operations/v2",
       "specifier": "hanaworlds-contracts/v4/operations/v2",
       "javascript": "dist/v4/bindings/operations-v2.mjs",
@@ -1112,7 +1143,7 @@
     }
   ],
   "contractHandshake": {
-    "contracts": "hanaworlds-contracts@0.3.6",
+    "contracts": "hanaworlds-contracts@0.3.7",
     "wireVersions": [
       "BUILD/V2",
       "ReferenceBrief/v2",
@@ -1120,6 +1151,7 @@
       "interaction-surface/v3",
       "painter/v3",
       "session-authorization/v1",
+      "session-operation-authorization/v1",
       "session/v2",
       "world-adapter/v4",
       "world-adapter/v5"
@@ -1142,6 +1174,7 @@
   "scopedWorldExtensionSha256": "b1ea6a3a7d59065af4d7f64e42e2f9a09a5a8feef1dcdbef5f15c2969972bb56",
   "undoRecoveryExtensionSha256": "039f08fd25cd1ee68701bb3d05c39fa3b7b8e4a167771d9198b74c78e7fecbcb",
   "currentBuildEntryExtensionSha256": "43dcad3ad2792a7adf8d9af039c3b424a66d1238ea3fa97d79f24a16bdacc546",
+  "sessionOperationAuthExtensionSha256": "7533437cb9d8b3d821862568e6eca3691c900d0be4c6e8f5c9d1c42c83576dfd",
   "sessionAuthExtensionSha256": "ee04219855175f146c68aa3d4f6612b5fd0d008b7eacfce8c423ca4b5f6d405b",
   "approvedClosureSha256": "ef7e45788a0d3ed34819c381c9a8c34302843f22594427b5aabcd87d16a9accb"
 }

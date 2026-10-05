@@ -1,7 +1,7 @@
 {
   "$schema": "http://json-schema.org/draft-07/schema#",
-  "$id": "https://hanaworlds.invalid/contracts/0.3.6/v4/UndoRecoveryStatus.schema.json",
-  "title": "HanaWorlds contracts 0.3.6 — complete v4 type inventory",
+  "$id": "https://hanaworlds.invalid/contracts/0.3.7/v4/UndoRecoveryStatus.schema.json",
+  "title": "HanaWorlds contracts 0.3.7 — complete v4 type inventory",
   "description": "Select a definition. JSON Schema establishes structure; exported validators additionally enforce the normative domain rules. Validation never authenticates a provider.",
   "definitions": {
     "Ref": {
@@ -11417,6 +11417,229 @@
       "x-typeName": "VerifyCurrentGrantResponse",
       "x-rules": [
         "a typed CURRENT result is Adapter game-side verification only; caller still rechecks live Host Session binding before a write"
+      ]
+    },
+    "SessionLocalAction": {
+      "enum": [
+        "APPEND"
+      ],
+      "x-typeName": "SessionLocalAction"
+    },
+    "SessionLocalActions": {
+      "type": "array",
+      "items": {
+        "$ref": "#/definitions/SessionLocalAction"
+      },
+      "uniqueItems": true,
+      "x-typeName": "SessionLocalActions",
+      "x-order": "UTF16 ascending"
+    },
+    "SessionAuthorityAction": {
+      "enum": [
+        "READ",
+        "SELECT",
+        "NAME",
+        "RENAME",
+        "INSPECT",
+        "ANALYZE",
+        "DECIDE",
+        "APPLY_RECOVERABLE",
+        "READBACK",
+        "UNDO",
+        "REDO",
+        "HISTORY",
+        "APPEND"
+      ],
+      "x-typeName": "SessionAuthorityAction"
+    },
+    "SessionAuthorityActions": {
+      "type": "array",
+      "items": {
+        "$ref": "#/definitions/SessionAuthorityAction"
+      },
+      "uniqueItems": true,
+      "x-typeName": "SessionAuthorityActions",
+      "x-order": "UTF16 ascending"
+    },
+    "OriginalSessionAuthority": {
+      "type": "object",
+      "properties": {
+        "binding": {
+          "$ref": "#/definitions/OriginalSessionBinding"
+        },
+        "sessionActions": {
+          "$ref": "#/definitions/SessionLocalActions"
+        }
+      },
+      "required": [
+        "binding",
+        "sessionActions"
+      ],
+      "additionalProperties": false,
+      "x-typeName": "OriginalSessionAuthority",
+      "x-rules": [
+        "binding remains the exact original game scope and MUST NOT contain APPEND; sessionActions is separately issued and durably persisted by the trusted Host for that same binding",
+        "empty sessionActions grants no APPEND; missing original Session issuance is UNKNOWN, never synthesized from a CURRENT game check",
+        "APPEND covers AppendMultimodalTurn, AnswerClarification, RecordActionReceipt and PersistRequiredArtifactResources only; all other session/v2 operation checks retain their existing action requirements; no world write is authorized by APPEND"
+      ]
+    },
+    "ReadOriginalSessionAuthorityRequest": {
+      "type": "object",
+      "properties": {
+        "contractVersion": {
+          "const": "session-operation-authorization/v1"
+        },
+        "requestId": {
+          "$ref": "#/definitions/Ref"
+        },
+        "sessionRef": {
+          "$ref": "#/definitions/Ref"
+        }
+      },
+      "required": [
+        "contractVersion",
+        "requestId",
+        "sessionRef"
+      ],
+      "additionalProperties": false,
+      "x-typeName": "ReadOriginalSessionAuthorityRequest"
+    },
+    "OriginalSessionAuthorityResult": {
+      "oneOf": [
+        {
+          "type": "object",
+          "properties": {
+            "sessionRef": {
+              "$ref": "#/definitions/Ref"
+            },
+            "authority": {
+              "$ref": "#/definitions/OriginalSessionAuthority"
+            },
+            "status": {
+              "const": "CURRENT"
+            }
+          },
+          "required": [
+            "sessionRef",
+            "authority",
+            "status"
+          ],
+          "additionalProperties": false
+        },
+        {
+          "type": "object",
+          "properties": {
+            "sessionRef": {
+              "$ref": "#/definitions/Ref"
+            },
+            "status": {
+              "const": "UNKNOWN"
+            }
+          },
+          "required": [
+            "sessionRef",
+            "status"
+          ],
+          "additionalProperties": false
+        },
+        {
+          "type": "object",
+          "properties": {
+            "sessionRef": {
+              "$ref": "#/definitions/Ref"
+            },
+            "status": {
+              "const": "REVOKED"
+            }
+          },
+          "required": [
+            "sessionRef",
+            "status"
+          ],
+          "additionalProperties": false
+        },
+        {
+          "type": "object",
+          "properties": {
+            "sessionRef": {
+              "$ref": "#/definitions/Ref"
+            },
+            "status": {
+              "const": "SESSION_REPLACED"
+            }
+          },
+          "required": [
+            "sessionRef",
+            "status"
+          ],
+          "additionalProperties": false
+        }
+      ],
+      "x-discriminator": "status",
+      "x-variantKeys": [
+        "CURRENT",
+        "UNKNOWN",
+        "REVOKED",
+        "SESSION_REPLACED"
+      ],
+      "x-typeName": "OriginalSessionAuthorityResult"
+    },
+    "ReadOriginalSessionAuthorityResponse": {
+      "type": "object",
+      "properties": {
+        "contractVersion": {
+          "const": "session-operation-authorization/v1"
+        },
+        "requestId": {
+          "$ref": "#/definitions/Ref"
+        },
+        "result": {
+          "$ref": "#/definitions/OriginalSessionAuthorityResult"
+        }
+      },
+      "required": [
+        "contractVersion",
+        "requestId",
+        "result"
+      ],
+      "additionalProperties": false,
+      "x-typeName": "ReadOriginalSessionAuthorityResponse"
+    },
+    "SessionAuthorityProof": {
+      "type": "object",
+      "properties": {
+        "current": {
+          "const": true
+        },
+        "sessionRef": {
+          "$ref": "#/definitions/Ref"
+        },
+        "actorRef": {
+          "$ref": "#/definitions/Ref"
+        },
+        "authorizationRef": {
+          "$ref": "#/definitions/Ref"
+        },
+        "worldRef": {
+          "$ref": "#/definitions/Ref"
+        },
+        "allowedActions": {
+          "$ref": "#/definitions/SessionAuthorityActions"
+        }
+      },
+      "required": [
+        "current",
+        "sessionRef",
+        "actorRef",
+        "authorizationRef",
+        "worldRef",
+        "allowedActions"
+      ],
+      "additionalProperties": false,
+      "x-typeName": "SessionAuthorityProof",
+      "x-rules": [
+        "Workshop authority callback projection only; never pass this combined action array to a game binding or world authorization",
+        "a pure projection is not a credential: trusted Host supplies current durable issuance and Adapter current result, with live recheck at use"
       ]
     }
   },
