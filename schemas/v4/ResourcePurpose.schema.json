@@ -1,7 +1,7 @@
 {
   "$schema": "http://json-schema.org/draft-07/schema#",
-  "$id": "https://hanaworlds.invalid/contracts/0.3.7/v4/ResourcePurpose.schema.json",
-  "title": "HanaWorlds contracts 0.3.7 — complete v4 type inventory",
+  "$id": "https://hanaworlds.invalid/contracts/0.3.8/v4/ResourcePurpose.schema.json",
+  "title": "HanaWorlds contracts 0.3.8 — complete v4 type inventory",
   "description": "Select a definition. JSON Schema establishes structure; exported validators additionally enforce the normative domain rules. Validation never authenticates a provider.",
   "definitions": {
     "Ref": {
@@ -11640,6 +11640,339 @@
       "x-rules": [
         "Workshop authority callback projection only; never pass this combined action array to a game binding or world authorization",
         "a pure projection is not a credential: trusted Host supplies current durable issuance and Adapter current result, with live recheck at use"
+      ]
+    },
+    "CanvasWorldSelection": {
+      "oneOf": [
+        {
+          "type": "object",
+          "properties": {
+            "sessionRef": {
+              "$ref": "#/definitions/Ref"
+            },
+            "sessionRevision": {
+              "$ref": "#/definitions/Revision"
+            },
+            "status": {
+              "const": "UNBOUND"
+            }
+          },
+          "required": [
+            "sessionRef",
+            "sessionRevision",
+            "status"
+          ],
+          "additionalProperties": false
+        },
+        {
+          "type": "object",
+          "properties": {
+            "context": {
+              "$ref": "#/definitions/CurrentContext"
+            },
+            "connectionRef": {
+              "$ref": "#/definitions/Ref"
+            },
+            "status": {
+              "const": "BOUND"
+            }
+          },
+          "required": [
+            "context",
+            "connectionRef",
+            "status"
+          ],
+          "additionalProperties": false
+        }
+      ],
+      "x-discriminator": "status",
+      "x-variantKeys": [
+        "UNBOUND",
+        "BOUND"
+      ],
+      "x-typeName": "CanvasWorldSelection",
+      "x-rules": [
+        "UNBOUND is a confirmed absence in an available Canvas store for a verified live Session, not an unknown/missing proof; sessionRevision is the actual Canvas CAS token",
+        "BOUND context.activeWorldRef is nonnull and context.currentSession is the queried Session; connectionRef comes from its durable binding; missing binding facts fail rather than returning partial BOUND"
+      ]
+    },
+    "WorldSelectionContext": {
+      "type": "object",
+      "properties": {
+        "actorRef": {
+          "$ref": "#/definitions/Ref"
+        },
+        "sessionRef": {
+          "$ref": "#/definitions/Ref"
+        },
+        "authorizationRef": {
+          "$ref": "#/definitions/Ref"
+        },
+        "worldRef": {
+          "$ref": "#/definitions/Ref"
+        },
+        "inventory": {
+          "$ref": "#/definitions/ConnectionInventory"
+        },
+        "selection": {
+          "$ref": "#/definitions/CanvasWorldSelection"
+        }
+      },
+      "required": [
+        "actorRef",
+        "sessionRef",
+        "authorizationRef",
+        "worldRef",
+        "inventory",
+        "selection"
+      ],
+      "additionalProperties": false,
+      "x-typeName": "WorldSelectionContext",
+      "x-rules": [
+        "inventory connections all belong to the requested authorized world, may be empty or contain several candidates; no arbitrary first candidate selection",
+        "inventory capabilityRevision is actual Adapter/Canvas discovery revision, not Workshop capabilities; connection descriptor revisions retain their own source",
+        "one coherent current Canvas snapshot with fresh authorization before release; no old replay response after restart or lost receipts"
+      ]
+    },
+    "ReadWorldSelectionContextRequest": {
+      "type": "object",
+      "properties": {
+        "contractVersion": {
+          "const": "canvas/v4"
+        },
+        "actorRef": {
+          "$ref": "#/definitions/Ref"
+        },
+        "sessionRef": {
+          "$ref": "#/definitions/Ref"
+        },
+        "requestId": {
+          "$ref": "#/definitions/Ref"
+        },
+        "authorizationRef": {
+          "$ref": "#/definitions/Ref"
+        },
+        "worldRef": {
+          "$ref": "#/definitions/Ref"
+        }
+      },
+      "required": [
+        "contractVersion",
+        "actorRef",
+        "sessionRef",
+        "requestId",
+        "authorizationRef",
+        "worldRef"
+      ],
+      "additionalProperties": false,
+      "x-typeName": "ReadWorldSelectionContextRequest",
+      "x-rules": [
+        "no expected revision is required to learn current facts; read-only, exact live target authorization required"
+      ]
+    },
+    "ReadWorldSelectionContextResponse": {
+      "type": "object",
+      "properties": {
+        "contractVersion": {
+          "const": "canvas/v4"
+        },
+        "requestId": {
+          "$ref": "#/definitions/Ref"
+        },
+        "result": {
+          "anyOf": [
+            {
+              "$ref": "#/definitions/WorldSelectionContext"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "error": {
+          "anyOf": [
+            {
+              "$ref": "#/definitions/Error"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        }
+      },
+      "required": [
+        "contractVersion",
+        "requestId",
+        "result",
+        "error"
+      ],
+      "additionalProperties": false,
+      "x-typeName": "ReadWorldSelectionContextResponse",
+      "x-rules": [
+        "exactly one of result/error nonnull; errors disclose no context"
+      ]
+    },
+    "WorldContextChild": {
+      "oneOf": [
+        {
+          "type": "object",
+          "properties": {
+            "request": {
+              "$ref": "#/definitions/ReadWorldSelectionContextRequest"
+            },
+            "operation": {
+              "const": "ReadWorldSelectionContext"
+            }
+          },
+          "required": [
+            "request",
+            "operation"
+          ],
+          "additionalProperties": false
+        },
+        {
+          "type": "object",
+          "properties": {
+            "request": {
+              "$ref": "#/definitions/ListWorldConnectionsRequest"
+            },
+            "operation": {
+              "const": "ListWorldConnections"
+            }
+          },
+          "required": [
+            "request",
+            "operation"
+          ],
+          "additionalProperties": false
+        },
+        {
+          "type": "object",
+          "properties": {
+            "request": {
+              "$ref": "#/definitions/SelectWorldConnectionRequest"
+            },
+            "operation": {
+              "const": "SelectWorldConnection"
+            }
+          },
+          "required": [
+            "request",
+            "operation"
+          ],
+          "additionalProperties": false
+        },
+        {
+          "type": "object",
+          "properties": {
+            "request": {
+              "$ref": "#/definitions/SwitchWorldConnectionRequest"
+            },
+            "operation": {
+              "const": "SwitchWorldConnection"
+            }
+          },
+          "required": [
+            "request",
+            "operation"
+          ],
+          "additionalProperties": false
+        },
+        {
+          "type": "object",
+          "properties": {
+            "request": {
+              "$ref": "#/definitions/ListObjectsRequest"
+            },
+            "operation": {
+              "const": "ListObjects"
+            }
+          },
+          "required": [
+            "request",
+            "operation"
+          ],
+          "additionalProperties": false
+        }
+      ],
+      "x-discriminator": "operation",
+      "x-variantKeys": [
+        "ReadWorldSelectionContext",
+        "ListWorldConnections",
+        "SelectWorldConnection",
+        "SwitchWorldConnection",
+        "ListObjects"
+      ],
+      "x-typeName": "WorldContextChild"
+    },
+    "WorldContextGrantStatus": {
+      "enum": [
+        "CURRENT",
+        "UNKNOWN",
+        "REVOKED"
+      ],
+      "x-typeName": "WorldContextGrantStatus"
+    },
+    "WorldContextInvocationStatus": {
+      "enum": [
+        "ACTIVE",
+        "ENDED",
+        "CANCELLED",
+        "SESSION_REPLACED"
+      ],
+      "x-typeName": "WorldContextInvocationStatus"
+    },
+    "WorldContextDelegationFacts": {
+      "type": "object",
+      "properties": {
+        "parentRequest": {
+          "$ref": "#/definitions/SwitchWorldContextRequest"
+        },
+        "child": {
+          "$ref": "#/definitions/WorldContextChild"
+        },
+        "originalBinding": {
+          "$ref": "#/definitions/OriginalSessionBinding"
+        },
+        "currentBinding": {
+          "$ref": "#/definitions/OriginalSessionBinding"
+        },
+        "liveSessionIncarnationRef": {
+          "$ref": "#/definitions/Ref"
+        },
+        "grantStatus": {
+          "$ref": "#/definitions/WorldContextGrantStatus"
+        },
+        "invocationStatus": {
+          "$ref": "#/definitions/WorldContextInvocationStatus"
+        },
+        "context": {
+          "anyOf": [
+            {
+              "$ref": "#/definitions/WorldSelectionContext"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        }
+      },
+      "required": [
+        "parentRequest",
+        "child",
+        "originalBinding",
+        "currentBinding",
+        "liveSessionIncarnationRef",
+        "grantStatus",
+        "invocationStatus",
+        "context"
+      ],
+      "additionalProperties": false,
+      "x-typeName": "WorldContextDelegationFacts",
+      "x-rules": [
+        "trusted provider fixture facts only, never a caller credential or a grant issued by the helper",
+        "parent and child are exact captured active service invocation bytes; originalBinding is Host durable issuance, currentBinding is authenticated current Adapter result; compare every field including epoch and actions",
+        "context may be null only for bootstrap ReadWorldSelectionContext; other operations require current Canvas facts and CAS; live provider rechecks remain mandatory"
       ]
     }
   },

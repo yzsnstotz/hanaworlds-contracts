@@ -40,7 +40,7 @@ const denied = {
     mutationState: 'NONE', transactionRef: null, causeCode: null, reason: 'GRANT_REVOKED' },
 };
 
-assert.equal(V4.version, '0.3.7');
+assert.equal(V4.version, '0.3.8');
 assert.equal(V4.checkSessionUndoHandshake(V4.contractHandshake).result, 'HANDSHAKE_OPERATION_MATCH');
 assert.throws(() => V4.checkSessionUndoHandshake({ ...V4.contractHandshake, contracts: 'hanaworlds-contracts@0.3.1' }), code('UNSUPPORTED_VERSION'));
 assert.throws(() => V4.checkSessionUndoHandshake({ ...V4.contractHandshake,
@@ -55,7 +55,12 @@ assert.throws(() => Canvas.validate('HistoryQuery', { ...history, expectedHistor
 assert.throws(() => Canvas.validate('HistoryQuery', { ...history, expectedHistoryRevision: 7 }), code('SCHEMA_INVALID'));
 assert.throws(() => Canvas.validate('HistoryQuery', { ...history, currentSnapshot: true }), code('UNKNOWN_REQUIRED_FIELD'));
 
-assert.deepEqual(plain(Session.operations.slice(0, -5)), base.operations['session/v2'], 'old session operations unchanged');
+// 0.3.8 explicitly revises only SwitchWorldContext semantics/failures; shapes stay pinned.
+const worldContext = JSON.parse(await readFile(new URL('../spec/v4/WORLD_CONTEXT_EXTENSION.json', import.meta.url), 'utf8'));
+const { additionalFailureCodes, ...worldSwitchMetadata } = worldContext.operationUpdates['session/v2'].SwitchWorldContext;
+const originalSwitch = base.operations['session/v2'].find(op => op.operation === 'SwitchWorldContext');
+Object.assign(originalSwitch, worldSwitchMetadata, { failureCodes: [...new Set([...originalSwitch.failureCodes, ...additionalFailureCodes])] });
+assert.deepEqual(plain(Session.operations.slice(0, -5)), base.operations['session/v2'], 'old Session operations match declared world-context update');
 assert.deepEqual(plain(Session.operations.at(-5)), priorReadback.operation, 'readback operation unchanged');
 assert.deepEqual(Session.operations.slice(-4, -2).map(op => op.operation), ['ReadCurrentUndoStatus', 'UndoCurrentBuild']);
 assert.deepEqual(plain(Session.validate('ReadCurrentUndoStatus', statusRequest)), statusRequest);

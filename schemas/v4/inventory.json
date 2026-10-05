@@ -347,7 +347,15 @@
     "ReadOriginalSessionAuthorityRequest",
     "OriginalSessionAuthorityResult",
     "ReadOriginalSessionAuthorityResponse",
-    "SessionAuthorityProof"
+    "SessionAuthorityProof",
+    "CanvasWorldSelection",
+    "WorldSelectionContext",
+    "ReadWorldSelectionContextRequest",
+    "ReadWorldSelectionContextResponse",
+    "WorldContextChild",
+    "WorldContextGrantStatus",
+    "WorldContextInvocationStatus",
+    "WorldContextDelegationFacts"
   ],
   "schemas": [
     "schemas/v4/contracts.schema.json",
@@ -698,7 +706,15 @@
     "schemas/v4/ReadOriginalSessionAuthorityRequest.schema.json",
     "schemas/v4/OriginalSessionAuthorityResult.schema.json",
     "schemas/v4/ReadOriginalSessionAuthorityResponse.schema.json",
-    "schemas/v4/SessionAuthorityProof.schema.json"
+    "schemas/v4/SessionAuthorityProof.schema.json",
+    "schemas/v4/CanvasWorldSelection.schema.json",
+    "schemas/v4/WorldSelectionContext.schema.json",
+    "schemas/v4/ReadWorldSelectionContextRequest.schema.json",
+    "schemas/v4/ReadWorldSelectionContextResponse.schema.json",
+    "schemas/v4/WorldContextChild.schema.json",
+    "schemas/v4/WorldContextGrantStatus.schema.json",
+    "schemas/v4/WorldContextInvocationStatus.schema.json",
+    "schemas/v4/WorldContextDelegationFacts.schema.json"
   ],
   "operations": {
     "interaction-surface/v3": [
@@ -913,6 +929,11 @@
         "operation": "ReadPendingUndoResult",
         "request": "CanvasRecoverPendingUndoRequest",
         "response": "CanvasUndoRecoveryResponse"
+      },
+      {
+        "operation": "ReadWorldSelectionContext",
+        "request": "ReadWorldSelectionContextRequest",
+        "response": "ReadWorldSelectionContextResponse"
       }
     ],
     "world-adapter/v4": [
@@ -1143,7 +1164,7 @@
     }
   ],
   "contractHandshake": {
-    "contracts": "hanaworlds-contracts@0.3.7",
+    "contracts": "hanaworlds-contracts@0.3.8",
     "wireVersions": [
       "BUILD/V2",
       "ReferenceBrief/v2",
@@ -1174,6 +1195,7 @@
   "scopedWorldExtensionSha256": "b1ea6a3a7d59065af4d7f64e42e2f9a09a5a8feef1dcdbef5f15c2969972bb56",
   "undoRecoveryExtensionSha256": "039f08fd25cd1ee68701bb3d05c39fa3b7b8e4a167771d9198b74c78e7fecbcb",
   "currentBuildEntryExtensionSha256": "43dcad3ad2792a7adf8d9af039c3b424a66d1238ea3fa97d79f24a16bdacc546",
+  "worldContextExtensionSha256": "8e5e131b8cd3b0fc13ffea932f9e6f78c7e23166fad5bf4c9dab921335783364",
   "sessionOperationAuthExtensionSha256": "7533437cb9d8b3d821862568e6eca3691c900d0be4c6e8f5c9d1c42c83576dfd",
   "sessionAuthExtensionSha256": "ee04219855175f146c68aa3d4f6612b5fd0d008b7eacfce8c423ca4b5f6d405b",
   "approvedClosureSha256": "ef7e45788a0d3ed34819c381c9a8c34302843f22594427b5aabcd87d16a9accb"

@@ -41,17 +41,17 @@ const counts = {};
 const tally = key => { counts[key] = (counts[key] ?? 0) + 1; };
 
 // ---------------------------------------------------------------- identity and inventory
-assert.equal(V4.version, '0.3.7');
-assert.equal(V4.schemaBundle.$id, 'https://hanaworlds.invalid/contracts/0.3.7/v4/schema.json');
+assert.equal(V4.version, '0.3.8');
+assert.equal(V4.schemaBundle.$id, 'https://hanaworlds.invalid/contracts/0.3.8/v4/schema.json');
 assert.equal(profile.package, 'hanaworlds-contracts@0.3.0');
 assert.deepEqual(V4.wireVersions, [...profile.wireVersions, scoped.wire, 'session-authorization/v1', 'session-operation-authorization/v1']);
 assert.deepEqual(V4.wireVersions, ['interaction-surface/v3', 'world-adapter/v4', 'canvas/v4', 'session/v2', 'painter/v3', 'ReferenceBrief/v2', 'BUILD/V2', 'world-adapter/v5', 'session-authorization/v1', 'session-operation-authorization/v1']);
-assert.equal(V4.schemaInventory.length, 348);
+assert.equal(V4.schemaInventory.length, 356);
 assert.deepEqual([...V4.schemaInventory].slice(0, Object.keys(profile.types).length), Object.keys(profile.types));
 assert.deepEqual([...V4.schemaInventory].slice(Object.keys(profile.types).length),
   ['SessionTurnDetail', 'SessionTurnDetailsList', 'SessionTurnDetails', 'ReadSessionTurnDetailsRequest', 'ReadSessionTurnDetailsResponse',
     'UndoHistoryHead', 'UndoAvailability', 'CurrentUndoStatus', 'ReadCurrentUndoStatusRequest', 'ReadCurrentUndoStatusResponse',
-    'UndoCurrentBuildRequest', 'CurrentBuildUndoResult', 'UndoCurrentBuildResponse', ...Object.keys(scoped.types), ...Object.keys(recovery.types), ...Object.keys(buildEntry.types), ...Object.keys((await exported('hanaworlds-contracts/v4/profile/SESSION_AUTH_EXTENSION')).types), ...Object.keys((await exported('hanaworlds-contracts/v4/profile/SESSION_OPERATION_AUTH_EXTENSION')).types)]);
+    'UndoCurrentBuildRequest', 'CurrentBuildUndoResult', 'UndoCurrentBuildResponse', ...Object.keys(scoped.types), ...Object.keys(recovery.types), ...Object.keys(buildEntry.types), ...Object.keys((await exported('hanaworlds-contracts/v4/profile/SESSION_AUTH_EXTENSION')).types), ...Object.keys((await exported('hanaworlds-contracts/v4/profile/SESSION_OPERATION_AUTH_EXTENSION')).types), ...Object.keys((await exported('hanaworlds-contracts/v4/profile/WORLD_CONTEXT_EXTENSION')).types)]);
 assert.equal(Object.keys(V4.digestProfile.projectionTypes).length, 22);
 for (const [kind, type] of Object.entries(V3.digestProfile.projectionTypes))
   assert.equal(V4.digestProfile.projectionTypes[kind], type, `old digest projection unchanged: ${kind}`);
@@ -61,16 +61,16 @@ assert.equal(adapter.contractVersion, 'world-adapter/v4');
 assert.equal(painter.contractVersion, 'painter/v3');
 assert.equal(surface.contractVersion, 'interaction-surface/v3');
 assert.equal(build.contractVersion, 'BUILD/V2');
-assert.equal(V4.operationContracts['canvas/v4'].length, 19);
+assert.equal(V4.operationContracts['canvas/v4'].length, 20);
 assert.equal(V4.operationContracts['world-adapter/v4'].length, 16);
-assert.deepEqual(V4.operationContracts['canvas/v4'].map(x => x.operation).filter(x => !V3.operationContracts['canvas/v3'].some(y => y.operation === x)), ['InspectPlacementRegion', 'RecoverPendingUndo', 'ReadPendingUndoResult']);
+assert.deepEqual(V4.operationContracts['canvas/v4'].map(x => x.operation).filter(x => !V3.operationContracts['canvas/v3'].some(y => y.operation === x)), ['InspectPlacementRegion', 'RecoverPendingUndo', 'ReadPendingUndoResult', 'ReadWorldSelectionContext']);
 assert.deepEqual(V4.operationContracts['world-adapter/v4'].map(x => x.operation).filter(x => !V3.operationContracts['world-adapter/v3'].some(y => y.operation === x)), ['InspectRegion']);
 assert.equal(closure.rows.length, 94);
 assert.deepEqual(closure.openUserDecisions, []);
 for (const name of ['AffectedProjection', 'AuthProjection', 'TxProjection', 'ReceiptProjection', 'ActionProjection', 'IntentProjection', 'BuildProjection', 'Frame', 'Coverage'])
   assert.deepEqual(V4.schemaBundle.definitions[name], V2.schemaBundle.definitions[name], `${name} v2 projection unchanged`);
 assert.deepEqual(Object.keys(V4.schemaBundle.definitions.TargetFacts.properties), Object.keys(V3.schemaBundle.definitions.TargetFacts.properties), 'TargetFacts field set unchanged');
-assert.deepEqual(V4.contractHandshake, { contracts: 'hanaworlds-contracts@0.3.7',
+assert.deepEqual(V4.contractHandshake, { contracts: 'hanaworlds-contracts@0.3.8',
   wireVersions: ['BUILD/V2', 'ReferenceBrief/v2', 'canvas/v4', 'interaction-surface/v3', 'painter/v3', 'session-authorization/v1', 'session-operation-authorization/v1', 'session/v2', 'world-adapter/v4', 'world-adapter/v5'],
   compiledOperationsVersion: 'operations/v2', factProfiles: ['target-facts/v2', 'target-facts/v3'] });
 assert.deepEqual(plain(V4.validateType('ContractHandshake', V4.contractHandshake)), plain(V4.contractHandshake));

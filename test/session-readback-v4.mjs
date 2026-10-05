@@ -29,13 +29,18 @@ const success = {
 };
 
 assert.ok(Session.operations.some(op => op.operation === 'ReadSessionTurnDetails'));
-assert.deepEqual(plain(Session.operations.slice(0, pinnedProfile.operations['session/v2'].length)), pinnedProfile.operations['session/v2'], 'all old operation metadata and request/response names stay unchanged');
+// 0.3.8 explicitly revises only SwitchWorldContext semantics/failures; shapes stay pinned.
+const worldContext = JSON.parse(await readFile(new URL('../spec/v4/WORLD_CONTEXT_EXTENSION.json', import.meta.url), 'utf8'));
+const { additionalFailureCodes, ...worldSwitchMetadata } = worldContext.operationUpdates['session/v2'].SwitchWorldContext;
+const originalSwitch = pinnedProfile.operations['session/v2'].find(op => op.operation === 'SwitchWorldContext');
+Object.assign(originalSwitch, worldSwitchMetadata, { failureCodes: [...new Set([...originalSwitch.failureCodes, ...additionalFailureCodes])] });
+assert.deepEqual(plain(Session.operations.slice(0, pinnedProfile.operations['session/v2'].length)), pinnedProfile.operations['session/v2'], 'old metadata unchanged except declared 0.3.8 SwitchWorldContext update');
 assert.deepEqual(plain(V4.schemaBundle.definitions.StartOrResumeSessionRequest.properties), {
   contractVersion: { const: 'session/v2' }, actorRef: { $ref: '#/definitions/Ref' },
   sessionRef: { $ref: '#/definitions/Ref' }, requestId: { $ref: '#/definitions/Ref' },
   authorizationRef: { $ref: '#/definitions/Ref' }, expectedRevision: { anyOf: [{ $ref: '#/definitions/Revision' }, { type: 'null' }] },
 });
-assert.equal(V4.version, '0.3.7');
+assert.equal(V4.version, '0.3.8');
 assert.equal(V4.checkSessionReadbackHandshake(V4.contractHandshake).result, 'HANDSHAKE_OPERATION_MATCH');
 assert.equal(V4.checkSessionReadbackHandshake({ ...V4.contractHandshake, contracts: 'hanaworlds-contracts@0.3.1' }).result, 'HANDSHAKE_OPERATION_MATCH');
 assert.throws(() => V4.checkSessionReadbackHandshake({ ...V4.contractHandshake, contracts: 'hanaworlds-contracts@0.3.0' }), errorCode('UNSUPPORTED_VERSION'));

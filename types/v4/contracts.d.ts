@@ -1,4 +1,4 @@
-// GENERATED — 348 named types from approved base plus session readback extension; no any/open object fallback.
+// GENERATED — 356 named types from approved base plus session readback extension; no any/open object fallback.
 export type Ref = string;
 export type Revision = string;
 export type Digest = string;
@@ -2363,6 +2363,70 @@ export type SessionAuthorityProof = {
   readonly "worldRef": Ref;
   readonly "allowedActions": SessionAuthorityActions;
 };
+/** UNBOUND is a confirmed absence in an available Canvas store for a verified live Session, not an unknown/missing proof; sessionRevision is the actual Canvas CAS token | BOUND context.activeWorldRef is nonnull and context.currentSession is the queried Session; connectionRef comes from its durable binding; missing binding facts fail rather than returning partial BOUND */
+export type CanvasWorldSelection = {
+  readonly "sessionRef": Ref;
+  readonly "sessionRevision": Revision;
+  readonly "status": "UNBOUND";
+} | {
+  readonly "context": CurrentContext;
+  readonly "connectionRef": Ref;
+  readonly "status": "BOUND";
+};
+/** inventory connections all belong to the requested authorized world, may be empty or contain several candidates; no arbitrary first candidate selection | inventory capabilityRevision is actual Adapter/Canvas discovery revision, not Workshop capabilities; connection descriptor revisions retain their own source | one coherent current Canvas snapshot with fresh authorization before release; no old replay response after restart or lost receipts */
+export type WorldSelectionContext = {
+  readonly "actorRef": Ref;
+  readonly "sessionRef": Ref;
+  readonly "authorizationRef": Ref;
+  readonly "worldRef": Ref;
+  readonly "inventory": ConnectionInventory;
+  readonly "selection": CanvasWorldSelection;
+};
+/** no expected revision is required to learn current facts; read-only, exact live target authorization required */
+export type ReadWorldSelectionContextRequest = {
+  readonly "contractVersion": "canvas/v4";
+  readonly "actorRef": Ref;
+  readonly "sessionRef": Ref;
+  readonly "requestId": Ref;
+  readonly "authorizationRef": Ref;
+  readonly "worldRef": Ref;
+};
+/** exactly one of result/error nonnull; errors disclose no context */
+export type ReadWorldSelectionContextResponse = {
+  readonly "contractVersion": "canvas/v4";
+  readonly "requestId": Ref;
+  readonly "result": WorldSelectionContext | null;
+  readonly "error": Error | null;
+};
+export type WorldContextChild = {
+  readonly "request": ReadWorldSelectionContextRequest;
+  readonly "operation": "ReadWorldSelectionContext";
+} | {
+  readonly "request": ListWorldConnectionsRequest;
+  readonly "operation": "ListWorldConnections";
+} | {
+  readonly "request": SelectWorldConnectionRequest;
+  readonly "operation": "SelectWorldConnection";
+} | {
+  readonly "request": SwitchWorldConnectionRequest;
+  readonly "operation": "SwitchWorldConnection";
+} | {
+  readonly "request": ListObjectsRequest;
+  readonly "operation": "ListObjects";
+};
+export type WorldContextGrantStatus = "CURRENT" | "UNKNOWN" | "REVOKED";
+export type WorldContextInvocationStatus = "ACTIVE" | "ENDED" | "CANCELLED" | "SESSION_REPLACED";
+/** trusted provider fixture facts only, never a caller credential or a grant issued by the helper | parent and child are exact captured active service invocation bytes; originalBinding is Host durable issuance, currentBinding is authenticated current Adapter result; compare every field including epoch and actions | context may be null only for bootstrap ReadWorldSelectionContext; other operations require current Canvas facts and CAS; live provider rechecks remain mandatory */
+export type WorldContextDelegationFacts = {
+  readonly "parentRequest": SwitchWorldContextRequest;
+  readonly "child": WorldContextChild;
+  readonly "originalBinding": OriginalSessionBinding;
+  readonly "currentBinding": OriginalSessionBinding;
+  readonly "liveSessionIncarnationRef": Ref;
+  readonly "grantStatus": WorldContextGrantStatus;
+  readonly "invocationStatus": WorldContextInvocationStatus;
+  readonly "context": WorldSelectionContext | null;
+};
 
 export interface TypeMap {
   readonly Ref: Ref;
@@ -2713,6 +2777,14 @@ export interface TypeMap {
   readonly OriginalSessionAuthorityResult: OriginalSessionAuthorityResult;
   readonly ReadOriginalSessionAuthorityResponse: ReadOriginalSessionAuthorityResponse;
   readonly SessionAuthorityProof: SessionAuthorityProof;
+  readonly CanvasWorldSelection: CanvasWorldSelection;
+  readonly WorldSelectionContext: WorldSelectionContext;
+  readonly ReadWorldSelectionContextRequest: ReadWorldSelectionContextRequest;
+  readonly ReadWorldSelectionContextResponse: ReadWorldSelectionContextResponse;
+  readonly WorldContextChild: WorldContextChild;
+  readonly WorldContextGrantStatus: WorldContextGrantStatus;
+  readonly WorldContextInvocationStatus: WorldContextInvocationStatus;
+  readonly WorldContextDelegationFacts: WorldContextDelegationFacts;
 }
 export type TypeName = keyof TypeMap;
 export type WireVersion = "interaction-surface/v3" | "world-adapter/v4" | "canvas/v4" | "session/v2" | "painter/v3" | "ReferenceBrief/v2" | "BUILD/V2" | "world-adapter/v5" | "session-authorization/v1" | "session-operation-authorization/v1";
@@ -2766,6 +2838,7 @@ export interface OperationMap {
     readonly "InspectPlacementRegion": { readonly request: InspectPlacementRegionRequest; readonly response: PlacementRegionInspection; };
     readonly "RecoverPendingUndo": { readonly request: CanvasRecoverPendingUndoRequest; readonly response: CanvasUndoRecoveryResponse; };
     readonly "ReadPendingUndoResult": { readonly request: CanvasRecoverPendingUndoRequest; readonly response: CanvasUndoRecoveryResponse; };
+    readonly "ReadWorldSelectionContext": { readonly request: ReadWorldSelectionContextRequest; readonly response: ReadWorldSelectionContextResponse; };
   };
   readonly "world-adapter/v4": {
     readonly "DiscoverConnections": { readonly request: DiscoverConnectionsRequest; readonly response: DiscoverConnectionsResponse; };

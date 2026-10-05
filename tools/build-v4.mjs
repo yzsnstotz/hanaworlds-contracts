@@ -10,6 +10,7 @@ const recovery = await readJSON('spec/v4/UNDO_RECOVERY_EXTENSION.json');
 const buildEntry = await readJSON('spec/v4/CURRENT_BUILD_ENTRY_EXTENSION.json');
 const sessionAuth = await readJSON('spec/v4/SESSION_AUTH_EXTENSION.json');
 const sessionOps = await readJSON('spec/v4/SESSION_OPERATION_AUTH_EXTENSION.json');
+const worldContext = await readJSON('spec/v4/WORLD_CONTEXT_EXTENSION.json');
 if (baseProfile.package !== 'hanaworlds-contracts@0.3.0' ||
     readback.baseProfile !== 'CONTRACT_SCHEMA_PROFILE.json' ||
     readback.operation.operation !== 'ReadSessionTurnDetails' ||
@@ -48,10 +49,14 @@ if (sessionAuth.baseProfile !== 'CONTRACT_SCHEMA_PROFILE.json' ||
     Object.keys(sessionAuth.types).some(name => [baseProfile.types, readback.types, undo.types,
       scoped.types, recovery.types, buildEntry.types].some(types => Object.hasOwn(types, name))))
   throw new Error('Session authorization extension must be a distinct addition to 0.3.5');
-if (sessionOps.packageVersion !== pkg.version || sessionOps.wire !== 'session-operation-authorization/v1' ||
+if (sessionOps.packageVersion !== '0.3.7' || sessionOps.wire !== 'session-operation-authorization/v1' ||
     sessionOps.priorExtension !== 'SESSION_AUTH_EXTENSION.json' ||
     Object.keys(sessionOps.types).some(name => [baseProfile.types, readback.types, undo.types, scoped.types, recovery.types, buildEntry.types, sessionAuth.types].some(types => Object.hasOwn(types, name))))
   throw new Error('Session operation authority must be strictly additive to 0.3.6');
+if (worldContext.packageVersion !== pkg.version || worldContext.wire !== 'canvas/v4' ||
+    worldContext.priorExtension !== 'SESSION_OPERATION_AUTH_EXTENSION.json' ||
+    Object.keys(worldContext.types).some(name => [baseProfile.types, readback.types, undo.types, scoped.types, recovery.types, buildEntry.types, sessionAuth.types, sessionOps.types].some(types => Object.hasOwn(types, name))))
+  throw new Error('World context must add distinct types to 0.3.7');
 const oldHistory = baseProfile.operations['canvas/v4'].find(op => op.operation === 'HistoryQuery');
 if (!oldHistory || baseProfile.types.HistoryQuery.fields.expectedHistoryRevision !== 'Revision')
   throw new Error('HistoryQuery base is not the pinned exact-CAS shape');
@@ -71,7 +76,7 @@ const profile = {
     HistoryQuery: { ...baseProfile.types.HistoryQuery,
       fields: { ...baseProfile.types.HistoryQuery.fields, expectedHistoryRevision: undo.historyQuery.expectedHistoryRevision } },
     ...readback.types, ...undo.types, ...scoped.types, ...recovery.types, ...buildEntry.types,
-    ...sessionAuth.types, ...sessionOps.types,
+    ...sessionAuth.types, ...sessionOps.types, ...worldContext.types,
   },
   operations: {
     ...baseProfile.operations,
@@ -81,7 +86,7 @@ const profile = {
       validationOrder: undo.historyQuery.validationOrder,
       failureCodes: [...op.failureCodes, ...undo.historyQuery.additionalFailureCodes],
       idempotency: undo.historyQuery.idempotency,
-    } : op), ...recovery.operations['canvas/v4']],
+    } : op), ...recovery.operations['canvas/v4'], ...worldContext.operations],
     'session/v2': [...baseProfile.operations['session/v2'], readback.operation, ...undo.operations,
       ...recovery.operations['session/v2'], ...buildEntry.operations],
     'world-adapter/v5': scoped.operations.map(op => {
@@ -95,11 +100,19 @@ const profile = {
     [sessionOps.wire]: sessionOps.operations,
   },
 };
+for (const wire of Object.keys(profile.operations)) profile.operations[wire] = profile.operations[wire].map(op => ({ ...op }));
+for (const [wire, updates] of Object.entries(worldContext.operationUpdates)) {
+  for (const [name, { additionalFailureCodes, ...metadata }] of Object.entries(updates)) {
+    const op = profile.operations[wire].find(op => op.operation === name);
+    if (!op) throw new Error('Unknown world context operation update: ' + name);
+    Object.assign(op, metadata, { failureCodes: [...new Set([...op.failureCodes, ...additionalFailureCodes])] });
+  }
+}
 const closure = await readJSON('spec/v4/CONTRACT_SEMANTIC_CLOSURE.json');
 const registry = await readJSON('spec/v4/SETTINGS_AND_INVARIANTS.json');
 const oracles = await readJSON('spec/v4/fixtures/candidate/closure-oracles-v4.json');
 const legacyOracles = await readJSON('spec/v4/fixtures/candidate/closure-oracles.json');
-if (pkg.version !== '0.3.7') throw new Error('Session operation authorization requires package 0.3.7');
+if (pkg.version !== '0.3.8') throw new Error('World context requires package 0.3.8');
 const schemaId = `https://hanaworlds.invalid/contracts/${pkg.version}/v4/schema.json`;
 const definitions = Object.create(null);
 function literal(value) { const s = value.slice(1); return /^(?:true|false|null|-?(?:0|[1-9][0-9]*)(?:\.[0-9]+)?)$/.test(s) ? JSON.parse(s) : s; }
@@ -175,6 +188,7 @@ await copyFile('spec/v4/UNDO_RECOVERY_EXTENSION.json', 'schemas/v4/profile/UNDO_
 await copyFile('spec/v4/CURRENT_BUILD_ENTRY_EXTENSION.json', 'schemas/v4/profile/CURRENT_BUILD_ENTRY_EXTENSION.json');
 await copyFile('spec/v4/SESSION_AUTH_EXTENSION.json', 'schemas/v4/profile/SESSION_AUTH_EXTENSION.json');
 await copyFile('spec/v4/SESSION_OPERATION_AUTH_EXTENSION.json', 'schemas/v4/profile/SESSION_OPERATION_AUTH_EXTENSION.json');
+await copyFile('spec/v4/WORLD_CONTEXT_EXTENSION.json', 'schemas/v4/profile/WORLD_CONTEXT_EXTENSION.json');
 // TS binding is derived from the same DSL, but is an actual public declaration file.
 function tsref(name) {
   if (name.includes('|')) return name.split('|').map(tsref).join(' | ');
@@ -247,6 +261,11 @@ export declare function checkSessionOperationAuthorizationHandshake(advertised: 
 /** Shape and correlation only; not authentication or freshness. */
 export declare function validateOriginalSessionAuthorityResponse(request: unknown, response: unknown): T.ReadOriginalSessionAuthorityResponse;
 /** Trusted inputs only: project separately issued Session actions after exact current grant correlation. */
+/** Require 0.3.8 current facts and honest world selection failure semantics. */
+export declare function checkWorldContextHandshake(advertised: unknown): { readonly result: 'HANDSHAKE_OPERATION_MATCH'; readonly advertised: T.ContractHandshake };
+export declare function validateWorldSelectionContextResponse(request: unknown, response: unknown): T.ReadWorldSelectionContextResponse;
+/** Pure fixture correlation only; provider must authenticate and recheck all facts. */
+export declare function validateWorldContextDelegation(parent: unknown, operation: T.WorldContextChild['operation'], child: unknown, facts: unknown): T.WorldContextChild['request'];
 export declare function projectSessionAuthorityProof(hostRequest: unknown, hostResponse: unknown, grantRequest: unknown, grantResponse: unknown): T.SessionAuthorityProof;
 /** Pure fixture check using host-verified and Workshop-owned durable facts, never caller facts. */
 export declare function validateBuildEntryContext(request: unknown, providerFacts: unknown): { readonly request: T.AdvanceCurrentBuildRequest; readonly replay: T.BuildEntryReplay; readonly stage: T.BuildEntryStage };
@@ -314,6 +333,7 @@ const manifest = { types: Object.keys(definitions), schemas: ['schemas/v4/contra
   scopedWorldExtensionSha256: createHash('sha256').update(await readFile('spec/v4/SCOPED_WORLD_EXTENSION.json')).digest('hex'),
   undoRecoveryExtensionSha256: createHash('sha256').update(await readFile('spec/v4/UNDO_RECOVERY_EXTENSION.json')).digest('hex'),
   currentBuildEntryExtensionSha256: createHash('sha256').update(await readFile('spec/v4/CURRENT_BUILD_ENTRY_EXTENSION.json')).digest('hex'),
+  worldContextExtensionSha256: createHash('sha256').update(await readFile('spec/v4/WORLD_CONTEXT_EXTENSION.json')).digest('hex'),
   sessionOperationAuthExtensionSha256: createHash('sha256').update(await readFile('spec/v4/SESSION_OPERATION_AUTH_EXTENSION.json')).digest('hex'),
   sessionAuthExtensionSha256: createHash('sha256').update(await readFile('spec/v4/SESSION_AUTH_EXTENSION.json')).digest('hex'),
   approvedClosureSha256: createHash('sha256').update(await readFile('spec/v4/CONTRACT_SEMANTIC_CLOSURE.json')).digest('hex') };

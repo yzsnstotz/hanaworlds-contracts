@@ -92,3 +92,11 @@ const sessionAuthorityResponse = validateOriginalSessionAuthorityResponse(sessio
 const sessionProof = projectSessionAuthorityProof(sessionAuthorityRequest, sessionAuthorityResponse, raw, raw);
 checkSessionOperationAuthorizationHandshake(raw);
 void sessionProof;
+
+// 0.3.8 current Canvas selection facts and exact operation delegation.
+import { checkWorldContextHandshake, validateWorldSelectionContextResponse, validateWorldContextDelegation } from 'hanaworlds-contracts/v4';
+const worldContextRequest = Canvas.validate('ReadWorldSelectionContext', raw);
+const worldContextResponse = validateWorldSelectionContextResponse(worldContextRequest, raw);
+checkWorldContextHandshake(raw);
+validateWorldContextDelegation(raw, 'SelectWorldConnection', raw, raw);
+void worldContextResponse;

@@ -323,7 +323,7 @@ export function checkContractHandshake(advertisedInput, requiredInput) {
  * operation. Reject an older package peer before issuing this operation. */
 export function checkSessionReadbackHandshake(advertisedInput) {
   const { advertised } = checkContractHandshake(advertisedInput, { wires: ['session/v2'], factProfiles: [] });
-  requireFact(['hanaworlds-contracts@0.3.1', 'hanaworlds-contracts@0.3.2', 'hanaworlds-contracts@0.3.3', 'hanaworlds-contracts@0.3.4', 'hanaworlds-contracts@0.3.5', 'hanaworlds-contracts@0.3.6', 'hanaworlds-contracts@0.3.7'].includes(advertised.contracts) &&
+  requireFact(['hanaworlds-contracts@0.3.1', 'hanaworlds-contracts@0.3.2', 'hanaworlds-contracts@0.3.3', 'hanaworlds-contracts@0.3.4', 'hanaworlds-contracts@0.3.5', 'hanaworlds-contracts@0.3.6', 'hanaworlds-contracts@0.3.7', 'hanaworlds-contracts@0.3.8'].includes(advertised.contracts) &&
     operationContracts['session/v2'].some(op => op.operation === 'ReadSessionTurnDetails'),
     'UNSUPPORTED_VERSION', 'VERSION_UNSUPPORTED', 'decode');
   return deepFreeze({ result: 'HANDSHAKE_OPERATION_MATCH', advertised });
@@ -332,7 +332,7 @@ export function checkSessionReadbackHandshake(advertisedInput) {
  * canvas/v4 and session/v2 majors do not advertise these added operations. */
 export function checkSessionUndoHandshake(advertisedInput) {
   const { advertised } = checkContractHandshake(advertisedInput, { wires: ['canvas/v4', 'session/v2'], factProfiles: [] });
-  requireFact(['hanaworlds-contracts@0.3.2', 'hanaworlds-contracts@0.3.3', 'hanaworlds-contracts@0.3.4', 'hanaworlds-contracts@0.3.5', 'hanaworlds-contracts@0.3.6', 'hanaworlds-contracts@0.3.7'].includes(advertised.contracts) &&
+  requireFact(['hanaworlds-contracts@0.3.2', 'hanaworlds-contracts@0.3.3', 'hanaworlds-contracts@0.3.4', 'hanaworlds-contracts@0.3.5', 'hanaworlds-contracts@0.3.6', 'hanaworlds-contracts@0.3.7', 'hanaworlds-contracts@0.3.8'].includes(advertised.contracts) &&
     ['ReadCurrentUndoStatus', 'UndoCurrentBuild'].every(name =>
       operationContracts['session/v2'].some(op => op.operation === name)),
     'UNSUPPORTED_VERSION', 'VERSION_UNSUPPORTED', 'decode');
@@ -340,7 +340,7 @@ export function checkSessionUndoHandshake(advertisedInput) {
 }
 export function checkScopedWorldHandshake(advertisedInput) {
   const { advertised } = checkContractHandshake(advertisedInput, { wires: ['world-adapter/v5'], factProfiles: [] });
-  requireFact(['hanaworlds-contracts@0.3.3', 'hanaworlds-contracts@0.3.4', 'hanaworlds-contracts@0.3.5', 'hanaworlds-contracts@0.3.6', 'hanaworlds-contracts@0.3.7'].includes(advertised.contracts) &&
+  requireFact(['hanaworlds-contracts@0.3.3', 'hanaworlds-contracts@0.3.4', 'hanaworlds-contracts@0.3.5', 'hanaworlds-contracts@0.3.6', 'hanaworlds-contracts@0.3.7', 'hanaworlds-contracts@0.3.8'].includes(advertised.contracts) &&
     ['PrepareRecoverableTransaction', 'ApplyCompiledTransaction', 'QueryPreparedTransaction'].every(name =>
       operationContracts['world-adapter/v5'].some(op => op.operation === name)),
     'UNSUPPORTED_VERSION', 'VERSION_UNSUPPORTED', 'decode');
@@ -351,7 +351,7 @@ export function checkScopedWorldHandshake(advertisedInput) {
 export function checkUndoRecoveryHandshake(advertisedInput) {
   const { advertised } = checkContractHandshake(advertisedInput,
     { wires: ['canvas/v4', 'session/v2'], factProfiles: [] });
-  requireFact(['hanaworlds-contracts@0.3.4', 'hanaworlds-contracts@0.3.5', 'hanaworlds-contracts@0.3.6', 'hanaworlds-contracts@0.3.7'].includes(advertised.contracts) &&
+  requireFact(['hanaworlds-contracts@0.3.4', 'hanaworlds-contracts@0.3.5', 'hanaworlds-contracts@0.3.6', 'hanaworlds-contracts@0.3.7', 'hanaworlds-contracts@0.3.8'].includes(advertised.contracts) &&
     operationContracts['session/v2'].some(op => op.operation === 'RecoverPendingUndo') &&
     ['RecoverPendingUndo', 'ReadPendingUndoResult'].every(name =>
       operationContracts['canvas/v4'].some(op => op.operation === name)),
@@ -362,7 +362,7 @@ export function checkUndoRecoveryHandshake(advertisedInput) {
 export function checkBuildEntryHandshake(advertisedInput) {
   const { advertised } = checkContractHandshake(advertisedInput,
     { wires: ['session/v2'], factProfiles: [] });
-  requireFact(['hanaworlds-contracts@0.3.5', 'hanaworlds-contracts@0.3.6', 'hanaworlds-contracts@0.3.7'].includes(advertised.contracts) &&
+  requireFact(['hanaworlds-contracts@0.3.5', 'hanaworlds-contracts@0.3.6', 'hanaworlds-contracts@0.3.7', 'hanaworlds-contracts@0.3.8'].includes(advertised.contracts) &&
     operationContracts['session/v2'].some(op => op.operation === 'AdvanceCurrentBuild'),
     'UNSUPPORTED_VERSION', 'VERSION_UNSUPPORTED', 'decode');
   return deepFreeze({ result: 'HANDSHAKE_OPERATION_MATCH', advertised });
@@ -371,7 +371,7 @@ export function checkBuildEntryHandshake(advertisedInput) {
 export function checkSessionAuthorizationHandshake(advertisedInput) {
   const { advertised } = checkContractHandshake(advertisedInput,
     { wires: ['session-authorization/v1'], factProfiles: [] });
-  requireFact(['hanaworlds-contracts@0.3.6', 'hanaworlds-contracts@0.3.7'].includes(advertised.contracts) &&
+  requireFact(['hanaworlds-contracts@0.3.6', 'hanaworlds-contracts@0.3.7', 'hanaworlds-contracts@0.3.8'].includes(advertised.contracts) &&
     ['ReadOriginalBinding', 'VerifyCurrentGrant'].every(name =>
       operationContracts['session-authorization/v1'].some(op => op.operation === name)),
     'UNSUPPORTED_VERSION', 'VERSION_UNSUPPORTED', 'decode');
@@ -499,7 +499,7 @@ export function admitPlacementSettings(storedInput, settingsRevision) {
 export function checkSessionOperationAuthorizationHandshake(advertisedInput) {
   const { advertised } = checkContractHandshake(advertisedInput,
     { wires: ['session-operation-authorization/v1'], factProfiles: [] });
-  requireFact(advertised.contracts === 'hanaworlds-contracts@0.3.7',
+  requireFact(['hanaworlds-contracts@0.3.7', 'hanaworlds-contracts@0.3.8'].includes(advertised.contracts),
     'UNSUPPORTED_VERSION', 'VERSION_UNSUPPORTED', 'decode');
   return deepFreeze({ result: 'HANDSHAKE_OPERATION_MATCH', advertised });
 }
@@ -526,4 +526,73 @@ export function projectSessionAuthorityProof(hostRequest, hostResponse, grantReq
     sessionRef: binding.sessionRef, actorRef: binding.actorRef,
     authorizationRef: binding.authorizationRef, worldRef: binding.worldRef,
     allowedActions: [...binding.allowedActions, ...sessionActions].sort(compareUTF16) });
+}
+
+/** Matching wire majors alone do not promise current facts or new honest failures. */
+export function checkWorldContextHandshake(advertisedInput) {
+  const { advertised } = checkContractHandshake(advertisedInput,
+    { wires: ['canvas/v4', 'session/v2'], factProfiles: [] });
+  requireFact(advertised.contracts === 'hanaworlds-contracts@0.3.8',
+    'UNSUPPORTED_VERSION', 'VERSION_UNSUPPORTED', 'decode');
+  return deepFreeze({ result: 'HANDSHAKE_OPERATION_MATCH', advertised });
+}
+export function validateWorldSelectionContextResponse(requestInput, responseInput) {
+  const request = validateRequest('canvas/v4', 'ReadWorldSelectionContext', requestInput);
+  const response = validateResponse('canvas/v4', 'ReadWorldSelectionContext', responseInput);
+  requireFact(response.requestId === request.requestId,
+    'PERMISSION_DENIED', 'IDENTITY_UNVERIFIED', 'authorize');
+  if (response.result) for (const key of ['actorRef', 'sessionRef', 'authorizationRef', 'worldRef'])
+    requireFact(response.result[key] === request[key],
+      'PERMISSION_DENIED', 'IDENTITY_UNVERIFIED', 'authorize');
+  return response;
+}
+/** Fixture coherence only. The owning providers must obtain these facts through
+ * authenticated live calls and recheck before dispatch/release. No grant is issued. */
+export function validateWorldContextDelegation(parentInput, operationName, childInput, factsInput) {
+  const parent = validateRequest('session/v2', 'SwitchWorldContext', parentInput);
+  const child = validateType('WorldContextChild', { operation: operationName, request: childInput }).request;
+  const facts = validateType('WorldContextDelegationFacts', factsInput);
+  const identity = ok => requireFact(ok, 'PERMISSION_DENIED', 'IDENTITY_UNVERIFIED', 'authorize');
+  identity(facts.invocationStatus === 'ACTIVE');
+  requireFact(facts.grantStatus === 'CURRENT', 'AUTHORIZATION_REVOKED', 'GRANT_REVOKED', 'authorize');
+  identity(sameJSON(facts.parentRequest, parent) && facts.child.operation === operationName &&
+    sameJSON(facts.child.request, child));
+  const binding = facts.originalBinding;
+  identity(sameJSON(binding, facts.currentBinding) &&
+    binding.sessionIncarnationRef === facts.liveSessionIncarnationRef &&
+    binding.allowedActions.includes('SELECT'));
+  for (const key of ['actorRef', 'sessionRef', 'authorizationRef'])
+    identity(parent[key] === child[key] && parent[key] === binding[key]);
+  identity(binding.worldRef === parent.worldRef);
+  if (operationName !== 'SwitchWorldConnection') identity(child.worldRef === parent.worldRef);
+  if (operationName === 'ReadWorldSelectionContext') return child;
+  const context = facts.context;
+  requireFact(context !== null, 'CAPABILITY_UNAVAILABLE', 'REQUIRED_FACT_UNKNOWN');
+  for (const key of ['actorRef', 'sessionRef', 'authorizationRef', 'worldRef']) identity(context[key] === parent[key]);
+  if (operationName === 'ListWorldConnections')
+    requireFact(child.expectedCapabilityRevision === context.inventory.capabilityRevision,
+      'STALE_REVISION', 'REVISION_CHANGED');
+  if (operationName === 'ListObjects') {
+    requireFact(context.selection.status === 'BOUND' &&
+      context.selection.context.activeWorldRef === parent.worldRef,
+      'WORLD_NOT_BOUND', 'SCOPE_DENIED');
+  }
+  if (operationName === 'SelectWorldConnection' || operationName === 'SwitchWorldConnection') {
+    const selection = context.selection;
+    const revision = selection.status === 'BOUND' ? selection.context.sessionRevision : selection.sessionRevision;
+    requireFact(child.expectedRevision === revision, 'STALE_REVISION', 'REVISION_CHANGED');
+    const connectionRef = operationName === 'SelectWorldConnection' ? child.connectionRef : child.toConnectionRef;
+    const candidate = context.inventory.connections.find(row => row.connectionRef === connectionRef && row.worldRef === parent.worldRef);
+    requireFact(Boolean(candidate), 'CONNECTION_NOT_FOUND', 'SCOPE_DENIED');
+    requireFact(candidate.readiness === 'READY', candidate.readiness, 'POLICY_UNAVAILABLE');
+    if (operationName === 'SelectWorldConnection')
+      requireFact(selection.status === 'UNBOUND' || selection.context.activeWorldRef === parent.worldRef,
+        'TRANSACTION_CONFLICT', 'SCOPE_DENIED');
+    else {
+      requireFact(selection.status === 'BOUND', 'WORLD_NOT_BOUND', 'SCOPE_DENIED');
+      identity(child.worldRef === selection.context.activeWorldRef &&
+        child.fromWorldRef === selection.context.activeWorldRef && child.toWorldRef === parent.worldRef);
+    }
+  }
+  return child;
 }

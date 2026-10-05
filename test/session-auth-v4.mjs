@@ -17,7 +17,7 @@ const hostResult = result => ({ contractVersion: wire, requestId: read.requestId
 const gameResult = result => ({ contractVersion: wire, requestId: verify.requestId, result });
 
 assert.equal(Auth.contractVersion, wire);
-assert.equal(V4.version, '0.3.7');
+assert.equal(V4.version, '0.3.8');
 assert.equal(V4.checkSessionAuthorizationHandshake(V4.contractHandshake).result, 'HANDSHAKE_OPERATION_MATCH');
 assert.throws(() => V4.checkSessionAuthorizationHandshake({ ...V4.contractHandshake,
   contracts: 'hanaworlds-contracts@0.3.5' }), code('UNSUPPORTED_VERSION'));

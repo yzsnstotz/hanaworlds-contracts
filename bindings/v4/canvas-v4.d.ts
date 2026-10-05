@@ -58,4 +58,7 @@ export declare function response(operation: "RecoverPendingUndo", value: unknown
 export declare function validate(operation: "ReadPendingUndoResult", value: unknown): T.CanvasRecoverPendingUndoRequest;
 export declare function admit(operation: "ReadPendingUndoResult", bytes: Uint8Array): T.CanvasRecoverPendingUndoRequest;
 export declare function response(operation: "ReadPendingUndoResult", value: unknown): T.CanvasUndoRecoveryResponse;
+export declare function validate(operation: "ReadWorldSelectionContext", value: unknown): T.ReadWorldSelectionContextRequest;
+export declare function admit(operation: "ReadWorldSelectionContext", bytes: Uint8Array): T.ReadWorldSelectionContextRequest;
+export declare function response(operation: "ReadWorldSelectionContext", value: unknown): T.ReadWorldSelectionContextResponse;
 export declare function event(typeName: keyof typeof import('../../types/v4/index.js').canvasEventRules, value: unknown): unknown;

@@ -1,0 +1,205 @@
+{
+  "format": "HANAWORLDS_WORLD_CONTEXT_EXTENSION/1",
+  "baseProfile": "CONTRACT_SCHEMA_PROFILE.json",
+  "priorExtension": "SESSION_OPERATION_AUTH_EXTENSION.json",
+  "packageVersion": "0.3.8",
+  "wire": "canvas/v4",
+  "trustBoundary": "Canvas alone produces current committed Session binding/CAS facts, including confirmed absence. A trusted caller must authenticate the exact live actor/Session/incarnation, target world and original grant before lookup and before release; no private storage reads by Workshop/Host. ReadWorldSelectionContext is read-only and never creates a Session, binds a world, authorizes a game grant, or supplies default revisions. Missing/unavailable storage or uncertain live Session is an error, not UNBOUND. Existing current Session without a Canvas record may be confirmed UNBOUND with the actual CAS token Canvas uses; consumers must not guess 0. Read after restart/missed successful selection reads current committed state, never an old replay response. Candidate inventory is current Adapter-sourced and filtered to authorized target world, with the actual provider capability revision; do not invent connection IDs, choose an arbitrary candidate, or derive Canvas CAS from Workshop revisions. Discovery and Canvas state are rechecked for coherence before release; subsequent Select/Switch still re-authorizes and enforces Canvas CAS and Adapter binding/compatibility.",
+  "authorizationSemantics": {
+    "standaloneRead": "ReadWorldSelectionContext requires current READ for the target world or an exact active SELECT delegation below; neither the facts nor READ grants Select/Switch or world writes.",
+    "delegation": "Only an authenticated active session/v2 SwitchWorldContext with original SELECT may delegate the five explicitly listed Canvas operations for that exact parent and exact child payload. Host captures the parent/child outside caller JSON, compares exact live original binding with current Adapter proof, live Session incarnation and request identities before dispatch and after late response. Ended/cancelled/replaced invocation, revoked/regranted original proof or mismatch denies; never install a long-lived wildcard operation proof. Helpers only test fixture coherence, not authentication.",
+    "switch": "For SwitchWorldConnection retain legacy worldRef=fromWorldRef, both equal Canvas confirmed current bound world; toWorldRef equals parent target and original grant world. This permits leaving the current Session metadata only, not reading or writing the old world. Connection must be a READY candidate for the target. Canvas still authorizes destination binding and owns CAS.",
+    "postRead": "Workshop reads ListObjects only after Canvas confirms the target selection, with current authorization and matching target world; final live checks precede Workshop durable ready state. Read facts never decides or commits a world transaction.",
+    "failures": "Preserve honest dependency/binding/session/revision/permission failures. Unknown facts => CAPABILITY_UNAVAILABLE, unavailable Adapter => ADAPTER_UNAVAILABLE, missing live Session => SESSION_NOT_FOUND, absent/mismatched required bound world => WORLD_NOT_BOUND, replaced/cancelled/ended invocation => PERMISSION_DENIED/IDENTITY_UNVERIFIED, revoked original proof => AUTHORIZATION_REVOKED/GRANT_REVOKED. Do not remap unknowns to STALE_REVISION, permission, or a guessed revision. Errors carry no successful context. Selection is not a world mutation; after uncertain receipt reread current Canvas context instead of fabricating success."
+  },
+  "types": {
+    "CanvasWorldSelection": {
+      "type": "discriminated-object",
+      "discriminator": "status",
+      "common": {},
+      "variants": {
+        "UNBOUND": {
+          "sessionRef": "Ref",
+          "sessionRevision": "Revision"
+        },
+        "BOUND": {
+          "context": "CurrentContext",
+          "connectionRef": "Ref"
+        }
+      },
+      "rules": [
+        "UNBOUND is a confirmed absence in an available Canvas store for a verified live Session, not an unknown/missing proof; sessionRevision is the actual Canvas CAS token",
+        "BOUND context.activeWorldRef is nonnull and context.currentSession is the queried Session; connectionRef comes from its durable binding; missing binding facts fail rather than returning partial BOUND"
+      ]
+    },
+    "WorldSelectionContext": {
+      "type": "object",
+      "fields": {
+        "actorRef": "Ref",
+        "sessionRef": "Ref",
+        "authorizationRef": "Ref",
+        "worldRef": "Ref",
+        "inventory": "ConnectionInventory",
+        "selection": "CanvasWorldSelection"
+      },
+      "rules": [
+        "inventory connections all belong to the requested authorized world, may be empty or contain several candidates; no arbitrary first candidate selection",
+        "inventory capabilityRevision is actual Adapter/Canvas discovery revision, not Workshop capabilities; connection descriptor revisions retain their own source",
+        "one coherent current Canvas snapshot with fresh authorization before release; no old replay response after restart or lost receipts"
+      ]
+    },
+    "ReadWorldSelectionContextRequest": {
+      "type": "object",
+      "fields": {
+        "contractVersion": "=canvas/v4",
+        "actorRef": "Ref",
+        "sessionRef": "Ref",
+        "requestId": "Ref",
+        "authorizationRef": "Ref",
+        "worldRef": "Ref"
+      },
+      "rules": [
+        "no expected revision is required to learn current facts; read-only, exact live target authorization required"
+      ]
+    },
+    "ReadWorldSelectionContextResponse": {
+      "type": "object",
+      "fields": {
+        "contractVersion": "=canvas/v4",
+        "requestId": "Ref",
+        "result": "WorldSelectionContext|null",
+        "error": "Error|null"
+      },
+      "rules": [
+        "exactly one of result/error nonnull; errors disclose no context"
+      ]
+    },
+    "WorldContextChild": {
+      "type": "discriminated-object",
+      "discriminator": "operation",
+      "common": {},
+      "variants": {
+        "ReadWorldSelectionContext": {
+          "request": "ReadWorldSelectionContextRequest"
+        },
+        "ListWorldConnections": {
+          "request": "ListWorldConnectionsRequest"
+        },
+        "SelectWorldConnection": {
+          "request": "SelectWorldConnectionRequest"
+        },
+        "SwitchWorldConnection": {
+          "request": "SwitchWorldConnectionRequest"
+        },
+        "ListObjects": {
+          "request": "ListObjectsRequest"
+        }
+      }
+    },
+    "WorldContextGrantStatus": {
+      "type": "enum",
+      "values": [
+        "CURRENT",
+        "UNKNOWN",
+        "REVOKED"
+      ]
+    },
+    "WorldContextInvocationStatus": {
+      "type": "enum",
+      "values": [
+        "ACTIVE",
+        "ENDED",
+        "CANCELLED",
+        "SESSION_REPLACED"
+      ]
+    },
+    "WorldContextDelegationFacts": {
+      "type": "object",
+      "fields": {
+        "parentRequest": "SwitchWorldContextRequest",
+        "child": "WorldContextChild",
+        "originalBinding": "OriginalSessionBinding",
+        "currentBinding": "OriginalSessionBinding",
+        "liveSessionIncarnationRef": "Ref",
+        "grantStatus": "WorldContextGrantStatus",
+        "invocationStatus": "WorldContextInvocationStatus",
+        "context": "WorldSelectionContext|null"
+      },
+      "rules": [
+        "trusted provider fixture facts only, never a caller credential or a grant issued by the helper",
+        "parent and child are exact captured active service invocation bytes; originalBinding is Host durable issuance, currentBinding is authenticated current Adapter result; compare every field including epoch and actions",
+        "context may be null only for bootstrap ReadWorldSelectionContext; other operations require current Canvas facts and CAS; live provider rechecks remain mandatory"
+      ]
+    }
+  },
+  "operations": [
+    {
+      "operation": "ReadWorldSelectionContext",
+      "request": "ReadWorldSelectionContextRequest",
+      "response": "ReadWorldSelectionContextResponse",
+      "successSemantics": "Fresh authorized target connection inventory and coherent current Canvas BOUND/confirmed UNBOUND Session/CAS facts; no selection, binding or world mutation.",
+      "validationOrder": [
+        "strict decode and capability handshake",
+        "authenticate exact live actor/Session/incarnation/target original grant and operation",
+        "read available Canvas committed state and target-scoped current Adapter inventory",
+        "recheck coherent Canvas state and current authorization before release"
+      ],
+      "failureCodes": [
+        "SCHEMA_INVALID",
+        "UNSUPPORTED_VERSION",
+        "UNKNOWN_REQUIRED_FIELD",
+        "PERMISSION_DENIED",
+        "AUTHORIZATION_REVOKED",
+        "REPLAY_MISMATCH",
+        "ADAPTER_UNAVAILABLE",
+        "CAPABILITY_UNAVAILABLE",
+        "SESSION_NOT_FOUND",
+        "CONNECTION_UNAUTHORIZED"
+      ],
+      "idempotency": "read-only current snapshot every call including repeated requestId after restart/lost receipt; changed payload reuse is REPLAY_MISMATCH; no stale success replay",
+      "scope": "canvas"
+    }
+  ],
+  "operationUpdates": {
+    "session/v2": {
+      "SwitchWorldContext": {
+        "additionalFailureCodes": [
+          "WORLD_NOT_BOUND",
+          "CAPABILITY_UNAVAILABLE",
+          "SESSION_NOT_FOUND",
+          "ADAPTER_UNAVAILABLE",
+          "CONNECTION_NOT_FOUND",
+          "CONNECTION_UNAUTHORIZED",
+          "WORLD_NOT_FOUND",
+          "PAYLOAD_VERSION_MISMATCH",
+          "TRANSACTION_CONFLICT",
+          "RECOVERY_PENDING",
+          "OBJECT_SCOPE_MISMATCH"
+        ],
+        "successSemantics": "Preserve currentSession. Under current original SELECT, Workshop reads Canvas current selection facts, drives the exact authorized public SelectWorldConnection or SwitchWorldConnection when needed, consumes Canvas confirmed selection and ListObjects readback, then persists its own context after live recheck. Workshop expectedRevision remains its own CAS, never Canvas CAS. No direct Host-to-Canvas shortcut or game write. Clear invalid selected objects; explicit references from other worlds still require clarification.",
+        "validationOrder": [
+          "strict decode and world-context capability on both peers",
+          "current live Session SELECT and original grant",
+          "Workshop own expectedRevision",
+          "Canvas current selection facts",
+          "exact delegated Canvas Select/Switch with Canvas CAS if needed",
+          "confirmed target selection and current ListObjects",
+          "late-response/live authorization recheck before Workshop persistence"
+        ]
+      }
+    },
+    "canvas/v4": {
+      "SelectWorldConnection": {
+        "additionalFailureCodes": [
+          "TRANSACTION_CONFLICT"
+        ]
+      },
+      "SwitchWorldConnection": {
+        "additionalFailureCodes": [
+          "WORLD_NOT_BOUND",
+          "ADAPTER_UNAVAILABLE"
+        ]
+      }
+    }
+  }
+}

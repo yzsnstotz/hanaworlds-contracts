@@ -5,7 +5,7 @@ export interface DigestResult<P> { readonly kind: T.DigestKind; readonly project
 export interface OperationContract { readonly operation: string; readonly request: T.TypeName; readonly response: T.TypeName; readonly alternateResult?: T.TypeName; readonly event?: string; readonly validationOrder: ReadonlyArray<string>; readonly failureCodes: ReadonlyArray<T.ErrorCode>; readonly successSemantics: string; readonly idempotency: string; readonly scope?: string; readonly requestName?: string; readonly responseName?: string; readonly baselineOperation?: string; }
 export declare class ContractError extends Error { constructor(code: T.ErrorCode, phase: T.Phase, reason: T.ErrorReason, details?: Partial<T.Error>); readonly publicError: T.Error; readonly code: T.ErrorCode; readonly phase: T.Phase; readonly reason: T.ErrorReason; readonly mutationState: T.MutationState; readonly retryability: T.Retryability; }
 export declare function publicError(error: unknown): T.Error;
-export declare const version: '0.3.7';
+export declare const version: '0.3.8';
 export declare const wireVersions: ReadonlyArray<T.WireVersion>;
 export declare const compiledOperationsVersion: 'operations/v2';
 export declare const operationContracts: { readonly [W in T.WireVersion]: ReadonlyArray<OperationContract> };
@@ -86,6 +86,11 @@ export declare function checkSessionOperationAuthorizationHandshake(advertised: 
 /** Shape and correlation only; not authentication or freshness. */
 export declare function validateOriginalSessionAuthorityResponse(request: unknown, response: unknown): T.ReadOriginalSessionAuthorityResponse;
 /** Trusted inputs only: project separately issued Session actions after exact current grant correlation. */
+/** Require 0.3.8 current facts and honest world selection failure semantics. */
+export declare function checkWorldContextHandshake(advertised: unknown): { readonly result: 'HANDSHAKE_OPERATION_MATCH'; readonly advertised: T.ContractHandshake };
+export declare function validateWorldSelectionContextResponse(request: unknown, response: unknown): T.ReadWorldSelectionContextResponse;
+/** Pure fixture correlation only; provider must authenticate and recheck all facts. */
+export declare function validateWorldContextDelegation(parent: unknown, operation: T.WorldContextChild['operation'], child: unknown, facts: unknown): T.WorldContextChild['request'];
 export declare function projectSessionAuthorityProof(hostRequest: unknown, hostResponse: unknown, grantRequest: unknown, grantResponse: unknown): T.SessionAuthorityProof;
 /** Pure fixture check using host-verified and Workshop-owned durable facts, never caller facts. */
 export declare function validateBuildEntryContext(request: unknown, providerFacts: unknown): { readonly request: T.AdvanceCurrentBuildRequest; readonly replay: T.BuildEntryReplay; readonly stage: T.BuildEntryStage };
