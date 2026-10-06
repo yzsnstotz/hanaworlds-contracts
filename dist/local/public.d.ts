@@ -32,9 +32,29 @@ export declare function validateWitnessCoherence(input:{build:BuildProjection;fi
 export declare function projectScopedPreparedTransaction(input:ScopedPreparedTransactionResult):ScopedPreparedTransaction;
 export declare function validateExactEffects(operations:unknown,materials:unknown,effects:unknown):unknown;
 export declare function decodeRawJSON(input:string|Uint8Array):unknown;
-export declare class ContractError extends Error {readonly code:string;readonly phase:string;readonly reason:string;readonly mutationState:string;readonly publicError:Readonly<Record<string,unknown>>;}
+export declare class ContractError extends Error {constructor(code?:string,phase?:string,reason?:string,details?:Record<string,unknown>);readonly code:string;readonly phase:string;readonly reason:string;readonly mutationState:string;readonly publicError:Readonly<Record<string,unknown>>;}
 export declare function validateWorldSelection(input:unknown,facts:LocalRequestFacts,connection:unknown):import('./contracts.js').SelectWorldConnectionRequest;
 export declare function validateCommitReadback(receipt:unknown,expected:unknown,actual:unknown,durableHistory:unknown):import('./contracts.js').ReceiptProjection;
 export declare const placementSettingDescriptors: ReadonlyArray<{readonly name:string;readonly owner:string;readonly type:string;readonly default:number;readonly scope:string;readonly editable:boolean;readonly meaning:string;readonly consequence:string;readonly whenUnsetOrInvalid:string}>;
 export declare const placementInvariants: ReadonlyArray<{readonly id:string;readonly owner:string;readonly switchable:false;readonly text:string;readonly consequence:string}>;
 export declare const settingsSurface: {readonly where:string;readonly rule:string;readonly currentEvidence:'NOT_RUN'};
+export declare const canvasEventRules: Readonly<Record<string,unknown>>;
+export declare const digestProfile: Readonly<{domainPrefix:string;domainSuffix:string;projectionTypes:Readonly<Record<keyof ProjectionMap,TypeName>>}>;
+export declare const schemaInventory: ReadonlyArray<TypeName>;
+export declare function assertType<K extends TypeName>(name:K,input:unknown):void;
+export declare function validateCanvasEvent<K extends TypeName>(name:K,input:unknown):TypeMap[K];
+export declare function snapshotJSON(input:unknown):unknown;
+export declare function assertPureJSON(input:unknown):void;
+export declare function deepFreeze<T>(input:T):Readonly<T>;
+export declare function publicError(input:unknown):import('./contracts.js').Error;
+export declare function normalizeName(input:string):{displayName:string;comparisonKey:string};
+export declare function validateNameSyntax(input:string):string;
+export declare function runtimeCompatibility():Readonly<Record<string,unknown>>;
+export declare function requireUnicode17():Readonly<Record<string,unknown>>;
+export declare function comparePosition(a:ReadonlyArray<number>,b:ReadonlyArray<number>):number;
+export declare function compareUTF16(a:string,b:string):number;
+export declare function boxCellCount(box:import('./contracts.js').Box):bigint;
+export declare function unionCellCount(boxes:ReadonlyArray<import('./contracts.js').Box>):bigint;
+export declare function project<K extends keyof ProjectionMap>(kind:K,input:ProjectionMap[K]):ProjectionMap[K];
+export declare function digestRaw<K extends keyof ProjectionMap>(kind:K,input:string|Uint8Array):ReturnType<typeof digestValue<K>>;
+export declare function projectField<K extends keyof ProjectionMap>(kind:K,sourceType:TypeName,source:unknown,field:string):ProjectionMap[K];

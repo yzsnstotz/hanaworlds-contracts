@@ -17,3 +17,7 @@ request.authorizationRef='fake';
 // @ts-expect-error old wire is not an admitted operation map member
 validateBoundRequest('canvas/v4','ApplyRecoverableCommit',{});
 void [disposition,painter,canvas,adapter,undo,selection,receipt,validateCommitReadback,validateType,validateCurrentBuildSubmission];
+
+import {comparePosition,compareUTF16,boxCellCount,unionCellCount,publicError,snapshotJSON} from 'hanaworlds-contracts';
+const compare:number=comparePosition([0,0,0],[1,0,0]);
+void [compare,compareUTF16,boxCellCount,unionCellCount,publicError,snapshotJSON];

@@ -15,7 +15,6 @@ export const wireVersions = contractMetadata.wireVersions;
 export const compiledOperationsVersion = contractMetadata.compiledOperationsVersion;
 export const operationContracts = contractMetadata.operations;
 export const canvasEventRules = contractMetadata.canvasEventRules;
-export const errorPrecedence = contractMetadata.errorPrecedence;
 export const ownership = contractMetadata.ownership;
 export const placementSettingDescriptors = contractMetadata.placementSettings;
 export const placementInvariants = contractMetadata.placementInvariants;
