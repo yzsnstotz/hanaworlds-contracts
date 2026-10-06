@@ -5197,6 +5197,31 @@
         "UNKNOWN"
       ]
     },
+    "LocalWorldAcquireInput": {
+      "x-typeName": "LocalWorldAcquireInput",
+      "type": "object",
+      "properties": {
+        "connectionRef": {
+          "$ref": "#/definitions/Ref"
+        },
+        "requesterRef": {
+          "$ref": "#/definitions/Ref"
+        },
+        "userPath": {
+          "$ref": "#/definitions/Ref"
+        },
+        "action": {
+          "$ref": "#/definitions/LocalWorldLifecycleAction"
+        }
+      },
+      "required": [
+        "connectionRef",
+        "requesterRef",
+        "userPath",
+        "action"
+      ],
+      "additionalProperties": false
+    },
     "LocalWorldContext": {
       "x-typeName": "LocalWorldContext",
       "type": "object",
@@ -5219,6 +5244,78 @@
         "connectionIncarnationRef",
         "worldRef",
         "selectionRevision"
+      ],
+      "additionalProperties": false
+    },
+    "LocalWorldLifecycleAction": {
+      "x-typeName": "LocalWorldLifecycleAction",
+      "enum": [
+        "PROVISION_PAYLOAD",
+        "BIND_RUNNING_WORLD"
+      ]
+    },
+    "LocalWorldObservation": {
+      "x-typeName": "LocalWorldObservation",
+      "type": "object",
+      "properties": {
+        "current": {
+          "const": true
+        },
+        "leaseRef": {
+          "$ref": "#/definitions/Ref"
+        },
+        "connectionRef": {
+          "$ref": "#/definitions/Ref"
+        },
+        "worldPath": {
+          "$ref": "#/definitions/Ref"
+        },
+        "worldRef": {
+          "anyOf": [
+            {
+              "$ref": "#/definitions/Ref"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "action": {
+          "$ref": "#/definitions/LocalWorldLifecycleAction"
+        },
+        "nativeProcessId": {
+          "$ref": "#/definitions/PositiveInt"
+        }
+      },
+      "required": [
+        "current",
+        "leaseRef",
+        "connectionRef",
+        "worldPath",
+        "worldRef",
+        "action",
+        "nativeProcessId"
+      ],
+      "additionalProperties": false
+    },
+    "LocalWorldQuery": {
+      "x-typeName": "LocalWorldQuery",
+      "type": "object",
+      "properties": {
+        "leaseRef": {
+          "$ref": "#/definitions/Ref"
+        },
+        "requesterRef": {
+          "$ref": "#/definitions/Ref"
+        },
+        "connectionRef": {
+          "$ref": "#/definitions/Ref"
+        }
+      },
+      "required": [
+        "leaseRef",
+        "requesterRef",
+        "connectionRef"
       ],
       "additionalProperties": false
     },
@@ -5378,6 +5475,101 @@
       ],
       "additionalProperties": false,
       "x-typeName": "NameObjectRequest"
+    },
+    "NativeControlEvidence": {
+      "x-typeName": "NativeControlEvidence",
+      "type": "object",
+      "properties": {
+        "state": {
+          "enum": [
+            "CURRENT",
+            "STOPPED"
+          ]
+        },
+        "worldPath": {
+          "$ref": "#/definitions/Ref"
+        },
+        "processId": {
+          "$ref": "#/definitions/PositiveInt"
+        },
+        "operationRef": {
+          "$ref": "#/definitions/Ref"
+        }
+      },
+      "required": [
+        "state",
+        "worldPath",
+        "processId",
+        "operationRef"
+      ],
+      "additionalProperties": false
+    },
+    "NativeControlInput": {
+      "x-typeName": "NativeControlInput",
+      "type": "object",
+      "properties": {
+        "requesterRef": {
+          "$ref": "#/definitions/Ref"
+        },
+        "worldPath": {
+          "$ref": "#/definitions/Ref"
+        },
+        "userPath": {
+          "$ref": "#/definitions/Ref"
+        },
+        "operationRef": {
+          "$ref": "#/definitions/Ref"
+        }
+      },
+      "required": [
+        "requesterRef",
+        "worldPath",
+        "userPath",
+        "operationRef"
+      ],
+      "additionalProperties": false
+    },
+    "NativeControlLease": {
+      "x-typeName": "NativeControlLease",
+      "type": "object",
+      "properties": {
+        "controlRef": {
+          "$ref": "#/definitions/Ref"
+        },
+        "worldPath": {
+          "$ref": "#/definitions/Ref"
+        }
+      },
+      "required": [
+        "controlRef",
+        "worldPath"
+      ],
+      "additionalProperties": false
+    },
+    "NativeControlQuery": {
+      "x-typeName": "NativeControlQuery",
+      "type": "object",
+      "properties": {
+        "controlRef": {
+          "$ref": "#/definitions/Ref"
+        },
+        "requesterRef": {
+          "$ref": "#/definitions/Ref"
+        },
+        "worldPath": {
+          "$ref": "#/definitions/Ref"
+        },
+        "operationRef": {
+          "$ref": "#/definitions/Ref"
+        }
+      },
+      "required": [
+        "controlRef",
+        "requesterRef",
+        "worldPath",
+        "operationRef"
+      ],
+      "additionalProperties": false
     },
     "NodeCapability": {
       "type": "object",

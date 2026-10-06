@@ -64,4 +64,14 @@ test('wrong current world or reopened connection rejects old work',()=>{assert.t
 test('Painter geometry and existing Canvas object conflict stay enforced',()=>{const q=clone(r);q.proposal.boxes[0].max[0]=Number.MAX_SAFE_INTEGER;assert.throws(()=>a.validateBuildProposalRequest(q));const s=clone(submission);s.analysis.affectedObjectRefs=['existing-object'];s.apply.analysisDigest=D('affected-analysis',s.analysis);assert.throws(()=>a.validateCurrentBuildSubmission(s,facts.requestFacts),{code:'OTHER_OBJECTS_AFFECTED'});});
 test('readback mismatch never becomes verified success',()=>{const bad=clone(readback);bad.records[0].nodeName='air';assert.throws(()=>a.validateCommitReadback(receipt,readback,bad,history),{code:'READBACK_MISMATCH'});});
 test('strict unknown authority fields and duplicate raw keys are rejected',()=>{assert.throws(()=>bound('session/v3','AdvanceCurrentBuild',{...advance,authorizationRef:'fake'}),{code:'UNKNOWN_REQUIRED_FIELD'});assert.throws(()=>a.admitRequest('session/v3','AdvanceCurrentBuild','{"requestId":"a","requestId":"b"}'));});
+
+test('existing local acquire and native process facts need no account credentials',()=>{
+ const input={connectionRef:ctx.connectionRef,requesterRef:'desktop',userPath:'/local/user',action:'BIND_RUNNING_WORLD'};
+ a.validateType('LocalWorldAcquireInput',input);
+ a.validateType('NativeControlInput',{requesterRef:'adapter',worldPath:'/local/world',userPath:'/local/user',operationRef:'open-1'});
+ a.validateType('NativeControlEvidence',{state:'CURRENT',worldPath:'/local/world',processId:1234,operationRef:'open-1'});
+ a.validateType('LocalWorldObservation',{current:true,leaseRef:'process-handle',connectionRef:ctx.connectionRef,worldPath:'/local/world',worldRef:r.worldRef,action:'BIND_RUNNING_WORLD',nativeProcessId:1234});
+ assert.throws(()=>a.validateType('LocalWorldAcquireInput',{...input,username:'unused',password:'unused'}),{code:'UNKNOWN_REQUIRED_FIELD'});
+});
+
 console.log(JSON.stringify({evidence:'SOURCE/FIXTURE',checks:passed,worldWrites:0,realRuntime:'NOT_RUN',realUI:'NOT_RUN'}));

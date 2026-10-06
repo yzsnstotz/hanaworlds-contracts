@@ -21,3 +21,9 @@ void [disposition,painter,canvas,adapter,undo,selection,receipt,validateCommitRe
 import {comparePosition,compareUTF16,boxCellCount,unionCellCount,publicError,snapshotJSON} from 'hanaworlds-contracts';
 const compare:number=comparePosition([0,0,0],[1,0,0]);
 void [compare,compareUTF16,boxCellCount,unionCellCount,publicError,snapshotJSON];
+import type {LocalWorldAcquireInput,NativeControlInput,NativeControlEvidence,LocalEngineControlPort} from 'hanaworlds-contracts';
+const localAcquire:LocalWorldAcquireInput={connectionRef:'c',requesterRef:'desktop',userPath:'/local/user',action:'BIND_RUNNING_WORLD'};
+const nativeInput:NativeControlInput={requesterRef:'adapter',worldPath:'/local/world',userPath:'/local/user',operationRef:'open-1'};
+const nativeFacts:NativeControlEvidence={state:'CURRENT',worldPath:'/local/world',processId:1234,operationRef:'open-1'};
+const controlUse=(port:LocalEngineControlPort)=>port.acquire(nativeInput);
+void [localAcquire,nativeFacts,controlUse];

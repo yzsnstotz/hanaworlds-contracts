@@ -58,3 +58,10 @@ export declare function unionCellCount(boxes:ReadonlyArray<import('./contracts.j
 export declare function project<K extends keyof ProjectionMap>(kind:K,input:ProjectionMap[K]):ProjectionMap[K];
 export declare function digestRaw<K extends keyof ProjectionMap>(kind:K,input:string|Uint8Array):ReturnType<typeof digestValue<K>>;
 export declare function projectField<K extends keyof ProjectionMap>(kind:K,sourceType:TypeName,source:unknown,field:string):ProjectionMap[K];
+/** Existing internal Host lifecycle service. Handles only correlate the actual
+ * owned process and finite operation; STOPPED is supplied during the callback. */
+export interface LocalEngineControlPort {
+ acquire(input:import('./contracts.js').NativeControlInput):Promise<import('./contracts.js').NativeControlLease>;
+ inspect(query:import('./contracts.js').NativeControlQuery):Promise<import('./contracts.js').NativeControlEvidence>;
+ withStoppedWorld<T>(query:import('./contracts.js').NativeControlQuery,consume:(facts:import('./contracts.js').NativeControlEvidence)=>Promise<T>):Promise<T>;
+}
