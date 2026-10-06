@@ -28,13 +28,12 @@ export const capped:WriteMethodDescriptor={...tool,maxCells:4096};
 // @ts-expect-error a run is a [count, index|null] pair, not a node name.
 export const bad:RegionRun=[1,'air'];
 type Ops=TypeMap['RegionOperationsProjection'];export type Edge=Ops['chunkEdge'];const edge:Edge=16;void edge;
-import {writePathStateFacts,validateCatalogueWritePathFacts,writePathStateScope,sameContractLine} from 'hanaworlds-contracts';
+import {writePathStateFacts,validateCatalogueWritePathFacts,writePathStateScope} from 'hanaworlds-contracts';
 import type {WritePathEvidence,Catalogue,WritePathNodeFacts} from 'hanaworlds-contracts';
 export function scoped(cat:Catalogue,ev:WritePathEvidence):readonly string[]{
  const f:Readonly<Record<string,WritePathNodeFacts>>=writePathStateFacts(ev);
  const p:false|null|undefined=f['air']?.hasPersistentState;void p;
  const scope:'write-path-init/v1'=writePathStateScope.id;void scope;
- const ok:boolean=sameContractLine('hanaworlds-contracts@0.5.0');void ok;
  return validateCatalogueWritePathFacts(cat,ev).verified;
 }
 // @ts-expect-error hasPersistentState is never derived true from opaque callbacks.

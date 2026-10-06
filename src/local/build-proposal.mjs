@@ -3,7 +3,7 @@
 import { validateType, validateRequest, validateResponse, validateDigestBinding,
   digestValue, canonicalJSON, contractHandshake, checkContractHandshake,
   schemaBundle, validateBoundRequest, validateCurrentRequest, validateRegionInspection, validateStaticMaterials,
-  validateWitnessCoherence, sameContractLine } from './runtime.mjs';
+  validateWitnessCoherence } from './runtime.mjs';
 import { requireFact } from '../errors.mjs';
 import { inside, unionCellCount, comparePosition } from '../geometry.mjs';
 const WIRE = 'painter/v4', OPERATION = 'ValidateBuildProposal';
@@ -16,7 +16,7 @@ const geometry = ok => requireFact(ok, 'BUILD_INVALID', 'INVALID_GEOMETRY');
 export function checkBuildProposalHandshake(input) {
   const { advertised } = checkContractHandshake(input,
     { wires: [WIRE], factProfiles: ['target-facts/v4'] });
-  requireFact(sameContractLine(advertised.contracts),
+  requireFact(advertised.contracts === contractHandshake.contracts,
     'UNSUPPORTED_VERSION', 'VERSION_UNSUPPORTED', 'decode');
   return Object.freeze({ result: 'HANDSHAKE_OPERATION_MATCH', advertised });
 }

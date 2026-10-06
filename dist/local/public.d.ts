@@ -1,6 +1,6 @@
 export * from './contracts.js';
 import type {TypeMap,TypeName,OperationMap,ProjectionMap,ContractHandshake,LocalRequestFacts,CurrentBuildSubmission,ValidateBuildProposalRequest,ValidateBuildProposalResponse,BuildProposalProviderFacts,ScopedPreparedTransaction,ScopedPreparedTransactionResult,RegionInspection,MaterialMap,Catalogue,BuildProjection,FinalEffects,TargetFacts,SafetyProfile,Coverage} from './contracts.js';
-export declare const version: '0.5.1';
+export declare const version: '0.5.2';
 export declare const wireVersions: ReadonlyArray<keyof OperationMap>;
 export declare const compiledOperationsVersion: 'operations/v3';
 export declare const contractHandshake: ContractHandshake;
@@ -108,8 +108,6 @@ export declare const contractProtocols:ReadonlyArray<C['ProtocolDescriptor']>;
 export declare const protocolPolicy:Readonly<Record<'rule'|'majors'|'minor'|'rejection'|'legacy'|'digestDomain',string>>;
 export declare const regionCapabilities:ReadonlyArray<{readonly id:string;readonly owner:string;readonly meaning:string}>;
 export declare const regionInvariants:ReadonlyArray<{readonly id:string;readonly owner:string;readonly switchable:false;readonly text:string;readonly consequence:string}>;
-/** Same package name and same 0.MINOR line: 0.5.0 and 0.5.1 interoperate, 0.4.x/0.6.x do not. */
-export declare function sameContractLine(advertised:unknown):boolean;
 /** write-path-init/v1: Catalogue hasCallbacks/hasPersistentState describe only the declared
  * CALLBACK_FREE_NODE_DATA write/restore path and its initialization; out-of-scope later changes
  * are caught by full-state readback and same-transaction Undo conflict, not claimed absent. */

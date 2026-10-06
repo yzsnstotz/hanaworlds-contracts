@@ -1,6 +1,6 @@
 {
   "$schema": "http://json-schema.org/draft-07/schema#",
-  "$id": "https://hanaworlds.invalid/contracts/0.5.1/schema.json",
+  "$id": "https://hanaworlds.invalid/contracts/0.5.2/schema.json",
   "definitions": {
     "AbortPreparedHistoryTransactionRequest": {
       "type": "object",

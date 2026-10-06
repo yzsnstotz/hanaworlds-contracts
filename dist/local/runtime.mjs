@@ -255,16 +255,9 @@ export function validateCurrentRequest(wire,name,input,factsInput) {
  else associated(facts.priorRequestDigest===hash&&facts.requestState==='COMPLETED');
  return deepFreeze({request,requestDigest:hash,disposition:facts.replay==='NEW'?'EXECUTE':'RETURN_STORED'});
 }
-/** Same package name and same 0.x minor line (semver: 0.MINOR is the break
- * boundary, so 0.5.0 and 0.5.1 interoperate; 0.4.x and 0.6.x do not). Patch and
- * artifact hash never decide compatibility. */
-export function sameContractLine(advertised) {
- const line = contractHandshake.contracts.replace(/\.[0-9]+$/u, '.');
- return typeof advertised === 'string' && advertised.startsWith(line) && /^[0-9]+$/u.test(advertised.slice(line.length));
-}
 export function checkContractHandshake(advertisedInput,required={wires:wireVersions,factProfiles:['target-facts/v4']}) {
  const advertised=validateType('ContractHandshake',advertisedInput);
- requireFact(sameContractLine(advertised.contracts)&&advertised.compiledOperationsVersion===compiledOperationsVersion&&required.wires.every(w=>wireVersions.includes(w)&&advertised.wireVersions.includes(w))&&required.factProfiles.every(f=>advertised.factProfiles.includes(f)), 'UNSUPPORTED_VERSION','VERSION_UNSUPPORTED','decode');
+ requireFact(advertised.contracts===contractHandshake.contracts&&advertised.compiledOperationsVersion===compiledOperationsVersion&&required.wires.every(w=>wireVersions.includes(w)&&advertised.wireVersions.includes(w))&&required.factProfiles.every(f=>advertised.factProfiles.includes(f)), 'UNSUPPORTED_VERSION','VERSION_UNSUPPORTED','decode');
  return deepFreeze({result:'HANDSHAKE_VERSION_MATCH',advertised});
 }
 export function validateCurrentBuildSubmission(input,factsInput) {

@@ -35,7 +35,7 @@ const stone = { nodeName: 'fixture:stone', param2: 0 }, air = { nodeName: 'air',
 const fillAndCarve = (palette = [stone, air]) => a.encodeRegionBlock({ origin: [0, 0, 0], size: [4, 1, 1], palette, indices: [0, 0, palette.length - 1, -1] });
 
 test('scope is published: callback-free write path, callback classes, out-of-scope list and capabilities', () => {
-  assert.equal(a.version, '0.5.1');
+  assert.equal(a.version, '0.5.2');
   assert.equal(a.writePathStateScope.id, 'write-path-init/v1'); assert.equal(a.writePathStateScope.writePath, 'CALLBACK_FREE_NODE_DATA');
   assert.ok(a.writePathStateScope.initializationCallbacks.includes('on_construct'));
   assert.ok(a.writePathStateScope.outOfScope.some(t => /ABM/.test(t)) && /UNDO_CONFLICT/.test(a.writePathStateScope.guards));
@@ -111,9 +111,20 @@ test('later independent changes are not claimed absent: full-state readback diff
   s.undoResponse.result.preUndoSummary.chunks[0].stateDigest = D('region-state', changed);
   assert.throws(() => a.validateRegionUndo(s.undoRequest, s.undoResponse, commit), code('UNDO_CONFLICT'));
 });
-test('same 0.5 line handshakes interoperate across patches; other lines and malformed versions reject', () => {
+test('legacy ContractHandshake stays exact; same-major interop across patches is decided only by protocol major + capabilities', () => {
   const at = v => ({ ...a.contractHandshake, contracts: 'hanaworlds-contracts@' + v });
-  a.checkContractHandshake(at('0.5.0')); a.checkBuildProposalHandshake(at('0.5.0')); a.checkContractHandshake(a.contractHandshake);
-  for (const v of ['0.4.2', '0.6.0', '0.50.0', '0.5.1-beta', '0.5.']) assert.throws(() => a.checkContractHandshake(at(v)), code('UNSUPPORTED_VERSION'), v);
+  a.checkContractHandshake(a.contractHandshake); a.checkBuildProposalHandshake(a.contractHandshake);
+  for (const v of ['0.5.0', '0.5.1', '0.4.2', '0.6.0']) {
+    assert.throws(() => a.checkContractHandshake(at(v)), code('UNSUPPORTED_VERSION'), v);
+    assert.throws(() => a.checkBuildProposalHandshake(at(v)), code('UNSUPPORTED_VERSION'), v);
+  }
+  assert.equal(a.sameContractLine, undefined);
+  // A Brush on another package patch is consumable iff it advertises BUILD major 3 and the required capability.
+  const brush = patch => ({ profileVersion: 'protocol-handshake/v1', component: 'fixture-brush', protocols: [{ protocol: 'BUILD', major: 3, minor: 0 }, { protocol: 'region-build', major: 1, minor: 0 }],
+    capabilities: ['BUILD/V3:per-cell-compile', 'region-build/v1:compile-mapblock-chunks'], provenance: { packageName: 'hanaworlds-contracts', packageVersion: patch, sourceRevision: null, artifactDigest: null } });
+  const req = [a.protocolRequirement('BUILD/V3', ['BUILD/V3:per-cell-compile'])];
+  for (const v of ['0.5.0', '0.5.1', '0.5.2']) assert.equal(a.checkProtocolCompatibility(brush(v), req).result, 'PROTOCOL_COMPATIBLE');
+  assert.throws(() => a.checkProtocolCompatibility({ ...brush('0.5.2'), capabilities: ['region-build/v1:compile-mapblock-chunks'] }, req), code('CAPABILITY_UNAVAILABLE'));
+  assert.throws(() => a.checkProtocolCompatibility({ ...brush('0.5.2'), protocols: [{ protocol: 'BUILD', major: 4, minor: 0 }] }, req), code('UNSUPPORTED_VERSION'));
 });
 console.log(JSON.stringify({ evidence: 'SOURCE/FIXTURE', suite: 'write-path-g3', checks, modelCalls: 0, worldWrites: 0, realRuntime: 'NOT_RUN', realUI: 'NOT_RUN' }));
