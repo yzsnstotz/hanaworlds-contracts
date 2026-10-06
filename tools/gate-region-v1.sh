@@ -31,21 +31,22 @@ node --input-type=module - "$evidence_dir/generated.json" <<'JS' > "$evidence_di
 import {readFile} from 'node:fs/promises';import {createHash} from 'node:crypto';import assert from 'node:assert/strict';
 const expected=JSON.parse(await readFile(process.argv[2]));for(const [p,h] of Object.entries(expected))assert.equal(createHash('sha256').update(await readFile(p)).digest('hex'),h,p);console.log('COMMITTED_GENERATION_MATCH_AND_DETERMINISTIC',Object.keys(expected).length,'generated files incl. region fixture');
 JS
-node tools/compare-baseline.mjs "$build_dir/baseline-profile.json" spec/local-world/profile.json > "$evidence_dir/baseline-additive.log" 2>&1
+git -C "$repo" show c006a839a6e6c2c63d57a14b72e4e6b26fa717f1:spec/local-world/profile.json > "$build_dir/region-050-profile.json"
+{ node tools/compare-baseline.mjs "$build_dir/baseline-profile.json" spec/local-world/profile.json; node tools/compare-baseline.mjs "$build_dir/region-050-profile.json" spec/local-world/profile.json; } > "$evidence_dir/baseline-additive.log" 2>&1
 npm run verify:source > "$evidence_dir/source-verification.log" 2>&1
-npm run test:region > "$evidence_dir/conformance.log" 2>&1
+{ npm run -s test:region; npm run -s test:g3; } > "$evidence_dir/conformance.log" 2>&1
 npm run typecheck:region > "$evidence_dir/typecheck.log" 2>&1
 { npm run -s test; npm run -s test:image; npm run -s test:materials; npm run -s typecheck && npm run -s typecheck:image && npm run -s typecheck:materials && echo 'existing typechecks exit 0'; } > "$evidence_dir/regression.log" 2>&1
 npm pack --ignore-scripts --json --pack-destination "$evidence_dir" > "$evidence_dir/pack.json"
-cp test/region-v1.mjs test/region-fixture.mjs "$build_dir/consumer/"
+cp test/region-v1.mjs test/region-fixture.mjs test/write-path-g3.mjs "$build_dir/consumer/"
 cp consumer/region/index.ts consumer/region/tsconfig.json "$build_dir/consumer/"
 cd "$build_dir/consumer"
 printf '{"name":"independent-region-consumer","private":true,"type":"module"}\n' > package.json
-npm install --ignore-scripts --no-audit --no-fund --save-exact "$evidence_dir/hanaworlds-contracts-0.5.0.tgz" typescript@5.8.3 > "$evidence_dir/consumer-install.log" 2>&1
-node region-v1.mjs > "$evidence_dir/consumer-conformance.log" 2>&1
+npm install --ignore-scripts --no-audit --no-fund --save-exact "$evidence_dir/hanaworlds-contracts-0.5.1.tgz" typescript@5.8.3 > "$evidence_dir/consumer-install.log" 2>&1
+{ node region-v1.mjs; node write-path-g3.mjs; } > "$evidence_dir/consumer-conformance.log" 2>&1
 ./node_modules/.bin/tsc --project tsconfig.json > "$evidence_dir/consumer-types.log" 2>&1
 node --input-type=module <<'JS' > "$evidence_dir/consumer-identity.log"
 import * as a from 'hanaworlds-contracts';console.log(import.meta.resolve('hanaworlds-contracts'));console.log(a.version);console.log(JSON.stringify(a.contractProtocols));
 JS
-shasum -a 256 "$evidence_dir/hanaworlds-contracts-0.5.0.tgz" > "$evidence_dir/tar.sha256"
+shasum -a 256 "$evidence_dir/hanaworlds-contracts-0.5.1.tgz" > "$evidence_dir/tar.sha256"
 printf 'SOURCE/FIXTURE COMPLETE; real runtime/UI NOT_RUN\n'
