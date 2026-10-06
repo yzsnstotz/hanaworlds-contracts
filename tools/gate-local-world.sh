@@ -34,11 +34,11 @@ cp test/local-world.mjs "$build_dir/consumer/test.mjs"
 cp consumer/local/index.ts consumer/local/tsconfig.json "$build_dir/consumer/"
 cd "$build_dir/consumer"
 printf '{"name":"independent-local-consumer","private":true,"type":"module"}\n' > package.json
-npm install --ignore-scripts --no-audit --no-fund --save-exact "$evidence_dir/hanaworlds-contracts-0.4.0.tgz" typescript@5.8.3 > "$evidence_dir/consumer-install.log" 2>&1
+npm install --ignore-scripts --no-audit --no-fund --save-exact "$evidence_dir/hanaworlds-contracts-0.4.2.tgz" typescript@5.8.3 > "$evidence_dir/consumer-install.log" 2>&1
 node test.mjs > "$evidence_dir/consumer-conformance.log" 2>&1
 ./node_modules/.bin/tsc --project tsconfig.json > "$evidence_dir/consumer-types.log" 2>&1
 node --input-type=module <<'JS' > "$evidence_dir/consumer-identity.log"
 import * as a from 'hanaworlds-contracts';console.log(import.meta.resolve('hanaworlds-contracts'));console.log(a.contractHandshake);
 JS
-shasum -a 256 "$evidence_dir/hanaworlds-contracts-0.4.0.tgz" > "$evidence_dir/tar.sha256"
+shasum -a 256 "$evidence_dir/hanaworlds-contracts-0.4.2.tgz" > "$evidence_dir/tar.sha256"
 printf 'SOURCE/FIXTURE COMPLETE; real runtime/UI NOT_RUN\n'
