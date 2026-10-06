@@ -42,7 +42,7 @@ test('projection variant and projected-byte digest stay paired and retained',()=
  assert.equal(a.canonicalJSON(a.validateBuildProposalContext(projected,bind(projected)).referenceBrief.media),a.canonicalJSON(projected.referenceBrief.media));
 });
 test('image package has an exact new handshake with no old-peer fallback',()=>{
- assert.equal(a.version,'0.4.2');a.checkBuildProposalHandshake(a.contractHandshake);
+ assert.equal(a.version,'0.5.0');a.checkBuildProposalHandshake(a.contractHandshake);
  assert.throws(()=>a.checkBuildProposalHandshake({...a.contractHandshake,contracts:'hanaworlds-contracts@0.4.0'}),{code:'UNSUPPORTED_VERSION'});
 });
 console.log(JSON.stringify({evidence:'SOURCE/FIXTURE',checks,mediaBytes:bytes.length,storedBytesDigest,modelCalls:0,worldWrites:0,realRuntime:'NOT_RUN',realUI:'NOT_RUN'}));
