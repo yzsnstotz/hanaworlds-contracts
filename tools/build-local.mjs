@@ -3,7 +3,7 @@ const profile=JSON.parse(await readFile('spec/local-world/profile.json','utf8'))
 const pkg=JSON.parse(await readFile('package.json','utf8'));
 if(pkg.version!==profile.version)throw Error('Version mismatch');
 const {definitions,...metadata}=profile;
-const schemaBundle={$schema:'http://json-schema.org/draft-07/schema#',$id:'https://hanaworlds.invalid/contracts/0.4.0/schema.json',definitions};
+const schemaBundle={$schema:'http://json-schema.org/draft-07/schema#',$id:`https://hanaworlds.invalid/contracts/${pkg.version}/schema.json`,definitions};
 metadata.contractHandshake={contracts:`${pkg.name}@${pkg.version}`,wireVersions:profile.wireVersions.toSorted(),compiledOperationsVersion:profile.compiledOperationsVersion,factProfiles:['target-facts/v4']};
 metadata.typeNames=Object.keys(definitions);
 const freeze=`const freeze=x=>{if(x&&typeof x==='object'&&!Object.isFrozen(x)){Object.values(x).forEach(freeze);Object.freeze(x)}return x};\n`;
