@@ -1,0 +1,26 @@
+import {readFile,writeFile,mkdir,cp,rm} from 'node:fs/promises';
+const profile=JSON.parse(await readFile('spec/local-world/profile.json','utf8'));
+const pkg=JSON.parse(await readFile('package.json','utf8'));
+if(pkg.version!==profile.version)throw Error('Version mismatch');
+const {definitions,...metadata}=profile;
+const schemaBundle={$schema:'http://json-schema.org/draft-07/schema#',$id:'https://hanaworlds.invalid/contracts/0.4.0/schema.json',definitions};
+metadata.contractHandshake={contracts:`${pkg.name}@${pkg.version}`,wireVersions:profile.wireVersions.toSorted(),compiledOperationsVersion:profile.compiledOperationsVersion,factProfiles:['target-facts/v4']};
+metadata.typeNames=Object.keys(definitions);
+const freeze=`const freeze=x=>{if(x&&typeof x==='object'&&!Object.isFrozen(x)){Object.values(x).forEach(freeze);Object.freeze(x)}return x};\n`;
+await mkdir('src/local/generated',{recursive:true});
+await writeFile('src/local/generated/contracts.mjs','// Generated from spec/local-world/profile.json.\n'+freeze+'export const schemaBundle=freeze('+JSON.stringify(schemaBundle)+');\nexport const contractMetadata=freeze('+JSON.stringify(metadata)+');\n');
+for(const dir of ['schemas/local','types/local'])await mkdir(dir,{recursive:true});
+await writeFile('schemas/local/contracts.schema.json',JSON.stringify(schemaBundle,null,2)+'\n');
+await writeFile('schemas/local/profile.json',JSON.stringify(profile,null,2)+'\n');
+function ts(s){if(s.$ref)return s.$ref.split('/').at(-1);if(s.anyOf||s.oneOf)return (s.anyOf??s.oneOf).map(ts).join(' | ');if(Object.hasOwn(s,'const'))return JSON.stringify(s.const);if(s.enum)return s.enum.map(JSON.stringify).join(' | ');if(s.type==='object')return s.properties?'{ '+Object.entries(s.properties).map(([k,v])=>'readonly '+JSON.stringify(k)+': '+ts(v)).join('; ')+' }':'{readonly [key: string]: '+ts(s.additionalProperties)+'}';if(s.type==='array')return Array.isArray(s.items)?'readonly ['+s.items.map(ts).join(', ')+']':'ReadonlyArray<'+ts(s.items)+'>';return s.type==='integer'?'number':s.type;}
+let out='// Generated from spec/local-world/profile.json.\n'+Object.entries(definitions).map(([n,s])=>'export type '+n+' = '+ts(s)+';').join('\n');
+out+='\nexport interface TypeMap {\n'+Object.keys(definitions).map(n=>n+': '+n+';').join('\n')+'\n}\nexport type TypeName=keyof TypeMap;\n';
+out+='export interface OperationMap {\n'+Object.entries(profile.operations).map(([w,ops])=>JSON.stringify(w)+': {\n'+ops.map(o=>JSON.stringify(o.operation)+': {request:'+o.request+';response:'+o.response+(o.alternateResult?' | '+o.alternateResult:'')+'};').join('\n')+'\n};').join('\n')+'\n}\n';
+out+='export interface ProjectionMap {\n'+Object.entries(profile.digest.projectionTypes).map(([k,n])=>JSON.stringify(k)+': '+n+';').join('\n')+'\n}\n';
+await writeFile('types/local/contracts.d.ts',out+'\n');
+await cp('src/local/public.d.ts','types/local/index.d.ts');
+await rm('dist/local',{recursive:true,force:true});await cp('src/local','dist/local',{recursive:true});
+for(const n of ['errors','strict-json','geometry','names'])await cp('src/'+n+'.mjs','dist/'+n+'.mjs');
+console.log('Built current local-world',pkg.version,Object.keys(definitions).length,'types',Object.values(profile.operations).flat().length,'operations');
+await mkdir('fixtures/local',{recursive:true});
+await cp('spec/local-world/fixtures','fixtures/local',{recursive:true});
