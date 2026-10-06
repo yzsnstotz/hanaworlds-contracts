@@ -1,7 +1,7 @@
 {
   "$schema": "http://json-schema.org/draft-07/schema#",
-  "$id": "https://hanaworlds.invalid/contracts/0.3.9/v4/QueryPreparedTransactionRequest.schema.json",
-  "title": "HanaWorlds contracts 0.3.9 — complete v4 type inventory",
+  "$id": "https://hanaworlds.invalid/contracts/0.3.10/v4/QueryPreparedTransactionRequest.schema.json",
+  "title": "HanaWorlds contracts 0.3.10 — complete v4 type inventory",
   "description": "Select a definition. JSON Schema establishes structure; exported validators additionally enforce the normative domain rules. Validation never authenticates a provider.",
   "definitions": {
     "Ref": {
@@ -12270,6 +12270,352 @@
       "x-typeName": "CurrentBuildAuthorityContext",
       "x-rules": [
         "Provider-only live facts, not wire authentication. Host captures exact invocation and authenticated service instances outside JSON, reads its original issuance and verifies original game grant now; Workshop resolves its durable current turn. UNKNOWN/expired/revoked grants fail closed. Recheck immediately before Canvas dispatch and after async work; never cache this context as authorization."
+      ]
+    },
+    "BuildProposalBox": {
+      "type": "object",
+      "properties": {
+        "min": {
+          "$ref": "#/definitions/Position"
+        },
+        "max": {
+          "$ref": "#/definitions/Position"
+        },
+        "materialRef": {
+          "$ref": "#/definitions/Ref"
+        }
+      },
+      "required": [
+        "min",
+        "max",
+        "materialRef"
+      ],
+      "additionalProperties": false,
+      "x-typeName": "BuildProposalBox",
+      "x-rules": [
+        "local nonnegative safe-integer inclusive coordinates relative to targetFacts.sampledBounds.min; min <= max; translation must remain safe and inside the exact sampled region"
+      ]
+    },
+    "BuildProposalBoxes": {
+      "type": "array",
+      "items": {
+        "$ref": "#/definitions/BuildProposalBox"
+      },
+      "minItems": 1,
+      "x-typeName": "BuildProposalBoxes",
+      "x-order": "input; last writer wins"
+    },
+    "BuildProposal": {
+      "type": "object",
+      "properties": {
+        "decision": {
+          "const": "BUILD"
+        },
+        "materials": {
+          "$ref": "#/definitions/MaterialMap"
+        },
+        "boxes": {
+          "$ref": "#/definitions/BuildProposalBoxes"
+        }
+      },
+      "required": [
+        "decision",
+        "materials",
+        "boxes"
+      ],
+      "additionalProperties": false,
+      "x-typeName": "BuildProposal",
+      "x-rules": [
+        "Untrusted model geometry only, no actor, Session, authorization, transaction, world facts, frame, witnesses, confirmation or policy. No CLARIFY input: skill owns clarification."
+      ]
+    },
+    "BuildProposalContext": {
+      "type": "object",
+      "properties": {
+        "contractVersion": {
+          "const": "painter/v3"
+        },
+        "actorRef": {
+          "$ref": "#/definitions/Ref"
+        },
+        "sessionRef": {
+          "$ref": "#/definitions/Ref"
+        },
+        "authorizationRef": {
+          "$ref": "#/definitions/Ref"
+        },
+        "worldRef": {
+          "$ref": "#/definitions/Ref"
+        },
+        "turnRevision": {
+          "$ref": "#/definitions/Revision"
+        },
+        "painterId": {
+          "const": "picture-blocks"
+        },
+        "invocationId": {
+          "$ref": "#/definitions/Ref"
+        },
+        "intent": {
+          "$ref": "#/definitions/IntentProjection"
+        },
+        "intentDigest": {
+          "$ref": "#/definitions/Digest"
+        },
+        "referenceBrief": {
+          "$ref": "#/definitions/BriefProjection"
+        },
+        "referenceBriefDigest": {
+          "$ref": "#/definitions/Digest"
+        },
+        "catalogue": {
+          "$ref": "#/definitions/Catalogue"
+        },
+        "targetFacts": {
+          "$ref": "#/definitions/TargetFacts"
+        },
+        "targetFactsDigest": {
+          "$ref": "#/definitions/Digest"
+        },
+        "safetyProfile": {
+          "$ref": "#/definitions/SafetyProfile"
+        },
+        "safetyProfileDigest": {
+          "$ref": "#/definitions/Digest"
+        },
+        "regionInspection": {
+          "$ref": "#/definitions/RegionInspection"
+        }
+      },
+      "required": [
+        "contractVersion",
+        "actorRef",
+        "sessionRef",
+        "authorizationRef",
+        "worldRef",
+        "turnRevision",
+        "painterId",
+        "invocationId",
+        "intent",
+        "intentDigest",
+        "referenceBrief",
+        "referenceBriefDigest",
+        "catalogue",
+        "targetFacts",
+        "targetFactsDigest",
+        "safetyProfile",
+        "safetyProfileDigest",
+        "regionInspection"
+      ],
+      "additionalProperties": false,
+      "x-typeName": "BuildProposalContext",
+      "x-rules": [
+        "Workshop/Host-owned captured planning context; same facts as request excluding per-call requestId and untrusted proposal. Pure text and authentic REGION_INSPECTED first-building scope only."
+      ]
+    },
+    "ValidateBuildProposalRequest": {
+      "type": "object",
+      "properties": {
+        "contractVersion": {
+          "const": "painter/v3"
+        },
+        "actorRef": {
+          "$ref": "#/definitions/Ref"
+        },
+        "sessionRef": {
+          "$ref": "#/definitions/Ref"
+        },
+        "requestId": {
+          "$ref": "#/definitions/Ref"
+        },
+        "authorizationRef": {
+          "$ref": "#/definitions/Ref"
+        },
+        "worldRef": {
+          "$ref": "#/definitions/Ref"
+        },
+        "turnRevision": {
+          "$ref": "#/definitions/Revision"
+        },
+        "painterId": {
+          "const": "picture-blocks"
+        },
+        "invocationId": {
+          "$ref": "#/definitions/Ref"
+        },
+        "intent": {
+          "$ref": "#/definitions/IntentProjection"
+        },
+        "intentDigest": {
+          "$ref": "#/definitions/Digest"
+        },
+        "referenceBrief": {
+          "$ref": "#/definitions/BriefProjection"
+        },
+        "referenceBriefDigest": {
+          "$ref": "#/definitions/Digest"
+        },
+        "catalogue": {
+          "$ref": "#/definitions/Catalogue"
+        },
+        "targetFacts": {
+          "$ref": "#/definitions/TargetFacts"
+        },
+        "targetFactsDigest": {
+          "$ref": "#/definitions/Digest"
+        },
+        "safetyProfile": {
+          "$ref": "#/definitions/SafetyProfile"
+        },
+        "safetyProfileDigest": {
+          "$ref": "#/definitions/Digest"
+        },
+        "regionInspection": {
+          "$ref": "#/definitions/RegionInspection"
+        },
+        "proposal": {
+          "$ref": "#/definitions/BuildProposal"
+        }
+      },
+      "required": [
+        "contractVersion",
+        "actorRef",
+        "sessionRef",
+        "requestId",
+        "authorizationRef",
+        "worldRef",
+        "turnRevision",
+        "painterId",
+        "invocationId",
+        "intent",
+        "intentDigest",
+        "referenceBrief",
+        "referenceBriefDigest",
+        "catalogue",
+        "targetFacts",
+        "targetFactsDigest",
+        "safetyProfile",
+        "safetyProfileDigest",
+        "regionInspection",
+        "proposal"
+      ],
+      "additionalProperties": false,
+      "x-typeName": "ValidateBuildProposalRequest",
+      "x-rules": [
+        "No image or model planning; referenceBrief.media is empty, text is nonblank, confirmed BUILD_STRUCTURE only. Target facts and inspection must be exact, current, provider-authenticated REGION_INSPECTED facts. Only known-empty sampled cells may be written by a plan; all material/safety/entrance rules continue to apply."
+      ]
+    },
+    "ValidateBuildProposalResponse": {
+      "type": "object",
+      "properties": {
+        "contractVersion": {
+          "const": "painter/v3"
+        },
+        "requestId": {
+          "$ref": "#/definitions/Ref"
+        },
+        "result": {
+          "anyOf": [
+            {
+              "$ref": "#/definitions/BuildPlan"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "error": {
+          "anyOf": [
+            {
+              "$ref": "#/definitions/Error"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        }
+      },
+      "required": [
+        "contractVersion",
+        "requestId",
+        "result",
+        "error"
+      ],
+      "additionalProperties": false,
+      "x-typeName": "ValidateBuildProposalResponse",
+      "x-rules": [
+        "Exactly one result/error; error.mutationState NONE and transactionRef null. A plan is no confirmation, grant, compiled transaction or world receipt."
+      ]
+    },
+    "BuildProposalProviderFacts": {
+      "type": "object",
+      "properties": {
+        "sourceContext": {
+          "$ref": "#/definitions/BuildProposalContext"
+        },
+        "currentContext": {
+          "$ref": "#/definitions/BuildProposalContext"
+        },
+        "originalBinding": {
+          "$ref": "#/definitions/OriginalSessionBinding"
+        },
+        "currentBinding": {
+          "$ref": "#/definitions/OriginalSessionBinding"
+        },
+        "liveSessionIncarnationRef": {
+          "$ref": "#/definitions/Ref"
+        },
+        "grantStatus": {
+          "$ref": "#/definitions/CurrentBuildGrantStatus"
+        },
+        "invocationStatus": {
+          "$ref": "#/definitions/WorldContextInvocationStatus"
+        },
+        "turnStatus": {
+          "$ref": "#/definitions/BuildEntryTurnStatus"
+        },
+        "authorizedOperation": {
+          "const": "ValidateBuildProposal"
+        },
+        "callerServiceRef": {
+          "$ref": "#/definitions/Ref"
+        },
+        "expectedCallerServiceRef": {
+          "$ref": "#/definitions/Ref"
+        },
+        "replay": {
+          "$ref": "#/definitions/BuildEntryReplay"
+        },
+        "priorRequest": {
+          "anyOf": [
+            {
+              "$ref": "#/definitions/ValidateBuildProposalRequest"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        }
+      },
+      "required": [
+        "sourceContext",
+        "currentContext",
+        "originalBinding",
+        "currentBinding",
+        "liveSessionIncarnationRef",
+        "grantStatus",
+        "invocationStatus",
+        "turnStatus",
+        "authorizedOperation",
+        "callerServiceRef",
+        "expectedCallerServiceRef",
+        "replay",
+        "priorRequest"
+      ],
+      "additionalProperties": false,
+      "x-typeName": "BuildProposalProviderFacts",
+      "x-rules": [
+        "Trusted provider-side inputs only, never supplied by the model. Authenticate the exact Workshop invocation and live Host Session/incarnation, verify the original game grant and INSPECT capability, check current confirmed brief and exact generation context. Recheck after awaits and before output/replay. Pure equality is not provenance or authorization."
       ]
     }
   },

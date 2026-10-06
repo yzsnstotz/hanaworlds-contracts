@@ -31,7 +31,7 @@ const utf8 = value => new TextEncoder().encode(JSON.stringify(value));
 const plain = value => JSON.parse(JSON.stringify(value));
 
 // The v3 lane reports the package version; its schema identity stays at 0.2.1.
-assert.equal(V3.version, '0.3.9');
+assert.equal(V3.version, '0.3.10');
 assert.equal(V3.schemaBundle.$id, 'https://hanaworlds.invalid/contracts/0.2.1/v3/schema.json');
 assert.deepEqual(V3.wireVersions, profile.wireVersions);
 assert.equal(V3.schemaInventory.length, 258);

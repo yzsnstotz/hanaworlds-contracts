@@ -110,3 +110,14 @@ const buildAuthDigest: string = digestValue('current-build-action', buildAuthAct
 const buildAuthChild: TypeMap['ApplyRecoverableCommitRequest'] = validateCurrentBuildAuthorizedApply(raw, raw, raw, raw);
 const buildAuthPeer: string = checkCurrentBuildAuthorizationHandshake(contractHandshake).advertised.contracts;
 void [buildAuthFacts, buildAuthCandidate, buildAuthDigest, buildAuthChild, buildAuthPeer];
+
+import { checkBuildProposalHandshake, validateBuildProposalRequest,
+  validateBuildProposalContext, validateBuildProposalResponse } from 'hanaworlds-contracts/v4';
+const proposalRequest: TypeMap['ValidateBuildProposalRequest'] = validateBuildProposalRequest(raw);
+const proposalBody: TypeMap['BuildProposal'] = proposalRequest.proposal;
+const proposalAdmitted: TypeMap['ValidateBuildProposalRequest'] = Painter.admit('ValidateBuildProposal', new Uint8Array());
+const proposalCurrent: TypeMap['ValidateBuildProposalRequest'] = validateBuildProposalContext(raw, raw);
+const proposalResponse: TypeMap['ValidateBuildProposalResponse'] = validateBuildProposalResponse(raw, raw);
+const proposalBoundResponse: TypeMap['ValidateBuildProposalResponse'] = Painter.response('ValidateBuildProposal', raw);
+const proposalPeer: string = checkBuildProposalHandshake(contractHandshake).advertised.contracts;
+void [proposalBody, proposalAdmitted, proposalCurrent, proposalResponse, proposalBoundResponse, proposalPeer];

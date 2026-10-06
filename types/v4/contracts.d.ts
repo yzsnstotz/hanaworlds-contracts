@@ -1,4 +1,4 @@
-// GENERATED — 362 named types from approved base plus session readback extension; no any/open object fallback.
+// GENERATED — 369 named types from approved base plus session readback extension; no any/open object fallback.
 export type Ref = string;
 export type Revision = string;
 export type Digest = string;
@@ -2496,6 +2496,87 @@ export type CurrentBuildAuthorityContext = {
   readonly "priorAuthorization": CurrentBuildAuthorization | null;
   readonly "currentStage": BuildEntryStage;
 };
+/** local nonnegative safe-integer inclusive coordinates relative to targetFacts.sampledBounds.min; min <= max; translation must remain safe and inside the exact sampled region */
+export type BuildProposalBox = {
+  readonly "min": Position;
+  readonly "max": Position;
+  readonly "materialRef": Ref;
+};
+/** Order: input; last writer wins */
+export type BuildProposalBoxes = ReadonlyArray<BuildProposalBox>;
+/** Untrusted model geometry only, no actor, Session, authorization, transaction, world facts, frame, witnesses, confirmation or policy. No CLARIFY input: skill owns clarification. */
+export type BuildProposal = {
+  readonly "decision": "BUILD";
+  readonly "materials": MaterialMap;
+  readonly "boxes": BuildProposalBoxes;
+};
+/** Workshop/Host-owned captured planning context; same facts as request excluding per-call requestId and untrusted proposal. Pure text and authentic REGION_INSPECTED first-building scope only. */
+export type BuildProposalContext = {
+  readonly "contractVersion": "painter/v3";
+  readonly "actorRef": Ref;
+  readonly "sessionRef": Ref;
+  readonly "authorizationRef": Ref;
+  readonly "worldRef": Ref;
+  readonly "turnRevision": Revision;
+  readonly "painterId": "picture-blocks";
+  readonly "invocationId": Ref;
+  readonly "intent": IntentProjection;
+  readonly "intentDigest": Digest;
+  readonly "referenceBrief": BriefProjection;
+  readonly "referenceBriefDigest": Digest;
+  readonly "catalogue": Catalogue;
+  readonly "targetFacts": TargetFacts;
+  readonly "targetFactsDigest": Digest;
+  readonly "safetyProfile": SafetyProfile;
+  readonly "safetyProfileDigest": Digest;
+  readonly "regionInspection": RegionInspection;
+};
+/** No image or model planning; referenceBrief.media is empty, text is nonblank, confirmed BUILD_STRUCTURE only. Target facts and inspection must be exact, current, provider-authenticated REGION_INSPECTED facts. Only known-empty sampled cells may be written by a plan; all material/safety/entrance rules continue to apply. */
+export type ValidateBuildProposalRequest = {
+  readonly "contractVersion": "painter/v3";
+  readonly "actorRef": Ref;
+  readonly "sessionRef": Ref;
+  readonly "requestId": Ref;
+  readonly "authorizationRef": Ref;
+  readonly "worldRef": Ref;
+  readonly "turnRevision": Revision;
+  readonly "painterId": "picture-blocks";
+  readonly "invocationId": Ref;
+  readonly "intent": IntentProjection;
+  readonly "intentDigest": Digest;
+  readonly "referenceBrief": BriefProjection;
+  readonly "referenceBriefDigest": Digest;
+  readonly "catalogue": Catalogue;
+  readonly "targetFacts": TargetFacts;
+  readonly "targetFactsDigest": Digest;
+  readonly "safetyProfile": SafetyProfile;
+  readonly "safetyProfileDigest": Digest;
+  readonly "regionInspection": RegionInspection;
+  readonly "proposal": BuildProposal;
+};
+/** Exactly one result/error; error.mutationState NONE and transactionRef null. A plan is no confirmation, grant, compiled transaction or world receipt. */
+export type ValidateBuildProposalResponse = {
+  readonly "contractVersion": "painter/v3";
+  readonly "requestId": Ref;
+  readonly "result": BuildPlan | null;
+  readonly "error": Error | null;
+};
+/** Trusted provider-side inputs only, never supplied by the model. Authenticate the exact Workshop invocation and live Host Session/incarnation, verify the original game grant and INSPECT capability, check current confirmed brief and exact generation context. Recheck after awaits and before output/replay. Pure equality is not provenance or authorization. */
+export type BuildProposalProviderFacts = {
+  readonly "sourceContext": BuildProposalContext;
+  readonly "currentContext": BuildProposalContext;
+  readonly "originalBinding": OriginalSessionBinding;
+  readonly "currentBinding": OriginalSessionBinding;
+  readonly "liveSessionIncarnationRef": Ref;
+  readonly "grantStatus": CurrentBuildGrantStatus;
+  readonly "invocationStatus": WorldContextInvocationStatus;
+  readonly "turnStatus": BuildEntryTurnStatus;
+  readonly "authorizedOperation": "ValidateBuildProposal";
+  readonly "callerServiceRef": Ref;
+  readonly "expectedCallerServiceRef": Ref;
+  readonly "replay": BuildEntryReplay;
+  readonly "priorRequest": ValidateBuildProposalRequest | null;
+};
 
 export interface TypeMap {
   readonly Ref: Ref;
@@ -2860,6 +2941,13 @@ export interface TypeMap {
   readonly CurrentBuildAuthorization: CurrentBuildAuthorization;
   readonly CurrentBuildGrantStatus: CurrentBuildGrantStatus;
   readonly CurrentBuildAuthorityContext: CurrentBuildAuthorityContext;
+  readonly BuildProposalBox: BuildProposalBox;
+  readonly BuildProposalBoxes: BuildProposalBoxes;
+  readonly BuildProposal: BuildProposal;
+  readonly BuildProposalContext: BuildProposalContext;
+  readonly ValidateBuildProposalRequest: ValidateBuildProposalRequest;
+  readonly ValidateBuildProposalResponse: ValidateBuildProposalResponse;
+  readonly BuildProposalProviderFacts: BuildProposalProviderFacts;
 }
 export type TypeName = keyof TypeMap;
 export type WireVersion = "interaction-surface/v3" | "world-adapter/v4" | "canvas/v4" | "session/v2" | "painter/v3" | "ReferenceBrief/v2" | "BUILD/V2" | "world-adapter/v5" | "session-authorization/v1" | "session-operation-authorization/v1";
@@ -2885,6 +2973,7 @@ export interface OperationMap {
   };
   readonly "painter/v3": {
     readonly "CreateBuildPlan": { readonly request: CreateBuildPlanRequest; readonly response: CreateBuildPlanResponse | ClarificationNeed; };
+    readonly "ValidateBuildProposal": { readonly request: ValidateBuildProposalRequest; readonly response: ValidateBuildProposalResponse; };
   };
   readonly "ReferenceBrief/v2": {
     readonly "BindReferenceBrief": { readonly request: BindReferenceBriefRequest; readonly response: BindReferenceBriefResponse; };

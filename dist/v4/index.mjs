@@ -10,3 +10,4 @@ export * as painterV3 from './bindings/painter-v3.mjs';
 export * as referenceBriefV2 from './bindings/ReferenceBrief-v2.mjs';
 export * as buildV2 from './bindings/BUILD-V2.mjs';
 export * as operationsV2 from './bindings/operations-v2.mjs';
+export * from './build-proposal.mjs';

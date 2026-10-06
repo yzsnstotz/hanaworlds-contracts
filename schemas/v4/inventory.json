@@ -361,7 +361,14 @@
     "CurrentBuildActionProjection",
     "CurrentBuildAuthorization",
     "CurrentBuildGrantStatus",
-    "CurrentBuildAuthorityContext"
+    "CurrentBuildAuthorityContext",
+    "BuildProposalBox",
+    "BuildProposalBoxes",
+    "BuildProposal",
+    "BuildProposalContext",
+    "ValidateBuildProposalRequest",
+    "ValidateBuildProposalResponse",
+    "BuildProposalProviderFacts"
   ],
   "schemas": [
     "schemas/v4/contracts.schema.json",
@@ -726,7 +733,14 @@
     "schemas/v4/CurrentBuildActionProjection.schema.json",
     "schemas/v4/CurrentBuildAuthorization.schema.json",
     "schemas/v4/CurrentBuildGrantStatus.schema.json",
-    "schemas/v4/CurrentBuildAuthorityContext.schema.json"
+    "schemas/v4/CurrentBuildAuthorityContext.schema.json",
+    "schemas/v4/BuildProposalBox.schema.json",
+    "schemas/v4/BuildProposalBoxes.schema.json",
+    "schemas/v4/BuildProposal.schema.json",
+    "schemas/v4/BuildProposalContext.schema.json",
+    "schemas/v4/ValidateBuildProposalRequest.schema.json",
+    "schemas/v4/ValidateBuildProposalResponse.schema.json",
+    "schemas/v4/BuildProposalProviderFacts.schema.json"
   ],
   "operations": {
     "interaction-surface/v3": [
@@ -809,6 +823,11 @@
         "request": "CreateBuildPlanRequest",
         "response": "CreateBuildPlanResponse",
         "alternateResult": "ClarificationNeed"
+      },
+      {
+        "operation": "ValidateBuildProposal",
+        "request": "ValidateBuildProposalRequest",
+        "response": "ValidateBuildProposalResponse"
       }
     ],
     "ReferenceBrief/v2": [
@@ -1177,7 +1196,7 @@
     }
   ],
   "contractHandshake": {
-    "contracts": "hanaworlds-contracts@0.3.9",
+    "contracts": "hanaworlds-contracts@0.3.10",
     "wireVersions": [
       "BUILD/V2",
       "ReferenceBrief/v2",
@@ -1208,6 +1227,7 @@
   "scopedWorldExtensionSha256": "b1ea6a3a7d59065af4d7f64e42e2f9a09a5a8feef1dcdbef5f15c2969972bb56",
   "undoRecoveryExtensionSha256": "039f08fd25cd1ee68701bb3d05c39fa3b7b8e4a167771d9198b74c78e7fecbcb",
   "currentBuildEntryExtensionSha256": "43dcad3ad2792a7adf8d9af039c3b424a66d1238ea3fa97d79f24a16bdacc546",
+  "buildProposalExtensionSha256": "2ad2eb7689b8a97788be92e09c6c481c7f920f6f64d5deb91312fec41637b1dd",
   "currentBuildAuthorizationExtensionSha256": "c58067f15b0f3dca7318c8d237403a2afd34edb82b94ec040cb773199a2a66fe",
   "worldContextExtensionSha256": "8e5e131b8cd3b0fc13ffea932f9e6f78c7e23166fad5bf4c9dab921335783364",
   "sessionOperationAuthExtensionSha256": "7533437cb9d8b3d821862568e6eca3691c900d0be4c6e8f5c9d1c42c83576dfd",

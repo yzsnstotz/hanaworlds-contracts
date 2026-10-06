@@ -1,3 +1,4 @@
+import { validateBuildProposalRequest } from './build-proposal.mjs';
 import canonicalize from 'canonicalize';
 import { createHash } from 'node:crypto';
 import { contractMetadata, schemaBundle } from './generated/contracts.mjs';
@@ -180,6 +181,7 @@ function painterRegionCoherence(request) {
   stale(tf.worldRef === request.worldRef);
 }
 export function validateBoundRequest(wire, operationName, value) {
+  if (wire === 'painter/v3' && operationName === 'ValidateBuildProposal') return validateBuildProposalRequest(value);
   const request = validateRequest(wire, operationName, value);
   if (wire === 'canvas/v4' && operationName === 'ApplyRecoverableCommit') regionApplyBindingCoherence(request);
   if (wire === 'painter/v3' && operationName === 'CreateBuildPlan') painterRegionCoherence(request);

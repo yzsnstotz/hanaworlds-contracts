@@ -171,6 +171,12 @@ export function validateDomain(visits) {
     } else if (name === 'BuildEntryVerified' ||
       (name === 'BuildEntryOutcome' && v.outcome === 'VERIFIED')) {
       shape(v.receipt.status === 'VERIFIED');
+    } else if (name === 'BuildProposalBox') {
+      assertBox(v); geometry(v.min.every(x => x >= 0));
+    } else if (name === 'BuildProposalContext' || name === 'ValidateBuildProposalRequest') {
+      decodeShape(v.referenceBrief.media.length === 0);
+    } else if (name === 'ValidateBuildProposalResponse' && v.error !== null) {
+      shape(v.error.mutationState === 'NONE' && v.error.transactionRef === null);
     } else if (name === 'CreateBuildPlanRequest') {
       // Payload-decidable painter/v3 rules in the approved order; digest coherence is in validateBoundRequest.
       if (v.targetFacts.source === 'REGION_INSPECTED') {

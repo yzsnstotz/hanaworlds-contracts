@@ -40,7 +40,7 @@ assert.deepEqual(plain(V4.schemaBundle.definitions.StartOrResumeSessionRequest.p
   sessionRef: { $ref: '#/definitions/Ref' }, requestId: { $ref: '#/definitions/Ref' },
   authorizationRef: { $ref: '#/definitions/Ref' }, expectedRevision: { anyOf: [{ $ref: '#/definitions/Revision' }, { type: 'null' }] },
 });
-assert.equal(V4.version, '0.3.9');
+assert.equal(V4.version, '0.3.10');
 assert.equal(V4.checkSessionReadbackHandshake(V4.contractHandshake).result, 'HANDSHAKE_OPERATION_MATCH');
 assert.throws(() => V4.checkSessionReadbackHandshake({ ...V4.contractHandshake, contracts: 'hanaworlds-contracts@0.3.1' }), errorCode('UNSUPPORTED_VERSION'));
 assert.throws(() => V4.checkSessionReadbackHandshake({ ...V4.contractHandshake, contracts: 'hanaworlds-contracts@0.3.0' }), errorCode('UNSUPPORTED_VERSION'));

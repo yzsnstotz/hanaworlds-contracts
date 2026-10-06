@@ -12,6 +12,7 @@ const sessionAuth = await readJSON('spec/v4/SESSION_AUTH_EXTENSION.json');
 const sessionOps = await readJSON('spec/v4/SESSION_OPERATION_AUTH_EXTENSION.json');
 const worldContext = await readJSON('spec/v4/WORLD_CONTEXT_EXTENSION.json');
 const buildAuth = await readJSON('spec/v4/CURRENT_BUILD_AUTHORIZATION_EXTENSION.json');
+const proposal = await readJSON('spec/v4/BUILD_PROPOSAL_EXTENSION.json');
 if (baseProfile.package !== 'hanaworlds-contracts@0.3.0' ||
     readback.baseProfile !== 'CONTRACT_SCHEMA_PROFILE.json' ||
     readback.operation.operation !== 'ReadSessionTurnDetails' ||
@@ -58,9 +59,12 @@ if (worldContext.packageVersion !== '0.3.8' || worldContext.wire !== 'canvas/v4'
     worldContext.priorExtension !== 'SESSION_OPERATION_AUTH_EXTENSION.json' ||
     Object.keys(worldContext.types).some(name => [baseProfile.types, readback.types, undo.types, scoped.types, recovery.types, buildEntry.types, sessionAuth.types, sessionOps.types].some(types => Object.hasOwn(types, name))))
   throw new Error('World context must add distinct types to 0.3.7');
-if (buildAuth.packageVersion !== pkg.version || buildAuth.priorExtension !== 'WORLD_CONTEXT_EXTENSION.json' ||
+if (buildAuth.packageVersion !== '0.3.9' || buildAuth.priorExtension !== 'WORLD_CONTEXT_EXTENSION.json' ||
     Object.keys(buildAuth.types).some(name => [baseProfile.types, readback.types, undo.types, scoped.types, recovery.types, buildEntry.types, sessionAuth.types, sessionOps.types, worldContext.types].some(types => Object.hasOwn(types, name))))
   throw new Error('Current build authorization requires distinct, strict public types');
+if (proposal.packageVersion !== pkg.version || proposal.wire !== 'painter/v3' ||
+    Object.keys(proposal.types).some(name => [baseProfile.types, readback.types, undo.types, scoped.types, recovery.types, buildEntry.types, sessionAuth.types, sessionOps.types, worldContext.types, buildAuth.types].some(t => Object.hasOwn(t, name))))
+  throw new Error('Proposal extension must define distinct strict types');
 const oldHistory = baseProfile.operations['canvas/v4'].find(op => op.operation === 'HistoryQuery');
 if (!oldHistory || baseProfile.types.HistoryQuery.fields.expectedHistoryRevision !== 'Revision')
   throw new Error('HistoryQuery base is not the pinned exact-CAS shape');
@@ -82,7 +86,7 @@ const profile = {
     HistoryQuery: { ...baseProfile.types.HistoryQuery,
       fields: { ...baseProfile.types.HistoryQuery.fields, expectedHistoryRevision: undo.historyQuery.expectedHistoryRevision } },
     ...readback.types, ...undo.types, ...scoped.types, ...recovery.types, ...buildEntry.types,
-    ...sessionAuth.types, ...sessionOps.types, ...worldContext.types, ...buildAuth.types,
+    ...sessionAuth.types, ...sessionOps.types, ...worldContext.types, ...buildAuth.types, ...proposal.types,
   },
   operations: {
     ...baseProfile.operations,
@@ -93,6 +97,7 @@ const profile = {
       failureCodes: [...op.failureCodes, ...undo.historyQuery.additionalFailureCodes],
       idempotency: undo.historyQuery.idempotency,
     } : op), ...recovery.operations['canvas/v4'], ...worldContext.operations],
+    'painter/v3': [...baseProfile.operations['painter/v3'], ...proposal.operations],
     'session/v2': [...baseProfile.operations['session/v2'], readback.operation, ...undo.operations,
       ...recovery.operations['session/v2'], ...buildEntry.operations],
     'world-adapter/v5': scoped.operations.map(op => {
@@ -125,7 +130,7 @@ const closure = await readJSON('spec/v4/CONTRACT_SEMANTIC_CLOSURE.json');
 const registry = await readJSON('spec/v4/SETTINGS_AND_INVARIANTS.json');
 const oracles = await readJSON('spec/v4/fixtures/candidate/closure-oracles-v4.json');
 const legacyOracles = await readJSON('spec/v4/fixtures/candidate/closure-oracles.json');
-if (pkg.version !== '0.3.9') throw new Error('Current build authorization requires package 0.3.9');
+if (pkg.version !== '0.3.10') throw new Error('Build proposal requires package 0.3.10');
 const schemaId = `https://hanaworlds.invalid/contracts/${pkg.version}/v4/schema.json`;
 const definitions = Object.create(null);
 function literal(value) { const s = value.slice(1); return /^(?:true|false|null|-?(?:0|[1-9][0-9]*)(?:\.[0-9]+)?)$/.test(s) ? JSON.parse(s) : s; }
@@ -203,6 +208,9 @@ await copyFile('spec/v4/SESSION_AUTH_EXTENSION.json', 'schemas/v4/profile/SESSIO
 await copyFile('spec/v4/SESSION_OPERATION_AUTH_EXTENSION.json', 'schemas/v4/profile/SESSION_OPERATION_AUTH_EXTENSION.json');
 await copyFile('spec/v4/WORLD_CONTEXT_EXTENSION.json', 'schemas/v4/profile/WORLD_CONTEXT_EXTENSION.json');
 await copyFile('spec/v4/CURRENT_BUILD_AUTHORIZATION_EXTENSION.json', 'schemas/v4/profile/CURRENT_BUILD_AUTHORIZATION_EXTENSION.json');
+await copyFile('spec/v4/BUILD_PROPOSAL_EXTENSION.json', 'schemas/v4/profile/BUILD_PROPOSAL_EXTENSION.json');
+await mkdir('fixtures/v4/proposal', { recursive: true });
+for (const name of await readdir('spec/v4/proposal-fixtures')) await copyFile('spec/v4/proposal-fixtures/' + name, 'fixtures/v4/proposal/' + name);
 // TS binding is derived from the same DSL, but is an actual public declaration file.
 function tsref(name) {
   if (name.includes('|')) return name.split('|').map(tsref).join(' | ');
@@ -276,6 +284,13 @@ export declare function checkSessionOperationAuthorizationHandshake(advertised: 
 export declare function validateOriginalSessionAuthorityResponse(request: unknown, response: unknown): T.ReadOriginalSessionAuthorityResponse;
 /** Trusted inputs only: project separately issued Session actions after exact current grant correlation. */
 /** Require the current exact package current facts and honest world selection failure semantics. */
+/** Only the new Painter producer capability; never a request to repin default-path peers. */
+export declare function checkBuildProposalHandshake(advertised: unknown): { readonly result: 'HANDSHAKE_OPERATION_MATCH'; readonly advertised: T.ContractHandshake };
+export declare function validateBuildProposalRequest(request: unknown): T.ValidateBuildProposalRequest;
+/** Trusted provider observations only; neither JSON authentication nor grant issuance. */
+export declare function validateBuildProposalContext(request: unknown, facts: unknown): T.ValidateBuildProposalRequest;
+/** Correlates a plan to the exact proposal/facts; Painter still owns complete entrance geometry. */
+export declare function validateBuildProposalResponse(request: unknown, response: unknown): T.ValidateBuildProposalResponse;
 export declare function checkCurrentBuildAuthorizationHandshake(advertised: unknown): { readonly result: 'HANDSHAKE_OPERATION_MATCH'; readonly advertised: T.ContractHandshake };
 /** Strict Workshop-owned facts and coherent exact child; does not authenticate JSON. */
 export declare function validateCurrentBuildAuthorizationFacts(facts: unknown): T.CurrentBuildAuthorizationFacts;
@@ -354,6 +369,7 @@ const manifest = { types: Object.keys(definitions), schemas: ['schemas/v4/contra
   scopedWorldExtensionSha256: createHash('sha256').update(await readFile('spec/v4/SCOPED_WORLD_EXTENSION.json')).digest('hex'),
   undoRecoveryExtensionSha256: createHash('sha256').update(await readFile('spec/v4/UNDO_RECOVERY_EXTENSION.json')).digest('hex'),
   currentBuildEntryExtensionSha256: createHash('sha256').update(await readFile('spec/v4/CURRENT_BUILD_ENTRY_EXTENSION.json')).digest('hex'),
+  buildProposalExtensionSha256: createHash('sha256').update(await readFile('spec/v4/BUILD_PROPOSAL_EXTENSION.json')).digest('hex'),
   currentBuildAuthorizationExtensionSha256: createHash('sha256').update(await readFile('spec/v4/CURRENT_BUILD_AUTHORIZATION_EXTENSION.json')).digest('hex'),
   worldContextExtensionSha256: createHash('sha256').update(await readFile('spec/v4/WORLD_CONTEXT_EXTENSION.json')).digest('hex'),
   sessionOperationAuthExtensionSha256: createHash('sha256').update(await readFile('spec/v4/SESSION_OPERATION_AUTH_EXTENSION.json')).digest('hex'),

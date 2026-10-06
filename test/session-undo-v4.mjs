@@ -40,7 +40,7 @@ const denied = {
     mutationState: 'NONE', transactionRef: null, causeCode: null, reason: 'GRANT_REVOKED' },
 };
 
-assert.equal(V4.version, '0.3.9');
+assert.equal(V4.version, '0.3.10');
 assert.equal(V4.checkSessionUndoHandshake(V4.contractHandshake).result, 'HANDSHAKE_OPERATION_MATCH');
 assert.throws(() => V4.checkSessionUndoHandshake({ ...V4.contractHandshake, contracts: 'hanaworlds-contracts@0.3.1' }), code('UNSUPPORTED_VERSION'));
 assert.throws(() => V4.checkSessionUndoHandshake({ ...V4.contractHandshake,

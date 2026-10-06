@@ -5,7 +5,7 @@ export interface DigestResult<P> { readonly kind: T.DigestKind; readonly project
 export interface OperationContract { readonly operation: string; readonly request: T.TypeName; readonly response: T.TypeName; readonly alternateResult?: T.TypeName; readonly event?: string; readonly validationOrder: ReadonlyArray<string>; readonly failureCodes: ReadonlyArray<T.ErrorCode>; readonly successSemantics: string; readonly idempotency: string; readonly scope?: string; readonly requestName?: string; readonly responseName?: string; readonly baselineOperation?: string; }
 export declare class ContractError extends Error { constructor(code: T.ErrorCode, phase: T.Phase, reason: T.ErrorReason, details?: Partial<T.Error>); readonly publicError: T.Error; readonly code: T.ErrorCode; readonly phase: T.Phase; readonly reason: T.ErrorReason; readonly mutationState: T.MutationState; readonly retryability: T.Retryability; }
 export declare function publicError(error: unknown): T.Error;
-export declare const version: '0.3.9';
+export declare const version: '0.3.10';
 export declare const wireVersions: ReadonlyArray<T.WireVersion>;
 export declare const compiledOperationsVersion: 'operations/v2';
 export declare const operationContracts: { readonly [W in T.WireVersion]: ReadonlyArray<OperationContract> };
@@ -87,6 +87,13 @@ export declare function checkSessionOperationAuthorizationHandshake(advertised: 
 export declare function validateOriginalSessionAuthorityResponse(request: unknown, response: unknown): T.ReadOriginalSessionAuthorityResponse;
 /** Trusted inputs only: project separately issued Session actions after exact current grant correlation. */
 /** Require the current exact package current facts and honest world selection failure semantics. */
+/** Only the new Painter producer capability; never a request to repin default-path peers. */
+export declare function checkBuildProposalHandshake(advertised: unknown): { readonly result: 'HANDSHAKE_OPERATION_MATCH'; readonly advertised: T.ContractHandshake };
+export declare function validateBuildProposalRequest(request: unknown): T.ValidateBuildProposalRequest;
+/** Trusted provider observations only; neither JSON authentication nor grant issuance. */
+export declare function validateBuildProposalContext(request: unknown, facts: unknown): T.ValidateBuildProposalRequest;
+/** Correlates a plan to the exact proposal/facts; Painter still owns complete entrance geometry. */
+export declare function validateBuildProposalResponse(request: unknown, response: unknown): T.ValidateBuildProposalResponse;
 export declare function checkCurrentBuildAuthorizationHandshake(advertised: unknown): { readonly result: 'HANDSHAKE_OPERATION_MATCH'; readonly advertised: T.ContractHandshake };
 /** Strict Workshop-owned facts and coherent exact child; does not authenticate JSON. */
 export declare function validateCurrentBuildAuthorizationFacts(facts: unknown): T.CurrentBuildAuthorizationFacts;
