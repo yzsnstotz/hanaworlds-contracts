@@ -1,7 +1,7 @@
 {
   "$schema": "http://json-schema.org/draft-07/schema#",
-  "$id": "https://hanaworlds.invalid/contracts/0.3.8/v4/CurrentContext.schema.json",
-  "title": "HanaWorlds contracts 0.3.8 — complete v4 type inventory",
+  "$id": "https://hanaworlds.invalid/contracts/0.3.9/v4/CurrentContext.schema.json",
+  "title": "HanaWorlds contracts 0.3.9 — complete v4 type inventory",
   "description": "Select a definition. JSON Schema establishes structure; exported validators additionally enforce the normative domain rules. Validation never authenticates a provider.",
   "definitions": {
     "Ref": {
@@ -11973,6 +11973,303 @@
         "trusted provider fixture facts only, never a caller credential or a grant issued by the helper",
         "parent and child are exact captured active service invocation bytes; originalBinding is Host durable issuance, currentBinding is authenticated current Adapter result; compare every field including epoch and actions",
         "context may be null only for bootstrap ReadWorldSelectionContext; other operations require current Canvas facts and CAS; live provider rechecks remain mandatory"
+      ]
+    },
+    "CurrentBuildApplyPayload": {
+      "type": "object",
+      "properties": {
+        "contractVersion": {
+          "const": "canvas/v4"
+        },
+        "actorRef": {
+          "$ref": "#/definitions/Ref"
+        },
+        "sessionRef": {
+          "$ref": "#/definitions/Ref"
+        },
+        "requestId": {
+          "$ref": "#/definitions/Ref"
+        },
+        "authorizationRef": {
+          "$ref": "#/definitions/Ref"
+        },
+        "worldRef": {
+          "$ref": "#/definitions/Ref"
+        },
+        "transactionId": {
+          "$ref": "#/definitions/Ref"
+        },
+        "operations": {
+          "$ref": "#/definitions/OperationsProjection"
+        },
+        "operationDigest": {
+          "$ref": "#/definitions/Digest"
+        },
+        "analysisDigest": {
+          "$ref": "#/definitions/Digest"
+        },
+        "decisionRevision": {
+          "type": "null"
+        },
+        "expectedWorldRevision": {
+          "$ref": "#/definitions/Revision"
+        },
+        "expectedObjectRevisions": {
+          "$ref": "#/definitions/ObjectRevisions"
+        },
+        "guarantee": {
+          "const": "RECOVERABLE_VERIFIED"
+        },
+        "regionInspectionBinding": {
+          "anyOf": [
+            {
+              "$ref": "#/definitions/RegionApplyBinding"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        }
+      },
+      "required": [
+        "contractVersion",
+        "actorRef",
+        "sessionRef",
+        "requestId",
+        "authorizationRef",
+        "worldRef",
+        "transactionId",
+        "operations",
+        "operationDigest",
+        "analysisDigest",
+        "decisionRevision",
+        "expectedWorldRevision",
+        "expectedObjectRevisions",
+        "guarantee",
+        "regionInspectionBinding"
+      ],
+      "additionalProperties": false,
+      "x-typeName": "CurrentBuildApplyPayload",
+      "x-rules": [
+        "Exact Canvas child before Host authorization; only default non-frame build with no affected objects or conflict decision. No caller transaction or operation facts."
+      ]
+    },
+    "CurrentBuildAuthorizationFacts": {
+      "type": "object",
+      "properties": {
+        "contractVersion": {
+          "const": "current-build-authorization/v1"
+        },
+        "parentRequest": {
+          "$ref": "#/definitions/AdvanceCurrentBuildRequest"
+        },
+        "turnRef": {
+          "$ref": "#/definitions/Ref"
+        },
+        "confirmationInputId": {
+          "$ref": "#/definitions/Ref"
+        },
+        "intent": {
+          "$ref": "#/definitions/IntentProjection"
+        },
+        "analysis": {
+          "$ref": "#/definitions/AffectedProjection"
+        },
+        "apply": {
+          "$ref": "#/definitions/CurrentBuildApplyPayload"
+        }
+      },
+      "required": [
+        "contractVersion",
+        "parentRequest",
+        "turnRef",
+        "confirmationInputId",
+        "intent",
+        "analysis",
+        "apply"
+      ],
+      "additionalProperties": false,
+      "x-typeName": "CurrentBuildAuthorizationFacts",
+      "x-rules": [
+        "Workshop supplies its own coherent durable current confirmed turn, exact parent, immutable compiled operations and Canvas analysis/inspection, after authenticating Host. Renderer and model cannot supply these facts."
+      ]
+    },
+    "CurrentBuildActionProjection": {
+      "type": "object",
+      "properties": {
+        "contractVersion": {
+          "const": "current-build-authorization/v1"
+        },
+        "operation": {
+          "const": "AdvanceCurrentBuild"
+        },
+        "childOperation": {
+          "const": "ApplyRecoverableCommit"
+        },
+        "facts": {
+          "$ref": "#/definitions/CurrentBuildAuthorizationFacts"
+        },
+        "originalBinding": {
+          "$ref": "#/definitions/OriginalSessionBinding"
+        },
+        "verifiedBinding": {
+          "$ref": "#/definitions/VerifiedBinding"
+        },
+        "workshopServiceRef": {
+          "$ref": "#/definitions/Ref"
+        },
+        "canvasServiceRef": {
+          "$ref": "#/definitions/Ref"
+        }
+      },
+      "required": [
+        "contractVersion",
+        "operation",
+        "childOperation",
+        "facts",
+        "originalBinding",
+        "verifiedBinding",
+        "workshopServiceRef",
+        "canvasServiceRef"
+      ],
+      "additionalProperties": false,
+      "x-typeName": "CurrentBuildActionProjection"
+    },
+    "CurrentBuildAuthorization": {
+      "type": "object",
+      "properties": {
+        "action": {
+          "$ref": "#/definitions/CurrentBuildActionProjection"
+        },
+        "authorizationBinding": {
+          "$ref": "#/definitions/AuthProjection"
+        },
+        "authorizationBindingDigest": {
+          "$ref": "#/definitions/Digest"
+        }
+      },
+      "required": [
+        "action",
+        "authorizationBinding",
+        "authorizationBindingDigest"
+      ],
+      "additionalProperties": false,
+      "x-typeName": "CurrentBuildAuthorization"
+    },
+    "CurrentBuildGrantStatus": {
+      "enum": [
+        "CURRENT",
+        "UNKNOWN",
+        "REVOKED",
+        "EXPIRED"
+      ],
+      "x-typeName": "CurrentBuildGrantStatus"
+    },
+    "CurrentBuildAuthorityContext": {
+      "type": "object",
+      "properties": {
+        "capturedParent": {
+          "$ref": "#/definitions/AdvanceCurrentBuildRequest"
+        },
+        "capturedApply": {
+          "$ref": "#/definitions/CurrentBuildApplyPayload"
+        },
+        "originalBinding": {
+          "$ref": "#/definitions/OriginalSessionBinding"
+        },
+        "currentBinding": {
+          "$ref": "#/definitions/OriginalSessionBinding"
+        },
+        "verifiedBinding": {
+          "$ref": "#/definitions/VerifiedBinding"
+        },
+        "liveSessionIncarnationRef": {
+          "$ref": "#/definitions/Ref"
+        },
+        "expectedWorkshopServiceRef": {
+          "$ref": "#/definitions/Ref"
+        },
+        "workshopServiceRef": {
+          "$ref": "#/definitions/Ref"
+        },
+        "expectedCanvasServiceRef": {
+          "$ref": "#/definitions/Ref"
+        },
+        "canvasServiceRef": {
+          "$ref": "#/definitions/Ref"
+        },
+        "grantStatus": {
+          "$ref": "#/definitions/CurrentBuildGrantStatus"
+        },
+        "invocationStatus": {
+          "$ref": "#/definitions/WorldContextInvocationStatus"
+        },
+        "currentTurnRef": {
+          "$ref": "#/definitions/Ref"
+        },
+        "currentTurnRevision": {
+          "$ref": "#/definitions/Revision"
+        },
+        "currentConfirmationInputId": {
+          "$ref": "#/definitions/Ref"
+        },
+        "currentIntentDigest": {
+          "$ref": "#/definitions/Digest"
+        },
+        "currentOperationDigest": {
+          "$ref": "#/definitions/Digest"
+        },
+        "currentAnalysisDigest": {
+          "$ref": "#/definitions/Digest"
+        },
+        "turnStatus": {
+          "$ref": "#/definitions/BuildEntryTurnStatus"
+        },
+        "replay": {
+          "$ref": "#/definitions/BuildEntryReplay"
+        },
+        "priorAuthorization": {
+          "anyOf": [
+            {
+              "$ref": "#/definitions/CurrentBuildAuthorization"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "currentStage": {
+          "$ref": "#/definitions/BuildEntryStage"
+        }
+      },
+      "required": [
+        "capturedParent",
+        "capturedApply",
+        "originalBinding",
+        "currentBinding",
+        "verifiedBinding",
+        "liveSessionIncarnationRef",
+        "expectedWorkshopServiceRef",
+        "workshopServiceRef",
+        "expectedCanvasServiceRef",
+        "canvasServiceRef",
+        "grantStatus",
+        "invocationStatus",
+        "currentTurnRef",
+        "currentTurnRevision",
+        "currentConfirmationInputId",
+        "currentIntentDigest",
+        "currentOperationDigest",
+        "currentAnalysisDigest",
+        "turnStatus",
+        "replay",
+        "priorAuthorization",
+        "currentStage"
+      ],
+      "additionalProperties": false,
+      "x-typeName": "CurrentBuildAuthorityContext",
+      "x-rules": [
+        "Provider-only live facts, not wire authentication. Host captures exact invocation and authenticated service instances outside JSON, reads its original issuance and verifies original game grant now; Workshop resolves its durable current turn. UNKNOWN/expired/revoked grants fail closed. Recheck immediately before Canvas dispatch and after async work; never cache this context as authorization."
       ]
     }
   },

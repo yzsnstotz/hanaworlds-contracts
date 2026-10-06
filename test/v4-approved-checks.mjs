@@ -33,7 +33,7 @@ try {
   for (const name of ['CONTRACT_SCHEMA_PROFILE', 'CONTRACT_SEMANTIC_CLOSURE', 'SETTINGS_AND_INVARIANTS'])
     await place(name + '.json', exportedPath(`hanaworlds-contracts/v4/profile/${name}`), approved.filesSha256[name + '.json']);
   const fixtureNames = (await readdir(join(root, 'spec/v4/fixtures/candidate'))).filter(x => x.endsWith('.json'));
-  assert.equal(fixtureNames.length, 18);
+  assert.equal(fixtureNames.length, 19);
   for (const file of fixtureNames)
     await place('fixtures/candidate/' + file, exportedPath(`hanaworlds-contracts/v4/fixtures/${file.slice(0, -5)}`), approved.filesSha256['fixtures/candidate/' + file]);
   for (const file of ['PRODUCT_STRUCTURE.json', 'authority/USER_DECISION_FIRST_PLACEMENT_ROUND3_2026-10-02.json'])

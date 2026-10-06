@@ -51,11 +51,12 @@ assert.equal(v4Input.filesSha256['CONTRACT_SEMANTIC_CLOSURE.json'],v4Input.contr
 const v4Auth=await JSON.parse(await readFile('spec/v4/SESSION_AUTH_EXTENSION.json'));
 const v4Ops=JSON.parse(await readFile('spec/v4/SESSION_OPERATION_AUTH_EXTENSION.json'));
 const v4WorldContext=JSON.parse(await readFile('spec/v4/WORLD_CONTEXT_EXTENSION.json'));
+const v4BuildAuth=JSON.parse(await readFile('spec/v4/CURRENT_BUILD_AUTHORIZATION_EXTENSION.json'));
 const v4=await import('../dist/v4/runtime.mjs');
-assert.equal(v4.version,pkg.version);assert.equal(v4Profile.package,pkg.name+'@0.3.0');assert.equal(pkg.version,'0.3.8');
+assert.equal(v4.version,pkg.version);assert.equal(v4Profile.package,pkg.name+'@0.3.0');assert.equal(pkg.version,'0.3.9');
 assert.equal(v4.schemaBundle.$id,'https://hanaworlds.invalid/contracts/'+pkg.version+'/v4/schema.json');
-assert.deepEqual(v4.wireVersions,[...v4Profile.wireVersions,v4Scoped.wire,v4Auth.wire,v4Ops.wire]);assert.deepEqual(v4Inventory.types,[...Object.keys(v4Profile.types),...Object.keys(v4Readback.types),...Object.keys(v4Undo.types),...Object.keys(v4Scoped.types),...Object.keys(v4Recovery.types),...Object.keys(v4BuildEntry.types),...Object.keys(v4Auth.types),...Object.keys(v4Ops.types),...Object.keys(v4WorldContext.types)]);
-assert.equal(v4Inventory.types.length,356);assert.equal(v4Inventory.bindings.length,11);assert.equal(Object.keys(v4Inventory.projections).length,22);
+assert.deepEqual(v4.wireVersions,[...v4Profile.wireVersions,v4Scoped.wire,v4Auth.wire,v4Ops.wire]);assert.deepEqual(v4Inventory.types,[...Object.keys(v4Profile.types),...Object.keys(v4Readback.types),...Object.keys(v4Undo.types),...Object.keys(v4Scoped.types),...Object.keys(v4Recovery.types),...Object.keys(v4BuildEntry.types),...Object.keys(v4Auth.types),...Object.keys(v4Ops.types),...Object.keys(v4WorldContext.types),...Object.keys(v4BuildAuth.types)]);
+assert.equal(v4Inventory.types.length,362);assert.equal(v4Inventory.bindings.length,11);assert.equal(Object.keys(v4Inventory.projections).length,23);
 assert.equal(v4Inventory.sessionReadbackExtensionSha256,createHash('sha256').update(await readFile('spec/v4/SESSION_READBACK_EXTENSION.json')).digest('hex'));
 assert.equal(v4Inventory.sessionUndoExtensionSha256,createHash('sha256').update(await readFile('spec/v4/SESSION_UNDO_EXTENSION.json')).digest('hex'));
 assert.equal(v4Inventory.scopedWorldExtensionSha256,createHash('sha256').update(await readFile('spec/v4/SCOPED_WORLD_EXTENSION.json')).digest('hex'));
@@ -78,6 +79,8 @@ assert((await readFile('spec/v4/SESSION_UNDO_EXTENSION.json')).equals(await read
 assert((await readFile('spec/v4/SCOPED_WORLD_EXTENSION.json')).equals(await readFile('schemas/v4/profile/SCOPED_WORLD_EXTENSION.json')),'scoped world extension drift');
 assert((await readFile('spec/v4/UNDO_RECOVERY_EXTENSION.json')).equals(await readFile('schemas/v4/profile/UNDO_RECOVERY_EXTENSION.json')),'undo recovery extension drift');
 assert((await readFile('spec/v4/CURRENT_BUILD_ENTRY_EXTENSION.json')).equals(await readFile('schemas/v4/profile/CURRENT_BUILD_ENTRY_EXTENSION.json')),'build entry extension drift');
+assert.equal(v4Inventory.currentBuildAuthorizationExtensionSha256,createHash('sha256').update(await readFile('spec/v4/CURRENT_BUILD_AUTHORIZATION_EXTENSION.json')).digest('hex'));
+assert((await readFile('spec/v4/CURRENT_BUILD_AUTHORIZATION_EXTENSION.json')).equals(await readFile('schemas/v4/profile/CURRENT_BUILD_AUTHORIZATION_EXTENSION.json')));
 const sourceImports=[];
 async function inspect(dir){for(const item of await readdir(dir,{withFileTypes:true})){const path=dir+'/'+item.name;if(item.isDirectory())await inspect(path);else if(path.endsWith('.mjs')){const text=await readFile(path,'utf8');for(const m of text.matchAll(/(?:from\s+|import\s*\()(['"])(.*?)\1/g)){const specifier=m[2];sourceImports.push({path,specifier});assert(specifier.startsWith('.')||specifier.startsWith('node:')||specifier==='canonicalize','undeclared runtime dependency '+specifier);}assert(!/\b(?:fetch|connect|createServer|listen|spawn|writeFile|appendFile|mkdir|unlink|rm|registerGadget)\s*\(/.test(text),'runtime side-effect API in '+path);}}}
 await inspect('src');

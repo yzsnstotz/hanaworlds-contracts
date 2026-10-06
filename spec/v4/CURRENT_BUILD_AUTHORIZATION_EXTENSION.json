@@ -1,0 +1,130 @@
+{
+  "format": "HANAWORLDS_CURRENT_BUILD_AUTHORIZATION_EXTENSION/1",
+  "baseProfile": "CONTRACT_SCHEMA_PROFILE.json",
+  "priorExtension": "WORLD_CONTEXT_EXTENSION.json",
+  "packageVersion": "0.3.9",
+  "digestKind": "current-build-action",
+  "projectionType": "CurrentBuildActionProjection",
+  "domainPrefix": "HanaWorlds|contracts@0.3.9|",
+  "types": {
+    "CurrentBuildApplyPayload": {
+      "type": "object",
+      "fields": {
+        "contractVersion": "=canvas/v4",
+        "actorRef": "Ref",
+        "sessionRef": "Ref",
+        "requestId": "Ref",
+        "authorizationRef": "Ref",
+        "worldRef": "Ref",
+        "transactionId": "Ref",
+        "operations": "OperationsProjection",
+        "operationDigest": "Digest",
+        "analysisDigest": "Digest",
+        "decisionRevision": "null",
+        "expectedWorldRevision": "Revision",
+        "expectedObjectRevisions": "ObjectRevisions",
+        "guarantee": "=RECOVERABLE_VERIFIED",
+        "regionInspectionBinding": "RegionApplyBinding|null"
+      },
+      "rules": [
+        "Exact Canvas child before Host authorization; only default non-frame build with no affected objects or conflict decision. No caller transaction or operation facts."
+      ]
+    },
+    "CurrentBuildAuthorizationFacts": {
+      "type": "object",
+      "fields": {
+        "contractVersion": "=current-build-authorization/v1",
+        "parentRequest": "AdvanceCurrentBuildRequest",
+        "turnRef": "Ref",
+        "confirmationInputId": "Ref",
+        "intent": "IntentProjection",
+        "analysis": "AffectedProjection",
+        "apply": "CurrentBuildApplyPayload"
+      },
+      "rules": [
+        "Workshop supplies its own coherent durable current confirmed turn, exact parent, immutable compiled operations and Canvas analysis/inspection, after authenticating Host. Renderer and model cannot supply these facts."
+      ]
+    },
+    "CurrentBuildActionProjection": {
+      "type": "object",
+      "fields": {
+        "contractVersion": "=current-build-authorization/v1",
+        "operation": "=AdvanceCurrentBuild",
+        "childOperation": "=ApplyRecoverableCommit",
+        "facts": "CurrentBuildAuthorizationFacts",
+        "originalBinding": "OriginalSessionBinding",
+        "verifiedBinding": "VerifiedBinding",
+        "workshopServiceRef": "Ref",
+        "canvasServiceRef": "Ref"
+      }
+    },
+    "CurrentBuildAuthorization": {
+      "type": "object",
+      "fields": {
+        "action": "CurrentBuildActionProjection",
+        "authorizationBinding": "AuthProjection",
+        "authorizationBindingDigest": "Digest"
+      }
+    },
+    "CurrentBuildGrantStatus": {
+      "type": "enum",
+      "values": [
+        "CURRENT",
+        "UNKNOWN",
+        "REVOKED",
+        "EXPIRED"
+      ]
+    },
+    "CurrentBuildAuthorityContext": {
+      "type": "object",
+      "fields": {
+        "capturedParent": "AdvanceCurrentBuildRequest",
+        "capturedApply": "CurrentBuildApplyPayload",
+        "originalBinding": "OriginalSessionBinding",
+        "currentBinding": "OriginalSessionBinding",
+        "verifiedBinding": "VerifiedBinding",
+        "liveSessionIncarnationRef": "Ref",
+        "expectedWorkshopServiceRef": "Ref",
+        "workshopServiceRef": "Ref",
+        "expectedCanvasServiceRef": "Ref",
+        "canvasServiceRef": "Ref",
+        "grantStatus": "CurrentBuildGrantStatus",
+        "invocationStatus": "WorldContextInvocationStatus",
+        "currentTurnRef": "Ref",
+        "currentTurnRevision": "Revision",
+        "currentConfirmationInputId": "Ref",
+        "currentIntentDigest": "Digest",
+        "currentOperationDigest": "Digest",
+        "currentAnalysisDigest": "Digest",
+        "turnStatus": "BuildEntryTurnStatus",
+        "replay": "BuildEntryReplay",
+        "priorAuthorization": "CurrentBuildAuthorization|null",
+        "currentStage": "BuildEntryStage"
+      },
+      "rules": [
+        "Provider-only live facts, not wire authentication. Host captures exact invocation and authenticated service instances outside JSON, reads its original issuance and verifies original game grant now; Workshop resolves its durable current turn. UNKNOWN/expired/revoked grants fail closed. Recheck immediately before Canvas dispatch and after async work; never cache this context as authorization."
+      ]
+    }
+  },
+  "authoritySemantics": {
+    "scope": "Only the current confirmed default AdvanceCurrentBuild -> ApplyRecoverableCommit with no affected objects, no conflict decision and RECOVERABLE_VERIFIED. This is a pure contract, not a new server, issuer or permission source. The public request remains narrow; only Workshop owns turn/transaction/operations/confirmation identity.",
+    "facts": "Workshop durably records the exact AdvanceCurrentBuild parent, confirmationInputId, current turnRef/revision, intent, compiled operations and Canvas analysis before issue. It forms the exact Apply child payload using its existing transaction and inspection. Child requestId is parent.requestId + :apply. An unknown parent/confirmation/analysis, wrong stage, affected object or changed durable fact refuses issue; no guessed frame, invented ID, fake image or hand-written digest.",
+    "host": "Host independently authenticates the active invocation, exact live Session incarnation, Workshop and Canvas service instances; captures exact parent and outgoing child outside renderer/model JSON; reads original durable OriginalSessionBinding; uses Adapter VerifyCurrentGrant for the exact original grant, epoch, player, world and actions; obtains VerifiedBinding from the authenticated engine/transport verifier. VerifiedBinding.authorizerRef is that real engine authorizer, not hostIssuerRef. All common binding fields and action scopes must match exactly and include APPLY_RECOVERABLE. Missing/unavailable verification is UNKNOWN and denies. Host also authenticates the Workshop snapshot and rechecks currentness at use. JSON status/ref equality or a digest never authenticates these sources.",
+    "digest": "D(current-build-action, CurrentBuildActionProjection) uses the declared separate domain and complete projection, including exact parent/child, original grant/incarnation, confirmed intent/turn, analysis/operations/inspection and service instances. For this authenticated default operation only, AuthProjection.surfaceActionDigest carries this current-build-action digest. The field is an action-identity commitment; it must be resolved against the Host-issued durable action record with its declared kind. For actual InvokeAction, surface-action and ActionProjection still mean a real current frame. Never hash non-frame facts as surface-action, fabricate frame/action IDs, or accept either kind merely because its value is 64 hex characters.",
+    "issuance": "deriveCurrentBuildAuthorization only produces a strictly typed candidate after coherence checks. Host must atomically durably reserve the exact candidate against Session/incarnation + parent requestId before releasing its AuthProjection; conflicting races deny. Consumers only accept that Host-issued exact record, never a renderer/model-derived candidate. validateCurrentBuildAuthorizedApply re-derives against fresh trusted context and checks the actual entire Canvas child plus exact issued record before dispatch. Authentication/revocation also remains enforced by Canvas/Adapter at their write barrier.",
+    "replay": "NEW requires no prior durable issuance. EXACT_REPLAY requires the identical stored CurrentBuildAuthorization including original child transaction/operations/service instances and all hashes, and all live checks again; a missing or changed record, CONFLICT, expired/revoked/regranted grant or replaced Session denies. Completed calls return their existing durable receipt without creating or issuing a fresh transaction. Pending Canvas recovery remains its existing exact durable-request/query path. No replay refreshes IDs, changes the child or expands rights.",
+    "currentness": "Cancellation/end/replaced Session or service, superseded/unconfirmed turn, changed confirmation/intent/operations/analysis, stale world/selection revisions, wrong actor/world/parent/child and unknown fields reject before world calls. Workshop and Host serialize durable snapshot/issuance or use equivalent CAS; they recheck after awaits and immediately at child dispatch. Canvas owns final revision/region/object/conflict checks and all transaction decisions; contracts never chooses or writes the world.",
+    "capability": "All participants in this new path require exactly hanaworlds-contracts@0.3.9 via checkCurrentBuildAuthorizationHandshake. No old-peer/profile adaptation or migration."
+  },
+  "operationUpdates": {
+    "session/v2": {
+      "AdvanceCurrentBuild": {
+        "additionalFailureCodes": [
+          "REPLAY_MISMATCH",
+          "NON_CANONICAL_AMBIGUITY"
+        ],
+        "authorizationSemantics": "Default non-frame Apply follows CURRENT_BUILD_AUTHORIZATION_EXTENSION: Workshop-owned durable current facts, Host-authenticated exact original grant/invocation/child/services, separate current-build-action digest. Conflicting replay or changed digest is returned honestly with no new transaction."
+      }
+    }
+  }
+}

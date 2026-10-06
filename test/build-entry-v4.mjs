@@ -28,7 +28,7 @@ const denied = { code: 'AUTHORIZATION_REVOKED', phase: 'authorize',
   retryability: 'AFTER_NEW_FACTS', mutationState: 'NONE', transactionRef: null,
   causeCode: null, reason: 'GRANT_REVOKED' };
 
-assert.equal(V4.version, '0.3.8');
+assert.equal(V4.version, '0.3.9');
 assert.equal(V4.checkBuildEntryHandshake(V4.contractHandshake).result, 'HANDSHAKE_OPERATION_MATCH');
 for (const old of ['0.3.0', '0.3.1', '0.3.2', '0.3.3', '0.3.4'])
   assert.throws(() => V4.checkBuildEntryHandshake({ ...V4.contractHandshake,

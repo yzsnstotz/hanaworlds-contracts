@@ -100,3 +100,13 @@ const worldContextResponse = validateWorldSelectionContextResponse(worldContextR
 checkWorldContextHandshake(raw);
 validateWorldContextDelegation(raw, 'SelectWorldConnection', raw, raw);
 void worldContextResponse;
+
+import { checkCurrentBuildAuthorizationHandshake, validateCurrentBuildAuthorizationFacts,
+  deriveCurrentBuildAuthorization, validateCurrentBuildAuthorizedApply } from 'hanaworlds-contracts/v4';
+const buildAuthFacts: TypeMap['CurrentBuildAuthorizationFacts'] = validateCurrentBuildAuthorizationFacts(raw);
+const buildAuthCandidate: TypeMap['CurrentBuildAuthorization'] = deriveCurrentBuildAuthorization(raw, raw);
+const buildAuthAction: TypeMap['CurrentBuildActionProjection'] = buildAuthCandidate.action;
+const buildAuthDigest: string = digestValue('current-build-action', buildAuthAction).sha256;
+const buildAuthChild: TypeMap['ApplyRecoverableCommitRequest'] = validateCurrentBuildAuthorizedApply(raw, raw, raw, raw);
+const buildAuthPeer: string = checkCurrentBuildAuthorizationHandshake(contractHandshake).advertised.contracts;
+void [buildAuthFacts, buildAuthCandidate, buildAuthDigest, buildAuthChild, buildAuthPeer];

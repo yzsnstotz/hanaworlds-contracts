@@ -40,9 +40,9 @@ assert.deepEqual(plain(V4.schemaBundle.definitions.StartOrResumeSessionRequest.p
   sessionRef: { $ref: '#/definitions/Ref' }, requestId: { $ref: '#/definitions/Ref' },
   authorizationRef: { $ref: '#/definitions/Ref' }, expectedRevision: { anyOf: [{ $ref: '#/definitions/Revision' }, { type: 'null' }] },
 });
-assert.equal(V4.version, '0.3.8');
+assert.equal(V4.version, '0.3.9');
 assert.equal(V4.checkSessionReadbackHandshake(V4.contractHandshake).result, 'HANDSHAKE_OPERATION_MATCH');
-assert.equal(V4.checkSessionReadbackHandshake({ ...V4.contractHandshake, contracts: 'hanaworlds-contracts@0.3.1' }).result, 'HANDSHAKE_OPERATION_MATCH');
+assert.throws(() => V4.checkSessionReadbackHandshake({ ...V4.contractHandshake, contracts: 'hanaworlds-contracts@0.3.1' }), errorCode('UNSUPPORTED_VERSION'));
 assert.throws(() => V4.checkSessionReadbackHandshake({ ...V4.contractHandshake, contracts: 'hanaworlds-contracts@0.3.0' }), errorCode('UNSUPPORTED_VERSION'));
 assert.throws(() => V4.checkSessionReadbackHandshake({ ...V4.contractHandshake, wireVersions: V4.contractHandshake.wireVersions.filter(w => w !== 'session/v2') }), errorCode('UNSUPPORTED_VERSION'));
 assert.deepEqual(plain(Session.validate('ReadSessionTurnDetails', request)), request);

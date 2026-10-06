@@ -5,7 +5,7 @@ export interface DigestResult<P> { readonly kind: T.DigestKind; readonly project
 export interface OperationContract { readonly operation: string; readonly request: T.TypeName; readonly response: T.TypeName; readonly alternateResult?: T.TypeName; readonly event?: string; readonly validationOrder: ReadonlyArray<string>; readonly failureCodes: ReadonlyArray<T.ErrorCode>; readonly successSemantics: string; readonly idempotency: string; readonly scope?: string; readonly requestName?: string; readonly responseName?: string; readonly baselineOperation?: string; }
 export declare class ContractError extends Error { constructor(code: T.ErrorCode, phase: T.Phase, reason: T.ErrorReason, details?: Partial<T.Error>); readonly publicError: T.Error; readonly code: T.ErrorCode; readonly phase: T.Phase; readonly reason: T.ErrorReason; readonly mutationState: T.MutationState; readonly retryability: T.Retryability; }
 export declare function publicError(error: unknown): T.Error;
-export declare const version: '0.3.8';
+export declare const version: '0.3.9';
 export declare const wireVersions: ReadonlyArray<T.WireVersion>;
 export declare const compiledOperationsVersion: 'operations/v2';
 export declare const operationContracts: { readonly [W in T.WireVersion]: ReadonlyArray<OperationContract> };
@@ -67,13 +67,13 @@ export declare const legacyWireSuccessors: Readonly<Record<string, T.WireVersion
 export declare const placementSettingDescriptors: ReadonlyArray<PlacementSettingDescriptor>;
 export declare const placementInvariants: ReadonlyArray<PlacementInvariantDescriptor>;
 export declare function checkContractHandshake(advertised: unknown, required: HandshakeRequirement): { readonly result: 'HANDSHAKE_VERSION_MATCH'; readonly advertised: T.ContractHandshake };
-/** Requires a peer that advertises the 0.3.1 package containing ReadSessionTurnDetails. */
+/** Requires the current exact package containing ReadSessionTurnDetails. */
 export declare function checkSessionReadbackHandshake(advertised: unknown): { readonly result: 'HANDSHAKE_OPERATION_MATCH'; readonly advertised: T.ContractHandshake };
-/** Requires a peer that advertises the 0.3.2 package containing the two current-build undo operations. */
+/** Requires the current exact package containing the current-build undo operations. */
 export declare function checkSessionUndoHandshake(advertised: unknown): { readonly result: 'HANDSHAKE_OPERATION_MATCH'; readonly advertised: T.ContractHandshake };
-/** Requires the 0.3.4 service recovery extension on both peers. */
+/** Requires the current exact package service recovery capability on both peers. */
 export declare function checkUndoRecoveryHandshake(advertised: unknown): { readonly result: 'HANDSHAKE_OPERATION_MATCH'; readonly advertised: T.ContractHandshake };
-/** Requires the 0.3.5 current-build entry operation on the session/v2 peer. */
+/** Requires the current exact package current-build entry capability. */
 export declare function checkBuildEntryHandshake(advertised: unknown): { readonly result: 'HANDSHAKE_OPERATION_MATCH'; readonly advertised: T.ContractHandshake };
 /** Requires the exact session-authorization/v1 peer and package capability. */
 export declare function checkSessionAuthorizationHandshake(advertised: unknown): { readonly result: 'HANDSHAKE_OPERATION_MATCH'; readonly advertised: T.ContractHandshake };
@@ -86,7 +86,14 @@ export declare function checkSessionOperationAuthorizationHandshake(advertised: 
 /** Shape and correlation only; not authentication or freshness. */
 export declare function validateOriginalSessionAuthorityResponse(request: unknown, response: unknown): T.ReadOriginalSessionAuthorityResponse;
 /** Trusted inputs only: project separately issued Session actions after exact current grant correlation. */
-/** Require 0.3.8 current facts and honest world selection failure semantics. */
+/** Require the current exact package current facts and honest world selection failure semantics. */
+export declare function checkCurrentBuildAuthorizationHandshake(advertised: unknown): { readonly result: 'HANDSHAKE_OPERATION_MATCH'; readonly advertised: T.ContractHandshake };
+/** Strict Workshop-owned facts and coherent exact child; does not authenticate JSON. */
+export declare function validateCurrentBuildAuthorizationFacts(facts: unknown): T.CurrentBuildAuthorizationFacts;
+/** Pure candidate derivation; trusted Host must authenticate, recheck and durably issue it. */
+export declare function deriveCurrentBuildAuthorization(facts: unknown, context: unknown): T.CurrentBuildAuthorization;
+/** Recheck current authority and the exact issued record against the entire actual Canvas child. */
+export declare function validateCurrentBuildAuthorizedApply(request: unknown, issued: unknown, facts: unknown, context: unknown): T.ApplyRecoverableCommitRequest;
 export declare function checkWorldContextHandshake(advertised: unknown): { readonly result: 'HANDSHAKE_OPERATION_MATCH'; readonly advertised: T.ContractHandshake };
 export declare function validateWorldSelectionContextResponse(request: unknown, response: unknown): T.ReadWorldSelectionContextResponse;
 /** Pure fixture correlation only; provider must authenticate and recheck all facts. */

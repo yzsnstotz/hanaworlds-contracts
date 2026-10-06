@@ -1,0 +1,834 @@
+{
+  "evidence": "FIXTURE_ONLY",
+  "facts": {
+    "contractVersion": "current-build-authorization/v1",
+    "parentRequest": {
+      "contractVersion": "session/v2",
+      "actorRef": "player-1",
+      "sessionRef": "session-1",
+      "requestId": "build-1",
+      "authorizationRef": "authorization-1",
+      "worldRef": "fixture-world",
+      "expectedTurnRevision": "fixture-turn-1"
+    },
+    "turnRef": "turn-1",
+    "confirmationInputId": "user-confirmation-1",
+    "intent": {
+      "contractVersion": "session/v2",
+      "referenceBriefDigest": "07aae1956694b41a548315db0a4fdfd15ca87a0dd71ca89a97b916936a352f81",
+      "confirmedIntent": {
+        "kind": "BUILD_STRUCTURE",
+        "text": "积木塔",
+        "purpose": "fixture structure",
+        "dimensions": null,
+        "entrancePortalRefs": [],
+        "confirmedTurnRevision": "fixture-turn-1"
+      },
+      "intendedWorldRef": "fixture-world",
+      "orderedTargetRefs": []
+    },
+    "analysis": {
+      "contractVersion": "canvas/v2",
+      "worldRef": "fixture-world",
+      "worldRevision": "world-7",
+      "registryRevision": "registry-2",
+      "selectionRevision": "selection-5",
+      "operationDigest": "aaf0abe71840cd1d75f5365e9adc47127b30ce8ddc236c7eee30b40a525ddb18",
+      "orderedSelectedRefs": [],
+      "affectedObjectRefs": []
+    },
+    "apply": {
+      "contractVersion": "canvas/v4",
+      "actorRef": "player-1",
+      "sessionRef": "session-1",
+      "requestId": "build-1:apply",
+      "authorizationRef": "authorization-1",
+      "worldRef": "fixture-world",
+      "transactionId": "durable-transaction-1",
+      "operations": {
+        "contractVersion": "operations/v2",
+        "buildDigest": "be9fcac45d1c3184f45b4f20e1c7e5c35f968419eab51ee3f293b0c2a5f2a83f",
+        "compilerRevision": "fixture-compiler-1",
+        "compilationConfigDigest": "3aac3ca12872e96ff265e12e960894d453bc4dfb28dbae7c7006115ce05286e4",
+        "worldRef": "fixture-world",
+        "frameDigest": "37bea3e2a107ca97d46931c4666b12806ca1fca121d48e28abdbdcb74fce7e8e",
+        "catalogueDigest": "138a7dbbb956ad4507e16a2b3d06363309ec80febff000c0e8f6976392a0f991",
+        "targetFactsDigest": "1b0043429fcd679fbe098b1aa8ef5e58c6ea52ed15ab2bc2a92d7f02867f793e",
+        "effects": [
+          {
+            "position": [
+              0,
+              0,
+              0
+            ],
+            "nodeName": "fixture:stone",
+            "param2": 0
+          }
+        ]
+      },
+      "operationDigest": "aaf0abe71840cd1d75f5365e9adc47127b30ce8ddc236c7eee30b40a525ddb18",
+      "analysisDigest": "bbe236303b28f579735ef72d8eb1ada62b7f85f853852c6342caf5fbee16f674",
+      "decisionRevision": null,
+      "expectedWorldRevision": "world-7",
+      "expectedObjectRevisions": {},
+      "guarantee": "RECOVERABLE_VERIFIED",
+      "regionInspectionBinding": {
+        "inspectionId": "canvas-inspection-1",
+        "build": {
+          "contractVersion": "BUILD/V2",
+          "documentId": "fixture-document",
+          "coordinateFrame": {
+            "profileVersion": "frame/v2",
+            "frameId": "fixture-frame",
+            "origin": [
+              0,
+              0,
+              0
+            ],
+            "axes": [
+              "+X",
+              "+Y",
+              "+Z"
+            ],
+            "handedness": "left",
+            "gridUnit": {
+              "name": "node",
+              "metersPerGridUnit": 1
+            },
+            "transformRevision": "fixture-transform-1"
+          },
+          "catalogueDigest": "138a7dbbb956ad4507e16a2b3d06363309ec80febff000c0e8f6976392a0f991",
+          "targetFactsDigest": "1b0043429fcd679fbe098b1aa8ef5e58c6ea52ed15ab2bc2a92d7f02867f793e",
+          "safetyProfileDigest": "a4802e4cd0c2c372cd54919c6d1341502b695626a2605fa6e62ff6654c52262b",
+          "materials": {
+            "stone": {
+              "nodeName": "fixture:stone",
+              "param2": 0
+            }
+          },
+          "operations": [
+            {
+              "op": "set_box",
+              "min": [
+                0,
+                0,
+                0
+              ],
+              "max": [
+                0,
+                0,
+                0
+              ],
+              "materialRef": "stone"
+            }
+          ],
+          "declaredBounds": {
+            "min": [
+              0,
+              0,
+              0
+            ],
+            "max": [
+              0,
+              0,
+              0
+            ]
+          },
+          "witnesses": [
+            {
+              "witnessId": "w1",
+              "predicate": "COVERAGE",
+              "finalEffectsDigest": "d01a1e4e9c954d1e87e4985adf92fb00ac21e43be571e5a386dab65f52624592",
+              "targetFactsDigest": "1b0043429fcd679fbe098b1aa8ef5e58c6ea52ed15ab2bc2a92d7f02867f793e",
+              "safetyProfileDigest": "a4802e4cd0c2c372cd54919c6d1341502b695626a2605fa6e62ff6654c52262b",
+              "facts": {
+                "evidence": {
+                  "providerRef": "FIXTURE-adapter",
+                  "sourceRevision": "fixture-evidence-1",
+                  "worldRef": "fixture-world",
+                  "worldRevision": "fixture-world-1"
+                },
+                "positions": [
+                  [
+                    0,
+                    0,
+                    0
+                  ]
+                ]
+              }
+            },
+            {
+              "witnessId": "w2",
+              "predicate": "PROTECTION",
+              "finalEffectsDigest": "d01a1e4e9c954d1e87e4985adf92fb00ac21e43be571e5a386dab65f52624592",
+              "targetFactsDigest": "1b0043429fcd679fbe098b1aa8ef5e58c6ea52ed15ab2bc2a92d7f02867f793e",
+              "safetyProfileDigest": "a4802e4cd0c2c372cd54919c6d1341502b695626a2605fa6e62ff6654c52262b",
+              "facts": {
+                "evidence": {
+                  "providerRef": "FIXTURE-adapter",
+                  "sourceRevision": "fixture-evidence-1",
+                  "worldRef": "fixture-world",
+                  "worldRevision": "fixture-world-1"
+                },
+                "positions": [
+                  [
+                    0,
+                    0,
+                    0
+                  ]
+                ],
+                "protectedPositions": []
+              }
+            },
+            {
+              "witnessId": "w3",
+              "predicate": "BODY_CLEARANCE",
+              "finalEffectsDigest": "d01a1e4e9c954d1e87e4985adf92fb00ac21e43be571e5a386dab65f52624592",
+              "targetFactsDigest": "1b0043429fcd679fbe098b1aa8ef5e58c6ea52ed15ab2bc2a92d7f02867f793e",
+              "safetyProfileDigest": "a4802e4cd0c2c372cd54919c6d1341502b695626a2605fa6e62ff6654c52262b",
+              "facts": {
+                "evidence": {
+                  "providerRef": "FIXTURE-adapter",
+                  "sourceRevision": "fixture-evidence-1",
+                  "worldRef": "fixture-world",
+                  "worldRevision": "fixture-world-1"
+                },
+                "positions": [
+                  [
+                    0,
+                    0,
+                    0
+                  ]
+                ],
+                "bodyOccupiedPositions": [
+                  [
+                    5,
+                    5,
+                    5
+                  ]
+                ],
+                "avatarDimensions": {
+                  "width": 1,
+                  "height": 2,
+                  "depth": 1,
+                  "unit": "node"
+                }
+              }
+            },
+            {
+              "witnessId": "w4",
+              "predicate": "HAZARD",
+              "finalEffectsDigest": "d01a1e4e9c954d1e87e4985adf92fb00ac21e43be571e5a386dab65f52624592",
+              "targetFactsDigest": "1b0043429fcd679fbe098b1aa8ef5e58c6ea52ed15ab2bc2a92d7f02867f793e",
+              "safetyProfileDigest": "a4802e4cd0c2c372cd54919c6d1341502b695626a2605fa6e62ff6654c52262b",
+              "facts": {
+                "evidence": {
+                  "providerRef": "FIXTURE-adapter",
+                  "sourceRevision": "fixture-evidence-1",
+                  "worldRef": "fixture-world",
+                  "worldRevision": "fixture-world-1"
+                },
+                "positions": [
+                  [
+                    0,
+                    0,
+                    0
+                  ]
+                ],
+                "forbidLiquid": true,
+                "maximumDamagePerSecond": 0
+              }
+            }
+          ]
+        }
+      }
+    }
+  },
+  "context": {
+    "capturedParent": {
+      "contractVersion": "session/v2",
+      "actorRef": "player-1",
+      "sessionRef": "session-1",
+      "requestId": "build-1",
+      "authorizationRef": "authorization-1",
+      "worldRef": "fixture-world",
+      "expectedTurnRevision": "fixture-turn-1"
+    },
+    "capturedApply": {
+      "contractVersion": "canvas/v4",
+      "actorRef": "player-1",
+      "sessionRef": "session-1",
+      "requestId": "build-1:apply",
+      "authorizationRef": "authorization-1",
+      "worldRef": "fixture-world",
+      "transactionId": "durable-transaction-1",
+      "operations": {
+        "contractVersion": "operations/v2",
+        "buildDigest": "be9fcac45d1c3184f45b4f20e1c7e5c35f968419eab51ee3f293b0c2a5f2a83f",
+        "compilerRevision": "fixture-compiler-1",
+        "compilationConfigDigest": "3aac3ca12872e96ff265e12e960894d453bc4dfb28dbae7c7006115ce05286e4",
+        "worldRef": "fixture-world",
+        "frameDigest": "37bea3e2a107ca97d46931c4666b12806ca1fca121d48e28abdbdcb74fce7e8e",
+        "catalogueDigest": "138a7dbbb956ad4507e16a2b3d06363309ec80febff000c0e8f6976392a0f991",
+        "targetFactsDigest": "1b0043429fcd679fbe098b1aa8ef5e58c6ea52ed15ab2bc2a92d7f02867f793e",
+        "effects": [
+          {
+            "position": [
+              0,
+              0,
+              0
+            ],
+            "nodeName": "fixture:stone",
+            "param2": 0
+          }
+        ]
+      },
+      "operationDigest": "aaf0abe71840cd1d75f5365e9adc47127b30ce8ddc236c7eee30b40a525ddb18",
+      "analysisDigest": "bbe236303b28f579735ef72d8eb1ada62b7f85f853852c6342caf5fbee16f674",
+      "decisionRevision": null,
+      "expectedWorldRevision": "world-7",
+      "expectedObjectRevisions": {},
+      "guarantee": "RECOVERABLE_VERIFIED",
+      "regionInspectionBinding": {
+        "inspectionId": "canvas-inspection-1",
+        "build": {
+          "contractVersion": "BUILD/V2",
+          "documentId": "fixture-document",
+          "coordinateFrame": {
+            "profileVersion": "frame/v2",
+            "frameId": "fixture-frame",
+            "origin": [
+              0,
+              0,
+              0
+            ],
+            "axes": [
+              "+X",
+              "+Y",
+              "+Z"
+            ],
+            "handedness": "left",
+            "gridUnit": {
+              "name": "node",
+              "metersPerGridUnit": 1
+            },
+            "transformRevision": "fixture-transform-1"
+          },
+          "catalogueDigest": "138a7dbbb956ad4507e16a2b3d06363309ec80febff000c0e8f6976392a0f991",
+          "targetFactsDigest": "1b0043429fcd679fbe098b1aa8ef5e58c6ea52ed15ab2bc2a92d7f02867f793e",
+          "safetyProfileDigest": "a4802e4cd0c2c372cd54919c6d1341502b695626a2605fa6e62ff6654c52262b",
+          "materials": {
+            "stone": {
+              "nodeName": "fixture:stone",
+              "param2": 0
+            }
+          },
+          "operations": [
+            {
+              "op": "set_box",
+              "min": [
+                0,
+                0,
+                0
+              ],
+              "max": [
+                0,
+                0,
+                0
+              ],
+              "materialRef": "stone"
+            }
+          ],
+          "declaredBounds": {
+            "min": [
+              0,
+              0,
+              0
+            ],
+            "max": [
+              0,
+              0,
+              0
+            ]
+          },
+          "witnesses": [
+            {
+              "witnessId": "w1",
+              "predicate": "COVERAGE",
+              "finalEffectsDigest": "d01a1e4e9c954d1e87e4985adf92fb00ac21e43be571e5a386dab65f52624592",
+              "targetFactsDigest": "1b0043429fcd679fbe098b1aa8ef5e58c6ea52ed15ab2bc2a92d7f02867f793e",
+              "safetyProfileDigest": "a4802e4cd0c2c372cd54919c6d1341502b695626a2605fa6e62ff6654c52262b",
+              "facts": {
+                "evidence": {
+                  "providerRef": "FIXTURE-adapter",
+                  "sourceRevision": "fixture-evidence-1",
+                  "worldRef": "fixture-world",
+                  "worldRevision": "fixture-world-1"
+                },
+                "positions": [
+                  [
+                    0,
+                    0,
+                    0
+                  ]
+                ]
+              }
+            },
+            {
+              "witnessId": "w2",
+              "predicate": "PROTECTION",
+              "finalEffectsDigest": "d01a1e4e9c954d1e87e4985adf92fb00ac21e43be571e5a386dab65f52624592",
+              "targetFactsDigest": "1b0043429fcd679fbe098b1aa8ef5e58c6ea52ed15ab2bc2a92d7f02867f793e",
+              "safetyProfileDigest": "a4802e4cd0c2c372cd54919c6d1341502b695626a2605fa6e62ff6654c52262b",
+              "facts": {
+                "evidence": {
+                  "providerRef": "FIXTURE-adapter",
+                  "sourceRevision": "fixture-evidence-1",
+                  "worldRef": "fixture-world",
+                  "worldRevision": "fixture-world-1"
+                },
+                "positions": [
+                  [
+                    0,
+                    0,
+                    0
+                  ]
+                ],
+                "protectedPositions": []
+              }
+            },
+            {
+              "witnessId": "w3",
+              "predicate": "BODY_CLEARANCE",
+              "finalEffectsDigest": "d01a1e4e9c954d1e87e4985adf92fb00ac21e43be571e5a386dab65f52624592",
+              "targetFactsDigest": "1b0043429fcd679fbe098b1aa8ef5e58c6ea52ed15ab2bc2a92d7f02867f793e",
+              "safetyProfileDigest": "a4802e4cd0c2c372cd54919c6d1341502b695626a2605fa6e62ff6654c52262b",
+              "facts": {
+                "evidence": {
+                  "providerRef": "FIXTURE-adapter",
+                  "sourceRevision": "fixture-evidence-1",
+                  "worldRef": "fixture-world",
+                  "worldRevision": "fixture-world-1"
+                },
+                "positions": [
+                  [
+                    0,
+                    0,
+                    0
+                  ]
+                ],
+                "bodyOccupiedPositions": [
+                  [
+                    5,
+                    5,
+                    5
+                  ]
+                ],
+                "avatarDimensions": {
+                  "width": 1,
+                  "height": 2,
+                  "depth": 1,
+                  "unit": "node"
+                }
+              }
+            },
+            {
+              "witnessId": "w4",
+              "predicate": "HAZARD",
+              "finalEffectsDigest": "d01a1e4e9c954d1e87e4985adf92fb00ac21e43be571e5a386dab65f52624592",
+              "targetFactsDigest": "1b0043429fcd679fbe098b1aa8ef5e58c6ea52ed15ab2bc2a92d7f02867f793e",
+              "safetyProfileDigest": "a4802e4cd0c2c372cd54919c6d1341502b695626a2605fa6e62ff6654c52262b",
+              "facts": {
+                "evidence": {
+                  "providerRef": "FIXTURE-adapter",
+                  "sourceRevision": "fixture-evidence-1",
+                  "worldRef": "fixture-world",
+                  "worldRevision": "fixture-world-1"
+                },
+                "positions": [
+                  [
+                    0,
+                    0,
+                    0
+                  ]
+                ],
+                "forbidLiquid": true,
+                "maximumDamagePerSecond": 0
+              }
+            }
+          ]
+        }
+      }
+    },
+    "originalBinding": {
+      "sessionRef": "session-1",
+      "sessionIncarnationRef": "incarnation-1",
+      "hostIssuerRef": "trusted-host-1",
+      "worldRef": "fixture-world",
+      "engineActorName": "player",
+      "expectedGrantRef": "original-game-grant-1",
+      "authorizationRef": "authorization-1",
+      "actorRef": "player-1",
+      "bindingRef": "binding-1",
+      "grantEpoch": "grant-epoch-1",
+      "allowedActions": [
+        "APPLY_RECOVERABLE",
+        "READ",
+        "SELECT"
+      ]
+    },
+    "currentBinding": {
+      "sessionRef": "session-1",
+      "sessionIncarnationRef": "incarnation-1",
+      "hostIssuerRef": "trusted-host-1",
+      "worldRef": "fixture-world",
+      "engineActorName": "player",
+      "expectedGrantRef": "original-game-grant-1",
+      "authorizationRef": "authorization-1",
+      "actorRef": "player-1",
+      "bindingRef": "binding-1",
+      "grantEpoch": "grant-epoch-1",
+      "allowedActions": [
+        "APPLY_RECOVERABLE",
+        "READ",
+        "SELECT"
+      ]
+    },
+    "verifiedBinding": {
+      "authorizerRef": "game-verifier-1",
+      "actorRef": "player-1",
+      "bindingRef": "binding-1",
+      "worldRef": "fixture-world",
+      "grantEpoch": "grant-epoch-1",
+      "allowedActions": [
+        "APPLY_RECOVERABLE",
+        "READ",
+        "SELECT"
+      ]
+    },
+    "liveSessionIncarnationRef": "incarnation-1",
+    "expectedWorkshopServiceRef": "workshop-instance-1",
+    "workshopServiceRef": "workshop-instance-1",
+    "expectedCanvasServiceRef": "canvas-instance-1",
+    "canvasServiceRef": "canvas-instance-1",
+    "grantStatus": "CURRENT",
+    "invocationStatus": "ACTIVE",
+    "currentTurnRef": "turn-1",
+    "currentTurnRevision": "fixture-turn-1",
+    "currentConfirmationInputId": "user-confirmation-1",
+    "currentIntentDigest": "56b3dcfc1057b83b646cfc57901fe55e2e74329a40cf7c606bbb68138acc3df3",
+    "currentOperationDigest": "aaf0abe71840cd1d75f5365e9adc47127b30ce8ddc236c7eee30b40a525ddb18",
+    "currentAnalysisDigest": "bbe236303b28f579735ef72d8eb1ada62b7f85f853852c6342caf5fbee16f674",
+    "turnStatus": "CURRENT_CONFIRMED",
+    "replay": "NEW",
+    "priorAuthorization": null,
+    "currentStage": "APPLY"
+  },
+  "expected": {
+    "candidate": {
+      "action": {
+        "contractVersion": "current-build-authorization/v1",
+        "operation": "AdvanceCurrentBuild",
+        "childOperation": "ApplyRecoverableCommit",
+        "facts": {
+          "contractVersion": "current-build-authorization/v1",
+          "parentRequest": {
+            "contractVersion": "session/v2",
+            "actorRef": "player-1",
+            "sessionRef": "session-1",
+            "requestId": "build-1",
+            "authorizationRef": "authorization-1",
+            "worldRef": "fixture-world",
+            "expectedTurnRevision": "fixture-turn-1"
+          },
+          "turnRef": "turn-1",
+          "confirmationInputId": "user-confirmation-1",
+          "intent": {
+            "contractVersion": "session/v2",
+            "referenceBriefDigest": "07aae1956694b41a548315db0a4fdfd15ca87a0dd71ca89a97b916936a352f81",
+            "confirmedIntent": {
+              "kind": "BUILD_STRUCTURE",
+              "text": "积木塔",
+              "purpose": "fixture structure",
+              "dimensions": null,
+              "entrancePortalRefs": [],
+              "confirmedTurnRevision": "fixture-turn-1"
+            },
+            "intendedWorldRef": "fixture-world",
+            "orderedTargetRefs": []
+          },
+          "analysis": {
+            "contractVersion": "canvas/v2",
+            "worldRef": "fixture-world",
+            "worldRevision": "world-7",
+            "registryRevision": "registry-2",
+            "selectionRevision": "selection-5",
+            "operationDigest": "aaf0abe71840cd1d75f5365e9adc47127b30ce8ddc236c7eee30b40a525ddb18",
+            "orderedSelectedRefs": [],
+            "affectedObjectRefs": []
+          },
+          "apply": {
+            "contractVersion": "canvas/v4",
+            "actorRef": "player-1",
+            "sessionRef": "session-1",
+            "requestId": "build-1:apply",
+            "authorizationRef": "authorization-1",
+            "worldRef": "fixture-world",
+            "transactionId": "durable-transaction-1",
+            "operations": {
+              "contractVersion": "operations/v2",
+              "buildDigest": "be9fcac45d1c3184f45b4f20e1c7e5c35f968419eab51ee3f293b0c2a5f2a83f",
+              "compilerRevision": "fixture-compiler-1",
+              "compilationConfigDigest": "3aac3ca12872e96ff265e12e960894d453bc4dfb28dbae7c7006115ce05286e4",
+              "worldRef": "fixture-world",
+              "frameDigest": "37bea3e2a107ca97d46931c4666b12806ca1fca121d48e28abdbdcb74fce7e8e",
+              "catalogueDigest": "138a7dbbb956ad4507e16a2b3d06363309ec80febff000c0e8f6976392a0f991",
+              "targetFactsDigest": "1b0043429fcd679fbe098b1aa8ef5e58c6ea52ed15ab2bc2a92d7f02867f793e",
+              "effects": [
+                {
+                  "position": [
+                    0,
+                    0,
+                    0
+                  ],
+                  "nodeName": "fixture:stone",
+                  "param2": 0
+                }
+              ]
+            },
+            "operationDigest": "aaf0abe71840cd1d75f5365e9adc47127b30ce8ddc236c7eee30b40a525ddb18",
+            "analysisDigest": "bbe236303b28f579735ef72d8eb1ada62b7f85f853852c6342caf5fbee16f674",
+            "decisionRevision": null,
+            "expectedWorldRevision": "world-7",
+            "expectedObjectRevisions": {},
+            "guarantee": "RECOVERABLE_VERIFIED",
+            "regionInspectionBinding": {
+              "inspectionId": "canvas-inspection-1",
+              "build": {
+                "contractVersion": "BUILD/V2",
+                "documentId": "fixture-document",
+                "coordinateFrame": {
+                  "profileVersion": "frame/v2",
+                  "frameId": "fixture-frame",
+                  "origin": [
+                    0,
+                    0,
+                    0
+                  ],
+                  "axes": [
+                    "+X",
+                    "+Y",
+                    "+Z"
+                  ],
+                  "handedness": "left",
+                  "gridUnit": {
+                    "name": "node",
+                    "metersPerGridUnit": 1
+                  },
+                  "transformRevision": "fixture-transform-1"
+                },
+                "catalogueDigest": "138a7dbbb956ad4507e16a2b3d06363309ec80febff000c0e8f6976392a0f991",
+                "targetFactsDigest": "1b0043429fcd679fbe098b1aa8ef5e58c6ea52ed15ab2bc2a92d7f02867f793e",
+                "safetyProfileDigest": "a4802e4cd0c2c372cd54919c6d1341502b695626a2605fa6e62ff6654c52262b",
+                "materials": {
+                  "stone": {
+                    "nodeName": "fixture:stone",
+                    "param2": 0
+                  }
+                },
+                "operations": [
+                  {
+                    "op": "set_box",
+                    "min": [
+                      0,
+                      0,
+                      0
+                    ],
+                    "max": [
+                      0,
+                      0,
+                      0
+                    ],
+                    "materialRef": "stone"
+                  }
+                ],
+                "declaredBounds": {
+                  "min": [
+                    0,
+                    0,
+                    0
+                  ],
+                  "max": [
+                    0,
+                    0,
+                    0
+                  ]
+                },
+                "witnesses": [
+                  {
+                    "witnessId": "w1",
+                    "predicate": "COVERAGE",
+                    "finalEffectsDigest": "d01a1e4e9c954d1e87e4985adf92fb00ac21e43be571e5a386dab65f52624592",
+                    "targetFactsDigest": "1b0043429fcd679fbe098b1aa8ef5e58c6ea52ed15ab2bc2a92d7f02867f793e",
+                    "safetyProfileDigest": "a4802e4cd0c2c372cd54919c6d1341502b695626a2605fa6e62ff6654c52262b",
+                    "facts": {
+                      "evidence": {
+                        "providerRef": "FIXTURE-adapter",
+                        "sourceRevision": "fixture-evidence-1",
+                        "worldRef": "fixture-world",
+                        "worldRevision": "fixture-world-1"
+                      },
+                      "positions": [
+                        [
+                          0,
+                          0,
+                          0
+                        ]
+                      ]
+                    }
+                  },
+                  {
+                    "witnessId": "w2",
+                    "predicate": "PROTECTION",
+                    "finalEffectsDigest": "d01a1e4e9c954d1e87e4985adf92fb00ac21e43be571e5a386dab65f52624592",
+                    "targetFactsDigest": "1b0043429fcd679fbe098b1aa8ef5e58c6ea52ed15ab2bc2a92d7f02867f793e",
+                    "safetyProfileDigest": "a4802e4cd0c2c372cd54919c6d1341502b695626a2605fa6e62ff6654c52262b",
+                    "facts": {
+                      "evidence": {
+                        "providerRef": "FIXTURE-adapter",
+                        "sourceRevision": "fixture-evidence-1",
+                        "worldRef": "fixture-world",
+                        "worldRevision": "fixture-world-1"
+                      },
+                      "positions": [
+                        [
+                          0,
+                          0,
+                          0
+                        ]
+                      ],
+                      "protectedPositions": []
+                    }
+                  },
+                  {
+                    "witnessId": "w3",
+                    "predicate": "BODY_CLEARANCE",
+                    "finalEffectsDigest": "d01a1e4e9c954d1e87e4985adf92fb00ac21e43be571e5a386dab65f52624592",
+                    "targetFactsDigest": "1b0043429fcd679fbe098b1aa8ef5e58c6ea52ed15ab2bc2a92d7f02867f793e",
+                    "safetyProfileDigest": "a4802e4cd0c2c372cd54919c6d1341502b695626a2605fa6e62ff6654c52262b",
+                    "facts": {
+                      "evidence": {
+                        "providerRef": "FIXTURE-adapter",
+                        "sourceRevision": "fixture-evidence-1",
+                        "worldRef": "fixture-world",
+                        "worldRevision": "fixture-world-1"
+                      },
+                      "positions": [
+                        [
+                          0,
+                          0,
+                          0
+                        ]
+                      ],
+                      "bodyOccupiedPositions": [
+                        [
+                          5,
+                          5,
+                          5
+                        ]
+                      ],
+                      "avatarDimensions": {
+                        "width": 1,
+                        "height": 2,
+                        "depth": 1,
+                        "unit": "node"
+                      }
+                    }
+                  },
+                  {
+                    "witnessId": "w4",
+                    "predicate": "HAZARD",
+                    "finalEffectsDigest": "d01a1e4e9c954d1e87e4985adf92fb00ac21e43be571e5a386dab65f52624592",
+                    "targetFactsDigest": "1b0043429fcd679fbe098b1aa8ef5e58c6ea52ed15ab2bc2a92d7f02867f793e",
+                    "safetyProfileDigest": "a4802e4cd0c2c372cd54919c6d1341502b695626a2605fa6e62ff6654c52262b",
+                    "facts": {
+                      "evidence": {
+                        "providerRef": "FIXTURE-adapter",
+                        "sourceRevision": "fixture-evidence-1",
+                        "worldRef": "fixture-world",
+                        "worldRevision": "fixture-world-1"
+                      },
+                      "positions": [
+                        [
+                          0,
+                          0,
+                          0
+                        ]
+                      ],
+                      "forbidLiquid": true,
+                      "maximumDamagePerSecond": 0
+                    }
+                  }
+                ]
+              }
+            }
+          }
+        },
+        "originalBinding": {
+          "sessionRef": "session-1",
+          "sessionIncarnationRef": "incarnation-1",
+          "hostIssuerRef": "trusted-host-1",
+          "worldRef": "fixture-world",
+          "engineActorName": "player",
+          "expectedGrantRef": "original-game-grant-1",
+          "authorizationRef": "authorization-1",
+          "actorRef": "player-1",
+          "bindingRef": "binding-1",
+          "grantEpoch": "grant-epoch-1",
+          "allowedActions": [
+            "APPLY_RECOVERABLE",
+            "READ",
+            "SELECT"
+          ]
+        },
+        "verifiedBinding": {
+          "authorizerRef": "game-verifier-1",
+          "actorRef": "player-1",
+          "bindingRef": "binding-1",
+          "worldRef": "fixture-world",
+          "grantEpoch": "grant-epoch-1",
+          "allowedActions": [
+            "APPLY_RECOVERABLE",
+            "READ",
+            "SELECT"
+          ]
+        },
+        "workshopServiceRef": "workshop-instance-1",
+        "canvasServiceRef": "canvas-instance-1"
+      },
+      "authorizationBinding": {
+        "contractVersion": "world-adapter/v2",
+        "authorizerRef": "game-verifier-1",
+        "actorRef": "player-1",
+        "grantEpoch": "grant-epoch-1",
+        "bindingRef": "binding-1",
+        "worldRef": "fixture-world",
+        "sessionRef": "session-1",
+        "turnRevision": "fixture-turn-1",
+        "intentDigest": "56b3dcfc1057b83b646cfc57901fe55e2e74329a40cf7c606bbb68138acc3df3",
+        "surfaceActionDigest": "a13975bfdc69e75383f9ede2df74321dd4bab204a96ca36931b85d610061bd98",
+        "allowedAction": "APPLY_RECOVERABLE",
+        "transactionId": "durable-transaction-1",
+        "operationDigest": "aaf0abe71840cd1d75f5365e9adc47127b30ce8ddc236c7eee30b40a525ddb18",
+        "worldRevision": "world-7",
+        "selectionRevision": "selection-5",
+        "analysisDigest": "bbe236303b28f579735ef72d8eb1ada62b7f85f853852c6342caf5fbee16f674",
+        "decisionRevision": null
+      },
+      "authorizationBindingDigest": "88939b653672e7f8a586ea02b67b708ec519d4321a43ef1879b6e6421a8bfd90"
+    },
+    "canonicalUtf8": "{\"canvasServiceRef\":\"canvas-instance-1\",\"childOperation\":\"ApplyRecoverableCommit\",\"contractVersion\":\"current-build-authorization/v1\",\"facts\":{\"analysis\":{\"affectedObjectRefs\":[],\"contractVersion\":\"canvas/v2\",\"operationDigest\":\"aaf0abe71840cd1d75f5365e9adc47127b30ce8ddc236c7eee30b40a525ddb18\",\"orderedSelectedRefs\":[],\"registryRevision\":\"registry-2\",\"selectionRevision\":\"selection-5\",\"worldRef\":\"fixture-world\",\"worldRevision\":\"world-7\"},\"apply\":{\"actorRef\":\"player-1\",\"analysisDigest\":\"bbe236303b28f579735ef72d8eb1ada62b7f85f853852c6342caf5fbee16f674\",\"authorizationRef\":\"authorization-1\",\"contractVersion\":\"canvas/v4\",\"decisionRevision\":null,\"expectedObjectRevisions\":{},\"expectedWorldRevision\":\"world-7\",\"guarantee\":\"RECOVERABLE_VERIFIED\",\"operationDigest\":\"aaf0abe71840cd1d75f5365e9adc47127b30ce8ddc236c7eee30b40a525ddb18\",\"operations\":{\"buildDigest\":\"be9fcac45d1c3184f45b4f20e1c7e5c35f968419eab51ee3f293b0c2a5f2a83f\",\"catalogueDigest\":\"138a7dbbb956ad4507e16a2b3d06363309ec80febff000c0e8f6976392a0f991\",\"compilationConfigDigest\":\"3aac3ca12872e96ff265e12e960894d453bc4dfb28dbae7c7006115ce05286e4\",\"compilerRevision\":\"fixture-compiler-1\",\"contractVersion\":\"operations/v2\",\"effects\":[{\"nodeName\":\"fixture:stone\",\"param2\":0,\"position\":[0,0,0]}],\"frameDigest\":\"37bea3e2a107ca97d46931c4666b12806ca1fca121d48e28abdbdcb74fce7e8e\",\"targetFactsDigest\":\"1b0043429fcd679fbe098b1aa8ef5e58c6ea52ed15ab2bc2a92d7f02867f793e\",\"worldRef\":\"fixture-world\"},\"regionInspectionBinding\":{\"build\":{\"catalogueDigest\":\"138a7dbbb956ad4507e16a2b3d06363309ec80febff000c0e8f6976392a0f991\",\"contractVersion\":\"BUILD/V2\",\"coordinateFrame\":{\"axes\":[\"+X\",\"+Y\",\"+Z\"],\"frameId\":\"fixture-frame\",\"gridUnit\":{\"metersPerGridUnit\":1,\"name\":\"node\"},\"handedness\":\"left\",\"origin\":[0,0,0],\"profileVersion\":\"frame/v2\",\"transformRevision\":\"fixture-transform-1\"},\"declaredBounds\":{\"max\":[0,0,0],\"min\":[0,0,0]},\"documentId\":\"fixture-document\",\"materials\":{\"stone\":{\"nodeName\":\"fixture:stone\",\"param2\":0}},\"operations\":[{\"materialRef\":\"stone\",\"max\":[0,0,0],\"min\":[0,0,0],\"op\":\"set_box\"}],\"safetyProfileDigest\":\"a4802e4cd0c2c372cd54919c6d1341502b695626a2605fa6e62ff6654c52262b\",\"targetFactsDigest\":\"1b0043429fcd679fbe098b1aa8ef5e58c6ea52ed15ab2bc2a92d7f02867f793e\",\"witnesses\":[{\"facts\":{\"evidence\":{\"providerRef\":\"FIXTURE-adapter\",\"sourceRevision\":\"fixture-evidence-1\",\"worldRef\":\"fixture-world\",\"worldRevision\":\"fixture-world-1\"},\"positions\":[[0,0,0]]},\"finalEffectsDigest\":\"d01a1e4e9c954d1e87e4985adf92fb00ac21e43be571e5a386dab65f52624592\",\"predicate\":\"COVERAGE\",\"safetyProfileDigest\":\"a4802e4cd0c2c372cd54919c6d1341502b695626a2605fa6e62ff6654c52262b\",\"targetFactsDigest\":\"1b0043429fcd679fbe098b1aa8ef5e58c6ea52ed15ab2bc2a92d7f02867f793e\",\"witnessId\":\"w1\"},{\"facts\":{\"evidence\":{\"providerRef\":\"FIXTURE-adapter\",\"sourceRevision\":\"fixture-evidence-1\",\"worldRef\":\"fixture-world\",\"worldRevision\":\"fixture-world-1\"},\"positions\":[[0,0,0]],\"protectedPositions\":[]},\"finalEffectsDigest\":\"d01a1e4e9c954d1e87e4985adf92fb00ac21e43be571e5a386dab65f52624592\",\"predicate\":\"PROTECTION\",\"safetyProfileDigest\":\"a4802e4cd0c2c372cd54919c6d1341502b695626a2605fa6e62ff6654c52262b\",\"targetFactsDigest\":\"1b0043429fcd679fbe098b1aa8ef5e58c6ea52ed15ab2bc2a92d7f02867f793e\",\"witnessId\":\"w2\"},{\"facts\":{\"avatarDimensions\":{\"depth\":1,\"height\":2,\"unit\":\"node\",\"width\":1},\"bodyOccupiedPositions\":[[5,5,5]],\"evidence\":{\"providerRef\":\"FIXTURE-adapter\",\"sourceRevision\":\"fixture-evidence-1\",\"worldRef\":\"fixture-world\",\"worldRevision\":\"fixture-world-1\"},\"positions\":[[0,0,0]]},\"finalEffectsDigest\":\"d01a1e4e9c954d1e87e4985adf92fb00ac21e43be571e5a386dab65f52624592\",\"predicate\":\"BODY_CLEARANCE\",\"safetyProfileDigest\":\"a4802e4cd0c2c372cd54919c6d1341502b695626a2605fa6e62ff6654c52262b\",\"targetFactsDigest\":\"1b0043429fcd679fbe098b1aa8ef5e58c6ea52ed15ab2bc2a92d7f02867f793e\",\"witnessId\":\"w3\"},{\"facts\":{\"evidence\":{\"providerRef\":\"FIXTURE-adapter\",\"sourceRevision\":\"fixture-evidence-1\",\"worldRef\":\"fixture-world\",\"worldRevision\":\"fixture-world-1\"},\"forbidLiquid\":true,\"maximumDamagePerSecond\":0,\"positions\":[[0,0,0]]},\"finalEffectsDigest\":\"d01a1e4e9c954d1e87e4985adf92fb00ac21e43be571e5a386dab65f52624592\",\"predicate\":\"HAZARD\",\"safetyProfileDigest\":\"a4802e4cd0c2c372cd54919c6d1341502b695626a2605fa6e62ff6654c52262b\",\"targetFactsDigest\":\"1b0043429fcd679fbe098b1aa8ef5e58c6ea52ed15ab2bc2a92d7f02867f793e\",\"witnessId\":\"w4\"}]},\"inspectionId\":\"canvas-inspection-1\"},\"requestId\":\"build-1:apply\",\"sessionRef\":\"session-1\",\"transactionId\":\"durable-transaction-1\",\"worldRef\":\"fixture-world\"},\"confirmationInputId\":\"user-confirmation-1\",\"contractVersion\":\"current-build-authorization/v1\",\"intent\":{\"confirmedIntent\":{\"confirmedTurnRevision\":\"fixture-turn-1\",\"dimensions\":null,\"entrancePortalRefs\":[],\"kind\":\"BUILD_STRUCTURE\",\"purpose\":\"fixture structure\",\"text\":\"积木塔\"},\"contractVersion\":\"session/v2\",\"intendedWorldRef\":\"fixture-world\",\"orderedTargetRefs\":[],\"referenceBriefDigest\":\"07aae1956694b41a548315db0a4fdfd15ca87a0dd71ca89a97b916936a352f81\"},\"parentRequest\":{\"actorRef\":\"player-1\",\"authorizationRef\":\"authorization-1\",\"contractVersion\":\"session/v2\",\"expectedTurnRevision\":\"fixture-turn-1\",\"requestId\":\"build-1\",\"sessionRef\":\"session-1\",\"worldRef\":\"fixture-world\"},\"turnRef\":\"turn-1\"},\"operation\":\"AdvanceCurrentBuild\",\"originalBinding\":{\"actorRef\":\"player-1\",\"allowedActions\":[\"APPLY_RECOVERABLE\",\"READ\",\"SELECT\"],\"authorizationRef\":\"authorization-1\",\"bindingRef\":\"binding-1\",\"engineActorName\":\"player\",\"expectedGrantRef\":\"original-game-grant-1\",\"grantEpoch\":\"grant-epoch-1\",\"hostIssuerRef\":\"trusted-host-1\",\"sessionIncarnationRef\":\"incarnation-1\",\"sessionRef\":\"session-1\",\"worldRef\":\"fixture-world\"},\"verifiedBinding\":{\"actorRef\":\"player-1\",\"allowedActions\":[\"APPLY_RECOVERABLE\",\"READ\",\"SELECT\"],\"authorizerRef\":\"game-verifier-1\",\"bindingRef\":\"binding-1\",\"grantEpoch\":\"grant-epoch-1\",\"worldRef\":\"fixture-world\"},\"workshopServiceRef\":\"workshop-instance-1\"}",
+    "preimageUtf8": "HanaWorlds|contracts@0.3.9|current-build-action\n{\"canvasServiceRef\":\"canvas-instance-1\",\"childOperation\":\"ApplyRecoverableCommit\",\"contractVersion\":\"current-build-authorization/v1\",\"facts\":{\"analysis\":{\"affectedObjectRefs\":[],\"contractVersion\":\"canvas/v2\",\"operationDigest\":\"aaf0abe71840cd1d75f5365e9adc47127b30ce8ddc236c7eee30b40a525ddb18\",\"orderedSelectedRefs\":[],\"registryRevision\":\"registry-2\",\"selectionRevision\":\"selection-5\",\"worldRef\":\"fixture-world\",\"worldRevision\":\"world-7\"},\"apply\":{\"actorRef\":\"player-1\",\"analysisDigest\":\"bbe236303b28f579735ef72d8eb1ada62b7f85f853852c6342caf5fbee16f674\",\"authorizationRef\":\"authorization-1\",\"contractVersion\":\"canvas/v4\",\"decisionRevision\":null,\"expectedObjectRevisions\":{},\"expectedWorldRevision\":\"world-7\",\"guarantee\":\"RECOVERABLE_VERIFIED\",\"operationDigest\":\"aaf0abe71840cd1d75f5365e9adc47127b30ce8ddc236c7eee30b40a525ddb18\",\"operations\":{\"buildDigest\":\"be9fcac45d1c3184f45b4f20e1c7e5c35f968419eab51ee3f293b0c2a5f2a83f\",\"catalogueDigest\":\"138a7dbbb956ad4507e16a2b3d06363309ec80febff000c0e8f6976392a0f991\",\"compilationConfigDigest\":\"3aac3ca12872e96ff265e12e960894d453bc4dfb28dbae7c7006115ce05286e4\",\"compilerRevision\":\"fixture-compiler-1\",\"contractVersion\":\"operations/v2\",\"effects\":[{\"nodeName\":\"fixture:stone\",\"param2\":0,\"position\":[0,0,0]}],\"frameDigest\":\"37bea3e2a107ca97d46931c4666b12806ca1fca121d48e28abdbdcb74fce7e8e\",\"targetFactsDigest\":\"1b0043429fcd679fbe098b1aa8ef5e58c6ea52ed15ab2bc2a92d7f02867f793e\",\"worldRef\":\"fixture-world\"},\"regionInspectionBinding\":{\"build\":{\"catalogueDigest\":\"138a7dbbb956ad4507e16a2b3d06363309ec80febff000c0e8f6976392a0f991\",\"contractVersion\":\"BUILD/V2\",\"coordinateFrame\":{\"axes\":[\"+X\",\"+Y\",\"+Z\"],\"frameId\":\"fixture-frame\",\"gridUnit\":{\"metersPerGridUnit\":1,\"name\":\"node\"},\"handedness\":\"left\",\"origin\":[0,0,0],\"profileVersion\":\"frame/v2\",\"transformRevision\":\"fixture-transform-1\"},\"declaredBounds\":{\"max\":[0,0,0],\"min\":[0,0,0]},\"documentId\":\"fixture-document\",\"materials\":{\"stone\":{\"nodeName\":\"fixture:stone\",\"param2\":0}},\"operations\":[{\"materialRef\":\"stone\",\"max\":[0,0,0],\"min\":[0,0,0],\"op\":\"set_box\"}],\"safetyProfileDigest\":\"a4802e4cd0c2c372cd54919c6d1341502b695626a2605fa6e62ff6654c52262b\",\"targetFactsDigest\":\"1b0043429fcd679fbe098b1aa8ef5e58c6ea52ed15ab2bc2a92d7f02867f793e\",\"witnesses\":[{\"facts\":{\"evidence\":{\"providerRef\":\"FIXTURE-adapter\",\"sourceRevision\":\"fixture-evidence-1\",\"worldRef\":\"fixture-world\",\"worldRevision\":\"fixture-world-1\"},\"positions\":[[0,0,0]]},\"finalEffectsDigest\":\"d01a1e4e9c954d1e87e4985adf92fb00ac21e43be571e5a386dab65f52624592\",\"predicate\":\"COVERAGE\",\"safetyProfileDigest\":\"a4802e4cd0c2c372cd54919c6d1341502b695626a2605fa6e62ff6654c52262b\",\"targetFactsDigest\":\"1b0043429fcd679fbe098b1aa8ef5e58c6ea52ed15ab2bc2a92d7f02867f793e\",\"witnessId\":\"w1\"},{\"facts\":{\"evidence\":{\"providerRef\":\"FIXTURE-adapter\",\"sourceRevision\":\"fixture-evidence-1\",\"worldRef\":\"fixture-world\",\"worldRevision\":\"fixture-world-1\"},\"positions\":[[0,0,0]],\"protectedPositions\":[]},\"finalEffectsDigest\":\"d01a1e4e9c954d1e87e4985adf92fb00ac21e43be571e5a386dab65f52624592\",\"predicate\":\"PROTECTION\",\"safetyProfileDigest\":\"a4802e4cd0c2c372cd54919c6d1341502b695626a2605fa6e62ff6654c52262b\",\"targetFactsDigest\":\"1b0043429fcd679fbe098b1aa8ef5e58c6ea52ed15ab2bc2a92d7f02867f793e\",\"witnessId\":\"w2\"},{\"facts\":{\"avatarDimensions\":{\"depth\":1,\"height\":2,\"unit\":\"node\",\"width\":1},\"bodyOccupiedPositions\":[[5,5,5]],\"evidence\":{\"providerRef\":\"FIXTURE-adapter\",\"sourceRevision\":\"fixture-evidence-1\",\"worldRef\":\"fixture-world\",\"worldRevision\":\"fixture-world-1\"},\"positions\":[[0,0,0]]},\"finalEffectsDigest\":\"d01a1e4e9c954d1e87e4985adf92fb00ac21e43be571e5a386dab65f52624592\",\"predicate\":\"BODY_CLEARANCE\",\"safetyProfileDigest\":\"a4802e4cd0c2c372cd54919c6d1341502b695626a2605fa6e62ff6654c52262b\",\"targetFactsDigest\":\"1b0043429fcd679fbe098b1aa8ef5e58c6ea52ed15ab2bc2a92d7f02867f793e\",\"witnessId\":\"w3\"},{\"facts\":{\"evidence\":{\"providerRef\":\"FIXTURE-adapter\",\"sourceRevision\":\"fixture-evidence-1\",\"worldRef\":\"fixture-world\",\"worldRevision\":\"fixture-world-1\"},\"forbidLiquid\":true,\"maximumDamagePerSecond\":0,\"positions\":[[0,0,0]]},\"finalEffectsDigest\":\"d01a1e4e9c954d1e87e4985adf92fb00ac21e43be571e5a386dab65f52624592\",\"predicate\":\"HAZARD\",\"safetyProfileDigest\":\"a4802e4cd0c2c372cd54919c6d1341502b695626a2605fa6e62ff6654c52262b\",\"targetFactsDigest\":\"1b0043429fcd679fbe098b1aa8ef5e58c6ea52ed15ab2bc2a92d7f02867f793e\",\"witnessId\":\"w4\"}]},\"inspectionId\":\"canvas-inspection-1\"},\"requestId\":\"build-1:apply\",\"sessionRef\":\"session-1\",\"transactionId\":\"durable-transaction-1\",\"worldRef\":\"fixture-world\"},\"confirmationInputId\":\"user-confirmation-1\",\"contractVersion\":\"current-build-authorization/v1\",\"intent\":{\"confirmedIntent\":{\"confirmedTurnRevision\":\"fixture-turn-1\",\"dimensions\":null,\"entrancePortalRefs\":[],\"kind\":\"BUILD_STRUCTURE\",\"purpose\":\"fixture structure\",\"text\":\"积木塔\"},\"contractVersion\":\"session/v2\",\"intendedWorldRef\":\"fixture-world\",\"orderedTargetRefs\":[],\"referenceBriefDigest\":\"07aae1956694b41a548315db0a4fdfd15ca87a0dd71ca89a97b916936a352f81\"},\"parentRequest\":{\"actorRef\":\"player-1\",\"authorizationRef\":\"authorization-1\",\"contractVersion\":\"session/v2\",\"expectedTurnRevision\":\"fixture-turn-1\",\"requestId\":\"build-1\",\"sessionRef\":\"session-1\",\"worldRef\":\"fixture-world\"},\"turnRef\":\"turn-1\"},\"operation\":\"AdvanceCurrentBuild\",\"originalBinding\":{\"actorRef\":\"player-1\",\"allowedActions\":[\"APPLY_RECOVERABLE\",\"READ\",\"SELECT\"],\"authorizationRef\":\"authorization-1\",\"bindingRef\":\"binding-1\",\"engineActorName\":\"player\",\"expectedGrantRef\":\"original-game-grant-1\",\"grantEpoch\":\"grant-epoch-1\",\"hostIssuerRef\":\"trusted-host-1\",\"sessionIncarnationRef\":\"incarnation-1\",\"sessionRef\":\"session-1\",\"worldRef\":\"fixture-world\"},\"verifiedBinding\":{\"actorRef\":\"player-1\",\"allowedActions\":[\"APPLY_RECOVERABLE\",\"READ\",\"SELECT\"],\"authorizerRef\":\"game-verifier-1\",\"bindingRef\":\"binding-1\",\"grantEpoch\":\"grant-epoch-1\",\"worldRef\":\"fixture-world\"},\"workshopServiceRef\":\"workshop-instance-1\"}",
+    "sha256": "a13975bfdc69e75383f9ede2df74321dd4bab204a96ca36931b85d610061bd98"
+  }
+}

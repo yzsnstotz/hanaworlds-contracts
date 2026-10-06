@@ -51,7 +51,7 @@ rejected(() => project(host, game, { ...read, sessionRef: 'wrong' }));
 assert.equal(V4.checkSessionOperationAuthorizationHandshake(V4.contractHandshake).result, 'HANDSHAKE_OPERATION_MATCH');
 rejected(() => V4.checkSessionOperationAuthorizationHandshake({ ...V4.contractHandshake, contracts: 'hanaworlds-contracts@0.3.6' }));
 rejected(() => V4.checkSessionOperationAuthorizationHandshake({ ...V4.contractHandshake, wireVersions: V4.contractHandshake.wireVersions.filter(x => x !== wire) }));
-assert.equal(V4.checkSessionAuthorizationHandshake({ ...V4.contractHandshake, contracts: 'hanaworlds-contracts@0.3.6', wireVersions: V4.contractHandshake.wireVersions.filter(x => x !== wire) }).result, 'HANDSHAKE_OPERATION_MATCH');
+rejected(() => V4.checkSessionAuthorizationHandshake({ ...V4.contractHandshake, contracts: 'hanaworlds-contracts@0.3.6', wireVersions: V4.contractHandshake.wireVersions.filter(x => x !== wire) }));
 console.log('Session actions SOURCE/FIXTURE: separate issuance, append, read-only, illegal actions, revocation, regrant and exact correlation checks passed');
 assert.equal(V4.sessionOperationAuthorizationV1.contractVersion, wire);
 assert.deepEqual(clone(V4.sessionOperationAuthorizationV1.validate('ReadOriginalSessionAuthority', read)), read);

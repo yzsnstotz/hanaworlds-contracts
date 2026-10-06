@@ -1,4 +1,4 @@
-// GENERATED — 356 named types from approved base plus session readback extension; no any/open object fallback.
+// GENERATED — 362 named types from approved base plus session readback extension; no any/open object fallback.
 export type Ref = string;
 export type Revision = string;
 export type Digest = string;
@@ -2427,6 +2427,75 @@ export type WorldContextDelegationFacts = {
   readonly "invocationStatus": WorldContextInvocationStatus;
   readonly "context": WorldSelectionContext | null;
 };
+/** Exact Canvas child before Host authorization; only default non-frame build with no affected objects or conflict decision. No caller transaction or operation facts. */
+export type CurrentBuildApplyPayload = {
+  readonly "contractVersion": "canvas/v4";
+  readonly "actorRef": Ref;
+  readonly "sessionRef": Ref;
+  readonly "requestId": Ref;
+  readonly "authorizationRef": Ref;
+  readonly "worldRef": Ref;
+  readonly "transactionId": Ref;
+  readonly "operations": OperationsProjection;
+  readonly "operationDigest": Digest;
+  readonly "analysisDigest": Digest;
+  readonly "decisionRevision": null;
+  readonly "expectedWorldRevision": Revision;
+  readonly "expectedObjectRevisions": ObjectRevisions;
+  readonly "guarantee": "RECOVERABLE_VERIFIED";
+  readonly "regionInspectionBinding": RegionApplyBinding | null;
+};
+/** Workshop supplies its own coherent durable current confirmed turn, exact parent, immutable compiled operations and Canvas analysis/inspection, after authenticating Host. Renderer and model cannot supply these facts. */
+export type CurrentBuildAuthorizationFacts = {
+  readonly "contractVersion": "current-build-authorization/v1";
+  readonly "parentRequest": AdvanceCurrentBuildRequest;
+  readonly "turnRef": Ref;
+  readonly "confirmationInputId": Ref;
+  readonly "intent": IntentProjection;
+  readonly "analysis": AffectedProjection;
+  readonly "apply": CurrentBuildApplyPayload;
+};
+export type CurrentBuildActionProjection = {
+  readonly "contractVersion": "current-build-authorization/v1";
+  readonly "operation": "AdvanceCurrentBuild";
+  readonly "childOperation": "ApplyRecoverableCommit";
+  readonly "facts": CurrentBuildAuthorizationFacts;
+  readonly "originalBinding": OriginalSessionBinding;
+  readonly "verifiedBinding": VerifiedBinding;
+  readonly "workshopServiceRef": Ref;
+  readonly "canvasServiceRef": Ref;
+};
+export type CurrentBuildAuthorization = {
+  readonly "action": CurrentBuildActionProjection;
+  readonly "authorizationBinding": AuthProjection;
+  readonly "authorizationBindingDigest": Digest;
+};
+export type CurrentBuildGrantStatus = "CURRENT" | "UNKNOWN" | "REVOKED" | "EXPIRED";
+/** Provider-only live facts, not wire authentication. Host captures exact invocation and authenticated service instances outside JSON, reads its original issuance and verifies original game grant now; Workshop resolves its durable current turn. UNKNOWN/expired/revoked grants fail closed. Recheck immediately before Canvas dispatch and after async work; never cache this context as authorization. */
+export type CurrentBuildAuthorityContext = {
+  readonly "capturedParent": AdvanceCurrentBuildRequest;
+  readonly "capturedApply": CurrentBuildApplyPayload;
+  readonly "originalBinding": OriginalSessionBinding;
+  readonly "currentBinding": OriginalSessionBinding;
+  readonly "verifiedBinding": VerifiedBinding;
+  readonly "liveSessionIncarnationRef": Ref;
+  readonly "expectedWorkshopServiceRef": Ref;
+  readonly "workshopServiceRef": Ref;
+  readonly "expectedCanvasServiceRef": Ref;
+  readonly "canvasServiceRef": Ref;
+  readonly "grantStatus": CurrentBuildGrantStatus;
+  readonly "invocationStatus": WorldContextInvocationStatus;
+  readonly "currentTurnRef": Ref;
+  readonly "currentTurnRevision": Revision;
+  readonly "currentConfirmationInputId": Ref;
+  readonly "currentIntentDigest": Digest;
+  readonly "currentOperationDigest": Digest;
+  readonly "currentAnalysisDigest": Digest;
+  readonly "turnStatus": BuildEntryTurnStatus;
+  readonly "replay": BuildEntryReplay;
+  readonly "priorAuthorization": CurrentBuildAuthorization | null;
+  readonly "currentStage": BuildEntryStage;
+};
 
 export interface TypeMap {
   readonly Ref: Ref;
@@ -2785,6 +2854,12 @@ export interface TypeMap {
   readonly WorldContextGrantStatus: WorldContextGrantStatus;
   readonly WorldContextInvocationStatus: WorldContextInvocationStatus;
   readonly WorldContextDelegationFacts: WorldContextDelegationFacts;
+  readonly CurrentBuildApplyPayload: CurrentBuildApplyPayload;
+  readonly CurrentBuildAuthorizationFacts: CurrentBuildAuthorizationFacts;
+  readonly CurrentBuildActionProjection: CurrentBuildActionProjection;
+  readonly CurrentBuildAuthorization: CurrentBuildAuthorization;
+  readonly CurrentBuildGrantStatus: CurrentBuildGrantStatus;
+  readonly CurrentBuildAuthorityContext: CurrentBuildAuthorityContext;
 }
 export type TypeName = keyof TypeMap;
 export type WireVersion = "interaction-surface/v3" | "world-adapter/v4" | "canvas/v4" | "session/v2" | "painter/v3" | "ReferenceBrief/v2" | "BUILD/V2" | "world-adapter/v5" | "session-authorization/v1" | "session-operation-authorization/v1";
@@ -2894,5 +2969,6 @@ export interface ProjectionMap {
   readonly "history-operation": HistoryOperationProjection;
   readonly "scoped-world": ScopedWorldBinding;
   readonly "scoped-transaction-payload": ScopedTxProjection;
+  readonly "current-build-action": CurrentBuildActionProjection;
 }
 export type DigestKind = keyof ProjectionMap;
