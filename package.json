@@ -44,7 +44,9 @@
     "build:region-fixture": "node tools/build-region-fixture.mjs",
     "test:region": "node test/region-v1.mjs",
     "typecheck:region": "tsc --project consumer/region/tsconfig.json",
-    "test:g3": "node test/write-path-g3.mjs"
+    "test:g3": "node test/write-path-g3.mjs",
+    "build:inspector": "node tools/build-contract-inspector.mjs",
+    "test:inspector": "node --test test/contract-inspector.mjs"
   },
   "dependencies": {
     "canonicalize": "5.1.0"
