@@ -1,0 +1,53 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>HanaWorlds · 合约检查器</title>
+  <style>
+    /* PANEL_STYLE */
+    html,body{margin:0;min-height:100%;background:#f7f8f7}body{color:#26332e}
+    .hw-inspector{min-height:100vh;height:auto;padding-top:34px}.hw-inspector .hw-wrap{max-width:1100px}
+    .hw-inspector textarea{height:350px}.hw-inspector .hw-detail{margin-bottom:24px}
+    .hw-inspector .hw-status:empty{display:none}
+  </style>
+  <script type="module" src="/client.js"></script>
+</head>
+<body>
+<main class="hw-inspector">
+  <div class="hw-wrap">
+    <div class="hw-kicker">HANAWORLDS / CONTRACTS</div>
+    <h1>合约检查器</h1>
+    <p>输入建筑或区域数据，在本机开发服务中检查公开合约。</p>
+    <span class="hw-tag" id="version">Contracts 读取中</span><span class="hw-tag">只读检查 · 无世界写入</span>
+    <p class="hw-fixture">样例输入与协议兼容演示均为 fixture；不代表其他插件实时状态。air 表示显式挖空，null 表示不指定。</p>
+    <div class="hw-grid">
+      <form class="hw-card" id="input-form">
+        <h2>01 / 输入</h2>
+        <label for="sample">选择样例</label><select id="sample" disabled></select>
+        <label for="kind">检查类型</label>
+        <select id="kind">
+          <option value="building">建筑 · BuildProjection / BUILD/V3</option>
+          <option value="region" selected>区域 · RegionVoxelBlock / region-voxels/v1</option>
+          <option value="protocol">协议兼容演示 · 显式输入声明</option>
+        </select>
+        <label for="json-input" id="input-label">JSON 输入 · fixture 样例</label>
+        <textarea id="json-input" spellcheck="false"></textarea>
+        <div class="hw-actions"><button id="inspect" type="submit" disabled>检查</button><span class="hw-muted">本机服务调用公开纯函数</span></div>
+      </form>
+      <section class="hw-card" aria-live="polite" aria-busy="false" id="result">
+        <h2>02 / 检查结果</h2>
+        <div id="result-body"><p class="hw-placeholder">正在读取本机合约声明…</p></div>
+      </section>
+    </div>
+    <details class="hw-card hw-detail" open>
+      <summary>合约公开声明 · 协议 major 与必需能力</summary>
+      <p class="hw-muted" style="margin-top:10px">以下来自本插件 Contracts 的实际公开元数据。能力是协议要求及归属声明，未探测对应插件是否安装或具备能力。</p>
+      <table><thead><tr><th>协议</th><th>major</th><th>minor</th></tr></thead><tbody id="protocols"></tbody></table>
+      <details style="margin-top:14px"><summary id="capability-heading">公开必需能力</summary><ul class="hw-capabilities" id="capabilities"></ul></details>
+      <p class="hw-muted" style="margin-top:12px">兼容规则：major 相同，minor 不低于要求，必需能力齐全。包版本、提交与摘要只作来源记录。</p>
+    </details>
+  </div>
+</main>
+</body>
+</html>

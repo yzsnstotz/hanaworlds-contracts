@@ -46,7 +46,8 @@
     "typecheck:region": "tsc --project consumer/region/tsconfig.json",
     "test:g3": "node test/write-path-g3.mjs",
     "build:inspector": "node tools/build-contract-inspector.mjs",
-    "test:inspector": "node --test test/contract-inspector.mjs"
+    "test:inspector": "node --test test/contract-inspector.mjs",
+    "dev:inspector": "node inspector/src/web-server.mjs"
   },
   "dependencies": {
     "canonicalize": "5.1.0"

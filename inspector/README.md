@@ -13,3 +13,10 @@
 Host 使用公开 `TypertRemoteService`、`Remote` 和 Gateway 的 SRC 模式；Client 使用公开 Connection RPC 与 root `main` / `sidebar.panellist` seats。没有独立 HTTP 服务、世界读写或后台重试。
 
 许可：本面板 0.1.0 MIT；hanaworlds-contracts 0.5.2 MIT（本 origin，纯校验）；Cordis 4.0.4 MIT、官方 DeepSeek Harness 0.2.0-rc.2 MIT（来源 github.com/deepseek-ai/deepseek-harness 与客户端公开包 manifest，服务与面板承载）。React 来自客户端已提供的 baseline，用于渲染，不复制或打包 React；其具体运行版本在实际面板安装验证时记录。
+
+## 独立开发网页
+
+在本仓以 Node 24 运行 `npm run dev:inspector`，打开 http://127.0.0.1:47604/。
+服务仅监听本机回环地址，复用 `src/inspection.mjs` 与 App 面板样式；浏览器使用原生表单，不需要 React、SDK、App、GUI锁或其他插件。
+建筑、区域与协议检查仍调用 Contracts 0.5.2 的实际公开纯函数，样例/协议演示醒目标为 fixture。
+原 App 面板代码保留；App 接入与冷启动诊断属于整合工作，不阻塞独立网页。
