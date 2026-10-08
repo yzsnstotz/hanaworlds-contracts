@@ -1,5 +1,5 @@
 {
-  "version": "0.5.3",
+  "version": "0.5.4-rc.1",
   "wireVersions": [
     "interaction-surface/v4",
     "session/v3",
@@ -87,6 +87,16 @@
         "operation": "AdvanceCurrentBuild",
         "request": "AdvanceCurrentBuildRequest",
         "response": "AdvanceCurrentBuildResponse"
+      },
+      {
+        "operation": "ReadSessionIdentity",
+        "request": "ReadSessionIdentityRequest",
+        "response": "ReadSessionIdentityResponse"
+      },
+      {
+        "operation": "ListSessions",
+        "request": "ListSessionsRequest",
+        "response": "ListSessionsResponse"
       }
     ],
     "painter/v4": [
@@ -221,6 +231,31 @@
         "operation": "ReadWorldSelectionContext",
         "request": "ReadWorldSelectionContextRequest",
         "response": "ReadWorldSelectionContextResponse"
+      },
+      {
+        "operation": "UnselectWorldConnection",
+        "request": "UnselectWorldConnectionRequest",
+        "response": "WorldConnectionUnselectedReceipt"
+      },
+      {
+        "operation": "RetireSessionSelection",
+        "request": "RetireSessionSelectionRequest",
+        "response": "SessionSelectionRetiredReceipt"
+      },
+      {
+        "operation": "ListWorldSelections",
+        "request": "ListWorldSelectionsRequest",
+        "response": "WorldSelectionInventoryResponse"
+      },
+      {
+        "operation": "ReserveWorldRetirement",
+        "request": "ReserveWorldRetirementRequest",
+        "response": "WorldRetirementReservedReceipt"
+      },
+      {
+        "operation": "ReleaseWorldRetirement",
+        "request": "ReleaseWorldRetirementRequest",
+        "response": "WorldRetirementReleasedReceipt"
       }
     ],
     "world-adapter/v6": [
@@ -12664,6 +12699,649 @@
         "nodes"
       ],
       "additionalProperties": false
+    },
+    "SessionIdentity": {
+      "type": "object",
+      "properties": {
+        "sessionRef": {
+          "$ref": "#/definitions/Ref"
+        },
+        "sessionRevision": {
+          "$ref": "#/definitions/Revision"
+        }
+      },
+      "required": [
+        "sessionRef",
+        "sessionRevision"
+      ],
+      "additionalProperties": false,
+      "x-typeName": "SessionIdentity"
+    },
+    "SessionIdentities": {
+      "type": "array",
+      "items": {
+        "$ref": "#/definitions/SessionIdentity"
+      },
+      "x-typeName": "SessionIdentities",
+      "x-order": "sessionRef UTF16 ascending",
+      "x-uniqueBy": "sessionRef"
+    },
+    "SessionDirectory": {
+      "type": "object",
+      "properties": {
+        "directoryRevision": {
+          "$ref": "#/definitions/Revision"
+        },
+        "sessions": {
+          "$ref": "#/definitions/SessionIdentities"
+        }
+      },
+      "required": [
+        "directoryRevision",
+        "sessions"
+      ],
+      "additionalProperties": false,
+      "x-typeName": "SessionDirectory"
+    },
+    "ReadSessionIdentityRequest": {
+      "type": "object",
+      "properties": {
+        "contractVersion": {
+          "const": "session/v3"
+        },
+        "requestId": {
+          "$ref": "#/definitions/Ref"
+        },
+        "sessionRef": {
+          "$ref": "#/definitions/Ref"
+        }
+      },
+      "required": [
+        "contractVersion",
+        "requestId",
+        "sessionRef"
+      ],
+      "additionalProperties": false,
+      "x-typeName": "ReadSessionIdentityRequest"
+    },
+    "ReadSessionIdentityResponse": {
+      "type": "object",
+      "properties": {
+        "contractVersion": {
+          "const": "session/v3"
+        },
+        "requestId": {
+          "$ref": "#/definitions/Ref"
+        },
+        "result": {
+          "anyOf": [
+            {
+              "$ref": "#/definitions/SessionIdentity"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "error": {
+          "anyOf": [
+            {
+              "$ref": "#/definitions/Error"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        }
+      },
+      "required": [
+        "contractVersion",
+        "requestId",
+        "result",
+        "error"
+      ],
+      "additionalProperties": false,
+      "x-typeName": "ReadSessionIdentityResponse"
+    },
+    "ListSessionsRequest": {
+      "type": "object",
+      "properties": {
+        "contractVersion": {
+          "const": "session/v3"
+        },
+        "requestId": {
+          "$ref": "#/definitions/Ref"
+        }
+      },
+      "required": [
+        "contractVersion",
+        "requestId"
+      ],
+      "additionalProperties": false,
+      "x-typeName": "ListSessionsRequest"
+    },
+    "ListSessionsResponse": {
+      "type": "object",
+      "properties": {
+        "contractVersion": {
+          "const": "session/v3"
+        },
+        "requestId": {
+          "$ref": "#/definitions/Ref"
+        },
+        "result": {
+          "anyOf": [
+            {
+              "$ref": "#/definitions/SessionDirectory"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "error": {
+          "anyOf": [
+            {
+              "$ref": "#/definitions/Error"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        }
+      },
+      "required": [
+        "contractVersion",
+        "requestId",
+        "result",
+        "error"
+      ],
+      "additionalProperties": false,
+      "x-typeName": "ListSessionsResponse"
+    },
+    "UnselectWorldConnectionRequest": {
+      "type": "object",
+      "properties": {
+        "contractVersion": {
+          "const": "canvas/v5"
+        },
+        "sessionRef": {
+          "$ref": "#/definitions/Ref"
+        },
+        "requestId": {
+          "$ref": "#/definitions/Ref"
+        },
+        "worldRef": {
+          "$ref": "#/definitions/Ref"
+        },
+        "expectedRevision": {
+          "$ref": "#/definitions/Revision"
+        },
+        "expectedContext": {
+          "$ref": "#/definitions/LocalWorldContext"
+        }
+      },
+      "required": [
+        "contractVersion",
+        "sessionRef",
+        "requestId",
+        "worldRef",
+        "expectedRevision",
+        "expectedContext"
+      ],
+      "additionalProperties": false,
+      "x-typeName": "UnselectWorldConnectionRequest"
+    },
+    "WorldConnectionUnselectedReceipt": {
+      "type": "object",
+      "properties": {
+        "contractVersion": {
+          "const": "canvas/v5"
+        },
+        "requestId": {
+          "$ref": "#/definitions/Ref"
+        },
+        "result": {
+          "anyOf": [
+            {
+              "$ref": "#/definitions/CurrentContext"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "error": {
+          "anyOf": [
+            {
+              "$ref": "#/definitions/Error"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        }
+      },
+      "required": [
+        "contractVersion",
+        "requestId",
+        "result",
+        "error"
+      ],
+      "additionalProperties": false,
+      "x-typeName": "WorldConnectionUnselectedReceipt"
+    },
+    "RetireSessionSelectionRequest": {
+      "type": "object",
+      "properties": {
+        "contractVersion": {
+          "const": "canvas/v5"
+        },
+        "sessionRef": {
+          "$ref": "#/definitions/Ref"
+        },
+        "requestId": {
+          "$ref": "#/definitions/Ref"
+        }
+      },
+      "required": [
+        "contractVersion",
+        "sessionRef",
+        "requestId"
+      ],
+      "additionalProperties": false,
+      "x-typeName": "RetireSessionSelectionRequest"
+    },
+    "SessionSelectionRetirement": {
+      "type": "object",
+      "properties": {
+        "sessionRef": {
+          "$ref": "#/definitions/Ref"
+        },
+        "releasedWorldRef": {
+          "anyOf": [
+            {
+              "$ref": "#/definitions/Ref"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "selectionRevision": {
+          "$ref": "#/definitions/Revision"
+        }
+      },
+      "required": [
+        "sessionRef",
+        "releasedWorldRef",
+        "selectionRevision"
+      ],
+      "additionalProperties": false,
+      "x-typeName": "SessionSelectionRetirement"
+    },
+    "SessionSelectionRetiredReceipt": {
+      "type": "object",
+      "properties": {
+        "contractVersion": {
+          "const": "canvas/v5"
+        },
+        "requestId": {
+          "$ref": "#/definitions/Ref"
+        },
+        "result": {
+          "anyOf": [
+            {
+              "$ref": "#/definitions/SessionSelectionRetirement"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "error": {
+          "anyOf": [
+            {
+              "$ref": "#/definitions/Error"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        }
+      },
+      "required": [
+        "contractVersion",
+        "requestId",
+        "result",
+        "error"
+      ],
+      "additionalProperties": false,
+      "x-typeName": "SessionSelectionRetiredReceipt"
+    },
+    "ListWorldSelectionsRequest": {
+      "type": "object",
+      "properties": {
+        "contractVersion": {
+          "const": "canvas/v5"
+        },
+        "requestId": {
+          "$ref": "#/definitions/Ref"
+        },
+        "worldRef": {
+          "$ref": "#/definitions/Ref"
+        }
+      },
+      "required": [
+        "contractVersion",
+        "requestId",
+        "worldRef"
+      ],
+      "additionalProperties": false,
+      "x-typeName": "ListWorldSelectionsRequest"
+    },
+    "WorldSelectionInventory": {
+      "type": "object",
+      "properties": {
+        "worldRef": {
+          "$ref": "#/definitions/Ref"
+        },
+        "inventoryRevision": {
+          "$ref": "#/definitions/Revision"
+        },
+        "sessionRefs": {
+          "$ref": "#/definitions/RefSet"
+        },
+        "retirementReservationRef": {
+          "anyOf": [
+            {
+              "$ref": "#/definitions/Ref"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        }
+      },
+      "required": [
+        "worldRef",
+        "inventoryRevision",
+        "sessionRefs",
+        "retirementReservationRef"
+      ],
+      "additionalProperties": false,
+      "x-typeName": "WorldSelectionInventory"
+    },
+    "WorldSelectionInventoryResponse": {
+      "type": "object",
+      "properties": {
+        "contractVersion": {
+          "const": "canvas/v5"
+        },
+        "requestId": {
+          "$ref": "#/definitions/Ref"
+        },
+        "result": {
+          "anyOf": [
+            {
+              "$ref": "#/definitions/WorldSelectionInventory"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "error": {
+          "anyOf": [
+            {
+              "$ref": "#/definitions/Error"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        }
+      },
+      "required": [
+        "contractVersion",
+        "requestId",
+        "result",
+        "error"
+      ],
+      "additionalProperties": false,
+      "x-typeName": "WorldSelectionInventoryResponse"
+    },
+    "ReserveWorldRetirementRequest": {
+      "type": "object",
+      "properties": {
+        "contractVersion": {
+          "const": "canvas/v5"
+        },
+        "requestId": {
+          "$ref": "#/definitions/Ref"
+        },
+        "worldRef": {
+          "$ref": "#/definitions/Ref"
+        },
+        "expectedInventoryRevision": {
+          "$ref": "#/definitions/Revision"
+        }
+      },
+      "required": [
+        "contractVersion",
+        "requestId",
+        "worldRef",
+        "expectedInventoryRevision"
+      ],
+      "additionalProperties": false,
+      "x-typeName": "ReserveWorldRetirementRequest"
+    },
+    "WorldRetirementReservation": {
+      "type": "object",
+      "properties": {
+        "worldRef": {
+          "$ref": "#/definitions/Ref"
+        },
+        "reservationRef": {
+          "$ref": "#/definitions/Ref"
+        },
+        "inventoryRevision": {
+          "$ref": "#/definitions/Revision"
+        }
+      },
+      "required": [
+        "worldRef",
+        "reservationRef",
+        "inventoryRevision"
+      ],
+      "additionalProperties": false,
+      "x-typeName": "WorldRetirementReservation"
+    },
+    "WorldRetirementReservedReceipt": {
+      "type": "object",
+      "properties": {
+        "contractVersion": {
+          "const": "canvas/v5"
+        },
+        "requestId": {
+          "$ref": "#/definitions/Ref"
+        },
+        "result": {
+          "anyOf": [
+            {
+              "$ref": "#/definitions/WorldRetirementReservation"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "error": {
+          "anyOf": [
+            {
+              "$ref": "#/definitions/Error"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        }
+      },
+      "required": [
+        "contractVersion",
+        "requestId",
+        "result",
+        "error"
+      ],
+      "additionalProperties": false,
+      "x-typeName": "WorldRetirementReservedReceipt"
+    },
+    "WorldRetirementOutcome": {
+      "enum": [
+        "RETIRED",
+        "ABORTED"
+      ],
+      "x-typeName": "WorldRetirementOutcome"
+    },
+    "ReleaseWorldRetirementRequest": {
+      "type": "object",
+      "properties": {
+        "contractVersion": {
+          "const": "canvas/v5"
+        },
+        "requestId": {
+          "$ref": "#/definitions/Ref"
+        },
+        "worldRef": {
+          "$ref": "#/definitions/Ref"
+        },
+        "reservationRef": {
+          "$ref": "#/definitions/Ref"
+        },
+        "outcome": {
+          "$ref": "#/definitions/WorldRetirementOutcome"
+        }
+      },
+      "required": [
+        "contractVersion",
+        "requestId",
+        "worldRef",
+        "reservationRef",
+        "outcome"
+      ],
+      "additionalProperties": false,
+      "x-typeName": "ReleaseWorldRetirementRequest"
+    },
+    "WorldRetirementRelease": {
+      "type": "object",
+      "properties": {
+        "worldRef": {
+          "$ref": "#/definitions/Ref"
+        },
+        "reservationRef": {
+          "$ref": "#/definitions/Ref"
+        },
+        "outcome": {
+          "$ref": "#/definitions/WorldRetirementOutcome"
+        },
+        "inventoryRevision": {
+          "$ref": "#/definitions/Revision"
+        }
+      },
+      "required": [
+        "worldRef",
+        "reservationRef",
+        "outcome",
+        "inventoryRevision"
+      ],
+      "additionalProperties": false,
+      "x-typeName": "WorldRetirementRelease"
+    },
+    "WorldRetirementReleasedReceipt": {
+      "type": "object",
+      "properties": {
+        "contractVersion": {
+          "const": "canvas/v5"
+        },
+        "requestId": {
+          "$ref": "#/definitions/Ref"
+        },
+        "result": {
+          "anyOf": [
+            {
+              "$ref": "#/definitions/WorldRetirementRelease"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "error": {
+          "anyOf": [
+            {
+              "$ref": "#/definitions/Error"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        }
+      },
+      "required": [
+        "contractVersion",
+        "requestId",
+        "result",
+        "error"
+      ],
+      "additionalProperties": false,
+      "x-typeName": "WorldRetirementReleasedReceipt"
+    },
+    "SelectionConnectionStatus": {
+      "enum": [
+        "UNBOUND",
+        "CONNECTED",
+        "SELECTED_NOT_CONNECTED"
+      ],
+      "x-typeName": "SelectionConnectionStatus"
+    },
+    "SelectionConnectionState": {
+      "type": "object",
+      "properties": {
+        "sessionRef": {
+          "$ref": "#/definitions/Ref"
+        },
+        "status": {
+          "$ref": "#/definitions/SelectionConnectionStatus"
+        },
+        "worldRef": {
+          "anyOf": [
+            {
+              "$ref": "#/definitions/Ref"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "connectionRef": {
+          "anyOf": [
+            {
+              "$ref": "#/definitions/Ref"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        }
+      },
+      "required": [
+        "sessionRef",
+        "status",
+        "worldRef",
+        "connectionRef"
+      ],
+      "additionalProperties": false,
+      "x-typeName": "SelectionConnectionState"
     }
   },
   "placementSettings": [
@@ -12775,7 +13453,9 @@
     "painter-region": 0,
     "world-adapter-region": 1,
     "canvas-region": 0,
-    "world-adapter": 1
+    "world-adapter": 1,
+    "session": 1,
+    "canvas": 1
   },
   "regionCapabilities": [
     {
@@ -12931,5 +13611,61 @@
       "External effects that a replaced node's skipped on_destruct/after_destruct would have had outside its own cell"
     ],
     "guards": "Out-of-scope later changes are not claimed absent. They are detected by the complete RegionState readback (node, param2 and extras) and its summary digest, and by same-transaction Undo rejecting with UNDO_CONFLICT/EXTERNAL_EDIT_CONFLICT when the current summary no longer equals the verified after summary. Canvas still decides every transaction."
+  },
+  "sessionWorldSeam": {
+    "id": "session-world-seam/v1",
+    "evidence": "SOURCE/FIXTURE normative definition; Canvas/Workshop/Adapter provider implementations and real runtime NOT_RUN",
+    "authority": {
+      "sessionToWorldSelection": "Canvas only (canvas/v5 ReadWorldSelectionContext/SelectWorldConnection/SwitchWorldConnection, plus the added canvas/v5 UnselectWorldConnection, RetireSessionSelection, ListWorldSelections, ReserveWorldRetirement, ReleaseWorldRetirement). selectionRevision is generated only by Canvas.",
+      "sessionIdentityAndLifecycle": "Workshop (session/v3, including the added ReadSessionIdentity/ListSessions). Authenticity comes from the Host-bound internal port, never from request JSON; a syntax-valid Ref is not evidence that a Session exists. sessionRevision in SessionIdentity is the same Workshop revision carried as CurrentContext.sessionRevision / UNBOUND.sessionRevision.",
+      "nativeReadinessAndTransport": "Adapter (world-adapter/v6 DiscoverConnections/ListWorlds/ReadLocalConnection, LocalEngineControlPort). Adapter keeps no Session-to-World table and never generates selectionRevision.",
+      "worldDeletion": "Adapter-local world management, serialized through the Canvas retirement reservation below. No new shared-world write authority."
+    },
+    "sequences": {
+      "selectSession": "Before SelectWorldConnection/SwitchWorldConnection, Canvas reads the Session through session/v3 ReadSessionIdentity on its Host-bound port; SESSION_NOT_FOUND rejects. A known Session without a world reads UNBOUND from ReadWorldSelectionContext.",
+      "unbind": "UnselectWorldConnection(expectedRevision, expectedContext) compares with the Canvas current selection; success returns CurrentContext with activeWorldRef null, localContext null and no selected objects. The Session then reads UNBOUND and disappears from ListWorldSelections for that world.",
+      "deleteSession": "Precondition: the Workshop provider actually supports persistent deletion (existing SessionSnapshot.sessionDeleteSupported / PublicCapabilities.sessionDeleteSupported is true). If it is false, DeleteSession fails with the existing SESSION_DELETE_UNSUPPORTED (reason DELETE_SEAM_ABSENT), RetireSessionSelection is NOT called, and the Session and its Canvas selection stay unchanged. If it is true, Workshop calls RetireSessionSelection first; Canvas atomically clears any selection and refuses further selection/read for that sessionRef with SESSION_NOT_FOUND. Workshop then performs the persistent deletion and returns DeleteSessionReceipt; deleted:true is reported only after the provider's own readback shows the Session gone. Releasing or disposing live handles (agent, store, scope) is not deletion and never yields deleted:true. Retirement is irreversible: if the persistent deletion then fails, the Session stays retired (not selectable) and DeleteSession returns its failure; it is never silently restored or reported deleted.",
+      "deleteWorld": "Adapter reads ListWorldSelections, applies requireWorldRetirable, then ReserveWorldRetirement(expectedInventoryRevision). While a reservation exists Canvas rejects SelectWorldConnection/SwitchWorldConnection to that world with TRANSACTION_CONFLICT/SCOPE_DENIED. Adapter deletes its world, then ReleaseWorldRetirement(RETIRED); after RETIRED Canvas rejects selection of that worldRef with WORLD_NOT_FOUND. On an Adapter deletion failure it releases with ABORTED and the world stays selectable."
+    },
+    "namedFailures": [
+      {
+        "case": "unknown, deleted or retired Session",
+        "code": "SESSION_NOT_FOUND"
+      },
+      {
+        "case": "unknown or retired World",
+        "code": "WORLD_NOT_FOUND"
+      },
+      {
+        "case": "stale selection or inventory revision / context",
+        "code": "STALE_REVISION",
+        "reason": "REVISION_CHANGED"
+      },
+      {
+        "case": "unselect a world that is not the Session's current world",
+        "code": "WORLD_NOT_BOUND"
+      },
+      {
+        "case": "retire a world still selected by any Session, or select a world under retirement reservation",
+        "code": "TRANSACTION_CONFLICT",
+        "reason": "SCOPE_DENIED"
+      },
+      {
+        "case": "stale connection incarnation on a world-bound request",
+        "code": "CURRENT_WORLD_MISMATCH"
+      },
+      {
+        "case": "Workshop provider without persistent Session deletion",
+        "code": "SESSION_DELETE_UNSUPPORTED",
+        "reason": "DELETE_SEAM_ABSENT"
+      }
+    ],
+    "clarifications": {
+      "C1": "ReadWorldSelectionContext.worldRef names the world whose connection inventory is returned; it never selects. selection reports the Session's own selection: UNBOUND means the Session has no current World; when BOUND, selection.context.activeWorldRef is the Session's current World and may differ from request.worldRef.",
+      "C2": "A BOUND selection keeps the last actual LocalWorldContext Canvas selected (CurrentContext requires activeWorldRef === localContext.worldRef, so BOUND with localContext null is not valid). Whether it is connected now is derived by comparing that context with Adapter's current ConnectionInventory: the same connectionRef, worldRef and connectionIncarnationRef with readiness READY is CONNECTED; otherwise SELECTED_NOT_CONNECTED, which must not be shown as trusted-current and is rejected for writes by the existing CURRENT_WORLD_MISMATCH check. describeSelectionConnection implements this pure comparison.",
+      "C3": "When the owning runtime observes its native process exit, Adapter removes that connection from ConnectionInventory and changes capabilityRevision; a reopened world gets a new connectionIncarnationRef. No Readiness value is added and NativeControlEvidence gains no exit field."
+    },
+    "selectedObjectSnapshot": "Existing typed route: ReadWorldSelectionContext (BOUND context.orderedSelectedObjectRefs, selectionRevision, localContext) and canvas/v5 ListObjects (ObjectInventory.registryRevision, ObjectRecord.objectRevision) under the same localContext. A single atomic selected-object/objectRevision snapshot with zero/multiple selection rules is not added in this seam; it remains an open supply item.",
+    "compatibility": "Additive only, as protocol minors within the existing majors (protocolPolicy): session/v3 minor 1 adds ReadSessionIdentity/ListSessions; canvas/v5 minor 1 adds UnselectWorldConnection, RetireSessionSelection, ListWorldSelections, ReserveWorldRetirement, ReleaseWorldRetirement. Existing operations keep their order and every existing type, field, enum value, ownership row and digest domain is unchanged; no new wire. The exact-package handshake still requires every composition to re-pin one package."
   }
 }

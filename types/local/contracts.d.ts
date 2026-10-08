@@ -398,6 +398,30 @@ export type WriteMethodDescriptor = { readonly "method": WriteMethod; readonly "
 export type NodeWritePathHooks = { readonly "nodeName": Ref; readonly "definitionRevision": Revision | null; readonly "definedCallbacks": RefSet | null };
 export type NodeWritePathHooksList = ReadonlyArray<NodeWritePathHooks>;
 export type WritePathEvidence = { readonly "profileVersion": "write-path-evidence/v1"; readonly "scope": "write-path-init/v1"; readonly "writePath": "CALLBACK_FREE_NODE_DATA"; readonly "catalogueDigest": Digest; readonly "globalWriteCallbacks": RefSet | null; readonly "nodes": NodeWritePathHooksList };
+export type SessionIdentity = { readonly "sessionRef": Ref; readonly "sessionRevision": Revision };
+export type SessionIdentities = ReadonlyArray<SessionIdentity>;
+export type SessionDirectory = { readonly "directoryRevision": Revision; readonly "sessions": SessionIdentities };
+export type ReadSessionIdentityRequest = { readonly "contractVersion": "session/v3"; readonly "requestId": Ref; readonly "sessionRef": Ref };
+export type ReadSessionIdentityResponse = { readonly "contractVersion": "session/v3"; readonly "requestId": Ref; readonly "result": SessionIdentity | null; readonly "error": Error | null };
+export type ListSessionsRequest = { readonly "contractVersion": "session/v3"; readonly "requestId": Ref };
+export type ListSessionsResponse = { readonly "contractVersion": "session/v3"; readonly "requestId": Ref; readonly "result": SessionDirectory | null; readonly "error": Error | null };
+export type UnselectWorldConnectionRequest = { readonly "contractVersion": "canvas/v5"; readonly "sessionRef": Ref; readonly "requestId": Ref; readonly "worldRef": Ref; readonly "expectedRevision": Revision; readonly "expectedContext": LocalWorldContext };
+export type WorldConnectionUnselectedReceipt = { readonly "contractVersion": "canvas/v5"; readonly "requestId": Ref; readonly "result": CurrentContext | null; readonly "error": Error | null };
+export type RetireSessionSelectionRequest = { readonly "contractVersion": "canvas/v5"; readonly "sessionRef": Ref; readonly "requestId": Ref };
+export type SessionSelectionRetirement = { readonly "sessionRef": Ref; readonly "releasedWorldRef": Ref | null; readonly "selectionRevision": Revision };
+export type SessionSelectionRetiredReceipt = { readonly "contractVersion": "canvas/v5"; readonly "requestId": Ref; readonly "result": SessionSelectionRetirement | null; readonly "error": Error | null };
+export type ListWorldSelectionsRequest = { readonly "contractVersion": "canvas/v5"; readonly "requestId": Ref; readonly "worldRef": Ref };
+export type WorldSelectionInventory = { readonly "worldRef": Ref; readonly "inventoryRevision": Revision; readonly "sessionRefs": RefSet; readonly "retirementReservationRef": Ref | null };
+export type WorldSelectionInventoryResponse = { readonly "contractVersion": "canvas/v5"; readonly "requestId": Ref; readonly "result": WorldSelectionInventory | null; readonly "error": Error | null };
+export type ReserveWorldRetirementRequest = { readonly "contractVersion": "canvas/v5"; readonly "requestId": Ref; readonly "worldRef": Ref; readonly "expectedInventoryRevision": Revision };
+export type WorldRetirementReservation = { readonly "worldRef": Ref; readonly "reservationRef": Ref; readonly "inventoryRevision": Revision };
+export type WorldRetirementReservedReceipt = { readonly "contractVersion": "canvas/v5"; readonly "requestId": Ref; readonly "result": WorldRetirementReservation | null; readonly "error": Error | null };
+export type WorldRetirementOutcome = "RETIRED" | "ABORTED";
+export type ReleaseWorldRetirementRequest = { readonly "contractVersion": "canvas/v5"; readonly "requestId": Ref; readonly "worldRef": Ref; readonly "reservationRef": Ref; readonly "outcome": WorldRetirementOutcome };
+export type WorldRetirementRelease = { readonly "worldRef": Ref; readonly "reservationRef": Ref; readonly "outcome": WorldRetirementOutcome; readonly "inventoryRevision": Revision };
+export type WorldRetirementReleasedReceipt = { readonly "contractVersion": "canvas/v5"; readonly "requestId": Ref; readonly "result": WorldRetirementRelease | null; readonly "error": Error | null };
+export type SelectionConnectionStatus = "UNBOUND" | "CONNECTED" | "SELECTED_NOT_CONNECTED";
+export type SelectionConnectionState = { readonly "sessionRef": Ref; readonly "status": SelectionConnectionStatus; readonly "worldRef": Ref | null; readonly "connectionRef": Ref | null };
 export interface TypeMap {
 AbortPreparedHistoryTransactionRequest: AbortPreparedHistoryTransactionRequest;
 AbortPreparedHistoryTransactionResponse: AbortPreparedHistoryTransactionResponse;
@@ -798,6 +822,30 @@ WriteMethodDescriptor: WriteMethodDescriptor;
 NodeWritePathHooks: NodeWritePathHooks;
 NodeWritePathHooksList: NodeWritePathHooksList;
 WritePathEvidence: WritePathEvidence;
+SessionIdentity: SessionIdentity;
+SessionIdentities: SessionIdentities;
+SessionDirectory: SessionDirectory;
+ReadSessionIdentityRequest: ReadSessionIdentityRequest;
+ReadSessionIdentityResponse: ReadSessionIdentityResponse;
+ListSessionsRequest: ListSessionsRequest;
+ListSessionsResponse: ListSessionsResponse;
+UnselectWorldConnectionRequest: UnselectWorldConnectionRequest;
+WorldConnectionUnselectedReceipt: WorldConnectionUnselectedReceipt;
+RetireSessionSelectionRequest: RetireSessionSelectionRequest;
+SessionSelectionRetirement: SessionSelectionRetirement;
+SessionSelectionRetiredReceipt: SessionSelectionRetiredReceipt;
+ListWorldSelectionsRequest: ListWorldSelectionsRequest;
+WorldSelectionInventory: WorldSelectionInventory;
+WorldSelectionInventoryResponse: WorldSelectionInventoryResponse;
+ReserveWorldRetirementRequest: ReserveWorldRetirementRequest;
+WorldRetirementReservation: WorldRetirementReservation;
+WorldRetirementReservedReceipt: WorldRetirementReservedReceipt;
+WorldRetirementOutcome: WorldRetirementOutcome;
+ReleaseWorldRetirementRequest: ReleaseWorldRetirementRequest;
+WorldRetirementRelease: WorldRetirementRelease;
+WorldRetirementReleasedReceipt: WorldRetirementReleasedReceipt;
+SelectionConnectionStatus: SelectionConnectionStatus;
+SelectionConnectionState: SelectionConnectionState;
 }
 export type TypeName=keyof TypeMap;
 export interface OperationMap {
@@ -818,6 +866,8 @@ export interface OperationMap {
 "UndoCurrentBuild": {request:UndoCurrentBuildRequest;response:UndoCurrentBuildResponse};
 "RecoverPendingUndo": {request:SessionRecoverPendingUndoRequest;response:SessionRecoverPendingUndoResponse};
 "AdvanceCurrentBuild": {request:AdvanceCurrentBuildRequest;response:AdvanceCurrentBuildResponse};
+"ReadSessionIdentity": {request:ReadSessionIdentityRequest;response:ReadSessionIdentityResponse};
+"ListSessions": {request:ListSessionsRequest;response:ListSessionsResponse};
 };
 "painter/v4": {
 "CreateBuildPlan": {request:CreateBuildPlanRequest;response:CreateBuildPlanResponse | ClarificationNeed};
@@ -851,6 +901,11 @@ export interface OperationMap {
 "RecoverPendingUndo": {request:CanvasRecoverPendingUndoRequest;response:CanvasUndoRecoveryResponse};
 "ReadPendingUndoResult": {request:CanvasRecoverPendingUndoRequest;response:CanvasUndoRecoveryResponse};
 "ReadWorldSelectionContext": {request:ReadWorldSelectionContextRequest;response:ReadWorldSelectionContextResponse};
+"UnselectWorldConnection": {request:UnselectWorldConnectionRequest;response:WorldConnectionUnselectedReceipt};
+"RetireSessionSelection": {request:RetireSessionSelectionRequest;response:SessionSelectionRetiredReceipt};
+"ListWorldSelections": {request:ListWorldSelectionsRequest;response:WorldSelectionInventoryResponse};
+"ReserveWorldRetirement": {request:ReserveWorldRetirementRequest;response:WorldRetirementReservedReceipt};
+"ReleaseWorldRetirement": {request:ReleaseWorldRetirementRequest;response:WorldRetirementReleasedReceipt};
 };
 "world-adapter/v6": {
 "DiscoverConnections": {request:DiscoverConnectionsRequest;response:DiscoverConnectionsResponse};

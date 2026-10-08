@@ -1,6 +1,6 @@
 export * from './contracts.js';
 import type {TypeMap,TypeName,OperationMap,ProjectionMap,ContractHandshake,LocalRequestFacts,CurrentBuildSubmission,ValidateBuildProposalRequest,ValidateBuildProposalResponse,BuildProposalProviderFacts,ScopedPreparedTransaction,ScopedPreparedTransactionResult,RegionInspection,MaterialMap,Catalogue,BuildProjection,FinalEffects,TargetFacts,SafetyProfile,Coverage} from './contracts.js';
-export declare const version: '0.5.3';
+export declare const version: '0.5.4-rc.1';
 export declare const wireVersions: ReadonlyArray<keyof OperationMap>;
 export declare const compiledOperationsVersion: 'operations/v3';
 export declare const contractHandshake: ContractHandshake;
@@ -115,3 +115,9 @@ export declare const writePathStateScope:Readonly<{id:'write-path-init/v1';write
 export interface WritePathNodeFacts {readonly definitionRevision:string|null;readonly hasCallbacks:boolean|null;readonly hasPersistentState:false|null;readonly initialization:ReadonlyArray<string>;readonly stateIndicators:ReadonlyArray<string>;}
 export declare function writePathStateFacts(evidence:C['WritePathEvidence']):Readonly<Record<string,WritePathNodeFacts>>;
 export declare function validateCatalogueWritePathFacts(catalogue:C['Catalogue'],evidence:C['WritePathEvidence']):{readonly scope:'write-path-init/v1';readonly writePath:'CALLBACK_FREE_NODE_DATA';readonly verified:ReadonlyArray<string>;readonly stricter:ReadonlyArray<string>};
+/** session-world-seam/v1 (additive). Canvas owns selection, inventory, retirement and
+ * selectionRevision; Workshop owns Session identity; Adapter consumes readiness/transport. */
+export declare const sessionWorldSeam:Readonly<{id:'session-world-seam/v1';evidence:string;authority:Readonly<Record<'sessionToWorldSelection'|'sessionIdentityAndLifecycle'|'nativeReadinessAndTransport'|'worldDeletion',string>>;sequences:Readonly<Record<'selectSession'|'unbind'|'deleteSession'|'deleteWorld',string>>;namedFailures:ReadonlyArray<{readonly case:string;readonly code:string;readonly reason?:string}>;clarifications:Readonly<Record<'C1'|'C2'|'C3',string>>;selectedObjectSnapshot:string;compatibility:string}>;
+export declare function requireWorldRetirable(inventory:unknown):C['WorldSelectionInventory'];
+export declare function describeSelectionConnection(selection:unknown,inventory:unknown):C['SelectionConnectionState'];
+export declare function requireSessionDeleteSupported(capabilities:unknown):C['PublicCapabilities'];

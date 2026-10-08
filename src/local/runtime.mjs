@@ -22,6 +22,7 @@ export const settingsSurface = contractMetadata.settingsSurface;
 export const digestProfile = contractMetadata.digest;
 export const schemaInventory = contractMetadata.typeNames;
 export const contractHandshake = contractMetadata.contractHandshake;
+export const sessionWorldSeam = contractMetadata.sessionWorldSeam;
 export { schemaBundle };
 export function validateType(typeName, value) {
   const snapshot = snapshotJSON(value);
@@ -280,6 +281,9 @@ export function validateBoundResponse(wire,name,requestInput,responseInput) {
  if(result){
   if(result.connectionRef!==undefined&&request.connectionRef!==undefined)current(result.connectionRef===request.connectionRef);
   if(name==='SelectWorldConnection'){current(result.activeWorldRef===request.worldRef&&result.localContext?.connectionRef===request.connectionRef&&result.localContext?.connectionIncarnationRef===request.connectionIncarnationRef);associated(result.currentSession===request.sessionRef);}
+  if(name==='UnselectWorldConnection'){associated(result.currentSession===request.sessionRef);current(result.activeWorldRef===null&&result.localContext===null&&result.orderedSelectedObjectRefs.length===0);}
+  if(name==='ReserveWorldRetirement')current(result.inventoryRevision===request.expectedInventoryRevision);
+  if(name==='ReleaseWorldRetirement')associated(result.reservationRef===request.reservationRef&&result.outcome===request.outcome);
   if(name==='BuildDocument'){validateDigestBinding('operations',result.projection,result.operationDigest);associated(result.projection.buildDigest===request.buildDigest&&result.projection.worldRef===request.worldRef&&result.projection.targetFactsDigest===request.targetFactsDigest&&result.projection.compilationConfigDigest===request.compilationConfigDigest);validateExactEffects(request.build.operations,request.build.materials,result.projection.effects);}
   if(result.localContext&&request.localContext)current(same(result.localContext,request.localContext));
   if(result.worldRef!==undefined&&request.worldRef!==undefined)current(result.worldRef===request.worldRef);
@@ -315,4 +319,30 @@ export function validateCommitReadback(receiptInput,expectedInput,actualInput,hi
   validateDigestBinding('receipt',receipt,history.receiptDigest);
  }else associated(receipt.status==='ROLLED_BACK'&&receipt.restoreStatus==='VERIFIED_RESTORED'&&historyInput===null);
  return receipt;
+}
+/** session-world-seam/v1. Pure precondition for Adapter world deletion: the Canvas
+ * inventory read must show no selecting Session and no other reservation. It does not
+ * read Canvas or reserve anything; ReserveWorldRetirement is still required. */
+export function requireWorldRetirable(inventoryInput) {
+ const inventory=validateType('WorldSelectionInventory',inventoryInput);
+ requireFact(inventory.sessionRefs.length===0&&inventory.retirementReservationRef===null,'TRANSACTION_CONFLICT','SCOPE_DENIED');
+ return inventory;
+}
+/** C2/C3: compares a Canvas selection with Adapter's current ConnectionInventory.
+ * CONNECTED only for the same connectionRef, worldRef and connectionIncarnationRef
+ * with readiness READY; it never upgrades a stale incarnation to current. */
+export function describeSelectionConnection(selectionInput,inventoryInput) {
+ const selection=validateType('CanvasWorldSelection',selectionInput),inventory=validateType('ConnectionInventory',inventoryInput);
+ if(selection.status==='UNBOUND')return validateType('SelectionConnectionState',{sessionRef:selection.sessionRef,status:'UNBOUND',worldRef:null,connectionRef:null});
+ const ctx=selection.context.localContext;
+ const live=inventory.connections.some(row=>row.readiness==='READY'&&row.connectionRef===ctx.connectionRef&&row.worldRef===ctx.worldRef&&row.connectionIncarnationRef===ctx.connectionIncarnationRef);
+ return validateType('SelectionConnectionState',{sessionRef:selection.context.currentSession,status:live?'CONNECTED':'SELECTED_NOT_CONNECTED',worldRef:ctx.worldRef,connectionRef:ctx.connectionRef});
+}
+/** G-L executable precondition: Workshop may start Session deletion (and call Canvas
+ * RetireSessionSelection) only when its provider actually supports persistent deletion.
+ * Releasing live handles is not deletion. */
+export function requireSessionDeleteSupported(capabilitiesInput) {
+ const capabilities=validateType('PublicCapabilities',capabilitiesInput);
+ requireFact(capabilities.sessionDeleteSupported===true,'SESSION_DELETE_UNSUPPORTED','DELETE_SEAM_ABSENT');
+ return capabilities;
 }

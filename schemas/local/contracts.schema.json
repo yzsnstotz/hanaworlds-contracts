@@ -1,6 +1,6 @@
 {
   "$schema": "http://json-schema.org/draft-07/schema#",
-  "$id": "https://hanaworlds.invalid/contracts/0.5.3/schema.json",
+  "$id": "https://hanaworlds.invalid/contracts/0.5.4-rc.1/schema.json",
   "definitions": {
     "AbortPreparedHistoryTransactionRequest": {
       "type": "object",
@@ -12051,6 +12051,649 @@
         "nodes"
       ],
       "additionalProperties": false
+    },
+    "SessionIdentity": {
+      "type": "object",
+      "properties": {
+        "sessionRef": {
+          "$ref": "#/definitions/Ref"
+        },
+        "sessionRevision": {
+          "$ref": "#/definitions/Revision"
+        }
+      },
+      "required": [
+        "sessionRef",
+        "sessionRevision"
+      ],
+      "additionalProperties": false,
+      "x-typeName": "SessionIdentity"
+    },
+    "SessionIdentities": {
+      "type": "array",
+      "items": {
+        "$ref": "#/definitions/SessionIdentity"
+      },
+      "x-typeName": "SessionIdentities",
+      "x-order": "sessionRef UTF16 ascending",
+      "x-uniqueBy": "sessionRef"
+    },
+    "SessionDirectory": {
+      "type": "object",
+      "properties": {
+        "directoryRevision": {
+          "$ref": "#/definitions/Revision"
+        },
+        "sessions": {
+          "$ref": "#/definitions/SessionIdentities"
+        }
+      },
+      "required": [
+        "directoryRevision",
+        "sessions"
+      ],
+      "additionalProperties": false,
+      "x-typeName": "SessionDirectory"
+    },
+    "ReadSessionIdentityRequest": {
+      "type": "object",
+      "properties": {
+        "contractVersion": {
+          "const": "session/v3"
+        },
+        "requestId": {
+          "$ref": "#/definitions/Ref"
+        },
+        "sessionRef": {
+          "$ref": "#/definitions/Ref"
+        }
+      },
+      "required": [
+        "contractVersion",
+        "requestId",
+        "sessionRef"
+      ],
+      "additionalProperties": false,
+      "x-typeName": "ReadSessionIdentityRequest"
+    },
+    "ReadSessionIdentityResponse": {
+      "type": "object",
+      "properties": {
+        "contractVersion": {
+          "const": "session/v3"
+        },
+        "requestId": {
+          "$ref": "#/definitions/Ref"
+        },
+        "result": {
+          "anyOf": [
+            {
+              "$ref": "#/definitions/SessionIdentity"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "error": {
+          "anyOf": [
+            {
+              "$ref": "#/definitions/Error"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        }
+      },
+      "required": [
+        "contractVersion",
+        "requestId",
+        "result",
+        "error"
+      ],
+      "additionalProperties": false,
+      "x-typeName": "ReadSessionIdentityResponse"
+    },
+    "ListSessionsRequest": {
+      "type": "object",
+      "properties": {
+        "contractVersion": {
+          "const": "session/v3"
+        },
+        "requestId": {
+          "$ref": "#/definitions/Ref"
+        }
+      },
+      "required": [
+        "contractVersion",
+        "requestId"
+      ],
+      "additionalProperties": false,
+      "x-typeName": "ListSessionsRequest"
+    },
+    "ListSessionsResponse": {
+      "type": "object",
+      "properties": {
+        "contractVersion": {
+          "const": "session/v3"
+        },
+        "requestId": {
+          "$ref": "#/definitions/Ref"
+        },
+        "result": {
+          "anyOf": [
+            {
+              "$ref": "#/definitions/SessionDirectory"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "error": {
+          "anyOf": [
+            {
+              "$ref": "#/definitions/Error"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        }
+      },
+      "required": [
+        "contractVersion",
+        "requestId",
+        "result",
+        "error"
+      ],
+      "additionalProperties": false,
+      "x-typeName": "ListSessionsResponse"
+    },
+    "UnselectWorldConnectionRequest": {
+      "type": "object",
+      "properties": {
+        "contractVersion": {
+          "const": "canvas/v5"
+        },
+        "sessionRef": {
+          "$ref": "#/definitions/Ref"
+        },
+        "requestId": {
+          "$ref": "#/definitions/Ref"
+        },
+        "worldRef": {
+          "$ref": "#/definitions/Ref"
+        },
+        "expectedRevision": {
+          "$ref": "#/definitions/Revision"
+        },
+        "expectedContext": {
+          "$ref": "#/definitions/LocalWorldContext"
+        }
+      },
+      "required": [
+        "contractVersion",
+        "sessionRef",
+        "requestId",
+        "worldRef",
+        "expectedRevision",
+        "expectedContext"
+      ],
+      "additionalProperties": false,
+      "x-typeName": "UnselectWorldConnectionRequest"
+    },
+    "WorldConnectionUnselectedReceipt": {
+      "type": "object",
+      "properties": {
+        "contractVersion": {
+          "const": "canvas/v5"
+        },
+        "requestId": {
+          "$ref": "#/definitions/Ref"
+        },
+        "result": {
+          "anyOf": [
+            {
+              "$ref": "#/definitions/CurrentContext"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "error": {
+          "anyOf": [
+            {
+              "$ref": "#/definitions/Error"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        }
+      },
+      "required": [
+        "contractVersion",
+        "requestId",
+        "result",
+        "error"
+      ],
+      "additionalProperties": false,
+      "x-typeName": "WorldConnectionUnselectedReceipt"
+    },
+    "RetireSessionSelectionRequest": {
+      "type": "object",
+      "properties": {
+        "contractVersion": {
+          "const": "canvas/v5"
+        },
+        "sessionRef": {
+          "$ref": "#/definitions/Ref"
+        },
+        "requestId": {
+          "$ref": "#/definitions/Ref"
+        }
+      },
+      "required": [
+        "contractVersion",
+        "sessionRef",
+        "requestId"
+      ],
+      "additionalProperties": false,
+      "x-typeName": "RetireSessionSelectionRequest"
+    },
+    "SessionSelectionRetirement": {
+      "type": "object",
+      "properties": {
+        "sessionRef": {
+          "$ref": "#/definitions/Ref"
+        },
+        "releasedWorldRef": {
+          "anyOf": [
+            {
+              "$ref": "#/definitions/Ref"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "selectionRevision": {
+          "$ref": "#/definitions/Revision"
+        }
+      },
+      "required": [
+        "sessionRef",
+        "releasedWorldRef",
+        "selectionRevision"
+      ],
+      "additionalProperties": false,
+      "x-typeName": "SessionSelectionRetirement"
+    },
+    "SessionSelectionRetiredReceipt": {
+      "type": "object",
+      "properties": {
+        "contractVersion": {
+          "const": "canvas/v5"
+        },
+        "requestId": {
+          "$ref": "#/definitions/Ref"
+        },
+        "result": {
+          "anyOf": [
+            {
+              "$ref": "#/definitions/SessionSelectionRetirement"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "error": {
+          "anyOf": [
+            {
+              "$ref": "#/definitions/Error"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        }
+      },
+      "required": [
+        "contractVersion",
+        "requestId",
+        "result",
+        "error"
+      ],
+      "additionalProperties": false,
+      "x-typeName": "SessionSelectionRetiredReceipt"
+    },
+    "ListWorldSelectionsRequest": {
+      "type": "object",
+      "properties": {
+        "contractVersion": {
+          "const": "canvas/v5"
+        },
+        "requestId": {
+          "$ref": "#/definitions/Ref"
+        },
+        "worldRef": {
+          "$ref": "#/definitions/Ref"
+        }
+      },
+      "required": [
+        "contractVersion",
+        "requestId",
+        "worldRef"
+      ],
+      "additionalProperties": false,
+      "x-typeName": "ListWorldSelectionsRequest"
+    },
+    "WorldSelectionInventory": {
+      "type": "object",
+      "properties": {
+        "worldRef": {
+          "$ref": "#/definitions/Ref"
+        },
+        "inventoryRevision": {
+          "$ref": "#/definitions/Revision"
+        },
+        "sessionRefs": {
+          "$ref": "#/definitions/RefSet"
+        },
+        "retirementReservationRef": {
+          "anyOf": [
+            {
+              "$ref": "#/definitions/Ref"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        }
+      },
+      "required": [
+        "worldRef",
+        "inventoryRevision",
+        "sessionRefs",
+        "retirementReservationRef"
+      ],
+      "additionalProperties": false,
+      "x-typeName": "WorldSelectionInventory"
+    },
+    "WorldSelectionInventoryResponse": {
+      "type": "object",
+      "properties": {
+        "contractVersion": {
+          "const": "canvas/v5"
+        },
+        "requestId": {
+          "$ref": "#/definitions/Ref"
+        },
+        "result": {
+          "anyOf": [
+            {
+              "$ref": "#/definitions/WorldSelectionInventory"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "error": {
+          "anyOf": [
+            {
+              "$ref": "#/definitions/Error"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        }
+      },
+      "required": [
+        "contractVersion",
+        "requestId",
+        "result",
+        "error"
+      ],
+      "additionalProperties": false,
+      "x-typeName": "WorldSelectionInventoryResponse"
+    },
+    "ReserveWorldRetirementRequest": {
+      "type": "object",
+      "properties": {
+        "contractVersion": {
+          "const": "canvas/v5"
+        },
+        "requestId": {
+          "$ref": "#/definitions/Ref"
+        },
+        "worldRef": {
+          "$ref": "#/definitions/Ref"
+        },
+        "expectedInventoryRevision": {
+          "$ref": "#/definitions/Revision"
+        }
+      },
+      "required": [
+        "contractVersion",
+        "requestId",
+        "worldRef",
+        "expectedInventoryRevision"
+      ],
+      "additionalProperties": false,
+      "x-typeName": "ReserveWorldRetirementRequest"
+    },
+    "WorldRetirementReservation": {
+      "type": "object",
+      "properties": {
+        "worldRef": {
+          "$ref": "#/definitions/Ref"
+        },
+        "reservationRef": {
+          "$ref": "#/definitions/Ref"
+        },
+        "inventoryRevision": {
+          "$ref": "#/definitions/Revision"
+        }
+      },
+      "required": [
+        "worldRef",
+        "reservationRef",
+        "inventoryRevision"
+      ],
+      "additionalProperties": false,
+      "x-typeName": "WorldRetirementReservation"
+    },
+    "WorldRetirementReservedReceipt": {
+      "type": "object",
+      "properties": {
+        "contractVersion": {
+          "const": "canvas/v5"
+        },
+        "requestId": {
+          "$ref": "#/definitions/Ref"
+        },
+        "result": {
+          "anyOf": [
+            {
+              "$ref": "#/definitions/WorldRetirementReservation"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "error": {
+          "anyOf": [
+            {
+              "$ref": "#/definitions/Error"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        }
+      },
+      "required": [
+        "contractVersion",
+        "requestId",
+        "result",
+        "error"
+      ],
+      "additionalProperties": false,
+      "x-typeName": "WorldRetirementReservedReceipt"
+    },
+    "WorldRetirementOutcome": {
+      "enum": [
+        "RETIRED",
+        "ABORTED"
+      ],
+      "x-typeName": "WorldRetirementOutcome"
+    },
+    "ReleaseWorldRetirementRequest": {
+      "type": "object",
+      "properties": {
+        "contractVersion": {
+          "const": "canvas/v5"
+        },
+        "requestId": {
+          "$ref": "#/definitions/Ref"
+        },
+        "worldRef": {
+          "$ref": "#/definitions/Ref"
+        },
+        "reservationRef": {
+          "$ref": "#/definitions/Ref"
+        },
+        "outcome": {
+          "$ref": "#/definitions/WorldRetirementOutcome"
+        }
+      },
+      "required": [
+        "contractVersion",
+        "requestId",
+        "worldRef",
+        "reservationRef",
+        "outcome"
+      ],
+      "additionalProperties": false,
+      "x-typeName": "ReleaseWorldRetirementRequest"
+    },
+    "WorldRetirementRelease": {
+      "type": "object",
+      "properties": {
+        "worldRef": {
+          "$ref": "#/definitions/Ref"
+        },
+        "reservationRef": {
+          "$ref": "#/definitions/Ref"
+        },
+        "outcome": {
+          "$ref": "#/definitions/WorldRetirementOutcome"
+        },
+        "inventoryRevision": {
+          "$ref": "#/definitions/Revision"
+        }
+      },
+      "required": [
+        "worldRef",
+        "reservationRef",
+        "outcome",
+        "inventoryRevision"
+      ],
+      "additionalProperties": false,
+      "x-typeName": "WorldRetirementRelease"
+    },
+    "WorldRetirementReleasedReceipt": {
+      "type": "object",
+      "properties": {
+        "contractVersion": {
+          "const": "canvas/v5"
+        },
+        "requestId": {
+          "$ref": "#/definitions/Ref"
+        },
+        "result": {
+          "anyOf": [
+            {
+              "$ref": "#/definitions/WorldRetirementRelease"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "error": {
+          "anyOf": [
+            {
+              "$ref": "#/definitions/Error"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        }
+      },
+      "required": [
+        "contractVersion",
+        "requestId",
+        "result",
+        "error"
+      ],
+      "additionalProperties": false,
+      "x-typeName": "WorldRetirementReleasedReceipt"
+    },
+    "SelectionConnectionStatus": {
+      "enum": [
+        "UNBOUND",
+        "CONNECTED",
+        "SELECTED_NOT_CONNECTED"
+      ],
+      "x-typeName": "SelectionConnectionStatus"
+    },
+    "SelectionConnectionState": {
+      "type": "object",
+      "properties": {
+        "sessionRef": {
+          "$ref": "#/definitions/Ref"
+        },
+        "status": {
+          "$ref": "#/definitions/SelectionConnectionStatus"
+        },
+        "worldRef": {
+          "anyOf": [
+            {
+              "$ref": "#/definitions/Ref"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "connectionRef": {
+          "anyOf": [
+            {
+              "$ref": "#/definitions/Ref"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        }
+      },
+      "required": [
+        "sessionRef",
+        "status",
+        "worldRef",
+        "connectionRef"
+      ],
+      "additionalProperties": false,
+      "x-typeName": "SelectionConnectionState"
     }
   }
 }

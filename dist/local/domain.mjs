@@ -20,6 +20,7 @@ function arrayCompare(name, order) {
   if (order === 'chunkPos numeric x,y,z') return (a, b) => comparePosition(a.chunkPos, b.chunkPos);
   if (order === 'protocol UTF16 ascending') return (a, b) => compareUTF16(a.protocol, b.protocol);
   if (order === 'objectRef UTF16 ascending') return (a, b) => compareUTF16(a.objectRef, b.objectRef);
+  if (order === 'sessionRef UTF16 ascending') return (a, b) => compareUTF16(a.sessionRef, b.sessionRef);
   if (order === 'portalRef UTF16 ascending') return (a, b) => compareUTF16(a.portalRef, b.portalRef);
   if (order === 'witnessId UTF16 ascending') return (a, b) => compareUTF16(a.witnessId, b.witnessId);
   if (order === 'resourceId UTF16 ascending') return (a, b) => compareUTF16(a.resourceId, b.resourceId);
@@ -108,6 +109,8 @@ export function validateDomain(visits) {
       shape((v.selection.status === 'BOUND' ? v.selection.context.currentSession : v.selection.sessionRef) === v.sessionRef);
     }
     else if (name === 'CurrentContext') shape(v.activeWorldRef === (v.localContext?.worldRef ?? null));
+    else if (name === 'UnselectWorldConnectionRequest') shape(v.expectedContext.worldRef === v.worldRef);
+    else if (name === 'SelectionConnectionState') shape((v.status === 'UNBOUND') === (v.worldRef === null) && (v.worldRef === null) === (v.connectionRef === null));
     else if (name === 'Axes') geometry(new Set(v.map(x => x[1])).size === 3);
     else if (name === 'CollisionBox') geometry(v.slice(0, 3).every((x, a) => x <= v[a + 3]));
     else if (name === 'NodeCapability') {
