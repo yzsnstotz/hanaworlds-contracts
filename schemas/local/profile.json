@@ -1,5 +1,5 @@
 {
-  "version": "0.5.3-rc.2",
+  "version": "0.5.3",
   "wireVersions": [
     "interaction-surface/v4",
     "session/v3",

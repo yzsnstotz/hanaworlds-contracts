@@ -1,4 +1,4 @@
-# HanaWorlds Contracts 0.5.3-rc.2
+# HanaWorlds Contracts 0.5.3
 
 Pure public contracts for the single-user local-world MVP. Import from `hanaworlds-contracts`. This is a fresh-install protocol replacement. No prior exports, peer compatibility, state migration, or permission bridge ships in this package. Earlier source and evidence remain in Git and their original run directories.
 
@@ -7,6 +7,8 @@ Pure public contracts for the single-user local-world MVP. Import from `hanaworl
 Current wires: `session/v3`, `canvas/v5`, `world-adapter/v6`, `painter/v4`, `BUILD/V3`, `ReferenceBrief/v3`, `interaction-surface/v4`; compiled operations `operations/v3`; target facts `target-facts/v4`; safety profile `safety-profile/v3`. Existing projections retain the `HanaWorlds|contracts@0.4.0|` domain; the new `material-sources` projection uses `HanaWorlds|contracts@0.4.2|material-sources|`. The existing `checkContractHandshake` stays exact-package for the fixed K1/K2 compositions. Region v1 (0.5.0, below) adds `region-build/v1`, `painter-region/v1`, `world-adapter-region/v1`, `canvas-region/v1` and decides compatibility by protocol major + capabilities. Old digests are not reused.
 
 ## Convergence release (0.5.3)
+
+**Change note (0.5.3, patch; consumers re-pin together):** content of `0.5.3-rc.2` with the release version string; versus 0.5.2 no type, operation, wire, digest domain or validator changes, the public region FIXTURE `peerHandshake` now satisfies the package's own G3 declaration, and three dev scripts were added. Consumers pinned at 0.5.0 meet the 0.5.1 G3 capability requirement (Canvas adapted); every consumer re-pins to exactly `hanaworlds-contracts@0.5.3` (exact-package handshake).
 
 `0.5.3-rc.2` corrects the published region FIXTURE only: `fixtures/region` `.peerHandshake` (fixture-adapter) now advertises `world-adapter-region` 1.1 and all six `world-adapter-region/v1` capabilities including `callback-free-write`, so a peer built from it satisfies this package's own G3 requirement (a per-cell port additionally needs `world-adapter/v6` `callback-free-write` and `write-path-state-facts`). No schema, wire or validator change.
 
