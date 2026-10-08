@@ -10,6 +10,8 @@ evidence_dir=${2:?absolute evidence directory required}
 pack_052_sha=6185622e977ef5136e9ef12219e0ba89dbba29db
 # Optional third argument: an earlier candidate commit whose pack is diffed per file as well.
 baseline_sha=${3:-}
+# Optional fourth argument: comma-separated packed paths allowed to change content (reported).
+allow_paths=${4:-}
 region_050_sha=c006a839a6e6c2c63d57a14b72e4e6b26fa717f1
 [[ "$source_sha" =~ ^[0-9a-f]{40}$ && "$evidence_dir" = /* ]]
 export PATH=/Users/yzliu/.local/share/fnm/node-versions/v24.13.1/installation/bin:$PATH
@@ -55,8 +57,8 @@ if [[ -n "$baseline_sha" ]]; then
   (cd "$build_dir/source-base" && npm pack --ignore-scripts --json --pack-destination "$build_dir/pack-base" > "$evidence_dir/pack-baseline.json")
   tar -xzf "$build_dir"/pack-base/*.tgz -C "$build_dir/x-base"; shasum -a 256 "$build_dir"/pack-base/*.tgz | sed "s#$build_dir/pack-base/##" > "$evidence_dir/pack-baseline.sha256"
 fi
-node tools/compare-pack.mjs "$build_dir/x-052/package" "$build_dir/x-new/package" > "$evidence_dir/pack-diff-vs-052.json"
-[[ -z "$baseline_sha" ]] || node tools/compare-pack.mjs "$build_dir/x-base/package" "$build_dir/x-new/package" > "$evidence_dir/pack-diff-vs-baseline.json"
+node tools/compare-pack.mjs "$build_dir/x-052/package" "$build_dir/x-new/package" "$allow_paths" > "$evidence_dir/pack-diff-vs-052.json"
+[[ -z "$baseline_sha" ]] || node tools/compare-pack.mjs "$build_dir/x-base/package" "$build_dir/x-new/package" "$allow_paths" > "$evidence_dir/pack-diff-vs-baseline.json"
 cp test/local-world.mjs test/image-proposal.mjs test/material-sources.mjs test/region-v1.mjs test/region-fixture.mjs test/write-path-g3.mjs "$build_dir/consumer/"
 for d in local region image material-sources; do mkdir "$build_dir/consumer/types-$d"; cp consumer/$d/index.ts consumer/$d/tsconfig.json "$build_dir/consumer/types-$d/"; done
 cd "$build_dir/consumer"
