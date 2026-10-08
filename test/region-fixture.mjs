@@ -87,8 +87,13 @@ export function buildRegionScenario(a, base) {
   const undoResponse = { contractVersion: 'canvas-region/v1', requestId: 'undo-region-1', result: { originTransactionId: 'region-tx-1', undoTransactionId: 'region-undo-1', worldRef, status: 'VERIFIED',
     originBeforeSummaryDigest: D('region-summary', beforeSummary), originAfterSummaryDigest: D('region-summary', afterSummary), preUndoSummary: afterSummary, actualSummary: beforeSummary,
     historyRevision: 'history-3', lighting, localContext }, error: null };
-  const peerHandshake = { profileVersion: 'protocol-handshake/v1', component: 'fixture-adapter', protocols: [{ protocol: 'world-adapter-region', major: 1, minor: 0 }],
-    capabilities: ['world-adapter-region/v1:chunked-read', 'world-adapter-region/v1:chunked-write', 'world-adapter-region/v1:lighting-complete', 'world-adapter-region/v1:load-then-know', 'world-adapter-region/v1:restore-state'],
+  // FIXTURE Adapter peer advertising the package's own current world-adapter-region declaration
+  // (minor and every world-adapter-region/v1 capability, incl. the G3 callback-free-write), so a
+  // consumer that builds its peer from this fixture passes the package's G3 requirement. A per-cell
+  // port additionally needs world-adapter/v6 with callback-free-write and write-path-state-facts.
+  const regionAdapter = a.contractProtocols.find(p => p.protocol === 'world-adapter-region');
+  const peerHandshake = { profileVersion: 'protocol-handshake/v1', component: 'fixture-adapter', protocols: [{ protocol: 'world-adapter-region', major: regionAdapter.major, minor: regionAdapter.minor }],
+    capabilities: a.regionCapabilities.map(c => c.id).filter(id => id.startsWith('world-adapter-region/v1:')).sort(),
     provenance: { packageName: 'fixture-adapter', packageVersion: '0.4.0', sourceRevision: null, artifactDigest: null } };
   const writeMethods = [
     { method: 'PER_CELL', toolName: 'fixture_place_cells', purpose: 'Fine adjustment of individual cells through the existing per-cell BUILD path.', inputType: 'BuildProposal',

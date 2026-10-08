@@ -3064,10 +3064,11 @@
       {
         "protocol": "world-adapter-region",
         "major": 1,
-        "minor": 0
+        "minor": 1
       }
     ],
     "capabilities": [
+      "world-adapter-region/v1:callback-free-write",
       "world-adapter-region/v1:chunked-read",
       "world-adapter-region/v1:chunked-write",
       "world-adapter-region/v1:lighting-complete",
