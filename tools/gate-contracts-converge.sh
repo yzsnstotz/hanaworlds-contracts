@@ -2,12 +2,14 @@
 # Convergence gate (C-CONTRACTS-CONVERGE-01): exact commit -> clean archive -> lock install ->
 # committed generation is deterministic -> additive against 0.5.0 and 0.5.2 -> every source
 # self-test -> npm pack -> normalized byte diff against the 0.5.2 pack (only version and dev
-# scripts may differ) -> independent install of that tar -> all conformance tests and the four
+# scripts may differ; optionally also against an earlier candidate) -> independent install of that tar -> all conformance tests and the four
 # consumer typecheck fixtures against the installed tar.
 set -euo pipefail
 source_sha=${1:?full source SHA required}
 evidence_dir=${2:?absolute evidence directory required}
 pack_052_sha=6185622e977ef5136e9ef12219e0ba89dbba29db
+# Optional third argument: an earlier candidate commit whose pack is diffed per file as well.
+baseline_sha=${3:-}
 region_050_sha=c006a839a6e6c2c63d57a14b72e4e6b26fa717f1
 [[ "$source_sha" =~ ^[0-9a-f]{40}$ && "$evidence_dir" = /* ]]
 export PATH=/Users/yzliu/.local/share/fnm/node-versions/v24.13.1/installation/bin:$PATH
@@ -47,27 +49,14 @@ npm pack --ignore-scripts --json --pack-destination "$evidence_dir" > "$evidence
 tar_new=$(ls "$evidence_dir"/hanaworlds-contracts-*.tgz)
 (cd "$build_dir/source-052" && npm pack --ignore-scripts --json --pack-destination "$build_dir" > "$evidence_dir/pack-052.json")
 tar -xzf "$tar_new" -C "$build_dir/x-new"; tar -xzf "$build_dir/hanaworlds-contracts-0.5.2.tgz" -C "$build_dir/x-052"
-node --input-type=module - "$build_dir/x-052/package" "$build_dir/x-new/package" <<'JS' > "$evidence_dir/pack-diff-vs-052.json"
-// Every packed file of the candidate, with its own version string normalized back to 0.5.2,
-// must equal the 0.5.2 pack byte for byte, except README.md (change note) and package.json,
-// where only `scripts` may gain entries.
-import {readdir,readFile} from 'node:fs/promises';import assert from 'node:assert/strict';import {createHash} from 'node:crypto';
-const [oldRoot,newRoot]=process.argv.slice(2);
-async function list(r,p=''){const out=[];for(const e of await readdir(r+'/'+p,{withFileTypes:true})){const n=p?p+'/'+e.name:e.name;if(e.isDirectory())out.push(...await list(r,n));else out.push(n);}return out.sort();}
-const a=await list(oldRoot),b=await list(newRoot);assert.deepEqual(b,a,'packed file set changed');
-const pkgNew=JSON.parse(await readFile(newRoot+'/package.json','utf8'));const v=pkgNew.version;
-const diff=[];const sha=x=>createHash('sha256').update(x).digest('hex');
-for(const f of a){const o=await readFile(oldRoot+'/'+f);const n=await readFile(newRoot+'/'+f);
-  if(o.equals(n))continue;const norm=Buffer.from(n.toString('utf8').replaceAll(v,'0.5.2'));
-  if(norm.equals(o)){diff.push({file:f,kind:'version-string-only'});continue;}
-  if(f==='README.md'){diff.push({file:f,kind:'change-note',oldSha256:sha(o),newSha256:sha(n)});continue;}
-  if(f==='package.json'){const po=JSON.parse(o),pn=JSON.parse(n);const added=Object.keys(pn.scripts).filter(k=>!(k in po.scripts));
-    for(const [k,x] of Object.entries(po.scripts))assert.equal(pn.scripts[k],x,'changed script '+k);
-    delete po.scripts;delete pn.scripts;po.version=pn.version;assert.deepEqual(pn,po,'package.json changed beyond version/scripts');
-    diff.push({file:f,kind:'version-and-added-dev-scripts',addedScripts:added});continue;}
-  throw new Error('packed content changed beyond version: '+f);}
-console.log(JSON.stringify({candidateVersion:v,files:a.length,identicalFiles:a.length-diff.length,differences:diff},null,1));
-JS
+if [[ -n "$baseline_sha" ]]; then
+  mkdir "$build_dir/source-base" "$build_dir/pack-base" "$build_dir/x-base"
+  git -C "$repo" archive "$baseline_sha" | tar -x -C "$build_dir/source-base"
+  (cd "$build_dir/source-base" && npm pack --ignore-scripts --json --pack-destination "$build_dir/pack-base" > "$evidence_dir/pack-baseline.json")
+  tar -xzf "$build_dir"/pack-base/*.tgz -C "$build_dir/x-base"; shasum -a 256 "$build_dir"/pack-base/*.tgz | sed "s#$build_dir/pack-base/##" > "$evidence_dir/pack-baseline.sha256"
+fi
+node tools/compare-pack.mjs "$build_dir/x-052/package" "$build_dir/x-new/package" > "$evidence_dir/pack-diff-vs-052.json"
+[[ -z "$baseline_sha" ]] || node tools/compare-pack.mjs "$build_dir/x-base/package" "$build_dir/x-new/package" > "$evidence_dir/pack-diff-vs-baseline.json"
 cp test/local-world.mjs test/image-proposal.mjs test/material-sources.mjs test/region-v1.mjs test/region-fixture.mjs test/write-path-g3.mjs "$build_dir/consumer/"
 for d in local region image material-sources; do mkdir "$build_dir/consumer/types-$d"; cp consumer/$d/index.ts consumer/$d/tsconfig.json "$build_dir/consumer/types-$d/"; done
 cd "$build_dir/consumer"

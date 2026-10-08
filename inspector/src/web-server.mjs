@@ -41,5 +41,5 @@ const server = createServer(async (request, response) => {
   }
 });
 server.on('error', error => { console.error(error); process.exitCode = 1; });
-server.listen(47604, '127.0.0.1', () => console.log('Contract Inspector ready at http://127.0.0.1:47604/ · Contracts 0.5.3 · read-only'));
+server.listen(47604, '127.0.0.1', () => console.log('Contract Inspector ready at http://127.0.0.1:47604/ · Contracts 0.5.3-rc.1 · read-only'));
 for (const signal of ['SIGINT', 'SIGTERM']) process.on(signal, () => server.close());

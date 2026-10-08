@@ -17,8 +17,8 @@ const stone = { nodeName: 'fixture:stone', param2: 0 }, air = { nodeName: 'air',
 const block = (runs, palette = [stone], size = [4, 1, 1], origin = [0, 0, 0]) => ({ profileVersion: 'region-voxels/v1', origin, size, indexOrder: 'X_FASTEST_THEN_Y_THEN_Z', palette, runs });
 let checks = 0; function test(name, run) { run(); console.log('ok', ++checks, name); }
 
-test('exact 0.5.3 package and published region fixture equals the regenerated scenario', () => {
-  assert.equal(a.version, '0.5.3');
+test('exact 0.5.3-rc.1 package and published region fixture equals the regenerated scenario', () => {
+  assert.equal(a.version, '0.5.3-rc.1');
   eq(JSON.parse(JSON.stringify(S())), published);
   assert.match(published.evidence, /^SOURCE\/FIXTURE/);
 });

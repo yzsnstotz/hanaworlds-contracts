@@ -1,4 +1,4 @@
-# HanaWorlds Contracts 0.5.3
+# HanaWorlds Contracts 0.5.3-rc.1
 
 Pure public contracts for the single-user local-world MVP. Import from `hanaworlds-contracts`. This is a fresh-install protocol replacement. No prior exports, peer compatibility, state migration, or permission bridge ships in this package. Earlier source and evidence remain in Git and their original run directories.
 
@@ -7,6 +7,8 @@ Pure public contracts for the single-user local-world MVP. Import from `hanaworl
 Current wires: `session/v3`, `canvas/v5`, `world-adapter/v6`, `painter/v4`, `BUILD/V3`, `ReferenceBrief/v3`, `interaction-surface/v4`; compiled operations `operations/v3`; target facts `target-facts/v4`; safety profile `safety-profile/v3`. Existing projections retain the `HanaWorlds|contracts@0.4.0|` domain; the new `material-sources` projection uses `HanaWorlds|contracts@0.4.2|material-sources|`. The existing `checkContractHandshake` stays exact-package for the fixed K1/K2 compositions. Region v1 (0.5.0, below) adds `region-build/v1`, `painter-region/v1`, `world-adapter-region/v1`, `canvas-region/v1` and decides compatibility by protocol major + capabilities. Old digests are not reused.
 
 ## Convergence release (0.5.3)
+
+`0.5.3-rc.1` is the release candidate of this content. It differs from the 0.5.3 build only in the version string (package version, schema `$id`, `contractMetadata.version`, `version` and the exact-package `contractHandshake.contracts` = `hanaworlds-contracts@0.5.3-rc.1`). Because that handshake is exact-package, an rc.1 component and a 0.5.3 component do not pass `checkContractHandshake` with each other; a composition re-pins together to one package.
 
 Patch, additive only. 0.5.3 is the single converged source: it contains every earlier contracts branch (0.2.1 v3 and 0.3.0 v4 lanes, all s1-contract lines through 0.5.2) and the same-origin read-only Contract Inspector dev page. No type, operation, schema definition, wire version, digest domain, fixture or validator changed against 0.5.2; the packed tarball differs from the 0.5.2 pack only in `version` and in three added dev `scripts` (`build:inspector`, `test:inspector`, `dev:inspector`). `checkContractHandshake`/`checkBuildProposalHandshake` stay exact-package, so components in one fixed K1/K2 composition must pin the same package; cross-patch interop stays with `checkProtocolCompatibility`.
 
