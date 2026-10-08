@@ -63,7 +63,7 @@ test('typed byte channel is not JSON; byte inventory is exact and node keys uniq
  const raw=response();a.admitType('MaterialSourcesSnapshot',Buffer.from(JSON.stringify(raw.snapshot)));
 });
 test('new package handshake and unchanged normal proposal keep prior media allowance',()=>{
- assert.equal(a.version,'0.5.4-rc.1');a.checkBuildProposalHandshake(a.contractHandshake);
+ assert.equal(a.version,'0.5.4');a.checkBuildProposalHandshake(a.contractHandshake);
  a.validateBuildProposalContext(base.request,base.facts);
  const image=structuredClone(base.request);image.referenceBrief.media=[{attachmentRef:'sha256:'+bytesDigest,storedBytesDigest:bytesDigest,projectionVariantId:null,projectionBytesDigest:null,mediaType:'image/png',bytes:bytes.length,width:2,height:2}];
  image.referenceBriefDigest=D('reference-brief',image.referenceBrief);image.intent.referenceBriefDigest=image.referenceBriefDigest;image.intentDigest=D('intent',image.intent);
