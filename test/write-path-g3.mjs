@@ -35,7 +35,7 @@ const stone = { nodeName: 'fixture:stone', param2: 0 }, air = { nodeName: 'air',
 const fillAndCarve = (palette = [stone, air]) => a.encodeRegionBlock({ origin: [0, 0, 0], size: [4, 1, 1], palette, indices: [0, 0, palette.length - 1, -1] });
 
 test('scope is published: callback-free write path, callback classes, out-of-scope list and capabilities', () => {
-  assert.equal(a.version, '0.5.2');
+  assert.equal(a.version, '0.5.3');
   assert.equal(a.writePathStateScope.id, 'write-path-init/v1'); assert.equal(a.writePathStateScope.writePath, 'CALLBACK_FREE_NODE_DATA');
   assert.ok(a.writePathStateScope.initializationCallbacks.includes('on_construct'));
   assert.ok(a.writePathStateScope.outOfScope.some(t => /ABM/.test(t)) && /UNDO_CONFLICT/.test(a.writePathStateScope.guards));

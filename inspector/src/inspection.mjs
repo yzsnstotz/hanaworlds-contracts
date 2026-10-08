@@ -1,4 +1,4 @@
-// Read-only consumer of the exact public 0.5.2 API. No world or peer access.
+// Read-only consumer of the exact public 0.5.3 API. No world or peer access.
 import {
   version, contractProtocols, regionCapabilities, protocolPolicy, schemaBundle,
   admitType, decodeRawJSON, validateType, ContractError, checkProtocolCompatibility,
@@ -22,7 +22,7 @@ const advertised = {
 const requirements = [protocolRequirement('BUILD/V3', ['BUILD/V3:per-cell-compile'])];
 
 export function describeInspector() {
-  if (version !== '0.5.2') throw new Error(`Inspector requires contracts 0.5.2; loaded ${version}`);
+  if (version !== '0.5.3') throw new Error(`Inspector requires contracts 0.5.3; loaded ${version}`);
   const wrongMajor = structuredClone(advertised); wrongMajor.protocols[0].major = 4;
   const missingCapability = structuredClone(advertised); missingCapability.capabilities = [];
   const invalid = structuredClone(region); invalid.origin[0] = 'bad';
