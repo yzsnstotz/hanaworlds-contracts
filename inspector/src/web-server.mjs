@@ -16,11 +16,14 @@ const server = createServer(async (request, response) => {
     response.end(body);
   }
   function json(status, value) { send(status, 'application/json; charset=utf-8', JSON.stringify(value)); }
+  // Route by path so links that carry a query string still open the page.
+  let path = new URL(request.url, 'http://127.0.0.1:47604').pathname;
+  if (request.method === 'GET' && path !== '/client.js' && !path.startsWith('/api/')) path = '/';
   try {
-    if (request.method === 'GET' && request.url === '/') return send(200, 'text/html; charset=utf-8', html);
-    if (request.method === 'GET' && request.url === '/client.js') return send(200, 'text/javascript; charset=utf-8', javascript);
-    if (request.method === 'GET' && request.url === '/api/describe') return json(200, describeInspector());
-    if (request.method === 'POST' && request.url === '/api/inspect') {
+    if (request.method === 'GET' && path === '/') return send(200, 'text/html; charset=utf-8', html);
+    if (request.method === 'GET' && path === '/client.js') return send(200, 'text/javascript; charset=utf-8', javascript);
+    if (request.method === 'GET' && path === '/api/describe') return json(200, describeInspector());
+    if (request.method === 'POST' && path === '/api/inspect') {
       const parts = [];
       for await (const part of request) parts.push(part);
       let input;
