@@ -8,7 +8,7 @@ const v053=JSON.parse(await readFile(new URL(import.meta.resolve('hanaworlds-con
 let passed=0;function test(name,fn){fn();console.log('ok',++passed,name)}
 const SD='session/v3',CS='canvas/v5';
 test('exact candidate package; seam operations are appended minors of existing wires',()=>{
- assert.equal(a.version,'0.5.5-rc.1');a.checkContractHandshake(a.contractHandshake);
+ a.checkContractsVersion(a.contractHandshake.contracts);assert.equal(a.contractHandshake.contracts,'hanaworlds-contracts@'+a.version);a.checkContractHandshake(a.contractHandshake);
  assert.ok(!a.wireVersions.some(w=>/session-directory|canvas-session-world/.test(w)));
  assert.deepEqual(a.operationContracts[SD].slice(13).map(o=>o.operation),['ReadSessionIdentity','ListSessions']);
  assert.deepEqual(a.operationContracts[CS].slice(20).map(o=>o.operation),['UnselectWorldConnection','RetireSessionSelection','ListWorldSelections','ReserveWorldRetirement','ReleaseWorldRetirement']);
@@ -17,7 +17,7 @@ test('exact candidate package; seam operations are appended minors of existing w
  assert.equal(a.sessionWorldSeam.id,'session-world-seam/v1');
  assert.ok(a.contractProtocols.some(p=>p.protocol==='session'&&p.major===3&&p.minor===1));
  assert.ok(a.contractProtocols.some(p=>p.protocol==='canvas'&&p.major===5&&p.minor===1));
- assert.equal(v053.version,'0.5.5-rc.1');
+ assert.equal(a.checkSchemaCompatibility(v053).major,a.contractsCompatibility.major);assert.equal(v053.version,a.version);
 });
 test('no Adapter-owned binding authority and no breaking Readiness value',()=>{
  for(const ops of Object.values(a.operationContracts))for(const o of ops)assert.ok(!['ReadSessionWorldBinding','BindSessionWorld','UnbindSessionWorld'].includes(o.operation));

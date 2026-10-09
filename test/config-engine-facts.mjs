@@ -9,8 +9,8 @@ const profile=JSON.parse(await readFile(new URL(import.meta.resolve('hanaworlds-
 const catalogue=main.request.catalogue;
 let passed=0;function test(name,fn){fn();console.log('ok',++passed,name)}
 const code=e=>({code:e.code,reason:e.reason});
-test('exact candidate package; facts are an in-process port, not a wire or a changed type',()=>{
- assert.equal(a.version,'0.5.5-rc.1');a.checkContractHandshake(a.contractHandshake);
+test('same-major package; facts are an in-process port, not a wire or a changed type',()=>{
+ a.checkContractsVersion(a.contractHandshake.contracts);assert.equal(a.contractHandshake.contracts,'hanaworlds-contracts@'+a.version);a.checkContractHandshake(a.contractHandshake);
  assert.equal(a.configEngineFacts.id,'config-engine-facts/v1');
  assert.equal(profile.configEngineFacts.id,'config-engine-facts/v1');
  for(const ops of Object.values(a.operationContracts))for(const o of ops)assert.ok(!/EngineFacts/.test(o.operation));

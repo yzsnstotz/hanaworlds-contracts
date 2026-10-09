@@ -1,8 +1,8 @@
-// Read-only consumer of the exact public 0.5.5-rc.1 API. No world or peer access.
+// Read-only consumer of the public hanaworlds-contracts API, same major as declared. No world or peer access.
 import {
   version, contractProtocols, regionCapabilities, protocolPolicy, schemaBundle,
   admitType, decodeRawJSON, validateType, ContractError, checkProtocolCompatibility,
-  protocolRequirement,
+  protocolRequirement, checkContractsVersion, contractHandshake,
 } from 'hanaworlds-contracts';
 import main from 'hanaworlds-contracts/fixtures/main' with { type: 'json' };
 
@@ -22,7 +22,7 @@ const advertised = {
 const requirements = [protocolRequirement('BUILD/V3', ['BUILD/V3:per-cell-compile'])];
 
 export function describeInspector() {
-  if (version !== '0.5.5-rc.1') throw new Error(`Inspector requires contracts 0.5.5-rc.1; loaded ${version}`);
+  checkContractsVersion(contractHandshake.contracts);
   const wrongMajor = structuredClone(advertised); wrongMajor.protocols[0].major = 4;
   const missingCapability = structuredClone(advertised); missingCapability.capabilities = [];
   const invalid = structuredClone(region); invalid.origin[0] = 'bad';

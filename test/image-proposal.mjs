@@ -41,8 +41,9 @@ test('projection variant and projected-byte digest stay paired and retained',()=
  projected.referenceBrief.media[0].projectionBytesDigest='1'.repeat(64);hashes(projected);
  assert.equal(a.canonicalJSON(a.validateBuildProposalContext(projected,bind(projected)).referenceBrief.media),a.canonicalJSON(projected.referenceBrief.media));
 });
-test('image package has an exact new handshake with no old-peer fallback',()=>{
- assert.equal(a.version,'0.5.5-rc.1');a.checkBuildProposalHandshake(a.contractHandshake);
- assert.throws(()=>a.checkBuildProposalHandshake({...a.contractHandshake,contracts:'hanaworlds-contracts@0.4.0'}),{code:'UNSUPPORTED_VERSION'});
+test('image package handshake is same-major with no other-major fallback',()=>{
+ a.checkContractsVersion(a.contractHandshake.contracts);assert.equal(a.contractHandshake.contracts,'hanaworlds-contracts@'+a.version);a.checkBuildProposalHandshake(a.contractHandshake);
+ a.checkBuildProposalHandshake({...a.contractHandshake,contracts:'hanaworlds-contracts@0.4.0'});
+ assert.throws(()=>a.checkBuildProposalHandshake({...a.contractHandshake,contracts:'hanaworlds-contracts@1.0.0'}),{code:'UNSUPPORTED_VERSION'});
 });
 console.log(JSON.stringify({evidence:'SOURCE/FIXTURE',checks,mediaBytes:bytes.length,storedBytesDigest,modelCalls:0,worldWrites:0,realRuntime:'NOT_RUN',realUI:'NOT_RUN'}));

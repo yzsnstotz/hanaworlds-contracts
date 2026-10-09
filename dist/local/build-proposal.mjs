@@ -1,7 +1,7 @@
 // Public route-A proposal contract. Pure shape/coherence checks only: no model,
 // world read, provider authentication, BUILD assembly or transaction decision.
 import { validateType, validateRequest, validateResponse, validateDigestBinding,
-  digestValue, canonicalJSON, contractHandshake, checkContractHandshake,
+  digestValue, canonicalJSON, checkContractHandshake,
   schemaBundle, validateBoundRequest, validateCurrentRequest, validateRegionInspection, validateStaticMaterials,
   validateWitnessCoherence } from './runtime.mjs';
 import { requireFact } from '../errors.mjs';
@@ -12,12 +12,11 @@ const identity = ok => requireFact(ok, 'TRANSACTION_CONFLICT', 'PAYLOAD_CHANGED'
 const stale = ok => requireFact(ok, 'TARGET_FACTS_STALE', 'REVISION_CHANGED');
 const geometry = ok => requireFact(ok, 'BUILD_INVALID', 'INVALID_GEOMETRY');
 
-/** Check this new Painter producer only; not a request to update default peers. */
+/** Check this new Painter producer only; not a request to update default peers. Same contracts
+ * major (checkContractHandshake) plus the painter/v4 wire; minor/patch never decide. */
 export function checkBuildProposalHandshake(input) {
   const { advertised } = checkContractHandshake(input,
     { wires: [WIRE], factProfiles: ['target-facts/v4'] });
-  requireFact(advertised.contracts === contractHandshake.contracts,
-    'UNSUPPORTED_VERSION', 'VERSION_UNSUPPORTED', 'decode');
   return Object.freeze({ result: 'HANDSHAKE_OPERATION_MATCH', advertised });
 }
 

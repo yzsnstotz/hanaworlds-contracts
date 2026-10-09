@@ -1,4 +1,4 @@
-# HanaWorlds Contracts 0.5.5-rc.1
+# HanaWorlds Contracts 0.5.6
 
 Pure public contracts for the single-user local-world MVP. Import from `hanaworlds-contracts`. This is a fresh-install protocol replacement. No prior exports, peer compatibility, state migration, or permission bridge ships in this package. Earlier source and evidence remain in Git and their original run directories.
 
@@ -6,7 +6,17 @@ Pure public contracts for the single-user local-world MVP. Import from `hanaworl
 
 Current wires: `session/v3`, `canvas/v5`, `world-adapter/v6`, `painter/v4`, `BUILD/V3`, `ReferenceBrief/v3`, `interaction-surface/v4`; compiled operations `operations/v3`; target facts `target-facts/v4`; safety profile `safety-profile/v3`. Existing projections retain the `HanaWorlds|contracts@0.4.0|` domain; the new `material-sources` projection uses `HanaWorlds|contracts@0.4.2|material-sources|`. The existing `checkContractHandshake` stays exact-package for the fixed K1/K2 compositions. Region v1 (0.5.0, below) adds `region-build/v1`, `painter-region/v1`, `world-adapter-region/v1`, `canvas-region/v1` and decides compatibility by protocol major + capabilities. Old digests are not reused.
 
-## Config engine facts (0.5.5-rc.1, candidate)
+## Same-major compatibility (0.5.6)
+
+**Change note (0.5.6, minor-additive):** package compatibility is decided by major only. `checkContractHandshake`, `checkBuildProposalHandshake` and the new schema entry `checkSchemaCompatibility` all use one predicate, `checkContractsVersion`: same package name, well-formed semver, equal major; minor, patch and prerelease are provenance. Wires, `compiledOperationsVersion`, fact profiles, required types and capabilities are still checked separately, so a version match never implies an interface. No wire, operation, type, field, enum, ownership or digest domain changes. 0.5.6 also releases the `config-engine-facts/v1` addition from `0.5.5-rc.1` unchanged.
+
+- **Consumers.** Depend on the contracts source by git tag range, `hanaworlds-contracts#semver:^0.5.6` (or the lowest tag carrying the fields you use). A later additive minor or patch needs no re-pin and no re-adaptation.
+- **Rejected as before.** Another major, another package, malformed refs (`UNSUPPORTED_VERSION/decode/VERSION_UNSUPPORTED`); missing wire or fact profile (`UNSUPPORTED_VERSION`); missing required type or capability (`CAPABILITY_UNAVAILABLE`); bad shape or type (`SCHEMA_INVALID`); unknown fields such as authority (`UNKNOWN_REQUIRED_FIELD/UNKNOWN_FIELD`).
+- **Protocol handshake.** `checkProtocolCompatibility` is unchanged: protocol major equality plus capabilities; `protocolRequirement` defaults `minMinor` to 0, so any minor of the major passes unless a consumer explicitly declares a structural minimum.
+- **Old packages.** Code still running 0.5.5-rc.1 or earlier keeps its exact-package check against its own version; same-major acceptance applies on each side once it runs 0.5.6 or later.
+- **Evidence.** `npm run test:major-compat` / `typecheck:major-compat` with the public fixture `hanaworlds-contracts/fixtures/contracts-major-compat` (SOURCE/FIXTURE). Peer implementations and real runtime are NOT_RUN.
+
+## Config engine facts (0.5.5-rc.1 candidate, released in 0.5.6)
 
 **Change note (0.5.5-rc.1, additive; consumers re-pin together):** adds `config-engine-facts/v1`: the Adapter-declared write backend that Canvas assembles into the unchanged `CompilationConfig.backendProfileId`, and a fixed `avatarEnvelope` record stating that `SafetyProfile.avatarDimensions` has no public source. 6 new types, 1 digest kind, 1 in-process port, 3 pure helpers, `configEngineFacts` metadata and the public FIXTURE `fixtures/config-engine-facts`. No wire, operation, protocol minor, existing type, field, enum value, ownership row or digest domain changes. The exact-package handshake means each composition re-pins one package.
 

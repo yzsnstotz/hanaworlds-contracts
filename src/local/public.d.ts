@@ -1,10 +1,10 @@
 export * from './contracts.js';
 import type {TypeMap,TypeName,OperationMap,ProjectionMap,ContractHandshake,LocalRequestFacts,CurrentBuildSubmission,ValidateBuildProposalRequest,ValidateBuildProposalResponse,BuildProposalProviderFacts,ScopedPreparedTransaction,ScopedPreparedTransactionResult,RegionInspection,MaterialMap,Catalogue,BuildProjection,FinalEffects,TargetFacts,SafetyProfile,Coverage} from './contracts.js';
-export declare const version: '0.5.5-rc.1';
+export declare const version: '0.5.6';
 export declare const wireVersions: ReadonlyArray<keyof OperationMap>;
 export declare const compiledOperationsVersion: 'operations/v3';
 export declare const contractHandshake: ContractHandshake;
-export declare const schemaBundle: {readonly definitions: Readonly<Record<TypeName,unknown>>};
+export declare const schemaBundle: {readonly $id:string;readonly 'x-contractsCompatibility':{readonly package:'hanaworlds-contracts';readonly major:number;readonly rule:'same-major'};readonly definitions: Readonly<Record<TypeName,unknown>>};
 export declare const operationContracts: Readonly<Record<keyof OperationMap, ReadonlyArray<{operation:string;request:TypeName;response:TypeName}>>>;
 export declare const ownership: Readonly<Record<string,{domainOwner:string;mutationCaller:string}>>;
 export declare function validateType<K extends TypeName>(name:K,input:unknown):TypeMap[K];
@@ -19,6 +19,13 @@ export declare function requestDigest<W extends keyof OperationMap,N extends key
 export declare function canonicalJSON(input:unknown):string;
 export declare function digestValue<K extends keyof ProjectionMap>(kind:K,input:ProjectionMap[K]):{sha256:string;projection:ProjectionMap[K];canonicalUtf8:string;preimageUtf8:string;preimageHex:string;kind:K};
 export declare function validateDigestBinding<K extends keyof ProjectionMap>(kind:K,input:ProjectionMap[K],hash:string):ReturnType<typeof digestValue<K>>;
+/** Package compatibility: same package, equal semver major. Minor/patch/prerelease are provenance only. */
+export declare const contractsCompatibility: {readonly package:'hanaworlds-contracts';readonly major:number;readonly rule:'same-major'};
+/** The one contracts version predicate. Rejects another package, malformed semver or another major with UNSUPPORTED_VERSION. */
+export declare function checkContractsVersion(ref:unknown):{readonly result:'CONTRACTS_MAJOR_MATCH';readonly major:number;readonly advertised:string};
+/** Schema entry: a peer schema bundle ($id) or profile (version) by the same major predicate; requiredTypes must be present. */
+export declare function checkSchemaCompatibility(input:unknown,requiredTypes?:ReadonlyArray<string>):{readonly result:'SCHEMA_MAJOR_MATCH';readonly major:number;readonly version:string;readonly requiredTypes:ReadonlyArray<string>};
+/** Same contracts major (checkContractsVersion) plus every required wire, compiledOperationsVersion and fact profile. */
 export declare function checkContractHandshake(input:unknown,required?:{wires:ReadonlyArray<string>;factProfiles:ReadonlyArray<string>}):{result:'HANDSHAKE_VERSION_MATCH';advertised:ContractHandshake};
 export declare function checkBuildProposalHandshake(input:unknown):{result:'HANDSHAKE_OPERATION_MATCH';advertised:ContractHandshake};
 export declare function validateCurrentBuildSubmission(input:unknown,facts:LocalRequestFacts):CurrentBuildSubmission;

@@ -1,5 +1,5 @@
 {
-  "version": "0.5.5-rc.1",
+  "version": "0.5.6",
   "wireVersions": [
     "interaction-surface/v4",
     "session/v3",
@@ -13586,8 +13586,9 @@
     "majors": "Protocol majors are explicit integers >= 1 declared here; they are independent of the 0.x npm package version. A package version alone (0.x or otherwise) never implies compatibility, and a peer that advertises no ProtocolHandshake is not compatible.",
     "minor": "Within one major a minor may only add new operations, new types or new capability ids. Adding a field or enum value to an existing type of that major, or changing a meaning, requires a new major.",
     "rejection": "Missing protocol, different major or lower minor: UNSUPPORTED_VERSION/decode/VERSION_UNSUPPORTED. Missing capability: CAPABILITY_UNAVAILABLE/decode/VERSION_UNSUPPORTED. Both are decided before any world write.",
-    "legacy": "checkContractHandshake keeps its exact-package behaviour for the fixed K1/K2 compositions; there is no migration of old wires or profiles.",
-    "digestDomain": "Region projections use the protocol domain 'HanaWorlds|region-voxels/v1|' so a different package patch yields the same digest."
+    "legacy": "checkContractHandshake (and checkBuildProposalHandshake) decide the package by the same rule as checkContractsVersion: same package name, well-formed semver, equal major; minor, patch and prerelease are provenance. Required wires, compiledOperationsVersion and fact profiles are still checked separately, so a version match never implies an interface. There is no migration of old wires or profiles.",
+    "digestDomain": "Region projections use the protocol domain 'HanaWorlds|region-voxels/v1|' so a different package patch yields the same digest.",
+    "schema": "checkSchemaCompatibility applies the same major predicate to a peer schema bundle ($id) or profile (version); every type the caller relies on must still be present (CAPABILITY_UNAVAILABLE/decode/VERSION_UNSUPPORTED)."
   },
   "protocolMinors": {
     "region-voxels": 0,

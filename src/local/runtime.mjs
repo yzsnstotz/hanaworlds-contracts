@@ -22,6 +22,7 @@ export const settingsSurface = contractMetadata.settingsSurface;
 export const digestProfile = contractMetadata.digest;
 export const schemaInventory = contractMetadata.typeNames;
 export const contractHandshake = contractMetadata.contractHandshake;
+export const contractsCompatibility = contractMetadata.contractsCompatibility;
 export const sessionWorldSeam = contractMetadata.sessionWorldSeam;
 export { schemaBundle };
 export function validateType(typeName, value) {
@@ -256,9 +257,31 @@ export function validateCurrentRequest(wire,name,input,factsInput) {
  else associated(facts.priorRequestDigest===hash&&facts.requestState==='COMPLETED');
  return deepFreeze({request,requestDigest:hash,disposition:facts.replay==='NEW'?'EXECUTE':'RETURN_STORED'});
 }
+// The one contracts version predicate: same package, well-formed semver, equal major. Minor, patch,
+// prerelease and build provenance never decide; structure, wires and capabilities are checked separately.
+const contractsRef=new RegExp('^'+contractsCompatibility.package+'@(0|[1-9][0-9]*)\\.(0|[1-9][0-9]*)\\.(0|[1-9][0-9]*)(?:-[0-9A-Za-z-]+(?:\\.[0-9A-Za-z-]+)*)?$','u');
+export function checkContractsVersion(ref) {
+ const m=typeof ref==='string'?contractsRef.exec(ref):null;
+ requireFact(m!==null&&Number(m[1])===contractsCompatibility.major,'UNSUPPORTED_VERSION','VERSION_UNSUPPORTED','decode');
+ return deepFreeze({result:'CONTRACTS_MAJOR_MATCH',major:contractsCompatibility.major,advertised:ref});
+}
+/** Schema entry: a peer's published schema bundle ($id) or profile (version) is accepted by the same
+ * major predicate; every type the caller relies on must still be present (version never implies it). */
+const schemaId=/^https:\/\/hanaworlds\.invalid\/contracts\/([^/]+)\/schema\.json$/u;
+export function checkSchemaCompatibility(input,requiredTypes=[]) {
+ const isObject=input!==null&&typeof input==='object'&&!Array.isArray(input);
+ const id=isObject&&typeof input.$id==='string'?schemaId.exec(input.$id):null;
+ const version=id!==null?id[1]:isObject&&!Object.hasOwn(input,'$id')&&typeof input.version==='string'?input.version:null;
+ const {major}=checkContractsVersion(version===null?null:contractsCompatibility.package+'@'+version);
+ const definitions=isObject?input.definitions:null;
+ requireFact(definitions!==null&&typeof definitions==='object'&&!Array.isArray(definitions),'SCHEMA_INVALID','INVALID_SHAPE','decode');
+ requireFact(Array.isArray(requiredTypes)&&requiredTypes.every(t=>typeof t==='string'&&Object.hasOwn(definitions,t)),'CAPABILITY_UNAVAILABLE','VERSION_UNSUPPORTED','decode');
+ return deepFreeze({result:'SCHEMA_MAJOR_MATCH',major,version,requiredTypes:[...requiredTypes]});
+}
 export function checkContractHandshake(advertisedInput,required={wires:wireVersions,factProfiles:['target-facts/v4']}) {
  const advertised=validateType('ContractHandshake',advertisedInput);
- requireFact(advertised.contracts===contractHandshake.contracts&&advertised.compiledOperationsVersion===compiledOperationsVersion&&required.wires.every(w=>wireVersions.includes(w)&&advertised.wireVersions.includes(w))&&required.factProfiles.every(f=>advertised.factProfiles.includes(f)), 'UNSUPPORTED_VERSION','VERSION_UNSUPPORTED','decode');
+ checkContractsVersion(advertised.contracts);
+ requireFact(advertised.compiledOperationsVersion===compiledOperationsVersion&&required.wires.every(w=>wireVersions.includes(w)&&advertised.wireVersions.includes(w))&&required.factProfiles.every(f=>advertised.factProfiles.includes(f)), 'UNSUPPORTED_VERSION','VERSION_UNSUPPORTED','decode');
  return deepFreeze({result:'HANDSHAKE_VERSION_MATCH',advertised});
 }
 export function validateCurrentBuildSubmission(input,factsInput) {

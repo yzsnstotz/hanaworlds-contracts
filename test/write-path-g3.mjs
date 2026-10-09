@@ -35,7 +35,7 @@ const stone = { nodeName: 'fixture:stone', param2: 0 }, air = { nodeName: 'air',
 const fillAndCarve = (palette = [stone, air]) => a.encodeRegionBlock({ origin: [0, 0, 0], size: [4, 1, 1], palette, indices: [0, 0, palette.length - 1, -1] });
 
 test('scope is published: callback-free write path, callback classes, out-of-scope list and capabilities', () => {
-  assert.equal(a.version, '0.5.5-rc.1');
+  a.checkContractsVersion(a.contractHandshake.contracts);
   assert.equal(a.writePathStateScope.id, 'write-path-init/v1'); assert.equal(a.writePathStateScope.writePath, 'CALLBACK_FREE_NODE_DATA');
   assert.ok(a.writePathStateScope.initializationCallbacks.includes('on_construct'));
   assert.ok(a.writePathStateScope.outOfScope.some(t => /ABM/.test(t)) && /UNDO_CONFLICT/.test(a.writePathStateScope.guards));
@@ -111,10 +111,14 @@ test('later independent changes are not claimed absent: full-state readback diff
   s.undoResponse.result.preUndoSummary.chunks[0].stateDigest = D('region-state', changed);
   assert.throws(() => a.validateRegionUndo(s.undoRequest, s.undoResponse, commit), code('UNDO_CONFLICT'));
 });
-test('legacy ContractHandshake stays exact; same-major interop across patches is decided only by protocol major + capabilities', () => {
+test('ContractHandshake is same-major; protocol interop across patches is decided only by protocol major + capabilities', () => {
   const at = v => ({ ...a.contractHandshake, contracts: 'hanaworlds-contracts@' + v });
   a.checkContractHandshake(a.contractHandshake); a.checkBuildProposalHandshake(a.contractHandshake);
   for (const v of ['0.5.0', '0.5.1', '0.4.2', '0.6.0']) {
+    assert.equal(a.checkContractHandshake(at(v)).result, 'HANDSHAKE_VERSION_MATCH', v);
+    assert.equal(a.checkBuildProposalHandshake(at(v)).result, 'HANDSHAKE_OPERATION_MATCH', v);
+  }
+  for (const v of ['1.0.0', '1.5.6', '2.0.0-rc.1']) {
     assert.throws(() => a.checkContractHandshake(at(v)), code('UNSUPPORTED_VERSION'), v);
     assert.throws(() => a.checkBuildProposalHandshake(at(v)), code('UNSUPPORTED_VERSION'), v);
   }
