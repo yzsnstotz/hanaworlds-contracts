@@ -4,6 +4,7 @@ import { contractMetadata } from './generated/contracts.mjs';
 import { validateType, validateRequest, validateResponse, validateDigestBinding, digestValue,
   validateStaticMaterials, deepFreeze, canonicalJSON, requireSiteRuleChecks } from './runtime.mjs';
 import { requireFact, fail } from '../errors.mjs';
+import { confirmedPlacementOf, requireRegionPlacementTarget, requirePlacementWorld } from './placement.mjs';
 import { blockBox, blockCellCount, chunksOfBox, floorDiv, comparePalette } from './region-domain.mjs';
 export const protocolPolicy = contractMetadata.protocolPolicy;
 export const contractProtocols = contractMetadata.contractProtocols;
@@ -82,9 +83,9 @@ export function expectedRegionSummary(contentInput, operationsInput) {
   return summarizeRegionStates(content.worldRef, content.chunks.map((c, i) => ({ chunkPos: c.chunkPos, state: expectedRegionState(c.state, ops.chunks[i].block) })));
 }
 
-// --- painter-region/v2 -------------------------------------------------------
+// --- painter-region/v3 -------------------------------------------------------
 export function validateRegionProposalRequest(input) {
-  const request = validateRequest('painter-region/v2', 'ValidateRegionProposal', input);
+  const request = validateRequest('painter-region/v3', 'ValidateRegionProposal', input);
   validateDigestBinding('intent', request.intent, request.intentDigest);
   validateDigestBinding('reference-brief', request.referenceBrief, request.referenceBriefDigest);
   validateDigestBinding('catalogue', request.catalogue, request.catalogueDigest);
@@ -93,6 +94,12 @@ export function validateRegionProposalRequest(input) {
   // so a confirmed entrance requirement is refused by name; hazards are checked per palette node.
   const rules = request.intent.confirmedIntent.siteRules;
   requireSiteRuleChecks(rules, { entrance: false });
+  // A confirmed structured placement: the specified world cells are the confirmed target.
+  const placement = confirmedPlacementOf(request.intent, request.referenceBrief);
+  if (placement !== null) {
+    requirePlacementWorld(placement, request.worldRef);
+    requireRegionPlacementTarget(placement, expandRegionBlock(block));
+  }
   for (const entry of block.palette) {
     const node = request.catalogue.nodes[entry.nodeName];
     requireFact(node.liquidType !== null && node.damagePerSecond !== null, 'UNSUPPORTED_MATERIAL', 'REQUIRED_FACT_UNKNOWN');
@@ -104,7 +111,7 @@ export function validateRegionProposalRequest(input) {
 /** Painter returns the proposal block unchanged as a RegionBuildProjection. */
 export function validateRegionProposalResponse(requestInput, responseInput) {
   const request = validateRegionProposalRequest(requestInput);
-  const response = validateResponse('painter-region/v2', 'ValidateRegionProposal', responseInput);
+  const response = validateResponse('painter-region/v3', 'ValidateRegionProposal', responseInput);
   changed(response.requestId === request.requestId);
   if (response.error) { noMutation(response.error); return response; }
   const { build } = response.result;

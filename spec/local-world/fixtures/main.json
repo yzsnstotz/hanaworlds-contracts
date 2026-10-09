@@ -1,7 +1,7 @@
 {
   "evidence": "SOURCE/FIXTURE",
   "request": {
-    "contractVersion": "painter/v5",
+    "contractVersion": "painter/v6",
     "sessionRef": "fixture-session",
     "requestId": "workshop-paint-1",
     "worldRef": "fixture-world",
@@ -9,8 +9,8 @@
     "painterId": "picture-blocks",
     "invocationId": "fixture-luanti-invocation-7",
     "intent": {
-      "contractVersion": "session/v4",
-      "referenceBriefDigest": "2daf8a8d8cb72370103dd96855ef23e5b273911365cf748e2851337706103cf5",
+      "contractVersion": "session/v5",
+      "referenceBriefDigest": "a7ff483193b2de841b0814a6931e74338f9d479bf571155b29abaca2fa05972e",
       "confirmedIntent": {
         "kind": "BUILD_STRUCTURE",
         "text": "一个小石屋",
@@ -31,14 +31,15 @@
             "maximumDamagePerSecond": 0
           },
           "optionalLightRule": null
-        }
+        },
+        "placement": null
       },
       "intendedWorldRef": "fixture-world",
       "orderedTargetRefs": []
     },
-    "intentDigest": "1e5e42886da8d9240b7c2fd9581b649651d7693ef78c02de87393f14e3c31d2e",
+    "intentDigest": "7a48d01640805b07b2b363599c9b09999a75c107b31c91b79c2da721ab99c06e",
     "referenceBrief": {
-      "contractVersion": "ReferenceBrief/v4",
+      "contractVersion": "ReferenceBrief/v5",
       "sessionRef": "fixture-session",
       "turnRevision": "fixture-turn-4",
       "briefRevision": "fixture-brief-4",
@@ -62,10 +63,11 @@
             "maximumDamagePerSecond": 0
           },
           "optionalLightRule": null
-        }
+        },
+        "placement": null
       }
     },
-    "referenceBriefDigest": "2daf8a8d8cb72370103dd96855ef23e5b273911365cf748e2851337706103cf5",
+    "referenceBriefDigest": "a7ff483193b2de841b0814a6931e74338f9d479bf571155b29abaca2fa05972e",
     "catalogue": {
       "profileVersion": "catalogue/v2",
       "engineProfile": "fixture-luanti-static",
@@ -302,7 +304,7 @@
     }
   },
   "response": {
-    "contractVersion": "painter/v5",
+    "contractVersion": "painter/v6",
     "requestId": "workshop-paint-1",
     "result": {
       "invocationId": "fixture-luanti-invocation-7",
@@ -443,15 +445,15 @@
   },
   "facts": {
     "sourceContext": {
-      "contractVersion": "painter/v5",
+      "contractVersion": "painter/v6",
       "sessionRef": "fixture-session",
       "worldRef": "fixture-world",
       "turnRevision": "fixture-turn-4",
       "painterId": "picture-blocks",
       "invocationId": "fixture-luanti-invocation-7",
       "intent": {
-        "contractVersion": "session/v4",
-        "referenceBriefDigest": "2daf8a8d8cb72370103dd96855ef23e5b273911365cf748e2851337706103cf5",
+        "contractVersion": "session/v5",
+        "referenceBriefDigest": "a7ff483193b2de841b0814a6931e74338f9d479bf571155b29abaca2fa05972e",
         "confirmedIntent": {
           "kind": "BUILD_STRUCTURE",
           "text": "一个小石屋",
@@ -472,14 +474,15 @@
               "maximumDamagePerSecond": 0
             },
             "optionalLightRule": null
-          }
+          },
+          "placement": null
         },
         "intendedWorldRef": "fixture-world",
         "orderedTargetRefs": []
       },
-      "intentDigest": "1e5e42886da8d9240b7c2fd9581b649651d7693ef78c02de87393f14e3c31d2e",
+      "intentDigest": "7a48d01640805b07b2b363599c9b09999a75c107b31c91b79c2da721ab99c06e",
       "referenceBrief": {
-        "contractVersion": "ReferenceBrief/v4",
+        "contractVersion": "ReferenceBrief/v5",
         "sessionRef": "fixture-session",
         "turnRevision": "fixture-turn-4",
         "briefRevision": "fixture-brief-4",
@@ -503,10 +506,11 @@
               "maximumDamagePerSecond": 0
             },
             "optionalLightRule": null
-          }
+          },
+          "placement": null
         }
       },
-      "referenceBriefDigest": "2daf8a8d8cb72370103dd96855ef23e5b273911365cf748e2851337706103cf5",
+      "referenceBriefDigest": "a7ff483193b2de841b0814a6931e74338f9d479bf571155b29abaca2fa05972e",
       "catalogue": {
         "profileVersion": "catalogue/v2",
         "engineProfile": "fixture-luanti-static",
@@ -719,15 +723,15 @@
       }
     },
     "currentContext": {
-      "contractVersion": "painter/v5",
+      "contractVersion": "painter/v6",
       "sessionRef": "fixture-session",
       "worldRef": "fixture-world",
       "turnRevision": "fixture-turn-4",
       "painterId": "picture-blocks",
       "invocationId": "fixture-luanti-invocation-7",
       "intent": {
-        "contractVersion": "session/v4",
-        "referenceBriefDigest": "2daf8a8d8cb72370103dd96855ef23e5b273911365cf748e2851337706103cf5",
+        "contractVersion": "session/v5",
+        "referenceBriefDigest": "a7ff483193b2de841b0814a6931e74338f9d479bf571155b29abaca2fa05972e",
         "confirmedIntent": {
           "kind": "BUILD_STRUCTURE",
           "text": "一个小石屋",
@@ -748,14 +752,15 @@
               "maximumDamagePerSecond": 0
             },
             "optionalLightRule": null
-          }
+          },
+          "placement": null
         },
         "intendedWorldRef": "fixture-world",
         "orderedTargetRefs": []
       },
-      "intentDigest": "1e5e42886da8d9240b7c2fd9581b649651d7693ef78c02de87393f14e3c31d2e",
+      "intentDigest": "7a48d01640805b07b2b363599c9b09999a75c107b31c91b79c2da721ab99c06e",
       "referenceBrief": {
-        "contractVersion": "ReferenceBrief/v4",
+        "contractVersion": "ReferenceBrief/v5",
         "sessionRef": "fixture-session",
         "turnRevision": "fixture-turn-4",
         "briefRevision": "fixture-brief-4",
@@ -779,10 +784,11 @@
               "maximumDamagePerSecond": 0
             },
             "optionalLightRule": null
-          }
+          },
+          "placement": null
         }
       },
-      "referenceBriefDigest": "2daf8a8d8cb72370103dd96855ef23e5b273911365cf748e2851337706103cf5",
+      "referenceBriefDigest": "a7ff483193b2de841b0814a6931e74338f9d479bf571155b29abaca2fa05972e",
       "catalogue": {
         "profileVersion": "catalogue/v2",
         "engineProfile": "fixture-luanti-static",
@@ -1003,7 +1009,7 @@
       },
       "sessionRef": "fixture-session",
       "currentTurnRevision": "fixture-turn-4",
-      "currentBriefDigest": "2daf8a8d8cb72370103dd96855ef23e5b273911365cf748e2851337706103cf5",
+      "currentBriefDigest": "a7ff483193b2de841b0814a6931e74338f9d479bf571155b29abaca2fa05972e",
       "requestState": "ACTIVE",
       "replay": "NEW",
       "priorRequestDigest": null

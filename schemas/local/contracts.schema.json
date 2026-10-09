@@ -1,9 +1,9 @@
 {
   "$schema": "http://json-schema.org/draft-07/schema#",
-  "$id": "https://hanaworlds.invalid/contracts/1.0.0/schema.json",
+  "$id": "https://hanaworlds.invalid/contracts/2.0.0-rc.1/schema.json",
   "x-contractsCompatibility": {
     "package": "hanaworlds-contracts",
-    "major": 1,
+    "major": 2,
     "rule": "same-major"
   },
   "definitions": {
@@ -479,7 +479,7 @@
       "type": "object",
       "properties": {
         "contractVersion": {
-          "const": "canvas/v6"
+          "const": "canvas/v7"
         },
         "event": {
           "const": "ActiveObjectSelectionReplaced"
@@ -504,7 +504,7 @@
       "type": "object",
       "properties": {
         "contractVersion": {
-          "const": "canvas/v6"
+          "const": "canvas/v7"
         },
         "event": {
           "const": "ActiveWorldChanged"
@@ -550,7 +550,7 @@
       "type": "object",
       "properties": {
         "contractVersion": {
-          "const": "session/v4"
+          "const": "session/v5"
         },
         "sessionRef": {
           "$ref": "#/definitions/Ref"
@@ -583,7 +583,7 @@
       "type": "object",
       "properties": {
         "contractVersion": {
-          "const": "session/v4"
+          "const": "session/v5"
         },
         "requestId": {
           "$ref": "#/definitions/Ref"
@@ -666,7 +666,7 @@
       "type": "object",
       "properties": {
         "contractVersion": {
-          "const": "canvas/v6"
+          "const": "canvas/v7"
         },
         "requestId": {
           "$ref": "#/definitions/Ref"
@@ -705,7 +705,7 @@
       "type": "object",
       "properties": {
         "contractVersion": {
-          "const": "canvas/v6"
+          "const": "canvas/v7"
         },
         "event": {
           "const": "AffectedObjectAnalysisReady"
@@ -730,7 +730,7 @@
       "type": "object",
       "properties": {
         "contractVersion": {
-          "const": "canvas/v6"
+          "const": "canvas/v7"
         },
         "requestId": {
           "$ref": "#/definitions/Ref"
@@ -769,7 +769,7 @@
       "type": "object",
       "properties": {
         "contractVersion": {
-          "const": "canvas/v6"
+          "const": "canvas/v7"
         },
         "event": {
           "const": "AffectedObjectNotificationRequired"
@@ -794,7 +794,7 @@
       "type": "object",
       "properties": {
         "contractVersion": {
-          "const": "canvas/v6"
+          "const": "canvas/v7"
         },
         "worldRef": {
           "$ref": "#/definitions/Ref"
@@ -835,7 +835,7 @@
       "type": "object",
       "properties": {
         "contractVersion": {
-          "const": "canvas/v6"
+          "const": "canvas/v7"
         },
         "sessionRef": {
           "$ref": "#/definitions/Ref"
@@ -888,7 +888,7 @@
       "type": "object",
       "properties": {
         "contractVersion": {
-          "const": "session/v4"
+          "const": "session/v5"
         },
         "sessionRef": {
           "$ref": "#/definitions/Ref"
@@ -929,7 +929,7 @@
       "type": "object",
       "properties": {
         "contractVersion": {
-          "const": "session/v4"
+          "const": "session/v5"
         },
         "requestId": {
           "$ref": "#/definitions/Ref"
@@ -968,7 +968,7 @@
       "type": "object",
       "properties": {
         "contractVersion": {
-          "const": "session/v4"
+          "const": "session/v5"
         },
         "sessionRef": {
           "$ref": "#/definitions/Ref"
@@ -1013,7 +1013,7 @@
       "type": "object",
       "properties": {
         "contractVersion": {
-          "const": "session/v4"
+          "const": "session/v5"
         },
         "requestId": {
           "$ref": "#/definitions/Ref"
@@ -1159,7 +1159,7 @@
       "type": "object",
       "properties": {
         "contractVersion": {
-          "const": "canvas/v6"
+          "const": "canvas/v7"
         },
         "sessionRef": {
           "$ref": "#/definitions/Ref"
@@ -1297,7 +1297,7 @@
       "type": "object",
       "properties": {
         "contractVersion": {
-          "const": "ReferenceBrief/v4"
+          "const": "ReferenceBrief/v5"
         },
         "sessionRef": {
           "$ref": "#/definitions/Ref"
@@ -1334,7 +1334,7 @@
       "type": "object",
       "properties": {
         "contractVersion": {
-          "const": "ReferenceBrief/v4"
+          "const": "ReferenceBrief/v5"
         },
         "requestId": {
           "$ref": "#/definitions/Ref"
@@ -1411,7 +1411,7 @@
       "type": "object",
       "properties": {
         "contractVersion": {
-          "const": "ReferenceBrief/v4"
+          "const": "ReferenceBrief/v5"
         },
         "sessionRef": {
           "$ref": "#/definitions/Ref"
@@ -1832,7 +1832,7 @@
       "type": "object",
       "properties": {
         "contractVersion": {
-          "const": "painter/v5"
+          "const": "painter/v6"
         },
         "sessionRef": {
           "$ref": "#/definitions/Ref"
@@ -1936,7 +1936,7 @@
       "type": "object",
       "properties": {
         "contractVersion": {
-          "const": "canvas/v6"
+          "const": "canvas/v7"
         },
         "requestId": {
           "$ref": "#/definitions/Ref"
@@ -1975,7 +1975,7 @@
       "type": "object",
       "properties": {
         "contractVersion": {
-          "const": "canvas/v6"
+          "const": "canvas/v7"
         },
         "sessionRef": {
           "$ref": "#/definitions/Ref"
@@ -2020,7 +2020,7 @@
       "type": "object",
       "properties": {
         "contractVersion": {
-          "const": "canvas/v6"
+          "const": "canvas/v7"
         },
         "sessionRef": {
           "$ref": "#/definitions/Ref"
@@ -2053,7 +2053,7 @@
       "type": "object",
       "properties": {
         "contractVersion": {
-          "const": "canvas/v6"
+          "const": "canvas/v7"
         },
         "requestId": {
           "$ref": "#/definitions/Ref"
@@ -2351,6 +2351,16 @@
         },
         "siteRules": {
           "$ref": "#/definitions/SiteRules"
+        },
+        "placement": {
+          "anyOf": [
+            {
+              "$ref": "#/definitions/PlacementProposal"
+            },
+            {
+              "type": "null"
+            }
+          ]
         }
       },
       "required": [
@@ -2360,7 +2370,8 @@
         "dimensions",
         "entrancePortalRefs",
         "confirmedTurnRevision",
-        "siteRules"
+        "siteRules",
+        "placement"
       ],
       "additionalProperties": false,
       "x-typeName": "ConfirmedIntent"
@@ -2502,6 +2513,16 @@
               "type": "null"
             }
           ]
+        },
+        "placement": {
+          "anyOf": [
+            {
+              "$ref": "#/definitions/PlacementProposal"
+            },
+            {
+              "type": "null"
+            }
+          ]
         }
       },
       "required": [
@@ -2509,7 +2530,8 @@
         "dimensions",
         "entrancePortalRefs",
         "styleText",
-        "siteRules"
+        "siteRules",
+        "placement"
       ],
       "additionalProperties": false,
       "x-typeName": "Controls"
@@ -2556,7 +2578,7 @@
       "type": "object",
       "properties": {
         "contractVersion": {
-          "const": "painter/v5"
+          "const": "painter/v6"
         },
         "sessionRef": {
           "$ref": "#/definitions/Ref"
@@ -2644,7 +2666,7 @@
       "type": "object",
       "properties": {
         "contractVersion": {
-          "const": "painter/v5"
+          "const": "painter/v6"
         },
         "requestId": {
           "$ref": "#/definitions/Ref"
@@ -2683,7 +2705,7 @@
       "type": "object",
       "properties": {
         "contractVersion": {
-          "const": "canvas/v6"
+          "const": "canvas/v7"
         },
         "sessionRef": {
           "$ref": "#/definitions/Ref"
@@ -2899,7 +2921,7 @@
       "type": "object",
       "properties": {
         "contractVersion": {
-          "const": "canvas/v6"
+          "const": "canvas/v7"
         },
         "sessionRef": {
           "$ref": "#/definitions/Ref"
@@ -2989,7 +3011,7 @@
       "type": "object",
       "properties": {
         "contractVersion": {
-          "const": "session/v4"
+          "const": "session/v5"
         },
         "sessionRef": {
           "$ref": "#/definitions/Ref"
@@ -3014,7 +3036,7 @@
       "type": "object",
       "properties": {
         "contractVersion": {
-          "const": "session/v4"
+          "const": "session/v5"
         },
         "requestId": {
           "$ref": "#/definitions/Ref"
@@ -3632,7 +3654,7 @@
       "type": "object",
       "properties": {
         "contractVersion": {
-          "const": "canvas/v6"
+          "const": "canvas/v7"
         },
         "event": {
           "const": "HistoryInventoryChanged"
@@ -3736,7 +3758,7 @@
           "type": "object",
           "properties": {
             "contractVersion": {
-              "const": "canvas/v6"
+              "const": "canvas/v7"
             },
             "event": {
               "const": "HistoryPositionChanged"
@@ -3760,7 +3782,7 @@
           "type": "object",
           "properties": {
             "contractVersion": {
-              "const": "canvas/v6"
+              "const": "canvas/v7"
             },
             "event": {
               "const": "HistoryPositionChanged"
@@ -3792,7 +3814,7 @@
       "type": "object",
       "properties": {
         "contractVersion": {
-          "const": "canvas/v6"
+          "const": "canvas/v7"
         },
         "sessionRef": {
           "$ref": "#/definitions/Ref"
@@ -3880,7 +3902,7 @@
       "type": "object",
       "properties": {
         "contractVersion": {
-          "const": "canvas/v6"
+          "const": "canvas/v7"
         },
         "sessionRef": {
           "$ref": "#/definitions/Ref"
@@ -3921,7 +3943,7 @@
       "type": "object",
       "properties": {
         "contractVersion": {
-          "const": "canvas/v6"
+          "const": "canvas/v7"
         },
         "sessionRef": {
           "$ref": "#/definitions/Ref"
@@ -4143,7 +4165,7 @@
       "type": "object",
       "properties": {
         "contractVersion": {
-          "const": "session/v4"
+          "const": "session/v5"
         },
         "referenceBriefDigest": {
           "$ref": "#/definitions/Digest"
@@ -4396,7 +4418,7 @@
       "type": "object",
       "properties": {
         "contractVersion": {
-          "const": "canvas/v6"
+          "const": "canvas/v7"
         },
         "sessionRef": {
           "$ref": "#/definitions/Ref"
@@ -4436,7 +4458,7 @@
       "type": "object",
       "properties": {
         "contractVersion": {
-          "const": "canvas/v6"
+          "const": "canvas/v7"
         },
         "sessionRef": {
           "$ref": "#/definitions/Ref"
@@ -4934,7 +4956,7 @@
       "type": "object",
       "properties": {
         "contractVersion": {
-          "const": "canvas/v6"
+          "const": "canvas/v7"
         },
         "sessionRef": {
           "$ref": "#/definitions/Ref"
@@ -5255,7 +5277,7 @@
       "type": "object",
       "properties": {
         "contractVersion": {
-          "const": "canvas/v6"
+          "const": "canvas/v7"
         },
         "event": {
           "const": "ObjectCreated"
@@ -5280,7 +5302,7 @@
       "type": "object",
       "properties": {
         "contractVersion": {
-          "const": "canvas/v6"
+          "const": "canvas/v7"
         },
         "requestId": {
           "$ref": "#/definitions/Ref"
@@ -5319,7 +5341,7 @@
       "type": "object",
       "properties": {
         "contractVersion": {
-          "const": "canvas/v6"
+          "const": "canvas/v7"
         },
         "requestId": {
           "$ref": "#/definitions/Ref"
@@ -5358,7 +5380,7 @@
       "type": "object",
       "properties": {
         "contractVersion": {
-          "const": "canvas/v6"
+          "const": "canvas/v7"
         },
         "requestId": {
           "$ref": "#/definitions/Ref"
@@ -5397,7 +5419,7 @@
       "type": "object",
       "properties": {
         "contractVersion": {
-          "const": "canvas/v6"
+          "const": "canvas/v7"
         },
         "event": {
           "const": "ObjectInspectionInvalidated"
@@ -5447,7 +5469,7 @@
       "type": "object",
       "properties": {
         "contractVersion": {
-          "const": "canvas/v6"
+          "const": "canvas/v7"
         },
         "event": {
           "const": "ObjectInventoryChanged"
@@ -5472,7 +5494,7 @@
       "type": "object",
       "properties": {
         "contractVersion": {
-          "const": "canvas/v6"
+          "const": "canvas/v7"
         },
         "requestId": {
           "$ref": "#/definitions/Ref"
@@ -5513,7 +5535,7 @@
           "type": "object",
           "properties": {
             "contractVersion": {
-              "const": "canvas/v6"
+              "const": "canvas/v7"
             },
             "event": {
               "const": "ObjectNameChanged"
@@ -5537,7 +5559,7 @@
           "type": "object",
           "properties": {
             "contractVersion": {
-              "const": "canvas/v6"
+              "const": "canvas/v7"
             },
             "event": {
               "const": "ObjectNameChanged"
@@ -5606,7 +5628,7 @@
       "type": "object",
       "properties": {
         "contractVersion": {
-          "const": "canvas/v6"
+          "const": "canvas/v7"
         },
         "requestId": {
           "$ref": "#/definitions/Ref"
@@ -5696,7 +5718,7 @@
       "type": "object",
       "properties": {
         "contractVersion": {
-          "const": "canvas/v6"
+          "const": "canvas/v7"
         },
         "requestId": {
           "$ref": "#/definitions/Ref"
@@ -5770,7 +5792,7 @@
       "type": "object",
       "properties": {
         "contractVersion": {
-          "const": "canvas/v6"
+          "const": "canvas/v7"
         },
         "requestId": {
           "$ref": "#/definitions/Ref"
@@ -5918,7 +5940,7 @@
       "type": "object",
       "properties": {
         "contractVersion": {
-          "const": "session/v4"
+          "const": "session/v5"
         },
         "sessionRef": {
           "$ref": "#/definitions/Ref"
@@ -5955,7 +5977,7 @@
       "type": "object",
       "properties": {
         "contractVersion": {
-          "const": "session/v4"
+          "const": "session/v5"
         },
         "requestId": {
           "$ref": "#/definitions/Ref"
@@ -6183,7 +6205,7 @@
       "type": "object",
       "properties": {
         "contractVersion": {
-          "const": "canvas/v6"
+          "const": "canvas/v7"
         },
         "requestId": {
           "$ref": "#/definitions/Ref"
@@ -6839,7 +6861,7 @@
       "type": "object",
       "properties": {
         "contractVersion": {
-          "const": "session/v4"
+          "const": "session/v5"
         },
         "sessionRef": {
           "$ref": "#/definitions/Ref"
@@ -6868,7 +6890,7 @@
       "type": "object",
       "properties": {
         "contractVersion": {
-          "const": "session/v4"
+          "const": "session/v5"
         },
         "requestId": {
           "$ref": "#/definitions/Ref"
@@ -6907,7 +6929,7 @@
       "type": "object",
       "properties": {
         "contractVersion": {
-          "const": "session/v4"
+          "const": "session/v5"
         },
         "sessionRef": {
           "$ref": "#/definitions/Ref"
@@ -6932,7 +6954,7 @@
       "type": "object",
       "properties": {
         "contractVersion": {
-          "const": "session/v4"
+          "const": "session/v5"
         },
         "requestId": {
           "$ref": "#/definitions/Ref"
@@ -6971,7 +6993,7 @@
       "type": "object",
       "properties": {
         "contractVersion": {
-          "const": "canvas/v6"
+          "const": "canvas/v7"
         },
         "sessionRef": {
           "$ref": "#/definitions/Ref"
@@ -6996,7 +7018,7 @@
       "type": "object",
       "properties": {
         "contractVersion": {
-          "const": "canvas/v6"
+          "const": "canvas/v7"
         },
         "requestId": {
           "$ref": "#/definitions/Ref"
@@ -7149,7 +7171,7 @@
       "type": "object",
       "properties": {
         "contractVersion": {
-          "const": "canvas/v6"
+          "const": "canvas/v7"
         },
         "transactionId": {
           "$ref": "#/definitions/Ref"
@@ -7301,7 +7323,7 @@
       "type": "object",
       "properties": {
         "contractVersion": {
-          "const": "session/v4"
+          "const": "session/v5"
         },
         "sessionRef": {
           "$ref": "#/definitions/Ref"
@@ -7342,7 +7364,7 @@
       "type": "object",
       "properties": {
         "contractVersion": {
-          "const": "session/v4"
+          "const": "session/v5"
         },
         "requestId": {
           "$ref": "#/definitions/Ref"
@@ -7390,7 +7412,7 @@
       "type": "object",
       "properties": {
         "contractVersion": {
-          "const": "canvas/v6"
+          "const": "canvas/v7"
         },
         "requestId": {
           "$ref": "#/definitions/Ref"
@@ -7440,7 +7462,7 @@
       "type": "object",
       "properties": {
         "contractVersion": {
-          "const": "canvas/v6"
+          "const": "canvas/v7"
         },
         "requestId": {
           "$ref": "#/definitions/Ref"
@@ -7490,7 +7512,7 @@
       "type": "object",
       "properties": {
         "contractVersion": {
-          "const": "canvas/v6"
+          "const": "canvas/v7"
         },
         "sessionRef": {
           "$ref": "#/definitions/Ref"
@@ -7566,7 +7588,7 @@
       "type": "object",
       "properties": {
         "contractVersion": {
-          "const": "ReferenceBrief/v4"
+          "const": "ReferenceBrief/v5"
         },
         "sessionRef": {
           "$ref": "#/definitions/Ref"
@@ -7599,7 +7621,7 @@
       "type": "object",
       "properties": {
         "contractVersion": {
-          "const": "ReferenceBrief/v4"
+          "const": "ReferenceBrief/v5"
         },
         "requestId": {
           "$ref": "#/definitions/Ref"
@@ -7642,11 +7664,22 @@
         },
         "build": {
           "$ref": "#/definitions/BuildProjection"
+        },
+        "confirmedPlacement": {
+          "anyOf": [
+            {
+              "$ref": "#/definitions/ConfirmedPlacementBinding"
+            },
+            {
+              "type": "null"
+            }
+          ]
         }
       },
       "required": [
         "inspectionId",
-        "build"
+        "build",
+        "confirmedPlacement"
       ],
       "additionalProperties": false,
       "x-typeName": "RegionApplyBinding"
@@ -7696,7 +7729,7 @@
       "type": "object",
       "properties": {
         "contractVersion": {
-          "const": "canvas/v6"
+          "const": "canvas/v7"
         },
         "sessionRef": {
           "$ref": "#/definitions/Ref"
@@ -7741,7 +7774,7 @@
       "type": "object",
       "properties": {
         "contractVersion": {
-          "const": "session/v4"
+          "const": "session/v5"
         },
         "sessionRef": {
           "$ref": "#/definitions/Ref"
@@ -7778,7 +7811,7 @@
       "type": "object",
       "properties": {
         "contractVersion": {
-          "const": "session/v4"
+          "const": "session/v5"
         },
         "requestId": {
           "$ref": "#/definitions/Ref"
@@ -8635,7 +8668,7 @@
       "type": "object",
       "properties": {
         "contractVersion": {
-          "const": "canvas/v6"
+          "const": "canvas/v7"
         },
         "sessionRef": {
           "$ref": "#/definitions/Ref"
@@ -8683,7 +8716,7 @@
       "type": "object",
       "properties": {
         "contractVersion": {
-          "const": "session/v4"
+          "const": "session/v5"
         },
         "sessionRef": {
           "$ref": "#/definitions/Ref"
@@ -8712,7 +8745,7 @@
       "type": "object",
       "properties": {
         "contractVersion": {
-          "const": "session/v4"
+          "const": "session/v5"
         },
         "requestId": {
           "$ref": "#/definitions/Ref"
@@ -8878,7 +8911,7 @@
       "type": "object",
       "properties": {
         "contractVersion": {
-          "const": "canvas/v6"
+          "const": "canvas/v7"
         },
         "sessionRef": {
           "$ref": "#/definitions/Ref"
@@ -8915,7 +8948,7 @@
       "type": "object",
       "properties": {
         "contractVersion": {
-          "const": "session/v4"
+          "const": "session/v5"
         },
         "sessionRef": {
           "$ref": "#/definitions/Ref"
@@ -8947,7 +8980,7 @@
       "type": "object",
       "properties": {
         "contractVersion": {
-          "const": "session/v4"
+          "const": "session/v5"
         },
         "requestId": {
           "$ref": "#/definitions/Ref"
@@ -9029,7 +9062,7 @@
       "type": "object",
       "properties": {
         "contractVersion": {
-          "const": "canvas/v6"
+          "const": "canvas/v7"
         },
         "sessionRef": {
           "$ref": "#/definitions/Ref"
@@ -9081,7 +9114,7 @@
       "type": "object",
       "properties": {
         "contractVersion": {
-          "const": "session/v4"
+          "const": "session/v5"
         },
         "sessionRef": {
           "$ref": "#/definitions/Ref"
@@ -9118,7 +9151,7 @@
       "type": "object",
       "properties": {
         "contractVersion": {
-          "const": "session/v4"
+          "const": "session/v5"
         },
         "requestId": {
           "$ref": "#/definitions/Ref"
@@ -9312,7 +9345,7 @@
       "type": "object",
       "properties": {
         "contractVersion": {
-          "const": "canvas/v6"
+          "const": "canvas/v7"
         },
         "event": {
           "const": "TransactionAppliedPendingReadback"
@@ -9337,7 +9370,7 @@
       "type": "object",
       "properties": {
         "contractVersion": {
-          "const": "canvas/v6"
+          "const": "canvas/v7"
         },
         "event": {
           "const": "TransactionVerified"
@@ -9487,7 +9520,7 @@
       "type": "object",
       "properties": {
         "contractVersion": {
-          "const": "session/v4"
+          "const": "session/v5"
         },
         "sessionRef": {
           "$ref": "#/definitions/Ref"
@@ -9524,7 +9557,7 @@
       "type": "object",
       "properties": {
         "contractVersion": {
-          "const": "session/v4"
+          "const": "session/v5"
         },
         "requestId": {
           "$ref": "#/definitions/Ref"
@@ -9598,7 +9631,7 @@
       "type": "object",
       "properties": {
         "contractVersion": {
-          "const": "canvas/v6"
+          "const": "canvas/v7"
         },
         "requestId": {
           "$ref": "#/definitions/Ref"
@@ -9693,7 +9726,7 @@
       "type": "object",
       "properties": {
         "contractVersion": {
-          "const": "canvas/v6"
+          "const": "canvas/v7"
         },
         "sessionRef": {
           "$ref": "#/definitions/Ref"
@@ -9827,7 +9860,7 @@
       "type": "object",
       "properties": {
         "contractVersion": {
-          "const": "painter/v5"
+          "const": "painter/v6"
         },
         "sessionRef": {
           "$ref": "#/definitions/Ref"
@@ -9912,7 +9945,7 @@
       "type": "object",
       "properties": {
         "contractVersion": {
-          "const": "painter/v5"
+          "const": "painter/v6"
         },
         "requestId": {
           "$ref": "#/definitions/Ref"
@@ -10110,7 +10143,7 @@
       "type": "object",
       "properties": {
         "contractVersion": {
-          "const": "canvas/v6"
+          "const": "canvas/v7"
         },
         "event": {
           "const": "WorldConnectionInventoryChanged"
@@ -10135,7 +10168,7 @@
       "type": "object",
       "properties": {
         "contractVersion": {
-          "const": "canvas/v6"
+          "const": "canvas/v7"
         },
         "requestId": {
           "$ref": "#/definitions/Ref"
@@ -10174,7 +10207,7 @@
       "type": "object",
       "properties": {
         "contractVersion": {
-          "const": "canvas/v6"
+          "const": "canvas/v7"
         },
         "requestId": {
           "$ref": "#/definitions/Ref"
@@ -10213,7 +10246,7 @@
       "type": "object",
       "properties": {
         "contractVersion": {
-          "const": "canvas/v6"
+          "const": "canvas/v7"
         },
         "event": {
           "const": "WorldConnectionSelectionChanged"
@@ -10238,7 +10271,7 @@
       "type": "object",
       "properties": {
         "contractVersion": {
-          "const": "canvas/v6"
+          "const": "canvas/v7"
         },
         "requestId": {
           "$ref": "#/definitions/Ref"
@@ -10985,7 +11018,7 @@
       "type": "object",
       "properties": {
         "contractVersion": {
-          "const": "painter-region/v2"
+          "const": "painter-region/v3"
         },
         "sessionRef": {
           "$ref": "#/definitions/Ref"
@@ -11050,7 +11083,7 @@
       "type": "object",
       "properties": {
         "contractVersion": {
-          "const": "painter-region/v2"
+          "const": "painter-region/v3"
         },
         "requestId": {
           "$ref": "#/definitions/Ref"
@@ -12327,7 +12360,7 @@
       "type": "object",
       "properties": {
         "contractVersion": {
-          "const": "session/v4"
+          "const": "session/v5"
         },
         "requestId": {
           "$ref": "#/definitions/Ref"
@@ -12348,7 +12381,7 @@
       "type": "object",
       "properties": {
         "contractVersion": {
-          "const": "session/v4"
+          "const": "session/v5"
         },
         "requestId": {
           "$ref": "#/definitions/Ref"
@@ -12387,7 +12420,7 @@
       "type": "object",
       "properties": {
         "contractVersion": {
-          "const": "session/v4"
+          "const": "session/v5"
         },
         "requestId": {
           "$ref": "#/definitions/Ref"
@@ -12404,7 +12437,7 @@
       "type": "object",
       "properties": {
         "contractVersion": {
-          "const": "session/v4"
+          "const": "session/v5"
         },
         "requestId": {
           "$ref": "#/definitions/Ref"
@@ -12443,7 +12476,7 @@
       "type": "object",
       "properties": {
         "contractVersion": {
-          "const": "canvas/v6"
+          "const": "canvas/v7"
         },
         "sessionRef": {
           "$ref": "#/definitions/Ref"
@@ -12476,7 +12509,7 @@
       "type": "object",
       "properties": {
         "contractVersion": {
-          "const": "canvas/v6"
+          "const": "canvas/v7"
         },
         "requestId": {
           "$ref": "#/definitions/Ref"
@@ -12515,7 +12548,7 @@
       "type": "object",
       "properties": {
         "contractVersion": {
-          "const": "canvas/v6"
+          "const": "canvas/v7"
         },
         "sessionRef": {
           "$ref": "#/definitions/Ref"
@@ -12564,7 +12597,7 @@
       "type": "object",
       "properties": {
         "contractVersion": {
-          "const": "canvas/v6"
+          "const": "canvas/v7"
         },
         "requestId": {
           "$ref": "#/definitions/Ref"
@@ -12603,7 +12636,7 @@
       "type": "object",
       "properties": {
         "contractVersion": {
-          "const": "canvas/v6"
+          "const": "canvas/v7"
         },
         "requestId": {
           "$ref": "#/definitions/Ref"
@@ -12656,7 +12689,7 @@
       "type": "object",
       "properties": {
         "contractVersion": {
-          "const": "canvas/v6"
+          "const": "canvas/v7"
         },
         "requestId": {
           "$ref": "#/definitions/Ref"
@@ -12695,7 +12728,7 @@
       "type": "object",
       "properties": {
         "contractVersion": {
-          "const": "canvas/v6"
+          "const": "canvas/v7"
         },
         "requestId": {
           "$ref": "#/definitions/Ref"
@@ -12741,7 +12774,7 @@
       "type": "object",
       "properties": {
         "contractVersion": {
-          "const": "canvas/v6"
+          "const": "canvas/v7"
         },
         "requestId": {
           "$ref": "#/definitions/Ref"
@@ -12787,7 +12820,7 @@
       "type": "object",
       "properties": {
         "contractVersion": {
-          "const": "canvas/v6"
+          "const": "canvas/v7"
         },
         "requestId": {
           "$ref": "#/definitions/Ref"
@@ -12841,7 +12874,7 @@
       "type": "object",
       "properties": {
         "contractVersion": {
-          "const": "canvas/v6"
+          "const": "canvas/v7"
         },
         "requestId": {
           "$ref": "#/definitions/Ref"
@@ -13303,6 +13336,133 @@
       "maxItems": 3,
       "x-uniqueBy": "guard",
       "x-order": "guard EngineGuard enum order"
+    },
+    "PlacementCells": {
+      "type": "array",
+      "items": {
+        "$ref": "#/definitions/Position"
+      },
+      "minItems": 1,
+      "uniqueItems": true,
+      "x-typeName": "PlacementCells",
+      "x-order": "numeric x,y,z"
+    },
+    "PlacementTarget": {
+      "oneOf": [
+        {
+          "type": "object",
+          "properties": {
+            "kind": {
+              "const": "EXACT_CELLS"
+            },
+            "cells": {
+              "$ref": "#/definitions/PlacementCells"
+            }
+          },
+          "required": [
+            "kind",
+            "cells"
+          ],
+          "additionalProperties": false
+        },
+        {
+          "type": "object",
+          "properties": {
+            "kind": {
+              "const": "ANCHORED_EXTENT"
+            },
+            "bounds": {
+              "$ref": "#/definitions/Box"
+            }
+          },
+          "required": [
+            "kind",
+            "bounds"
+          ],
+          "additionalProperties": false
+        }
+      ],
+      "x-discriminator": "kind",
+      "x-variantKeys": [
+        "EXACT_CELLS",
+        "ANCHORED_EXTENT"
+      ],
+      "x-typeName": "PlacementTarget"
+    },
+    "PlacementSource": {
+      "type": "object",
+      "properties": {
+        "inspectionId": {
+          "$ref": "#/definitions/Ref"
+        },
+        "anchorKind": {
+          "$ref": "#/definitions/PlacementAnchorKind"
+        },
+        "worldRevision": {
+          "$ref": "#/definitions/Revision"
+        },
+        "targetFactsDigest": {
+          "$ref": "#/definitions/Digest"
+        },
+        "frameDigest": {
+          "$ref": "#/definitions/Digest"
+        }
+      },
+      "required": [
+        "inspectionId",
+        "anchorKind",
+        "worldRevision",
+        "targetFactsDigest",
+        "frameDigest"
+      ],
+      "additionalProperties": false,
+      "x-typeName": "PlacementSource"
+    },
+    "PlacementProposal": {
+      "type": "object",
+      "properties": {
+        "profileVersion": {
+          "const": "placement-proposal/v1"
+        },
+        "worldRef": {
+          "$ref": "#/definitions/Ref"
+        },
+        "source": {
+          "$ref": "#/definitions/PlacementSource"
+        },
+        "target": {
+          "$ref": "#/definitions/PlacementTarget"
+        }
+      },
+      "required": [
+        "profileVersion",
+        "worldRef",
+        "source",
+        "target"
+      ],
+      "additionalProperties": false,
+      "x-typeName": "PlacementProposal"
+    },
+    "ConfirmedPlacementBinding": {
+      "type": "object",
+      "properties": {
+        "placement": {
+          "$ref": "#/definitions/PlacementProposal"
+        },
+        "placementDigest": {
+          "$ref": "#/definitions/Digest"
+        },
+        "intentDigest": {
+          "$ref": "#/definitions/Digest"
+        }
+      },
+      "required": [
+        "placement",
+        "placementDigest",
+        "intentDigest"
+      ],
+      "additionalProperties": false,
+      "x-typeName": "ConfirmedPlacementBinding"
     }
   }
 }

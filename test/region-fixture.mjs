@@ -22,10 +22,10 @@ export function buildRegionScenario(a, base) {
   });
   const block = a.encodeRegionBlock({ origin, size, palette: [stone, dirt, air], indices });
   const build = { contractVersion: 'region-build/v1', documentId: 'region-doc-1', coordinateSpace: 'WORLD_NODE', worldRef, catalogueDigest, block, declaredBounds: a.regionBlockBox(block) };
-  const proposalRequest = { contractVersion: 'painter-region/v2', sessionRef, requestId: 'painter-region-1', worldRef, turnRevision: r.turnRevision,
+  const proposalRequest = { contractVersion: 'painter-region/v3', sessionRef, requestId: 'painter-region-1', worldRef, turnRevision: r.turnRevision,
     invocationId: r.invocationId, intent: r.intent, intentDigest: r.intentDigest, referenceBrief: r.referenceBrief, referenceBriefDigest: r.referenceBriefDigest,
     catalogue, catalogueDigest, proposal: { decision: 'REGION', block }, localContext };
-  const proposalResponse = { contractVersion: 'painter-region/v2', requestId: 'painter-region-1', result: { invocationId: r.invocationId, build, buildDigest: D('region-build', build) }, error: null };
+  const proposalResponse = { contractVersion: 'painter-region/v3', requestId: 'painter-region-1', result: { invocationId: r.invocationId, build, buildDigest: D('region-build', build) }, error: null };
   const compileRequest = { contractVersion: 'region-build/v1', sessionRef, requestId: 'compile-region-1', worldRef, build, buildDigest: D('region-build', build), catalogue, catalogueDigest, compilerRevision: 'fixture-brush-region-1', localContext };
   // Reference mapblock split standing in for Brush output (FIXTURE).
   const expanded = a.expandRegionBlock(block);

@@ -17,7 +17,7 @@ let checks=0;function test(name,run){run();console.log('ok',++checks,name);}
 test('affected normal text proposal remains exact',()=>{const admitted=a.validateBuildProposalContext(base.request,base.facts);assert.deepEqual(admitted.referenceBrief.media,[]);a.validateBuildProposalResponse(admitted,base.response);});
 test('same-Session stored image survives context, raw request and geometry response',()=>{
  a.validateType('BuildProposalContext',context(image));
- const decoded=a.admitRequest('painter/v5','ValidateBuildProposal',Buffer.from(JSON.stringify(image)));
+ const decoded=a.admitRequest('painter/v6','ValidateBuildProposal',Buffer.from(JSON.stringify(image)));
  const admitted=a.validateBuildProposalContext(decoded,facts);
  assert.equal(a.canonicalJSON(admitted.referenceBrief.media),a.canonicalJSON([media]));assert.equal(admitted.referenceBrief.media[0].storedBytesDigest,storedBytesDigest);
  assert.equal(a.validateBuildProposalResponse(admitted,base.response).result.buildDigest,base.response.result.buildDigest);
@@ -43,8 +43,9 @@ test('projection variant and projected-byte digest stay paired and retained',()=
 });
 test('image package handshake is same-major with no other-major fallback',()=>{
  a.checkContractsVersion(a.contractHandshake.contracts);assert.equal(a.contractHandshake.contracts,'hanaworlds-contracts@'+a.version);a.checkBuildProposalHandshake(a.contractHandshake);
- a.checkBuildProposalHandshake({...a.contractHandshake,contracts:'hanaworlds-contracts@1.0.0'});
+ a.checkBuildProposalHandshake({...a.contractHandshake,contracts:'hanaworlds-contracts@2.0.0'});
  assert.throws(()=>a.checkBuildProposalHandshake({...a.contractHandshake,contracts:'hanaworlds-contracts@0.4.0'}),{code:'UNSUPPORTED_VERSION'});
- assert.throws(()=>a.checkBuildProposalHandshake({...a.contractHandshake,contracts:'hanaworlds-contracts@2.0.0'}),{code:'UNSUPPORTED_VERSION'});
+ assert.throws(()=>a.checkBuildProposalHandshake({...a.contractHandshake,contracts:'hanaworlds-contracts@3.0.0'}),{code:'UNSUPPORTED_VERSION'});
+ assert.throws(()=>a.checkBuildProposalHandshake({...a.contractHandshake,contracts:'hanaworlds-contracts@1.0.0'}),{code:'UNSUPPORTED_VERSION'});
 });
 console.log(JSON.stringify({evidence:'SOURCE/FIXTURE',checks,mediaBytes:bytes.length,storedBytesDigest,modelCalls:0,worldWrites:0,realRuntime:'NOT_RUN',realUI:'NOT_RUN'}));

@@ -6,6 +6,7 @@ import { validateShape } from './schema-validator.mjs';
 import { validateDomain, validateEventDomain, guardRefusalError as domainGuardRefusalError } from './domain.mjs';
 import { requireFact, fail, ContractError } from '../errors.mjs';
 import { inside, validateExactEffects, comparePosition, compareUTF16 } from '../geometry.mjs';
+import { placementApplyCoherence, requireConfirmedPlacementSent } from './placement.mjs';
 export { decodeRawJSON, snapshotJSON, deepFreeze, assertPureJSON } from '../strict-json.mjs';
 export { ContractError, publicError } from '../errors.mjs';
 export { normalizeName, validateNameSyntax, requireUnicode17, runtimeCompatibility } from '../names.mjs';
@@ -182,10 +183,10 @@ export function requireEngineGuards(declarationInput, requirements) {
  * A stated light rule always is (no light witness kind exists); a required entrance is refused
  * only on paths without an entrance check (`entrance:false`, e.g. painter-region). */
 export function requireSiteRuleChecks(rules, { entrance }) {
-  const light = safetyCapability('painter/v5:light-rule').whenAbsent;
+  const light = safetyCapability('painter/v6:light-rule').whenAbsent;
   requireFact(rules.optionalLightRule === null, light.code, light.reason, light.phase);
   if (!entrance) {
-    const e = safetyCapability('painter-region/v2:entrance-rule').whenAbsent;
+    const e = safetyCapability('painter-region/v3:entrance-rule').whenAbsent;
     requireFact(!rules.requireEntranceConnectivity, e.code, e.reason, e.phase);
   }
 }
@@ -285,6 +286,7 @@ export function validateBoundRequest(wire, name, input) {
   validateDigestBinding('build',b,request.operations.buildDigest);
   validateDigestBinding('frame',b.coordinateFrame,request.operations.frameDigest);
   associated(b.targetFactsDigest===request.operations.targetFactsDigest&&b.catalogueDigest===request.operations.catalogueDigest);
+  placementApplyCoherence(request);
  }
  if(request.historyOperationDigest){const keys=Object.keys(schemaBundle.definitions.HistoryOperationProjection.properties);
   if(keys.every(k=>Object.hasOwn(request,k)))validateDigestBinding('history-operation',Object.fromEntries(keys.map(k=>[k,request[k]])),request.historyOperationDigest);
@@ -350,8 +352,8 @@ export function checkContractHandshake(advertisedInput,required={wires:wireVersi
 }
 export function validateCurrentBuildSubmission(input,factsInput) {
  const submission=validateType('CurrentBuildSubmission',input),{parentRequest:parent,apply,intent,analysis}=submission;
- validateCurrentRequest('session/v4','AdvanceCurrentBuild',parent,factsInput);
- validateBoundRequest('canvas/v6','ApplyRecoverableCommit',apply);
+ validateCurrentRequest('session/v5','AdvanceCurrentBuild',parent,factsInput);
+ validateBoundRequest('canvas/v7','ApplyRecoverableCommit',apply);
  current(same(parent.localContext,apply.localContext));associated(parent.sessionRef===apply.sessionRef&&parent.worldRef===apply.worldRef);
  associated(intent.intendedWorldRef===parent.worldRef&&intent.confirmedIntent.confirmedTurnRevision===parent.expectedTurnRevision&&intent.referenceBriefDigest===factsInput.currentBriefDigest);
  associated(analysis.worldRef===parent.worldRef&&analysis.operationDigest===apply.operationDigest);
@@ -359,6 +361,7 @@ export function validateCurrentBuildSubmission(input,factsInput) {
  // This entry builds a fresh object. Existing affected objects are a Canvas conflict.
  requireFact(analysis.affectedObjectRefs.length===0,'OTHER_OBJECTS_AFFECTED','SCOPE_DENIED');
  associated(apply.decisionRevision===null&&apply.guarantee==='RECOVERABLE_VERIFIED');
+ requireConfirmedPlacementSent(intent,apply);
  return submission;
 }
 export function validateBoundResponse(wire,name,requestInput,responseInput) {
@@ -386,7 +389,7 @@ export function projectScopedPreparedTransaction(input) {
  return validateType('ScopedPreparedTransaction',Object.fromEntries(Object.keys(schemaBundle.definitions.ScopedPreparedTransaction.properties).map(k=>[k,result[k]])));
 }
 export function validateWorldSelection(input,factsInput,connectionInput) {
- const {request}=validateCurrentRequest('canvas/v6','SelectWorldConnection',input,factsInput);
+ const {request}=validateCurrentRequest('canvas/v7','SelectWorldConnection',input,factsInput);
  const connection=validateType('LocalConnectionReadback',connectionInput);
  current(request.connectionRef===connection.connectionRef&&request.worldRef===connection.worldRef&&request.connectionIncarnationRef===connection.connectionIncarnationRef);
  current(connection.capabilities.worldRef===connection.worldRef);

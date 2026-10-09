@@ -114,11 +114,11 @@ test('later independent changes are not claimed absent: full-state readback diff
 test('ContractHandshake is same-major; protocol interop across patches is decided only by protocol major + capabilities', () => {
   const at = v => ({ ...a.contractHandshake, contracts: 'hanaworlds-contracts@' + v });
   a.checkContractHandshake(a.contractHandshake); a.checkBuildProposalHandshake(a.contractHandshake);
-  for (const v of ['1.0.0-rc.1', '1.0.0', '1.0.1', '1.6.0']) {
+  for (const v of ['2.0.0-rc.1', '2.0.0', '2.0.1', '2.6.0']) {
     assert.equal(a.checkContractHandshake(at(v)).result, 'HANDSHAKE_VERSION_MATCH', v);
     assert.equal(a.checkBuildProposalHandshake(at(v)).result, 'HANDSHAKE_OPERATION_MATCH', v);
   }
-  for (const v of ['0.5.6', '0.6.0', '2.0.0', '2.0.0-rc.1']) {
+  for (const v of ['0.5.6', '0.6.0', '1.0.0', '1.0.0-rc.4', '3.0.0', '3.0.0-rc.1']) {
     assert.throws(() => a.checkContractHandshake(at(v)), code('UNSUPPORTED_VERSION'), v);
     assert.throws(() => a.checkBuildProposalHandshake(at(v)), code('UNSUPPORTED_VERSION'), v);
   }

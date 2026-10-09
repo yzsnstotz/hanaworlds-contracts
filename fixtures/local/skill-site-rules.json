@@ -120,7 +120,7 @@
      "code": "CAPABILITY_UNAVAILABLE",
      "reason": "REQUIRED_FACT_UNKNOWN"
     },
-    "capability": "painter/v5:light-rule"
+    "capability": "painter/v6:light-rule"
    },
    {
     "title": "entrance required without a confirmed clearance",
@@ -296,7 +296,7 @@
      "code": "CAPABILITY_UNAVAILABLE",
      "reason": "REQUIRED_FACT_UNKNOWN"
     },
-    "capability": "painter-region/v2:entrance-rule"
+    "capability": "painter-region/v3:entrance-rule"
    },
    {
     "title": "stated light rule on the region path",
@@ -305,7 +305,7 @@
      "code": "CAPABILITY_UNAVAILABLE",
      "reason": "REQUIRED_FACT_UNKNOWN"
     },
-    "capability": "painter/v5:light-rule"
+    "capability": "painter/v6:light-rule"
    },
    {
     "title": "palette node over the confirmed damage limit",
@@ -325,8 +325,8 @@
  },
  "capabilities": {
   "ids": [
-   "painter/v5:light-rule",
-   "painter-region/v2:entrance-rule"
+   "painter/v6:light-rule",
+   "painter-region/v3:entrance-rule"
   ],
   "absentError": {
    "code": "CAPABILITY_UNAVAILABLE",
@@ -729,32 +729,32 @@
      "WriteRegionResponse"
     ],
     [
-     "canvas/v6",
+     "canvas/v7",
      "ApplyRecoverableCommit",
      "RecoverableCommitAppliedReceipt"
     ],
     [
-     "canvas/v6",
+     "canvas/v7",
      "Undo",
      "UndoReceipt"
     ],
     [
-     "canvas/v6",
+     "canvas/v7",
      "Redo",
      "RedoReceipt"
     ],
     [
-     "canvas/v6",
+     "canvas/v7",
      "RecoverPendingUndo",
      "CanvasUndoRecoveryResponse"
     ],
     [
-     "canvas/v6",
+     "canvas/v7",
      "ReadPendingUndoResult",
      "CanvasUndoRecoveryResponse"
     ],
     [
-     "canvas/v6",
+     "canvas/v7",
      "InspectPlacementRegion",
      "PlacementRegionInspection"
     ],
@@ -769,17 +769,17 @@
      "UndoRegionCommitResponse"
     ],
     [
-     "session/v4",
+     "session/v5",
      "AdvanceCurrentBuild",
      "AdvanceCurrentBuildResponse"
     ],
     [
-     "session/v4",
+     "session/v5",
      "UndoCurrentBuild",
      "UndoCurrentBuildResponse"
     ],
     [
-     "session/v4",
+     "session/v5",
      "RecoverPendingUndo",
      "SessionRecoverPendingUndoResponse"
     ]

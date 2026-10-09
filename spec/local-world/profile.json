@@ -1,15 +1,15 @@
 {
-  "version": "1.0.0",
+  "version": "2.0.0-rc.1",
   "wireVersions": [
     "interaction-surface/v4",
-    "session/v4",
-    "painter/v5",
-    "ReferenceBrief/v4",
+    "session/v5",
+    "painter/v6",
+    "ReferenceBrief/v5",
     "BUILD/V4",
-    "canvas/v6",
+    "canvas/v7",
     "world-adapter/v7",
     "region-build/v1",
-    "painter-region/v2",
+    "painter-region/v3",
     "world-adapter-region/v2",
     "canvas-region/v2"
   ],
@@ -22,7 +22,7 @@
         "response": "InvokeActionResponse"
       }
     ],
-    "session/v4": [
+    "session/v5": [
       {
         "operation": "StartOrResumeSession",
         "request": "StartOrResumeSessionRequest",
@@ -99,7 +99,7 @@
         "response": "ListSessionsResponse"
       }
     ],
-    "painter/v5": [
+    "painter/v6": [
       {
         "operation": "CreateBuildPlan",
         "request": "CreateBuildPlanRequest",
@@ -112,7 +112,7 @@
         "response": "ValidateBuildProposalResponse"
       }
     ],
-    "ReferenceBrief/v4": [
+    "ReferenceBrief/v5": [
       {
         "operation": "BindReferenceBrief",
         "request": "BindReferenceBriefRequest",
@@ -131,7 +131,7 @@
         "response": "BuildDocumentResponse"
       }
     ],
-    "canvas/v6": [
+    "canvas/v7": [
       {
         "operation": "ListWorldConnections",
         "request": "ListWorldConnectionsRequest",
@@ -347,7 +347,7 @@
         "response": "CompileRegionBuildResponse"
       }
     ],
-    "painter-region/v2": [
+    "painter-region/v3": [
       {
         "operation": "ValidateRegionProposal",
         "request": "ValidateRegionProposalRequest",
@@ -410,7 +410,8 @@
       "region-operations": "RegionOperationsProjection",
       "region-summary": "RegionSummary",
       "region-snapshot-content": "RegionSnapshotContent",
-      "config-engine-facts": "ConfigEngineFactsProjection"
+      "config-engine-facts": "ConfigEngineFactsProjection",
+      "placement-proposal": "PlacementProposal"
     },
     "domainPrefixByKind": {
       "material-sources": "HanaWorlds|contracts@0.4.2|",
@@ -420,15 +421,16 @@
       "region-operations": "HanaWorlds|region-voxels/v1|",
       "region-summary": "HanaWorlds|region-voxels/v1|",
       "region-snapshot-content": "HanaWorlds|region-voxels/v1|",
-      "config-engine-facts": "HanaWorlds|config-engine-facts/v1|"
+      "config-engine-facts": "HanaWorlds|config-engine-facts/v1|",
+      "placement-proposal": "HanaWorlds|placement-proposal/v1|"
     }
   },
   "ownership": {
-    "session/v4": {
+    "session/v5": {
       "domainOwner": "Workshop",
       "mutationCaller": "none"
     },
-    "canvas/v6": {
+    "canvas/v7": {
       "domainOwner": "Canvas",
       "mutationCaller": "Canvas only"
     },
@@ -436,7 +438,7 @@
       "domainOwner": "Adapter transport",
       "mutationCaller": "Canvas only through internal dispatch"
     },
-    "painter/v5": {
+    "painter/v6": {
       "domainOwner": "Painter",
       "mutationCaller": "none"
     },
@@ -444,7 +446,7 @@
       "domainOwner": "Brush",
       "mutationCaller": "none"
     },
-    "ReferenceBrief/v4": {
+    "ReferenceBrief/v5": {
       "domainOwner": "Workshop",
       "mutationCaller": "none"
     },
@@ -456,7 +458,7 @@
       "domainOwner": "Brush",
       "mutationCaller": "none"
     },
-    "painter-region/v2": {
+    "painter-region/v3": {
       "domainOwner": "Painter",
       "mutationCaller": "none"
     },
@@ -1124,7 +1126,7 @@
       "type": "object",
       "properties": {
         "contractVersion": {
-          "const": "canvas/v6"
+          "const": "canvas/v7"
         },
         "event": {
           "const": "ActiveObjectSelectionReplaced"
@@ -1149,7 +1151,7 @@
       "type": "object",
       "properties": {
         "contractVersion": {
-          "const": "canvas/v6"
+          "const": "canvas/v7"
         },
         "event": {
           "const": "ActiveWorldChanged"
@@ -1195,7 +1197,7 @@
       "type": "object",
       "properties": {
         "contractVersion": {
-          "const": "session/v4"
+          "const": "session/v5"
         },
         "sessionRef": {
           "$ref": "#/definitions/Ref"
@@ -1228,7 +1230,7 @@
       "type": "object",
       "properties": {
         "contractVersion": {
-          "const": "session/v4"
+          "const": "session/v5"
         },
         "requestId": {
           "$ref": "#/definitions/Ref"
@@ -1311,7 +1313,7 @@
       "type": "object",
       "properties": {
         "contractVersion": {
-          "const": "canvas/v6"
+          "const": "canvas/v7"
         },
         "requestId": {
           "$ref": "#/definitions/Ref"
@@ -1350,7 +1352,7 @@
       "type": "object",
       "properties": {
         "contractVersion": {
-          "const": "canvas/v6"
+          "const": "canvas/v7"
         },
         "event": {
           "const": "AffectedObjectAnalysisReady"
@@ -1375,7 +1377,7 @@
       "type": "object",
       "properties": {
         "contractVersion": {
-          "const": "canvas/v6"
+          "const": "canvas/v7"
         },
         "requestId": {
           "$ref": "#/definitions/Ref"
@@ -1414,7 +1416,7 @@
       "type": "object",
       "properties": {
         "contractVersion": {
-          "const": "canvas/v6"
+          "const": "canvas/v7"
         },
         "event": {
           "const": "AffectedObjectNotificationRequired"
@@ -1439,7 +1441,7 @@
       "type": "object",
       "properties": {
         "contractVersion": {
-          "const": "canvas/v6"
+          "const": "canvas/v7"
         },
         "worldRef": {
           "$ref": "#/definitions/Ref"
@@ -1480,7 +1482,7 @@
       "type": "object",
       "properties": {
         "contractVersion": {
-          "const": "canvas/v6"
+          "const": "canvas/v7"
         },
         "sessionRef": {
           "$ref": "#/definitions/Ref"
@@ -1533,7 +1535,7 @@
       "type": "object",
       "properties": {
         "contractVersion": {
-          "const": "session/v4"
+          "const": "session/v5"
         },
         "sessionRef": {
           "$ref": "#/definitions/Ref"
@@ -1574,7 +1576,7 @@
       "type": "object",
       "properties": {
         "contractVersion": {
-          "const": "session/v4"
+          "const": "session/v5"
         },
         "requestId": {
           "$ref": "#/definitions/Ref"
@@ -1613,7 +1615,7 @@
       "type": "object",
       "properties": {
         "contractVersion": {
-          "const": "session/v4"
+          "const": "session/v5"
         },
         "sessionRef": {
           "$ref": "#/definitions/Ref"
@@ -1658,7 +1660,7 @@
       "type": "object",
       "properties": {
         "contractVersion": {
-          "const": "session/v4"
+          "const": "session/v5"
         },
         "requestId": {
           "$ref": "#/definitions/Ref"
@@ -1804,7 +1806,7 @@
       "type": "object",
       "properties": {
         "contractVersion": {
-          "const": "canvas/v6"
+          "const": "canvas/v7"
         },
         "sessionRef": {
           "$ref": "#/definitions/Ref"
@@ -1942,7 +1944,7 @@
       "type": "object",
       "properties": {
         "contractVersion": {
-          "const": "ReferenceBrief/v4"
+          "const": "ReferenceBrief/v5"
         },
         "sessionRef": {
           "$ref": "#/definitions/Ref"
@@ -1979,7 +1981,7 @@
       "type": "object",
       "properties": {
         "contractVersion": {
-          "const": "ReferenceBrief/v4"
+          "const": "ReferenceBrief/v5"
         },
         "requestId": {
           "$ref": "#/definitions/Ref"
@@ -2056,7 +2058,7 @@
       "type": "object",
       "properties": {
         "contractVersion": {
-          "const": "ReferenceBrief/v4"
+          "const": "ReferenceBrief/v5"
         },
         "sessionRef": {
           "$ref": "#/definitions/Ref"
@@ -2477,7 +2479,7 @@
       "type": "object",
       "properties": {
         "contractVersion": {
-          "const": "painter/v5"
+          "const": "painter/v6"
         },
         "sessionRef": {
           "$ref": "#/definitions/Ref"
@@ -2581,7 +2583,7 @@
       "type": "object",
       "properties": {
         "contractVersion": {
-          "const": "canvas/v6"
+          "const": "canvas/v7"
         },
         "requestId": {
           "$ref": "#/definitions/Ref"
@@ -2620,7 +2622,7 @@
       "type": "object",
       "properties": {
         "contractVersion": {
-          "const": "canvas/v6"
+          "const": "canvas/v7"
         },
         "sessionRef": {
           "$ref": "#/definitions/Ref"
@@ -2665,7 +2667,7 @@
       "type": "object",
       "properties": {
         "contractVersion": {
-          "const": "canvas/v6"
+          "const": "canvas/v7"
         },
         "sessionRef": {
           "$ref": "#/definitions/Ref"
@@ -2698,7 +2700,7 @@
       "type": "object",
       "properties": {
         "contractVersion": {
-          "const": "canvas/v6"
+          "const": "canvas/v7"
         },
         "requestId": {
           "$ref": "#/definitions/Ref"
@@ -2996,6 +2998,16 @@
         },
         "siteRules": {
           "$ref": "#/definitions/SiteRules"
+        },
+        "placement": {
+          "anyOf": [
+            {
+              "$ref": "#/definitions/PlacementProposal"
+            },
+            {
+              "type": "null"
+            }
+          ]
         }
       },
       "required": [
@@ -3005,7 +3017,8 @@
         "dimensions",
         "entrancePortalRefs",
         "confirmedTurnRevision",
-        "siteRules"
+        "siteRules",
+        "placement"
       ],
       "additionalProperties": false,
       "x-typeName": "ConfirmedIntent"
@@ -3147,6 +3160,16 @@
               "type": "null"
             }
           ]
+        },
+        "placement": {
+          "anyOf": [
+            {
+              "$ref": "#/definitions/PlacementProposal"
+            },
+            {
+              "type": "null"
+            }
+          ]
         }
       },
       "required": [
@@ -3154,7 +3177,8 @@
         "dimensions",
         "entrancePortalRefs",
         "styleText",
-        "siteRules"
+        "siteRules",
+        "placement"
       ],
       "additionalProperties": false,
       "x-typeName": "Controls"
@@ -3201,7 +3225,7 @@
       "type": "object",
       "properties": {
         "contractVersion": {
-          "const": "painter/v5"
+          "const": "painter/v6"
         },
         "sessionRef": {
           "$ref": "#/definitions/Ref"
@@ -3289,7 +3313,7 @@
       "type": "object",
       "properties": {
         "contractVersion": {
-          "const": "painter/v5"
+          "const": "painter/v6"
         },
         "requestId": {
           "$ref": "#/definitions/Ref"
@@ -3328,7 +3352,7 @@
       "type": "object",
       "properties": {
         "contractVersion": {
-          "const": "canvas/v6"
+          "const": "canvas/v7"
         },
         "sessionRef": {
           "$ref": "#/definitions/Ref"
@@ -3544,7 +3568,7 @@
       "type": "object",
       "properties": {
         "contractVersion": {
-          "const": "canvas/v6"
+          "const": "canvas/v7"
         },
         "sessionRef": {
           "$ref": "#/definitions/Ref"
@@ -3634,7 +3658,7 @@
       "type": "object",
       "properties": {
         "contractVersion": {
-          "const": "session/v4"
+          "const": "session/v5"
         },
         "sessionRef": {
           "$ref": "#/definitions/Ref"
@@ -3659,7 +3683,7 @@
       "type": "object",
       "properties": {
         "contractVersion": {
-          "const": "session/v4"
+          "const": "session/v5"
         },
         "requestId": {
           "$ref": "#/definitions/Ref"
@@ -4277,7 +4301,7 @@
       "type": "object",
       "properties": {
         "contractVersion": {
-          "const": "canvas/v6"
+          "const": "canvas/v7"
         },
         "event": {
           "const": "HistoryInventoryChanged"
@@ -4381,7 +4405,7 @@
           "type": "object",
           "properties": {
             "contractVersion": {
-              "const": "canvas/v6"
+              "const": "canvas/v7"
             },
             "event": {
               "const": "HistoryPositionChanged"
@@ -4405,7 +4429,7 @@
           "type": "object",
           "properties": {
             "contractVersion": {
-              "const": "canvas/v6"
+              "const": "canvas/v7"
             },
             "event": {
               "const": "HistoryPositionChanged"
@@ -4437,7 +4461,7 @@
       "type": "object",
       "properties": {
         "contractVersion": {
-          "const": "canvas/v6"
+          "const": "canvas/v7"
         },
         "sessionRef": {
           "$ref": "#/definitions/Ref"
@@ -4525,7 +4549,7 @@
       "type": "object",
       "properties": {
         "contractVersion": {
-          "const": "canvas/v6"
+          "const": "canvas/v7"
         },
         "sessionRef": {
           "$ref": "#/definitions/Ref"
@@ -4566,7 +4590,7 @@
       "type": "object",
       "properties": {
         "contractVersion": {
-          "const": "canvas/v6"
+          "const": "canvas/v7"
         },
         "sessionRef": {
           "$ref": "#/definitions/Ref"
@@ -4788,7 +4812,7 @@
       "type": "object",
       "properties": {
         "contractVersion": {
-          "const": "session/v4"
+          "const": "session/v5"
         },
         "referenceBriefDigest": {
           "$ref": "#/definitions/Digest"
@@ -5041,7 +5065,7 @@
       "type": "object",
       "properties": {
         "contractVersion": {
-          "const": "canvas/v6"
+          "const": "canvas/v7"
         },
         "sessionRef": {
           "$ref": "#/definitions/Ref"
@@ -5081,7 +5105,7 @@
       "type": "object",
       "properties": {
         "contractVersion": {
-          "const": "canvas/v6"
+          "const": "canvas/v7"
         },
         "sessionRef": {
           "$ref": "#/definitions/Ref"
@@ -5579,7 +5603,7 @@
       "type": "object",
       "properties": {
         "contractVersion": {
-          "const": "canvas/v6"
+          "const": "canvas/v7"
         },
         "sessionRef": {
           "$ref": "#/definitions/Ref"
@@ -5900,7 +5924,7 @@
       "type": "object",
       "properties": {
         "contractVersion": {
-          "const": "canvas/v6"
+          "const": "canvas/v7"
         },
         "event": {
           "const": "ObjectCreated"
@@ -5925,7 +5949,7 @@
       "type": "object",
       "properties": {
         "contractVersion": {
-          "const": "canvas/v6"
+          "const": "canvas/v7"
         },
         "requestId": {
           "$ref": "#/definitions/Ref"
@@ -5964,7 +5988,7 @@
       "type": "object",
       "properties": {
         "contractVersion": {
-          "const": "canvas/v6"
+          "const": "canvas/v7"
         },
         "requestId": {
           "$ref": "#/definitions/Ref"
@@ -6003,7 +6027,7 @@
       "type": "object",
       "properties": {
         "contractVersion": {
-          "const": "canvas/v6"
+          "const": "canvas/v7"
         },
         "requestId": {
           "$ref": "#/definitions/Ref"
@@ -6042,7 +6066,7 @@
       "type": "object",
       "properties": {
         "contractVersion": {
-          "const": "canvas/v6"
+          "const": "canvas/v7"
         },
         "event": {
           "const": "ObjectInspectionInvalidated"
@@ -6092,7 +6116,7 @@
       "type": "object",
       "properties": {
         "contractVersion": {
-          "const": "canvas/v6"
+          "const": "canvas/v7"
         },
         "event": {
           "const": "ObjectInventoryChanged"
@@ -6117,7 +6141,7 @@
       "type": "object",
       "properties": {
         "contractVersion": {
-          "const": "canvas/v6"
+          "const": "canvas/v7"
         },
         "requestId": {
           "$ref": "#/definitions/Ref"
@@ -6158,7 +6182,7 @@
           "type": "object",
           "properties": {
             "contractVersion": {
-              "const": "canvas/v6"
+              "const": "canvas/v7"
             },
             "event": {
               "const": "ObjectNameChanged"
@@ -6182,7 +6206,7 @@
           "type": "object",
           "properties": {
             "contractVersion": {
-              "const": "canvas/v6"
+              "const": "canvas/v7"
             },
             "event": {
               "const": "ObjectNameChanged"
@@ -6251,7 +6275,7 @@
       "type": "object",
       "properties": {
         "contractVersion": {
-          "const": "canvas/v6"
+          "const": "canvas/v7"
         },
         "requestId": {
           "$ref": "#/definitions/Ref"
@@ -6341,7 +6365,7 @@
       "type": "object",
       "properties": {
         "contractVersion": {
-          "const": "canvas/v6"
+          "const": "canvas/v7"
         },
         "requestId": {
           "$ref": "#/definitions/Ref"
@@ -6415,7 +6439,7 @@
       "type": "object",
       "properties": {
         "contractVersion": {
-          "const": "canvas/v6"
+          "const": "canvas/v7"
         },
         "requestId": {
           "$ref": "#/definitions/Ref"
@@ -6563,7 +6587,7 @@
       "type": "object",
       "properties": {
         "contractVersion": {
-          "const": "session/v4"
+          "const": "session/v5"
         },
         "sessionRef": {
           "$ref": "#/definitions/Ref"
@@ -6600,7 +6624,7 @@
       "type": "object",
       "properties": {
         "contractVersion": {
-          "const": "session/v4"
+          "const": "session/v5"
         },
         "requestId": {
           "$ref": "#/definitions/Ref"
@@ -6828,7 +6852,7 @@
       "type": "object",
       "properties": {
         "contractVersion": {
-          "const": "canvas/v6"
+          "const": "canvas/v7"
         },
         "requestId": {
           "$ref": "#/definitions/Ref"
@@ -7484,7 +7508,7 @@
       "type": "object",
       "properties": {
         "contractVersion": {
-          "const": "session/v4"
+          "const": "session/v5"
         },
         "sessionRef": {
           "$ref": "#/definitions/Ref"
@@ -7513,7 +7537,7 @@
       "type": "object",
       "properties": {
         "contractVersion": {
-          "const": "session/v4"
+          "const": "session/v5"
         },
         "requestId": {
           "$ref": "#/definitions/Ref"
@@ -7552,7 +7576,7 @@
       "type": "object",
       "properties": {
         "contractVersion": {
-          "const": "session/v4"
+          "const": "session/v5"
         },
         "sessionRef": {
           "$ref": "#/definitions/Ref"
@@ -7577,7 +7601,7 @@
       "type": "object",
       "properties": {
         "contractVersion": {
-          "const": "session/v4"
+          "const": "session/v5"
         },
         "requestId": {
           "$ref": "#/definitions/Ref"
@@ -7616,7 +7640,7 @@
       "type": "object",
       "properties": {
         "contractVersion": {
-          "const": "canvas/v6"
+          "const": "canvas/v7"
         },
         "sessionRef": {
           "$ref": "#/definitions/Ref"
@@ -7641,7 +7665,7 @@
       "type": "object",
       "properties": {
         "contractVersion": {
-          "const": "canvas/v6"
+          "const": "canvas/v7"
         },
         "requestId": {
           "$ref": "#/definitions/Ref"
@@ -7794,7 +7818,7 @@
       "type": "object",
       "properties": {
         "contractVersion": {
-          "const": "canvas/v6"
+          "const": "canvas/v7"
         },
         "transactionId": {
           "$ref": "#/definitions/Ref"
@@ -7946,7 +7970,7 @@
       "type": "object",
       "properties": {
         "contractVersion": {
-          "const": "session/v4"
+          "const": "session/v5"
         },
         "sessionRef": {
           "$ref": "#/definitions/Ref"
@@ -7987,7 +8011,7 @@
       "type": "object",
       "properties": {
         "contractVersion": {
-          "const": "session/v4"
+          "const": "session/v5"
         },
         "requestId": {
           "$ref": "#/definitions/Ref"
@@ -8035,7 +8059,7 @@
       "type": "object",
       "properties": {
         "contractVersion": {
-          "const": "canvas/v6"
+          "const": "canvas/v7"
         },
         "requestId": {
           "$ref": "#/definitions/Ref"
@@ -8085,7 +8109,7 @@
       "type": "object",
       "properties": {
         "contractVersion": {
-          "const": "canvas/v6"
+          "const": "canvas/v7"
         },
         "requestId": {
           "$ref": "#/definitions/Ref"
@@ -8135,7 +8159,7 @@
       "type": "object",
       "properties": {
         "contractVersion": {
-          "const": "canvas/v6"
+          "const": "canvas/v7"
         },
         "sessionRef": {
           "$ref": "#/definitions/Ref"
@@ -8211,7 +8235,7 @@
       "type": "object",
       "properties": {
         "contractVersion": {
-          "const": "ReferenceBrief/v4"
+          "const": "ReferenceBrief/v5"
         },
         "sessionRef": {
           "$ref": "#/definitions/Ref"
@@ -8244,7 +8268,7 @@
       "type": "object",
       "properties": {
         "contractVersion": {
-          "const": "ReferenceBrief/v4"
+          "const": "ReferenceBrief/v5"
         },
         "requestId": {
           "$ref": "#/definitions/Ref"
@@ -8287,11 +8311,22 @@
         },
         "build": {
           "$ref": "#/definitions/BuildProjection"
+        },
+        "confirmedPlacement": {
+          "anyOf": [
+            {
+              "$ref": "#/definitions/ConfirmedPlacementBinding"
+            },
+            {
+              "type": "null"
+            }
+          ]
         }
       },
       "required": [
         "inspectionId",
-        "build"
+        "build",
+        "confirmedPlacement"
       ],
       "additionalProperties": false,
       "x-typeName": "RegionApplyBinding"
@@ -8341,7 +8376,7 @@
       "type": "object",
       "properties": {
         "contractVersion": {
-          "const": "canvas/v6"
+          "const": "canvas/v7"
         },
         "sessionRef": {
           "$ref": "#/definitions/Ref"
@@ -8386,7 +8421,7 @@
       "type": "object",
       "properties": {
         "contractVersion": {
-          "const": "session/v4"
+          "const": "session/v5"
         },
         "sessionRef": {
           "$ref": "#/definitions/Ref"
@@ -8423,7 +8458,7 @@
       "type": "object",
       "properties": {
         "contractVersion": {
-          "const": "session/v4"
+          "const": "session/v5"
         },
         "requestId": {
           "$ref": "#/definitions/Ref"
@@ -9280,7 +9315,7 @@
       "type": "object",
       "properties": {
         "contractVersion": {
-          "const": "canvas/v6"
+          "const": "canvas/v7"
         },
         "sessionRef": {
           "$ref": "#/definitions/Ref"
@@ -9328,7 +9363,7 @@
       "type": "object",
       "properties": {
         "contractVersion": {
-          "const": "session/v4"
+          "const": "session/v5"
         },
         "sessionRef": {
           "$ref": "#/definitions/Ref"
@@ -9357,7 +9392,7 @@
       "type": "object",
       "properties": {
         "contractVersion": {
-          "const": "session/v4"
+          "const": "session/v5"
         },
         "requestId": {
           "$ref": "#/definitions/Ref"
@@ -9523,7 +9558,7 @@
       "type": "object",
       "properties": {
         "contractVersion": {
-          "const": "canvas/v6"
+          "const": "canvas/v7"
         },
         "sessionRef": {
           "$ref": "#/definitions/Ref"
@@ -9560,7 +9595,7 @@
       "type": "object",
       "properties": {
         "contractVersion": {
-          "const": "session/v4"
+          "const": "session/v5"
         },
         "sessionRef": {
           "$ref": "#/definitions/Ref"
@@ -9592,7 +9627,7 @@
       "type": "object",
       "properties": {
         "contractVersion": {
-          "const": "session/v4"
+          "const": "session/v5"
         },
         "requestId": {
           "$ref": "#/definitions/Ref"
@@ -9674,7 +9709,7 @@
       "type": "object",
       "properties": {
         "contractVersion": {
-          "const": "canvas/v6"
+          "const": "canvas/v7"
         },
         "sessionRef": {
           "$ref": "#/definitions/Ref"
@@ -9726,7 +9761,7 @@
       "type": "object",
       "properties": {
         "contractVersion": {
-          "const": "session/v4"
+          "const": "session/v5"
         },
         "sessionRef": {
           "$ref": "#/definitions/Ref"
@@ -9763,7 +9798,7 @@
       "type": "object",
       "properties": {
         "contractVersion": {
-          "const": "session/v4"
+          "const": "session/v5"
         },
         "requestId": {
           "$ref": "#/definitions/Ref"
@@ -9957,7 +9992,7 @@
       "type": "object",
       "properties": {
         "contractVersion": {
-          "const": "canvas/v6"
+          "const": "canvas/v7"
         },
         "event": {
           "const": "TransactionAppliedPendingReadback"
@@ -9982,7 +10017,7 @@
       "type": "object",
       "properties": {
         "contractVersion": {
-          "const": "canvas/v6"
+          "const": "canvas/v7"
         },
         "event": {
           "const": "TransactionVerified"
@@ -10132,7 +10167,7 @@
       "type": "object",
       "properties": {
         "contractVersion": {
-          "const": "session/v4"
+          "const": "session/v5"
         },
         "sessionRef": {
           "$ref": "#/definitions/Ref"
@@ -10169,7 +10204,7 @@
       "type": "object",
       "properties": {
         "contractVersion": {
-          "const": "session/v4"
+          "const": "session/v5"
         },
         "requestId": {
           "$ref": "#/definitions/Ref"
@@ -10243,7 +10278,7 @@
       "type": "object",
       "properties": {
         "contractVersion": {
-          "const": "canvas/v6"
+          "const": "canvas/v7"
         },
         "requestId": {
           "$ref": "#/definitions/Ref"
@@ -10338,7 +10373,7 @@
       "type": "object",
       "properties": {
         "contractVersion": {
-          "const": "canvas/v6"
+          "const": "canvas/v7"
         },
         "sessionRef": {
           "$ref": "#/definitions/Ref"
@@ -10472,7 +10507,7 @@
       "type": "object",
       "properties": {
         "contractVersion": {
-          "const": "painter/v5"
+          "const": "painter/v6"
         },
         "sessionRef": {
           "$ref": "#/definitions/Ref"
@@ -10557,7 +10592,7 @@
       "type": "object",
       "properties": {
         "contractVersion": {
-          "const": "painter/v5"
+          "const": "painter/v6"
         },
         "requestId": {
           "$ref": "#/definitions/Ref"
@@ -10755,7 +10790,7 @@
       "type": "object",
       "properties": {
         "contractVersion": {
-          "const": "canvas/v6"
+          "const": "canvas/v7"
         },
         "event": {
           "const": "WorldConnectionInventoryChanged"
@@ -10780,7 +10815,7 @@
       "type": "object",
       "properties": {
         "contractVersion": {
-          "const": "canvas/v6"
+          "const": "canvas/v7"
         },
         "requestId": {
           "$ref": "#/definitions/Ref"
@@ -10819,7 +10854,7 @@
       "type": "object",
       "properties": {
         "contractVersion": {
-          "const": "canvas/v6"
+          "const": "canvas/v7"
         },
         "requestId": {
           "$ref": "#/definitions/Ref"
@@ -10858,7 +10893,7 @@
       "type": "object",
       "properties": {
         "contractVersion": {
-          "const": "canvas/v6"
+          "const": "canvas/v7"
         },
         "event": {
           "const": "WorldConnectionSelectionChanged"
@@ -10883,7 +10918,7 @@
       "type": "object",
       "properties": {
         "contractVersion": {
-          "const": "canvas/v6"
+          "const": "canvas/v7"
         },
         "requestId": {
           "$ref": "#/definitions/Ref"
@@ -11630,7 +11665,7 @@
       "type": "object",
       "properties": {
         "contractVersion": {
-          "const": "painter-region/v2"
+          "const": "painter-region/v3"
         },
         "sessionRef": {
           "$ref": "#/definitions/Ref"
@@ -11695,7 +11730,7 @@
       "type": "object",
       "properties": {
         "contractVersion": {
-          "const": "painter-region/v2"
+          "const": "painter-region/v3"
         },
         "requestId": {
           "$ref": "#/definitions/Ref"
@@ -12972,7 +13007,7 @@
       "type": "object",
       "properties": {
         "contractVersion": {
-          "const": "session/v4"
+          "const": "session/v5"
         },
         "requestId": {
           "$ref": "#/definitions/Ref"
@@ -12993,7 +13028,7 @@
       "type": "object",
       "properties": {
         "contractVersion": {
-          "const": "session/v4"
+          "const": "session/v5"
         },
         "requestId": {
           "$ref": "#/definitions/Ref"
@@ -13032,7 +13067,7 @@
       "type": "object",
       "properties": {
         "contractVersion": {
-          "const": "session/v4"
+          "const": "session/v5"
         },
         "requestId": {
           "$ref": "#/definitions/Ref"
@@ -13049,7 +13084,7 @@
       "type": "object",
       "properties": {
         "contractVersion": {
-          "const": "session/v4"
+          "const": "session/v5"
         },
         "requestId": {
           "$ref": "#/definitions/Ref"
@@ -13088,7 +13123,7 @@
       "type": "object",
       "properties": {
         "contractVersion": {
-          "const": "canvas/v6"
+          "const": "canvas/v7"
         },
         "sessionRef": {
           "$ref": "#/definitions/Ref"
@@ -13121,7 +13156,7 @@
       "type": "object",
       "properties": {
         "contractVersion": {
-          "const": "canvas/v6"
+          "const": "canvas/v7"
         },
         "requestId": {
           "$ref": "#/definitions/Ref"
@@ -13160,7 +13195,7 @@
       "type": "object",
       "properties": {
         "contractVersion": {
-          "const": "canvas/v6"
+          "const": "canvas/v7"
         },
         "sessionRef": {
           "$ref": "#/definitions/Ref"
@@ -13209,7 +13244,7 @@
       "type": "object",
       "properties": {
         "contractVersion": {
-          "const": "canvas/v6"
+          "const": "canvas/v7"
         },
         "requestId": {
           "$ref": "#/definitions/Ref"
@@ -13248,7 +13283,7 @@
       "type": "object",
       "properties": {
         "contractVersion": {
-          "const": "canvas/v6"
+          "const": "canvas/v7"
         },
         "requestId": {
           "$ref": "#/definitions/Ref"
@@ -13301,7 +13336,7 @@
       "type": "object",
       "properties": {
         "contractVersion": {
-          "const": "canvas/v6"
+          "const": "canvas/v7"
         },
         "requestId": {
           "$ref": "#/definitions/Ref"
@@ -13340,7 +13375,7 @@
       "type": "object",
       "properties": {
         "contractVersion": {
-          "const": "canvas/v6"
+          "const": "canvas/v7"
         },
         "requestId": {
           "$ref": "#/definitions/Ref"
@@ -13386,7 +13421,7 @@
       "type": "object",
       "properties": {
         "contractVersion": {
-          "const": "canvas/v6"
+          "const": "canvas/v7"
         },
         "requestId": {
           "$ref": "#/definitions/Ref"
@@ -13432,7 +13467,7 @@
       "type": "object",
       "properties": {
         "contractVersion": {
-          "const": "canvas/v6"
+          "const": "canvas/v7"
         },
         "requestId": {
           "$ref": "#/definitions/Ref"
@@ -13486,7 +13521,7 @@
       "type": "object",
       "properties": {
         "contractVersion": {
-          "const": "canvas/v6"
+          "const": "canvas/v7"
         },
         "requestId": {
           "$ref": "#/definitions/Ref"
@@ -13948,6 +13983,133 @@
       "maxItems": 3,
       "x-uniqueBy": "guard",
       "x-order": "guard EngineGuard enum order"
+    },
+    "PlacementCells": {
+      "type": "array",
+      "items": {
+        "$ref": "#/definitions/Position"
+      },
+      "minItems": 1,
+      "uniqueItems": true,
+      "x-typeName": "PlacementCells",
+      "x-order": "numeric x,y,z"
+    },
+    "PlacementTarget": {
+      "oneOf": [
+        {
+          "type": "object",
+          "properties": {
+            "kind": {
+              "const": "EXACT_CELLS"
+            },
+            "cells": {
+              "$ref": "#/definitions/PlacementCells"
+            }
+          },
+          "required": [
+            "kind",
+            "cells"
+          ],
+          "additionalProperties": false
+        },
+        {
+          "type": "object",
+          "properties": {
+            "kind": {
+              "const": "ANCHORED_EXTENT"
+            },
+            "bounds": {
+              "$ref": "#/definitions/Box"
+            }
+          },
+          "required": [
+            "kind",
+            "bounds"
+          ],
+          "additionalProperties": false
+        }
+      ],
+      "x-discriminator": "kind",
+      "x-variantKeys": [
+        "EXACT_CELLS",
+        "ANCHORED_EXTENT"
+      ],
+      "x-typeName": "PlacementTarget"
+    },
+    "PlacementSource": {
+      "type": "object",
+      "properties": {
+        "inspectionId": {
+          "$ref": "#/definitions/Ref"
+        },
+        "anchorKind": {
+          "$ref": "#/definitions/PlacementAnchorKind"
+        },
+        "worldRevision": {
+          "$ref": "#/definitions/Revision"
+        },
+        "targetFactsDigest": {
+          "$ref": "#/definitions/Digest"
+        },
+        "frameDigest": {
+          "$ref": "#/definitions/Digest"
+        }
+      },
+      "required": [
+        "inspectionId",
+        "anchorKind",
+        "worldRevision",
+        "targetFactsDigest",
+        "frameDigest"
+      ],
+      "additionalProperties": false,
+      "x-typeName": "PlacementSource"
+    },
+    "PlacementProposal": {
+      "type": "object",
+      "properties": {
+        "profileVersion": {
+          "const": "placement-proposal/v1"
+        },
+        "worldRef": {
+          "$ref": "#/definitions/Ref"
+        },
+        "source": {
+          "$ref": "#/definitions/PlacementSource"
+        },
+        "target": {
+          "$ref": "#/definitions/PlacementTarget"
+        }
+      },
+      "required": [
+        "profileVersion",
+        "worldRef",
+        "source",
+        "target"
+      ],
+      "additionalProperties": false,
+      "x-typeName": "PlacementProposal"
+    },
+    "ConfirmedPlacementBinding": {
+      "type": "object",
+      "properties": {
+        "placement": {
+          "$ref": "#/definitions/PlacementProposal"
+        },
+        "placementDigest": {
+          "$ref": "#/definitions/Digest"
+        },
+        "intentDigest": {
+          "$ref": "#/definitions/Digest"
+        }
+      },
+      "required": [
+        "placement",
+        "placementDigest",
+        "intentDigest"
+      ],
+      "additionalProperties": false,
+      "x-typeName": "ConfirmedPlacementBinding"
     }
   },
   "placementSettings": [
@@ -14038,6 +14200,13 @@
       "switchable": false,
       "text": "Coverage, static materials, geometry and hazards remain checked against supplied facts; actual player bodies are checked inside the engine at inspection and before every write.",
       "consequence": "Invalid geometry or occupied body cells reject before writes."
+    },
+    {
+      "id": "CONFIRMED-PLACEMENT",
+      "owner": "Workshop, Painter and Canvas",
+      "switchable": false,
+      "text": "A placement shown to the player as a structured PlacementProposal and confirmed by a new human message is part of the confirmed intent; the submitted world effect set must match it (EXACT_CELLS: the same cells; ANCHORED_EXTENT: inside the confirmed bounds on the same inspection).",
+      "consequence": "A changed view, World, frame, inspection or target is refused by name and needs a new proposal and a new human confirmation; it is never re-based silently. A build confirmed without a structured placement keeps the normal CURRENT_VIEW placement."
     }
   ],
   "settingsSurface": {
@@ -14076,7 +14245,7 @@
       "meaning": "Existing per-cell BUILD/V4 compilation to operations/v3 is retained."
     },
     {
-      "id": "painter-region/v2:validate-region-proposal",
+      "id": "painter-region/v3:validate-region-proposal",
       "owner": "hanaworlds-building-exterior-painter",
       "meaning": "Validates coordinates, extent, palette legality and air carve of a skill region proposal on the existing proposal channel; never writes the world or plans on its own."
     },
@@ -14223,13 +14392,13 @@
     "id": "session-world-seam/v1",
     "evidence": "SOURCE/FIXTURE normative definition; Canvas/Workshop/Adapter provider implementations and real runtime NOT_RUN",
     "authority": {
-      "sessionToWorldSelection": "Canvas only (canvas/v6 ReadWorldSelectionContext/SelectWorldConnection/SwitchWorldConnection, plus the added canvas/v6 UnselectWorldConnection, RetireSessionSelection, ListWorldSelections, ReserveWorldRetirement, ReleaseWorldRetirement). selectionRevision is generated only by Canvas.",
-      "sessionIdentityAndLifecycle": "Workshop (session/v4, including the added ReadSessionIdentity/ListSessions). Authenticity comes from the Host-bound internal port, never from request JSON; a syntax-valid Ref is not evidence that a Session exists. sessionRevision in SessionIdentity is the same Workshop revision carried as CurrentContext.sessionRevision / UNBOUND.sessionRevision.",
+      "sessionToWorldSelection": "Canvas only (canvas/v7 ReadWorldSelectionContext/SelectWorldConnection/SwitchWorldConnection, plus the added canvas/v7 UnselectWorldConnection, RetireSessionSelection, ListWorldSelections, ReserveWorldRetirement, ReleaseWorldRetirement). selectionRevision is generated only by Canvas.",
+      "sessionIdentityAndLifecycle": "Workshop (session/v5, including the added ReadSessionIdentity/ListSessions). Authenticity comes from the Host-bound internal port, never from request JSON; a syntax-valid Ref is not evidence that a Session exists. sessionRevision in SessionIdentity is the same Workshop revision carried as CurrentContext.sessionRevision / UNBOUND.sessionRevision.",
       "nativeReadinessAndTransport": "Adapter (world-adapter/v7 DiscoverConnections/ListWorlds/ReadLocalConnection, LocalEngineControlPort). Adapter keeps no Session-to-World table and never generates selectionRevision.",
       "worldDeletion": "Adapter-local world management, serialized through the Canvas retirement reservation below. No new shared-world write authority."
     },
     "sequences": {
-      "selectSession": "Before SelectWorldConnection/SwitchWorldConnection, Canvas reads the Session through session/v4 ReadSessionIdentity on its Host-bound port; SESSION_NOT_FOUND rejects. A known Session without a world reads UNBOUND from ReadWorldSelectionContext.",
+      "selectSession": "Before SelectWorldConnection/SwitchWorldConnection, Canvas reads the Session through session/v5 ReadSessionIdentity on its Host-bound port; SESSION_NOT_FOUND rejects. A known Session without a world reads UNBOUND from ReadWorldSelectionContext.",
       "unbind": "UnselectWorldConnection(expectedRevision, expectedContext) compares with the Canvas current selection; success returns CurrentContext with activeWorldRef null, localContext null and no selected objects. The Session then reads UNBOUND and disappears from ListWorldSelections for that world.",
       "deleteSession": "Precondition: the Workshop provider actually supports persistent deletion (existing SessionSnapshot.sessionDeleteSupported / PublicCapabilities.sessionDeleteSupported is true). If it is false, DeleteSession fails with the existing SESSION_DELETE_UNSUPPORTED (reason DELETE_SEAM_ABSENT), RetireSessionSelection is NOT called, and the Session and its Canvas selection stay unchanged. If it is true, Workshop calls RetireSessionSelection first; Canvas atomically clears any selection and refuses further selection/read for that sessionRef with SESSION_NOT_FOUND. Workshop then performs the persistent deletion and returns DeleteSessionReceipt; deleted:true is reported only after the provider's own readback shows the Session gone. Releasing or disposing live handles (agent, store, scope) is not deletion and never yields deleted:true. Retirement is irreversible: if the persistent deletion then fails, the Session stays retired (not selectable) and DeleteSession returns its failure; it is never silently restored or reported deleted.",
       "deleteWorld": "Adapter reads ListWorldSelections, applies requireWorldRetirable, then ReserveWorldRetirement(expectedInventoryRevision). While a reservation exists Canvas rejects SelectWorldConnection/SwitchWorldConnection to that world with TRANSACTION_CONFLICT/SCOPE_DENIED. Adapter deletes its world, then ReleaseWorldRetirement(RETIRED); after RETIRED Canvas rejects selection of that worldRef with WORLD_NOT_FOUND. On an Adapter deletion failure it releases with ABORTED and the world stays selectable."
@@ -14272,8 +14441,8 @@
       "C2": "A BOUND selection keeps the last actual LocalWorldContext Canvas selected (CurrentContext requires activeWorldRef === localContext.worldRef, so BOUND with localContext null is not valid). Whether it is connected now is derived by comparing that context with Adapter's current ConnectionInventory: the same connectionRef, worldRef and connectionIncarnationRef with readiness READY is CONNECTED; otherwise SELECTED_NOT_CONNECTED, which must not be shown as trusted-current and is rejected for writes by the existing CURRENT_WORLD_MISMATCH check. describeSelectionConnection implements this pure comparison.",
       "C3": "When the owning runtime observes its native process exit, Adapter removes that connection from ConnectionInventory and changes capabilityRevision; a reopened world gets a new connectionIncarnationRef. No Readiness value is added and NativeControlEvidence gains no exit field."
     },
-    "selectedObjectSnapshot": "Existing typed route: ReadWorldSelectionContext (BOUND context.orderedSelectedObjectRefs, selectionRevision, localContext) and canvas/v6 ListObjects (ObjectInventory.registryRevision, ObjectRecord.objectRevision) under the same localContext. A single atomic selected-object/objectRevision snapshot with zero/multiple selection rules is not added in this seam; it remains an open supply item.",
-    "compatibility": "Additive only, as protocol minors within the existing majors (protocolPolicy): session/v4 minor 1 adds ReadSessionIdentity/ListSessions; canvas/v6 minor 1 adds UnselectWorldConnection, RetireSessionSelection, ListWorldSelections, ReserveWorldRetirement, ReleaseWorldRetirement. Existing operations keep their order and every existing type, field, enum value, ownership row and digest domain is unchanged; no new wire. The exact-package handshake still requires every composition to re-pin one package."
+    "selectedObjectSnapshot": "Existing typed route: ReadWorldSelectionContext (BOUND context.orderedSelectedObjectRefs, selectionRevision, localContext) and canvas/v7 ListObjects (ObjectInventory.registryRevision, ObjectRecord.objectRevision) under the same localContext. A single atomic selected-object/objectRevision snapshot with zero/multiple selection rules is not added in this seam; it remains an open supply item.",
+    "compatibility": "Additive only, as protocol minors within the existing majors (protocolPolicy): session/v5 minor 1 adds ReadSessionIdentity/ListSessions; canvas/v7 minor 1 adds UnselectWorldConnection, RetireSessionSelection, ListWorldSelections, ReserveWorldRetirement, ReleaseWorldRetirement. Existing operations keep their order and every existing type, field, enum value, ownership row and digest domain is unchanged; no new wire. The exact-package handshake still requires every composition to re-pin one package."
   },
   "configEngineFacts": {
     "id": "config-engine-facts/v1",
@@ -14301,7 +14470,7 @@
   },
   "safetyCapabilities": [
     {
-      "id": "painter/v5:light-rule",
+      "id": "painter/v6:light-rule",
       "owner": "hanaworlds-building-exterior-painter",
       "gap": "LIGHT",
       "cause": "LIGHT_RULE_UNCHECKED",
@@ -14316,11 +14485,11 @@
       }
     },
     {
-      "id": "painter-region/v2:entrance-rule",
+      "id": "painter-region/v3:entrance-rule",
       "owner": "hanaworlds-building-exterior-painter",
       "gap": "ENTRANCE_ON_REGION",
       "cause": "ENTRANCE_RULE_UNCHECKED_ON_REGION",
-      "meaning": "The region write path has no entrance check. A confirmed requireEntranceConnectivity=true is refused on painter-region/v2 by this name; use the per-cell path or a rule without an entrance requirement.",
+      "meaning": "The region write path has no entrance check. A confirmed requireEntranceConnectivity=true is refused on painter-region/v3 by this name; use the per-cell path or a rule without an entrance requirement.",
       "whenAbsent": {
         "code": "CAPABILITY_UNAVAILABLE",
         "phase": "validate",
@@ -14440,6 +14609,75 @@
     },
     "rule": "A response or receipt whose error comes from a guard carries guardRefusal; its error must equal guardRefusalError(guardRefusal, options) for one allowed form. Pre-flight GUARD_UNAVAILABLE: CAPABILITY_UNAVAILABLE/validate, nothing written. Restore stages (RESTORE, REGION_RESTORE) have two forms: (1) transaction form, when the restore's cause is known: RESTORE_FAILED/restore/RESTORE_ERROR pending manual recovery (AFTER_MANUAL_RECOVERY, PARTIAL) with causeCode = the failure that made the restore necessary; (2) engine form, when the writer has no cause (a stateless WriteRegion RESTORE, or an Undo): SAFETY_INVARIANT_FAILED (violation) or CAPABILITY_UNAVAILABLE (GUARD_UNAVAILABLE) with phase restore, mutationState NONE (the refused write wrote nothing), causeCode null. The transaction owner (Canvas) turns an engine-form refusal during a rollback into the transaction form and keeps the causing failure in applyFailure {error, guardRefusal} (error.causeCode equals applyFailure.error.code); during an Undo it returns the engine-form refusal unchanged with applyFailure null. A RESTORE_FAILED receipt always uses the transaction form.",
     "notDecidedHere": "No acting-principal identity source exists; ACTING_PRINCIPAL coverage cannot be declared truthfully until one is defined (INV text unchanged, INV-POSE PRESENTED).",
-    "relay": "A guard refusal reaches the skill on the public wire: Adapter responses (world-adapter/v7, world-adapter-region/v2) -> Canvas responses (canvas/v6 ApplyRecoverableCommit, Undo, Redo, RecoverPendingUndo, ReadPendingUndoResult, InspectPlacementRegion; canvas-region/v2 ApplyRegionCommit, UndoRegionCommit) -> Workshop responses (session/v4 AdvanceCurrentBuild, UndoCurrentBuild, RecoverPendingUndo). Each carries guardRefusal beside error under the same rule; a relay passes the refusal and its error unchanged. Canvas's own pre-flight refusal (requireEngineGuards before any write) is GUARD_UNAVAILABLE with CAPABILITY_UNAVAILABLE/validate on the canvas/v6 or canvas-region/v2 envelope."
+    "relay": "A guard refusal reaches the skill on the public wire: Adapter responses (world-adapter/v7, world-adapter-region/v2) -> Canvas responses (canvas/v7 ApplyRecoverableCommit, Undo, Redo, RecoverPendingUndo, ReadPendingUndoResult, InspectPlacementRegion; canvas-region/v2 ApplyRegionCommit, UndoRegionCommit) -> Workshop responses (session/v5 AdvanceCurrentBuild, UndoCurrentBuild, RecoverPendingUndo). Each carries guardRefusal beside error under the same rule; a relay passes the refusal and its error unchanged. Canvas's own pre-flight refusal (requireEngineGuards before any write) is GUARD_UNAVAILABLE with CAPABILITY_UNAVAILABLE/validate on the canvas/v7 or canvas-region/v2 envelope."
+  },
+  "confirmedPlacement": {
+    "id": "confirmed-placement/v1",
+    "meaning": "Placement shown to the player before confirmation, as data rather than prose. Created only from a real RegionInspection (createPlacementProposal) and model or player selection; carried in Controls.placement (BriefProjection, reference-brief digest) and ConfirmedIntent.placement (intent digest). Null means no structured placement was confirmed.",
+    "kinds": {
+      "EXACT_CELLS": "Write exactly these world cells: the final effect positions must equal the cell set.",
+      "ANCHORED_EXTENT": "A general building confirmed at a located range: every effect lies inside the bounds, on the same source inspection (no re-basing); cells inside it are not individually confirmed."
+    },
+    "chain": [
+      "session/v5 AppendMultimodalTurn controls.placement (pending, shown to the player)",
+      "session/v5 AnswerClarification: only a new human message confirms; ConfirmedIntent.placement equals BriefProjection.controls.placement",
+      "painter/v6 ValidateBuildProposal: request.regionInspection is the source inspection; effects match the target",
+      "painter-region/v3 ValidateRegionProposal: specified world cells match the target",
+      "canvas/v7 ApplyRecoverableCommit regionInspectionBinding.confirmedPlacement: Canvas rechecks its recorded inspection, current world revision and final effects before any write",
+      "validateCurrentBuildSubmission: the apply binding carries exactly the confirmed placement and intent digest"
+    ],
+    "namedFailures": [
+      {
+        "failure": "PLACEMENT_TARGET_MISMATCH",
+        "code": "INTENT_UNCONFIRMED",
+        "phase": "validate",
+        "reason": "INVALID_GEOMETRY",
+        "cases": "effects are not the confirmed cells, or leave the confirmed extent"
+      },
+      {
+        "failure": "PLACEMENT_BINDING_CHANGED",
+        "code": "INTENT_UNCONFIRMED",
+        "phase": "validate",
+        "reason": "IDENTITY_UNVERIFIED",
+        "cases": "brief and confirmed intent placements differ; apply binding missing, invented or not the confirmed one; placement or intent digest does not match"
+      },
+      {
+        "failure": "PLACEMENT_INSPECTION_CHANGED",
+        "code": "TARGET_FACTS_STALE",
+        "phase": "validate",
+        "reason": "PAYLOAD_CHANGED",
+        "cases": "the build or apply uses another inspection (for example a new CURRENT_VIEW) than the one the placement was proposed from"
+      },
+      {
+        "failure": "PLACEMENT_REVISION_STALE",
+        "code": "TARGET_FACTS_STALE",
+        "phase": "validate",
+        "reason": "REVISION_CHANGED",
+        "cases": "the world revision moved after the placement was proposed"
+      },
+      {
+        "failure": "PLACEMENT_FRAME_CHANGED",
+        "code": "INVALID_FRAME",
+        "phase": "validate",
+        "reason": "PAYLOAD_CHANGED",
+        "cases": "the coordinate frame differs from the one the placement was proposed in"
+      },
+      {
+        "failure": "PLACEMENT_WORLD_CHANGED",
+        "code": "CURRENT_WORLD_MISMATCH",
+        "phase": "validate",
+        "reason": "SCOPE_DENIED",
+        "cases": "the request World is not the placement World"
+      },
+      {
+        "failure": "PLACEMENT_OUTSIDE_INSPECTION",
+        "code": "TARGET_FACTS_INCOMPLETE",
+        "phase": "validate",
+        "reason": "INVALID_GEOMETRY",
+        "cases": "a proposed target is not inside the sampled bounds of its source inspection"
+      }
+    ],
+    "remedy": "Every named failure is retryability AFTER_NEW_FACTS: make a new PlacementProposal from a current inspection and obtain a new human confirmation. Nothing is written.",
+    "notDecidedHere": "Which cells or range to propose, how it is displayed, and whether a building needs a structured placement at all are skill/Workshop decisions. Known-empty, body and engine guards are unchanged and still apply."
   }
 }

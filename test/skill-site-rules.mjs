@@ -63,7 +63,7 @@ test('decode: missing or extended SiteRules and any player geometry are rejected
  for(const c of fx.perCell.decodeReject){
   const {r}=perCell(fx.ruleSets.strict);const target=at(r,c.path);
   if(c.remove)delete target[c.remove];if(c.set)Object.assign(target,c.set);
-  rejects(()=>a.validateBoundRequest('painter/v5','ValidateBuildProposal',r),c.error,c.title);
+  rejects(()=>a.validateBoundRequest('painter/v6','ValidateBuildProposal',r),c.error,c.title);
  }
 });
 test('witnesses: entrance clearance/portal must match the confirmation; body witness carries no geometry',()=>{
@@ -99,7 +99,7 @@ test('site-rule capabilities: light and region entrance are declared once on a c
  const wires=[...a.contractHandshake.wireVersions,'region-voxels/v1'];
  for(const c of a.safetyCapabilities){assert.ok(wires.includes(c.id.split(':')[0]),c.id);same(c.whenAbsent,fx.capabilities.absentError,c.id);assert.ok(c.cause.length>0);}
  assert.deepEqual(a.unmetSafetyCapabilities(peer([]),fx.capabilities.ids).map(u=>u.id),fx.capabilities.ids);
- rejects(()=>a.requireSafetyCapabilities(peer([]),['painter/v5:light-rule']),{code:'CAPABILITY_UNAVAILABLE',reason:'REQUIRED_FACT_UNKNOWN'},'light absent');
+ rejects(()=>a.requireSafetyCapabilities(peer([]),['painter/v6:light-rule']),{code:'CAPABILITY_UNAVAILABLE',reason:'REQUIRED_FACT_UNKNOWN'},'light absent');
 });
 const G=fx.engineGuards;
 test('engine guards: the declaration states per-stage coverage; partial coverage is never "available"',()=>{
@@ -145,7 +145,7 @@ test('engine guards: a guard refusal travels beside the error it explains, on ev
 });
 function restoreFailedReceipt(){
  const R=G.restoreFailedReceipt,applyError=a.guardRefusalError(R.applyRefusal,{transactionRef:'transaction-1'});
- return {contractVersion:'canvas/v6',transactionId:'transaction-1',operationDigest:'1'.repeat(64),transactionPayloadDigest:'2'.repeat(64),status:'RESTORE_FAILED',previousWorldRevision:'world-1',observedWorldRevision:null,readbackDigest:null,restoreStatus:R.restoreStatus,
+ return {contractVersion:'canvas/v7',transactionId:'transaction-1',operationDigest:'1'.repeat(64),transactionPayloadDigest:'2'.repeat(64),status:'RESTORE_FAILED',previousWorldRevision:'world-1',observedWorldRevision:null,readbackDigest:null,restoreStatus:R.restoreStatus,
   error:clone(a.guardRefusalError(R.restoreRefusal,{transactionRef:'transaction-1',cause:applyError.code})),localContext:main.request.localContext,guardRefusal:clone(R.restoreRefusal),applyFailure:{error:clone(applyError),guardRefusal:clone(R.applyRefusal)}};
 }
 test('G1: a refused restore keeps both causes and stays pending manual recovery',()=>{

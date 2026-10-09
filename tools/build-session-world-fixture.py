@@ -1,7 +1,7 @@
 import json, sys
 # Regenerates spec/local-world/fixtures/session-world.json (session-world-seam/v1 FIXTURE).
 # Usage: python3 -I tools/build-session-world-fixture.py spec/local-world/fixtures/session-world.json
-SD, CS, CV, WA = "session/v4", "canvas/v6", "canvas/v6", "world-adapter/v7"
+SD, CS, CV, WA = "session/v5", "canvas/v7", "canvas/v7", "world-adapter/v7"
 def err(code, reason, phase="validate"):
     return {"code": code, "phase": phase, "retryability": "AFTER_NEW_FACTS", "mutationState": "NONE", "transactionRef": None, "causeCode": None, "reason": reason}
 def ok(wire, rid, result): return {"contractVersion": wire, "requestId": rid, "result": result, "error": None}
@@ -76,8 +76,8 @@ fixture = {
  "sessionDeletion": {
   "unsupportedCapabilities": {"providerRef": "fixture-workshop", "capabilityRevision": "fixture-ws-cap-1", "worldRef": None, "engineBounds": None, "limits": [], "recoveryGuarantee": None, "stateProfile": None, "sessionDeleteSupported": False, "imageMediaTypes": [], "model": None, "engineGuards": None},
   "supportedCapabilities": {"providerRef": "fixture-workshop", "capabilityRevision": "fixture-ws-cap-2", "worldRef": None, "engineBounds": None, "limits": [], "recoveryGuarantee": None, "stateProfile": None, "sessionDeleteSupported": True, "imageMediaTypes": [], "model": None, "engineGuards": None},
-  "unsupported": {"request": {"contractVersion": "session/v4", "sessionRef": S1, "requestId": "x1", "expectedRevision": "fixture-session-S1-rev-1"}, "response": ko("session/v4", "x1", err("SESSION_DELETE_UNSUPPORTED", "DELETE_SEAM_ABSENT")), "retireCalled": False},
-  "deleted": {"request": {"contractVersion": "session/v4", "sessionRef": S2, "requestId": "x2", "expectedRevision": "fixture-session-S2-rev-1"}, "response": ok("session/v4", "x2", {"sessionRef": S2, "deleted": True, "remainingArtifactRefs": []}), "afterRetireStep": "10"}
+  "unsupported": {"request": {"contractVersion": "session/v5", "sessionRef": S1, "requestId": "x1", "expectedRevision": "fixture-session-S1-rev-1"}, "response": ko("session/v5", "x1", err("SESSION_DELETE_UNSUPPORTED", "DELETE_SEAM_ABSENT")), "retireCalled": False},
+  "deleted": {"request": {"contractVersion": "session/v5", "sessionRef": S2, "requestId": "x2", "expectedRevision": "fixture-session-S2-rev-1"}, "response": ok("session/v5", "x2", {"sessionRef": S2, "deleted": True, "remainingArtifactRefs": []}), "afterRetireStep": "10"}
  },
  "connectionState": {
   "boundS2A": {"context": cc(S2, A, ctxS2A, "fixture-session-S2-rev-1", "fixture-selection-S2-1"), "connectionRef": "fixture-connection-A", "status": "BOUND"},

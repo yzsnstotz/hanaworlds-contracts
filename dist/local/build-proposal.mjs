@@ -5,15 +5,16 @@ import { validateType, validateRequest, validateResponse, validateDigestBinding,
   schemaBundle, validateBoundRequest, validateCurrentRequest, validateRegionInspection, validateStaticMaterials,
   validateWitnessCoherence, safetyProfileFromConfirmedIntent, requireSiteRuleChecks } from './runtime.mjs';
 import { requireFact } from '../errors.mjs';
+import { confirmedPlacementOf, requirePlacementSource, requirePlacementTarget } from './placement.mjs';
 import { inside, unionCellCount, comparePosition } from '../geometry.mjs';
-const WIRE = 'painter/v5', OPERATION = 'ValidateBuildProposal';
+const WIRE = 'painter/v6', OPERATION = 'ValidateBuildProposal';
 const same = (a, b) => canonicalJSON(a) === canonicalJSON(b);
 const identity = ok => requireFact(ok, 'TRANSACTION_CONFLICT', 'PAYLOAD_CHANGED');
 const stale = ok => requireFact(ok, 'TARGET_FACTS_STALE', 'REVISION_CHANGED');
 const geometry = ok => requireFact(ok, 'BUILD_INVALID', 'INVALID_GEOMETRY');
 
 /** Check this new Painter producer only; not a request to update default peers. Same contracts
- * major (checkContractHandshake) plus the painter/v5 wire; minor/patch never decide. */
+ * major (checkContractHandshake) plus the painter/v6 wire; minor/patch never decide. */
 export function checkBuildProposalHandshake(input) {
   const { advertised } = checkContractHandshake(input,
     { wires: [WIRE], factProfiles: ['target-facts/v4'] });
@@ -81,6 +82,9 @@ export function validateBuildProposalRequest(input) {
     region.targetFactsDigest === request.targetFactsDigest &&
     facts.catalogueDigest === digestValue('catalogue', request.catalogue).sha256 &&
     region.evidence.worldRef === request.worldRef && region.evidence.worldRevision === facts.worldRevision);
+  // A confirmed structured placement binds this build to the inspection it was proposed from.
+  const placement = confirmedPlacementOf(intent, brief);
+  if (placement !== null) requirePlacementSource(placement, region, request.worldRef);
   requireFact(safety.requireBodyClearance,
     'CAPABILITY_UNAVAILABLE', 'POLICY_UNAVAILABLE');
   // Site rules are skill-proposed and player-confirmed; the confirmed intent is their only source:
@@ -93,7 +97,8 @@ export function validateBuildProposalRequest(input) {
   // Confirmed portals must exist; none confirmed means the doorway on regionInspection.entranceFacing.
   requireFact(intent.confirmedIntent.entrancePortalRefs.every(ref => facts.portals.some(p => p.portalRef === ref)),
     'TARGET_FACTS_INCOMPLETE', 'REQUIRED_FACT_UNKNOWN');
-  proposalGeometry(request);
+  const { effects } = proposalGeometry(request);
+  if (placement !== null) requirePlacementTarget(placement, effects.map(effect => effect.position));
   return request;
 }
 
