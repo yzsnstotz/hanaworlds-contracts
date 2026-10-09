@@ -179,6 +179,21 @@ test('REGION_RESTORE: the engine reports a refused restore without a cause; Canv
  const receipt=restoreFailedReceipt();receipt.error={...a.guardRefusalError(receipt.guardRefusal),transactionRef:'transaction-1'};
  assert.throws(()=>a.validateType('ReceiptProjection',receipt),{code:'SCHEMA_INVALID'},'receipt with engine-form restore error');
 });
+test('relay closure: exactly the declared public responses carry guardRefusal, and each relays a refusal with its exact error',()=>{
+ const R=G.relay,declared=new Set(R.responses.map(([,,type])=>type));
+ const actual=new Set();for(const [wire,ops] of Object.entries(a.operationContracts))for(const o of ops){const t=a.schemaBundle.definitions[o.response];if(t.properties?.guardRefusal)actual.add(o.response);}
+ assert.deepEqual([...actual].sort(),[...declared].sort(),'guarded response closure');
+ for(const [wire,op,type] of R.responses){assert.ok(a.operationContracts[wire].some(o=>o.operation===op&&o.response===type),wire+' '+op);
+  assert.deepEqual(a.schemaBundle.definitions[type].properties.guardRefusal,{anyOf:[{$ref:'#/definitions/GuardRefusal'},{type:'null'}]},type);}
+ for(const [wire,,type] of R.responses){const base={contractVersion:wire,requestId:'r-1',result:null,...(type.endsWith('RegionCommitResponse')?{applyFailure:null}:{}),...(type==='PlacementRegionInspection'?{unavailableSettings:null}:{})};
+  for(const c of R.cases){const err={...a.guardRefusalError(c.refusal,{preflight:c.preflight}),transactionRef:null};
+   a.validateType(type,{...base,error:err,guardRefusal:c.refusal});
+   assert.throws(()=>a.validateType(type,{...base,error:null,guardRefusal:c.refusal}),{code:'SCHEMA_INVALID'},type+': refusal without error');
+   assert.throws(()=>a.validateType(type,{...base,error:{...err,reason:'PAYLOAD_CHANGED'},guardRefusal:c.refusal}),{code:'SCHEMA_INVALID'},type+': error not explained by the refusal');}
+  a.validateType(type,{...base,error:{code:'TRANSACTION_CONFLICT',phase:'validate',retryability:'AFTER_NEW_FACTS',mutationState:'NONE',transactionRef:null,causeCode:null,reason:'PAYLOAD_CHANGED'},guardRefusal:null});
+  assert.throws(()=>a.validateType(type,{...base,error:null}),{code:'SCHEMA_INVALID'},type+': guardRefusal is a required key');
+ }
+});
 test('0.x peers are not compatible with this major (no migration)',()=>{
  for(const v of ['0.5.6','0.5.5-rc.1'])rejects(()=>a.checkContractHandshake({...a.contractHandshake,contracts:'hanaworlds-contracts@'+v}),{code:'UNSUPPORTED_VERSION',reason:'VERSION_UNSUPPORTED'},v);
 });

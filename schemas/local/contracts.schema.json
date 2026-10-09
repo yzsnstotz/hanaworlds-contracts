@@ -1,6 +1,6 @@
 {
   "$schema": "http://json-schema.org/draft-07/schema#",
-  "$id": "https://hanaworlds.invalid/contracts/1.0.0-rc.3/schema.json",
+  "$id": "https://hanaworlds.invalid/contracts/1.0.0-rc.4/schema.json",
   "x-contractsCompatibility": {
     "package": "hanaworlds-contracts",
     "major": 1,
@@ -607,13 +607,24 @@
               "type": "null"
             }
           ]
+        },
+        "guardRefusal": {
+          "anyOf": [
+            {
+              "$ref": "#/definitions/GuardRefusal"
+            },
+            {
+              "type": "null"
+            }
+          ]
         }
       },
       "required": [
         "contractVersion",
         "requestId",
         "result",
-        "error"
+        "error",
+        "guardRefusal"
       ],
       "additionalProperties": false,
       "x-typeName": "AdvanceCurrentBuildResponse"
@@ -2066,13 +2077,24 @@
               "type": "null"
             }
           ]
+        },
+        "guardRefusal": {
+          "anyOf": [
+            {
+              "$ref": "#/definitions/GuardRefusal"
+            },
+            {
+              "type": "null"
+            }
+          ]
         }
       },
       "required": [
         "contractVersion",
         "requestId",
         "result",
-        "error"
+        "error",
+        "guardRefusal"
       ],
       "additionalProperties": false,
       "x-typeName": "CanvasUndoRecoveryResponse"
@@ -6195,6 +6217,16 @@
               "type": "null"
             }
           ]
+        },
+        "guardRefusal": {
+          "anyOf": [
+            {
+              "$ref": "#/definitions/GuardRefusal"
+            },
+            {
+              "type": "null"
+            }
+          ]
         }
       },
       "required": [
@@ -6202,7 +6234,8 @@
         "requestId",
         "result",
         "error",
-        "unavailableSettings"
+        "unavailableSettings",
+        "guardRefusal"
       ],
       "additionalProperties": false,
       "x-typeName": "PlacementRegionInspection"
@@ -7381,13 +7414,24 @@
               "type": "null"
             }
           ]
+        },
+        "guardRefusal": {
+          "anyOf": [
+            {
+              "$ref": "#/definitions/GuardRefusal"
+            },
+            {
+              "type": "null"
+            }
+          ]
         }
       },
       "required": [
         "contractVersion",
         "requestId",
         "result",
-        "error"
+        "error",
+        "guardRefusal"
       ],
       "additionalProperties": false,
       "x-typeName": "RecoverableCommitAppliedReceipt"
@@ -7420,13 +7464,24 @@
               "type": "null"
             }
           ]
+        },
+        "guardRefusal": {
+          "anyOf": [
+            {
+              "$ref": "#/definitions/GuardRefusal"
+            },
+            {
+              "type": "null"
+            }
+          ]
         }
       },
       "required": [
         "contractVersion",
         "requestId",
         "result",
-        "error"
+        "error",
+        "guardRefusal"
       ],
       "additionalProperties": false,
       "x-typeName": "RedoReceipt"
@@ -8681,13 +8736,24 @@
               "type": "null"
             }
           ]
+        },
+        "guardRefusal": {
+          "anyOf": [
+            {
+              "$ref": "#/definitions/GuardRefusal"
+            },
+            {
+              "type": "null"
+            }
+          ]
         }
       },
       "required": [
         "contractVersion",
         "requestId",
         "result",
-        "error"
+        "error",
+        "guardRefusal"
       ],
       "additionalProperties": false,
       "x-typeName": "SessionRecoverPendingUndoResponse"
@@ -9482,13 +9548,24 @@
               "type": "null"
             }
           ]
+        },
+        "guardRefusal": {
+          "anyOf": [
+            {
+              "$ref": "#/definitions/GuardRefusal"
+            },
+            {
+              "type": "null"
+            }
+          ]
         }
       },
       "required": [
         "contractVersion",
         "requestId",
         "result",
-        "error"
+        "error",
+        "guardRefusal"
       ],
       "additionalProperties": false,
       "x-typeName": "UndoCurrentBuildResponse"
@@ -9545,13 +9622,24 @@
               "type": "null"
             }
           ]
+        },
+        "guardRefusal": {
+          "anyOf": [
+            {
+              "$ref": "#/definitions/GuardRefusal"
+            },
+            {
+              "type": "null"
+            }
+          ]
         }
       },
       "required": [
         "contractVersion",
         "requestId",
         "result",
-        "error"
+        "error",
+        "guardRefusal"
       ],
       "additionalProperties": false,
       "x-typeName": "UndoReceipt"

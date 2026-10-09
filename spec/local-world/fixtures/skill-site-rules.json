@@ -689,6 +689,139 @@
      "reason": "PAYLOAD_CHANGED"
     }
    ]
+  },
+  "relay": {
+   "note": "Every public response that can carry an engine guard decision toward the skill, wire by wire. The closure test requires exactly this set of responses to have guardRefusal.",
+   "responses": [
+    [
+     "world-adapter/v7",
+     "PrepareRecoverableTransaction",
+     "ScopedPrepareResponse"
+    ],
+    [
+     "world-adapter/v7",
+     "ApplyCompiledTransaction",
+     "ScopedApplyResponse"
+    ],
+    [
+     "world-adapter/v7",
+     "RestoreTransaction",
+     "RestoreTransactionResponse"
+    ],
+    [
+     "world-adapter/v7",
+     "PrepareHistoryTransaction",
+     "PrepareHistoryTransactionResponse"
+    ],
+    [
+     "world-adapter/v7",
+     "ApplyHistoryTransaction",
+     "ApplyHistoryTransactionResponse"
+    ],
+    [
+     "world-adapter/v7",
+     "InspectRegion",
+     "InspectRegionResponse"
+    ],
+    [
+     "world-adapter-region/v2",
+     "WriteRegion",
+     "WriteRegionResponse"
+    ],
+    [
+     "canvas/v6",
+     "ApplyRecoverableCommit",
+     "RecoverableCommitAppliedReceipt"
+    ],
+    [
+     "canvas/v6",
+     "Undo",
+     "UndoReceipt"
+    ],
+    [
+     "canvas/v6",
+     "Redo",
+     "RedoReceipt"
+    ],
+    [
+     "canvas/v6",
+     "RecoverPendingUndo",
+     "CanvasUndoRecoveryResponse"
+    ],
+    [
+     "canvas/v6",
+     "ReadPendingUndoResult",
+     "CanvasUndoRecoveryResponse"
+    ],
+    [
+     "canvas/v6",
+     "InspectPlacementRegion",
+     "PlacementRegionInspection"
+    ],
+    [
+     "canvas-region/v2",
+     "ApplyRegionCommit",
+     "ApplyRegionCommitResponse"
+    ],
+    [
+     "canvas-region/v2",
+     "UndoRegionCommit",
+     "UndoRegionCommitResponse"
+    ],
+    [
+     "session/v4",
+     "AdvanceCurrentBuild",
+     "AdvanceCurrentBuildResponse"
+    ],
+    [
+     "session/v4",
+     "UndoCurrentBuild",
+     "UndoCurrentBuildResponse"
+    ],
+    [
+     "session/v4",
+     "RecoverPendingUndo",
+     "SessionRecoverPendingUndoResponse"
+    ]
+   ],
+   "cases": [
+    {
+     "title": "Canvas pre-flight: enclosure not covered for a per-cell apply",
+     "refusal": {
+      "guard": "PLAYER_ENCLOSURE",
+      "stage": "APPLY_COMPILED",
+      "finding": "GUARD_UNAVAILABLE"
+     },
+     "preflight": true
+    },
+    {
+     "title": "Canvas pre-flight: protection not covered at inspection",
+     "refusal": {
+      "guard": "CELL_PROTECTION",
+      "stage": "INSPECT_REGION",
+      "finding": "GUARD_UNAVAILABLE"
+     },
+     "preflight": true
+    },
+    {
+     "title": "relayed engine violation at apply",
+     "refusal": {
+      "guard": "BODY_CLEARANCE",
+      "stage": "APPLY_COMPILED",
+      "finding": "BODY_OCCUPIED"
+     },
+     "preflight": false
+    },
+    {
+     "title": "relayed engine-form refusal of an Undo restore",
+     "refusal": {
+      "guard": "CELL_PROTECTION",
+      "stage": "RESTORE",
+      "finding": "PROTECTED_CELL"
+     },
+     "preflight": false
+    }
+   ]
   }
  }
 }

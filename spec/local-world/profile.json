@@ -1,5 +1,5 @@
 {
-  "version": "1.0.0-rc.3",
+  "version": "1.0.0-rc.4",
   "wireVersions": [
     "interaction-surface/v4",
     "session/v4",
@@ -1252,13 +1252,24 @@
               "type": "null"
             }
           ]
+        },
+        "guardRefusal": {
+          "anyOf": [
+            {
+              "$ref": "#/definitions/GuardRefusal"
+            },
+            {
+              "type": "null"
+            }
+          ]
         }
       },
       "required": [
         "contractVersion",
         "requestId",
         "result",
-        "error"
+        "error",
+        "guardRefusal"
       ],
       "additionalProperties": false,
       "x-typeName": "AdvanceCurrentBuildResponse"
@@ -2711,13 +2722,24 @@
               "type": "null"
             }
           ]
+        },
+        "guardRefusal": {
+          "anyOf": [
+            {
+              "$ref": "#/definitions/GuardRefusal"
+            },
+            {
+              "type": "null"
+            }
+          ]
         }
       },
       "required": [
         "contractVersion",
         "requestId",
         "result",
-        "error"
+        "error",
+        "guardRefusal"
       ],
       "additionalProperties": false,
       "x-typeName": "CanvasUndoRecoveryResponse"
@@ -6840,6 +6862,16 @@
               "type": "null"
             }
           ]
+        },
+        "guardRefusal": {
+          "anyOf": [
+            {
+              "$ref": "#/definitions/GuardRefusal"
+            },
+            {
+              "type": "null"
+            }
+          ]
         }
       },
       "required": [
@@ -6847,7 +6879,8 @@
         "requestId",
         "result",
         "error",
-        "unavailableSettings"
+        "unavailableSettings",
+        "guardRefusal"
       ],
       "additionalProperties": false,
       "x-typeName": "PlacementRegionInspection"
@@ -8026,13 +8059,24 @@
               "type": "null"
             }
           ]
+        },
+        "guardRefusal": {
+          "anyOf": [
+            {
+              "$ref": "#/definitions/GuardRefusal"
+            },
+            {
+              "type": "null"
+            }
+          ]
         }
       },
       "required": [
         "contractVersion",
         "requestId",
         "result",
-        "error"
+        "error",
+        "guardRefusal"
       ],
       "additionalProperties": false,
       "x-typeName": "RecoverableCommitAppliedReceipt"
@@ -8065,13 +8109,24 @@
               "type": "null"
             }
           ]
+        },
+        "guardRefusal": {
+          "anyOf": [
+            {
+              "$ref": "#/definitions/GuardRefusal"
+            },
+            {
+              "type": "null"
+            }
+          ]
         }
       },
       "required": [
         "contractVersion",
         "requestId",
         "result",
-        "error"
+        "error",
+        "guardRefusal"
       ],
       "additionalProperties": false,
       "x-typeName": "RedoReceipt"
@@ -9326,13 +9381,24 @@
               "type": "null"
             }
           ]
+        },
+        "guardRefusal": {
+          "anyOf": [
+            {
+              "$ref": "#/definitions/GuardRefusal"
+            },
+            {
+              "type": "null"
+            }
+          ]
         }
       },
       "required": [
         "contractVersion",
         "requestId",
         "result",
-        "error"
+        "error",
+        "guardRefusal"
       ],
       "additionalProperties": false,
       "x-typeName": "SessionRecoverPendingUndoResponse"
@@ -10127,13 +10193,24 @@
               "type": "null"
             }
           ]
+        },
+        "guardRefusal": {
+          "anyOf": [
+            {
+              "$ref": "#/definitions/GuardRefusal"
+            },
+            {
+              "type": "null"
+            }
+          ]
         }
       },
       "required": [
         "contractVersion",
         "requestId",
         "result",
-        "error"
+        "error",
+        "guardRefusal"
       ],
       "additionalProperties": false,
       "x-typeName": "UndoCurrentBuildResponse"
@@ -10190,13 +10267,24 @@
               "type": "null"
             }
           ]
+        },
+        "guardRefusal": {
+          "anyOf": [
+            {
+              "$ref": "#/definitions/GuardRefusal"
+            },
+            {
+              "type": "null"
+            }
+          ]
         }
       },
       "required": [
         "contractVersion",
         "requestId",
         "result",
-        "error"
+        "error",
+        "guardRefusal"
       ],
       "additionalProperties": false,
       "x-typeName": "UndoReceipt"
@@ -14351,6 +14439,7 @@
       }
     },
     "rule": "A response or receipt whose error comes from a guard carries guardRefusal; its error must equal guardRefusalError(guardRefusal, options) for one allowed form. Pre-flight GUARD_UNAVAILABLE: CAPABILITY_UNAVAILABLE/validate, nothing written. Restore stages (RESTORE, REGION_RESTORE) have two forms: (1) transaction form, when the restore's cause is known: RESTORE_FAILED/restore/RESTORE_ERROR pending manual recovery (AFTER_MANUAL_RECOVERY, PARTIAL) with causeCode = the failure that made the restore necessary; (2) engine form, when the writer has no cause (a stateless WriteRegion RESTORE, or an Undo): SAFETY_INVARIANT_FAILED (violation) or CAPABILITY_UNAVAILABLE (GUARD_UNAVAILABLE) with phase restore, mutationState NONE (the refused write wrote nothing), causeCode null. The transaction owner (Canvas) turns an engine-form refusal during a rollback into the transaction form and keeps the causing failure in applyFailure {error, guardRefusal} (error.causeCode equals applyFailure.error.code); during an Undo it returns the engine-form refusal unchanged with applyFailure null. A RESTORE_FAILED receipt always uses the transaction form.",
-    "notDecidedHere": "No acting-principal identity source exists; ACTING_PRINCIPAL coverage cannot be declared truthfully until one is defined (INV text unchanged, INV-POSE PRESENTED)."
+    "notDecidedHere": "No acting-principal identity source exists; ACTING_PRINCIPAL coverage cannot be declared truthfully until one is defined (INV text unchanged, INV-POSE PRESENTED).",
+    "relay": "A guard refusal reaches the skill on the public wire: Adapter responses (world-adapter/v7, world-adapter-region/v2) -> Canvas responses (canvas/v6 ApplyRecoverableCommit, Undo, Redo, RecoverPendingUndo, ReadPendingUndoResult, InspectPlacementRegion; canvas-region/v2 ApplyRegionCommit, UndoRegionCommit) -> Workshop responses (session/v4 AdvanceCurrentBuild, UndoCurrentBuild, RecoverPendingUndo). Each carries guardRefusal beside error under the same rule; a relay passes the refusal and its error unchanged. Canvas's own pre-flight refusal (requireEngineGuards before any write) is GUARD_UNAVAILABLE with CAPABILITY_UNAVAILABLE/validate on the canvas/v6 or canvas-region/v2 envelope."
   }
 }

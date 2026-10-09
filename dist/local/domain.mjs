@@ -51,7 +51,10 @@ function applyFailure(v) {
 }
 const GUARDED_RESPONSES = new Set(['ScopedPrepareResponse', 'ScopedApplyResponse', 'PrepareHistoryTransactionResponse',
   'ApplyHistoryTransactionResponse', 'RestoreTransactionResponse', 'WriteRegionResponse', 'InspectRegionResponse',
-  'ApplyRegionCommitResponse', 'UndoRegionCommitResponse']);
+  'ApplyRegionCommitResponse', 'UndoRegionCommitResponse',
+  // Relays up to the skill: Canvas per-cell and placement responses, Workshop build/undo responses.
+  'RecoverableCommitAppliedReceipt', 'UndoReceipt', 'RedoReceipt', 'CanvasUndoRecoveryResponse', 'PlacementRegionInspection',
+  'AdvanceCurrentBuildResponse', 'UndoCurrentBuildResponse', 'SessionRecoverPendingUndoResponse']);
 function arrayCompare(name, order) {
   if (order === 'numeric ascending') return (a, b) => a - b;
   if (order === 'UTF16 ascending') return compareUTF16;

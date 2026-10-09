@@ -1,6 +1,6 @@
 {
   "name": "hanaworlds-contracts",
-  "version": "1.0.0-rc.3",
+  "version": "1.0.0-rc.4",
   "description": "Pure current-local-world contracts. Fresh state only; strict decoding, business correlation, Canvas transactions and same-transaction history.",
   "type": "module",
   "private": true,
