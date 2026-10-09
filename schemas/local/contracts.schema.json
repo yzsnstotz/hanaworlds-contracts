@@ -12756,15 +12756,38 @@
         "UNAVAILABLE"
       ]
     },
-    "CompilerBackendFactsProjection": {
-      "x-typeName": "CompilerBackendFactsProjection",
+    "AvatarEnvelopeFact": {
+      "x-typeName": "AvatarEnvelopeFact",
+      "type": "object",
+      "properties": {
+        "availability": {
+          "const": "UNAVAILABLE"
+        },
+        "reason": {
+          "const": "NO_PUBLIC_SOURCE"
+        }
+      },
+      "required": [
+        "availability",
+        "reason"
+      ],
+      "additionalProperties": false
+    },
+    "ConfigEngineFactsProjection": {
+      "x-typeName": "ConfigEngineFactsProjection",
       "type": "object",
       "properties": {
         "profileVersion": {
-          "const": "compiler-backend-facts/v1"
+          "const": "config-engine-facts/v1"
         },
         "connection": {
           "$ref": "#/definitions/MaterialSourceConnection"
+        },
+        "catalogueDigest": {
+          "$ref": "#/definitions/Digest"
+        },
+        "avatarEnvelope": {
+          "$ref": "#/definitions/AvatarEnvelopeFact"
         },
         "writeBackend": {
           "$ref": "#/definitions/WriteBackendFact"
@@ -12773,19 +12796,27 @@
       "required": [
         "profileVersion",
         "connection",
+        "catalogueDigest",
+        "avatarEnvelope",
         "writeBackend"
       ],
       "additionalProperties": false
     },
-    "CompilerBackendFacts": {
-      "x-typeName": "CompilerBackendFacts",
+    "ConfigEngineFacts": {
+      "x-typeName": "ConfigEngineFacts",
       "type": "object",
       "properties": {
         "profileVersion": {
-          "const": "compiler-backend-facts/v1"
+          "const": "config-engine-facts/v1"
         },
         "connection": {
           "$ref": "#/definitions/MaterialSourceConnection"
+        },
+        "catalogueDigest": {
+          "$ref": "#/definitions/Digest"
+        },
+        "avatarEnvelope": {
+          "$ref": "#/definitions/AvatarEnvelopeFact"
         },
         "writeBackend": {
           "$ref": "#/definitions/WriteBackendFact"
@@ -12797,6 +12828,8 @@
       "required": [
         "profileVersion",
         "connection",
+        "catalogueDigest",
+        "avatarEnvelope",
         "writeBackend",
         "sourceRevision"
       ],

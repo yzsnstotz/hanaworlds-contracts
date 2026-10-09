@@ -121,13 +121,16 @@ export declare const sessionWorldSeam:Readonly<{id:'session-world-seam/v1';evide
 export declare function requireWorldRetirable(inventory:unknown):C['WorldSelectionInventory'];
 export declare function describeSelectionConnection(selection:unknown,inventory:unknown):C['SelectionConnectionState'];
 export declare function requireSessionDeleteSupported(capabilities:unknown):C['PublicCapabilities'];
-/** compiler-backend-facts/v1 (additive). Adapter produces from its loaded payload's declaration; Canvas
- * assembles CompilationConfig.backendProfileId from KNOWN facts only. Additive subset of the existing
- * hanaworldsLuantiNativeFacts service; provider verifies the paired world/incarnation across the read.
- * No player geometry is representable; avatarDimensions has no public source (compilerBackendFacts.avatarDimensions). */
-export interface CompilerBackendFactsPort {readCompilerBackendFacts(worldRef:C['Ref']):Promise<C['CompilerBackendFacts']>;}
-export declare const compilerBackendFacts:Readonly<{id:'compiler-backend-facts/v1';evidence:string;port:string;producer:string;consumer:string;writeBackend:string;domainAndLifecycle:string;avatarDimensions:Readonly<{publicSource:'NONE';rule:string;refusal:Readonly<{code:'CAPABILITY_UNAVAILABLE';phase:'validate';reason:'REQUIRED_FACT_UNKNOWN'}>}>;notDecidedHere:string}>;
-/** Checks shape, current connection and sourceRevision; not provider authenticity. */
-export declare function validateCompilerBackendFacts(input:unknown,currentConnection:C['MaterialSourceConnection']):C['CompilerBackendFacts'];
+/** config-engine-facts/v1 (additive). Adapter produces from its loaded payload's declaration; Canvas
+ * assembles CompilationConfig.backendProfileId from a KNOWN writeBackend only. avatarEnvelope is always
+ * UNAVAILABLE/NO_PUBLIC_SOURCE: no player geometry is representable (INV-POSE-STAYS-IN-ENGINE).
+ * Additive subset of the existing hanaworldsLuantiNativeFacts service; provider verifies the paired
+ * world/incarnation across the read. */
+export interface ConfigEngineFactsPort {readConfigEngineFacts(worldRef:C['Ref']):Promise<C['ConfigEngineFacts']>;}
+export declare const configEngineFacts:Readonly<{id:'config-engine-facts/v1';evidence:string;port:string;producer:string;consumer:string;writeBackend:string;domainAndLifecycle:string;avatarDimensions:Readonly<{publicSource:'NONE';record:Readonly<{availability:'UNAVAILABLE';reason:'NO_PUBLIC_SOURCE'}>;cause:'INV-POSE-STAYS-IN-ENGINE';rule:string;refusal:Readonly<{code:'CAPABILITY_UNAVAILABLE';phase:'validate';reason:'REQUIRED_FACT_UNKNOWN'}>}>;notDecidedHere:string}>;
+/** Checks shape, current connection, fresh Catalogue digest and sourceRevision; not provider authenticity. */
+export declare function validateConfigEngineFacts(input:unknown,catalogue:C['Catalogue'],currentConnection:C['MaterialSourceConnection']):C['ConfigEngineFacts'];
 /** CAPABILITY_UNAVAILABLE/REQUIRED_FACT_UNKNOWN when UNAVAILABLE; never a default. */
 export declare function requireKnownWriteBackend(facts:unknown):C['Ref'];
+/** Always throws CAPABILITY_UNAVAILABLE/validate/REQUIRED_FACT_UNKNOWN: avatarDimensions has no public source. */
+export declare function requireKnownAvatarEnvelope(facts:unknown):never;

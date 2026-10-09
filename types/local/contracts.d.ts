@@ -425,8 +425,9 @@ export type SelectionConnectionState = { readonly "sessionRef": Ref; readonly "s
 export type KnownWriteBackend = { readonly "availability": "KNOWN"; readonly "basis": "LOADED_PAYLOAD_DECLARATION"; readonly "backendProfileId": Ref; readonly "nodeWriteSemantics": "explicit-nodeName-param2-static-v2" };
 export type UnavailableWriteBackend = { readonly "availability": "UNAVAILABLE"; readonly "reason": "NOT_DECLARED_BY_PAYLOAD" | "ENGINE_FACT_UNREADABLE" };
 export type WriteBackendFact = KnownWriteBackend | UnavailableWriteBackend;
-export type CompilerBackendFactsProjection = { readonly "profileVersion": "compiler-backend-facts/v1"; readonly "connection": MaterialSourceConnection; readonly "writeBackend": WriteBackendFact };
-export type CompilerBackendFacts = { readonly "profileVersion": "compiler-backend-facts/v1"; readonly "connection": MaterialSourceConnection; readonly "writeBackend": WriteBackendFact; readonly "sourceRevision": Digest };
+export type AvatarEnvelopeFact = { readonly "availability": "UNAVAILABLE"; readonly "reason": "NO_PUBLIC_SOURCE" };
+export type ConfigEngineFactsProjection = { readonly "profileVersion": "config-engine-facts/v1"; readonly "connection": MaterialSourceConnection; readonly "catalogueDigest": Digest; readonly "avatarEnvelope": AvatarEnvelopeFact; readonly "writeBackend": WriteBackendFact };
+export type ConfigEngineFacts = { readonly "profileVersion": "config-engine-facts/v1"; readonly "connection": MaterialSourceConnection; readonly "catalogueDigest": Digest; readonly "avatarEnvelope": AvatarEnvelopeFact; readonly "writeBackend": WriteBackendFact; readonly "sourceRevision": Digest };
 export interface TypeMap {
 AbortPreparedHistoryTransactionRequest: AbortPreparedHistoryTransactionRequest;
 AbortPreparedHistoryTransactionResponse: AbortPreparedHistoryTransactionResponse;
@@ -854,8 +855,9 @@ SelectionConnectionState: SelectionConnectionState;
 KnownWriteBackend: KnownWriteBackend;
 UnavailableWriteBackend: UnavailableWriteBackend;
 WriteBackendFact: WriteBackendFact;
-CompilerBackendFactsProjection: CompilerBackendFactsProjection;
-CompilerBackendFacts: CompilerBackendFacts;
+AvatarEnvelopeFact: AvatarEnvelopeFact;
+ConfigEngineFactsProjection: ConfigEngineFactsProjection;
+ConfigEngineFacts: ConfigEngineFacts;
 }
 export type TypeName=keyof TypeMap;
 export interface OperationMap {
@@ -978,6 +980,6 @@ export interface ProjectionMap {
 "region-operations": RegionOperationsProjection;
 "region-summary": RegionSummary;
 "region-snapshot-content": RegionSnapshotContent;
-"compiler-backend-facts": CompilerBackendFactsProjection;
+"config-engine-facts": ConfigEngineFactsProjection;
 }
 
