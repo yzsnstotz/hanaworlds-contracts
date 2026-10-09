@@ -1,5 +1,5 @@
 {
-  "version": "1.0.0-rc.2",
+  "version": "1.0.0-rc.3",
   "wireVersions": [
     "interaction-surface/v4",
     "session/v4",
@@ -14340,9 +14340,17 @@
         "mutationState": "PARTIAL",
         "causeCode": "<the code of the failure that made the restore necessary>",
         "reason": "RESTORE_ERROR"
+      },
+      "restoreEngine": {
+        "code": "<SAFETY_INVARIANT_FAILED | CAPABILITY_UNAVAILABLE>",
+        "phase": "restore",
+        "retryability": "AFTER_NEW_FACTS",
+        "mutationState": "NONE",
+        "causeCode": null,
+        "reason": "<SCOPE_DENIED | INVALID_GEOMETRY | REQUIRED_FACT_UNKNOWN>"
       }
     },
-    "rule": "A response or receipt whose error comes from a guard carries guardRefusal; its error must equal guardRefusalError(guardRefusal) (pre-flight GUARD_UNAVAILABLE: CAPABILITY_UNAVAILABLE/validate, nothing written). At RESTORE/REGION_RESTORE the error is RESTORE_FAILED/restore/RESTORE_ERROR pending manual recovery (AFTER_MANUAL_RECOVERY, PARTIAL); its causeCode names the failure that made the restore necessary, and the restore's own reason is the GuardRefusal (BODY_OCCUPIED, PROTECTED_CELL, PLAYER_ENCLOSED, or GUARD_UNAVAILABLE = RESTORE_GUARD_UNAVAILABLE). A receipt or region commit/undo response that ends in a failed restore also keeps that causing failure in full in applyFailure {error, guardRefusal}; error.causeCode equals applyFailure.error.code, so neither cause is lost.",
+    "rule": "A response or receipt whose error comes from a guard carries guardRefusal; its error must equal guardRefusalError(guardRefusal, options) for one allowed form. Pre-flight GUARD_UNAVAILABLE: CAPABILITY_UNAVAILABLE/validate, nothing written. Restore stages (RESTORE, REGION_RESTORE) have two forms: (1) transaction form, when the restore's cause is known: RESTORE_FAILED/restore/RESTORE_ERROR pending manual recovery (AFTER_MANUAL_RECOVERY, PARTIAL) with causeCode = the failure that made the restore necessary; (2) engine form, when the writer has no cause (a stateless WriteRegion RESTORE, or an Undo): SAFETY_INVARIANT_FAILED (violation) or CAPABILITY_UNAVAILABLE (GUARD_UNAVAILABLE) with phase restore, mutationState NONE (the refused write wrote nothing), causeCode null. The transaction owner (Canvas) turns an engine-form refusal during a rollback into the transaction form and keeps the causing failure in applyFailure {error, guardRefusal} (error.causeCode equals applyFailure.error.code); during an Undo it returns the engine-form refusal unchanged with applyFailure null. A RESTORE_FAILED receipt always uses the transaction form.",
     "notDecidedHere": "No acting-principal identity source exists; ACTING_PRINCIPAL coverage cannot be declared truthfully until one is defined (INV text unchanged, INV-POSE PRESENTED)."
   }
 }

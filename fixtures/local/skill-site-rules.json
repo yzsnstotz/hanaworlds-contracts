@@ -617,6 +617,78 @@
     "title": "applyFailure on a receipt that is not RESTORE_FAILED",
     "status": "ROLLED_BACK"
    }
-  ]
+  ],
+  "regionRestore": {
+   "note": "WriteRegion RESTORE is stateless: the engine reports a refused restore in the engine form (no cause, nothing written). Canvas owns the transaction: a rollback becomes RESTORE_FAILED pending with applyFailure; an Undo stays the engine-form refusal.",
+   "engine": [
+    {
+     "name": "REGION_RESTORE body",
+     "refusal": {
+      "guard": "BODY_CLEARANCE",
+      "stage": "REGION_RESTORE",
+      "finding": "BODY_OCCUPIED"
+     },
+     "error": {
+      "code": "SAFETY_INVARIANT_FAILED",
+      "phase": "restore",
+      "retryability": "AFTER_NEW_FACTS",
+      "mutationState": "NONE",
+      "causeCode": null,
+      "reason": "INVALID_GEOMETRY"
+     }
+    },
+    {
+     "name": "REGION_RESTORE protection",
+     "refusal": {
+      "guard": "CELL_PROTECTION",
+      "stage": "REGION_RESTORE",
+      "finding": "PROTECTED_CELL"
+     },
+     "error": {
+      "code": "SAFETY_INVARIANT_FAILED",
+      "phase": "restore",
+      "retryability": "AFTER_NEW_FACTS",
+      "mutationState": "NONE",
+      "causeCode": null,
+      "reason": "SCOPE_DENIED"
+     }
+    },
+    {
+     "name": "REGION_RESTORE guard unavailable",
+     "refusal": {
+      "guard": "PLAYER_ENCLOSURE",
+      "stage": "REGION_RESTORE",
+      "finding": "GUARD_UNAVAILABLE"
+     },
+     "error": {
+      "code": "CAPABILITY_UNAVAILABLE",
+      "phase": "restore",
+      "retryability": "AFTER_NEW_FACTS",
+      "mutationState": "NONE",
+      "causeCode": null,
+      "reason": "REQUIRED_FACT_UNKNOWN"
+     }
+    }
+   ],
+   "rollbackApplyRefusal": {
+    "guard": "CELL_PROTECTION",
+    "stage": "REGION_APPLY",
+    "finding": "PROTECTED_CELL"
+   },
+   "reject": [
+    {
+     "title": "engine form claims a partial write",
+     "mutationState": "PARTIAL"
+    },
+    {
+     "title": "engine form with a manual-recovery retryability but no cause",
+     "retryability": "AFTER_MANUAL_RECOVERY"
+    },
+    {
+     "title": "engine form with the wrong reason for its finding",
+     "reason": "PAYLOAD_CHANGED"
+    }
+   ]
+  }
  }
 }

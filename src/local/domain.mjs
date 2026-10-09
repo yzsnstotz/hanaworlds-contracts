@@ -23,20 +23,19 @@ export function guardRefusalError(refusal, { transactionRef = null, preflight = 
     return { code: 'CAPABILITY_UNAVAILABLE', phase: 'validate', retryability: 'AFTER_NEW_FACTS', mutationState: 'NONE',
       transactionRef, causeCode: null, reason: 'REQUIRED_FACT_UNKNOWN' };
   }
-  // A refused restore stays pending manual recovery. causeCode keeps naming the failure that made
-  // the restore necessary (the caller supplies it); the restore's own reason is the GuardRefusal.
-  if (stage.phase === 'restore') {
-    if (cause === null) throw new Error('a restore-stage guard error needs the cause of the restore');
-    return { code: 'RESTORE_FAILED', phase: 'restore', retryability: 'AFTER_MANUAL_RECOVERY',
-      mutationState: 'PARTIAL', transactionRef, causeCode: cause, reason: 'RESTORE_ERROR' };
-  }
+  // Restore stages have two forms. With a cause (the transaction owner knows which failure made the
+  // restore necessary): RESTORE_FAILED pending manual recovery, causeCode = that failure. Without a
+  // cause (a stateless engine write such as WriteRegion RESTORE, or an Undo that has no failure):
+  // the engine form below, phase restore, nothing written; the transaction owner decides whether
+  // it becomes a pending RESTORE_FAILED (rollback, with applyFailure) or stays a refusal (Undo).
+  if (stage.phase === 'restore' && cause !== null) return { code: 'RESTORE_FAILED', phase: 'restore',
+    retryability: 'AFTER_MANUAL_RECOVERY', mutationState: 'PARTIAL', transactionRef, causeCode: cause, reason: 'RESTORE_ERROR' };
   return { code: violated ? 'SAFETY_INVARIANT_FAILED' : 'CAPABILITY_UNAVAILABLE', phase: stage.phase,
     retryability: stage.phase === 'decode' ? 'NEVER' : 'AFTER_NEW_FACTS', mutationState: 'NONE', transactionRef, causeCode: null,
     reason: violated ? (refusal.finding === 'PROTECTED_CELL' ? 'SCOPE_DENIED' : 'INVALID_GEOMETRY') : 'REQUIRED_FACT_UNKNOWN' };
 }
 const sameError = (e, refusal) => [false, ...(refusal.finding === 'GUARD_UNAVAILABLE' ? [true] : [])].some(preflight => {
-  if (!preflight && e.causeCode === null && e.phase === 'restore') return false;
-  const x = guardRefusalError(refusal, { transactionRef: e.transactionRef, preflight, cause: e.causeCode ?? 'RESTORE_FAILED' });
+  const x = guardRefusalError(refusal, { transactionRef: e.transactionRef, preflight, cause: e.causeCode });
   return ['code', 'phase', 'retryability', 'mutationState', 'causeCode', 'reason'].every(k => e[k] === x[k]); });
 // A guard refusal always explains the error beside it, exactly.
 function guarded(v) {

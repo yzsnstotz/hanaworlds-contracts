@@ -127,7 +127,7 @@ test('engine guards: BODY_OCCUPIED, PROTECTED_CELL, PLAYER_ENCLOSED and RESTORE_
  for(const n of G.named){a.validateType('GuardRefusal',n.refusal);same(a.guardRefusalError(n.refusal,{cause:n.cause??null}),{...n.error,transactionRef:null},n.name);keys.add(a.canonicalJSON(n.refusal));}
  assert.equal(keys.size,G.named.length);
  same(a.guardRefusalError({guard:'PLAYER_ENCLOSURE',stage:'REGION_APPLY',finding:'GUARD_UNAVAILABLE'},{preflight:true}),{...G.preflightError,transactionRef:null},'preflight');
- assert.throws(()=>a.guardRefusalError({guard:'BODY_CLEARANCE',stage:'RESTORE',finding:'BODY_OCCUPIED'}),/cause of the restore/);
+ same(a.guardRefusalError({guard:'BODY_CLEARANCE',stage:'RESTORE',finding:'BODY_OCCUPIED'}),{code:'SAFETY_INVARIANT_FAILED',phase:'restore',retryability:'AFTER_NEW_FACTS',mutationState:'NONE',transactionRef:null,causeCode:null,reason:'INVALID_GEOMETRY'},'restore without cause = engine form');
  for(const c of G.refusalReject)assert.throws(()=>a.validateType('GuardRefusal',c.refusal),{code:'SCHEMA_INVALID'},c.title);
 });
 const envelope=(type,wire,refusal,error)=>({contractVersion:wire,requestId:'r-1',result:null,error,guardRefusal:refusal,...(type.endsWith('RegionCommitResponse')?{applyFailure:null}:{})});
@@ -162,6 +162,22 @@ test('region: a refused region restore keeps the causing failure in applyFailure
  const res={contractVersion:'canvas-region/v2',requestId:'r-1',result:null,error:clone(a.guardRefusalError(restoreRefusal,{cause:applyError.code})),guardRefusal:restoreRefusal,applyFailure:{error:applyError,guardRefusal:applyRefusal}};
  a.validateType('ApplyRegionCommitResponse',res);
  assert.throws(()=>a.validateType('ApplyRegionCommitResponse',{...res,applyFailure:{...res.applyFailure,error:{...applyError,code:'READBACK_MISMATCH'}}}),{code:'SCHEMA_INVALID'},'applyFailure must match its refusal and the causeCode');
+});
+test('REGION_RESTORE: the engine reports a refused restore without a cause; Canvas turns a rollback into a pending RESTORE_FAILED and passes an Undo refusal through',()=>{
+ const R=G.regionRestore;
+ for(const c of R.engine){same(a.guardRefusalError(c.refusal),{...c.error,transactionRef:null},c.name);
+  a.validateType('WriteRegionResponse',envelope('WriteRegionResponse','world-adapter-region/v2',c.refusal,{...c.error,transactionRef:null}));
+  a.validateType('UndoRegionCommitResponse',envelope('UndoRegionCommitResponse','canvas-region/v2',c.refusal,{...c.error,transactionRef:null}));}
+ for(const c of R.reject){const bad={...R.engine[0].error,transactionRef:null,...Object.fromEntries(['mutationState','retryability','reason'].filter(k=>c[k]).map(k=>[k,c[k]]))};
+  assert.throws(()=>a.validateType('WriteRegionResponse',envelope('WriteRegionResponse','world-adapter-region/v2',R.engine[0].refusal,bad)),{code:'SCHEMA_INVALID'},c.title);}
+ // Rollback after a refused region apply: Canvas wraps the engine refusal into the transaction form.
+ const applyError=clone(a.guardRefusalError(R.rollbackApplyRefusal)),restoreRefusal=R.engine[0].refusal;
+ const rollback={contractVersion:'canvas-region/v2',requestId:'r-1',result:null,error:clone(a.guardRefusalError(restoreRefusal,{cause:applyError.code})),guardRefusal:restoreRefusal,applyFailure:{error:applyError,guardRefusal:R.rollbackApplyRefusal}};
+ a.validateType('ApplyRegionCommitResponse',rollback);
+ assert.throws(()=>a.validateType('ApplyRegionCommitResponse',{...rollback,error:{...R.engine[0].error,transactionRef:null}}),{code:'SCHEMA_INVALID'},'a rollback with applyFailure must use the pending transaction form');
+ // A per-cell RESTORE_FAILED receipt never carries the engine form.
+ const receipt=restoreFailedReceipt();receipt.error={...a.guardRefusalError(receipt.guardRefusal),transactionRef:'transaction-1'};
+ assert.throws(()=>a.validateType('ReceiptProjection',receipt),{code:'SCHEMA_INVALID'},'receipt with engine-form restore error');
 });
 test('0.x peers are not compatible with this major (no migration)',()=>{
  for(const v of ['0.5.6','0.5.5-rc.1'])rejects(()=>a.checkContractHandshake({...a.contractHandshake,contracts:'hanaworlds-contracts@'+v}),{code:'UNSUPPORTED_VERSION',reason:'VERSION_UNSUPPORTED'},v);
