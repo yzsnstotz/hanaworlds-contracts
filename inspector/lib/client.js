@@ -67,7 +67,7 @@ exports.apply = function apply(ctx) {
               ...(description?.samples ?? []).map(s => h('option', { key: s.id, value: s.id }, `${s.label} · fixture`))),
             h('label', { htmlFor: 'hw-kind' }, '检查类型'),
             h('select', { id: 'hw-kind', value: kind, disabled: busy, onChange: e => { setKind(e.target.value); setResult(null); } },
-              h('option', { value: 'building' }, '建筑 · BuildProjection / BUILD/V3'),
+              h('option', { value: 'building' }, '建筑 · BuildProjection / BUILD/V4'),
               h('option', { value: 'region' }, '区域 · RegionVoxelBlock / region-voxels/v1'),
               h('option', { value: 'protocol' }, '协议兼容演示 · 显式输入声明')),
             h('label', { htmlFor: 'hw-json' }, `JSON 输入 · ${source}`),

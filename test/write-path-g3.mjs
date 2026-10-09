@@ -40,7 +40,7 @@ test('scope is published: callback-free write path, callback classes, out-of-sco
   assert.ok(a.writePathStateScope.initializationCallbacks.includes('on_construct'));
   assert.ok(a.writePathStateScope.outOfScope.some(t => /ABM/.test(t)) && /UNDO_CONFLICT/.test(a.writePathStateScope.guards));
   const ids = new Set(a.regionCapabilities.map(c => c.id));
-  for (const id of ['world-adapter/v6:callback-free-write', 'world-adapter-region/v1:callback-free-write', 'world-adapter/v6:write-path-state-facts']) assert.ok(ids.has(id), id);
+  for (const id of ['world-adapter/v7:callback-free-write', 'world-adapter-region/v1:callback-free-write', 'world-adapter/v7:write-path-state-facts']) assert.ok(ids.has(id), id);
   assert.ok(a.regionInvariants.some(i => i.id === 'MATERIAL-FACT-SCOPE' && i.switchable === false));
 });
 test('derivation: player-only hooks are out of scope; initialization/state callbacks or unknown inventories are never false', () => {
@@ -91,14 +91,14 @@ test('a Catalogue looser than its inventory, off-revision or for another Catalog
   assert.deepEqual([...a.validateCatalogueWritePathFacts(strict.catalogue, ev4).stricter], ['fixture:stone']);
 });
 test('the write path and fact scope are required capabilities; missing capability or wrong major rejects', () => {
-  const caps = ['world-adapter-region/v1:callback-free-write', 'world-adapter/v6:callback-free-write', 'world-adapter/v6:write-path-state-facts'];
-  const peer = { profileVersion: 'protocol-handshake/v1', component: 'fixture-adapter', protocols: [{ protocol: 'world-adapter', major: 6, minor: 1 }, { protocol: 'world-adapter-region', major: 1, minor: 1 }],
+  const caps = ['world-adapter-region/v1:callback-free-write', 'world-adapter/v7:callback-free-write', 'world-adapter/v7:write-path-state-facts'];
+  const peer = { profileVersion: 'protocol-handshake/v1', component: 'fixture-adapter', protocols: [{ protocol: 'world-adapter', major: 7, minor: 0 }, { protocol: 'world-adapter-region', major: 1, minor: 1 }],
     capabilities: caps, provenance: { packageName: 'fixture-adapter', packageVersion: '0.6.2', sourceRevision: null, artifactDigest: null } };
   // ProtocolRequirements are ordered by protocol name (UTF-16).
-  const req = [a.protocolRequirement('world-adapter/v6', ['world-adapter/v6:callback-free-write', 'world-adapter/v6:write-path-state-facts']), a.protocolRequirement('world-adapter-region/v1', ['world-adapter-region/v1:callback-free-write'])];
+  const req = [a.protocolRequirement('world-adapter/v7', ['world-adapter/v7:callback-free-write', 'world-adapter/v7:write-path-state-facts']), a.protocolRequirement('world-adapter-region/v1', ['world-adapter-region/v1:callback-free-write'])];
   assert.equal(a.checkProtocolCompatibility(peer, req).result, 'PROTOCOL_COMPATIBLE');
   assert.throws(() => a.checkProtocolCompatibility({ ...peer, capabilities: caps.slice(0, 2) }, req), code('CAPABILITY_UNAVAILABLE'));
-  assert.throws(() => a.checkProtocolCompatibility({ ...peer, protocols: [{ protocol: 'world-adapter', major: 7, minor: 0 }, peer.protocols[1]] }, req), code('UNSUPPORTED_VERSION'));
+  assert.throws(() => a.checkProtocolCompatibility({ ...peer, protocols: [{ protocol: 'world-adapter', major: 8, minor: 0 }, peer.protocols[1]] }, req), code('UNSUPPORTED_VERSION'));
   assert.ok(a.contractProtocols.some(p => p.protocol === 'world-adapter-region' && p.minor === 1));
 });
 test('later independent changes are not claimed absent: full-state readback differs and same-transaction Undo conflicts', () => {
@@ -114,21 +114,21 @@ test('later independent changes are not claimed absent: full-state readback diff
 test('ContractHandshake is same-major; protocol interop across patches is decided only by protocol major + capabilities', () => {
   const at = v => ({ ...a.contractHandshake, contracts: 'hanaworlds-contracts@' + v });
   a.checkContractHandshake(a.contractHandshake); a.checkBuildProposalHandshake(a.contractHandshake);
-  for (const v of ['0.5.0', '0.5.1', '0.4.2', '0.6.0']) {
+  for (const v of ['1.0.0-rc.1', '1.0.0', '1.0.1', '1.6.0']) {
     assert.equal(a.checkContractHandshake(at(v)).result, 'HANDSHAKE_VERSION_MATCH', v);
     assert.equal(a.checkBuildProposalHandshake(at(v)).result, 'HANDSHAKE_OPERATION_MATCH', v);
   }
-  for (const v of ['1.0.0', '1.5.6', '2.0.0-rc.1']) {
+  for (const v of ['0.5.6', '0.6.0', '2.0.0', '2.0.0-rc.1']) {
     assert.throws(() => a.checkContractHandshake(at(v)), code('UNSUPPORTED_VERSION'), v);
     assert.throws(() => a.checkBuildProposalHandshake(at(v)), code('UNSUPPORTED_VERSION'), v);
   }
   assert.equal(a.sameContractLine, undefined);
-  // A Brush on another package patch is consumable iff it advertises BUILD major 3 and the required capability.
-  const brush = patch => ({ profileVersion: 'protocol-handshake/v1', component: 'fixture-brush', protocols: [{ protocol: 'BUILD', major: 3, minor: 0 }, { protocol: 'region-build', major: 1, minor: 0 }],
-    capabilities: ['BUILD/V3:per-cell-compile', 'region-build/v1:compile-mapblock-chunks'], provenance: { packageName: 'hanaworlds-contracts', packageVersion: patch, sourceRevision: null, artifactDigest: null } });
-  const req = [a.protocolRequirement('BUILD/V3', ['BUILD/V3:per-cell-compile'])];
+  // A Brush on another package patch is consumable iff it advertises BUILD major 4 and the required capability.
+  const brush = patch => ({ profileVersion: 'protocol-handshake/v1', component: 'fixture-brush', protocols: [{ protocol: 'BUILD', major: 4, minor: 0 }, { protocol: 'region-build', major: 1, minor: 0 }],
+    capabilities: ['BUILD/V4:per-cell-compile', 'region-build/v1:compile-mapblock-chunks'], provenance: { packageName: 'hanaworlds-contracts', packageVersion: patch, sourceRevision: null, artifactDigest: null } });
+  const req = [a.protocolRequirement('BUILD/V4', ['BUILD/V4:per-cell-compile'])];
   for (const v of ['0.5.0', '0.5.1', '0.5.2']) assert.equal(a.checkProtocolCompatibility(brush(v), req).result, 'PROTOCOL_COMPATIBLE');
   assert.throws(() => a.checkProtocolCompatibility({ ...brush('0.5.2'), capabilities: ['region-build/v1:compile-mapblock-chunks'] }, req), code('CAPABILITY_UNAVAILABLE'));
-  assert.throws(() => a.checkProtocolCompatibility({ ...brush('0.5.2'), protocols: [{ protocol: 'BUILD', major: 4, minor: 0 }] }, req), code('UNSUPPORTED_VERSION'));
+  assert.throws(() => a.checkProtocolCompatibility({ ...brush('0.5.2'), protocols: [{ protocol: 'BUILD', major: 5, minor: 0 }] }, req), code('UNSUPPORTED_VERSION'));
 });
 console.log(JSON.stringify({ evidence: 'SOURCE/FIXTURE', suite: 'write-path-g3', checks, modelCalls: 0, worldWrites: 0, realRuntime: 'NOT_RUN', realUI: 'NOT_RUN' }));

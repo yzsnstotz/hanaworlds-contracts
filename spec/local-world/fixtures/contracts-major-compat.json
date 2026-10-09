@@ -1,61 +1,68 @@
 {
  "profileVersion": "contracts-major-compat/v1",
- "evidence": "FIXTURE · public conformance cases for the contracts major-compatibility rule (0.5.6). Package version: same package, well-formed semver, equal major passes; minor, patch and prerelease never decide. Structure, wires, capabilities and trust are decided separately and still reject. Both providers and consumers run test/contracts-major-compat.mjs against the installed package.",
- "major": 0,
+ "evidence": "FIXTURE · public conformance cases for the contracts major-compatibility rule (0.5.6; major 1 since 1.0.0). Package version: same package, well-formed semver, equal major passes; minor, patch and prerelease never decide. Structure, wires, capabilities and trust are decided separately and still reject. Both providers and consumers run test/contracts-major-compat.mjs against the installed package.",
+ "major": 1,
  "contractsVersion": {
   "accept": [
-   "hanaworlds-contracts@0.5.6",
-   "hanaworlds-contracts@0.5.4",
-   "hanaworlds-contracts@0.5.5-rc.1",
-   "hanaworlds-contracts@0.5.7",
-   "hanaworlds-contracts@0.6.0",
-   "hanaworlds-contracts@0.6.0-rc.1",
-   "hanaworlds-contracts@0.99.12"
+   "hanaworlds-contracts@1.0.0-rc.1",
+   "hanaworlds-contracts@1.0.0",
+   "hanaworlds-contracts@1.0.1",
+   "hanaworlds-contracts@1.2.0",
+   "hanaworlds-contracts@1.2.0-rc.1",
+   "hanaworlds-contracts@1.99.12"
   ],
   "reject": [
    {
+    "title": "previous major 0.x (no compatibility, no migration)",
+    "ref": "hanaworlds-contracts@0.5.6"
+   },
+   {
+    "title": "previous major 0.x prerelease",
+    "ref": "hanaworlds-contracts@0.5.5-rc.1"
+   },
+   {
     "title": "next major",
-    "ref": "hanaworlds-contracts@1.0.0"
+    "ref": "hanaworlds-contracts@2.0.0"
    },
    {
     "title": "next major prerelease",
-    "ref": "hanaworlds-contracts@1.0.0-rc.1"
+    "ref": "hanaworlds-contracts@2.0.0-rc.1"
    },
    {
     "title": "far major",
-    "ref": "hanaworlds-contracts@2.5.6"
+    "ref": "hanaworlds-contracts@3.5.6"
    },
    {
     "title": "another package, same version",
-    "ref": "other-contracts@0.5.6"
+    "ref": "other-contracts@1.0.0"
    },
    {
     "title": "package name is case-sensitive",
-    "ref": "Hanaworlds-contracts@0.5.6"
+    "ref": "Hanaworlds-contracts@1.0.0"
    },
    {
     "title": "no package name",
-    "ref": "0.5.6"
+    "ref": "1.0.0"
    },
    {
     "title": "two-part version",
-    "ref": "hanaworlds-contracts@0.5"
+    "ref": "hanaworlds-contracts@1.0"
    },
    {
     "title": "leading zero major",
-    "ref": "hanaworlds-contracts@00.5.6"
+    "ref": "hanaworlds-contracts@01.0.0"
    },
    {
     "title": "v prefix",
-    "ref": "hanaworlds-contracts@v0.5.6"
+    "ref": "hanaworlds-contracts@v1.0.0"
    },
    {
     "title": "range is not a version",
-    "ref": "hanaworlds-contracts@^0.5.6"
+    "ref": "hanaworlds-contracts@^1.0.0"
    },
    {
     "title": "trailing space",
-    "ref": "hanaworlds-contracts@0.5.6 "
+    "ref": "hanaworlds-contracts@1.0.0 "
    },
    {
     "title": "empty",
@@ -85,30 +92,30 @@
     "expect": "HANDSHAKE_VERSION_MATCH"
    },
    {
-    "title": "older minor of the same major",
+    "title": "candidate of the same major",
     "patch": {
-     "contracts": "hanaworlds-contracts@0.5.4"
+     "contracts": "hanaworlds-contracts@1.0.0-rc.1"
     },
     "expect": "HANDSHAKE_VERSION_MATCH"
    },
    {
-    "title": "prerelease of the same major",
+    "title": "release of the same major",
     "patch": {
-     "contracts": "hanaworlds-contracts@0.5.5-rc.1"
+     "contracts": "hanaworlds-contracts@1.0.0"
     },
     "expect": "HANDSHAKE_VERSION_MATCH"
    },
    {
     "title": "newer minor of the same major",
     "patch": {
-     "contracts": "hanaworlds-contracts@0.7.0"
+     "contracts": "hanaworlds-contracts@1.3.0"
     },
     "expect": "HANDSHAKE_VERSION_MATCH"
    },
    {
     "title": "newer patch of the same major",
     "patch": {
-     "contracts": "hanaworlds-contracts@0.5.9"
+     "contracts": "hanaworlds-contracts@1.0.9"
     },
     "expect": "HANDSHAKE_VERSION_MATCH"
    }
@@ -117,7 +124,17 @@
    {
     "title": "different major",
     "patch": {
-     "contracts": "hanaworlds-contracts@1.0.0"
+     "contracts": "hanaworlds-contracts@2.0.0"
+    },
+    "error": {
+     "code": "UNSUPPORTED_VERSION",
+     "reason": "VERSION_UNSUPPORTED"
+    }
+   },
+   {
+    "title": "previous major 0.x peer (no compatibility)",
+    "patch": {
+     "contracts": "hanaworlds-contracts@0.5.6"
     },
     "error": {
      "code": "UNSUPPORTED_VERSION",
@@ -127,7 +144,7 @@
    {
     "title": "another package",
     "patch": {
-     "contracts": "other-contracts@0.5.6"
+     "contracts": "other-contracts@1.0.0"
     },
     "error": {
      "code": "UNSUPPORTED_VERSION",
@@ -137,7 +154,7 @@
    {
     "title": "malformed version",
     "patch": {
-     "contracts": "hanaworlds-contracts@0.5"
+     "contracts": "hanaworlds-contracts@1.0"
     },
     "error": {
      "code": "UNSUPPORTED_VERSION",
@@ -147,9 +164,9 @@
    {
     "title": "same major but a required wire is missing (version never implies an interface)",
     "patch": {
-     "contracts": "hanaworlds-contracts@0.5.4"
+     "contracts": "hanaworlds-contracts@1.0.0"
     },
-    "dropWire": "canvas/v5",
+    "dropWire": "canvas/v6",
     "error": {
      "code": "UNSUPPORTED_VERSION",
      "reason": "VERSION_UNSUPPORTED"
@@ -158,7 +175,7 @@
    {
     "title": "same major but the required fact profile is missing",
     "patch": {
-     "contracts": "hanaworlds-contracts@0.5.4",
+     "contracts": "hanaworlds-contracts@1.0.0",
      "factProfiles": [
       "target-facts/v3"
      ]
@@ -213,17 +230,17 @@
  "buildProposalHandshake": {
   "accept": [
    {
-    "contracts": "hanaworlds-contracts@0.5.4"
+    "contracts": "hanaworlds-contracts@1.0.0-rc.1"
    },
    {
-    "contracts": "hanaworlds-contracts@0.8.1"
+    "contracts": "hanaworlds-contracts@1.4.1"
    }
   ],
   "reject": [
    {
-    "title": "different major",
+    "title": "previous major 0.x",
     "patch": {
-     "contracts": "hanaworlds-contracts@1.0.0"
+     "contracts": "hanaworlds-contracts@0.5.6"
     },
     "error": {
      "code": "UNSUPPORTED_VERSION",
@@ -231,9 +248,9 @@
     }
    },
    {
-    "title": "painter/v4 wire missing",
+    "title": "painter/v5 wire missing",
     "patch": {},
-    "dropWire": "painter/v4",
+    "dropWire": "painter/v5",
     "error": {
      "code": "UNSUPPORTED_VERSION",
      "reason": "VERSION_UNSUPPORTED"
@@ -244,9 +261,9 @@
  "schema": {
   "accept": [
    {
-    "title": "older schema bundle of the same major",
+    "title": "release bundle of the same major",
     "input": {
-     "$id": "https://hanaworlds.invalid/contracts/0.5.4/schema.json",
+     "$id": "https://hanaworlds.invalid/contracts/1.0.0/schema.json",
      "definitions": {
       "ContractHandshake": {},
       "CompilationConfig": {}
@@ -256,12 +273,12 @@
      "ContractHandshake",
      "CompilationConfig"
     ],
-    "version": "0.5.4"
+    "version": "1.0.0"
    },
    {
     "title": "prerelease profile of the same major",
     "input": {
-     "version": "0.5.5-rc.1",
+     "version": "1.0.0-rc.1",
      "definitions": {
       "ConfigEngineFacts": {}
      }
@@ -269,23 +286,23 @@
     "requiredTypes": [
      "ConfigEngineFacts"
     ],
-    "version": "0.5.5-rc.1"
+    "version": "1.0.0-rc.1"
    },
    {
     "title": "newer minor bundle, no required types",
     "input": {
-     "$id": "https://hanaworlds.invalid/contracts/0.9.0/schema.json",
+     "$id": "https://hanaworlds.invalid/contracts/1.9.0/schema.json",
      "definitions": {}
     },
     "requiredTypes": [],
-    "version": "0.9.0"
+    "version": "1.9.0"
    }
   ],
   "reject": [
    {
     "title": "schema bundle of another major",
     "input": {
-     "$id": "https://hanaworlds.invalid/contracts/1.0.0/schema.json",
+     "$id": "https://hanaworlds.invalid/contracts/0.5.6/schema.json",
      "definitions": {
       "ContractHandshake": {}
      }
@@ -299,7 +316,7 @@
    {
     "title": "profile of another major",
     "input": {
-     "version": "1.2.0",
+     "version": "2.2.0",
      "definitions": {}
     },
     "requiredTypes": [],
@@ -311,7 +328,7 @@
    {
     "title": "foreign schema id",
     "input": {
-     "$id": "https://example.invalid/contracts/0.5.6/schema.json",
+     "$id": "https://example.invalid/contracts/1.0.0/schema.json",
      "definitions": {}
     },
     "requiredTypes": [],
@@ -334,7 +351,7 @@
    {
     "title": "same major but a required type is absent (version never implies a type)",
     "input": {
-     "$id": "https://hanaworlds.invalid/contracts/0.5.4/schema.json",
+     "$id": "https://hanaworlds.invalid/contracts/1.0.0-rc.1/schema.json",
      "definitions": {
       "ContractHandshake": {}
      }
@@ -350,7 +367,7 @@
    {
     "title": "same major, definitions not an object",
     "input": {
-     "version": "0.5.4",
+     "version": "1.0.0",
      "definitions": []
     },
     "requiredTypes": [],
@@ -361,7 +378,7 @@
    },
    {
     "title": "not an object",
-    "input": "0.5.6",
+    "input": "1.0.0",
     "requiredTypes": [],
     "error": {
      "code": "UNSUPPORTED_VERSION",
@@ -372,9 +389,9 @@
  },
  "protocol": {
   "requirement": {
-   "wire": "canvas/v5",
+   "wire": "canvas/v6",
    "capabilities": [
-    "canvas/v5:fixture-capability"
+    "canvas/v6:fixture-capability"
    ]
   },
   "peer": {
@@ -383,16 +400,16 @@
    "protocols": [
     {
      "protocol": "canvas",
-     "major": 5,
+     "major": 6,
      "minor": 1
     }
    ],
    "capabilities": [
-    "canvas/v5:fixture-capability"
+    "canvas/v6:fixture-capability"
    ],
    "provenance": {
     "packageName": "fixture-peer",
-    "packageVersion": "0.5.4",
+    "packageVersion": "1.0.0-rc.1",
     "sourceRevision": null,
     "artifactDigest": null
    }
@@ -403,10 +420,10 @@
    7
   ],
   "acceptPackageVersions": [
-   "0.5.4",
-   "0.5.5-rc.1",
-   "0.5.6",
-   "0.9.0"
+   "1.0.0-rc.1",
+   "1.0.0",
+   "1.2.0",
+   "0.5.6"
   ],
   "reject": [
    {
@@ -414,7 +431,7 @@
     "protocols": [
      {
       "protocol": "canvas",
-      "major": 6,
+      "major": 7,
       "minor": 0
      }
     ],

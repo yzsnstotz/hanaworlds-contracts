@@ -15,15 +15,15 @@ const region = {
 };
 const advertised = {
   profileVersion: 'protocol-handshake/v1', component: 'fixture-brush',
-  protocols: [{ protocol: 'BUILD', major: 3, minor: 0 }],
-  capabilities: ['BUILD/V3:per-cell-compile'],
+  protocols: [{ protocol: 'BUILD', major: 4, minor: 0 }],
+  capabilities: ['BUILD/V4:per-cell-compile'],
   provenance: { packageName: 'fixture-brush', packageVersion: '0.5.0', sourceRevision: null, artifactDigest: null },
 };
-const requirements = [protocolRequirement('BUILD/V3', ['BUILD/V3:per-cell-compile'])];
+const requirements = [protocolRequirement('BUILD/V4', ['BUILD/V4:per-cell-compile'])];
 
 export function describeInspector() {
   checkContractsVersion(contractHandshake.contracts);
-  const wrongMajor = structuredClone(advertised); wrongMajor.protocols[0].major = 4;
+  const wrongMajor = structuredClone(advertised); wrongMajor.protocols[0].major = 5;
   const missingCapability = structuredClone(advertised); missingCapability.capabilities = [];
   const invalid = structuredClone(region); invalid.origin[0] = 'bad';
   return {
@@ -32,7 +32,7 @@ export function describeInspector() {
     capabilities: regionCapabilities.map(c => c.id), capabilityDeclarations: regionCapabilities,
     policy: protocolPolicy,
     samples: [
-      { id: 'building', label: '建筑 · 合法 BUILD/V3', kind: 'building', fixture: true, input: main.response.result.build },
+      { id: 'building', label: '建筑 · 合法 BUILD/V4', kind: 'building', fixture: true, input: main.response.result.build },
       { id: 'region-fill', label: '区域 · 填充石块', kind: 'region', fixture: true, input: region },
       { id: 'region-air', label: '区域 · 显式挖空 air', kind: 'region', fixture: true,
         input: { ...region, palette: [{ nodeName: 'air', param2: 0 }] } },

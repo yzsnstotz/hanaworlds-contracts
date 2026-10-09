@@ -75,15 +75,15 @@
     }
   },
   "proposalRequest": {
-    "contractVersion": "painter-region/v1",
+    "contractVersion": "painter-region/v2",
     "sessionRef": "fixture-session",
     "requestId": "painter-region-1",
     "worldRef": "fixture-world",
     "turnRevision": "fixture-turn-4",
     "invocationId": "fixture-luanti-invocation-7",
     "intent": {
-      "contractVersion": "session/v3",
-      "referenceBriefDigest": "889b694d216459ae3fb348652e64265e8ed94b3485753a2bd5f1c44726318198",
+      "contractVersion": "session/v4",
+      "referenceBriefDigest": "2daf8a8d8cb72370103dd96855ef23e5b273911365cf748e2851337706103cf5",
       "confirmedIntent": {
         "kind": "BUILD_STRUCTURE",
         "text": "一个小石屋",
@@ -95,14 +95,23 @@
           "unit": "node"
         },
         "entrancePortalRefs": [],
-        "confirmedTurnRevision": "fixture-turn-4"
+        "confirmedTurnRevision": "fixture-turn-4",
+        "siteRules": {
+          "requireEntranceConnectivity": false,
+          "entranceClearance": null,
+          "hazardPolicy": {
+            "forbidLiquid": true,
+            "maximumDamagePerSecond": 0
+          },
+          "optionalLightRule": null
+        }
       },
       "intendedWorldRef": "fixture-world",
       "orderedTargetRefs": []
     },
-    "intentDigest": "d78ed384d6e6916b6ff01edfcd1cc37fe5825a75ef3ede201868f450ff1aaa55",
+    "intentDigest": "1e5e42886da8d9240b7c2fd9581b649651d7693ef78c02de87393f14e3c31d2e",
     "referenceBrief": {
-      "contractVersion": "ReferenceBrief/v3",
+      "contractVersion": "ReferenceBrief/v4",
       "sessionRef": "fixture-session",
       "turnRevision": "fixture-turn-4",
       "briefRevision": "fixture-brief-4",
@@ -117,10 +126,19 @@
           "unit": "node"
         },
         "entrancePortalRefs": [],
-        "styleText": null
+        "styleText": null,
+        "siteRules": {
+          "requireEntranceConnectivity": false,
+          "entranceClearance": null,
+          "hazardPolicy": {
+            "forbidLiquid": true,
+            "maximumDamagePerSecond": 0
+          },
+          "optionalLightRule": null
+        }
       }
     },
-    "referenceBriefDigest": "889b694d216459ae3fb348652e64265e8ed94b3485753a2bd5f1c44726318198",
+    "referenceBriefDigest": "2daf8a8d8cb72370103dd96855ef23e5b273911365cf748e2851337706103cf5",
     "catalogue": {
       "profileVersion": "catalogue/v2",
       "engineProfile": "fixture-luanti-static",
@@ -289,7 +307,7 @@
     }
   },
   "proposalResponse": {
-    "contractVersion": "painter-region/v1",
+    "contractVersion": "painter-region/v2",
     "requestId": "painter-region-1",
     "result": {
       "invocationId": "fixture-luanti-invocation-7",
@@ -3091,7 +3109,7 @@
       "typicalScale": "A single cell up to a few hundred cells, e.g. a door, a window or touching up an edge.",
       "scaleUnit": "cells",
       "requiredCapabilities": [
-        "BUILD/V3:per-cell-compile"
+        "BUILD/V4:per-cell-compile"
       ],
       "unavailableReason": null
     },

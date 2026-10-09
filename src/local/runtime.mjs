@@ -132,6 +132,51 @@ export function validateStaticMaterials(materialsInput, catalogueInput) {
   }
   return materials;
 }
+/** Safety capabilities: who must advertise which check, and the exact public error when it is
+ * absent or fails. Contracts fix no rule value; they only name what can be checked. */
+export const safetyCapabilities = contractMetadata.safetyCapabilities;
+const safetyCapability = id => {
+  const c = safetyCapabilities.find(x => x.id === id);
+  if (!c) throw new Error('unknown safety capability ' + id);
+  return c;
+};
+/** Ids from `ids` that a peer's ProtocolHandshake does not advertise, with their named cause. */
+export function unmetSafetyCapabilities(handshakeInput, ids) {
+  const advertised = validateType('ProtocolHandshake', handshakeInput).capabilities;
+  return deepFreeze(ids.map(safetyCapability).filter(c => !advertised.includes(c.id))
+    .map(c => ({ id: c.id, cause: c.cause, error: c.whenAbsent })));
+}
+/** Throws the named absent-capability error for the first unmet id; returns the checked ids. */
+export function requireSafetyCapabilities(handshakeInput, ids) {
+  const [unmet] = unmetSafetyCapabilities(handshakeInput, ids);
+  if (unmet) fail(unmet.error.code, unmet.error.phase, unmet.error.reason);
+  return deepFreeze([...ids]);
+}
+/** Exact public Error a peer returns when a declared safety check runs and fails. */
+export function safetyCheckFailure(id, transactionRef = null) {
+  const f = safetyCapability(id).whenFailed;
+  if (!f) throw new Error('capability ' + id + ' has no failure outcome');
+  return deepFreeze(validateType('Error', { ...f, transactionRef }));
+}
+/** Site rules that no peer of this major can check are refused by capability name, never ignored.
+ * A stated light rule always is (no light witness kind exists); a required entrance is refused
+ * only on paths without an entrance check (`entrance:false`, e.g. painter-region). */
+export function requireSiteRuleChecks(rules, { entrance }) {
+  const light = safetyCapability('painter/v5:light-rule').whenAbsent;
+  requireFact(rules.optionalLightRule === null, light.code, light.reason, light.phase);
+  if (!entrance) {
+    const e = safetyCapability('painter-region/v2:entrance-rule').whenAbsent;
+    requireFact(!rules.requireEntranceConnectivity, e.code, e.reason, e.phase);
+  }
+}
+/** The only SafetyProfile source for a confirmed build: the non-switchable invariants plus the
+ * player-confirmed skill site rules. No World, Host or package value is consulted. */
+export function safetyProfileFromConfirmedIntent(intentInput) {
+  const { siteRules } = validateType('IntentProjection', intentInput).confirmedIntent;
+  return deepFreeze(validateType('SafetyProfile', { profileVersion: 'safety-profile/v4', connectivity: 6,
+    requireBodyClearance: true, requireEntranceConnectivity: siteRules.requireEntranceConnectivity,
+    hazardPolicy: siteRules.hazardPolicy, optionalLightRule: siteRules.optionalLightRule }));
+}
 /** Coherence of complete supplied facts. The returned object is intentionally
  * a pure supplied-facts check; it does not read the world. */
 export function validateWitnessCoherence({ build: buildInput, finalEffects: effectsInput, targetFacts: factsInput, safetyProfile: safetyInput, catalogue: catalogueInput }) {
@@ -141,6 +186,8 @@ export function validateWitnessCoherence({ build: buildInput, finalEffects: effe
   const hashes = { finalEffectsDigest: digestValue('final-effects', effects).sha256, targetFactsDigest: digestValue('target-facts', facts).sha256, safetyProfileDigest: digestValue('safety-profile', safety).sha256 };
   ambiguity(build.catalogueDigest === digestValue('catalogue', catalogue).sha256 && build.targetFactsDigest === hashes.targetFactsDigest && build.safetyProfileDigest === hashes.safetyProfileDigest);
   requireFact(safety.requireBodyClearance, 'CAPABILITY_UNAVAILABLE', 'POLICY_UNAVAILABLE');
+  // No witness kind for light exists in this major: a stated rule is refused by capability name.
+  requireSiteRuleChecks(safety, { entrance: true });
   const required = ['COVERAGE', 'BODY_CLEARANCE', 'HAZARD'];
   if (safety.requireEntranceConnectivity) required.push('ENTRANCE_CONNECTIVITY');
   for (const predicate of required) requireFact(build.witnesses.some(w => w.predicate === predicate), 'SAFETY_INVARIANT_FAILED', 'REQUIRED_FACT_UNKNOWN');
@@ -151,11 +198,8 @@ export function validateWitnessCoherence({ build: buildInput, finalEffects: effe
       const positions = new Set(w.facts.positions.map(x => JSON.stringify(x)));
       if (['COVERAGE','BODY_CLEARANCE'].includes(w.predicate)) requireFact(effectPositions.every(p => positions.has(p)), 'SAFETY_INVARIANT_FAILED', 'REQUIRED_FACT_UNKNOWN');
     }
-    if (w.predicate === 'BODY_CLEARANCE') {
-      const occupied = new Set(w.facts.bodyOccupiedPositions.map(p => JSON.stringify(p)));
-      requireFact(!effectPositions.some(p => occupied.has(p)), 'SAFETY_INVARIANT_FAILED', 'REQUIRED_FACT_UNKNOWN');
-      ambiguity(JSON.stringify(w.facts.avatarDimensions) === JSON.stringify(safety.avatarDimensions));
-    }
+    // BODY_CLEARANCE carries no player geometry: actual bodies are checked inside the engine at
+    // inspection and before every write; the witness only binds the covered positions.
     if (w.predicate === 'HAZARD') {
       ambiguity(w.facts.forbidLiquid === safety.hazardPolicy.forbidLiquid && w.facts.maximumDamagePerSecond === safety.hazardPolicy.maximumDamagePerSecond);
       for (const p of w.facts.positions) {
@@ -286,8 +330,8 @@ export function checkContractHandshake(advertisedInput,required={wires:wireVersi
 }
 export function validateCurrentBuildSubmission(input,factsInput) {
  const submission=validateType('CurrentBuildSubmission',input),{parentRequest:parent,apply,intent,analysis}=submission;
- validateCurrentRequest('session/v3','AdvanceCurrentBuild',parent,factsInput);
- validateBoundRequest('canvas/v5','ApplyRecoverableCommit',apply);
+ validateCurrentRequest('session/v4','AdvanceCurrentBuild',parent,factsInput);
+ validateBoundRequest('canvas/v6','ApplyRecoverableCommit',apply);
  current(same(parent.localContext,apply.localContext));associated(parent.sessionRef===apply.sessionRef&&parent.worldRef===apply.worldRef);
  associated(intent.intendedWorldRef===parent.worldRef&&intent.confirmedIntent.confirmedTurnRevision===parent.expectedTurnRevision&&intent.referenceBriefDigest===factsInput.currentBriefDigest);
  associated(analysis.worldRef===parent.worldRef&&analysis.operationDigest===apply.operationDigest);
@@ -322,7 +366,7 @@ export function projectScopedPreparedTransaction(input) {
  return validateType('ScopedPreparedTransaction',Object.fromEntries(Object.keys(schemaBundle.definitions.ScopedPreparedTransaction.properties).map(k=>[k,result[k]])));
 }
 export function validateWorldSelection(input,factsInput,connectionInput) {
- const {request}=validateCurrentRequest('canvas/v5','SelectWorldConnection',input,factsInput);
+ const {request}=validateCurrentRequest('canvas/v6','SelectWorldConnection',input,factsInput);
  const connection=validateType('LocalConnectionReadback',connectionInput);
  current(request.connectionRef===connection.connectionRef&&request.worldRef===connection.worldRef&&request.connectionIncarnationRef===connection.connectionIncarnationRef);
  current(connection.capabilities.worldRef===connection.worldRef);

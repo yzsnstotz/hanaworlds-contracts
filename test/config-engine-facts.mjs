@@ -15,7 +15,7 @@ test('same-major package; facts are an in-process port, not a wire or a changed 
  assert.equal(profile.configEngineFacts.id,'config-engine-facts/v1');
  for(const ops of Object.values(a.operationContracts))for(const o of ops)assert.ok(!/EngineFacts/.test(o.operation));
  assert.equal(a.schemaBundle.definitions.CompilationConfig.properties.backendProfileId.$ref,'#/definitions/Ref');
- assert.deepEqual(a.schemaBundle.definitions.SafetyProfile.required,['profileVersion','avatarDimensions','connectivity','requireBodyClearance','requireEntranceConnectivity','hazardPolicy','optionalLightRule']);
+ assert.deepEqual(a.schemaBundle.definitions.SafetyProfile.required,['profileVersion','connectivity','requireBodyClearance','requireEntranceConnectivity','hazardPolicy','optionalLightRule']);
  assert.equal(a.digestProfile.domainPrefixByKind['config-engine-facts'],'HanaWorlds|config-engine-facts/v1|');
 });
 test('no player geometry leaves the Adapter: avatarEnvelope has only the fixed UNAVAILABLE form',()=>{

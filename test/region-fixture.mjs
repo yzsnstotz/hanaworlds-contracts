@@ -22,10 +22,10 @@ export function buildRegionScenario(a, base) {
   });
   const block = a.encodeRegionBlock({ origin, size, palette: [stone, dirt, air], indices });
   const build = { contractVersion: 'region-build/v1', documentId: 'region-doc-1', coordinateSpace: 'WORLD_NODE', worldRef, catalogueDigest, block, declaredBounds: a.regionBlockBox(block) };
-  const proposalRequest = { contractVersion: 'painter-region/v1', sessionRef, requestId: 'painter-region-1', worldRef, turnRevision: r.turnRevision,
+  const proposalRequest = { contractVersion: 'painter-region/v2', sessionRef, requestId: 'painter-region-1', worldRef, turnRevision: r.turnRevision,
     invocationId: r.invocationId, intent: r.intent, intentDigest: r.intentDigest, referenceBrief: r.referenceBrief, referenceBriefDigest: r.referenceBriefDigest,
     catalogue, catalogueDigest, proposal: { decision: 'REGION', block }, localContext };
-  const proposalResponse = { contractVersion: 'painter-region/v1', requestId: 'painter-region-1', result: { invocationId: r.invocationId, build, buildDigest: D('region-build', build) }, error: null };
+  const proposalResponse = { contractVersion: 'painter-region/v2', requestId: 'painter-region-1', result: { invocationId: r.invocationId, build, buildDigest: D('region-build', build) }, error: null };
   const compileRequest = { contractVersion: 'region-build/v1', sessionRef, requestId: 'compile-region-1', worldRef, build, buildDigest: D('region-build', build), catalogue, catalogueDigest, compilerRevision: 'fixture-brush-region-1', localContext };
   // Reference mapblock split standing in for Brush output (FIXTURE).
   const expanded = a.expandRegionBlock(block);
@@ -90,14 +90,14 @@ export function buildRegionScenario(a, base) {
   // FIXTURE Adapter peer advertising the package's own current world-adapter-region declaration
   // (minor and every world-adapter-region/v1 capability, incl. the G3 callback-free-write), so a
   // consumer that builds its peer from this fixture passes the package's G3 requirement. A per-cell
-  // port additionally needs world-adapter/v6 with callback-free-write and write-path-state-facts.
+  // port additionally needs world-adapter/v7 with callback-free-write and write-path-state-facts.
   const regionAdapter = a.contractProtocols.find(p => p.protocol === 'world-adapter-region');
   const peerHandshake = { profileVersion: 'protocol-handshake/v1', component: 'fixture-adapter', protocols: [{ protocol: 'world-adapter-region', major: regionAdapter.major, minor: regionAdapter.minor }],
     capabilities: a.regionCapabilities.map(c => c.id).filter(id => id.startsWith('world-adapter-region/v1:')).sort(),
     provenance: { packageName: 'fixture-adapter', packageVersion: '0.4.0', sourceRevision: null, artifactDigest: null } };
   const writeMethods = [
     { method: 'PER_CELL', toolName: 'fixture_place_cells', purpose: 'Fine adjustment of individual cells through the existing per-cell BUILD path.', inputType: 'BuildProposal',
-      typicalScale: 'A single cell up to a few hundred cells, e.g. a door, a window or touching up an edge.', scaleUnit: 'cells', requiredCapabilities: ['BUILD/V3:per-cell-compile'], unavailableReason: null },
+      typicalScale: 'A single cell up to a few hundred cells, e.g. a door, a window or touching up an edge.', scaleUnit: 'cells', requiredCapabilities: ['BUILD/V4:per-cell-compile'], unavailableReason: null },
     { method: 'REGION', toolName: 'fixture_write_region', purpose: 'Large fills and carves (terrain, flattening, digging) as one region block with explicit air for carving.', inputType: 'RegionProposal',
       typicalScale: 'Hundreds to millions of cells, e.g. levelling a plot or digging a valley; written per mapblock as one Canvas transaction.', scaleUnit: 'cells',
       requiredCapabilities: ['canvas-region/v1:single-logical-transaction', 'canvas-region/v1:whole-region-undo', 'region-build/v1:compile-mapblock-chunks', 'world-adapter-region/v1:load-then-know'], unavailableReason: null }

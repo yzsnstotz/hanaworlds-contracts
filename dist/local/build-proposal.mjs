@@ -3,17 +3,17 @@
 import { validateType, validateRequest, validateResponse, validateDigestBinding,
   digestValue, canonicalJSON, checkContractHandshake,
   schemaBundle, validateBoundRequest, validateCurrentRequest, validateRegionInspection, validateStaticMaterials,
-  validateWitnessCoherence } from './runtime.mjs';
+  validateWitnessCoherence, safetyProfileFromConfirmedIntent, requireSiteRuleChecks } from './runtime.mjs';
 import { requireFact } from '../errors.mjs';
 import { inside, unionCellCount, comparePosition } from '../geometry.mjs';
-const WIRE = 'painter/v4', OPERATION = 'ValidateBuildProposal';
+const WIRE = 'painter/v5', OPERATION = 'ValidateBuildProposal';
 const same = (a, b) => canonicalJSON(a) === canonicalJSON(b);
 const identity = ok => requireFact(ok, 'TRANSACTION_CONFLICT', 'PAYLOAD_CHANGED');
 const stale = ok => requireFact(ok, 'TARGET_FACTS_STALE', 'REVISION_CHANGED');
 const geometry = ok => requireFact(ok, 'BUILD_INVALID', 'INVALID_GEOMETRY');
 
 /** Check this new Painter producer only; not a request to update default peers. Same contracts
- * major (checkContractHandshake) plus the painter/v4 wire; minor/patch never decide. */
+ * major (checkContractHandshake) plus the painter/v5 wire; minor/patch never decide. */
 export function checkBuildProposalHandshake(input) {
   const { advertised } = checkContractHandshake(input,
     { wires: [WIRE], factProfiles: ['target-facts/v4'] });
@@ -21,7 +21,7 @@ export function checkBuildProposalHandshake(input) {
 }
 
 function proposalGeometry(request) {
-  const { proposal, targetFacts: facts, regionInspection: region, safetyProfile: safety } = request;
+  const { proposal, targetFacts: facts, safetyProfile: safety } = request;
   validateStaticMaterials(proposal.materials, request.catalogue);
   const bounds = facts.sampledBounds;
   // BigInt before conversion: no overflowing additions, clipping or guessed caps.
@@ -43,7 +43,8 @@ function proposalGeometry(request) {
   // iterating an attacker-supplied huge box; overlap is counted only once.
   requireFact(unionCellCount(operations) === BigInt(written.length),
     'TARGET_FACTS_INCOMPLETE', 'REQUIRED_FACT_UNKNOWN');
-  geometry(!region.bodyOccupiedPositions.some(touched));
+  // Actual player bodies are not supplied here: the engine rejected body-occupied footprints at
+  // inspection and rechecks every written cell before mutation.
   const effects = written.map(position => {
     const op = operations.findLast(op => inside(position, op));
     return { position, ...proposal.materials[op.materialRef] };
@@ -82,9 +83,16 @@ export function validateBuildProposalRequest(input) {
     region.evidence.worldRef === request.worldRef && region.evidence.worldRevision === facts.worldRevision);
   requireFact(safety.requireBodyClearance,
     'CAPABILITY_UNAVAILABLE', 'POLICY_UNAVAILABLE');
-  if (safety.requireEntranceConnectivity)
-    requireFact(intent.confirmedIntent.entrancePortalRefs.length > 0,
-      'INTENT_UNCONFIRMED', 'REQUIRED_FACT_UNKNOWN');
+  // Site rules are skill-proposed and player-confirmed; the confirmed intent is their only source:
+  // the request SafetyProfile must be exactly the one derived from it (no World/Host/package value).
+  const rules = intent.confirmedIntent.siteRules;
+  requireFact(same(safety, safetyProfileFromConfirmedIntent(intent)), 'INTENT_UNCONFIRMED', 'PAYLOAD_CHANGED');
+  requireSiteRuleChecks(rules, { entrance: true });
+  if (rules.requireEntranceConnectivity) requireFact(rules.entranceClearance !== null,
+    'INTENT_UNCONFIRMED', 'REQUIRED_FACT_UNKNOWN');
+  // Confirmed portals must exist; none confirmed means the doorway on regionInspection.entranceFacing.
+  requireFact(intent.confirmedIntent.entrancePortalRefs.every(ref => facts.portals.some(p => p.portalRef === ref)),
+    'TARGET_FACTS_INCOMPLETE', 'REQUIRED_FACT_UNKNOWN');
   proposalGeometry(request);
   return request;
 }
@@ -126,6 +134,11 @@ export function validateBuildProposalResponse(input, responseInput) {
     if (witness.predicate === 'HAZARD')
       requireFact(positions.every(p => witness.facts.positions.some(q => same(p, q))),
         'SAFETY_INVARIANT_FAILED', 'REQUIRED_FACT_UNKNOWN');
+    if (witness.predicate === 'ENTRANCE_CONNECTIVITY') {
+      const { siteRules, entrancePortalRefs } = request.intent.confirmedIntent;
+      identity(same(witness.facts.clearance, siteRules.entranceClearance) &&
+        (witness.facts.portalRef === null ? entrancePortalRefs.length === 0 : entrancePortalRefs.includes(witness.facts.portalRef)));
+    }
   }
   validateWitnessCoherence({ build, finalEffects: { profileVersion: 'final-effects/v2',
     frameDigest: request.targetFacts.frameDigest, catalogueDigest: build.catalogueDigest, effects },

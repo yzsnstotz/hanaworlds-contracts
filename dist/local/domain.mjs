@@ -68,7 +68,9 @@ function receipt(v) {
     shape(v.readbackDigest !== null && v.observedWorldRevision !== null && v.error === null && v.restoreStatus === 'NOT_REQUIRED');
   }
   if (v.status === 'RESTORE_FAILED') {
-    shape(v.error !== null && v.error.phase === 'restore' && v.error.causeCode !== null && ['PARTIAL', 'UNKNOWN'].includes(v.error.mutationState));
+    // A failed restore (including one a player's body blocked) stays pending manual recovery.
+    shape(v.error !== null && v.error.phase === 'restore' && v.error.causeCode !== null && ['PARTIAL', 'UNKNOWN'].includes(v.error.mutationState) &&
+      v.error.retryability === 'AFTER_MANUAL_RECOVERY' && ['FAILED', 'UNKNOWN'].includes(v.restoreStatus));
   }
   if (v.status === 'RECOVERY_PENDING') shape(v.error !== null && v.error.mutationState === 'UNKNOWN');
   if (v.status === 'ROLLED_BACK') shape(v.restoreStatus === 'VERIFIED_RESTORED' && v.readbackDigest !== null && v.observedWorldRevision !== null);
@@ -145,7 +147,6 @@ export function validateDomain(visits) {
       decodeShape(v.targetFacts.source === 'REGION_INSPECTED');
       shape(v.evidence.worldRef === v.targetFacts.worldRef && v.evidence.worldRevision === v.targetFacts.worldRevision);
       shape(v.evidence.sourceRevision === v.frame.transformRevision);
-      geometry(v.bodyOccupiedPositions.every(p => inside(p, v.targetFacts.sampledBounds)));
     } else if (name === 'PlacementRegionInspection') {
       shape((v.unavailableSettings !== null) === (v.error !== null && v.error.code === 'CAPABILITY_UNAVAILABLE' && v.error.reason === 'POLICY_UNAVAILABLE'));
     } else if (name === 'SessionTurnDetails') {

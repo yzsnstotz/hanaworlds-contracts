@@ -6,7 +6,7 @@ import * as a from 'hanaworlds-contracts';
 const fx=JSON.parse(await readFile(new URL(import.meta.resolve('hanaworlds-contracts/fixtures/session-world'))));
 const v053=JSON.parse(await readFile(new URL(import.meta.resolve('hanaworlds-contracts/profile'))));
 let passed=0;function test(name,fn){fn();console.log('ok',++passed,name)}
-const SD='session/v3',CS='canvas/v5';
+const SD='session/v4',CS='canvas/v6';
 test('exact candidate package; seam operations are appended minors of existing wires',()=>{
  a.checkContractsVersion(a.contractHandshake.contracts);assert.equal(a.contractHandshake.contracts,'hanaworlds-contracts@'+a.version);a.checkContractHandshake(a.contractHandshake);
  assert.ok(!a.wireVersions.some(w=>/session-directory|canvas-session-world/.test(w)));
@@ -15,15 +15,15 @@ test('exact candidate package; seam operations are appended minors of existing w
  assert.deepEqual(a.ownership[SD],{domainOwner:'Workshop',mutationCaller:'none'});
  assert.deepEqual(a.ownership[CS],{domainOwner:'Canvas',mutationCaller:'Canvas only'});
  assert.equal(a.sessionWorldSeam.id,'session-world-seam/v1');
- assert.ok(a.contractProtocols.some(p=>p.protocol==='session'&&p.major===3&&p.minor===1));
- assert.ok(a.contractProtocols.some(p=>p.protocol==='canvas'&&p.major===5&&p.minor===1));
+ assert.ok(a.contractProtocols.some(p=>p.protocol==='session'&&p.major===4&&p.minor===0));
+ assert.ok(a.contractProtocols.some(p=>p.protocol==='canvas'&&p.major===6&&p.minor===0));
  assert.equal(a.checkSchemaCompatibility(v053).major,a.contractsCompatibility.major);assert.equal(v053.version,a.version);
 });
 test('no Adapter-owned binding authority and no breaking Readiness value',()=>{
  for(const ops of Object.values(a.operationContracts))for(const o of ops)assert.ok(!['ReadSessionWorldBinding','BindSessionWorld','UnbindSessionWorld'].includes(o.operation));
  assert.deepEqual(a.schemaBundle.definitions.Readiness.enum,['READY','ADAPTER_UNAVAILABLE','PAYLOAD_VERSION_MISMATCH','CAPABILITY_UNAVAILABLE']);
  assert.throws(()=>a.validateType('Readiness','STOPPED'),{code:'SCHEMA_INVALID'});
- assert.equal(a.ownership['world-adapter/v6'].domainOwner,'Adapter transport');
+ assert.equal(a.ownership['world-adapter/v7'].domainOwner,'Adapter transport');
 });
 test('G-S Workshop session directory: read, list and named unknown Session',()=>{
  const {list,read,unknown}=fx.sessionDirectory;
@@ -97,9 +97,9 @@ test('G-L: no persistent delete capability means named refusal and no Canvas ret
  assert.match(a.sessionWorldSeam.sequences.deleteSession,/not deletion/);
 });
 test('existing v0.5.3 operations keep their order and still validate',()=>{
- const before={'session/v3':13,'canvas/v5':20,'world-adapter/v6':16};
- for(const n of ['ReadWorldSelectionContext','SelectWorldConnection','SwitchWorldConnection'])assert.ok(a.operationContracts['canvas/v5'].slice(0,20).some(o=>o.operation===n));
- assert.equal(a.operationContracts['session/v3'][0].operation,'StartOrResumeSession');assert.equal(a.operationContracts['canvas/v5'][19].operation,'ReadWorldSelectionContext');
- assert.equal(a.operationContracts['world-adapter/v6'].length,before['world-adapter/v6']);
+ const before={'session/v4':13,'canvas/v6':20,'world-adapter/v7':16};
+ for(const n of ['ReadWorldSelectionContext','SelectWorldConnection','SwitchWorldConnection'])assert.ok(a.operationContracts['canvas/v6'].slice(0,20).some(o=>o.operation===n));
+ assert.equal(a.operationContracts['session/v4'][0].operation,'StartOrResumeSession');assert.equal(a.operationContracts['canvas/v6'][19].operation,'ReadWorldSelectionContext');
+ assert.equal(a.operationContracts['world-adapter/v7'].length,before['world-adapter/v7']);
 });
 console.log(JSON.stringify({evidence:'SOURCE/FIXTURE',seam:'session-world-seam/v1',checks:passed,providerImplementations:'NOT_RUN',realRuntime:'NOT_RUN'}));

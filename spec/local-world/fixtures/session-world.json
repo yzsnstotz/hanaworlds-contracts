@@ -3,11 +3,11 @@
   "sessionDirectory": {
     "list": {
       "request": {
-        "contractVersion": "session/v3",
+        "contractVersion": "session/v4",
         "requestId": "d1"
       },
       "response": {
-        "contractVersion": "session/v3",
+        "contractVersion": "session/v4",
         "requestId": "d1",
         "result": {
           "directoryRevision": "fixture-directory-1",
@@ -27,12 +27,12 @@
     },
     "read": {
       "request": {
-        "contractVersion": "session/v3",
+        "contractVersion": "session/v4",
         "requestId": "d2",
         "sessionRef": "fixture-session-S1"
       },
       "response": {
-        "contractVersion": "session/v3",
+        "contractVersion": "session/v4",
         "requestId": "d2",
         "result": {
           "sessionRef": "fixture-session-S1",
@@ -43,12 +43,12 @@
     },
     "unknown": {
       "request": {
-        "contractVersion": "session/v3",
+        "contractVersion": "session/v4",
         "requestId": "d3",
         "sessionRef": "fixture-session-unknown"
       },
       "response": {
-        "contractVersion": "session/v3",
+        "contractVersion": "session/v4",
         "requestId": "d3",
         "result": null,
         "error": {
@@ -117,16 +117,16 @@
   "ownerAScenario": [
     {
       "title": "1 known Session S1 without a world reads UNBOUND",
-      "wire": "canvas/v5",
+      "wire": "canvas/v6",
       "operation": "ReadWorldSelectionContext",
       "request": {
-        "contractVersion": "canvas/v5",
+        "contractVersion": "canvas/v6",
         "sessionRef": "fixture-session-S1",
         "requestId": "r1",
         "worldRef": "fixture-world-A"
       },
       "response": {
-        "contractVersion": "canvas/v5",
+        "contractVersion": "canvas/v6",
         "requestId": "r1",
         "result": {
           "sessionRef": "fixture-session-S1",
@@ -157,10 +157,10 @@
     },
     {
       "title": "2 S1 selects A",
-      "wire": "canvas/v5",
+      "wire": "canvas/v6",
       "operation": "SelectWorldConnection",
       "request": {
-        "contractVersion": "canvas/v5",
+        "contractVersion": "canvas/v6",
         "sessionRef": "fixture-session-S1",
         "requestId": "r2",
         "worldRef": "fixture-world-A",
@@ -170,7 +170,7 @@
         "connectionIncarnationRef": "fixture-incarnation-A-1"
       },
       "response": {
-        "contractVersion": "canvas/v5",
+        "contractVersion": "canvas/v6",
         "requestId": "r2",
         "result": {
           "currentSession": "fixture-session-S1",
@@ -190,10 +190,10 @@
     },
     {
       "title": "3 S2 selects the same A",
-      "wire": "canvas/v5",
+      "wire": "canvas/v6",
       "operation": "SelectWorldConnection",
       "request": {
-        "contractVersion": "canvas/v5",
+        "contractVersion": "canvas/v6",
         "sessionRef": "fixture-session-S2",
         "requestId": "r3",
         "worldRef": "fixture-world-A",
@@ -203,7 +203,7 @@
         "connectionIncarnationRef": "fixture-incarnation-A-1"
       },
       "response": {
-        "contractVersion": "canvas/v5",
+        "contractVersion": "canvas/v6",
         "requestId": "r3",
         "result": {
           "currentSession": "fixture-session-S2",
@@ -223,15 +223,15 @@
     },
     {
       "title": "4 Canvas inventory of A lists S1 and S2",
-      "wire": "canvas/v5",
+      "wire": "canvas/v6",
       "operation": "ListWorldSelections",
       "request": {
-        "contractVersion": "canvas/v5",
+        "contractVersion": "canvas/v6",
         "requestId": "r4",
         "worldRef": "fixture-world-A"
       },
       "response": {
-        "contractVersion": "canvas/v5",
+        "contractVersion": "canvas/v6",
         "requestId": "r4",
         "result": {
           "worldRef": "fixture-world-A",
@@ -247,10 +247,10 @@
     },
     {
       "title": "5 S1 switches A to B",
-      "wire": "canvas/v5",
+      "wire": "canvas/v6",
       "operation": "SwitchWorldConnection",
       "request": {
-        "contractVersion": "canvas/v5",
+        "contractVersion": "canvas/v6",
         "sessionRef": "fixture-session-S1",
         "requestId": "r5",
         "worldRef": "fixture-world-A",
@@ -266,7 +266,7 @@
         }
       },
       "response": {
-        "contractVersion": "canvas/v5",
+        "contractVersion": "canvas/v6",
         "requestId": "r5",
         "result": {
           "currentSession": "fixture-session-S1",
@@ -286,15 +286,15 @@
     },
     {
       "title": "6 A is still selected by S2 only",
-      "wire": "canvas/v5",
+      "wire": "canvas/v6",
       "operation": "ListWorldSelections",
       "request": {
-        "contractVersion": "canvas/v5",
+        "contractVersion": "canvas/v6",
         "requestId": "r6",
         "worldRef": "fixture-world-A"
       },
       "response": {
-        "contractVersion": "canvas/v5",
+        "contractVersion": "canvas/v6",
         "requestId": "r6",
         "result": {
           "worldRef": "fixture-world-A",
@@ -309,10 +309,10 @@
     },
     {
       "title": "7 S1 switches B back to A",
-      "wire": "canvas/v5",
+      "wire": "canvas/v6",
       "operation": "SwitchWorldConnection",
       "request": {
-        "contractVersion": "canvas/v5",
+        "contractVersion": "canvas/v6",
         "sessionRef": "fixture-session-S1",
         "requestId": "r7",
         "worldRef": "fixture-world-B",
@@ -328,7 +328,7 @@
         }
       },
       "response": {
-        "contractVersion": "canvas/v5",
+        "contractVersion": "canvas/v6",
         "requestId": "r7",
         "result": {
           "currentSession": "fixture-session-S1",
@@ -348,16 +348,16 @@
     },
     {
       "title": "8 retiring A while selected is refused",
-      "wire": "canvas/v5",
+      "wire": "canvas/v6",
       "operation": "ReserveWorldRetirement",
       "request": {
-        "contractVersion": "canvas/v5",
+        "contractVersion": "canvas/v6",
         "requestId": "r8",
         "worldRef": "fixture-world-A",
         "expectedInventoryRevision": "fixture-inventory-A-4"
       },
       "response": {
-        "contractVersion": "canvas/v5",
+        "contractVersion": "canvas/v6",
         "requestId": "r8",
         "result": null,
         "error": {
@@ -373,10 +373,10 @@
     },
     {
       "title": "9 S1 unbinds A",
-      "wire": "canvas/v5",
+      "wire": "canvas/v6",
       "operation": "UnselectWorldConnection",
       "request": {
-        "contractVersion": "canvas/v5",
+        "contractVersion": "canvas/v6",
         "sessionRef": "fixture-session-S1",
         "requestId": "r9",
         "worldRef": "fixture-world-A",
@@ -389,7 +389,7 @@
         }
       },
       "response": {
-        "contractVersion": "canvas/v5",
+        "contractVersion": "canvas/v6",
         "requestId": "r9",
         "result": {
           "currentSession": "fixture-session-S1",
@@ -404,15 +404,15 @@
     },
     {
       "title": "10 Workshop retires S2 before deleting it",
-      "wire": "canvas/v5",
+      "wire": "canvas/v6",
       "operation": "RetireSessionSelection",
       "request": {
-        "contractVersion": "canvas/v5",
+        "contractVersion": "canvas/v6",
         "sessionRef": "fixture-session-S2",
         "requestId": "r10"
       },
       "response": {
-        "contractVersion": "canvas/v5",
+        "contractVersion": "canvas/v6",
         "requestId": "r10",
         "result": {
           "sessionRef": "fixture-session-S2",
@@ -424,15 +424,15 @@
     },
     {
       "title": "11 A has no selecting Session",
-      "wire": "canvas/v5",
+      "wire": "canvas/v6",
       "operation": "ListWorldSelections",
       "request": {
-        "contractVersion": "canvas/v5",
+        "contractVersion": "canvas/v6",
         "requestId": "r11",
         "worldRef": "fixture-world-A"
       },
       "response": {
-        "contractVersion": "canvas/v5",
+        "contractVersion": "canvas/v6",
         "requestId": "r11",
         "result": {
           "worldRef": "fixture-world-A",
@@ -445,16 +445,16 @@
     },
     {
       "title": "12 Adapter reserves A for deletion",
-      "wire": "canvas/v5",
+      "wire": "canvas/v6",
       "operation": "ReserveWorldRetirement",
       "request": {
-        "contractVersion": "canvas/v5",
+        "contractVersion": "canvas/v6",
         "requestId": "r12",
         "worldRef": "fixture-world-A",
         "expectedInventoryRevision": "fixture-inventory-A-6"
       },
       "response": {
-        "contractVersion": "canvas/v5",
+        "contractVersion": "canvas/v6",
         "requestId": "r12",
         "result": {
           "worldRef": "fixture-world-A",
@@ -466,10 +466,10 @@
     },
     {
       "title": "13 selecting A under reservation is refused",
-      "wire": "canvas/v5",
+      "wire": "canvas/v6",
       "operation": "SelectWorldConnection",
       "request": {
-        "contractVersion": "canvas/v5",
+        "contractVersion": "canvas/v6",
         "sessionRef": "fixture-session-S1",
         "requestId": "r13",
         "worldRef": "fixture-world-A",
@@ -479,7 +479,7 @@
         "connectionIncarnationRef": "fixture-incarnation-A-1"
       },
       "response": {
-        "contractVersion": "canvas/v5",
+        "contractVersion": "canvas/v6",
         "requestId": "r13",
         "result": null,
         "error": {
@@ -495,17 +495,17 @@
     },
     {
       "title": "14 Adapter deleted A and releases RETIRED",
-      "wire": "canvas/v5",
+      "wire": "canvas/v6",
       "operation": "ReleaseWorldRetirement",
       "request": {
-        "contractVersion": "canvas/v5",
+        "contractVersion": "canvas/v6",
         "requestId": "r14",
         "worldRef": "fixture-world-A",
         "reservationRef": "fixture-reservation-A-1",
         "outcome": "RETIRED"
       },
       "response": {
-        "contractVersion": "canvas/v5",
+        "contractVersion": "canvas/v6",
         "requestId": "r14",
         "result": {
           "worldRef": "fixture-world-A",
@@ -518,15 +518,15 @@
     },
     {
       "title": "15 retired S2 is no longer a known Session",
-      "wire": "session/v3",
+      "wire": "session/v4",
       "operation": "ReadSessionIdentity",
       "request": {
-        "contractVersion": "session/v3",
+        "contractVersion": "session/v4",
         "requestId": "r15",
         "sessionRef": "fixture-session-S2"
       },
       "response": {
-        "contractVersion": "session/v3",
+        "contractVersion": "session/v4",
         "requestId": "r15",
         "result": null,
         "error": {
@@ -568,13 +568,13 @@
     },
     "unsupported": {
       "request": {
-        "contractVersion": "session/v3",
+        "contractVersion": "session/v4",
         "sessionRef": "fixture-session-S1",
         "requestId": "x1",
         "expectedRevision": "fixture-session-S1-rev-1"
       },
       "response": {
-        "contractVersion": "session/v3",
+        "contractVersion": "session/v4",
         "requestId": "x1",
         "result": null,
         "error": {
@@ -591,13 +591,13 @@
     },
     "deleted": {
       "request": {
-        "contractVersion": "session/v3",
+        "contractVersion": "session/v4",
         "sessionRef": "fixture-session-S2",
         "requestId": "x2",
         "expectedRevision": "fixture-session-S2-rev-1"
       },
       "response": {
-        "contractVersion": "session/v3",
+        "contractVersion": "session/v4",
         "requestId": "x2",
         "result": {
           "sessionRef": "fixture-session-S2",

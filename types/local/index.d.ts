@@ -35,6 +35,14 @@ export declare function validateBuildProposalResponse(input:unknown,response:unk
 export declare function validateRegionInspection(input:unknown):RegionInspection;
 export declare function validateFactsCoverage(input:TargetFacts,coverage:Coverage):TargetFacts;
 export declare function validateStaticMaterials(input:MaterialMap,catalogue:Catalogue):MaterialMap;
+export declare function safetyProfileFromConfirmedIntent(intent:import('./contracts.js').IntentProjection):SafetyProfile;
+/** Named safety checks (light rule, region entrance, G1 restore body recheck, G2 cell protection, G3 no body enclosure) and their exact public errors. */
+export type SafetyCapabilityId='painter/v5:light-rule'|'painter-region/v2:entrance-rule'|'world-adapter/v7:restore-body-recheck'|'world-adapter-region/v1:restore-body-recheck'|'world-adapter/v7:cell-protection'|'world-adapter-region/v1:cell-protection'|'world-adapter/v7:no-body-enclosure'|'world-adapter-region/v1:no-body-enclosure';
+export declare const safetyCapabilities:ReadonlyArray<Readonly<{id:SafetyCapabilityId;owner:string;gap:'LIGHT'|'ENTRANCE_ON_REGION'|'G1'|'G2'|'G3';cause:string;meaning:string;whenAbsent:Omit<import('./contracts.js').Error,'transactionRef'>;whenFailed:Omit<import('./contracts.js').Error,'transactionRef'>|null}>>;
+export declare function unmetSafetyCapabilities(handshake:unknown,ids:readonly SafetyCapabilityId[]):ReadonlyArray<Readonly<{id:SafetyCapabilityId;cause:string;error:Omit<import('./contracts.js').Error,'transactionRef'>}>>;
+export declare function requireSafetyCapabilities(handshake:unknown,ids:readonly SafetyCapabilityId[]):readonly SafetyCapabilityId[];
+export declare function safetyCheckFailure(id:SafetyCapabilityId,transactionRef?:string|null):import('./contracts.js').Error;
+export declare function requireSiteRuleChecks(rules:{readonly requireEntranceConnectivity:boolean;readonly optionalLightRule:unknown},options:{entrance:boolean}):void;
 export declare function validateWitnessCoherence(input:{build:BuildProjection;finalEffects:FinalEffects;targetFacts:TargetFacts;safetyProfile:SafetyProfile;catalogue:Catalogue}):{coherent:true;authenticityVerified:false;worldWrites:0};
 export declare function projectScopedPreparedTransaction(input:ScopedPreparedTransactionResult):ScopedPreparedTransaction;
 export declare function validateExactEffects(operations:unknown,materials:unknown,effects:unknown):unknown;

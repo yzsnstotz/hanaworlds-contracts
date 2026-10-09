@@ -63,12 +63,12 @@ test('catalogue legality: unknown node, illegal param2 and unknown static capabi
   const unknown = structuredClone(cat); unknown.nodes['fixture:stone'].hasCallbacks = null; unknown.nodes['fixture:stone'].unknownFields = ['hasCallbacks'];
   assert.throws(() => a.validateRegionPalette(block([[4, 0]]), unknown), code('UNSUPPORTED_MUTATION_SEMANTICS'));
 });
-test('per-cell BUILD/V3 is retained unchanged beside region v1', () => {
-  assert.ok(a.wireVersions.includes('BUILD/V3')); assert.equal(a.compiledOperationsVersion, 'operations/v3');
-  eq(a.operationContracts['BUILD/V3'].map(o => o.operation), ['BuildDocument']);
+test('per-cell BUILD/V4 is retained unchanged beside region v1', () => {
+  assert.ok(a.wireVersions.includes('BUILD/V4')); assert.equal(a.compiledOperationsVersion, 'operations/v3');
+  eq(a.operationContracts['BUILD/V4'].map(o => o.operation), ['BuildDocument']);
   a.validateBuildProposalRequest(base.request);
   assert.equal(a.validateType('BuildProposal', base.request.proposal).decision, 'BUILD');
-  assert.ok(a.protocolRequirement('BUILD/V3', ['BUILD/V3:per-cell-compile']).major === 3);
+  assert.ok(a.protocolRequirement('BUILD/V4', ['BUILD/V4:per-cell-compile']).major === 4);
 });
 test('Painter region proposal keeps the same Session/brief/world and returns the block unchanged', () => {
   const s = S(); a.validateRegionProposalResponse(s.proposalRequest, s.proposalResponse);

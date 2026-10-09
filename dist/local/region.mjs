@@ -2,7 +2,7 @@
 // world access, compression, transaction decision or provider authentication.
 import { contractMetadata } from './generated/contracts.mjs';
 import { validateType, validateRequest, validateResponse, validateDigestBinding, digestValue,
-  validateStaticMaterials, deepFreeze, canonicalJSON } from './runtime.mjs';
+  validateStaticMaterials, deepFreeze, canonicalJSON, requireSiteRuleChecks } from './runtime.mjs';
 import { requireFact, fail } from '../errors.mjs';
 import { blockBox, blockCellCount, chunksOfBox, floorDiv, comparePalette } from './region-domain.mjs';
 export const protocolPolicy = contractMetadata.protocolPolicy;
@@ -82,19 +82,29 @@ export function expectedRegionSummary(contentInput, operationsInput) {
   return summarizeRegionStates(content.worldRef, content.chunks.map((c, i) => ({ chunkPos: c.chunkPos, state: expectedRegionState(c.state, ops.chunks[i].block) })));
 }
 
-// --- painter-region/v1 -------------------------------------------------------
+// --- painter-region/v2 -------------------------------------------------------
 export function validateRegionProposalRequest(input) {
-  const request = validateRequest('painter-region/v1', 'ValidateRegionProposal', input);
+  const request = validateRequest('painter-region/v2', 'ValidateRegionProposal', input);
   validateDigestBinding('intent', request.intent, request.intentDigest);
   validateDigestBinding('reference-brief', request.referenceBrief, request.referenceBriefDigest);
   validateDigestBinding('catalogue', request.catalogue, request.catalogueDigest);
-  validateRegionPalette(request.proposal.block, request.catalogue);
+  const block = validateRegionPalette(request.proposal.block, request.catalogue);
+  // The player-confirmed site rules apply to region writes too. This wire has no entrance check,
+  // so a confirmed entrance requirement is refused by name; hazards are checked per palette node.
+  const rules = request.intent.confirmedIntent.siteRules;
+  requireSiteRuleChecks(rules, { entrance: false });
+  for (const entry of block.palette) {
+    const node = request.catalogue.nodes[entry.nodeName];
+    requireFact(node.liquidType !== null && node.damagePerSecond !== null, 'UNSUPPORTED_MATERIAL', 'REQUIRED_FACT_UNKNOWN');
+    requireFact((!rules.hazardPolicy.forbidLiquid || node.liquidType === 'none') &&
+      node.damagePerSecond <= rules.hazardPolicy.maximumDamagePerSecond, 'SAFETY_INVARIANT_FAILED', 'REQUIRED_FACT_UNKNOWN');
+  }
   return request;
 }
 /** Painter returns the proposal block unchanged as a RegionBuildProjection. */
 export function validateRegionProposalResponse(requestInput, responseInput) {
   const request = validateRegionProposalRequest(requestInput);
-  const response = validateResponse('painter-region/v1', 'ValidateRegionProposal', responseInput);
+  const response = validateResponse('painter-region/v2', 'ValidateRegionProposal', responseInput);
   changed(response.requestId === request.requestId);
   if (response.error) { noMutation(response.error); return response; }
   const { build } = response.result;
@@ -216,7 +226,7 @@ export function validateRegionUndo(requestInput, responseInput, originResultInpu
 }
 
 // --- protocol major + capability compatibility -------------------------------
-/** ProtocolRequirement for a wire such as 'canvas-region/v1' or 'BUILD/V3'. */
+/** ProtocolRequirement for a wire such as 'canvas-region/v1' or 'BUILD/V4'. */
 export function protocolRequirement(wire, capabilities = [], minMinor = 0) {
   const m = /^(.+)\/[vV]([1-9][0-9]*)$/u.exec(wire);
   requireFact(m !== null, 'UNSUPPORTED_VERSION', 'VERSION_UNSUPPORTED', 'decode');

@@ -1,0 +1,394 @@
+{
+ "profileVersion": "skill-site-rules/v1",
+ "evidence": "FIXTURE · public conformance cases for skill-proposed, player-confirmed SiteRules, the SafetyProfile derived only from the confirmed intent, the removal of player geometry and the named safety capabilities (light, region entrance, G1-G3). Rule values here are test inputs, not product values or defaults. Every case is applied to fixtures/main (per-cell) or fixtures/region (region) with all digests rebound.",
+ "ruleSets": {
+  "strict": {
+   "requireEntranceConnectivity": false,
+   "entranceClearance": null,
+   "hazardPolicy": {
+    "forbidLiquid": true,
+    "maximumDamagePerSecond": 0
+   },
+   "optionalLightRule": null
+  },
+  "permissive": {
+   "requireEntranceConnectivity": false,
+   "entranceClearance": null,
+   "hazardPolicy": {
+    "forbidLiquid": false,
+    "maximumDamagePerSecond": 1000000
+   },
+   "optionalLightRule": null
+  },
+  "entrance": {
+   "requireEntranceConnectivity": true,
+   "entranceClearance": {
+    "width": 1,
+    "height": 2,
+    "depth": 1,
+    "unit": "node"
+   },
+   "hazardPolicy": {
+    "forbidLiquid": true,
+    "maximumDamagePerSecond": 0
+   },
+   "optionalLightRule": null
+  },
+  "entranceWithoutClearance": {
+   "requireEntranceConnectivity": true,
+   "entranceClearance": null,
+   "hazardPolicy": {
+    "forbidLiquid": true,
+    "maximumDamagePerSecond": 0
+   },
+   "optionalLightRule": null
+  },
+  "light": {
+   "requireEntranceConnectivity": false,
+   "entranceClearance": null,
+   "hazardPolicy": {
+    "forbidLiquid": true,
+    "maximumDamagePerSecond": 0
+   },
+   "optionalLightRule": {
+    "minimumLight": 8,
+    "sourceRevision": "skill-light-1"
+   }
+  }
+ },
+ "perCell": {
+  "accept": [
+   "strict",
+   "permissive",
+   "entrance"
+  ],
+  "reject": [
+   {
+    "title": "SafetyProfile field differs from the confirmed rule",
+    "rules": "strict",
+    "tamper": {
+     "hazardPolicy": {
+      "forbidLiquid": false,
+      "maximumDamagePerSecond": 0
+     }
+    },
+    "error": {
+     "code": "INTENT_UNCONFIRMED",
+     "reason": "PAYLOAD_CHANGED"
+    }
+   },
+   {
+    "title": "SafetyProfile entrance flag differs from the confirmed rule",
+    "rules": "strict",
+    "tamper": {
+     "requireEntranceConnectivity": true
+    },
+    "error": {
+     "code": "INTENT_UNCONFIRMED",
+     "reason": "PAYLOAD_CHANGED"
+    }
+   },
+   {
+    "title": "body clearance invariant cannot be switched off",
+    "rules": "strict",
+    "tamper": {
+     "requireBodyClearance": false
+    },
+    "error": {
+     "code": "CAPABILITY_UNAVAILABLE",
+     "reason": "POLICY_UNAVAILABLE"
+    }
+   },
+   {
+    "title": "rule changed after confirmation (old intent digest)",
+    "rules": "strict",
+    "changeAfterConfirmation": {
+     "hazardPolicy": {
+      "forbidLiquid": true,
+      "maximumDamagePerSecond": 2
+     }
+    },
+    "error": {
+     "code": "NON_CANONICAL_AMBIGUITY",
+     "reason": "PAYLOAD_CHANGED"
+    }
+   },
+   {
+    "title": "stated light rule without a light-checking capability",
+    "rules": "light",
+    "error": {
+     "code": "CAPABILITY_UNAVAILABLE",
+     "reason": "REQUIRED_FACT_UNKNOWN"
+    },
+    "capability": "painter/v5:light-rule"
+   },
+   {
+    "title": "entrance required without a confirmed clearance",
+    "rules": "entranceWithoutClearance",
+    "error": {
+     "code": "INTENT_UNCONFIRMED",
+     "reason": "REQUIRED_FACT_UNKNOWN"
+    }
+   },
+   {
+    "title": "confirmed portal ref that the target facts do not contain (no portal producer)",
+    "rules": "entrance",
+    "entrancePortalRefs": [
+     "portal-missing"
+    ],
+    "error": {
+     "code": "TARGET_FACTS_INCOMPLETE",
+     "reason": "REQUIRED_FACT_UNKNOWN"
+    }
+   }
+  ],
+  "decodeReject": [
+   {
+    "title": "ConfirmedIntent without siteRules",
+    "path": "intent.confirmedIntent",
+    "remove": "siteRules",
+    "error": {
+     "code": "SCHEMA_INVALID"
+    }
+   },
+   {
+    "title": "ConfirmedIntent siteRules null",
+    "path": "intent.confirmedIntent",
+    "set": {
+     "siteRules": null
+    },
+    "error": {
+     "code": "SCHEMA_INVALID"
+    }
+   },
+   {
+    "title": "unknown key inside SiteRules",
+    "path": "intent.confirmedIntent.siteRules",
+    "set": {
+     "default": true
+    },
+    "error": {
+     "code": "UNKNOWN_REQUIRED_FIELD",
+     "reason": "UNKNOWN_FIELD"
+    }
+   },
+   {
+    "title": "non-integer clearance",
+    "path": "intent.confirmedIntent.siteRules",
+    "set": {
+     "entranceClearance": {
+      "width": 1.5,
+      "height": 2,
+      "depth": 1,
+      "unit": "node"
+     }
+    },
+    "error": {
+     "code": "SCHEMA_INVALID"
+    }
+   },
+   {
+    "title": "clearance unit other than node",
+    "path": "intent.confirmedIntent.siteRules",
+    "set": {
+     "entranceClearance": {
+      "width": 1,
+      "height": 2,
+      "depth": 1,
+      "unit": "meter"
+     }
+    },
+    "error": {
+     "code": "SCHEMA_INVALID"
+    }
+   },
+   {
+    "title": "avatarDimensions on SafetyProfile v4",
+    "path": "safetyProfile",
+    "set": {
+     "avatarDimensions": {
+      "width": 1,
+      "height": 2,
+      "depth": 1,
+      "unit": "node"
+     }
+    },
+    "error": {
+     "code": "UNKNOWN_REQUIRED_FIELD",
+     "reason": "UNKNOWN_FIELD"
+    }
+   },
+   {
+    "title": "bodyOccupiedPositions on RegionInspection",
+    "path": "regionInspection",
+    "set": {
+     "bodyOccupiedPositions": []
+    },
+    "error": {
+     "code": "UNKNOWN_REQUIRED_FIELD",
+     "reason": "UNKNOWN_FIELD"
+    }
+   }
+  ],
+  "witnessReject": [
+   {
+    "title": "entrance witness clearance differs from the confirmed clearance",
+    "rules": "entrance",
+    "clearance": {
+     "width": 2,
+     "height": 2,
+     "depth": 1,
+     "unit": "node"
+    },
+    "error": {
+     "code": "TRANSACTION_CONFLICT",
+     "reason": "PAYLOAD_CHANGED"
+    }
+   },
+   {
+    "title": "entrance witness names an unconfirmed portal",
+    "rules": "entrance",
+    "portalRef": "portal-x",
+    "error": {
+     "code": "TRANSACTION_CONFLICT",
+     "reason": "PAYLOAD_CHANGED"
+    }
+   },
+   {
+    "title": "avatarDimensions on BodyWitness",
+    "rules": "strict",
+    "bodyExtra": {
+     "avatarDimensions": {
+      "width": 1,
+      "height": 2,
+      "depth": 1,
+      "unit": "node"
+     }
+    },
+    "error": {
+     "code": "UNKNOWN_REQUIRED_FIELD",
+     "reason": "UNKNOWN_FIELD"
+    }
+   },
+   {
+    "title": "bodyOccupiedPositions on BodyWitness",
+    "rules": "strict",
+    "bodyExtra": {
+     "bodyOccupiedPositions": []
+    },
+    "error": {
+     "code": "UNKNOWN_REQUIRED_FIELD",
+     "reason": "UNKNOWN_FIELD"
+    }
+   }
+  ]
+ },
+ "region": {
+  "accept": [
+   "strict",
+   "permissive"
+  ],
+  "reject": [
+   {
+    "title": "entrance required on the region path (no entrance check)",
+    "rules": "entrance",
+    "error": {
+     "code": "CAPABILITY_UNAVAILABLE",
+     "reason": "REQUIRED_FACT_UNKNOWN"
+    },
+    "capability": "painter-region/v2:entrance-rule"
+   },
+   {
+    "title": "stated light rule on the region path",
+    "rules": "light",
+    "error": {
+     "code": "CAPABILITY_UNAVAILABLE",
+     "reason": "REQUIRED_FACT_UNKNOWN"
+    },
+    "capability": "painter/v5:light-rule"
+   },
+   {
+    "title": "palette node over the confirmed damage limit",
+    "rules": "strict",
+    "damagingPaletteNode": 4,
+    "error": {
+     "code": "SAFETY_INVARIANT_FAILED",
+     "reason": "REQUIRED_FACT_UNKNOWN"
+    }
+   }
+  ],
+  "acceptDamaging": {
+   "title": "the same damaging node within a confirmed open limit",
+   "rules": "permissive",
+   "damagingPaletteNode": 4
+  }
+ },
+ "capabilities": {
+  "ids": [
+   "painter/v5:light-rule",
+   "painter-region/v2:entrance-rule",
+   "world-adapter/v7:restore-body-recheck",
+   "world-adapter-region/v1:restore-body-recheck",
+   "world-adapter/v7:cell-protection",
+   "world-adapter-region/v1:cell-protection",
+   "world-adapter/v7:no-body-enclosure",
+   "world-adapter-region/v1:no-body-enclosure"
+  ],
+  "absentError": {
+   "code": "CAPABILITY_UNAVAILABLE",
+   "phase": "validate",
+   "retryability": "AFTER_NEW_FACTS",
+   "mutationState": "NONE",
+   "causeCode": null,
+   "reason": "REQUIRED_FACT_UNKNOWN"
+  },
+  "engineIds": [
+   "world-adapter/v7:restore-body-recheck",
+   "world-adapter/v7:cell-protection",
+   "world-adapter/v7:no-body-enclosure",
+   "world-adapter-region/v1:restore-body-recheck",
+   "world-adapter-region/v1:cell-protection",
+   "world-adapter-region/v1:no-body-enclosure"
+  ],
+  "failures": {
+   "world-adapter/v7:restore-body-recheck": {
+    "code": "RESTORE_FAILED",
+    "phase": "restore",
+    "retryability": "AFTER_MANUAL_RECOVERY",
+    "mutationState": "PARTIAL",
+    "causeCode": "SAFETY_INVARIANT_FAILED",
+    "reason": "RESTORE_ERROR"
+   },
+   "world-adapter/v7:cell-protection": {
+    "code": "SAFETY_INVARIANT_FAILED",
+    "phase": "apply",
+    "retryability": "AFTER_NEW_FACTS",
+    "mutationState": "NONE",
+    "causeCode": null,
+    "reason": "SCOPE_DENIED"
+   },
+   "world-adapter/v7:no-body-enclosure": {
+    "code": "SAFETY_INVARIANT_FAILED",
+    "phase": "apply",
+    "retryability": "AFTER_NEW_FACTS",
+    "mutationState": "NONE",
+    "causeCode": null,
+    "reason": "INVALID_GEOMETRY"
+   }
+  },
+  "restoreBlockedReceipt": {
+   "status": "RESTORE_FAILED",
+   "restoreStatus": "FAILED"
+  },
+  "restoreBlockedReceiptReject": [
+   {
+    "title": "a body-blocked restore never reports a verified restore",
+    "restoreStatus": "VERIFIED_RESTORED"
+   },
+   {
+    "title": "a body-blocked restore is never silently retryable",
+    "retryability": "AFTER_NEW_FACTS"
+   }
+  ]
+ }
+}

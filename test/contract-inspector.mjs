@@ -8,7 +8,7 @@ test('the inspector exists as a separate read-only public-capability consumer', 
   const { describeInspector, inspectJSON } = await import(moduleURL);
   const description = describeInspector();
   assert.equal(description.contractsVersion, JSON.parse(await (await import('node:fs/promises')).readFile(new URL('../package.json', import.meta.url), 'utf8')).version);
-  assert.ok(description.protocols.some(p => p.protocol === 'BUILD' && p.major === 3));
+  assert.ok(description.protocols.some(p => p.protocol === 'BUILD' && p.major === 4));
   assert.ok(description.capabilities.includes('region-build/v1:compile-mapblock-chunks'));
   for (const id of ['building', 'region-fill', 'region-air']) {
     const sample = description.samples.find(s => s.id === id);
