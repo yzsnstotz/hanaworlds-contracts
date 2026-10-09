@@ -121,14 +121,13 @@ export declare const sessionWorldSeam:Readonly<{id:'session-world-seam/v1';evide
 export declare function requireWorldRetirable(inventory:unknown):C['WorldSelectionInventory'];
 export declare function describeSelectionConnection(selection:unknown,inventory:unknown):C['SelectionConnectionState'];
 export declare function requireSessionDeleteSupported(capabilities:unknown):C['PublicCapabilities'];
-/** config-engine-facts/v1 (additive). Adapter produces, Canvas assembles SafetyProfile.avatarDimensions
- * and CompilationConfig.backendProfileId from KNOWN facts only. Size-only envelope: no position, yaw,
- * raw box, player identity or count. Additive subset of the existing hanaworldsLuantiNativeFacts service;
- * provider must verify the paired world/incarnation and source stability across the read. */
-export interface ConfigEngineFactsPort {readConfigEngineFacts(worldRef:C['Ref']):Promise<C['ConfigEngineFacts']>;}
-export declare const configEngineFacts:Readonly<{id:'config-engine-facts/v1';evidence:string;port:string;producer:string;consumer:string;facts:Readonly<Record<'avatarEnvelope'|'writeBackend',string>>;domainAndLifecycle:string;invariants:string;notDecidedHere:string}>;
-/** Checks shape, current connection, fresh Catalogue digest and sourceRevision; not provider authenticity. */
-export declare function validateConfigEngineFacts(input:unknown,catalogue:C['Catalogue'],currentConnection:C['MaterialSourceConnection']):C['ConfigEngineFacts'];
+/** compiler-backend-facts/v1 (additive). Adapter produces from its loaded payload's declaration; Canvas
+ * assembles CompilationConfig.backendProfileId from KNOWN facts only. Additive subset of the existing
+ * hanaworldsLuantiNativeFacts service; provider verifies the paired world/incarnation across the read.
+ * No player geometry is representable; avatarDimensions has no public source (compilerBackendFacts.avatarDimensions). */
+export interface CompilerBackendFactsPort {readCompilerBackendFacts(worldRef:C['Ref']):Promise<C['CompilerBackendFacts']>;}
+export declare const compilerBackendFacts:Readonly<{id:'compiler-backend-facts/v1';evidence:string;port:string;producer:string;consumer:string;writeBackend:string;domainAndLifecycle:string;avatarDimensions:Readonly<{publicSource:'NONE';rule:string;refusal:Readonly<{code:'CAPABILITY_UNAVAILABLE';phase:'validate';reason:'REQUIRED_FACT_UNKNOWN'}>}>;notDecidedHere:string}>;
+/** Checks shape, current connection and sourceRevision; not provider authenticity. */
+export declare function validateCompilerBackendFacts(input:unknown,currentConnection:C['MaterialSourceConnection']):C['CompilerBackendFacts'];
 /** CAPABILITY_UNAVAILABLE/REQUIRED_FACT_UNKNOWN when UNAVAILABLE; never a default. */
-export declare function requireKnownAvatarEnvelope(facts:unknown):C['AvatarDimensions'];
 export declare function requireKnownWriteBackend(facts:unknown):C['Ref'];

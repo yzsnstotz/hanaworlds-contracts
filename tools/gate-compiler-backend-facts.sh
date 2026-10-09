@@ -1,9 +1,9 @@
 #!/usr/bin/env bash
-# Config engine facts candidate gate (C-STAGE1-CONFIG-SEAM-01): exact commit -> clean archive -> lock
+# Compiler backend facts candidate gate (C-STAGE1-CONFIG-SEAM-01): exact commit -> clean archive -> lock
 # install -> committed generation is deterministic -> additive against v0.5.4 (no type, field, enum,
 # operation, ownership or digest-domain change) -> every source self-test -> npm pack -> per-file pack
 # report against the v0.5.4 pack -> independent install of that tar -> all conformance tests (including
-# test:config-facts) and the six consumer typecheck fixtures against the installed tar. SOURCE/PACK/FIXTURE only.
+# test:backend-facts) and the six consumer typecheck fixtures against the installed tar. SOURCE/PACK/FIXTURE only.
 set -euo pipefail
 source_sha=${1:?full source SHA required}
 evidence_dir=${2:?absolute evidence directory required}
@@ -12,7 +12,7 @@ base_sha=85687fc3811e4c8ee6e69410d46d8026e19d2c75 # v0.5.4
 export PATH=/Users/yzliu/.local/share/fnm/node-versions/v24.13.1/installation/bin:$PATH
 repo=$(git rev-parse --show-toplevel)
 rm -rf "$evidence_dir"; mkdir -p "$evidence_dir"
-build_dir=$(mktemp -d "${evidence_dir%/*}/gate-config-facts.XXXXXX")
+build_dir=$(mktemp -d "${evidence_dir%/*}/gate-backend-facts.XXXXXX")
 export npm_config_cache="${HANAWORLDS_NPM_CACHE:-$build_dir/npm-cache}"
 cleanup(){ rm -rf "$build_dir"; }
 trap cleanup EXIT
@@ -29,7 +29,7 @@ import {readdir,readFile} from 'node:fs/promises';import {createHash} from 'node
 const out={};async function walk(p){for(const e of await readdir(p,{withFileTypes:true})){const n=p+'/'+e.name;if(e.isDirectory())await walk(n);else out[n]=createHash('sha256').update(await readFile(n)).digest('hex');}}
 for(const p of ['dist/local','schemas/local','types/local','fixtures/local','src/local/generated','spec/local-world/fixtures','inspector/lib'])await walk(p);console.log(JSON.stringify(out,null,2));
 JS
-{ npm run build; npm run build:region-fixture; npm run build; npm run build:inspector; python3 -I tools/build-session-world-fixture.py spec/local-world/fixtures/session-world.json; npm run build; npm run build:config-facts-fixture; npm run build; } > "$evidence_dir/build.log" 2>&1
+{ npm run build; npm run build:region-fixture; npm run build; npm run build:inspector; python3 -I tools/build-session-world-fixture.py spec/local-world/fixtures/session-world.json; npm run build; npm run build:backend-facts-fixture; npm run build; } > "$evidence_dir/build.log" 2>&1
 node --input-type=module - "$evidence_dir/generated.json" <<'JS' > "$evidence_dir/determinism.log"
 import {readFile} from 'node:fs/promises';import {createHash} from 'node:crypto';import assert from 'node:assert/strict';
 const expected=JSON.parse(await readFile(process.argv[2]));for(const [p,h] of Object.entries(expected))assert.equal(createHash('sha256').update(await readFile(p)).digest('hex'),h,p);console.log('COMMITTED_GENERATION_MATCH_AND_DETERMINISTIC',Object.keys(expected).length,'generated files');
@@ -37,7 +37,7 @@ JS
 node tools/compare-baseline.mjs "$build_dir/profile-base.json" spec/local-world/profile.json > "$evidence_dir/baseline-additive.log" 2>&1
 npm run verify:source > "$evidence_dir/source-verification.log" 2>&1
 mkdir -p inspector/node_modules && ln -s ../.. inspector/node_modules/hanaworlds-contracts
-for s in test test:image test:materials test:region test:g3 test:seam test:config-facts test:inspector typecheck typecheck:image typecheck:materials typecheck:region typecheck:seam typecheck:config-facts; do
+for s in test test:image test:materials test:region test:g3 test:seam test:backend-facts test:inspector typecheck typecheck:image typecheck:materials typecheck:region typecheck:seam typecheck:backend-facts; do
   printf '== %s\n' "$s"; npm run -s "$s"; done > "$evidence_dir/self-test.log" 2>&1
 npm pack --ignore-scripts --json --pack-destination "$evidence_dir" > "$evidence_dir/pack.json"
 tar_new=$(ls "$evidence_dir"/hanaworlds-contracts-*.tgz)
@@ -52,15 +52,15 @@ const a=await list(o),b=await list(n);const changed=[];
 for(const f of a.filter(f=>b.includes(f))){const x=await readFile(o+'/'+f),y=await readFile(n+'/'+f);if(!x.equals(y))changed.push({file:f,oldSha256:sha(x),newSha256:sha(y)});}
 console.log(JSON.stringify({files:b.length,added:b.filter(f=>!a.includes(f)),removed:a.filter(f=>!b.includes(f)),identical:a.filter(f=>b.includes(f)).length-changed.length,changed},null,1));
 JS
-cp test/local-world.mjs test/image-proposal.mjs test/material-sources.mjs test/region-v1.mjs test/region-fixture.mjs test/write-path-g3.mjs test/session-world-seam.mjs test/config-engine-facts.mjs "$build_dir/consumer/"
-for d in local region image material-sources session-world config-engine-facts; do mkdir "$build_dir/consumer/types-$d"; cp consumer/$d/index.ts consumer/$d/tsconfig.json "$build_dir/consumer/types-$d/"; done
+cp test/local-world.mjs test/image-proposal.mjs test/material-sources.mjs test/region-v1.mjs test/region-fixture.mjs test/write-path-g3.mjs test/session-world-seam.mjs test/compiler-backend-facts.mjs "$build_dir/consumer/"
+for d in local region image material-sources session-world compiler-backend-facts; do mkdir "$build_dir/consumer/types-$d"; cp consumer/$d/index.ts consumer/$d/tsconfig.json "$build_dir/consumer/types-$d/"; done
 cd "$build_dir/consumer"
 printf '{"name":"independent-contracts-consumer","private":true,"type":"module"}\n' > package.json
 npm install --ignore-scripts --no-audit --no-fund --save-exact "$tar_new" typescript@5.8.3 > "$evidence_dir/consumer-install.log" 2>&1
-for t in local-world image-proposal material-sources region-v1 write-path-g3 session-world-seam config-engine-facts; do printf '== %s\n' "$t"; node --test "$t.mjs"; done > "$evidence_dir/consumer-conformance.log" 2>&1
-for d in local region image material-sources session-world config-engine-facts; do printf '== %s\n' "$d"; ./node_modules/.bin/tsc --project "types-$d/tsconfig.json"; done > "$evidence_dir/consumer-types.log" 2>&1
+for t in local-world image-proposal material-sources region-v1 write-path-g3 session-world-seam compiler-backend-facts; do printf '== %s\n' "$t"; node --test "$t.mjs"; done > "$evidence_dir/consumer-conformance.log" 2>&1
+for d in local region image material-sources session-world compiler-backend-facts; do printf '== %s\n' "$d"; ./node_modules/.bin/tsc --project "types-$d/tsconfig.json"; done > "$evidence_dir/consumer-types.log" 2>&1
 node --input-type=module <<'JS' > "$evidence_dir/consumer-identity.log"
-import * as a from 'hanaworlds-contracts';console.log(import.meta.resolve('hanaworlds-contracts'));console.log(a.version);console.log(JSON.stringify(a.contractHandshake.contracts));console.log(a.configEngineFacts.id);
+import * as a from 'hanaworlds-contracts';console.log(import.meta.resolve('hanaworlds-contracts'));console.log(a.version);console.log(JSON.stringify(a.contractHandshake.contracts));console.log(a.compilerBackendFacts.id);
 JS
 shasum -a 256 "$tar_new" > "$evidence_dir/tar.sha256"
 printf 'SOURCE/PACK/FIXTURE COMPLETE; Adapter provider, Canvas consumer and real runtime/UI NOT_RUN\n'

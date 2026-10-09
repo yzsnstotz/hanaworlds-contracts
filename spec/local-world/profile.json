@@ -410,7 +410,7 @@
       "region-operations": "RegionOperationsProjection",
       "region-summary": "RegionSummary",
       "region-snapshot-content": "RegionSnapshotContent",
-      "config-engine-facts": "ConfigEngineFactsProjection"
+      "compiler-backend-facts": "CompilerBackendFactsProjection"
     },
     "domainPrefixByKind": {
       "material-sources": "HanaWorlds|contracts@0.4.2|",
@@ -420,7 +420,7 @@
       "region-operations": "HanaWorlds|region-voxels/v1|",
       "region-summary": "HanaWorlds|region-voxels/v1|",
       "region-snapshot-content": "HanaWorlds|region-voxels/v1|",
-      "config-engine-facts": "HanaWorlds|config-engine-facts/v1|"
+      "compiler-backend-facts": "HanaWorlds|compiler-backend-facts/v1|"
     }
   },
   "ownership": {
@@ -13345,105 +13345,6 @@
       "additionalProperties": false,
       "x-typeName": "SelectionConnectionState"
     },
-    "AvatarEnvelopeFact": {
-      "x-typeName": "AvatarEnvelopeFact",
-      "oneOf": [
-        {
-          "$ref": "#/definitions/KnownAvatarEnvelope"
-        },
-        {
-          "$ref": "#/definitions/UnavailableAvatarEnvelope"
-        }
-      ],
-      "x-discriminator": "availability",
-      "x-variantKeys": [
-        "KNOWN",
-        "UNAVAILABLE"
-      ]
-    },
-    "ConfigEngineFacts": {
-      "x-typeName": "ConfigEngineFacts",
-      "type": "object",
-      "properties": {
-        "profileVersion": {
-          "const": "config-engine-facts/v1"
-        },
-        "connection": {
-          "$ref": "#/definitions/MaterialSourceConnection"
-        },
-        "catalogueDigest": {
-          "$ref": "#/definitions/Digest"
-        },
-        "avatarEnvelope": {
-          "$ref": "#/definitions/AvatarEnvelopeFact"
-        },
-        "writeBackend": {
-          "$ref": "#/definitions/WriteBackendFact"
-        },
-        "sourceRevision": {
-          "$ref": "#/definitions/Digest"
-        }
-      },
-      "required": [
-        "profileVersion",
-        "connection",
-        "catalogueDigest",
-        "avatarEnvelope",
-        "writeBackend",
-        "sourceRevision"
-      ],
-      "additionalProperties": false
-    },
-    "ConfigEngineFactsProjection": {
-      "x-typeName": "ConfigEngineFactsProjection",
-      "type": "object",
-      "properties": {
-        "profileVersion": {
-          "const": "config-engine-facts/v1"
-        },
-        "connection": {
-          "$ref": "#/definitions/MaterialSourceConnection"
-        },
-        "catalogueDigest": {
-          "$ref": "#/definitions/Digest"
-        },
-        "avatarEnvelope": {
-          "$ref": "#/definitions/AvatarEnvelopeFact"
-        },
-        "writeBackend": {
-          "$ref": "#/definitions/WriteBackendFact"
-        }
-      },
-      "required": [
-        "profileVersion",
-        "connection",
-        "catalogueDigest",
-        "avatarEnvelope",
-        "writeBackend"
-      ],
-      "additionalProperties": false
-    },
-    "KnownAvatarEnvelope": {
-      "x-typeName": "KnownAvatarEnvelope",
-      "type": "object",
-      "properties": {
-        "availability": {
-          "const": "KNOWN"
-        },
-        "basis": {
-          "const": "CONNECTED_PLAYERS_MAX_COLLISION_EXTENT"
-        },
-        "dimensions": {
-          "$ref": "#/definitions/AvatarDimensions"
-        }
-      },
-      "required": [
-        "availability",
-        "basis",
-        "dimensions"
-      ],
-      "additionalProperties": false
-    },
     "KnownWriteBackend": {
       "x-typeName": "KnownWriteBackend",
       "type": "object",
@@ -13466,26 +13367,6 @@
         "basis",
         "backendProfileId",
         "nodeWriteSemantics"
-      ],
-      "additionalProperties": false
-    },
-    "UnavailableAvatarEnvelope": {
-      "x-typeName": "UnavailableAvatarEnvelope",
-      "type": "object",
-      "properties": {
-        "availability": {
-          "const": "UNAVAILABLE"
-        },
-        "reason": {
-          "enum": [
-            "NO_CONNECTED_PLAYER",
-            "ENGINE_FACT_UNREADABLE"
-          ]
-        }
-      },
-      "required": [
-        "availability",
-        "reason"
       ],
       "additionalProperties": false
     },
@@ -13524,6 +13405,52 @@
         "KNOWN",
         "UNAVAILABLE"
       ]
+    },
+    "CompilerBackendFactsProjection": {
+      "x-typeName": "CompilerBackendFactsProjection",
+      "type": "object",
+      "properties": {
+        "profileVersion": {
+          "const": "compiler-backend-facts/v1"
+        },
+        "connection": {
+          "$ref": "#/definitions/MaterialSourceConnection"
+        },
+        "writeBackend": {
+          "$ref": "#/definitions/WriteBackendFact"
+        }
+      },
+      "required": [
+        "profileVersion",
+        "connection",
+        "writeBackend"
+      ],
+      "additionalProperties": false
+    },
+    "CompilerBackendFacts": {
+      "x-typeName": "CompilerBackendFacts",
+      "type": "object",
+      "properties": {
+        "profileVersion": {
+          "const": "compiler-backend-facts/v1"
+        },
+        "connection": {
+          "$ref": "#/definitions/MaterialSourceConnection"
+        },
+        "writeBackend": {
+          "$ref": "#/definitions/WriteBackendFact"
+        },
+        "sourceRevision": {
+          "$ref": "#/definitions/Digest"
+        }
+      },
+      "required": [
+        "profileVersion",
+        "connection",
+        "writeBackend",
+        "sourceRevision"
+      ],
+      "additionalProperties": false
     }
   },
   "placementSettings": [
@@ -13850,18 +13777,23 @@
     "selectedObjectSnapshot": "Existing typed route: ReadWorldSelectionContext (BOUND context.orderedSelectedObjectRefs, selectionRevision, localContext) and canvas/v5 ListObjects (ObjectInventory.registryRevision, ObjectRecord.objectRevision) under the same localContext. A single atomic selected-object/objectRevision snapshot with zero/multiple selection rules is not added in this seam; it remains an open supply item.",
     "compatibility": "Additive only, as protocol minors within the existing majors (protocolPolicy): session/v3 minor 1 adds ReadSessionIdentity/ListSessions; canvas/v5 minor 1 adds UnselectWorldConnection, RetireSessionSelection, ListWorldSelections, ReserveWorldRetirement, ReleaseWorldRetirement. Existing operations keep their order and every existing type, field, enum value, ownership row and digest domain is unchanged; no new wire. The exact-package handshake still requires every composition to re-pin one package."
   },
-  "configEngineFacts": {
-    "id": "config-engine-facts/v1",
+  "compilerBackendFacts": {
+    "id": "compiler-backend-facts/v1",
     "evidence": "SOURCE/FIXTURE normative definition; Adapter provider and Canvas consumer implementations and real runtime NOT_RUN",
-    "port": "Additive in-process method readConfigEngineFacts(worldRef) of the existing hanaworldsLuantiNativeFacts service (ConfigEngineFactsPort). Not a wire operation, model argument, tool or persisted record; no wire, operation, existing type, field or enum value changes.",
-    "producer": "hanaworlds-adapter-luanti. It reads both facts from the actual paired world/incarnation inside the Luanti payload; no other origin produces, defaults or overrides them.",
-    "consumer": "hanaworlds-canvas assembles SafetyProfile.avatarDimensions and CompilationConfig.backendProfileId from a validated KNOWN fact; it never fills an UNAVAILABLE fact. Brush, Painter, Workshop and Host consume only the assembled configuration and are unchanged.",
-    "facts": {
-      "avatarEnvelope": "KNOWN dimensions are the componentwise maximum of (maxX-minX, maxY-minY, maxZ-minZ) over the actual collision boxes of every player currently connected to the paired world, in engine node units (unit 'node'), unrounded. It is a size only: no position, yaw/look direction, box offset, player identity or player count. NO_CONNECTED_PLAYER when nobody is connected; ENGINE_FACT_UNREADABLE when the payload cannot read a box. A designed or remembered envelope (for example 1x2x1) is never a KNOWN fact.",
-      "writeBackend": "backendProfileId identifies the write backend that the loaded Adapter payload on this connection uses to execute world-adapter/v6 scoped Prepare/Apply of compiled operations with nodeWriteSemantics explicit-nodeName-param2-static-v2. It is declared by the loaded payload itself and read from it; adapterId, payloadVersion, capabilityRevision, a package or contracts version, or a default are not substitutes. NOT_DECLARED_BY_PAYLOAD when the loaded payload declares none."
+    "port": "Additive in-process method readCompilerBackendFacts(worldRef) of the existing hanaworldsLuantiNativeFacts service (CompilerBackendFactsPort). Not a wire operation, model argument, tool or persisted record; no wire, operation, existing type, field or enum value changes.",
+    "producer": "hanaworlds-adapter-luanti, from the declaration of the Adapter payload actually loaded on the paired connection. No other origin produces, defaults or overrides it.",
+    "consumer": "hanaworlds-canvas assembles CompilationConfig.backendProfileId only from a validated KNOWN fact (requireKnownWriteBackend) and never fills an UNAVAILABLE fact. Brush, Painter, Workshop and Host consume only the assembled CompilationConfig and are unchanged.",
+    "writeBackend": "backendProfileId identifies the write backend that the loaded Adapter payload uses to execute world-adapter/v6 scoped Prepare/Apply of compiled operations with nodeWriteSemantics explicit-nodeName-param2-static-v2, as declared by that payload. adapterId, payloadVersion, capabilityRevision, a package or contracts version, or a default are not substitutes. NOT_DECLARED_BY_PAYLOAD when the loaded payload declares none; ENGINE_FACT_UNREADABLE when the declaration cannot be read.",
+    "domainAndLifecycle": "Valid only for the exact connection {worldRef, connectionRef, connectionIncarnationRef}. The producer reads the connection before and after reading the declaration and fails with CURRENT_WORLD_MISMATCH or STALE_REVISION instead of returning a mixed result. A payload change, reconnect (new incarnation) or world change yields a different sourceRevision or a rejected read. No push: consumers re-read before each assembly and treat a different sourceRevision or connection as invalidating every CompilationConfig assembled from the previous fact.",
+    "avatarDimensions": {
+      "publicSource": "NONE",
+      "rule": "No public source of SafetyProfile.avatarDimensions exists in this package. Actual player collision boxes, their extents, positions, yaw/look direction and posture stay inside the Luanti payload, are used once and are never returned, persisted outside the Adapter's engine state or logged (INV-POSE-STAYS-IN-ENGINE). No type in this package carries player geometry out of the Adapter. A consumer needing SafetyProfile.avatarDimensions refuses with the refusal below; a default, a designed envelope (for example 1x2x1), a value derived from a live collision box, or ConfirmedIntent/Controls.dimensions (building dimensions that reuse the AvatarDimensions type) are not substitutes. Prepare keeps rechecking every connected player's actual box inside the engine (INV-BODY-RECHECK-AT-PREPARE); no safety check is relaxed.",
+      "refusal": {
+        "code": "CAPABILITY_UNAVAILABLE",
+        "phase": "validate",
+        "reason": "REQUIRED_FACT_UNKNOWN"
+      }
     },
-    "domainAndLifecycle": "A fact is valid only for its exact connection {worldRef, connectionRef, connectionIncarnationRef} and catalogueDigest. The producer reads the connection before and after reading the facts and fails with CURRENT_WORLD_MISMATCH or STALE_REVISION instead of returning a mixed result. Any player join/leave or collision box change, payload change, reconnect (new incarnation) or world change yields a different sourceRevision or a rejected read. There is no push or subscription: consumers re-read before each assembly and treat a different sourceRevision, a different connection or a changed Catalogue as invalidating every configuration assembled from the previous fact. Body occupancy at Prepare is still rechecked by the Adapter against each player's actual box (INV-BODY-RECHECK-AT-PREPARE).",
-    "invariants": "INV-POSE-STAYS-IN-ENGINE: positions, yaw/look direction and raw collision boxes stay inside the payload and are never returned, persisted or logged; only the size-only envelope above leaves the Adapter. The schema admits no other field.",
-    "notDecidedHere": "The four Stage1 policy values (requireBodyClearance, requireEntranceConnectivity, hazardPolicy, optionalLightRule), CompilationConfig.worldeditRevision (already Catalogue.modRevisions) and every existing consumer meaning are unchanged."
+    "notDecidedHere": "The four Stage1 policy values (requireBodyClearance, requireEntranceConnectivity, hazardPolicy, optionalLightRule), a public avatarDimensions source (product boundary, PM), CompilationConfig.worldeditRevision (already Catalogue.modRevisions) and every existing consumer meaning."
   }
 }
