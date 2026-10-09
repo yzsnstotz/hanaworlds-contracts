@@ -54,6 +54,13 @@ test('Painter (painter/v6): B under A, partial, outside extent, new view, stale,
  for(const c of fx.perCell.reject){rejects(()=>a.validateBuildProposalRequest(c.request),c.error,c.title);
   if(c.error.placementFailure){const f=a.confirmedPlacement.namedFailures.find(x=>x.failure===c.error.placementFailure);assert.equal(f.code,c.error.code);assert.equal(f.reason,c.error.reason);}}
 });
+test('Painter model path (painter/v6 CreateBuildPlan): the plan honours the confirmed placement or is refused by name',()=>{
+ for(const c of fx.createBuildPlan.accept){a.validateCreateBuildPlanRequest(c.request);a.validateCreateBuildPlanResponse(c.request,c.response);}
+ for(const c of fx.createBuildPlan.reject)rejects(()=>c.at==='request'?a.validateCreateBuildPlanRequest(c.request):a.validateCreateBuildPlanResponse(c.request,c.response),c.error,c.title);
+ const [ok]=fx.createBuildPlan.accept;
+ rejects(()=>a.validateCreateBuildPlanResponse(ok.request,{...clone(ok.response),requestId:'another'}),{code:'TRANSACTION_CONFLICT'},'response for another request');
+ rejects(()=>a.validateCreateBuildPlanResponse(ok.request,{...clone(fx.createBuildPlan.accept[4].response),invocationId:'another'}),{code:'TRANSACTION_CONFLICT'},'clarification for another invocation');
+});
 test('Painter response: a response for another request (A confirmed, B built) is refused before release',()=>{
  const [okA]=fx.perCell.accept,b=fx.perCell.reject[0];
  rejects(()=>a.validateBuildProposalResponse(b.request,{...clone(okA.response),requestId:b.request.requestId}),{code:'INTENT_UNCONFIRMED',placementFailure:'PLACEMENT_TARGET_MISMATCH'},'B request never validates');

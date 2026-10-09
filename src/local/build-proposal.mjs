@@ -5,9 +5,9 @@ import { validateType, validateRequest, validateResponse, validateDigestBinding,
   schemaBundle, validateBoundRequest, validateCurrentRequest, validateRegionInspection, validateStaticMaterials,
   validateWitnessCoherence, safetyProfileFromConfirmedIntent, requireSiteRuleChecks } from './runtime.mjs';
 import { requireFact } from '../errors.mjs';
-import { confirmedPlacementOf, requirePlacementSource, requirePlacementTarget } from './placement.mjs';
+import { confirmedPlacementOf, requirePlacementSource, requirePlacementTarget, requirePlacementInspection, requireOperationsPlacementTarget } from './placement.mjs';
 import { inside, unionCellCount, comparePosition } from '../geometry.mjs';
-const WIRE = 'painter/v6', OPERATION = 'ValidateBuildProposal';
+const WIRE = 'painter/v6', OPERATION = 'ValidateBuildProposal', PLAN = 'CreateBuildPlan';
 const same = (a, b) => canonicalJSON(a) === canonicalJSON(b);
 const identity = ok => requireFact(ok, 'TRANSACTION_CONFLICT', 'PAYLOAD_CHANGED');
 const stale = ok => requireFact(ok, 'TARGET_FACTS_STALE', 'REVISION_CHANGED');
@@ -148,5 +148,39 @@ export function validateBuildProposalResponse(input, responseInput) {
   validateWitnessCoherence({ build, finalEffects: { profileVersion: 'final-effects/v2',
     frameDigest: request.targetFacts.frameDigest, catalogueDigest: build.catalogueDigest, effects },
     targetFacts: request.targetFacts, safetyProfile: request.safetyProfile, catalogue: request.catalogue });
+  return response;
+}
+
+/** painter/v6 CreateBuildPlan (model path) request coherence for a confirmed placement: the plan is
+ * made on the placement's source inspection (no re-sampled view). Same named refusals as
+ * ValidateBuildProposal; null placement keeps the request unchanged. */
+export function validateCreateBuildPlanRequest(input) {
+  const request = validateBoundRequest(WIRE, PLAN, input);
+  const placement = confirmedPlacementOf(request.intent, request.referenceBrief);
+  requirePlacementInspection(placement, request.regionInspection);
+  if (placement !== null) requirePlacementSource(placement, request.regionInspection, request.worldRef);
+  return request;
+}
+/** CreateBuildPlan request/result coherence: same request and invocation, BUILD on the request's
+ * facts and frame, and with a confirmed placement the planned operations write exactly the
+ * confirmed cells / stay inside the confirmed extent. A ClarificationNeed must answer this request. */
+export function validateCreateBuildPlanResponse(input, responseInput) {
+  const request = validateCreateBuildPlanRequest(input);
+  const response = validateResponse(WIRE, PLAN, responseInput);
+  if (Object.hasOwn(response, 'clarificationId')) {
+    identity(response.sessionRef === request.sessionRef && response.turnRevision === request.turnRevision &&
+      response.invocationId === request.invocationId);
+    return response;
+  }
+  identity(response.requestId === request.requestId);
+  if (response.error !== null) return response;
+  const { build, buildDigest, invocationId } = response.result;
+  identity(invocationId === request.invocationId);
+  validateDigestBinding('build', build, buildDigest);
+  stale(build.targetFactsDigest === request.targetFactsDigest &&
+    (request.regionInspection === null || same(build.coordinateFrame, request.regionInspection.frame)));
+  validateDigestBinding('frame', build.coordinateFrame, request.targetFacts.frameDigest);
+  const placement = confirmedPlacementOf(request.intent, request.referenceBrief);
+  if (placement !== null) requireOperationsPlacementTarget(placement, build.operations);
   return response;
 }

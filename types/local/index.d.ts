@@ -170,3 +170,6 @@ export declare function confirmedPlacementOf(intent:import('./contracts.js').Int
 export declare function confirmedPlacementBinding(intent:import('./contracts.js').IntentProjection):import('./contracts.js').ConfirmedPlacementBinding|null;
 /** Canvas pre-commit: the apply's confirmed placement against Canvas's recorded inspection and current world revision. */
 export declare function checkConfirmedPlacementApply(apply:import('./contracts.js').ApplyRecoverableCommitRequest,recordedInspection:RegionInspection,currentWorldRevision:string):Readonly<{placementDigest:string;intentDigest:string;kind:'EXACT_CELLS'|'ANCHORED_EXTENT';cellCount:number}>|null;
+/** painter/v6 CreateBuildPlan (model path): confirmed placement needs its source inspection; planned operations match the target. */
+export declare function validateCreateBuildPlanRequest(input:unknown):import('./contracts.js').CreateBuildPlanRequest;
+export declare function validateCreateBuildPlanResponse(request:unknown,response:unknown):import('./contracts.js').CreateBuildPlanResponse|import('./contracts.js').ClarificationNeed;

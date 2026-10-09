@@ -6,7 +6,7 @@
 import { contractMetadata } from './generated/contracts.mjs';
 import { validateType, validateRegionInspection, validateBoundRequest, digestValue, canonicalJSON, deepFreeze } from './runtime.mjs';
 import { ContractError } from '../errors.mjs';
-import { inside } from '../geometry.mjs';
+import { inside, unionCellCount } from '../geometry.mjs';
 export const confirmedPlacement = contractMetadata.confirmedPlacement;
 const named = new Map(confirmedPlacement.namedFailures.map(f => [f.failure, f]));
 const same = (a, b) => canonicalJSON(a) === canonicalJSON(b);
@@ -106,6 +106,20 @@ export function checkConfirmedPlacementApply(applyInput, recordedInspectionInput
   need(validateType('Revision', currentWorldRevision) === confirmed.placement.source.worldRevision, 'PLACEMENT_REVISION_STALE');
   return deepFreeze({ placementDigest: confirmed.placementDigest, intentDigest: confirmed.intentDigest,
     kind: confirmed.placement.target.kind, cellCount: apply.operations.effects.length });
+}
+/** painter/v6 CreateBuildPlan: a confirmed placement needs the source inspection to plan on. */
+export function requirePlacementInspection(placement, inspection) {
+  if (placement !== null) need(inspection !== null, 'PLACEMENT_INSPECTION_CHANGED');
+}
+/** BUILD operations (set_box, world coordinates) against the target without enumerating cells:
+ * extent = every box inside the bounds; exact = every cell covered and the union is exactly that many. */
+export function requireOperationsPlacementTarget(placement, operations) {
+  const t = placement.target;
+  if (t.kind === 'ANCHORED_EXTENT') {
+    for (const op of operations) need(inside(op.min, t.bounds) && inside(op.max, t.bounds), 'PLACEMENT_TARGET_MISMATCH');
+    return;
+  }
+  need(t.cells.every(c => operations.some(op => inside(c, op))) && unionCellCount(operations) === BigInt(t.cells.length), 'PLACEMENT_TARGET_MISMATCH');
 }
 /** painter-region/v3: the region is in world node coordinates of the placement World. */
 export function requirePlacementWorld(placement, worldRef) { need(placement.worldRef === worldRef, 'PLACEMENT_WORLD_CHANGED'); }

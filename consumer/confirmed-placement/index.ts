@@ -1,8 +1,8 @@
 // Consumer typecheck fixture for confirmed-placement/v1: proposal creation, the brief/intent binding,
 // Painter/Canvas checks and the canvas/v7 apply binding.
-import {confirmedPlacement,createPlacementProposal,requirePlacementSource,requirePlacementTarget,confirmedPlacementOf,confirmedPlacementBinding,checkConfirmedPlacementApply,ContractError,
+import {confirmedPlacement,createPlacementProposal,requirePlacementSource,requirePlacementTarget,confirmedPlacementOf,confirmedPlacementBinding,checkConfirmedPlacementApply,validateCreateBuildPlanRequest,validateCreateBuildPlanResponse,ContractError,
   type PlacementProposal,type PlacementTarget,type ConfirmedPlacementBinding,type RegionInspection,type IntentProjection,type BriefProjection,
-  type ApplyRecoverableCommitRequest,type PlacementFailure,type Controls,type ConfirmedIntent} from 'hanaworlds-contracts';
+  type ApplyRecoverableCommitRequest,type CreateBuildPlanRequest,type CreateBuildPlanResponse,type ClarificationNeed,type PlacementFailure,type Controls,type ConfirmedIntent} from 'hanaworlds-contracts';
 declare const inspection:RegionInspection;
 declare const intent:IntentProjection;
 declare const brief:BriefProjection;
@@ -19,6 +19,8 @@ const binding:ConfirmedPlacementBinding|null=confirmedPlacementBinding(intent);
 const sent:ConfirmedPlacementBinding|null=apply.regionInspectionBinding?.confirmedPlacement??null;
 const checked=checkConfirmedPlacementApply(apply,inspection,'world-revision');
 const kind:'EXACT_CELLS'|'ANCHORED_EXTENT'|undefined=checked?.kind;
+const planRequest:CreateBuildPlanRequest=validateCreateBuildPlanRequest({});
+const planned:CreateBuildPlanResponse|ClarificationNeed=validateCreateBuildPlanResponse(planRequest,{});
 const names:PlacementFailure[]=confirmedPlacement.namedFailures.map(f=>f.failure);
 declare const error:ContractError;
 const failure:PlacementFailure|undefined=error.placementFailure;
@@ -26,4 +28,4 @@ const failure:PlacementFailure|undefined=error.placementFailure;
 const noPlacement:Controls={purpose:null,dimensions:null,entrancePortalRefs:[],styleText:null,siteRules:null};
 // @ts-expect-error a PlacementProposal carries no player pose
 const yaw=placement.source.yaw;
-export const summary={version,confirmed,shown,fromIntent,binding,sent,kind,names,failure,noPlacement,yaw};
+export const summary={planned,version,confirmed,shown,fromIntent,binding,sent,kind,names,failure,noPlacement,yaw};
