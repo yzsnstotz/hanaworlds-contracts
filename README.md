@@ -1,4 +1,4 @@
-# HanaWorlds Contracts 1.0.0-rc.4
+# HanaWorlds Contracts 1.0.0
 
 Pure public contracts for the single-user local-world MVP. Import from `hanaworlds-contracts`. This is a fresh-install protocol replacement. No prior exports, peer compatibility, state migration, or permission bridge ships in this package. Earlier source and evidence remain in Git and their original run directories.
 
@@ -6,7 +6,7 @@ Pure public contracts for the single-user local-world MVP. Import from `hanaworl
 
 Current wires: `session/v4`, `canvas/v6`, `world-adapter/v7`, `painter/v5`, `BUILD/V4`, `ReferenceBrief/v4`, `interaction-surface/v4`; region wires `region-build/v1`, `painter-region/v2`, `world-adapter-region/v2`, `canvas-region/v2`; compiled operations `operations/v3`; target facts `target-facts/v4`; safety profile `safety-profile/v4`. Existing projections retain the `HanaWorlds|contracts@0.4.0|` domain prefix; every changed shape carries a new wire or profile identifier, so old digests cannot match. The sections below 1.0.0 are history and name the identifiers of their time.
 
-## 1.0.0 · skill site rules, no player geometry, named safety capabilities, engine guards (candidate 1.0.0-rc.4)
+## 1.0.0 · skill site rules, no player geometry, named safety capabilities, engine guards (release 1.0.0)
 
 **Change note (1.0.0, breaking major; 0.x has no compatibility, migration or dual version):** `requireEntranceConnectivity`, `entranceClearance`, `hazardPolicy` and `optionalLightRule` are skill-proposed and player-confirmed (`SiteRules` in `Controls.siteRules` → `ConfirmedIntent.siteRules`); `safetyProfileFromConfirmedIntent` is the only SafetyProfile source; no contracts type carries player geometry; light, region-entrance and engine checks G1–G3 are named capabilities with exact refusals. Changed wires: `session/v3→v4`, `ReferenceBrief/v3→v4`, `painter/v4→v5`, `painter-region/v1→v2`, `BUILD/V3→V4`, `canvas/v5→v6`, `world-adapter/v6→v7`, `world-adapter-region/v1→v2`, `canvas-region/v1→v2`, `safety-profile/v3→v4`; unchanged: `interaction-surface/v4`, `region-build/v1`, `operations/v3`, `target-facts/v4`.
 
