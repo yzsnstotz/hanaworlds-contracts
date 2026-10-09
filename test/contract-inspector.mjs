@@ -7,7 +7,7 @@ test('the inspector exists as a separate read-only public-capability consumer', 
   assert.ok(existsSync(moduleURL), 'missing contract inspector implementation');
   const { describeInspector, inspectJSON } = await import(moduleURL);
   const description = describeInspector();
-  assert.equal(description.contractsVersion, '0.5.4');
+  assert.equal(description.contractsVersion, '0.5.5-rc.1');
   assert.ok(description.protocols.some(p => p.protocol === 'BUILD' && p.major === 3));
   assert.ok(description.capabilities.includes('region-build/v1:compile-mapblock-chunks'));
   for (const id of ['building', 'region-fill', 'region-air']) {

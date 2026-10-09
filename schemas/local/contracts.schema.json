@@ -1,6 +1,6 @@
 {
   "$schema": "http://json-schema.org/draft-07/schema#",
-  "$id": "https://hanaworlds.invalid/contracts/0.5.4/schema.json",
+  "$id": "https://hanaworlds.invalid/contracts/0.5.5-rc.1/schema.json",
   "definitions": {
     "AbortPreparedHistoryTransactionRequest": {
       "type": "object",
@@ -12694,6 +12694,186 @@
       ],
       "additionalProperties": false,
       "x-typeName": "SelectionConnectionState"
+    },
+    "AvatarEnvelopeFact": {
+      "x-typeName": "AvatarEnvelopeFact",
+      "oneOf": [
+        {
+          "$ref": "#/definitions/KnownAvatarEnvelope"
+        },
+        {
+          "$ref": "#/definitions/UnavailableAvatarEnvelope"
+        }
+      ],
+      "x-discriminator": "availability",
+      "x-variantKeys": [
+        "KNOWN",
+        "UNAVAILABLE"
+      ]
+    },
+    "ConfigEngineFacts": {
+      "x-typeName": "ConfigEngineFacts",
+      "type": "object",
+      "properties": {
+        "profileVersion": {
+          "const": "config-engine-facts/v1"
+        },
+        "connection": {
+          "$ref": "#/definitions/MaterialSourceConnection"
+        },
+        "catalogueDigest": {
+          "$ref": "#/definitions/Digest"
+        },
+        "avatarEnvelope": {
+          "$ref": "#/definitions/AvatarEnvelopeFact"
+        },
+        "writeBackend": {
+          "$ref": "#/definitions/WriteBackendFact"
+        },
+        "sourceRevision": {
+          "$ref": "#/definitions/Digest"
+        }
+      },
+      "required": [
+        "profileVersion",
+        "connection",
+        "catalogueDigest",
+        "avatarEnvelope",
+        "writeBackend",
+        "sourceRevision"
+      ],
+      "additionalProperties": false
+    },
+    "ConfigEngineFactsProjection": {
+      "x-typeName": "ConfigEngineFactsProjection",
+      "type": "object",
+      "properties": {
+        "profileVersion": {
+          "const": "config-engine-facts/v1"
+        },
+        "connection": {
+          "$ref": "#/definitions/MaterialSourceConnection"
+        },
+        "catalogueDigest": {
+          "$ref": "#/definitions/Digest"
+        },
+        "avatarEnvelope": {
+          "$ref": "#/definitions/AvatarEnvelopeFact"
+        },
+        "writeBackend": {
+          "$ref": "#/definitions/WriteBackendFact"
+        }
+      },
+      "required": [
+        "profileVersion",
+        "connection",
+        "catalogueDigest",
+        "avatarEnvelope",
+        "writeBackend"
+      ],
+      "additionalProperties": false
+    },
+    "KnownAvatarEnvelope": {
+      "x-typeName": "KnownAvatarEnvelope",
+      "type": "object",
+      "properties": {
+        "availability": {
+          "const": "KNOWN"
+        },
+        "basis": {
+          "const": "CONNECTED_PLAYERS_MAX_COLLISION_EXTENT"
+        },
+        "dimensions": {
+          "$ref": "#/definitions/AvatarDimensions"
+        }
+      },
+      "required": [
+        "availability",
+        "basis",
+        "dimensions"
+      ],
+      "additionalProperties": false
+    },
+    "KnownWriteBackend": {
+      "x-typeName": "KnownWriteBackend",
+      "type": "object",
+      "properties": {
+        "availability": {
+          "const": "KNOWN"
+        },
+        "basis": {
+          "const": "LOADED_PAYLOAD_DECLARATION"
+        },
+        "backendProfileId": {
+          "$ref": "#/definitions/Ref"
+        },
+        "nodeWriteSemantics": {
+          "const": "explicit-nodeName-param2-static-v2"
+        }
+      },
+      "required": [
+        "availability",
+        "basis",
+        "backendProfileId",
+        "nodeWriteSemantics"
+      ],
+      "additionalProperties": false
+    },
+    "UnavailableAvatarEnvelope": {
+      "x-typeName": "UnavailableAvatarEnvelope",
+      "type": "object",
+      "properties": {
+        "availability": {
+          "const": "UNAVAILABLE"
+        },
+        "reason": {
+          "enum": [
+            "NO_CONNECTED_PLAYER",
+            "ENGINE_FACT_UNREADABLE"
+          ]
+        }
+      },
+      "required": [
+        "availability",
+        "reason"
+      ],
+      "additionalProperties": false
+    },
+    "UnavailableWriteBackend": {
+      "x-typeName": "UnavailableWriteBackend",
+      "type": "object",
+      "properties": {
+        "availability": {
+          "const": "UNAVAILABLE"
+        },
+        "reason": {
+          "enum": [
+            "NOT_DECLARED_BY_PAYLOAD",
+            "ENGINE_FACT_UNREADABLE"
+          ]
+        }
+      },
+      "required": [
+        "availability",
+        "reason"
+      ],
+      "additionalProperties": false
+    },
+    "WriteBackendFact": {
+      "x-typeName": "WriteBackendFact",
+      "oneOf": [
+        {
+          "$ref": "#/definitions/KnownWriteBackend"
+        },
+        {
+          "$ref": "#/definitions/UnavailableWriteBackend"
+        }
+      ],
+      "x-discriminator": "availability",
+      "x-variantKeys": [
+        "KNOWN",
+        "UNAVAILABLE"
+      ]
     }
   }
 }

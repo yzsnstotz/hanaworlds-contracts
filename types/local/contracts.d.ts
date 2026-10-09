@@ -422,6 +422,14 @@ export type WorldRetirementRelease = { readonly "worldRef": Ref; readonly "reser
 export type WorldRetirementReleasedReceipt = { readonly "contractVersion": "canvas/v5"; readonly "requestId": Ref; readonly "result": WorldRetirementRelease | null; readonly "error": Error | null };
 export type SelectionConnectionStatus = "UNBOUND" | "CONNECTED" | "SELECTED_NOT_CONNECTED";
 export type SelectionConnectionState = { readonly "sessionRef": Ref; readonly "status": SelectionConnectionStatus; readonly "worldRef": Ref | null; readonly "connectionRef": Ref | null };
+export type AvatarEnvelopeFact = KnownAvatarEnvelope | UnavailableAvatarEnvelope;
+export type ConfigEngineFacts = { readonly "profileVersion": "config-engine-facts/v1"; readonly "connection": MaterialSourceConnection; readonly "catalogueDigest": Digest; readonly "avatarEnvelope": AvatarEnvelopeFact; readonly "writeBackend": WriteBackendFact; readonly "sourceRevision": Digest };
+export type ConfigEngineFactsProjection = { readonly "profileVersion": "config-engine-facts/v1"; readonly "connection": MaterialSourceConnection; readonly "catalogueDigest": Digest; readonly "avatarEnvelope": AvatarEnvelopeFact; readonly "writeBackend": WriteBackendFact };
+export type KnownAvatarEnvelope = { readonly "availability": "KNOWN"; readonly "basis": "CONNECTED_PLAYERS_MAX_COLLISION_EXTENT"; readonly "dimensions": AvatarDimensions };
+export type KnownWriteBackend = { readonly "availability": "KNOWN"; readonly "basis": "LOADED_PAYLOAD_DECLARATION"; readonly "backendProfileId": Ref; readonly "nodeWriteSemantics": "explicit-nodeName-param2-static-v2" };
+export type UnavailableAvatarEnvelope = { readonly "availability": "UNAVAILABLE"; readonly "reason": "NO_CONNECTED_PLAYER" | "ENGINE_FACT_UNREADABLE" };
+export type UnavailableWriteBackend = { readonly "availability": "UNAVAILABLE"; readonly "reason": "NOT_DECLARED_BY_PAYLOAD" | "ENGINE_FACT_UNREADABLE" };
+export type WriteBackendFact = KnownWriteBackend | UnavailableWriteBackend;
 export interface TypeMap {
 AbortPreparedHistoryTransactionRequest: AbortPreparedHistoryTransactionRequest;
 AbortPreparedHistoryTransactionResponse: AbortPreparedHistoryTransactionResponse;
@@ -846,6 +854,14 @@ WorldRetirementRelease: WorldRetirementRelease;
 WorldRetirementReleasedReceipt: WorldRetirementReleasedReceipt;
 SelectionConnectionStatus: SelectionConnectionStatus;
 SelectionConnectionState: SelectionConnectionState;
+AvatarEnvelopeFact: AvatarEnvelopeFact;
+ConfigEngineFacts: ConfigEngineFacts;
+ConfigEngineFactsProjection: ConfigEngineFactsProjection;
+KnownAvatarEnvelope: KnownAvatarEnvelope;
+KnownWriteBackend: KnownWriteBackend;
+UnavailableAvatarEnvelope: UnavailableAvatarEnvelope;
+UnavailableWriteBackend: UnavailableWriteBackend;
+WriteBackendFact: WriteBackendFact;
 }
 export type TypeName=keyof TypeMap;
 export interface OperationMap {
@@ -968,5 +984,6 @@ export interface ProjectionMap {
 "region-operations": RegionOperationsProjection;
 "region-summary": RegionSummary;
 "region-snapshot-content": RegionSnapshotContent;
+"config-engine-facts": ConfigEngineFactsProjection;
 }
 

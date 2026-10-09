@@ -1,8 +1,8 @@
 # 合约检查器
 
-同 hanaworlds-contracts origin 的只读开发面板。Host 精确复用 **hanaworlds-contracts 0.5.4** 公共 exports；不包含、修改或替换 Contracts，不调用其他 HanaWorlds 插件。
+同 hanaworlds-contracts origin 的只读开发面板。Host 精确复用 **hanaworlds-contracts 0.5.5-rc.1** 公共 exports；不包含、修改或替换 Contracts，不调用其他 HanaWorlds 插件。
 
-构建：在 origin 根执行 `node tools/build-contract-inspector.mjs`。安装：统一客户端左侧「插件」→「添加插件」→填写本面板包的绝对本地路径或本地 tarball，安装后「立即启用」。左侧出现「合约检查器」。已安装的官方 Harness 0.2.0-rc.2 和 Contracts 0.5.4 提供 peer dependencies；npm 元数据把它们标为 optional，以免安装器从注册表拉取另一份运行时。实际激活必须解析这些公开模块，且 Host 拒绝非 0.5.4 的 Contracts；缺失时没有替代实现。
+构建：在 origin 根执行 `node tools/build-contract-inspector.mjs`。安装：统一客户端左侧「插件」→「添加插件」→填写本面板包的绝对本地路径或本地 tarball，安装后「立即启用」。左侧出现「合约检查器」。已安装的官方 Harness 0.2.0-rc.2 和 Contracts 0.5.5-rc.1 提供 peer dependencies；npm 元数据把它们标为 optional，以免安装器从注册表拉取另一份运行时。实际激活必须解析这些公开模块，且 Host 拒绝非 0.5.5-rc.1 的 Contracts；缺失时没有替代实现。
 
 选择样例或粘贴 JSON，选建筑、区域或显式协议声明，点击「检查」。建筑使用 `admitType('BuildProjection', utf8)`；区域使用 `admitType('RegionVoxelBlock', utf8)`；协议演示使用 `decodeRawJSON` 和 `checkProtocolCompatibility`。全部在本机 Host 中运行。浏览器仅展示结果。
 
@@ -12,11 +12,11 @@
 
 Host 使用公开 `TypertRemoteService`、`Remote` 和 Gateway 的 SRC 模式；Client 使用公开 Connection RPC 与 root `main` / `sidebar.panellist` seats。没有独立 HTTP 服务、世界读写或后台重试。
 
-许可：本面板 0.1.0 MIT；hanaworlds-contracts 0.5.4 MIT（本 origin，纯校验）；Cordis 4.0.4 MIT、官方 DeepSeek Harness 0.2.0-rc.2 MIT（来源 github.com/deepseek-ai/deepseek-harness 与客户端公开包 manifest，服务与面板承载）。React 来自客户端已提供的 baseline，用于渲染，不复制或打包 React；其具体运行版本在实际面板安装验证时记录。
+许可：本面板 0.1.0 MIT；hanaworlds-contracts 0.5.5-rc.1 MIT（本 origin，纯校验）；Cordis 4.0.4 MIT、官方 DeepSeek Harness 0.2.0-rc.2 MIT（来源 github.com/deepseek-ai/deepseek-harness 与客户端公开包 manifest，服务与面板承载）。React 来自客户端已提供的 baseline，用于渲染，不复制或打包 React；其具体运行版本在实际面板安装验证时记录。
 
 ## 独立开发网页
 
 在本仓以 Node 24 运行 `npm run dev:inspector`，打开 http://127.0.0.1:47604/。
 服务仅监听本机回环地址，复用 `src/inspection.mjs` 与 App 面板样式；浏览器使用原生表单，不需要 React、SDK、App、GUI锁或其他插件。
-建筑、区域与协议检查仍调用 Contracts 0.5.4 的实际公开纯函数，样例/协议演示醒目标为 fixture。
+建筑、区域与协议检查仍调用 Contracts 0.5.5-rc.1 的实际公开纯函数，样例/协议演示醒目标为 fixture。
 原 App 面板代码保留；App 接入与冷启动诊断属于整合工作，不阻塞独立网页。

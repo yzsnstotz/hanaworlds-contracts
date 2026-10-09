@@ -5,7 +5,7 @@ const json=async p=>JSON.parse(await readFile(p,'utf8'));
 const profile=await json('spec/local-world/profile.json');
 assert.deepEqual(profile,await json('schemas/local/profile.json'));
 assert.deepEqual(profile.definitions,api.schemaBundle.definitions);
-assert.equal(api.version,'0.5.4');
+assert.equal(api.version,'0.5.5-rc.1');
 assert.doesNotMatch(JSON.stringify(profile),/authorizationRef|grantEpoch|requireProtectedClearance|protectedPositions|AuthProjection|OriginalSessionBinding|allowedActions/);
 const pkg=await json('package.json');
 assert.deepEqual(Object.keys(pkg.exports),['.','./schema','./profile','./fixtures/*','./package.json']);
