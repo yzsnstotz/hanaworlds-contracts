@@ -173,3 +173,9 @@ export declare function checkConfirmedPlacementApply(apply:import('./contracts.j
 /** painter/v6 CreateBuildPlan (model path): confirmed placement needs its source inspection; planned operations match the target. */
 export declare function validateCreateBuildPlanRequest(input:unknown):import('./contracts.js').CreateBuildPlanRequest;
 export declare function validateCreateBuildPlanResponse(request:unknown,response:unknown):import('./contracts.js').CreateBuildPlanResponse|import('./contracts.js').ClarificationNeed;
+/** canvas-region/v3 Canvas pre-write: the commit's confirmed placement against Canvas's recorded inspection and current world revision, before any snapshot or Adapter WriteRegion. */
+export declare function checkConfirmedRegionPlacementCommit(commit:import('./contracts.js').ApplyRegionCommitRequest,recordedInspection:RegionInspection,currentWorldRevision:string):Readonly<{placementDigest:string;intentDigest:string;kind:'EXACT_CELLS'|'ANCHORED_EXTENT';cellCount:number}>|null;
+/** Workshop region submission: the commit carries exactly confirmedPlacementBinding(intent) (null when none was confirmed). */
+export declare function validateRegionCommitSubmission(intent:import('./contracts.js').IntentProjection,brief:import('./contracts.js').BriefProjection,commit:import('./contracts.js').ApplyRegionCommitRequest):import('./contracts.js').ApplyRegionCommitRequest;
+/** canvas-region/v3 ApplyRegionCommit admission: shape, operations digest and the confirmed-placement coherence with its own operations. */
+export declare function validateRegionCommitRequest(commit:unknown):import('./contracts.js').ApplyRegionCommitRequest;

@@ -4,7 +4,7 @@ import { contractMetadata } from './generated/contracts.mjs';
 import { validateType, validateRequest, validateResponse, validateDigestBinding, digestValue,
   validateStaticMaterials, deepFreeze, canonicalJSON, requireSiteRuleChecks } from './runtime.mjs';
 import { requireFact, fail } from '../errors.mjs';
-import { confirmedPlacementOf, requireRegionPlacementTarget, requirePlacementWorld } from './placement.mjs';
+import { confirmedPlacementOf, requireRegionPlacementTarget, requirePlacementWorld, regionPlacementCommitCoherence } from './placement.mjs';
 import { blockBox, blockCellCount, chunksOfBox, floorDiv, comparePalette } from './region-domain.mjs';
 export const protocolPolicy = contractMetadata.protocolPolicy;
 export const contractProtocols = contractMetadata.contractProtocols;
@@ -191,7 +191,7 @@ export function validateRegionWrite(requestInput, responseInput) {
   return deepFreeze({ response, allWritten, committed: false });
 }
 
-// --- canvas-region/v2 (Canvas transaction facts) -----------------------------
+// --- canvas-region/v3 (Canvas transaction facts) -----------------------------
 export function validateRegionSnapshotContent(contentInput, refInput, beforeSummaryInput) {
   const content = validateType('RegionSnapshotContent', contentInput); const ref = validateType('RegionSnapshotRef', refInput);
   const before = validateType('RegionSummary', beforeSummaryInput);
@@ -201,10 +201,18 @@ export function validateRegionSnapshotContent(contentInput, refInput, beforeSumm
   changed(same(summarizeRegionStates(content.worldRef, content.chunks), before));
   return content;
 }
-export function validateRegionCommit(requestInput, responseInput) {
-  const request = validateRequest('canvas-region/v2', 'ApplyRegionCommit', requestInput);
+/** canvas-region/v3 ApplyRegionCommit admission: shape, operations digest and, with a confirmed
+ * placement, its digest, World and the specified world cells against the target. Canvas then runs
+ * checkConfirmedRegionPlacementCommit with its own records before any snapshot or WriteRegion. */
+export function validateRegionCommitRequest(requestInput) {
+  const request = validateRequest('canvas-region/v3', 'ApplyRegionCommit', requestInput);
   validateDigestBinding('region-operations', request.operations, request.operationDigest);
-  const response = validateResponse('canvas-region/v2', 'ApplyRegionCommit', responseInput);
+  regionPlacementCommitCoherence(request);
+  return request;
+}
+export function validateRegionCommit(requestInput, responseInput) {
+  const request = validateRegionCommitRequest(requestInput);
+  const response = validateResponse('canvas-region/v3', 'ApplyRegionCommit', responseInput);
   changed(response.requestId === request.requestId);
   if (response.error) return response;
   const r = response.result;
@@ -215,11 +223,11 @@ export function validateRegionCommit(requestInput, responseInput) {
   return response;
 }
 export function validateRegionUndo(requestInput, responseInput, originResultInput) {
-  const request = validateRequest('canvas-region/v2', 'UndoRegionCommit', requestInput);
+  const request = validateRequest('canvas-region/v3', 'UndoRegionCommit', requestInput);
   const origin = validateType('RegionCommitResult', originResultInput);
   requireFact(origin.status === 'VERIFIED' && origin.transactionId === request.originTransactionId, 'UNDO_CONFLICT', 'PAYLOAD_CHANGED');
   requireFact(origin.worldRef === request.worldRef, 'CURRENT_WORLD_MISMATCH', 'SCOPE_DENIED');
-  const response = validateResponse('canvas-region/v2', 'UndoRegionCommit', responseInput);
+  const response = validateResponse('canvas-region/v3', 'UndoRegionCommit', responseInput);
   changed(response.requestId === request.requestId);
   if (response.error) return response;
   const r = response.result;
@@ -233,7 +241,7 @@ export function validateRegionUndo(requestInput, responseInput, originResultInpu
 }
 
 // --- protocol major + capability compatibility -------------------------------
-/** ProtocolRequirement for a wire such as 'canvas-region/v2' or 'BUILD/V4'. */
+/** ProtocolRequirement for a wire such as 'canvas-region/v3' or 'BUILD/V4'. */
 export function protocolRequirement(wire, capabilities = [], minMinor = 0) {
   const m = /^(.+)\/[vV]([1-9][0-9]*)$/u.exec(wire);
   requireFact(m !== null, 'UNSUPPORTED_VERSION', 'VERSION_UNSUPPORTED', 'decode');

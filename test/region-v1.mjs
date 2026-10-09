@@ -176,7 +176,7 @@ test('protocol major + capability: same major consumable across patch/hash; wron
   assert.throws(() => a.checkProtocolCompatibility({ ...s.peerHandshake, protocols: [{ protocol: 'world-adapter-region', major: 3, minor: 0 }] }, req), code('UNSUPPORTED_VERSION'));
   assert.throws(() => a.checkProtocolCompatibility(s.peerHandshake, [a.protocolRequirement('world-adapter-region/v2', [], s.peerHandshake.protocols[0].minor + 1)]), code('UNSUPPORTED_VERSION'));
   assert.throws(() => a.checkProtocolCompatibility({ ...s.peerHandshake, capabilities: ['world-adapter-region/v2:chunked-read'] }, req), code('CAPABILITY_UNAVAILABLE'));
-  assert.throws(() => a.checkProtocolCompatibility(s.peerHandshake, [a.protocolRequirement('canvas-region/v2')]), code('UNSUPPORTED_VERSION'));
+  assert.throws(() => a.checkProtocolCompatibility(s.peerHandshake, [a.protocolRequirement('canvas-region/v3')]), code('UNSUPPORTED_VERSION'));
   assert.throws(() => a.checkProtocolCompatibility(a.contractHandshake, req), code('UNSUPPORTED_VERSION'));
   assert.throws(() => a.checkProtocolCompatibility({ ...s.peerHandshake, protocols: [{ protocol: 'world-adapter-region', major: 0, minor: 9 }] }, [{ protocol: 'world-adapter-region', major: 0, minMinor: 0, capabilities: [] }]), code('SCHEMA_INVALID'));
   assert.throws(() => a.validateRequest('world-adapter-region/v2', 'ReadRegion', { ...s.readRequest, contractVersion: 'world-adapter-region/v3' }), code('UNSUPPORTED_VERSION'));

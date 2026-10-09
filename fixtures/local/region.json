@@ -2024,7 +2024,7 @@
   },
   "snapshotGzipBase64": "H4sIAAAAAAACE+WWTW/TQBCG/wrasyN29ntzQ6KIAxREKwRUUTW7O5taTbyVvWkDUf47cnIotFWRIKpAnLy2xjPvzKPX4w2LF6vucmDTs83++L6MNxNoeDOBWcOGipXYdMPCosTL8dB2idbv+kQ9m7JP569enJwenZyen74+Oj7/vL98YQ0rfTtvuzGXGHOJWcOucEF1zHa2YV1JdIxLYlOW23Vd9TQdaumIjWE9LgWb8u34Tl9yu6CP1A9t6diU9TRvSze5LmtaDM+vgTWsX3Wj6DPX8Nkouf021hCNaMRs27BEfXtN6U07v6hvS6JdkliWV6tKk5u2Xkx6whQwXrKG0br2uJ9H211TV0v/lU0324YtqWLCivsZ5FJpXW/VPxvaece2DbsqQ1t3Un/ovLbLcVzdarF4rKndsPc93ZR+kT5Qvq0w2T0aS+zCXrZzGkYBmpDLoAKXEUUSzmpDUmWPjkA4w6MOgDpqlZTXjhsZOGoXJCJ4sJ6zbXOfPT8cev4E5NU98vD75A8PyGAwFEgQpKBT1ll45JhNBG2tT0Ym5YLnOUinrPdRBeCQNKLKWuq7gPjhvMmfyprmZ0Jg/sych0YENmrQOWKyVhnDlc+ZsifuJIaRAXEruFPCqkSkrBE2KYlScRmtEuIhRPxghJ7CQVLcB/Q3eUgl6VU0yiulyYooSGeZQ8SQFEhA6SV3QuhMJJyTNoPEZIyg4ABcvgvogPsNzD+53w7/lfMokgw6ewM5KYxBE88aLXKZCaJFrcYArq3QAowLmYB7L60CEcNDhPjhAP33Wwh0woAIQmMW1jkA8kIKisYYKXVUGTxlzlEGiIlDQK2clmick5gjsUd/XDq8Gi5KncTSVerqr8R9B1kx9pN4CgAA",
   "commitRequest": {
-    "contractVersion": "canvas-region/v2",
+    "contractVersion": "canvas-region/v3",
     "sessionRef": "fixture-session",
     "requestId": "commit-region-1",
     "worldRef": "fixture-world",
@@ -2347,6 +2347,7 @@
     },
     "operationDigest": "2498da7f1be2c7fd140ffb18bd1951469feb376f26bf8bc750ffeef6a2387e03",
     "guarantee": "RECOVERABLE_VERIFIED",
+    "confirmedPlacement": null,
     "localContext": {
       "connectionRef": "local-connection",
       "connectionIncarnationRef": "socket-open-1",
@@ -2355,7 +2356,7 @@
     }
   },
   "commitResponse": {
-    "contractVersion": "canvas-region/v2",
+    "contractVersion": "canvas-region/v3",
     "requestId": "commit-region-1",
     "result": {
       "transactionId": "region-tx-1",
@@ -2778,7 +2779,7 @@
     "applyFailure": null
   },
   "undoRequest": {
-    "contractVersion": "canvas-region/v2",
+    "contractVersion": "canvas-region/v3",
     "sessionRef": "fixture-session",
     "requestId": "undo-region-1",
     "worldRef": "fixture-world",
@@ -2793,7 +2794,7 @@
     }
   },
   "undoResponse": {
-    "contractVersion": "canvas-region/v2",
+    "contractVersion": "canvas-region/v3",
     "requestId": "undo-region-1",
     "result": {
       "originTransactionId": "region-tx-1",
@@ -3128,8 +3129,8 @@
       "typicalScale": "Hundreds to millions of cells, e.g. levelling a plot or digging a valley; written per mapblock as one Canvas transaction.",
       "scaleUnit": "cells",
       "requiredCapabilities": [
-        "canvas-region/v2:single-logical-transaction",
-        "canvas-region/v2:whole-region-undo",
+        "canvas-region/v3:single-logical-transaction",
+        "canvas-region/v3:whole-region-undo",
         "region-build/v1:compile-mapblock-chunks",
         "world-adapter-region/v2:load-then-know"
       ],

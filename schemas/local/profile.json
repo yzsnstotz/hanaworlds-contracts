@@ -1,5 +1,5 @@
 {
-  "version": "2.0.0-rc.2",
+  "version": "2.0.0-rc.3",
   "wireVersions": [
     "interaction-surface/v4",
     "session/v5",
@@ -11,7 +11,7 @@
     "region-build/v1",
     "painter-region/v3",
     "world-adapter-region/v2",
-    "canvas-region/v2"
+    "canvas-region/v3"
   ],
   "compiledOperationsVersion": "operations/v3",
   "operations": {
@@ -366,7 +366,7 @@
         "response": "WriteRegionResponse"
       }
     ],
-    "canvas-region/v2": [
+    "canvas-region/v3": [
       {
         "operation": "ApplyRegionCommit",
         "request": "ApplyRegionCommitRequest",
@@ -466,7 +466,7 @@
       "domainOwner": "Adapter transport",
       "mutationCaller": "Canvas only through internal dispatch"
     },
-    "canvas-region/v2": {
+    "canvas-region/v3": {
       "domainOwner": "Canvas",
       "mutationCaller": "Canvas only"
     }
@@ -12367,7 +12367,7 @@
       "type": "object",
       "properties": {
         "contractVersion": {
-          "const": "canvas-region/v2"
+          "const": "canvas-region/v3"
         },
         "sessionRef": {
           "$ref": "#/definitions/Ref"
@@ -12392,6 +12392,16 @@
         },
         "localContext": {
           "$ref": "#/definitions/LocalWorldContext"
+        },
+        "confirmedPlacement": {
+          "anyOf": [
+            {
+              "$ref": "#/definitions/ConfirmedPlacementBinding"
+            },
+            {
+              "type": "null"
+            }
+          ]
         }
       },
       "required": [
@@ -12403,7 +12413,8 @@
         "operations",
         "operationDigest",
         "guarantee",
-        "localContext"
+        "localContext",
+        "confirmedPlacement"
       ],
       "additionalProperties": false
     },
@@ -12476,7 +12487,7 @@
       "type": "object",
       "properties": {
         "contractVersion": {
-          "const": "canvas-region/v2"
+          "const": "canvas-region/v3"
         },
         "requestId": {
           "$ref": "#/definitions/Ref"
@@ -12537,7 +12548,7 @@
       "type": "object",
       "properties": {
         "contractVersion": {
-          "const": "canvas-region/v2"
+          "const": "canvas-region/v3"
         },
         "sessionRef": {
           "$ref": "#/definitions/Ref"
@@ -12631,7 +12642,7 @@
       "type": "object",
       "properties": {
         "contractVersion": {
-          "const": "canvas-region/v2"
+          "const": "canvas-region/v3"
         },
         "requestId": {
           "$ref": "#/definitions/Ref"
@@ -14275,22 +14286,22 @@
       "meaning": "Returns a COMPLETE lighting fact only after the bulk light recalculation for the written box has finished."
     },
     {
-      "id": "canvas-region/v2:single-logical-transaction",
+      "id": "canvas-region/v3:single-logical-transaction",
       "owner": "hanaworlds-canvas",
       "meaning": "One logical transaction across all chunks; success only after the full region readback summary equals the expected summary."
     },
     {
-      "id": "canvas-region/v2:rollback-on-failure",
+      "id": "canvas-region/v3:rollback-on-failure",
       "owner": "hanaworlds-canvas",
       "meaning": "Any failed, unknown or mismatching chunk restores the whole pre-write region."
     },
     {
-      "id": "canvas-region/v2:compressed-before-snapshot",
+      "id": "canvas-region/v3:compressed-before-snapshot",
       "owner": "hanaworlds-canvas",
       "meaning": "Durably stores the complete pre-write RegionSnapshotContent with a mature compressor and records RegionSnapshotRef."
     },
     {
-      "id": "canvas-region/v2:whole-region-undo",
+      "id": "canvas-region/v3:whole-region-undo",
       "owner": "hanaworlds-canvas",
       "meaning": "Undo restores the whole region of the same transaction after checking current world, history and current summary."
     },
@@ -14609,7 +14620,7 @@
     },
     "rule": "A response or receipt whose error comes from a guard carries guardRefusal; its error must equal guardRefusalError(guardRefusal, options) for one allowed form. Pre-flight GUARD_UNAVAILABLE: CAPABILITY_UNAVAILABLE/validate, nothing written. Restore stages (RESTORE, REGION_RESTORE) have two forms: (1) transaction form, when the restore's cause is known: RESTORE_FAILED/restore/RESTORE_ERROR pending manual recovery (AFTER_MANUAL_RECOVERY, PARTIAL) with causeCode = the failure that made the restore necessary; (2) engine form, when the writer has no cause (a stateless WriteRegion RESTORE, or an Undo): SAFETY_INVARIANT_FAILED (violation) or CAPABILITY_UNAVAILABLE (GUARD_UNAVAILABLE) with phase restore, mutationState NONE (the refused write wrote nothing), causeCode null. The transaction owner (Canvas) turns an engine-form refusal during a rollback into the transaction form and keeps the causing failure in applyFailure {error, guardRefusal} (error.causeCode equals applyFailure.error.code); during an Undo it returns the engine-form refusal unchanged with applyFailure null. A RESTORE_FAILED receipt always uses the transaction form.",
     "notDecidedHere": "No acting-principal identity source exists; ACTING_PRINCIPAL coverage cannot be declared truthfully until one is defined (INV text unchanged, INV-POSE PRESENTED).",
-    "relay": "A guard refusal reaches the skill on the public wire: Adapter responses (world-adapter/v7, world-adapter-region/v2) -> Canvas responses (canvas/v7 ApplyRecoverableCommit, Undo, Redo, RecoverPendingUndo, ReadPendingUndoResult, InspectPlacementRegion; canvas-region/v2 ApplyRegionCommit, UndoRegionCommit) -> Workshop responses (session/v5 AdvanceCurrentBuild, UndoCurrentBuild, RecoverPendingUndo). Each carries guardRefusal beside error under the same rule; a relay passes the refusal and its error unchanged. Canvas's own pre-flight refusal (requireEngineGuards before any write) is GUARD_UNAVAILABLE with CAPABILITY_UNAVAILABLE/validate on the canvas/v7 or canvas-region/v2 envelope."
+    "relay": "A guard refusal reaches the skill on the public wire: Adapter responses (world-adapter/v7, world-adapter-region/v2) -> Canvas responses (canvas/v7 ApplyRecoverableCommit, Undo, Redo, RecoverPendingUndo, ReadPendingUndoResult, InspectPlacementRegion; canvas-region/v3 ApplyRegionCommit, UndoRegionCommit) -> Workshop responses (session/v5 AdvanceCurrentBuild, UndoCurrentBuild, RecoverPendingUndo). Each carries guardRefusal beside error under the same rule; a relay passes the refusal and its error unchanged. Canvas's own pre-flight refusal (requireEngineGuards before any write) is GUARD_UNAVAILABLE with CAPABILITY_UNAVAILABLE/validate on the canvas/v7 or canvas-region/v3 envelope."
   },
   "confirmedPlacement": {
     "id": "confirmed-placement/v1",
@@ -14622,7 +14633,9 @@
       "session/v5 AppendMultimodalTurn controls.placement (pending, shown to the player)",
       "session/v5 AnswerClarification: only a new human message confirms; ConfirmedIntent.placement equals BriefProjection.controls.placement",
       "painter/v6 ValidateBuildProposal: request.regionInspection is the source inspection; effects match the target",
+      "painter/v6 CreateBuildPlan: validateCreateBuildPlanRequest/Response (source inspection before the model, planned operations after)",
       "painter-region/v3 ValidateRegionProposal: specified world cells match the target",
+      "canvas-region/v3 ApplyRegionCommit confirmedPlacement: validateBoundRequest checks it against the request operations; Canvas runs checkConfirmedRegionPlacementApply with its own recorded inspection and current world revision before any snapshot or Adapter WriteRegion; validateRegionCommitSubmission makes Workshop send exactly the confirmed binding",
       "canvas/v7 ApplyRecoverableCommit regionInspectionBinding.confirmedPlacement: Canvas rechecks its recorded inspection, current world revision and final effects before any write",
       "validateCurrentBuildSubmission: the apply binding carries exactly the confirmed placement and intent digest"
     ],

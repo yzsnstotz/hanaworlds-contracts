@@ -152,6 +152,41 @@ const regionCases={accept:[{title:'region: specified cells are exactly the confi
 for(const c of regionCases.accept)a.validateRegionProposalRequest(c.request);
 for(const c of regionCases.reject)expectError(()=>a.validateRegionProposalRequest(c.request));
 
+// --- canvas-region/v3 ApplyRegionCommit: Canvas checks before any snapshot or Adapter WriteRegion.
+// Brush compilation here is the public expand/encode split per mapblock (as the region fixture does).
+function compileRegion(blockInput){
+ const e=a.expandRegionBlock(blockInput),{min}=e.box,[sx,sy]=[0,1].map(k=>e.box.max[k]-min[k]+1);
+ return a.regionChunksOfBox(e.box).map(({chunkPos,box})=>{const size=[0,1,2].map(k=>box.max[k]-box.min[k]+1),indices=[];
+  for(let z=box.min[2];z<=box.max[2];z++)for(let y=box.min[1];y<=box.max[1];y++)for(let x=box.min[0];x<=box.max[0];x++)indices.push(e.indices[(x-min[0])+sx*((y-min[1])+sy*(z-min[2]))]);
+  return indices.some(v=>v!==-1)?{chunkPos,block:a.encodeRegionBlock({origin:box.min,size,palette:e.palette,indices})}:null;}).filter(Boolean);
+}
+function commit(blockInput,binding){const c=clone(regionFx.commitRequest);c.operations.chunks=compileRegion(blockInput);c.operationDigest=D('region-operations',c.operations);c.confirmedPlacement=clone(binding);return c;}
+const regionA=regionCases.accept[0].request,regionExtent=regionCases.accept[1].request,regionNone=region(null);
+const bindA=a.confirmedPlacementBinding(regionA.intent),bindExtent=a.confirmedPlacementBinding(regionExtent.intent),bindShort=a.confirmedPlacementBinding(region(placements.regionExtentShort).intent);
+const blockA=pr.proposal.block,blockB={...clone(blockA),origin:shifted};
+const blockFewer=(()=>{const e=a.expandRegionBlock(blockA);const idx=Array.from(e.indices);idx[idx.findIndex(v=>v!==-1)]=-1;return a.encodeRegionBlock({origin:blockA.origin,size:blockA.size,palette:e.palette,indices:idx});})();
+inspections.regionViewB=inspection({id:'canvas-inspection-region-b',x0:0,x1:0,cells:specified,bounds:block.box,worldRef:'fixture-world-b'});
+placements.regionExactWorldB=a.createPlacementProposal(inspections.regionViewB,exact(specified));
+const bindWorldB=(()=>{const q=region(placements.regionExactWorldB);return a.confirmedPlacementBinding(q.intent);})();
+const canvasRegion={
+ accept:[
+  {title:'canvas-region: confirmed A, commit writes exactly A on the recorded source inspection at the current revision',intent:regionA.intent,brief:regionA.referenceBrief,commit:commit(blockA,bindA),recordedInspection:'regionView',currentWorldRevision:'fixture-world-10'},
+  {title:'canvas-region: confirmed extent, commit inside it',intent:regionExtent.intent,brief:regionExtent.referenceBrief,commit:commit(blockA,bindExtent),recordedInspection:'regionView',currentWorldRevision:'fixture-world-10'},
+  {title:'canvas-region: no placement confirmed and none sent (normal region behaviour unchanged)',intent:regionNone.intent,brief:regionNone.referenceBrief,commit:commit(blockA,null),recordedInspection:'regionView',currentWorldRevision:'fixture-world-10'}],
+ reject:[
+  {title:'canvas-region: confirmed A (112 cells), the same block one cell east (B) reaches Canvas (CR-REGION-CONFIRMED-PLACEMENT-01)',intent:regionA.intent,brief:regionA.referenceBrief,commit:commit(blockB,bindA),at:'admission',error:failure('PLACEMENT_TARGET_MISMATCH')},
+  {title:'canvas-region: confirmed A, one confirmed cell left out',intent:regionA.intent,brief:regionA.referenceBrief,commit:commit(blockFewer,bindA),at:'admission',error:failure('PLACEMENT_TARGET_MISMATCH')},
+  {title:'canvas-region: confirmed extent, the commit leaves it',intent:regionA.intent,brief:regionA.referenceBrief,commit:commit(blockA,bindShort),at:'admission',error:failure('PLACEMENT_TARGET_MISMATCH')},
+  {title:'canvas-region: binding placement of another World',intent:regionA.intent,brief:regionA.referenceBrief,commit:commit(blockA,bindWorldB),at:'admission',error:failure('PLACEMENT_WORLD_CHANGED')},
+  {title:'canvas-region: placement digest does not match the bound placement',intent:regionA.intent,brief:regionA.referenceBrief,commit:(()=>{const c=commit(blockA,bindA);c.confirmedPlacement.placementDigest='0'.repeat(64);return c;})(),at:'admission',error:failure('PLACEMENT_BINDING_CHANGED')},
+  {title:'canvas-region: Canvas has another recorded inspection under that id (source changed)',intent:regionA.intent,brief:regionA.referenceBrief,commit:commit(blockA,bindA),recordedInspection:'view1',currentWorldRevision:'fixture-world-10',at:'canvas',error:failure('PLACEMENT_INSPECTION_CHANGED')},
+  {title:'canvas-region: the world revision moved after the proposal',intent:regionA.intent,brief:regionA.referenceBrief,commit:commit(blockA,bindA),recordedInspection:'regionView',currentWorldRevision:'fixture-world-11',at:'canvas',error:failure('PLACEMENT_REVISION_STALE')},
+  {title:'Workshop region submission: confirmed A but the commit carries no binding',intent:regionA.intent,brief:regionA.referenceBrief,commit:commit(blockA,null),at:'submission',error:failure('PLACEMENT_BINDING_CHANGED')},
+  {title:'Workshop region submission: no placement confirmed but the commit invents one',intent:regionNone.intent,brief:regionNone.referenceBrief,commit:commit(blockA,bindA),at:'submission',error:failure('PLACEMENT_BINDING_CHANGED')}]};
+const runRegion=c=>c.at==='admission'?a.validateRegionCommitRequest(c.commit):c.at==='canvas'?a.checkConfirmedRegionPlacementCommit(c.commit,inspections[c.recordedInspection],c.currentWorldRevision):a.validateRegionCommitSubmission(c.intent,c.brief,c.commit);
+for(const c of canvasRegion.accept){a.validateRegionCommitSubmission(c.intent,c.brief,c.commit);a.checkConfirmedRegionPlacementCommit(c.commit,inspections[c.recordedInspection],c.currentWorldRevision);}
+for(const c of canvasRegion.reject){const e=expectError(()=>runRegion(c));for(const [k,v] of Object.entries(c.error))if(e[k]!==v)throw Error(`${c.title}: ${k}=${e[k]}`);}
+
 // --- painter/v6 CreateBuildPlan (model path): the same binding without a model-supplied proposal.
 function plan(r){const q=clone(r);delete q.proposal;q.painterId='picture-blocks';return q;}
 function planned(r,boxes){const withBoxes=clone(r);withBoxes.proposal.boxes=boxes.map(([min,max])=>({min,max,materialRef:'stone'}));
@@ -180,6 +215,6 @@ for(const c of createBuildPlan.reject){const e=expectError(()=>c.at==='request'?
 
 const fixture={profileVersion:'confirmed-placement-fixture/v1',
  evidence:'FIXTURE · confirmed-placement/v1 (hanaworlds-contracts 2.x). Public cases for a structured placement shown before confirmation and bound to the final world effect set. Generated by tools/build-placement-fixture.mjs from the published main/region fixtures; run test/confirmed-placement.mjs against the installed package. SOURCE/FIXTURE only: no model, World, GUI or provider implementation.',
- inspections,placements,proposal,source,perCell:{accept:accepted,reject:rejected},createBuildPlan,canvas,region:regionCases};
+ inspections,placements,proposal,source,perCell:{accept:accepted,reject:rejected},createBuildPlan,canvas,region:regionCases,canvasRegion};
 await writeFile('spec/local-world/fixtures/confirmed-placement.json',JSON.stringify(fixture,null,1)+'\n');
-console.log('Wrote spec/local-world/fixtures/confirmed-placement.json',createBuildPlan.accept.length+createBuildPlan.reject.length+accepted.length+rejected.length+canvas.accept.length+canvas.reject.length+regionCases.accept.length+regionCases.reject.length,'cases');
+console.log('Wrote spec/local-world/fixtures/confirmed-placement.json',canvasRegion.accept.length+canvasRegion.reject.length+createBuildPlan.accept.length+createBuildPlan.reject.length+accepted.length+rejected.length+canvas.accept.length+canvas.reject.length+regionCases.accept.length+regionCases.reject.length,'cases');

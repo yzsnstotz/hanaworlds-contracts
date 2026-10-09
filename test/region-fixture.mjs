@@ -78,13 +78,13 @@ export function buildRegionScenario(a, base) {
   const compressed = gzipSync(Buffer.from(a.canonicalJSON(snapshotContent)), { level: 9, mtime: 0 });
   const snapshot = { profileVersion: 'region-snapshot/v1', contentDigest: D('region-snapshot-content', snapshotContent), beforeSummaryDigest: D('region-summary', beforeSummary),
     compression: 'gzip', compressedSha256: createHash('sha256').update(compressed).digest('hex'), compressedByteLength: compressed.length };
-  const commitRequest = { contractVersion: 'canvas-region/v2', sessionRef, requestId: 'commit-region-1', worldRef, transactionId: 'region-tx-1', operations: projection,
-    operationDigest: D('region-operations', projection), guarantee: 'RECOVERABLE_VERIFIED', localContext };
+  const commitRequest = { contractVersion: 'canvas-region/v3', sessionRef, requestId: 'commit-region-1', worldRef, transactionId: 'region-tx-1', operations: projection,
+    operationDigest: D('region-operations', projection), guarantee: 'RECOVERABLE_VERIFIED', confirmedPlacement: null, localContext };
   const commitResult = { transactionId: 'region-tx-1', worldRef, status: 'VERIFIED', operationDigest: commitRequest.operationDigest, beforeSummary, expectedAfterSummary: afterSummary,
     actualSummary: afterSummary, snapshot, historyRevision: 'history-2', lighting, affectedObjectRefs: [], localContext };
-  const commitResponse = { contractVersion: 'canvas-region/v2', requestId: 'commit-region-1', result: commitResult, error: null, guardRefusal: null, applyFailure: null };
-  const undoRequest = { contractVersion: 'canvas-region/v2', sessionRef, requestId: 'undo-region-1', worldRef, originTransactionId: 'region-tx-1', undoTransactionId: 'region-undo-1', expectedHistoryRevision: 'history-2', localContext };
-  const undoResponse = { contractVersion: 'canvas-region/v2', requestId: 'undo-region-1', result: { originTransactionId: 'region-tx-1', undoTransactionId: 'region-undo-1', worldRef, status: 'VERIFIED',
+  const commitResponse = { contractVersion: 'canvas-region/v3', requestId: 'commit-region-1', result: commitResult, error: null, guardRefusal: null, applyFailure: null };
+  const undoRequest = { contractVersion: 'canvas-region/v3', sessionRef, requestId: 'undo-region-1', worldRef, originTransactionId: 'region-tx-1', undoTransactionId: 'region-undo-1', expectedHistoryRevision: 'history-2', localContext };
+  const undoResponse = { contractVersion: 'canvas-region/v3', requestId: 'undo-region-1', result: { originTransactionId: 'region-tx-1', undoTransactionId: 'region-undo-1', worldRef, status: 'VERIFIED',
     originBeforeSummaryDigest: D('region-summary', beforeSummary), originAfterSummaryDigest: D('region-summary', afterSummary), preUndoSummary: afterSummary, actualSummary: beforeSummary,
     historyRevision: 'history-3', lighting, localContext }, error: null, guardRefusal: null, applyFailure: null };
   // FIXTURE Adapter peer advertising the package's own current world-adapter-region declaration
@@ -100,7 +100,7 @@ export function buildRegionScenario(a, base) {
       typicalScale: 'A single cell up to a few hundred cells, e.g. a door, a window or touching up an edge.', scaleUnit: 'cells', requiredCapabilities: ['BUILD/V4:per-cell-compile'], unavailableReason: null },
     { method: 'REGION', toolName: 'fixture_write_region', purpose: 'Large fills and carves (terrain, flattening, digging) as one region block with explicit air for carving.', inputType: 'RegionProposal',
       typicalScale: 'Hundreds to millions of cells, e.g. levelling a plot or digging a valley; written per mapblock as one Canvas transaction.', scaleUnit: 'cells',
-      requiredCapabilities: ['canvas-region/v2:single-logical-transaction', 'canvas-region/v2:whole-region-undo', 'region-build/v1:compile-mapblock-chunks', 'world-adapter-region/v2:load-then-know'], unavailableReason: null }
+      requiredCapabilities: ['canvas-region/v3:single-logical-transaction', 'canvas-region/v3:whole-region-undo', 'region-build/v1:compile-mapblock-chunks', 'world-adapter-region/v2:load-then-know'], unavailableReason: null }
   ];
   return { evidence: 'SOURCE/FIXTURE: hand-built region-voxels/v1 scenario; no real Painter, Brush, Adapter, Canvas, Luanti world or durable store ran.',
     catalogue, proposalRequest, proposalResponse, compileRequest, compileResponse, readRequest, readResponse, writeRequest, writeResponse,

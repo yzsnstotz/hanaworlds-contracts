@@ -379,13 +379,13 @@ export type RegionSnapshotChunk = { readonly "chunkPos": ChunkPosition; readonly
 export type RegionSnapshotChunks = ReadonlyArray<RegionSnapshotChunk>;
 export type RegionSnapshotContent = { readonly "profileVersion": "region-snapshot-content/v1"; readonly "worldRef": Ref; readonly "chunks": RegionSnapshotChunks };
 export type RegionSnapshotRef = { readonly "profileVersion": "region-snapshot/v1"; readonly "contentDigest": Digest; readonly "beforeSummaryDigest": Digest; readonly "compression": Ref; readonly "compressedSha256": Digest; readonly "compressedByteLength": PositiveInt };
-export type ApplyRegionCommitRequest = { readonly "contractVersion": "canvas-region/v2"; readonly "sessionRef": Ref; readonly "requestId": Ref; readonly "worldRef": Ref; readonly "transactionId": Ref; readonly "operations": RegionOperationsProjection; readonly "operationDigest": Digest; readonly "guarantee": Guarantee; readonly "localContext": LocalWorldContext };
+export type ApplyRegionCommitRequest = { readonly "contractVersion": "canvas-region/v3"; readonly "sessionRef": Ref; readonly "requestId": Ref; readonly "worldRef": Ref; readonly "transactionId": Ref; readonly "operations": RegionOperationsProjection; readonly "operationDigest": Digest; readonly "guarantee": Guarantee; readonly "localContext": LocalWorldContext; readonly "confirmedPlacement": ConfirmedPlacementBinding | null };
 export type RegionCommitStatus = "VERIFIED" | "ROLLED_BACK";
 export type RegionCommitResult = { readonly "transactionId": Ref; readonly "worldRef": Ref; readonly "status": RegionCommitStatus; readonly "operationDigest": Digest; readonly "beforeSummary": RegionSummary; readonly "expectedAfterSummary": RegionSummary; readonly "actualSummary": RegionSummary; readonly "snapshot": RegionSnapshotRef; readonly "historyRevision": Revision; readonly "lighting": RegionLighting; readonly "affectedObjectRefs": RefSet; readonly "localContext": LocalWorldContext };
-export type ApplyRegionCommitResponse = { readonly "contractVersion": "canvas-region/v2"; readonly "requestId": Ref; readonly "result": RegionCommitResult | null; readonly "error": Error | null; readonly "guardRefusal": GuardRefusal | null; readonly "applyFailure": FailureDetail | null };
-export type UndoRegionCommitRequest = { readonly "contractVersion": "canvas-region/v2"; readonly "sessionRef": Ref; readonly "requestId": Ref; readonly "worldRef": Ref; readonly "originTransactionId": Ref; readonly "undoTransactionId": Ref; readonly "expectedHistoryRevision": Revision; readonly "localContext": LocalWorldContext };
+export type ApplyRegionCommitResponse = { readonly "contractVersion": "canvas-region/v3"; readonly "requestId": Ref; readonly "result": RegionCommitResult | null; readonly "error": Error | null; readonly "guardRefusal": GuardRefusal | null; readonly "applyFailure": FailureDetail | null };
+export type UndoRegionCommitRequest = { readonly "contractVersion": "canvas-region/v3"; readonly "sessionRef": Ref; readonly "requestId": Ref; readonly "worldRef": Ref; readonly "originTransactionId": Ref; readonly "undoTransactionId": Ref; readonly "expectedHistoryRevision": Revision; readonly "localContext": LocalWorldContext };
 export type RegionUndoResult = { readonly "originTransactionId": Ref; readonly "undoTransactionId": Ref; readonly "worldRef": Ref; readonly "status": RegionCommitStatus; readonly "originBeforeSummaryDigest": Digest; readonly "originAfterSummaryDigest": Digest; readonly "preUndoSummary": RegionSummary; readonly "actualSummary": RegionSummary; readonly "historyRevision": Revision; readonly "lighting": RegionLighting; readonly "localContext": LocalWorldContext };
-export type UndoRegionCommitResponse = { readonly "contractVersion": "canvas-region/v2"; readonly "requestId": Ref; readonly "result": RegionUndoResult | null; readonly "error": Error | null; readonly "guardRefusal": GuardRefusal | null; readonly "applyFailure": FailureDetail | null };
+export type UndoRegionCommitResponse = { readonly "contractVersion": "canvas-region/v3"; readonly "requestId": Ref; readonly "result": RegionUndoResult | null; readonly "error": Error | null; readonly "guardRefusal": GuardRefusal | null; readonly "applyFailure": FailureDetail | null };
 export type ProtocolDescriptor = { readonly "protocol": Ref; readonly "major": PositiveInt; readonly "minor": NonNegativeInt };
 export type ProtocolDescriptors = ReadonlyArray<ProtocolDescriptor>;
 export type ProtocolProvenance = { readonly "packageName": Ref; readonly "packageVersion": Ref; readonly "sourceRevision": Ref | null; readonly "artifactDigest": Digest | null };
@@ -981,7 +981,7 @@ export interface OperationMap {
 "ReadRegion": {request:ReadRegionRequest;response:ReadRegionResponse};
 "WriteRegion": {request:WriteRegionRequest;response:WriteRegionResponse};
 };
-"canvas-region/v2": {
+"canvas-region/v3": {
 "ApplyRegionCommit": {request:ApplyRegionCommitRequest;response:ApplyRegionCommitResponse};
 "UndoRegionCommit": {request:UndoRegionCommitRequest;response:UndoRegionCommitResponse};
 };

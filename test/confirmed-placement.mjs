@@ -18,9 +18,10 @@ test('contract surface: profile, placement types, wires and named failures',()=>
  assert.equal(a.confirmedPlacement.id,'confirmed-placement/v1');
  for(const t of ['Controls','ConfirmedIntent'])assert.ok(a.schemaBundle.definitions[t].required.includes('placement'),t);
  assert.ok(a.schemaBundle.definitions.RegionApplyBinding.required.includes('confirmedPlacement'));
+ assert.ok(a.schemaBundle.definitions.ApplyRegionCommitRequest.required.includes('confirmedPlacement'));
  assert.equal(a.digestProfile.projectionTypes['placement-proposal'],'PlacementProposal');
- for(const w of ['session/v5','painter/v6','ReferenceBrief/v5','painter-region/v3','canvas/v7','world-adapter/v7','BUILD/V4','region-build/v1','world-adapter-region/v2','canvas-region/v2','interaction-surface/v4'])assert.ok(a.wireVersions.includes(w),w);
- for(const w of ['session/v4','painter/v5','ReferenceBrief/v4','painter-region/v2','canvas/v6'])assert.ok(!a.wireVersions.includes(w),w);
+ for(const w of ['session/v5','painter/v6','ReferenceBrief/v5','painter-region/v3','canvas/v7','world-adapter/v7','BUILD/V4','region-build/v1','world-adapter-region/v2','canvas-region/v3','interaction-surface/v4'])assert.ok(a.wireVersions.includes(w),w);
+ for(const w of ['session/v4','painter/v5','ReferenceBrief/v4','painter-region/v2','canvas/v6','canvas-region/v2'])assert.ok(!a.wireVersions.includes(w),w);
  const names=a.confirmedPlacement.namedFailures.map(f=>f.failure),pairs=a.confirmedPlacement.namedFailures.map(f=>f.code+'/'+f.reason);
  assert.equal(new Set(names).size,names.length);assert.equal(new Set(pairs).size,pairs.length,'each named failure has its own public code/reason');
  for(const f of a.confirmedPlacement.namedFailures){assert.equal(f.phase,'validate');a.validateType('ErrorCode',f.code);a.validateType('ErrorReason',f.reason);}
@@ -100,6 +101,13 @@ test('Canvas binding needs its intent: confirmedPlacementBinding is null without
 test('region (painter-region/v3): specified world cells match the confirmed target',()=>{
  for(const c of fx.region.accept)a.validateRegionProposalRequest(c.request);
  for(const c of fx.region.reject)rejects(()=>a.validateRegionProposalRequest(c.request),c.error,c.title);
+});
+test('Canvas region (canvas-region/v3): the confirmed binding is carried and checked before any snapshot or WriteRegion',()=>{
+ for(const c of fx.canvasRegion.accept){a.validateRegionCommitSubmission(c.intent,c.brief,c.commit);
+  const checked=a.checkConfirmedRegionPlacementCommit(c.commit,ins(c.recordedInspection),c.currentWorldRevision);
+  if(c.commit.confirmedPlacement===null)assert.equal(checked,null,c.title);else{assert.equal(checked.intentDigest,D('intent',c.intent));assert.equal(checked.placementDigest,D('placement-proposal',c.commit.confirmedPlacement.placement));}}
+ for(const c of fx.canvasRegion.reject)rejects(()=>c.at==='admission'?a.validateRegionCommitRequest(c.commit):c.at==='canvas'?a.checkConfirmedRegionPlacementCommit(c.commit,ins(c.recordedInspection),c.currentWorldRevision):a.validateRegionCommitSubmission(c.intent,c.brief,c.commit),c.error,c.title);
+ const [east]=fx.canvasRegion.reject;rejects(()=>a.validateRegionCommit(east.commit,{}),{placementFailure:'PLACEMENT_TARGET_MISMATCH'},'response validation admits the request first');
 });
 test('no placement type carries player geometry, pose or a second confirmation authority',()=>{
  for(const t of ['PlacementProposal','PlacementSource','PlacementTarget','PlacementCells','ConfirmedPlacementBinding']){

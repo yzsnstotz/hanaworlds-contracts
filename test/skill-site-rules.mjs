@@ -134,7 +134,7 @@ const envelope=(type,wire,refusal,error)=>({contractVersion:wire,requestId:'r-1'
 test('engine guards: a guard refusal travels beside the error it explains, on every guarded response',()=>{
  const named=Object.fromEntries(G.named.map(n=>[n.name,n]));
  const cases=[['ScopedApplyResponse','world-adapter/v7','BODY_OCCUPIED'],['ScopedPrepareResponse','world-adapter/v7','PLAYER_ENCLOSED'],['WriteRegionResponse','world-adapter-region/v2','PROTECTED_CELL'],
-  ['RestoreTransactionResponse','world-adapter/v7','RESTORE_GUARD_UNAVAILABLE'],['ApplyRegionCommitResponse','canvas-region/v2','PROTECTED_CELL']];
+  ['RestoreTransactionResponse','world-adapter/v7','RESTORE_GUARD_UNAVAILABLE'],['ApplyRegionCommitResponse','canvas-region/v3','PROTECTED_CELL']];
  for(const [type,wire,name] of cases){const n=named[name],err={...n.error,transactionRef:null};
   a.validateType(type,envelope(type,wire,n.refusal,err));
   assert.throws(()=>a.validateType(type,envelope(type,wire,n.refusal,null)),{code:'SCHEMA_INVALID'},type+' refusal without error');
@@ -159,7 +159,7 @@ test('G1: a refused restore keeps both causes and stays pending manual recovery'
 test('region: a refused region restore keeps the causing failure in applyFailure',()=>{
  const applyRefusal={guard:'CELL_PROTECTION',stage:'REGION_APPLY',finding:'PROTECTED_CELL'},restoreRefusal={guard:'BODY_CLEARANCE',stage:'REGION_RESTORE',finding:'BODY_OCCUPIED'};
  const applyError=clone(a.guardRefusalError(applyRefusal));
- const res={contractVersion:'canvas-region/v2',requestId:'r-1',result:null,error:clone(a.guardRefusalError(restoreRefusal,{cause:applyError.code})),guardRefusal:restoreRefusal,applyFailure:{error:applyError,guardRefusal:applyRefusal}};
+ const res={contractVersion:'canvas-region/v3',requestId:'r-1',result:null,error:clone(a.guardRefusalError(restoreRefusal,{cause:applyError.code})),guardRefusal:restoreRefusal,applyFailure:{error:applyError,guardRefusal:applyRefusal}};
  a.validateType('ApplyRegionCommitResponse',res);
  assert.throws(()=>a.validateType('ApplyRegionCommitResponse',{...res,applyFailure:{...res.applyFailure,error:{...applyError,code:'READBACK_MISMATCH'}}}),{code:'SCHEMA_INVALID'},'applyFailure must match its refusal and the causeCode');
 });
@@ -167,12 +167,12 @@ test('REGION_RESTORE: the engine reports a refused restore without a cause; Canv
  const R=G.regionRestore;
  for(const c of R.engine){same(a.guardRefusalError(c.refusal),{...c.error,transactionRef:null},c.name);
   a.validateType('WriteRegionResponse',envelope('WriteRegionResponse','world-adapter-region/v2',c.refusal,{...c.error,transactionRef:null}));
-  a.validateType('UndoRegionCommitResponse',envelope('UndoRegionCommitResponse','canvas-region/v2',c.refusal,{...c.error,transactionRef:null}));}
+  a.validateType('UndoRegionCommitResponse',envelope('UndoRegionCommitResponse','canvas-region/v3',c.refusal,{...c.error,transactionRef:null}));}
  for(const c of R.reject){const bad={...R.engine[0].error,transactionRef:null,...Object.fromEntries(['mutationState','retryability','reason'].filter(k=>c[k]).map(k=>[k,c[k]]))};
   assert.throws(()=>a.validateType('WriteRegionResponse',envelope('WriteRegionResponse','world-adapter-region/v2',R.engine[0].refusal,bad)),{code:'SCHEMA_INVALID'},c.title);}
  // Rollback after a refused region apply: Canvas wraps the engine refusal into the transaction form.
  const applyError=clone(a.guardRefusalError(R.rollbackApplyRefusal)),restoreRefusal=R.engine[0].refusal;
- const rollback={contractVersion:'canvas-region/v2',requestId:'r-1',result:null,error:clone(a.guardRefusalError(restoreRefusal,{cause:applyError.code})),guardRefusal:restoreRefusal,applyFailure:{error:applyError,guardRefusal:R.rollbackApplyRefusal}};
+ const rollback={contractVersion:'canvas-region/v3',requestId:'r-1',result:null,error:clone(a.guardRefusalError(restoreRefusal,{cause:applyError.code})),guardRefusal:restoreRefusal,applyFailure:{error:applyError,guardRefusal:R.rollbackApplyRefusal}};
  a.validateType('ApplyRegionCommitResponse',rollback);
  assert.throws(()=>a.validateType('ApplyRegionCommitResponse',{...rollback,error:{...R.engine[0].error,transactionRef:null}}),{code:'SCHEMA_INVALID'},'a rollback with applyFailure must use the pending transaction form');
  // A per-cell RESTORE_FAILED receipt never carries the engine form.

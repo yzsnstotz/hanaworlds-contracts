@@ -1,6 +1,6 @@
 {
   "$schema": "http://json-schema.org/draft-07/schema#",
-  "$id": "https://hanaworlds.invalid/contracts/2.0.0-rc.2/schema.json",
+  "$id": "https://hanaworlds.invalid/contracts/2.0.0-rc.3/schema.json",
   "x-contractsCompatibility": {
     "package": "hanaworlds-contracts",
     "major": 2,
@@ -11720,7 +11720,7 @@
       "type": "object",
       "properties": {
         "contractVersion": {
-          "const": "canvas-region/v2"
+          "const": "canvas-region/v3"
         },
         "sessionRef": {
           "$ref": "#/definitions/Ref"
@@ -11745,6 +11745,16 @@
         },
         "localContext": {
           "$ref": "#/definitions/LocalWorldContext"
+        },
+        "confirmedPlacement": {
+          "anyOf": [
+            {
+              "$ref": "#/definitions/ConfirmedPlacementBinding"
+            },
+            {
+              "type": "null"
+            }
+          ]
         }
       },
       "required": [
@@ -11756,7 +11766,8 @@
         "operations",
         "operationDigest",
         "guarantee",
-        "localContext"
+        "localContext",
+        "confirmedPlacement"
       ],
       "additionalProperties": false
     },
@@ -11829,7 +11840,7 @@
       "type": "object",
       "properties": {
         "contractVersion": {
-          "const": "canvas-region/v2"
+          "const": "canvas-region/v3"
         },
         "requestId": {
           "$ref": "#/definitions/Ref"
@@ -11890,7 +11901,7 @@
       "type": "object",
       "properties": {
         "contractVersion": {
-          "const": "canvas-region/v2"
+          "const": "canvas-region/v3"
         },
         "sessionRef": {
           "$ref": "#/definitions/Ref"
@@ -11984,7 +11995,7 @@
       "type": "object",
       "properties": {
         "contractVersion": {
-          "const": "canvas-region/v2"
+          "const": "canvas-region/v3"
         },
         "requestId": {
           "$ref": "#/definitions/Ref"

@@ -759,12 +759,12 @@
      "PlacementRegionInspection"
     ],
     [
-     "canvas-region/v2",
+     "canvas-region/v3",
      "ApplyRegionCommit",
      "ApplyRegionCommitResponse"
     ],
     [
-     "canvas-region/v2",
+     "canvas-region/v3",
      "UndoRegionCommit",
      "UndoRegionCommitResponse"
     ],

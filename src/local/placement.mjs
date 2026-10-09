@@ -7,6 +7,7 @@ import { contractMetadata } from './generated/contracts.mjs';
 import { validateType, validateRegionInspection, validateBoundRequest, digestValue, canonicalJSON, deepFreeze } from './runtime.mjs';
 import { ContractError } from '../errors.mjs';
 import { inside, unionCellCount } from '../geometry.mjs';
+import { expandRegionBlock, validateRegionCommitRequest } from './region.mjs';
 export const confirmedPlacement = contractMetadata.confirmedPlacement;
 const named = new Map(confirmedPlacement.namedFailures.map(f => [f.failure, f]));
 const same = (a, b) => canonicalJSON(a) === canonicalJSON(b);
@@ -123,13 +124,47 @@ export function requireOperationsPlacementTarget(placement, operations) {
 }
 /** painter-region/v3: the region is in world node coordinates of the placement World. */
 export function requirePlacementWorld(placement, worldRef) { need(placement.worldRef === worldRef, 'PLACEMENT_WORLD_CHANGED'); }
-/** painter-region/v3: specified world cells of the region block against the confirmed target. */
-export function requireRegionPlacementTarget(placement, block) {
-  const { min, max } = block.box, [sx, sy] = [0, 1].map(a => max[a] - min[a] + 1);
-  if (placement.target.kind === 'ANCHORED_EXTENT' && inside(min, placement.target.bounds) && inside(max, placement.target.bounds)) return;
+/** painter-region/v3 and canvas-region/v3: specified (non-UNSPECIFIED) world cells of one or more
+ * expanded region blocks against the confirmed target. */
+export function requireRegionPlacementTarget(placement, ...blocks) {
+  const t = placement.target;
+  if (t.kind === 'ANCHORED_EXTENT' && blocks.every(b => inside(b.box.min, t.bounds) && inside(b.box.max, t.bounds))) return;
   function* specified() {
-    for (let i = 0; i < block.indices.length; i++) if (block.indices[i] !== -1)
-      yield [min[0] + i % sx, min[1] + Math.floor(i / sx) % sy, min[2] + Math.floor(i / (sx * sy))];
+    for (const { box: { min, max }, indices } of blocks) {
+      const [sx, sy] = [0, 1].map(a => max[a] - min[a] + 1);
+      for (let i = 0; i < indices.length; i++) if (indices[i] !== -1)
+        yield [min[0] + i % sx, min[1] + Math.floor(i / sx) % sy, min[2] + Math.floor(i / (sx * sy))];
+    }
   }
-  matchTarget(placement.target, specified());
+  matchTarget(t, specified());
+}
+/** Pure coherence of a canvas-region/v3 ApplyRegionCommit binding with its own operations; called by
+ * validateRegionCommitRequest, so every admission of that request checks it. */
+export function regionPlacementCommitCoherence(request) {
+  const confirmed = request.confirmedPlacement;
+  if (confirmed === null) return;
+  need(digestValue('placement-proposal', confirmed.placement).sha256 === confirmed.placementDigest, 'PLACEMENT_BINDING_CHANGED');
+  need(confirmed.placement.worldRef === request.worldRef && request.operations.worldRef === request.worldRef, 'PLACEMENT_WORLD_CHANGED');
+  requireRegionPlacementTarget(confirmed.placement, ...request.operations.chunks.map(c => expandRegionBlock(c.block)));
+}
+/** Canvas pre-write check of a canvas-region/v3 ApplyRegionCommit against Canvas's own recorded
+ * placement inspection and current world revision, before any snapshot or Adapter WriteRegion.
+ * Returns null when the commit carries no confirmed placement (validateRegionCommitSubmission makes
+ * Workshop send it whenever one was confirmed). */
+export function checkConfirmedRegionPlacementCommit(commitInput, recordedInspectionInput, currentWorldRevision) {
+  const commit = validateRegionCommitRequest(commitInput);
+  const confirmed = commit.confirmedPlacement;
+  if (confirmed === null) return null;
+  requirePlacementSource(confirmed.placement, recordedInspectionInput, commit.worldRef);
+  need(validateType('Revision', currentWorldRevision) === confirmed.placement.source.worldRevision, 'PLACEMENT_REVISION_STALE');
+  const cells = commit.operations.chunks.reduce((n, c) => n + expandRegionBlock(c.block).indices.filter(i => i !== -1).length, 0);
+  return deepFreeze({ placementDigest: confirmed.placementDigest, intentDigest: confirmed.intentDigest, kind: confirmed.placement.target.kind, cellCount: cells });
+}
+/** Workshop region submission: the commit carries exactly the confirmed binding of the intent it was
+ * validated under (none when none was confirmed), and that intent's placement matches its brief. */
+export function validateRegionCommitSubmission(intentInput, briefInput, commitInput) {
+  confirmedPlacementOf(intentInput, briefInput);
+  const commit = validateRegionCommitRequest(commitInput);
+  need(same(confirmedPlacementBinding(intentInput), commit.confirmedPlacement), 'PLACEMENT_BINDING_CHANGED');
+  return commit;
 }

@@ -4,4 +4,4 @@ export {validateMaterialSources} from './material-sources.mjs';
 export * from './region.mjs';
 export * from './write-path.mjs';
 export {configEngineFacts, validateConfigEngineFacts, requireKnownWriteBackend, requireKnownAvatarEnvelope} from './config-engine-facts.mjs';
-export {confirmedPlacement, createPlacementProposal, requirePlacementSource, requirePlacementTarget, confirmedPlacementOf, confirmedPlacementBinding, checkConfirmedPlacementApply} from './placement.mjs';
+export {confirmedPlacement, createPlacementProposal, requirePlacementSource, requirePlacementTarget, confirmedPlacementOf, confirmedPlacementBinding, checkConfirmedPlacementApply, checkConfirmedRegionPlacementCommit, validateRegionCommitSubmission} from './placement.mjs';
