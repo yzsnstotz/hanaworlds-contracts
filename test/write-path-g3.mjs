@@ -40,7 +40,7 @@ test('scope is published: callback-free write path, callback classes, out-of-sco
   assert.ok(a.writePathStateScope.initializationCallbacks.includes('on_construct'));
   assert.ok(a.writePathStateScope.outOfScope.some(t => /ABM/.test(t)) && /UNDO_CONFLICT/.test(a.writePathStateScope.guards));
   const ids = new Set(a.regionCapabilities.map(c => c.id));
-  for (const id of ['world-adapter/v7:callback-free-write', 'world-adapter-region/v1:callback-free-write', 'world-adapter/v7:write-path-state-facts']) assert.ok(ids.has(id), id);
+  for (const id of ['world-adapter/v7:callback-free-write', 'world-adapter-region/v2:callback-free-write', 'world-adapter/v7:write-path-state-facts']) assert.ok(ids.has(id), id);
   assert.ok(a.regionInvariants.some(i => i.id === 'MATERIAL-FACT-SCOPE' && i.switchable === false));
 });
 test('derivation: player-only hooks are out of scope; initialization/state callbacks or unknown inventories are never false', () => {
@@ -91,15 +91,15 @@ test('a Catalogue looser than its inventory, off-revision or for another Catalog
   assert.deepEqual([...a.validateCatalogueWritePathFacts(strict.catalogue, ev4).stricter], ['fixture:stone']);
 });
 test('the write path and fact scope are required capabilities; missing capability or wrong major rejects', () => {
-  const caps = ['world-adapter-region/v1:callback-free-write', 'world-adapter/v7:callback-free-write', 'world-adapter/v7:write-path-state-facts'];
-  const peer = { profileVersion: 'protocol-handshake/v1', component: 'fixture-adapter', protocols: [{ protocol: 'world-adapter', major: 7, minor: 0 }, { protocol: 'world-adapter-region', major: 1, minor: 1 }],
+  const caps = ['world-adapter-region/v2:callback-free-write', 'world-adapter/v7:callback-free-write', 'world-adapter/v7:write-path-state-facts'];
+  const peer = { profileVersion: 'protocol-handshake/v1', component: 'fixture-adapter', protocols: [{ protocol: 'world-adapter', major: 7, minor: 0 }, { protocol: 'world-adapter-region', major: 2, minor: 0 }],
     capabilities: caps, provenance: { packageName: 'fixture-adapter', packageVersion: '0.6.2', sourceRevision: null, artifactDigest: null } };
   // ProtocolRequirements are ordered by protocol name (UTF-16).
-  const req = [a.protocolRequirement('world-adapter/v7', ['world-adapter/v7:callback-free-write', 'world-adapter/v7:write-path-state-facts']), a.protocolRequirement('world-adapter-region/v1', ['world-adapter-region/v1:callback-free-write'])];
+  const req = [a.protocolRequirement('world-adapter/v7', ['world-adapter/v7:callback-free-write', 'world-adapter/v7:write-path-state-facts']), a.protocolRequirement('world-adapter-region/v2', ['world-adapter-region/v2:callback-free-write'])];
   assert.equal(a.checkProtocolCompatibility(peer, req).result, 'PROTOCOL_COMPATIBLE');
   assert.throws(() => a.checkProtocolCompatibility({ ...peer, capabilities: caps.slice(0, 2) }, req), code('CAPABILITY_UNAVAILABLE'));
   assert.throws(() => a.checkProtocolCompatibility({ ...peer, protocols: [{ protocol: 'world-adapter', major: 8, minor: 0 }, peer.protocols[1]] }, req), code('UNSUPPORTED_VERSION'));
-  assert.ok(a.contractProtocols.some(p => p.protocol === 'world-adapter-region' && p.minor === 1));
+  assert.ok(a.contractProtocols.some(p => p.protocol === 'world-adapter-region' && p.major === 2 && p.minor === 0));
 });
 test('later independent changes are not claimed absent: full-state readback differs and same-transaction Undo conflicts', () => {
   const s = JSON.parse(JSON.stringify(buildRegionScenario(a, base)));

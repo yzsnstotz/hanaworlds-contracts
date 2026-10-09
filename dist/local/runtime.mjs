@@ -3,7 +3,7 @@ import { createHash } from 'node:crypto';
 import { contractMetadata, schemaBundle } from './generated/contracts.mjs';
 import { snapshotJSON, deepFreeze, decodeRawJSON } from '../strict-json.mjs';
 import { validateShape } from './schema-validator.mjs';
-import { validateDomain, validateEventDomain } from './domain.mjs';
+import { validateDomain, validateEventDomain, guardRefusalError as domainGuardRefusalError } from './domain.mjs';
 import { requireFact, fail, ContractError } from '../errors.mjs';
 import { inside, validateExactEffects, comparePosition, compareUTF16 } from '../geometry.mjs';
 export { decodeRawJSON, snapshotJSON, deepFreeze, assertPureJSON } from '../strict-json.mjs';
@@ -152,11 +152,31 @@ export function requireSafetyCapabilities(handshakeInput, ids) {
   if (unmet) fail(unmet.error.code, unmet.error.phase, unmet.error.reason);
   return deepFreeze([...ids]);
 }
-/** Exact public Error a peer returns when a declared safety check runs and fails. */
-export function safetyCheckFailure(id, transactionRef = null) {
-  const f = safetyCapability(id).whenFailed;
-  if (!f) throw new Error('capability ' + id + ' has no failure outcome');
-  return deepFreeze(validateType('Error', { ...f, transactionRef }));
+/** Engine guards (G1 body clearance, G2 cell protection, G3 player enclosure): what each stage
+ * maps to, and the exact Error that a GuardRefusal stands beside. */
+export const engineGuards = contractMetadata.engineGuards;
+export function guardRefusalError(refusalInput, options = {}) {
+  const refusal = validateType('GuardRefusal', refusalInput);
+  return deepFreeze(validateType('Error', domainGuardRefusalError(refusal, options)));
+}
+/** Requirements {guard, stage, protectionPrincipal?} that a declaration does not cover, as
+ * GUARD_UNAVAILABLE refusals. A null declaration covers nothing. ACTING_PRINCIPAL protection is
+ * never satisfied by ANONYMOUS coverage. */
+export function unmetEngineGuards(declarationInput, requirements) {
+  const declaration = declarationInput === null ? null : validateType('EngineGuardDeclaration', declarationInput);
+  return deepFreeze(requirements.map(r => {
+    validateType('EngineGuard', r.guard); validateType('EngineGuardStage', r.stage);
+    const c = declaration?.coverage.find(x => x.guard === r.guard);
+    const covered = !!c && c.stages.includes(r.stage) &&
+      (r.protectionPrincipal === undefined || r.protectionPrincipal === null || r.protectionPrincipal === c.protectionPrincipal);
+    return covered ? null : { guard: r.guard, stage: r.stage, finding: 'GUARD_UNAVAILABLE' };
+  }).filter(x => x !== null));
+}
+/** Pre-flight: throws the named CAPABILITY_UNAVAILABLE for the first uncovered requirement. */
+export function requireEngineGuards(declarationInput, requirements) {
+  const [unmet] = unmetEngineGuards(declarationInput, requirements);
+  if (unmet) { const e = guardRefusalError(unmet, { preflight: true }); fail(e.code, e.phase, e.reason); }
+  return deepFreeze(requirements.map(r => ({ ...r })));
 }
 /** Site rules that no peer of this major can check are refused by capability name, never ignored.
  * A stated light rule always is (no light witness kind exists); a required entrance is refused

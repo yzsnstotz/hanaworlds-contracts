@@ -36,12 +36,17 @@ export declare function validateRegionInspection(input:unknown):RegionInspection
 export declare function validateFactsCoverage(input:TargetFacts,coverage:Coverage):TargetFacts;
 export declare function validateStaticMaterials(input:MaterialMap,catalogue:Catalogue):MaterialMap;
 export declare function safetyProfileFromConfirmedIntent(intent:import('./contracts.js').IntentProjection):SafetyProfile;
-/** Named safety checks (light rule, region entrance, G1 restore body recheck, G2 cell protection, G3 no body enclosure) and their exact public errors. */
-export type SafetyCapabilityId='painter/v5:light-rule'|'painter-region/v2:entrance-rule'|'world-adapter/v7:restore-body-recheck'|'world-adapter-region/v1:restore-body-recheck'|'world-adapter/v7:cell-protection'|'world-adapter-region/v1:cell-protection'|'world-adapter/v7:no-body-enclosure'|'world-adapter-region/v1:no-body-enclosure';
-export declare const safetyCapabilities:ReadonlyArray<Readonly<{id:SafetyCapabilityId;owner:string;gap:'LIGHT'|'ENTRANCE_ON_REGION'|'G1'|'G2'|'G3';cause:string;meaning:string;whenAbsent:Omit<import('./contracts.js').Error,'transactionRef'>;whenFailed:Omit<import('./contracts.js').Error,'transactionRef'>|null}>>;
+/** Named site-rule checks that no peer of this major can perform yet (light rule, region entrance). */
+export type SafetyCapabilityId='painter/v5:light-rule'|'painter-region/v2:entrance-rule';
+export declare const safetyCapabilities:ReadonlyArray<Readonly<{id:SafetyCapabilityId;owner:string;gap:'LIGHT'|'ENTRANCE_ON_REGION';cause:string;meaning:string;whenAbsent:Omit<import('./contracts.js').Error,'transactionRef'>}>>;
 export declare function unmetSafetyCapabilities(handshake:unknown,ids:readonly SafetyCapabilityId[]):ReadonlyArray<Readonly<{id:SafetyCapabilityId;cause:string;error:Omit<import('./contracts.js').Error,'transactionRef'>}>>;
 export declare function requireSafetyCapabilities(handshake:unknown,ids:readonly SafetyCapabilityId[]):readonly SafetyCapabilityId[];
-export declare function safetyCheckFailure(id:SafetyCapabilityId,transactionRef?:string|null):import('./contracts.js').Error;
+/** Engine guards G1-G3: per-stage coverage declared in PublicCapabilities.engineGuards, refusals beside errors. */
+export interface EngineGuardRequirement{readonly guard:import('./contracts.js').EngineGuard;readonly stage:import('./contracts.js').EngineGuardStage;readonly protectionPrincipal?:import('./contracts.js').ProtectionPrincipal|null}
+export declare const engineGuards:Readonly<{id:'engine-guards/v1';stages:ReadonlyArray<Readonly<{stage:import('./contracts.js').EngineGuardStage;wire:string;operation:string;purpose:'APPLY'|'RESTORE'|null;phase:'validate'|'apply'|'restore'}>>;guards:Readonly<Record<import('./contracts.js').EngineGuard,string>>;errors:Readonly<Record<string,unknown>>;rule:string;notDecidedHere:string}>;
+export declare function guardRefusalError(refusal:import('./contracts.js').GuardRefusal,options?:{transactionRef?:string|null;preflight?:boolean;cause?:import('./contracts.js').ErrorCode|null}):import('./contracts.js').Error;
+export declare function unmetEngineGuards(declaration:import('./contracts.js').EngineGuardDeclaration|null,requirements:readonly EngineGuardRequirement[]):ReadonlyArray<import('./contracts.js').GuardRefusal>;
+export declare function requireEngineGuards(declaration:import('./contracts.js').EngineGuardDeclaration|null,requirements:readonly EngineGuardRequirement[]):readonly EngineGuardRequirement[];
 export declare function requireSiteRuleChecks(rules:{readonly requireEntranceConnectivity:boolean;readonly optionalLightRule:unknown},options:{entrance:boolean}):void;
 export declare function validateWitnessCoherence(input:{build:BuildProjection;finalEffects:FinalEffects;targetFacts:TargetFacts;safetyProfile:SafetyProfile;catalogue:Catalogue}):{coherent:true;authenticityVerified:false;worldWrites:0};
 export declare function projectScopedPreparedTransaction(input:ScopedPreparedTransactionResult):ScopedPreparedTransaction;

@@ -10,6 +10,49 @@ const positionKey = p => JSON.stringify(p);
 // rc.6/rc.7 rules whose approved oracle names a decode-phase shape rejection.
 const decodeShape = ok => requireFact(ok, 'SCHEMA_INVALID', 'INVALID_SHAPE', 'decode');
 const PLACEMENT_OPTION_ORDER = ['PICK_WORLD_POINT'];
+const enumOrder = (type, key) => { const values = schemaBundle.definitions[type].enum;
+  return (a, b) => values.indexOf(key(a)) - values.indexOf(key(b)); };
+// Engine guards: exact public Error for a GuardRefusal, and the refusal/violation pairing.
+const GUARD_VIOLATION = { BODY_CLEARANCE: 'BODY_OCCUPIED', CELL_PROTECTION: 'PROTECTED_CELL', PLAYER_ENCLOSURE: 'PLAYER_ENCLOSED' };
+export function guardRefusalError(refusal, { transactionRef = null, preflight = false, cause = null } = {}) {
+  const stage = contractMetadata.engineGuards.stages.find(s => s.stage === refusal.stage);
+  const violated = refusal.finding !== 'GUARD_UNAVAILABLE';
+  // Pre-flight: a needed guard is not covered, so nothing was written (only for GUARD_UNAVAILABLE).
+  if (preflight) {
+    if (violated) throw new Error('a guard violation is never pre-flight');
+    return { code: 'CAPABILITY_UNAVAILABLE', phase: 'validate', retryability: 'AFTER_NEW_FACTS', mutationState: 'NONE',
+      transactionRef, causeCode: null, reason: 'REQUIRED_FACT_UNKNOWN' };
+  }
+  // A refused restore stays pending manual recovery. causeCode keeps naming the failure that made
+  // the restore necessary (the caller supplies it); the restore's own reason is the GuardRefusal.
+  if (stage.phase === 'restore') {
+    if (cause === null) throw new Error('a restore-stage guard error needs the cause of the restore');
+    return { code: 'RESTORE_FAILED', phase: 'restore', retryability: 'AFTER_MANUAL_RECOVERY',
+      mutationState: 'PARTIAL', transactionRef, causeCode: cause, reason: 'RESTORE_ERROR' };
+  }
+  return { code: violated ? 'SAFETY_INVARIANT_FAILED' : 'CAPABILITY_UNAVAILABLE', phase: stage.phase,
+    retryability: stage.phase === 'decode' ? 'NEVER' : 'AFTER_NEW_FACTS', mutationState: 'NONE', transactionRef, causeCode: null,
+    reason: violated ? (refusal.finding === 'PROTECTED_CELL' ? 'SCOPE_DENIED' : 'INVALID_GEOMETRY') : 'REQUIRED_FACT_UNKNOWN' };
+}
+const sameError = (e, refusal) => [false, ...(refusal.finding === 'GUARD_UNAVAILABLE' ? [true] : [])].some(preflight => {
+  if (!preflight && e.causeCode === null && e.phase === 'restore') return false;
+  const x = guardRefusalError(refusal, { transactionRef: e.transactionRef, preflight, cause: e.causeCode ?? 'RESTORE_FAILED' });
+  return ['code', 'phase', 'retryability', 'mutationState', 'causeCode', 'reason'].every(k => e[k] === x[k]); });
+// A guard refusal always explains the error beside it, exactly.
+function guarded(v) {
+  if (v.guardRefusal !== null) shape(v.error !== null && sameError(v.error, v.guardRefusal));
+}
+// A failed restore keeps the failure that caused it: error.causeCode is applyFailure.error.code.
+function applyFailure(v) {
+  if (v.applyFailure === null) return;
+  shape(v.error !== null && v.error.phase === 'restore' && v.error.retryability === 'AFTER_MANUAL_RECOVERY' &&
+    ['PARTIAL', 'UNKNOWN'].includes(v.error.mutationState) && v.applyFailure.error.phase !== 'restore' &&
+    v.error.causeCode === v.applyFailure.error.code);
+  if (v.applyFailure.guardRefusal !== null) shape(sameError(v.applyFailure.error, v.applyFailure.guardRefusal));
+}
+const GUARDED_RESPONSES = new Set(['ScopedPrepareResponse', 'ScopedApplyResponse', 'PrepareHistoryTransactionResponse',
+  'ApplyHistoryTransactionResponse', 'RestoreTransactionResponse', 'WriteRegionResponse', 'InspectRegionResponse',
+  'ApplyRegionCommitResponse', 'UndoRegionCommitResponse']);
 function arrayCompare(name, order) {
   if (order === 'numeric ascending') return (a, b) => a - b;
   if (order === 'UTF16 ascending') return compareUTF16;
@@ -18,6 +61,8 @@ function arrayCompare(name, order) {
   if (order === 'nodeName UTF16 then param2 numeric') return comparePalette;
   if (order === 'nodeName UTF16 ascending') return (a, b) => compareUTF16(a.nodeName, b.nodeName);
   if (order === 'chunkPos numeric x,y,z') return (a, b) => comparePosition(a.chunkPos, b.chunkPos);
+  if (order === 'EngineGuardStage enum order') return enumOrder('EngineGuardStage', x => x);
+  if (order === 'guard EngineGuard enum order') return enumOrder('EngineGuard', x => x.guard);
   if (order === 'protocol UTF16 ascending') return (a, b) => compareUTF16(a.protocol, b.protocol);
   if (order === 'objectRef UTF16 ascending') return (a, b) => compareUTF16(a.objectRef, b.objectRef);
   if (order === 'sessionRef UTF16 ascending') return (a, b) => compareUTF16(a.sessionRef, b.sessionRef);
@@ -64,14 +109,15 @@ function targetFacts(v) {
   if (v.unknownCells.length) requireFact(v.usableVolume === null, 'TARGET_FACTS_INCOMPLETE', 'REQUIRED_FACT_UNKNOWN');
 }
 function receipt(v) {
+  guarded(v);
+  // RESTORE_FAILED (including a restore a guard refused) stays pending manual recovery and keeps
+  // the apply failure that caused the restore.
+  shape((v.status === 'RESTORE_FAILED') === (v.applyFailure !== null));
+  applyFailure(v);
   if (v.status === 'VERIFIED') {
     shape(v.readbackDigest !== null && v.observedWorldRevision !== null && v.error === null && v.restoreStatus === 'NOT_REQUIRED');
   }
-  if (v.status === 'RESTORE_FAILED') {
-    // A failed restore (including one a player's body blocked) stays pending manual recovery.
-    shape(v.error !== null && v.error.phase === 'restore' && v.error.causeCode !== null && ['PARTIAL', 'UNKNOWN'].includes(v.error.mutationState) &&
-      v.error.retryability === 'AFTER_MANUAL_RECOVERY' && ['FAILED', 'UNKNOWN'].includes(v.restoreStatus));
-  }
+  if (v.status === 'RESTORE_FAILED') shape(['FAILED', 'UNKNOWN'].includes(v.restoreStatus));
   if (v.status === 'RECOVERY_PENDING') shape(v.error !== null && v.error.mutationState === 'UNKNOWN');
   if (v.status === 'ROLLED_BACK') shape(v.restoreStatus === 'VERIFIED_RESTORED' && v.readbackDigest !== null && v.observedWorldRevision !== null);
 }
@@ -103,6 +149,11 @@ export function validateDomain(visits) {
     const schema = schemaBundle.definitions[name];
     if (Array.isArray(v) && schema.type === 'array' && !Array.isArray(schema.items)) validateArrayOrder(name, v, parent);
     validateRegionDomain(name, v); // no-op for non-region types
+    if (GUARDED_RESPONSES.has(name)) { guarded(v); if (Object.hasOwn(v, 'applyFailure')) applyFailure(v); }
+    if (name === 'GuardRefusal') shape(v.finding === 'GUARD_UNAVAILABLE' || GUARD_VIOLATION[v.guard] === v.finding);
+    if (name === 'FailureDetail' && v.guardRefusal !== null) shape(sameError(v.error, v.guardRefusal));
+    if (name === 'EngineGuardDeclaration') shape(v.coverage.map(c => c.guard).join() === schemaBundle.definitions.EngineGuard.enum.join());
+    if (name === 'EngineGuardCoverage') shape((v.protectionPrincipal !== null) === (v.guard === 'CELL_PROTECTION' && v.stages.length > 0));
     if (name === 'Box' || name === 'SetBox') assertBox(v);
     else if (name === 'CanvasWorldSelection' && v.status === 'BOUND')
       shape(v.context.activeWorldRef !== null);

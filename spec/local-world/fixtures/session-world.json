@@ -552,7 +552,8 @@
       "stateProfile": null,
       "sessionDeleteSupported": false,
       "imageMediaTypes": [],
-      "model": null
+      "model": null,
+      "engineGuards": null
     },
     "supportedCapabilities": {
       "providerRef": "fixture-workshop",
@@ -564,7 +565,8 @@
       "stateProfile": null,
       "sessionDeleteSupported": true,
       "imageMediaTypes": [],
-      "model": null
+      "model": null,
+      "engineGuards": null
     },
     "unsupported": {
       "request": {

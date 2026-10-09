@@ -162,24 +162,24 @@ test('Canvas whole-region Undo: same transaction, external edit conflict, verifi
 test('published fixture peer handshake satisfies the same package G3 declaration (regression)', async () => {
   const published = JSON.parse(await readFile(new URL(import.meta.resolve('hanaworlds-contracts/fixtures/region')), 'utf8')).peerHandshake;
   const declared = a.contractProtocols.find(p => p.protocol === 'world-adapter-region');
-  const declaredCaps = a.regionCapabilities.map(c => c.id).filter(id => id.startsWith('world-adapter-region/v1:')).sort();
-  assert.ok(declaredCaps.includes('world-adapter-region/v1:callback-free-write'));
+  const declaredCaps = a.regionCapabilities.map(c => c.id).filter(id => id.startsWith('world-adapter-region/v2:')).sort();
+  assert.ok(declaredCaps.includes('world-adapter-region/v2:callback-free-write'));
   assert.deepEqual(published.protocols, [{ protocol: 'world-adapter-region', major: declared.major, minor: declared.minor }]);
   assert.deepEqual([...published.capabilities].sort(), declaredCaps);
-  assert.equal(a.checkProtocolCompatibility(published, [a.protocolRequirement('world-adapter-region/v1', declaredCaps, declared.minor)]).result, 'PROTOCOL_COMPATIBLE');
+  assert.equal(a.checkProtocolCompatibility(published, [a.protocolRequirement('world-adapter-region/v2', declaredCaps, declared.minor)]).result, 'PROTOCOL_COMPATIBLE');
 });
 test('protocol major + capability: same major consumable across patch/hash; wrong major or missing capability rejected', () => {
-  const s = S(); const req = [a.protocolRequirement('world-adapter-region/v1', ['world-adapter-region/v1:load-then-know', 'world-adapter-region/v1:chunked-write'])];
+  const s = S(); const req = [a.protocolRequirement('world-adapter-region/v2', ['world-adapter-region/v2:load-then-know', 'world-adapter-region/v2:chunked-write'])];
   const first = a.checkProtocolCompatibility(s.peerHandshake, req);
-  const patched = { ...s.peerHandshake, protocols: [{ protocol: 'world-adapter-region', major: 1, minor: 2 }], provenance: { packageName: 'fixture-adapter', packageVersion: '0.4.9', sourceRevision: 'f'.repeat(40), artifactDigest: 'a'.repeat(64) } };
+  const patched = { ...s.peerHandshake, protocols: [{ protocol: 'world-adapter-region', major: 2, minor: 2 }], provenance: { packageName: 'fixture-adapter', packageVersion: '0.4.9', sourceRevision: 'f'.repeat(40), artifactDigest: 'a'.repeat(64) } };
   assert.equal(a.checkProtocolCompatibility(patched, req).result, first.result);
-  assert.throws(() => a.checkProtocolCompatibility({ ...s.peerHandshake, protocols: [{ protocol: 'world-adapter-region', major: 2, minor: 0 }] }, req), code('UNSUPPORTED_VERSION'));
-  assert.throws(() => a.checkProtocolCompatibility(s.peerHandshake, [a.protocolRequirement('world-adapter-region/v1', [], s.peerHandshake.protocols[0].minor + 1)]), code('UNSUPPORTED_VERSION'));
-  assert.throws(() => a.checkProtocolCompatibility({ ...s.peerHandshake, capabilities: ['world-adapter-region/v1:chunked-read'] }, req), code('CAPABILITY_UNAVAILABLE'));
-  assert.throws(() => a.checkProtocolCompatibility(s.peerHandshake, [a.protocolRequirement('canvas-region/v1')]), code('UNSUPPORTED_VERSION'));
+  assert.throws(() => a.checkProtocolCompatibility({ ...s.peerHandshake, protocols: [{ protocol: 'world-adapter-region', major: 3, minor: 0 }] }, req), code('UNSUPPORTED_VERSION'));
+  assert.throws(() => a.checkProtocolCompatibility(s.peerHandshake, [a.protocolRequirement('world-adapter-region/v2', [], s.peerHandshake.protocols[0].minor + 1)]), code('UNSUPPORTED_VERSION'));
+  assert.throws(() => a.checkProtocolCompatibility({ ...s.peerHandshake, capabilities: ['world-adapter-region/v2:chunked-read'] }, req), code('CAPABILITY_UNAVAILABLE'));
+  assert.throws(() => a.checkProtocolCompatibility(s.peerHandshake, [a.protocolRequirement('canvas-region/v2')]), code('UNSUPPORTED_VERSION'));
   assert.throws(() => a.checkProtocolCompatibility(a.contractHandshake, req), code('UNSUPPORTED_VERSION'));
   assert.throws(() => a.checkProtocolCompatibility({ ...s.peerHandshake, protocols: [{ protocol: 'world-adapter-region', major: 0, minor: 9 }] }, [{ protocol: 'world-adapter-region', major: 0, minMinor: 0, capabilities: [] }]), code('SCHEMA_INVALID'));
-  assert.throws(() => a.validateRequest('world-adapter-region/v1', 'ReadRegion', { ...s.readRequest, contractVersion: 'world-adapter-region/v2' }), code('UNSUPPORTED_VERSION'));
+  assert.throws(() => a.validateRequest('world-adapter-region/v2', 'ReadRegion', { ...s.readRequest, contractVersion: 'world-adapter-region/v3' }), code('UNSUPPORTED_VERSION'));
   assert.ok(a.contractProtocols.some(p => p.protocol === 'region-voxels' && p.major === 1));
   assert.match(a.digestValue('region-state', s.readResponse.result.chunks[0].state).preimageUtf8, /^HanaWorlds\|region-voxels\/v1\|region-state\|/);
   assert.match(a.protocolPolicy.rule, /provenance only/);

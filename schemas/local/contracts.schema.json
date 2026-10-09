@@ -1,6 +1,6 @@
 {
   "$schema": "http://json-schema.org/draft-07/schema#",
-  "$id": "https://hanaworlds.invalid/contracts/1.0.0-rc.1/schema.json",
+  "$id": "https://hanaworlds.invalid/contracts/1.0.0-rc.2/schema.json",
   "x-contractsCompatibility": {
     "package": "hanaworlds-contracts",
     "major": 1,
@@ -1122,13 +1122,24 @@
               "type": "null"
             }
           ]
+        },
+        "guardRefusal": {
+          "anyOf": [
+            {
+              "$ref": "#/definitions/GuardRefusal"
+            },
+            {
+              "type": "null"
+            }
+          ]
         }
       },
       "required": [
         "contractVersion",
         "requestId",
         "result",
-        "error"
+        "error",
+        "guardRefusal"
       ],
       "additionalProperties": false,
       "x-typeName": "ApplyHistoryTransactionResponse"
@@ -3998,13 +4009,24 @@
               "type": "null"
             }
           ]
+        },
+        "guardRefusal": {
+          "anyOf": [
+            {
+              "$ref": "#/definitions/GuardRefusal"
+            },
+            {
+              "type": "null"
+            }
+          ]
         }
       },
       "required": [
         "contractVersion",
         "requestId",
         "result",
-        "error"
+        "error",
+        "guardRefusal"
       ],
       "additionalProperties": false,
       "x-typeName": "InspectRegionResponse"
@@ -6425,13 +6447,24 @@
               "type": "null"
             }
           ]
+        },
+        "guardRefusal": {
+          "anyOf": [
+            {
+              "$ref": "#/definitions/GuardRefusal"
+            },
+            {
+              "type": "null"
+            }
+          ]
         }
       },
       "required": [
         "contractVersion",
         "requestId",
         "result",
-        "error"
+        "error",
+        "guardRefusal"
       ],
       "additionalProperties": false,
       "x-typeName": "PrepareHistoryTransactionResponse"
@@ -6581,6 +6614,16 @@
               "type": "null"
             }
           ]
+        },
+        "engineGuards": {
+          "anyOf": [
+            {
+              "$ref": "#/definitions/EngineGuardDeclaration"
+            },
+            {
+              "type": "null"
+            }
+          ]
         }
       },
       "required": [
@@ -6593,7 +6636,8 @@
         "stateProfile",
         "sessionDeleteSupported",
         "imageMediaTypes",
-        "model"
+        "model",
+        "engineGuards"
       ],
       "additionalProperties": false,
       "x-typeName": "PublicCapabilities"
@@ -7124,6 +7168,26 @@
         },
         "localContext": {
           "$ref": "#/definitions/LocalWorldContext"
+        },
+        "guardRefusal": {
+          "anyOf": [
+            {
+              "$ref": "#/definitions/GuardRefusal"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "applyFailure": {
+          "anyOf": [
+            {
+              "$ref": "#/definitions/FailureDetail"
+            },
+            {
+              "type": "null"
+            }
+          ]
         }
       },
       "required": [
@@ -7137,7 +7201,9 @@
         "readbackDigest",
         "restoreStatus",
         "error",
-        "localContext"
+        "localContext",
+        "guardRefusal",
+        "applyFailure"
       ],
       "additionalProperties": false,
       "x-typeName": "ReceiptProjection"
@@ -7851,13 +7917,24 @@
               "type": "null"
             }
           ]
+        },
+        "guardRefusal": {
+          "anyOf": [
+            {
+              "$ref": "#/definitions/GuardRefusal"
+            },
+            {
+              "type": "null"
+            }
+          ]
         }
       },
       "required": [
         "contractVersion",
         "requestId",
         "result",
-        "error"
+        "error",
+        "guardRefusal"
       ],
       "additionalProperties": false,
       "x-typeName": "RestoreTransactionResponse"
@@ -8054,13 +8131,24 @@
               "type": "null"
             }
           ]
+        },
+        "guardRefusal": {
+          "anyOf": [
+            {
+              "$ref": "#/definitions/GuardRefusal"
+            },
+            {
+              "type": "null"
+            }
+          ]
         }
       },
       "required": [
         "contractVersion",
         "requestId",
         "result",
-        "error"
+        "error",
+        "guardRefusal"
       ],
       "additionalProperties": false,
       "x-typeName": "ScopedApplyResponse"
@@ -8230,13 +8318,24 @@
               "type": "null"
             }
           ]
+        },
+        "guardRefusal": {
+          "anyOf": [
+            {
+              "$ref": "#/definitions/GuardRefusal"
+            },
+            {
+              "type": "null"
+            }
+          ]
         }
       },
       "required": [
         "contractVersion",
         "requestId",
         "result",
-        "error"
+        "error",
+        "guardRefusal"
       ],
       "additionalProperties": false,
       "x-typeName": "ScopedPrepareResponse"
@@ -11008,7 +11107,7 @@
       "type": "object",
       "properties": {
         "contractVersion": {
-          "const": "world-adapter-region/v1"
+          "const": "world-adapter-region/v2"
         },
         "sessionRef": {
           "$ref": "#/definitions/Ref"
@@ -11070,7 +11169,7 @@
       "type": "object",
       "properties": {
         "contractVersion": {
-          "const": "world-adapter-region/v1"
+          "const": "world-adapter-region/v2"
         },
         "requestId": {
           "$ref": "#/definitions/Ref"
@@ -11165,7 +11264,7 @@
       "type": "object",
       "properties": {
         "contractVersion": {
-          "const": "world-adapter-region/v1"
+          "const": "world-adapter-region/v2"
         },
         "sessionRef": {
           "$ref": "#/definitions/Ref"
@@ -11313,7 +11412,7 @@
       "type": "object",
       "properties": {
         "contractVersion": {
-          "const": "world-adapter-region/v1"
+          "const": "world-adapter-region/v2"
         },
         "requestId": {
           "$ref": "#/definitions/Ref"
@@ -11337,13 +11436,24 @@
               "type": "null"
             }
           ]
+        },
+        "guardRefusal": {
+          "anyOf": [
+            {
+              "$ref": "#/definitions/GuardRefusal"
+            },
+            {
+              "type": "null"
+            }
+          ]
         }
       },
       "required": [
         "contractVersion",
         "requestId",
         "result",
-        "error"
+        "error",
+        "guardRefusal"
       ],
       "additionalProperties": false
     },
@@ -11489,7 +11599,7 @@
       "type": "object",
       "properties": {
         "contractVersion": {
-          "const": "canvas-region/v1"
+          "const": "canvas-region/v2"
         },
         "sessionRef": {
           "$ref": "#/definitions/Ref"
@@ -11598,7 +11708,7 @@
       "type": "object",
       "properties": {
         "contractVersion": {
-          "const": "canvas-region/v1"
+          "const": "canvas-region/v2"
         },
         "requestId": {
           "$ref": "#/definitions/Ref"
@@ -11622,13 +11732,35 @@
               "type": "null"
             }
           ]
+        },
+        "guardRefusal": {
+          "anyOf": [
+            {
+              "$ref": "#/definitions/GuardRefusal"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "applyFailure": {
+          "anyOf": [
+            {
+              "$ref": "#/definitions/FailureDetail"
+            },
+            {
+              "type": "null"
+            }
+          ]
         }
       },
       "required": [
         "contractVersion",
         "requestId",
         "result",
-        "error"
+        "error",
+        "guardRefusal",
+        "applyFailure"
       ],
       "additionalProperties": false
     },
@@ -11637,7 +11769,7 @@
       "type": "object",
       "properties": {
         "contractVersion": {
-          "const": "canvas-region/v1"
+          "const": "canvas-region/v2"
         },
         "sessionRef": {
           "$ref": "#/definitions/Ref"
@@ -11731,7 +11863,7 @@
       "type": "object",
       "properties": {
         "contractVersion": {
-          "const": "canvas-region/v1"
+          "const": "canvas-region/v2"
         },
         "requestId": {
           "$ref": "#/definitions/Ref"
@@ -11755,13 +11887,35 @@
               "type": "null"
             }
           ]
+        },
+        "guardRefusal": {
+          "anyOf": [
+            {
+              "$ref": "#/definitions/GuardRefusal"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "applyFailure": {
+          "anyOf": [
+            {
+              "$ref": "#/definitions/FailureDetail"
+            },
+            {
+              "type": "null"
+            }
+          ]
         }
       },
       "required": [
         "contractVersion",
         "requestId",
         "result",
-        "error"
+        "error",
+        "guardRefusal",
+        "applyFailure"
       ],
       "additionalProperties": false
     },
@@ -12911,6 +13065,156 @@
       "additionalProperties": false,
       "x-typeName": "BuildDimensions",
       "description": "Building size in whole nodes chosen by the player. Not a player or avatar size."
+    },
+    "EngineGuard": {
+      "x-typeName": "EngineGuard",
+      "enum": [
+        "BODY_CLEARANCE",
+        "CELL_PROTECTION",
+        "PLAYER_ENCLOSURE"
+      ]
+    },
+    "EngineGuardStage": {
+      "x-typeName": "EngineGuardStage",
+      "enum": [
+        "INSPECT_REGION",
+        "PREPARE_RECOVERABLE",
+        "APPLY_COMPILED",
+        "PREPARE_HISTORY",
+        "APPLY_HISTORY",
+        "RESTORE",
+        "REGION_APPLY",
+        "REGION_RESTORE"
+      ]
+    },
+    "EngineGuardStages": {
+      "x-typeName": "EngineGuardStages",
+      "type": "array",
+      "items": {
+        "$ref": "#/definitions/EngineGuardStage"
+      },
+      "uniqueItems": true,
+      "x-order": "EngineGuardStage enum order"
+    },
+    "ProtectionPrincipal": {
+      "x-typeName": "ProtectionPrincipal",
+      "enum": [
+        "ANONYMOUS",
+        "ACTING_PRINCIPAL"
+      ],
+      "description": "Basis of a CELL_PROTECTION check. ANONYMOUS: the engine asks the game's protection with no caller identity (for example core.is_protected(pos, '')), so every protected cell is refused for everyone, owners included; it is not acting-principal protection. ACTING_PRINCIPAL: the check runs for a trusted identity of the acting player; no such identity source exists in this major."
+    },
+    "EngineGuardCoverage": {
+      "x-typeName": "EngineGuardCoverage",
+      "type": "object",
+      "properties": {
+        "guard": {
+          "$ref": "#/definitions/EngineGuard"
+        },
+        "stages": {
+          "$ref": "#/definitions/EngineGuardStages"
+        },
+        "protectionPrincipal": {
+          "anyOf": [
+            {
+              "$ref": "#/definitions/ProtectionPrincipal"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        }
+      },
+      "required": [
+        "guard",
+        "stages",
+        "protectionPrincipal"
+      ],
+      "additionalProperties": false
+    },
+    "EngineGuardDeclaration": {
+      "x-typeName": "EngineGuardDeclaration",
+      "type": "object",
+      "properties": {
+        "profileVersion": {
+          "const": "engine-guards/v1"
+        },
+        "coverage": {
+          "$ref": "#/definitions/EngineGuardCoverages"
+        }
+      },
+      "required": [
+        "profileVersion",
+        "coverage"
+      ],
+      "additionalProperties": false,
+      "description": "What the loaded engine payload actually checks, per guard and per stage. A stage not listed is not covered; nothing is implied by a name or a package version."
+    },
+    "GuardFinding": {
+      "x-typeName": "GuardFinding",
+      "enum": [
+        "BODY_OCCUPIED",
+        "PROTECTED_CELL",
+        "PLAYER_ENCLOSED",
+        "GUARD_UNAVAILABLE"
+      ]
+    },
+    "GuardRefusal": {
+      "x-typeName": "GuardRefusal",
+      "type": "object",
+      "properties": {
+        "guard": {
+          "$ref": "#/definitions/EngineGuard"
+        },
+        "stage": {
+          "$ref": "#/definitions/EngineGuardStage"
+        },
+        "finding": {
+          "$ref": "#/definitions/GuardFinding"
+        }
+      },
+      "required": [
+        "guard",
+        "stage",
+        "finding"
+      ],
+      "additionalProperties": false,
+      "description": "Why an engine guard refused, carried beside the Error it explains. BODY_OCCUPIED/PROTECTED_CELL/PLAYER_ENCLOSED are violations of BODY_CLEARANCE/CELL_PROTECTION/PLAYER_ENCLOSURE; GUARD_UNAVAILABLE means the stage needed the guard and it is not covered (RESTORE_GUARD_UNAVAILABLE = BODY_CLEARANCE at RESTORE)."
+    },
+    "FailureDetail": {
+      "x-typeName": "FailureDetail",
+      "type": "object",
+      "properties": {
+        "error": {
+          "$ref": "#/definitions/Error"
+        },
+        "guardRefusal": {
+          "anyOf": [
+            {
+              "$ref": "#/definitions/GuardRefusal"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        }
+      },
+      "required": [
+        "error",
+        "guardRefusal"
+      ],
+      "additionalProperties": false
+    },
+    "EngineGuardCoverages": {
+      "x-typeName": "EngineGuardCoverages",
+      "type": "array",
+      "items": {
+        "$ref": "#/definitions/EngineGuardCoverage"
+      },
+      "minItems": 3,
+      "maxItems": 3,
+      "x-uniqueBy": "guard",
+      "x-order": "guard EngineGuard enum order"
     }
   }
 }

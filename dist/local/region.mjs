@@ -152,10 +152,10 @@ export function validateCompiledRegionSet(requestInput, responseInput) {
   return response;
 }
 
-// --- world-adapter-region/v1 (Adapter transport facts) -----------------------
+// --- world-adapter-region/v2 (Adapter transport facts) -----------------------
 export function validateRegionRead(requestInput, responseInput) {
-  const request = validateRequest('world-adapter-region/v1', 'ReadRegion', requestInput);
-  const response = validateResponse('world-adapter-region/v1', 'ReadRegion', responseInput);
+  const request = validateRequest('world-adapter-region/v2', 'ReadRegion', requestInput);
+  const response = validateResponse('world-adapter-region/v2', 'ReadRegion', responseInput);
   changed(response.requestId === request.requestId);
   if (response.error) return response;
   const r = response.result;
@@ -172,8 +172,8 @@ export function requireKnownRegion(resultInput) {
 }
 /** Per-chunk transport facts only. allWritten is not a commit: Canvas decides. */
 export function validateRegionWrite(requestInput, responseInput) {
-  const request = validateRequest('world-adapter-region/v1', 'WriteRegion', requestInput);
-  const response = validateResponse('world-adapter-region/v1', 'WriteRegion', responseInput);
+  const request = validateRequest('world-adapter-region/v2', 'WriteRegion', requestInput);
+  const response = validateResponse('world-adapter-region/v2', 'WriteRegion', responseInput);
   changed(response.requestId === request.requestId);
   if (response.error) return deepFreeze({ response, allWritten: false, committed: false });
   const r = response.result;
@@ -184,7 +184,7 @@ export function validateRegionWrite(requestInput, responseInput) {
   return deepFreeze({ response, allWritten, committed: false });
 }
 
-// --- canvas-region/v1 (Canvas transaction facts) -----------------------------
+// --- canvas-region/v2 (Canvas transaction facts) -----------------------------
 export function validateRegionSnapshotContent(contentInput, refInput, beforeSummaryInput) {
   const content = validateType('RegionSnapshotContent', contentInput); const ref = validateType('RegionSnapshotRef', refInput);
   const before = validateType('RegionSummary', beforeSummaryInput);
@@ -195,9 +195,9 @@ export function validateRegionSnapshotContent(contentInput, refInput, beforeSumm
   return content;
 }
 export function validateRegionCommit(requestInput, responseInput) {
-  const request = validateRequest('canvas-region/v1', 'ApplyRegionCommit', requestInput);
+  const request = validateRequest('canvas-region/v2', 'ApplyRegionCommit', requestInput);
   validateDigestBinding('region-operations', request.operations, request.operationDigest);
-  const response = validateResponse('canvas-region/v1', 'ApplyRegionCommit', responseInput);
+  const response = validateResponse('canvas-region/v2', 'ApplyRegionCommit', responseInput);
   changed(response.requestId === request.requestId);
   if (response.error) return response;
   const r = response.result;
@@ -208,11 +208,11 @@ export function validateRegionCommit(requestInput, responseInput) {
   return response;
 }
 export function validateRegionUndo(requestInput, responseInput, originResultInput) {
-  const request = validateRequest('canvas-region/v1', 'UndoRegionCommit', requestInput);
+  const request = validateRequest('canvas-region/v2', 'UndoRegionCommit', requestInput);
   const origin = validateType('RegionCommitResult', originResultInput);
   requireFact(origin.status === 'VERIFIED' && origin.transactionId === request.originTransactionId, 'UNDO_CONFLICT', 'PAYLOAD_CHANGED');
   requireFact(origin.worldRef === request.worldRef, 'CURRENT_WORLD_MISMATCH', 'SCOPE_DENIED');
-  const response = validateResponse('canvas-region/v1', 'UndoRegionCommit', responseInput);
+  const response = validateResponse('canvas-region/v2', 'UndoRegionCommit', responseInput);
   changed(response.requestId === request.requestId);
   if (response.error) return response;
   const r = response.result;
@@ -226,7 +226,7 @@ export function validateRegionUndo(requestInput, responseInput, originResultInpu
 }
 
 // --- protocol major + capability compatibility -------------------------------
-/** ProtocolRequirement for a wire such as 'canvas-region/v1' or 'BUILD/V4'. */
+/** ProtocolRequirement for a wire such as 'canvas-region/v2' or 'BUILD/V4'. */
 export function protocolRequirement(wire, capabilities = [], minMinor = 0) {
   const m = /^(.+)\/[vV]([1-9][0-9]*)$/u.exec(wire);
   requireFact(m !== null, 'UNSUPPORTED_VERSION', 'VERSION_UNSUPPORTED', 'decode');

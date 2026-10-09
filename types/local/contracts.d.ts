@@ -29,7 +29,7 @@ export type AnswerClarificationResponse = { readonly "contractVersion": "session
 export type AppendMultimodalTurnRequest = { readonly "contractVersion": "session/v4"; readonly "sessionRef": Ref; readonly "requestId": Ref; readonly "turnRef": Ref; readonly "expectedRevision": Revision; readonly "text": Text; readonly "media": Media; readonly "controls": Controls; readonly "localContext": LocalWorldContext };
 export type AppendMultimodalTurnResponse = { readonly "contractVersion": "session/v4"; readonly "requestId": Ref; readonly "result": TurnReceipt | null; readonly "error": Error | null };
 export type ApplyHistoryTransactionRequest = { readonly "contractVersion": "world-adapter/v7"; readonly "sessionRef": Ref; readonly "requestId": Ref; readonly "worldRef": Ref; readonly "originTransactionId": Ref; readonly "transactionId": Ref; readonly "direction": HistoryDirection; readonly "historyOperationDigest": Digest; readonly "expectedWorldRevision": Revision; readonly "expectedObjectRevisions": ObjectRevisions; readonly "preparedHistoryTransaction": PreparedHistoryTransaction; readonly "localContext": LocalWorldContext };
-export type ApplyHistoryTransactionResponse = { readonly "contractVersion": "world-adapter/v7"; readonly "requestId": Ref; readonly "result": ReceiptProjection | null; readonly "error": Error | null };
+export type ApplyHistoryTransactionResponse = { readonly "contractVersion": "world-adapter/v7"; readonly "requestId": Ref; readonly "result": ReceiptProjection | null; readonly "error": Error | null; readonly "guardRefusal": GuardRefusal | null };
 export type ApplyRecoverableCommitRequest = { readonly "contractVersion": "canvas/v6"; readonly "sessionRef": Ref; readonly "requestId": Ref; readonly "worldRef": Ref; readonly "transactionId": Ref; readonly "operations": OperationsProjection; readonly "operationDigest": Digest; readonly "analysisDigest": Digest; readonly "decisionRevision": Revision | null; readonly "expectedWorldRevision": Revision; readonly "expectedObjectRevisions": ObjectRevisions; readonly "guarantee": Guarantee; readonly "regionInspectionBinding": RegionApplyBinding | null; readonly "localContext": LocalWorldContext };
 export type Axes = readonly [Axis, Axis, Axis];
 export type Axis = "+X" | "+Y" | "+Z" | "-X" | "-Y" | "-Z";
@@ -119,7 +119,7 @@ export type HistoryView = { readonly "worldRef": Ref; readonly "objectRef": Ref;
 export type InspectObjectRequest = { readonly "contractVersion": "canvas/v6"; readonly "sessionRef": Ref; readonly "requestId": Ref; readonly "worldRef": Ref; readonly "objectRef": Ref; readonly "expectedRevision": Revision; readonly "sampledBounds": Box; readonly "localContext": LocalWorldContext };
 export type InspectPlacementRegionRequest = { readonly "contractVersion": "canvas/v6"; readonly "sessionRef": Ref; readonly "requestId": Ref; readonly "worldRef": Ref; readonly "anchor": PlacementAnchor; readonly "footprint": PlacementFootprint; readonly "localContext": LocalWorldContext };
 export type InspectRegionRequest = { readonly "contractVersion": "world-adapter/v7"; readonly "sessionRef": Ref; readonly "requestId": Ref; readonly "worldRef": Ref; readonly "expectedWorldRevision": Revision; readonly "inspectionId": Ref; readonly "anchor": PlacementAnchor; readonly "footprint": PlacementFootprint; readonly "placementSettings": PlacementSettings; readonly "localContext": LocalWorldContext };
-export type InspectRegionResponse = { readonly "contractVersion": "world-adapter/v7"; readonly "requestId": Ref; readonly "result": PlacementOutcome | null; readonly "error": Error | null };
+export type InspectRegionResponse = { readonly "contractVersion": "world-adapter/v7"; readonly "requestId": Ref; readonly "result": PlacementOutcome | null; readonly "error": Error | null; readonly "guardRefusal": GuardRefusal | null };
 export type InspectWorldRequest = { readonly "contractVersion": "world-adapter/v7"; readonly "sessionRef": Ref; readonly "requestId": Ref; readonly "worldRef": Ref; readonly "expectedWorldRevision": Revision; readonly "sampledBounds": Box; readonly "localContext": LocalWorldContext };
 export type InspectWorldResponse = { readonly "contractVersion": "world-adapter/v7"; readonly "requestId": Ref; readonly "result": TargetFacts | null; readonly "error": Error | null };
 export type IntentKind = "BUILD_STRUCTURE" | "MODIFY_INTERIOR" | "MODIFY_OBJECT" | "UNDO" | "REDO";
@@ -213,10 +213,10 @@ export type Positions = ReadonlyArray<Position>;
 export type PositiveFinite = number;
 export type PositiveInt = number;
 export type PrepareHistoryTransactionRequest = { readonly "contractVersion": "world-adapter/v7"; readonly "sessionRef": Ref; readonly "requestId": Ref; readonly "worldRef": Ref; readonly "originTransactionId": Ref; readonly "transactionId": Ref; readonly "direction": HistoryDirection; readonly "affectedObjectRefs": RefSet; readonly "originVerifiedReceiptDigest": Digest; readonly "originBeforeImageDigest": Digest; readonly "originBeforeStateReadbackDigest": Digest; readonly "originAfterReadbackDigest": Digest; readonly "expectedHistoryRevision": Revision; readonly "expectedWorldRevision": Revision; readonly "expectedObjectRevisions": ObjectRevisions; readonly "expectedCurrentStateDigest": Digest; readonly "targetStateDigest": Digest; readonly "historyOperationDigest": Digest; readonly "guarantee": Guarantee; readonly "localContext": LocalWorldContext };
-export type PrepareHistoryTransactionResponse = { readonly "contractVersion": "world-adapter/v7"; readonly "requestId": Ref; readonly "result": PreparedHistoryTransaction | null; readonly "error": Error | null };
+export type PrepareHistoryTransactionResponse = { readonly "contractVersion": "world-adapter/v7"; readonly "requestId": Ref; readonly "result": PreparedHistoryTransaction | null; readonly "error": Error | null; readonly "guardRefusal": GuardRefusal | null };
 export type PreparedAbortResult = { readonly "transactionId": Ref; readonly "status": "ABORTED_PREPARED"; readonly "mutationState": "NONE" };
 export type PreparedHistoryTransaction = { readonly "originTransactionId": Ref; readonly "transactionId": Ref; readonly "direction": HistoryDirection; readonly "historyOperationDigest": Digest; readonly "transactionPayloadDigest": Digest; readonly "beforeImageDigest": Digest; readonly "targetStateDigest": Digest; readonly "stateProfile": StateProfile; readonly "adapterExecutionRevision": Revision; readonly "guarantee": Guarantee; readonly "status": "PREPARED"; readonly "localContext": LocalWorldContext };
-export type PublicCapabilities = { readonly "providerRef": Ref; readonly "capabilityRevision": Revision; readonly "worldRef": Ref | null; readonly "engineBounds": Box | null; readonly "limits": Limits; readonly "recoveryGuarantee": Guarantee | null; readonly "stateProfile": StateProfile | null; readonly "sessionDeleteSupported": Bool; readonly "imageMediaTypes": MediaTypes; readonly "model": Ref | null };
+export type PublicCapabilities = { readonly "providerRef": Ref; readonly "capabilityRevision": Revision; readonly "worldRef": Ref | null; readonly "engineBounds": Box | null; readonly "limits": Limits; readonly "recoveryGuarantee": Guarantee | null; readonly "stateProfile": StateProfile | null; readonly "sessionDeleteSupported": Bool; readonly "imageMediaTypes": MediaTypes; readonly "model": Ref | null; readonly "engineGuards": EngineGuardDeclaration | null };
 export type QueryPreparedHistoryTransactionRequest = { readonly "contractVersion": "world-adapter/v7"; readonly "sessionRef": Ref; readonly "requestId": Ref; readonly "worldRef": Ref; readonly "originTransactionId": Ref; readonly "transactionId": Ref; readonly "direction": HistoryDirection; readonly "historyOperationDigest": Digest; readonly "localContext": LocalWorldContext };
 export type QueryPreparedHistoryTransactionResponse = { readonly "contractVersion": "world-adapter/v7"; readonly "requestId": Ref; readonly "result": PreparedHistoryTransaction | null; readonly "error": Error | null };
 export type QueryTransactionRequest = { readonly "contractVersion": "world-adapter/v7"; readonly "sessionRef": Ref; readonly "requestId": Ref; readonly "worldRef": Ref; readonly "transactionId": Ref; readonly "transactionPayloadDigest": Digest; readonly "localContext": LocalWorldContext };
@@ -231,7 +231,7 @@ export type ReadbackProjection = { readonly "worldRef": Ref; readonly "coveredPo
 export type ReadbackRequest = { readonly "contractVersion": "world-adapter/v7"; readonly "sessionRef": Ref; readonly "requestId": Ref; readonly "worldRef": Ref; readonly "transactionId": Ref; readonly "coveredPositions": Positions; readonly "stateProfile": StateProfile; readonly "localContext": LocalWorldContext };
 export type ReadbackResponse = { readonly "contractVersion": "world-adapter/v7"; readonly "requestId": Ref; readonly "result": AdapterReadback | null; readonly "error": Error | null };
 export type Readiness = "READY" | "ADAPTER_UNAVAILABLE" | "PAYLOAD_VERSION_MISMATCH" | "CAPABILITY_UNAVAILABLE";
-export type ReceiptProjection = { readonly "contractVersion": "canvas/v6"; readonly "transactionId": Ref; readonly "operationDigest": Digest; readonly "transactionPayloadDigest": Digest; readonly "status": ReceiptStatus; readonly "previousWorldRevision": Revision; readonly "observedWorldRevision": Revision | null; readonly "readbackDigest": Digest | null; readonly "restoreStatus": RestoreStatus; readonly "error": Error | null; readonly "localContext": LocalWorldContext };
+export type ReceiptProjection = { readonly "contractVersion": "canvas/v6"; readonly "transactionId": Ref; readonly "operationDigest": Digest; readonly "transactionPayloadDigest": Digest; readonly "status": ReceiptStatus; readonly "previousWorldRevision": Revision; readonly "observedWorldRevision": Revision | null; readonly "readbackDigest": Digest | null; readonly "restoreStatus": RestoreStatus; readonly "error": Error | null; readonly "localContext": LocalWorldContext; readonly "guardRefusal": GuardRefusal | null; readonly "applyFailure": FailureDetail | null };
 export type ReceiptStatus = "APPLIED_PENDING_READBACK" | "VERIFIED_PENDING_HISTORY" | "VERIFIED" | "ROLLED_BACK" | "RESTORE_FAILED" | "RECOVERY_PENDING" | "REJECTED";
 export type Record = { readonly "position": Position; readonly "nodeName": Ref; readonly "param1": Byte; readonly "param2": Byte; readonly "metadata": StringMap; readonly "inventory": Inventory; readonly "timer": Timer | null };
 export type RecordActionReceiptRequest = { readonly "contractVersion": "session/v4"; readonly "sessionRef": Ref; readonly "requestId": Ref; readonly "turnRef": Ref; readonly "expectedRevision": Revision; readonly "actionId": Ref; readonly "domainReceiptDigest": Digest; readonly "localContext": LocalWorldContext };
@@ -255,7 +255,7 @@ export type ResourcePurpose = "BUILD_PAYLOAD" | "BUILD_MEDIA_REQUIRED" | "HISTOR
 export type Resources = ReadonlyArray<Resource>;
 export type RestoreStatus = "NOT_REQUIRED" | "RESTORING" | "VERIFIED_RESTORED" | "FAILED" | "UNKNOWN";
 export type RestoreTransactionRequest = { readonly "contractVersion": "world-adapter/v7"; readonly "sessionRef": Ref; readonly "requestId": Ref; readonly "worldRef": Ref; readonly "originTransactionId": Ref; readonly "operationDigest": Digest; readonly "beforeImageDigest": Digest; readonly "restoreAttemptIdentity": Ref; readonly "guarantee": Guarantee; readonly "localContext": LocalWorldContext };
-export type RestoreTransactionResponse = { readonly "contractVersion": "world-adapter/v7"; readonly "requestId": Ref; readonly "result": ReceiptProjection | null; readonly "error": Error | null };
+export type RestoreTransactionResponse = { readonly "contractVersion": "world-adapter/v7"; readonly "requestId": Ref; readonly "result": ReceiptProjection | null; readonly "error": Error | null; readonly "guardRefusal": GuardRefusal | null };
 export type Retryability = "NEVER" | "AFTER_NEW_FACTS" | "SAME_TRANSACTION_QUERY" | "AFTER_MANUAL_RECOVERY";
 export type Revision = string;
 export type SafeInt = number;
@@ -263,14 +263,14 @@ export type SafetyProfile = { readonly "profileVersion": "safety-profile/v4"; re
 export type SavedResourceReceipt = { readonly "manifest": SavedResources; readonly "resourceManifestDigest": Digest; readonly "durable": Bool };
 export type SavedResources = { readonly "profileVersion": "saved-work-resources/v2"; readonly "workId": Ref; readonly "workRevision": Revision; readonly "resources": Resources };
 export type ScopedApplyRequest = { readonly "contractVersion": "world-adapter/v7"; readonly "sessionRef": Ref; readonly "requestId": Ref; readonly "worldRef": Ref; readonly "transactionId": Ref; readonly "operationDigest": Digest; readonly "operations": OperationsProjection; readonly "scope": ScopedWorldBinding; readonly "scopeDigest": Digest; readonly "preparedTransaction": ScopedPreparedTransaction; readonly "guarantee": Guarantee; readonly "localContext": LocalWorldContext };
-export type ScopedApplyResponse = { readonly "contractVersion": "world-adapter/v7"; readonly "requestId": Ref; readonly "result": ReceiptProjection | null; readonly "error": Error | null };
+export type ScopedApplyResponse = { readonly "contractVersion": "world-adapter/v7"; readonly "requestId": Ref; readonly "result": ReceiptProjection | null; readonly "error": Error | null; readonly "guardRefusal": GuardRefusal | null };
 export type ScopedCell = { readonly "position": Position; readonly "availability": ScopedCellAvailability; readonly "stateDigest": Digest | null };
 export type ScopedCellAvailability = "KNOWN" | "UNKNOWN" | "UNLOADED";
 export type ScopedCells = ReadonlyArray<ScopedCell>;
 export type ScopedObjectFootprint = { readonly "objectRef": Ref; readonly "worldRef": Ref; readonly "footprintRevision": Revision; readonly "provenance": FootprintProvenance; readonly "positions": Positions };
 export type ScopedObjectFootprints = ReadonlyArray<ScopedObjectFootprint>;
 export type ScopedPrepareRequest = { readonly "contractVersion": "world-adapter/v7"; readonly "sessionRef": Ref; readonly "requestId": Ref; readonly "worldRef": Ref; readonly "transactionId": Ref; readonly "operationDigest": Digest; readonly "operations": OperationsProjection; readonly "scope": ScopedWorldBinding; readonly "scopeDigest": Digest; readonly "guarantee": Guarantee; readonly "localContext": LocalWorldContext };
-export type ScopedPrepareResponse = { readonly "contractVersion": "world-adapter/v7"; readonly "requestId": Ref; readonly "result": ScopedPreparedTransactionResult | null; readonly "error": Error | null };
+export type ScopedPrepareResponse = { readonly "contractVersion": "world-adapter/v7"; readonly "requestId": Ref; readonly "result": ScopedPreparedTransactionResult | null; readonly "error": Error | null; readonly "guardRefusal": GuardRefusal | null };
 export type ScopedPreparedTransaction = { readonly "payload": ScopedTxProjection; readonly "transactionPayloadDigest": Digest; readonly "beforeImageDigest": Digest; readonly "scopeDigest": Digest; readonly "guarantee": Guarantee; readonly "stateProfile": StateProfile; readonly "adapterExecutionRevision": Revision };
 export type ScopedPreparedTransactionResult = { readonly "payload": ScopedTxProjection; readonly "transactionPayloadDigest": Digest; readonly "beforeImageDigest": Digest; readonly "scopeDigest": Digest; readonly "guarantee": Guarantee; readonly "stateProfile": StateProfile; readonly "adapterExecutionRevision": Revision; readonly "beforeStateReadbackDigest": Digest };
 export type ScopedQueryPreparedRequest = { readonly "contractVersion": "world-adapter/v7"; readonly "sessionRef": Ref; readonly "requestId": Ref; readonly "worldRef": Ref; readonly "transactionId": Ref; readonly "operationDigest": Digest; readonly "scopeDigest": Digest; readonly "localContext": LocalWorldContext };
@@ -358,20 +358,20 @@ export type RegionLoadMethod = "ALREADY_LOADED" | "LOADED_BY_EMERGE";
 export type RegionUnknownReason = "LOAD_FAILED" | "NOT_GENERATED" | "OUTSIDE_WORLD_LIMITS" | "READ_FAILED";
 export type RegionChunkRead = { readonly "chunkPos": ChunkPosition; readonly "box": Box; readonly "availability": RegionChunkAvailability; readonly "loadMethod": RegionLoadMethod | null; readonly "unknownReason": RegionUnknownReason | null; readonly "state": RegionState | null; readonly "stateDigest": Digest | null };
 export type RegionChunkReads = ReadonlyArray<RegionChunkRead>;
-export type ReadRegionRequest = { readonly "contractVersion": "world-adapter-region/v1"; readonly "sessionRef": Ref; readonly "requestId": Ref; readonly "worldRef": Ref; readonly "box": Box; readonly "purpose": RegionReadPurpose; readonly "localContext": LocalWorldContext };
+export type ReadRegionRequest = { readonly "contractVersion": "world-adapter-region/v2"; readonly "sessionRef": Ref; readonly "requestId": Ref; readonly "worldRef": Ref; readonly "box": Box; readonly "purpose": RegionReadPurpose; readonly "localContext": LocalWorldContext };
 export type RegionReadResult = { readonly "worldRef": Ref; readonly "box": Box; readonly "chunks": RegionChunkReads; readonly "localContext": LocalWorldContext };
-export type ReadRegionResponse = { readonly "contractVersion": "world-adapter-region/v1"; readonly "requestId": Ref; readonly "result": RegionReadResult | null; readonly "error": Error | null };
+export type ReadRegionResponse = { readonly "contractVersion": "world-adapter-region/v2"; readonly "requestId": Ref; readonly "result": RegionReadResult | null; readonly "error": Error | null };
 export type RegionWritePurpose = "APPLY" | "RESTORE";
 export type RegionChunkWrite = { readonly "chunkPos": ChunkPosition; readonly "expectedCurrentDigest": Digest; readonly "ops": RegionVoxelBlock | null; readonly "state": RegionState | null };
 export type RegionChunkWrites = ReadonlyArray<RegionChunkWrite>;
-export type WriteRegionRequest = { readonly "contractVersion": "world-adapter-region/v1"; readonly "sessionRef": Ref; readonly "requestId": Ref; readonly "worldRef": Ref; readonly "transactionId": Ref; readonly "purpose": RegionWritePurpose; readonly "writes": RegionChunkWrites; readonly "localContext": LocalWorldContext };
+export type WriteRegionRequest = { readonly "contractVersion": "world-adapter-region/v2"; readonly "sessionRef": Ref; readonly "requestId": Ref; readonly "worldRef": Ref; readonly "transactionId": Ref; readonly "purpose": RegionWritePurpose; readonly "writes": RegionChunkWrites; readonly "localContext": LocalWorldContext };
 export type RegionChunkWriteStatus = "WRITTEN" | "NOT_WRITTEN" | "UNKNOWN";
 export type RegionChunkWriteResult = { readonly "chunkPos": ChunkPosition; readonly "status": RegionChunkWriteStatus; readonly "readbackDigest": Digest | null };
 export type RegionChunkWriteResults = ReadonlyArray<RegionChunkWriteResult>;
 export type RegionLightingStatus = "COMPLETE" | "NOT_COMPLETE";
 export type RegionLighting = { readonly "status": RegionLightingStatus; readonly "box": Box; readonly "method": Ref };
 export type RegionWriteResult = { readonly "transactionId": Ref; readonly "worldRef": Ref; readonly "purpose": RegionWritePurpose; readonly "chunks": RegionChunkWriteResults; readonly "lighting": RegionLighting; readonly "localContext": LocalWorldContext };
-export type WriteRegionResponse = { readonly "contractVersion": "world-adapter-region/v1"; readonly "requestId": Ref; readonly "result": RegionWriteResult | null; readonly "error": Error | null };
+export type WriteRegionResponse = { readonly "contractVersion": "world-adapter-region/v2"; readonly "requestId": Ref; readonly "result": RegionWriteResult | null; readonly "error": Error | null; readonly "guardRefusal": GuardRefusal | null };
 export type RegionSummaryChunk = { readonly "chunkPos": ChunkPosition; readonly "box": Box; readonly "stateDigest": Digest };
 export type RegionSummaryChunks = ReadonlyArray<RegionSummaryChunk>;
 export type RegionSummary = { readonly "profileVersion": "region-summary/v1"; readonly "worldRef": Ref; readonly "chunks": RegionSummaryChunks };
@@ -379,13 +379,13 @@ export type RegionSnapshotChunk = { readonly "chunkPos": ChunkPosition; readonly
 export type RegionSnapshotChunks = ReadonlyArray<RegionSnapshotChunk>;
 export type RegionSnapshotContent = { readonly "profileVersion": "region-snapshot-content/v1"; readonly "worldRef": Ref; readonly "chunks": RegionSnapshotChunks };
 export type RegionSnapshotRef = { readonly "profileVersion": "region-snapshot/v1"; readonly "contentDigest": Digest; readonly "beforeSummaryDigest": Digest; readonly "compression": Ref; readonly "compressedSha256": Digest; readonly "compressedByteLength": PositiveInt };
-export type ApplyRegionCommitRequest = { readonly "contractVersion": "canvas-region/v1"; readonly "sessionRef": Ref; readonly "requestId": Ref; readonly "worldRef": Ref; readonly "transactionId": Ref; readonly "operations": RegionOperationsProjection; readonly "operationDigest": Digest; readonly "guarantee": Guarantee; readonly "localContext": LocalWorldContext };
+export type ApplyRegionCommitRequest = { readonly "contractVersion": "canvas-region/v2"; readonly "sessionRef": Ref; readonly "requestId": Ref; readonly "worldRef": Ref; readonly "transactionId": Ref; readonly "operations": RegionOperationsProjection; readonly "operationDigest": Digest; readonly "guarantee": Guarantee; readonly "localContext": LocalWorldContext };
 export type RegionCommitStatus = "VERIFIED" | "ROLLED_BACK";
 export type RegionCommitResult = { readonly "transactionId": Ref; readonly "worldRef": Ref; readonly "status": RegionCommitStatus; readonly "operationDigest": Digest; readonly "beforeSummary": RegionSummary; readonly "expectedAfterSummary": RegionSummary; readonly "actualSummary": RegionSummary; readonly "snapshot": RegionSnapshotRef; readonly "historyRevision": Revision; readonly "lighting": RegionLighting; readonly "affectedObjectRefs": RefSet; readonly "localContext": LocalWorldContext };
-export type ApplyRegionCommitResponse = { readonly "contractVersion": "canvas-region/v1"; readonly "requestId": Ref; readonly "result": RegionCommitResult | null; readonly "error": Error | null };
-export type UndoRegionCommitRequest = { readonly "contractVersion": "canvas-region/v1"; readonly "sessionRef": Ref; readonly "requestId": Ref; readonly "worldRef": Ref; readonly "originTransactionId": Ref; readonly "undoTransactionId": Ref; readonly "expectedHistoryRevision": Revision; readonly "localContext": LocalWorldContext };
+export type ApplyRegionCommitResponse = { readonly "contractVersion": "canvas-region/v2"; readonly "requestId": Ref; readonly "result": RegionCommitResult | null; readonly "error": Error | null; readonly "guardRefusal": GuardRefusal | null; readonly "applyFailure": FailureDetail | null };
+export type UndoRegionCommitRequest = { readonly "contractVersion": "canvas-region/v2"; readonly "sessionRef": Ref; readonly "requestId": Ref; readonly "worldRef": Ref; readonly "originTransactionId": Ref; readonly "undoTransactionId": Ref; readonly "expectedHistoryRevision": Revision; readonly "localContext": LocalWorldContext };
 export type RegionUndoResult = { readonly "originTransactionId": Ref; readonly "undoTransactionId": Ref; readonly "worldRef": Ref; readonly "status": RegionCommitStatus; readonly "originBeforeSummaryDigest": Digest; readonly "originAfterSummaryDigest": Digest; readonly "preUndoSummary": RegionSummary; readonly "actualSummary": RegionSummary; readonly "historyRevision": Revision; readonly "lighting": RegionLighting; readonly "localContext": LocalWorldContext };
-export type UndoRegionCommitResponse = { readonly "contractVersion": "canvas-region/v1"; readonly "requestId": Ref; readonly "result": RegionUndoResult | null; readonly "error": Error | null };
+export type UndoRegionCommitResponse = { readonly "contractVersion": "canvas-region/v2"; readonly "requestId": Ref; readonly "result": RegionUndoResult | null; readonly "error": Error | null; readonly "guardRefusal": GuardRefusal | null; readonly "applyFailure": FailureDetail | null };
 export type ProtocolDescriptor = { readonly "protocol": Ref; readonly "major": PositiveInt; readonly "minor": NonNegativeInt };
 export type ProtocolDescriptors = ReadonlyArray<ProtocolDescriptor>;
 export type ProtocolProvenance = { readonly "packageName": Ref; readonly "packageVersion": Ref; readonly "sourceRevision": Ref | null; readonly "artifactDigest": Digest | null };
@@ -430,6 +430,16 @@ export type ConfigEngineFacts = { readonly "profileVersion": "config-engine-fact
 export type ClearanceCells = { readonly "width": PositiveInt; readonly "height": PositiveInt; readonly "depth": PositiveInt; readonly "unit": "node" };
 export type SiteRules = { readonly "requireEntranceConnectivity": Bool; readonly "entranceClearance": ClearanceCells | null; readonly "hazardPolicy": HazardPolicy; readonly "optionalLightRule": LightRule | null };
 export type BuildDimensions = { readonly "width": PositiveFinite; readonly "height": PositiveFinite; readonly "depth": PositiveFinite; readonly "unit": Ref };
+export type EngineGuard = "BODY_CLEARANCE" | "CELL_PROTECTION" | "PLAYER_ENCLOSURE";
+export type EngineGuardStage = "INSPECT_REGION" | "PREPARE_RECOVERABLE" | "APPLY_COMPILED" | "PREPARE_HISTORY" | "APPLY_HISTORY" | "RESTORE" | "REGION_APPLY" | "REGION_RESTORE";
+export type EngineGuardStages = ReadonlyArray<EngineGuardStage>;
+export type ProtectionPrincipal = "ANONYMOUS" | "ACTING_PRINCIPAL";
+export type EngineGuardCoverage = { readonly "guard": EngineGuard; readonly "stages": EngineGuardStages; readonly "protectionPrincipal": ProtectionPrincipal | null };
+export type EngineGuardDeclaration = { readonly "profileVersion": "engine-guards/v1"; readonly "coverage": EngineGuardCoverages };
+export type GuardFinding = "BODY_OCCUPIED" | "PROTECTED_CELL" | "PLAYER_ENCLOSED" | "GUARD_UNAVAILABLE";
+export type GuardRefusal = { readonly "guard": EngineGuard; readonly "stage": EngineGuardStage; readonly "finding": GuardFinding };
+export type FailureDetail = { readonly "error": Error; readonly "guardRefusal": GuardRefusal | null };
+export type EngineGuardCoverages = ReadonlyArray<EngineGuardCoverage>;
 export interface TypeMap {
 AbortPreparedHistoryTransactionRequest: AbortPreparedHistoryTransactionRequest;
 AbortPreparedHistoryTransactionResponse: AbortPreparedHistoryTransactionResponse;
@@ -862,6 +872,16 @@ ConfigEngineFacts: ConfigEngineFacts;
 ClearanceCells: ClearanceCells;
 SiteRules: SiteRules;
 BuildDimensions: BuildDimensions;
+EngineGuard: EngineGuard;
+EngineGuardStage: EngineGuardStage;
+EngineGuardStages: EngineGuardStages;
+ProtectionPrincipal: ProtectionPrincipal;
+EngineGuardCoverage: EngineGuardCoverage;
+EngineGuardDeclaration: EngineGuardDeclaration;
+GuardFinding: GuardFinding;
+GuardRefusal: GuardRefusal;
+FailureDetail: FailureDetail;
+EngineGuardCoverages: EngineGuardCoverages;
 }
 export type TypeName=keyof TypeMap;
 export interface OperationMap {
@@ -947,11 +967,11 @@ export interface OperationMap {
 "painter-region/v2": {
 "ValidateRegionProposal": {request:ValidateRegionProposalRequest;response:ValidateRegionProposalResponse};
 };
-"world-adapter-region/v1": {
+"world-adapter-region/v2": {
 "ReadRegion": {request:ReadRegionRequest;response:ReadRegionResponse};
 "WriteRegion": {request:WriteRegionRequest;response:WriteRegionResponse};
 };
-"canvas-region/v1": {
+"canvas-region/v2": {
 "ApplyRegionCommit": {request:ApplyRegionCommitRequest;response:ApplyRegionCommitResponse};
 "UndoRegionCommit": {request:UndoRegionCommitRequest;response:UndoRegionCommitResponse};
 };

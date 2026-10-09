@@ -74,8 +74,8 @@ fixture = {
  "adapterInventory": {"A": invA, "B": invB, "AReopened": {"capabilityRevision": "fixture-cap-2", "connections": [desc(A, incA2)]}, "AStopped": {"capabilityRevision": "fixture-cap-3", "connections": []}},
  "ownerAScenario": steps,
  "sessionDeletion": {
-  "unsupportedCapabilities": {"providerRef": "fixture-workshop", "capabilityRevision": "fixture-ws-cap-1", "worldRef": None, "engineBounds": None, "limits": [], "recoveryGuarantee": None, "stateProfile": None, "sessionDeleteSupported": False, "imageMediaTypes": [], "model": None},
-  "supportedCapabilities": {"providerRef": "fixture-workshop", "capabilityRevision": "fixture-ws-cap-2", "worldRef": None, "engineBounds": None, "limits": [], "recoveryGuarantee": None, "stateProfile": None, "sessionDeleteSupported": True, "imageMediaTypes": [], "model": None},
+  "unsupportedCapabilities": {"providerRef": "fixture-workshop", "capabilityRevision": "fixture-ws-cap-1", "worldRef": None, "engineBounds": None, "limits": [], "recoveryGuarantee": None, "stateProfile": None, "sessionDeleteSupported": False, "imageMediaTypes": [], "model": None, "engineGuards": None},
+  "supportedCapabilities": {"providerRef": "fixture-workshop", "capabilityRevision": "fixture-ws-cap-2", "worldRef": None, "engineBounds": None, "limits": [], "recoveryGuarantee": None, "stateProfile": None, "sessionDeleteSupported": True, "imageMediaTypes": [], "model": None, "engineGuards": None},
   "unsupported": {"request": {"contractVersion": "session/v4", "sessionRef": S1, "requestId": "x1", "expectedRevision": "fixture-session-S1-rev-1"}, "response": ko("session/v4", "x1", err("SESSION_DELETE_UNSUPPORTED", "DELETE_SEAM_ABSENT")), "retireCalled": False},
   "deleted": {"request": {"contractVersion": "session/v4", "sessionRef": S2, "requestId": "x2", "expectedRevision": "fixture-session-S2-rev-1"}, "response": ok("session/v4", "x2", {"sessionRef": S2, "deleted": True, "remainingArtifactRefs": []}), "afterRetireStep": "10"}
  },

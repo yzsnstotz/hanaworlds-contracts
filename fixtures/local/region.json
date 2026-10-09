@@ -943,7 +943,7 @@
     "error": null
   },
   "readRequest": {
-    "contractVersion": "world-adapter-region/v1",
+    "contractVersion": "world-adapter-region/v2",
     "sessionRef": "fixture-session",
     "requestId": "read-region-1",
     "worldRef": "fixture-world",
@@ -968,7 +968,7 @@
     }
   },
   "readResponse": {
-    "contractVersion": "world-adapter-region/v1",
+    "contractVersion": "world-adapter-region/v2",
     "requestId": "read-region-1",
     "result": {
       "worldRef": "fixture-world",
@@ -1339,7 +1339,7 @@
     "error": null
   },
   "writeRequest": {
-    "contractVersion": "world-adapter-region/v1",
+    "contractVersion": "world-adapter-region/v2",
     "sessionRef": "fixture-session",
     "requestId": "write-region-1",
     "worldRef": "fixture-world",
@@ -1673,7 +1673,7 @@
     }
   },
   "writeResponse": {
-    "contractVersion": "world-adapter-region/v1",
+    "contractVersion": "world-adapter-region/v2",
     "requestId": "write-region-1",
     "result": {
       "transactionId": "region-tx-1",
@@ -1758,7 +1758,8 @@
         "selectionRevision": "selection-1"
       }
     },
-    "error": null
+    "error": null,
+    "guardRefusal": null
   },
   "snapshotContent": {
     "profileVersion": "region-snapshot-content/v1",
@@ -2021,7 +2022,7 @@
   },
   "snapshotGzipBase64": "H4sIAAAAAAACE+WWTW/TQBCG/wrasyN29ntzQ6KIAxREKwRUUTW7O5taTbyVvWkDUf47cnIotFWRIKpAnLy2xjPvzKPX4w2LF6vucmDTs83++L6MNxNoeDOBWcOGipXYdMPCosTL8dB2idbv+kQ9m7JP569enJwenZyen74+Oj7/vL98YQ0rfTtvuzGXGHOJWcOucEF1zHa2YV1JdIxLYlOW23Vd9TQdaumIjWE9LgWb8u34Tl9yu6CP1A9t6diU9TRvSze5LmtaDM+vgTWsX3Wj6DPX8Nkouf021hCNaMRs27BEfXtN6U07v6hvS6JdkliWV6tKk5u2Xkx6whQwXrKG0br2uJ9H211TV0v/lU0324YtqWLCivsZ5FJpXW/VPxvaece2DbsqQ1t3Un/ovLbLcVzdarF4rKndsPc93ZR+kT5Qvq0w2T0aS+zCXrZzGkYBmpDLoAKXEUUSzmpDUmWPjkA4w6MOgDpqlZTXjhsZOGoXJCJ4sJ6zbXOfPT8cev4E5NU98vD75A8PyGAwFEgQpKBT1ll45JhNBG2tT0Ym5YLnOUinrPdRBeCQNKLKWuq7gPjhvMmfyprmZ0Jg/sych0YENmrQOWKyVhnDlc+ZsifuJIaRAXEruFPCqkSkrBE2KYlScRmtEuIhRPxghJ7CQVLcB/Q3eUgl6VU0yiulyYooSGeZQ8SQFEhA6SV3QuhMJJyTNoPEZIyg4ABcvgvogPsNzD+53w7/lfMokgw6ewM5KYxBE88aLXKZCaJFrcYArq3QAowLmYB7L60CEcNDhPjhAP33Wwh0woAIQmMW1jkA8kIKisYYKXVUGTxlzlEGiIlDQK2clmick5gjsUd/XDq8Gi5KncTSVerqr8R9B1kx9pN4CgAA",
   "commitRequest": {
-    "contractVersion": "canvas-region/v1",
+    "contractVersion": "canvas-region/v2",
     "sessionRef": "fixture-session",
     "requestId": "commit-region-1",
     "worldRef": "fixture-world",
@@ -2352,7 +2353,7 @@
     }
   },
   "commitResponse": {
-    "contractVersion": "canvas-region/v1",
+    "contractVersion": "canvas-region/v2",
     "requestId": "commit-region-1",
     "result": {
       "transactionId": "region-tx-1",
@@ -2770,10 +2771,12 @@
         "selectionRevision": "selection-1"
       }
     },
-    "error": null
+    "error": null,
+    "guardRefusal": null,
+    "applyFailure": null
   },
   "undoRequest": {
-    "contractVersion": "canvas-region/v1",
+    "contractVersion": "canvas-region/v2",
     "sessionRef": "fixture-session",
     "requestId": "undo-region-1",
     "worldRef": "fixture-world",
@@ -2788,7 +2791,7 @@
     }
   },
   "undoResponse": {
-    "contractVersion": "canvas-region/v1",
+    "contractVersion": "canvas-region/v2",
     "requestId": "undo-region-1",
     "result": {
       "originTransactionId": "region-tx-1",
@@ -3073,7 +3076,9 @@
         "selectionRevision": "selection-1"
       }
     },
-    "error": null
+    "error": null,
+    "guardRefusal": null,
+    "applyFailure": null
   },
   "peerHandshake": {
     "profileVersion": "protocol-handshake/v1",
@@ -3081,17 +3086,17 @@
     "protocols": [
       {
         "protocol": "world-adapter-region",
-        "major": 1,
-        "minor": 1
+        "major": 2,
+        "minor": 0
       }
     ],
     "capabilities": [
-      "world-adapter-region/v1:callback-free-write",
-      "world-adapter-region/v1:chunked-read",
-      "world-adapter-region/v1:chunked-write",
-      "world-adapter-region/v1:lighting-complete",
-      "world-adapter-region/v1:load-then-know",
-      "world-adapter-region/v1:restore-state"
+      "world-adapter-region/v2:callback-free-write",
+      "world-adapter-region/v2:chunked-read",
+      "world-adapter-region/v2:chunked-write",
+      "world-adapter-region/v2:lighting-complete",
+      "world-adapter-region/v2:load-then-know",
+      "world-adapter-region/v2:restore-state"
     ],
     "provenance": {
       "packageName": "fixture-adapter",
@@ -3121,10 +3126,10 @@
       "typicalScale": "Hundreds to millions of cells, e.g. levelling a plot or digging a valley; written per mapblock as one Canvas transaction.",
       "scaleUnit": "cells",
       "requiredCapabilities": [
-        "canvas-region/v1:single-logical-transaction",
-        "canvas-region/v1:whole-region-undo",
+        "canvas-region/v2:single-logical-transaction",
+        "canvas-region/v2:whole-region-undo",
         "region-build/v1:compile-mapblock-chunks",
-        "world-adapter-region/v1:load-then-know"
+        "world-adapter-region/v2:load-then-know"
       ],
       "unavailableReason": null
     }

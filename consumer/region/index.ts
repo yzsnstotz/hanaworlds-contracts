@@ -18,7 +18,7 @@ export function write(request:WriteRegionRequest,response:unknown):boolean{
 export function compiled(req:CompileRegionBuildRequest,res:unknown):number{return validateCompiledRegionSet(req,res).result?.projection.chunks.length??0;}
 export function verified(r:RegionCommitResult,u:RegionUndoResult):boolean{return r.status==='VERIFIED'&&u.originTransactionId===r.transactionId;}
 export function compatible(peer:ProtocolHandshake):string{
- return checkProtocolCompatibility(peer,[protocolRequirement('canvas-region/v1',['canvas-region/v1:whole-region-undo'])]).matched[0].protocol;
+ return checkProtocolCompatibility(peer,[protocolRequirement('canvas-region/v2',['canvas-region/v2:whole-region-undo'])]).matched[0].protocol;
 }
 export const tool:WriteMethodDescriptor={method:'REGION',toolName:'write_region',purpose:'large fill or carve',inputType:'RegionProposal',
  typicalScale:'hundreds to millions of cells',scaleUnit:'cells',requiredCapabilities:[],unavailableReason:null};

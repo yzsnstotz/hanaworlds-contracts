@@ -1,5 +1,5 @@
 {
-  "version": "1.0.0-rc.1",
+  "version": "1.0.0-rc.2",
   "wireVersions": [
     "interaction-surface/v4",
     "session/v4",
@@ -10,8 +10,8 @@
     "world-adapter/v7",
     "region-build/v1",
     "painter-region/v2",
-    "world-adapter-region/v1",
-    "canvas-region/v1"
+    "world-adapter-region/v2",
+    "canvas-region/v2"
   ],
   "compiledOperationsVersion": "operations/v3",
   "operations": {
@@ -354,7 +354,7 @@
         "response": "ValidateRegionProposalResponse"
       }
     ],
-    "world-adapter-region/v1": [
+    "world-adapter-region/v2": [
       {
         "operation": "ReadRegion",
         "request": "ReadRegionRequest",
@@ -366,7 +366,7 @@
         "response": "WriteRegionResponse"
       }
     ],
-    "canvas-region/v1": [
+    "canvas-region/v2": [
       {
         "operation": "ApplyRegionCommit",
         "request": "ApplyRegionCommitRequest",
@@ -460,11 +460,11 @@
       "domainOwner": "Painter",
       "mutationCaller": "none"
     },
-    "world-adapter-region/v1": {
+    "world-adapter-region/v2": {
       "domainOwner": "Adapter transport",
       "mutationCaller": "Canvas only through internal dispatch"
     },
-    "canvas-region/v1": {
+    "canvas-region/v2": {
       "domainOwner": "Canvas",
       "mutationCaller": "Canvas only"
     }
@@ -1767,13 +1767,24 @@
               "type": "null"
             }
           ]
+        },
+        "guardRefusal": {
+          "anyOf": [
+            {
+              "$ref": "#/definitions/GuardRefusal"
+            },
+            {
+              "type": "null"
+            }
+          ]
         }
       },
       "required": [
         "contractVersion",
         "requestId",
         "result",
-        "error"
+        "error",
+        "guardRefusal"
       ],
       "additionalProperties": false,
       "x-typeName": "ApplyHistoryTransactionResponse"
@@ -4643,13 +4654,24 @@
               "type": "null"
             }
           ]
+        },
+        "guardRefusal": {
+          "anyOf": [
+            {
+              "$ref": "#/definitions/GuardRefusal"
+            },
+            {
+              "type": "null"
+            }
+          ]
         }
       },
       "required": [
         "contractVersion",
         "requestId",
         "result",
-        "error"
+        "error",
+        "guardRefusal"
       ],
       "additionalProperties": false,
       "x-typeName": "InspectRegionResponse"
@@ -7070,13 +7092,24 @@
               "type": "null"
             }
           ]
+        },
+        "guardRefusal": {
+          "anyOf": [
+            {
+              "$ref": "#/definitions/GuardRefusal"
+            },
+            {
+              "type": "null"
+            }
+          ]
         }
       },
       "required": [
         "contractVersion",
         "requestId",
         "result",
-        "error"
+        "error",
+        "guardRefusal"
       ],
       "additionalProperties": false,
       "x-typeName": "PrepareHistoryTransactionResponse"
@@ -7226,6 +7259,16 @@
               "type": "null"
             }
           ]
+        },
+        "engineGuards": {
+          "anyOf": [
+            {
+              "$ref": "#/definitions/EngineGuardDeclaration"
+            },
+            {
+              "type": "null"
+            }
+          ]
         }
       },
       "required": [
@@ -7238,7 +7281,8 @@
         "stateProfile",
         "sessionDeleteSupported",
         "imageMediaTypes",
-        "model"
+        "model",
+        "engineGuards"
       ],
       "additionalProperties": false,
       "x-typeName": "PublicCapabilities"
@@ -7769,6 +7813,26 @@
         },
         "localContext": {
           "$ref": "#/definitions/LocalWorldContext"
+        },
+        "guardRefusal": {
+          "anyOf": [
+            {
+              "$ref": "#/definitions/GuardRefusal"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "applyFailure": {
+          "anyOf": [
+            {
+              "$ref": "#/definitions/FailureDetail"
+            },
+            {
+              "type": "null"
+            }
+          ]
         }
       },
       "required": [
@@ -7782,7 +7846,9 @@
         "readbackDigest",
         "restoreStatus",
         "error",
-        "localContext"
+        "localContext",
+        "guardRefusal",
+        "applyFailure"
       ],
       "additionalProperties": false,
       "x-typeName": "ReceiptProjection"
@@ -8496,13 +8562,24 @@
               "type": "null"
             }
           ]
+        },
+        "guardRefusal": {
+          "anyOf": [
+            {
+              "$ref": "#/definitions/GuardRefusal"
+            },
+            {
+              "type": "null"
+            }
+          ]
         }
       },
       "required": [
         "contractVersion",
         "requestId",
         "result",
-        "error"
+        "error",
+        "guardRefusal"
       ],
       "additionalProperties": false,
       "x-typeName": "RestoreTransactionResponse"
@@ -8699,13 +8776,24 @@
               "type": "null"
             }
           ]
+        },
+        "guardRefusal": {
+          "anyOf": [
+            {
+              "$ref": "#/definitions/GuardRefusal"
+            },
+            {
+              "type": "null"
+            }
+          ]
         }
       },
       "required": [
         "contractVersion",
         "requestId",
         "result",
-        "error"
+        "error",
+        "guardRefusal"
       ],
       "additionalProperties": false,
       "x-typeName": "ScopedApplyResponse"
@@ -8875,13 +8963,24 @@
               "type": "null"
             }
           ]
+        },
+        "guardRefusal": {
+          "anyOf": [
+            {
+              "$ref": "#/definitions/GuardRefusal"
+            },
+            {
+              "type": "null"
+            }
+          ]
         }
       },
       "required": [
         "contractVersion",
         "requestId",
         "result",
-        "error"
+        "error",
+        "guardRefusal"
       ],
       "additionalProperties": false,
       "x-typeName": "ScopedPrepareResponse"
@@ -11653,7 +11752,7 @@
       "type": "object",
       "properties": {
         "contractVersion": {
-          "const": "world-adapter-region/v1"
+          "const": "world-adapter-region/v2"
         },
         "sessionRef": {
           "$ref": "#/definitions/Ref"
@@ -11715,7 +11814,7 @@
       "type": "object",
       "properties": {
         "contractVersion": {
-          "const": "world-adapter-region/v1"
+          "const": "world-adapter-region/v2"
         },
         "requestId": {
           "$ref": "#/definitions/Ref"
@@ -11810,7 +11909,7 @@
       "type": "object",
       "properties": {
         "contractVersion": {
-          "const": "world-adapter-region/v1"
+          "const": "world-adapter-region/v2"
         },
         "sessionRef": {
           "$ref": "#/definitions/Ref"
@@ -11958,7 +12057,7 @@
       "type": "object",
       "properties": {
         "contractVersion": {
-          "const": "world-adapter-region/v1"
+          "const": "world-adapter-region/v2"
         },
         "requestId": {
           "$ref": "#/definitions/Ref"
@@ -11982,13 +12081,24 @@
               "type": "null"
             }
           ]
+        },
+        "guardRefusal": {
+          "anyOf": [
+            {
+              "$ref": "#/definitions/GuardRefusal"
+            },
+            {
+              "type": "null"
+            }
+          ]
         }
       },
       "required": [
         "contractVersion",
         "requestId",
         "result",
-        "error"
+        "error",
+        "guardRefusal"
       ],
       "additionalProperties": false
     },
@@ -12134,7 +12244,7 @@
       "type": "object",
       "properties": {
         "contractVersion": {
-          "const": "canvas-region/v1"
+          "const": "canvas-region/v2"
         },
         "sessionRef": {
           "$ref": "#/definitions/Ref"
@@ -12243,7 +12353,7 @@
       "type": "object",
       "properties": {
         "contractVersion": {
-          "const": "canvas-region/v1"
+          "const": "canvas-region/v2"
         },
         "requestId": {
           "$ref": "#/definitions/Ref"
@@ -12267,13 +12377,35 @@
               "type": "null"
             }
           ]
+        },
+        "guardRefusal": {
+          "anyOf": [
+            {
+              "$ref": "#/definitions/GuardRefusal"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "applyFailure": {
+          "anyOf": [
+            {
+              "$ref": "#/definitions/FailureDetail"
+            },
+            {
+              "type": "null"
+            }
+          ]
         }
       },
       "required": [
         "contractVersion",
         "requestId",
         "result",
-        "error"
+        "error",
+        "guardRefusal",
+        "applyFailure"
       ],
       "additionalProperties": false
     },
@@ -12282,7 +12414,7 @@
       "type": "object",
       "properties": {
         "contractVersion": {
-          "const": "canvas-region/v1"
+          "const": "canvas-region/v2"
         },
         "sessionRef": {
           "$ref": "#/definitions/Ref"
@@ -12376,7 +12508,7 @@
       "type": "object",
       "properties": {
         "contractVersion": {
-          "const": "canvas-region/v1"
+          "const": "canvas-region/v2"
         },
         "requestId": {
           "$ref": "#/definitions/Ref"
@@ -12400,13 +12532,35 @@
               "type": "null"
             }
           ]
+        },
+        "guardRefusal": {
+          "anyOf": [
+            {
+              "$ref": "#/definitions/GuardRefusal"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "applyFailure": {
+          "anyOf": [
+            {
+              "$ref": "#/definitions/FailureDetail"
+            },
+            {
+              "type": "null"
+            }
+          ]
         }
       },
       "required": [
         "contractVersion",
         "requestId",
         "result",
-        "error"
+        "error",
+        "guardRefusal",
+        "applyFailure"
       ],
       "additionalProperties": false
     },
@@ -13556,6 +13710,156 @@
       "additionalProperties": false,
       "x-typeName": "BuildDimensions",
       "description": "Building size in whole nodes chosen by the player. Not a player or avatar size."
+    },
+    "EngineGuard": {
+      "x-typeName": "EngineGuard",
+      "enum": [
+        "BODY_CLEARANCE",
+        "CELL_PROTECTION",
+        "PLAYER_ENCLOSURE"
+      ]
+    },
+    "EngineGuardStage": {
+      "x-typeName": "EngineGuardStage",
+      "enum": [
+        "INSPECT_REGION",
+        "PREPARE_RECOVERABLE",
+        "APPLY_COMPILED",
+        "PREPARE_HISTORY",
+        "APPLY_HISTORY",
+        "RESTORE",
+        "REGION_APPLY",
+        "REGION_RESTORE"
+      ]
+    },
+    "EngineGuardStages": {
+      "x-typeName": "EngineGuardStages",
+      "type": "array",
+      "items": {
+        "$ref": "#/definitions/EngineGuardStage"
+      },
+      "uniqueItems": true,
+      "x-order": "EngineGuardStage enum order"
+    },
+    "ProtectionPrincipal": {
+      "x-typeName": "ProtectionPrincipal",
+      "enum": [
+        "ANONYMOUS",
+        "ACTING_PRINCIPAL"
+      ],
+      "description": "Basis of a CELL_PROTECTION check. ANONYMOUS: the engine asks the game's protection with no caller identity (for example core.is_protected(pos, '')), so every protected cell is refused for everyone, owners included; it is not acting-principal protection. ACTING_PRINCIPAL: the check runs for a trusted identity of the acting player; no such identity source exists in this major."
+    },
+    "EngineGuardCoverage": {
+      "x-typeName": "EngineGuardCoverage",
+      "type": "object",
+      "properties": {
+        "guard": {
+          "$ref": "#/definitions/EngineGuard"
+        },
+        "stages": {
+          "$ref": "#/definitions/EngineGuardStages"
+        },
+        "protectionPrincipal": {
+          "anyOf": [
+            {
+              "$ref": "#/definitions/ProtectionPrincipal"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        }
+      },
+      "required": [
+        "guard",
+        "stages",
+        "protectionPrincipal"
+      ],
+      "additionalProperties": false
+    },
+    "EngineGuardDeclaration": {
+      "x-typeName": "EngineGuardDeclaration",
+      "type": "object",
+      "properties": {
+        "profileVersion": {
+          "const": "engine-guards/v1"
+        },
+        "coverage": {
+          "$ref": "#/definitions/EngineGuardCoverages"
+        }
+      },
+      "required": [
+        "profileVersion",
+        "coverage"
+      ],
+      "additionalProperties": false,
+      "description": "What the loaded engine payload actually checks, per guard and per stage. A stage not listed is not covered; nothing is implied by a name or a package version."
+    },
+    "GuardFinding": {
+      "x-typeName": "GuardFinding",
+      "enum": [
+        "BODY_OCCUPIED",
+        "PROTECTED_CELL",
+        "PLAYER_ENCLOSED",
+        "GUARD_UNAVAILABLE"
+      ]
+    },
+    "GuardRefusal": {
+      "x-typeName": "GuardRefusal",
+      "type": "object",
+      "properties": {
+        "guard": {
+          "$ref": "#/definitions/EngineGuard"
+        },
+        "stage": {
+          "$ref": "#/definitions/EngineGuardStage"
+        },
+        "finding": {
+          "$ref": "#/definitions/GuardFinding"
+        }
+      },
+      "required": [
+        "guard",
+        "stage",
+        "finding"
+      ],
+      "additionalProperties": false,
+      "description": "Why an engine guard refused, carried beside the Error it explains. BODY_OCCUPIED/PROTECTED_CELL/PLAYER_ENCLOSED are violations of BODY_CLEARANCE/CELL_PROTECTION/PLAYER_ENCLOSURE; GUARD_UNAVAILABLE means the stage needed the guard and it is not covered (RESTORE_GUARD_UNAVAILABLE = BODY_CLEARANCE at RESTORE)."
+    },
+    "FailureDetail": {
+      "x-typeName": "FailureDetail",
+      "type": "object",
+      "properties": {
+        "error": {
+          "$ref": "#/definitions/Error"
+        },
+        "guardRefusal": {
+          "anyOf": [
+            {
+              "$ref": "#/definitions/GuardRefusal"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        }
+      },
+      "required": [
+        "error",
+        "guardRefusal"
+      ],
+      "additionalProperties": false
+    },
+    "EngineGuardCoverages": {
+      "x-typeName": "EngineGuardCoverages",
+      "type": "array",
+      "items": {
+        "$ref": "#/definitions/EngineGuardCoverage"
+      },
+      "minItems": 3,
+      "maxItems": 3,
+      "x-uniqueBy": "guard",
+      "x-order": "guard EngineGuard enum order"
     }
   },
   "placementSettings": [
@@ -13666,7 +13970,7 @@
     "region-voxels": 0,
     "region-build": 0,
     "painter-region": 0,
-    "world-adapter-region": 1,
+    "world-adapter-region": 0,
     "canvas-region": 0,
     "world-adapter": 0,
     "session": 0,
@@ -13689,47 +13993,47 @@
       "meaning": "Validates coordinates, extent, palette legality and air carve of a skill region proposal on the existing proposal channel; never writes the world or plans on its own."
     },
     {
-      "id": "world-adapter-region/v1:chunked-read",
+      "id": "world-adapter-region/v2:chunked-read",
       "owner": "hanaworlds-adapter-luanti",
       "meaning": "Reads RegionState per mapblock with VoxelManip in bulk."
     },
     {
-      "id": "world-adapter-region/v1:load-then-know",
+      "id": "world-adapter-region/v2:load-then-know",
       "owner": "hanaworlds-adapter-luanti",
       "meaning": "Loads unloaded mapblocks with the engine's emerge mechanism and reads back before reporting KNOWN; anything still unknown is reported UNKNOWN."
     },
     {
-      "id": "world-adapter-region/v1:chunked-write",
+      "id": "world-adapter-region/v2:chunked-write",
       "owner": "hanaworlds-adapter-luanti",
       "meaning": "Writes per mapblock with VoxelManip after comparing expectedCurrentDigest; returns per-chunk facts and never claims an atomic transaction."
     },
     {
-      "id": "world-adapter-region/v1:restore-state",
+      "id": "world-adapter-region/v2:restore-state",
       "owner": "hanaworlds-adapter-luanti",
       "meaning": "Writes a complete RegionState (node, param2, air and extras) for rollback or Undo."
     },
     {
-      "id": "world-adapter-region/v1:lighting-complete",
+      "id": "world-adapter-region/v2:lighting-complete",
       "owner": "hanaworlds-adapter-luanti",
       "meaning": "Returns a COMPLETE lighting fact only after the bulk light recalculation for the written box has finished."
     },
     {
-      "id": "canvas-region/v1:single-logical-transaction",
+      "id": "canvas-region/v2:single-logical-transaction",
       "owner": "hanaworlds-canvas",
       "meaning": "One logical transaction across all chunks; success only after the full region readback summary equals the expected summary."
     },
     {
-      "id": "canvas-region/v1:rollback-on-failure",
+      "id": "canvas-region/v2:rollback-on-failure",
       "owner": "hanaworlds-canvas",
       "meaning": "Any failed, unknown or mismatching chunk restores the whole pre-write region."
     },
     {
-      "id": "canvas-region/v1:compressed-before-snapshot",
+      "id": "canvas-region/v2:compressed-before-snapshot",
       "owner": "hanaworlds-canvas",
       "meaning": "Durably stores the complete pre-write RegionSnapshotContent with a mature compressor and records RegionSnapshotRef."
     },
     {
-      "id": "canvas-region/v1:whole-region-undo",
+      "id": "canvas-region/v2:whole-region-undo",
       "owner": "hanaworlds-canvas",
       "meaning": "Undo restores the whole region of the same transaction after checking current world, history and current summary."
     },
@@ -13739,7 +14043,7 @@
       "meaning": "Per-cell writes and restores use the CALLBACK_FREE_NODE_DATA path of write-path-init/v1."
     },
     {
-      "id": "world-adapter-region/v1:callback-free-write",
+      "id": "world-adapter-region/v2:callback-free-write",
       "owner": "hanaworlds-adapter-luanti",
       "meaning": "Region writes and restores use the CALLBACK_FREE_NODE_DATA path of write-path-init/v1."
     },
@@ -13796,7 +14100,7 @@
   "writePathStateScope": {
     "id": "write-path-init/v1",
     "writePath": "CALLBACK_FREE_NODE_DATA",
-    "writePathMeaning": "The declared write and restore path sets node name and param2 as bulk node data (Luanti VoxelManip set_data/write_to_map; param1 is recomputed light). The engine runs no node-definition callback and creates no metadata, inventory or timer on this path. An Adapter declares that its per-cell and region writes use exactly this path with the capabilities world-adapter/v7:callback-free-write and world-adapter-region/v1:callback-free-write.",
+    "writePathMeaning": "The declared write and restore path sets node name and param2 as bulk node data (Luanti VoxelManip set_data/write_to_map; param1 is recomputed light). The engine runs no node-definition callback and creates no metadata, inventory or timer on this path. An Adapter declares that its per-cell and region writes use exactly this path with the capabilities world-adapter/v7:callback-free-write and world-adapter-region/v2:callback-free-write.",
     "factsMeaning": {
       "hasCallbacks": "true when the node definition relies on a lifecycle callback that normal engine placement/removal would run and this path skips (initializationCallbacks); false when none is defined and globalWriteCallbacks is known to be empty; null when the definition callback inventory or the global write-path callback inventory is unknown or non-empty.",
       "hasPersistentState": "false only when neither initializationCallbacks nor stateIndicatorCallbacks are defined and globalWriteCallbacks is known to be empty, i.e. writing (and later restoring) this node on this path can leave no metadata, inventory or timer at the cell. Otherwise null. Never inferred true or false from opaque Lua bodies; UNKNOWN is never defaulted to false."
@@ -13921,8 +14225,7 @@
         "mutationState": "NONE",
         "causeCode": null,
         "reason": "REQUIRED_FACT_UNKNOWN"
-      },
-      "whenFailed": null
+      }
     },
     {
       "id": "painter-region/v2:entrance-rule",
@@ -13937,146 +14240,109 @@
         "mutationState": "NONE",
         "causeCode": null,
         "reason": "REQUIRED_FACT_UNKNOWN"
-      },
-      "whenFailed": null
-    },
-    {
-      "id": "world-adapter/v7:restore-body-recheck",
-      "owner": "hanaworlds-adapter-luanti",
-      "gap": "G1",
-      "cause": "RESTORE_BODY_RECHECK_UNAVAILABLE",
-      "meaning": "Before restoring a per-cell before image (rollback), the engine rechecks every connected player's actual body against every solid target cell. A blocked restore fails, never writes into a body, and leaves the transaction pending manual recovery (receipt status RESTORE_FAILED, restoreStatus FAILED or UNKNOWN).",
-      "whenAbsent": {
-        "code": "CAPABILITY_UNAVAILABLE",
-        "phase": "validate",
-        "retryability": "AFTER_NEW_FACTS",
-        "mutationState": "NONE",
-        "causeCode": null,
-        "reason": "REQUIRED_FACT_UNKNOWN"
-      },
-      "whenFailed": {
-        "code": "RESTORE_FAILED",
-        "phase": "restore",
-        "retryability": "AFTER_MANUAL_RECOVERY",
-        "mutationState": "PARTIAL",
-        "causeCode": "SAFETY_INVARIANT_FAILED",
-        "reason": "RESTORE_ERROR"
-      }
-    },
-    {
-      "id": "world-adapter-region/v1:restore-body-recheck",
-      "owner": "hanaworlds-adapter-luanti",
-      "gap": "G1",
-      "cause": "RESTORE_BODY_RECHECK_UNAVAILABLE",
-      "meaning": "Same rule for region restores (rollback and Undo).",
-      "whenAbsent": {
-        "code": "CAPABILITY_UNAVAILABLE",
-        "phase": "validate",
-        "retryability": "AFTER_NEW_FACTS",
-        "mutationState": "NONE",
-        "causeCode": null,
-        "reason": "REQUIRED_FACT_UNKNOWN"
-      },
-      "whenFailed": {
-        "code": "RESTORE_FAILED",
-        "phase": "restore",
-        "retryability": "AFTER_MANUAL_RECOVERY",
-        "mutationState": "PARTIAL",
-        "causeCode": "SAFETY_INVARIANT_FAILED",
-        "reason": "RESTORE_ERROR"
-      }
-    },
-    {
-      "id": "world-adapter/v7:cell-protection",
-      "owner": "hanaworlds-adapter-luanti",
-      "gap": "G2",
-      "cause": "CELL_PROTECTION_UNCHECKED",
-      "meaning": "The engine checks the game's protection for every written cell in apply, apply_state and restore, in the same step as the write.",
-      "whenAbsent": {
-        "code": "CAPABILITY_UNAVAILABLE",
-        "phase": "validate",
-        "retryability": "AFTER_NEW_FACTS",
-        "mutationState": "NONE",
-        "causeCode": null,
-        "reason": "REQUIRED_FACT_UNKNOWN"
-      },
-      "whenFailed": {
-        "code": "SAFETY_INVARIANT_FAILED",
-        "phase": "apply",
-        "retryability": "AFTER_NEW_FACTS",
-        "mutationState": "NONE",
-        "causeCode": null,
-        "reason": "SCOPE_DENIED"
-      }
-    },
-    {
-      "id": "world-adapter-region/v1:cell-protection",
-      "owner": "hanaworlds-adapter-luanti",
-      "gap": "G2",
-      "cause": "CELL_PROTECTION_UNCHECKED",
-      "meaning": "Same rule for every written cell of a region write or restore.",
-      "whenAbsent": {
-        "code": "CAPABILITY_UNAVAILABLE",
-        "phase": "validate",
-        "retryability": "AFTER_NEW_FACTS",
-        "mutationState": "NONE",
-        "causeCode": null,
-        "reason": "REQUIRED_FACT_UNKNOWN"
-      },
-      "whenFailed": {
-        "code": "SAFETY_INVARIANT_FAILED",
-        "phase": "apply",
-        "retryability": "AFTER_NEW_FACTS",
-        "mutationState": "NONE",
-        "causeCode": null,
-        "reason": "SCOPE_DENIED"
-      }
-    },
-    {
-      "id": "world-adapter/v7:no-body-enclosure",
-      "owner": "hanaworlds-adapter-luanti",
-      "gap": "G3",
-      "cause": "BODY_ENCLOSURE_UNCHECKED",
-      "meaning": "At Prepare and again at apply the engine checks that no connected player's actual body is sealed in by the write. The predicate is the engine owner's design; a design clearance or template size never substitutes for it.",
-      "whenAbsent": {
-        "code": "CAPABILITY_UNAVAILABLE",
-        "phase": "validate",
-        "retryability": "AFTER_NEW_FACTS",
-        "mutationState": "NONE",
-        "causeCode": null,
-        "reason": "REQUIRED_FACT_UNKNOWN"
-      },
-      "whenFailed": {
-        "code": "SAFETY_INVARIANT_FAILED",
-        "phase": "apply",
-        "retryability": "AFTER_NEW_FACTS",
-        "mutationState": "NONE",
-        "causeCode": null,
-        "reason": "INVALID_GEOMETRY"
-      }
-    },
-    {
-      "id": "world-adapter-region/v1:no-body-enclosure",
-      "owner": "hanaworlds-adapter-luanti",
-      "gap": "G3",
-      "cause": "BODY_ENCLOSURE_UNCHECKED",
-      "meaning": "Same rule for region writes.",
-      "whenAbsent": {
-        "code": "CAPABILITY_UNAVAILABLE",
-        "phase": "validate",
-        "retryability": "AFTER_NEW_FACTS",
-        "mutationState": "NONE",
-        "causeCode": null,
-        "reason": "REQUIRED_FACT_UNKNOWN"
-      },
-      "whenFailed": {
-        "code": "SAFETY_INVARIANT_FAILED",
-        "phase": "apply",
-        "retryability": "AFTER_NEW_FACTS",
-        "mutationState": "NONE",
-        "causeCode": null,
-        "reason": "INVALID_GEOMETRY"
       }
     }
-  ]
+  ],
+  "engineGuards": {
+    "id": "engine-guards/v1",
+    "stages": [
+      {
+        "stage": "INSPECT_REGION",
+        "wire": "world-adapter/v7",
+        "operation": "InspectRegion",
+        "purpose": null,
+        "phase": "validate"
+      },
+      {
+        "stage": "PREPARE_RECOVERABLE",
+        "wire": "world-adapter/v7",
+        "operation": "PrepareRecoverableTransaction",
+        "purpose": null,
+        "phase": "validate"
+      },
+      {
+        "stage": "APPLY_COMPILED",
+        "wire": "world-adapter/v7",
+        "operation": "ApplyCompiledTransaction",
+        "purpose": null,
+        "phase": "apply"
+      },
+      {
+        "stage": "PREPARE_HISTORY",
+        "wire": "world-adapter/v7",
+        "operation": "PrepareHistoryTransaction",
+        "purpose": null,
+        "phase": "validate"
+      },
+      {
+        "stage": "APPLY_HISTORY",
+        "wire": "world-adapter/v7",
+        "operation": "ApplyHistoryTransaction",
+        "purpose": null,
+        "phase": "apply"
+      },
+      {
+        "stage": "RESTORE",
+        "wire": "world-adapter/v7",
+        "operation": "RestoreTransaction",
+        "purpose": null,
+        "phase": "restore"
+      },
+      {
+        "stage": "REGION_APPLY",
+        "wire": "world-adapter-region/v2",
+        "operation": "WriteRegion",
+        "purpose": "APPLY",
+        "phase": "apply"
+      },
+      {
+        "stage": "REGION_RESTORE",
+        "wire": "world-adapter-region/v2",
+        "operation": "WriteRegion",
+        "purpose": "RESTORE",
+        "phase": "restore"
+      }
+    ],
+    "guards": {
+      "BODY_CLEARANCE": "No solid node is written into any connected player's actual collision box (G1 at RESTORE/REGION_RESTORE).",
+      "CELL_PROTECTION": "The game's protection is asked for every written cell (G2). The declared protectionPrincipal says for whom; ANONYMOUS is not acting-principal protection.",
+      "PLAYER_ENCLOSURE": "No connected player who could leave the write's neighbourhood before the write is sealed in by it (G3). The predicate is the engine owner's design; no design size substitutes for it."
+    },
+    "errors": {
+      "violated": {
+        "code": "SAFETY_INVARIANT_FAILED",
+        "phase": "<stage phase>",
+        "retryability": "AFTER_NEW_FACTS",
+        "mutationState": "NONE",
+        "causeCode": null,
+        "reason": "INVALID_GEOMETRY"
+      },
+      "violatedProtection": {
+        "code": "SAFETY_INVARIANT_FAILED",
+        "phase": "<stage phase>",
+        "retryability": "AFTER_NEW_FACTS",
+        "mutationState": "NONE",
+        "causeCode": null,
+        "reason": "SCOPE_DENIED"
+      },
+      "unavailable": {
+        "code": "CAPABILITY_UNAVAILABLE",
+        "phase": "<stage phase>",
+        "retryability": "AFTER_NEW_FACTS",
+        "mutationState": "NONE",
+        "causeCode": null,
+        "reason": "REQUIRED_FACT_UNKNOWN"
+      },
+      "restore": {
+        "code": "RESTORE_FAILED",
+        "phase": "restore",
+        "retryability": "AFTER_MANUAL_RECOVERY",
+        "mutationState": "PARTIAL",
+        "causeCode": "<the code of the failure that made the restore necessary>",
+        "reason": "RESTORE_ERROR"
+      }
+    },
+    "rule": "A response or receipt whose error comes from a guard carries guardRefusal; its error must equal guardRefusalError(guardRefusal) (pre-flight GUARD_UNAVAILABLE: CAPABILITY_UNAVAILABLE/validate, nothing written). At RESTORE/REGION_RESTORE the error is RESTORE_FAILED/restore/RESTORE_ERROR pending manual recovery (AFTER_MANUAL_RECOVERY, PARTIAL); its causeCode names the failure that made the restore necessary, and the restore's own reason is the GuardRefusal (BODY_OCCUPIED, PROTECTED_CELL, PLAYER_ENCLOSED, or GUARD_UNAVAILABLE = RESTORE_GUARD_UNAVAILABLE). A receipt or region commit/undo response that ends in a failed restore also keeps that causing failure in full in applyFailure {error, guardRefusal}; error.causeCode equals applyFailure.error.code, so neither cause is lost.",
+    "notDecidedHere": "No acting-principal identity source exists; ACTING_PRINCIPAL coverage cannot be declared truthfully until one is defined (INV text unchanged, INV-POSE PRESENTED)."
+  }
 }
