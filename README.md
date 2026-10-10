@@ -1,4 +1,4 @@
-# HanaWorlds Contracts 1.1.0-rc.1
+# HanaWorlds Contracts 1.1.0
 
 Pure public contracts for the single-user local-world MVP. Import from `hanaworlds-contracts`. This is a fresh-install protocol replacement. No prior exports, peer compatibility, state migration, or permission bridge ships in this package. Earlier source and evidence remain in Git and their original run directories.
 
@@ -6,7 +6,7 @@ Pure public contracts for the single-user local-world MVP. Import from `hanaworl
 
 Current wires: `session/v4`, `canvas/v6`, `world-adapter/v7`, `painter/v5`, `BUILD/V4`, `ReferenceBrief/v4`, `interaction-surface/v4`; region wires `region-build/v1`, `painter-region/v2`, `world-adapter-region/v2`, `canvas-region/v2`; compiled operations `operations/v3`; target facts `target-facts/v4`; safety profile `safety-profile/v4`; placement proposal `placement-proposal/v1` (1.1). Existing projections retain the `HanaWorlds|contracts@0.4.0|` domain prefix; every changed shape carries a new wire or profile identifier, so old digests cannot match. The sections below 1.1.0 are history and name the identifiers of their time.
 
-## 1.1.0 · confirmed placement bound to the actual effect set (candidate 1.1.0-rc.1)
+## 1.1.0 · confirmed placement bound to the actual effect set (release 1.1.0)
 
 **Change note (1.1.0, qualified additive minor; every 1.0 value, digest, wire and capability id unchanged):** a placement shown to the player before confirmation can be a structured `PlacementProposal` made from a real `RegionInspection`. When present it is part of the confirmed intent (`Controls.placement` → `ConfirmedIntent.placement`, digest-bound); Painter matches the final world effect set against it on the proposal and model paths; Canvas rechecks it before any write on both the per-cell apply (`RegionApplyBinding.confirmedPlacement`) and the region commit (`ApplyRegionCommitRequest.confirmedPlacement`). Absent means what 1.0 meant: no structured placement was confirmed.
 
