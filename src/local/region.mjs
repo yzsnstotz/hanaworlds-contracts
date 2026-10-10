@@ -4,6 +4,7 @@ import { contractMetadata } from './generated/contracts.mjs';
 import { validateType, validateRequest, validateResponse, validateDigestBinding, digestValue,
   validateStaticMaterials, deepFreeze, canonicalJSON, requireSiteRuleChecks } from './runtime.mjs';
 import { requireFact, fail } from '../errors.mjs';
+import { confirmedPlacementOf, requireRegionPlacementTarget, requirePlacementWorld, regionPlacementCommitCoherence } from './placement.mjs';
 import { blockBox, blockCellCount, chunksOfBox, floorDiv, comparePalette } from './region-domain.mjs';
 export const protocolPolicy = contractMetadata.protocolPolicy;
 export const contractProtocols = contractMetadata.contractProtocols;
@@ -93,6 +94,12 @@ export function validateRegionProposalRequest(input) {
   // so a confirmed entrance requirement is refused by name; hazards are checked per palette node.
   const rules = request.intent.confirmedIntent.siteRules;
   requireSiteRuleChecks(rules, { entrance: false });
+  // A confirmed structured placement: the specified world cells are the confirmed target.
+  const placement = confirmedPlacementOf(request.intent, request.referenceBrief);
+  if (placement !== null) {
+    requirePlacementWorld(placement, request.worldRef);
+    requireRegionPlacementTarget(placement, expandRegionBlock(block));
+  }
   for (const entry of block.palette) {
     const node = request.catalogue.nodes[entry.nodeName];
     requireFact(node.liquidType !== null && node.damagePerSecond !== null, 'UNSUPPORTED_MATERIAL', 'REQUIRED_FACT_UNKNOWN');
@@ -194,9 +201,17 @@ export function validateRegionSnapshotContent(contentInput, refInput, beforeSumm
   changed(same(summarizeRegionStates(content.worldRef, content.chunks), before));
   return content;
 }
-export function validateRegionCommit(requestInput, responseInput) {
+/** canvas-region/v2 ApplyRegionCommit admission: shape, operations digest and, with a confirmed
+ * placement, its digest, World and the specified world cells against the target. Canvas then runs
+ * checkConfirmedRegionPlacementCommit with its own records before any snapshot or WriteRegion. */
+export function validateRegionCommitRequest(requestInput) {
   const request = validateRequest('canvas-region/v2', 'ApplyRegionCommit', requestInput);
   validateDigestBinding('region-operations', request.operations, request.operationDigest);
+  regionPlacementCommitCoherence(request);
+  return request;
+}
+export function validateRegionCommit(requestInput, responseInput) {
+  const request = validateRegionCommitRequest(requestInput);
   const response = validateResponse('canvas-region/v2', 'ApplyRegionCommit', responseInput);
   changed(response.requestId === request.requestId);
   if (response.error) return response;

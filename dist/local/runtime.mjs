@@ -6,6 +6,7 @@ import { validateShape } from './schema-validator.mjs';
 import { validateDomain, validateEventDomain, guardRefusalError as domainGuardRefusalError } from './domain.mjs';
 import { requireFact, fail, ContractError } from '../errors.mjs';
 import { inside, validateExactEffects, comparePosition, compareUTF16 } from '../geometry.mjs';
+import { placementApplyCoherence, requireConfirmedPlacementSent } from './placement.mjs';
 export { decodeRawJSON, snapshotJSON, deepFreeze, assertPureJSON } from '../strict-json.mjs';
 export { ContractError, publicError } from '../errors.mjs';
 export { normalizeName, validateNameSyntax, requireUnicode17, runtimeCompatibility } from '../names.mjs';
@@ -80,7 +81,8 @@ export function project(kind, payload) {
   const admitted = validateType(typeName, payload);
   const fields = schemaBundle.definitions[typeName].properties;
   const projection = Object.create(null);
-  for (const field of Object.keys(fields)) projection[field] = admitted[field];
+  // An absent optional field stays absent: its digest equals the digest before the field existed.
+  for (const field of Object.keys(fields)) if (Object.hasOwn(admitted, field)) projection[field] = admitted[field];
   return deepFreeze(projection);
 }
 export function digestValue(kind, payload) {
@@ -285,6 +287,7 @@ export function validateBoundRequest(wire, name, input) {
   validateDigestBinding('build',b,request.operations.buildDigest);
   validateDigestBinding('frame',b.coordinateFrame,request.operations.frameDigest);
   associated(b.targetFactsDigest===request.operations.targetFactsDigest&&b.catalogueDigest===request.operations.catalogueDigest);
+  placementApplyCoherence(request);
  }
  if(request.historyOperationDigest){const keys=Object.keys(schemaBundle.definitions.HistoryOperationProjection.properties);
   if(keys.every(k=>Object.hasOwn(request,k)))validateDigestBinding('history-operation',Object.fromEntries(keys.map(k=>[k,request[k]])),request.historyOperationDigest);
@@ -359,6 +362,7 @@ export function validateCurrentBuildSubmission(input,factsInput) {
  // This entry builds a fresh object. Existing affected objects are a Canvas conflict.
  requireFact(analysis.affectedObjectRefs.length===0,'OTHER_OBJECTS_AFFECTED','SCOPE_DENIED');
  associated(apply.decisionRevision===null&&apply.guarantee==='RECOVERABLE_VERIFIED');
+ requireConfirmedPlacementSent(intent,apply);
  return submission;
 }
 export function validateBoundResponse(wire,name,requestInput,responseInput) {

@@ -1,6 +1,6 @@
 {
   "$schema": "http://json-schema.org/draft-07/schema#",
-  "$id": "https://hanaworlds.invalid/contracts/1.0.0/schema.json",
+  "$id": "https://hanaworlds.invalid/contracts/1.1.0-rc.1/schema.json",
   "x-contractsCompatibility": {
     "package": "hanaworlds-contracts",
     "major": 1,
@@ -2351,6 +2351,9 @@
         },
         "siteRules": {
           "$ref": "#/definitions/SiteRules"
+        },
+        "placement": {
+          "$ref": "#/definitions/PlacementProposal"
         }
       },
       "required": [
@@ -2502,6 +2505,9 @@
               "type": "null"
             }
           ]
+        },
+        "placement": {
+          "$ref": "#/definitions/PlacementProposal"
         }
       },
       "required": [
@@ -7642,6 +7648,9 @@
         },
         "build": {
           "$ref": "#/definitions/BuildProjection"
+        },
+        "confirmedPlacement": {
+          "$ref": "#/definitions/ConfirmedPlacementBinding"
         }
       },
       "required": [
@@ -11712,6 +11721,9 @@
         },
         "localContext": {
           "$ref": "#/definitions/LocalWorldContext"
+        },
+        "confirmedPlacement": {
+          "$ref": "#/definitions/ConfirmedPlacementBinding"
         }
       },
       "required": [
@@ -13303,6 +13315,133 @@
       "maxItems": 3,
       "x-uniqueBy": "guard",
       "x-order": "guard EngineGuard enum order"
+    },
+    "PlacementCells": {
+      "type": "array",
+      "items": {
+        "$ref": "#/definitions/Position"
+      },
+      "minItems": 1,
+      "uniqueItems": true,
+      "x-typeName": "PlacementCells",
+      "x-order": "numeric x,y,z"
+    },
+    "PlacementTarget": {
+      "oneOf": [
+        {
+          "type": "object",
+          "properties": {
+            "kind": {
+              "const": "EXACT_CELLS"
+            },
+            "cells": {
+              "$ref": "#/definitions/PlacementCells"
+            }
+          },
+          "required": [
+            "kind",
+            "cells"
+          ],
+          "additionalProperties": false
+        },
+        {
+          "type": "object",
+          "properties": {
+            "kind": {
+              "const": "ANCHORED_EXTENT"
+            },
+            "bounds": {
+              "$ref": "#/definitions/Box"
+            }
+          },
+          "required": [
+            "kind",
+            "bounds"
+          ],
+          "additionalProperties": false
+        }
+      ],
+      "x-discriminator": "kind",
+      "x-variantKeys": [
+        "EXACT_CELLS",
+        "ANCHORED_EXTENT"
+      ],
+      "x-typeName": "PlacementTarget"
+    },
+    "PlacementSource": {
+      "type": "object",
+      "properties": {
+        "inspectionId": {
+          "$ref": "#/definitions/Ref"
+        },
+        "anchorKind": {
+          "$ref": "#/definitions/PlacementAnchorKind"
+        },
+        "worldRevision": {
+          "$ref": "#/definitions/Revision"
+        },
+        "targetFactsDigest": {
+          "$ref": "#/definitions/Digest"
+        },
+        "frameDigest": {
+          "$ref": "#/definitions/Digest"
+        }
+      },
+      "required": [
+        "inspectionId",
+        "anchorKind",
+        "worldRevision",
+        "targetFactsDigest",
+        "frameDigest"
+      ],
+      "additionalProperties": false,
+      "x-typeName": "PlacementSource"
+    },
+    "PlacementProposal": {
+      "type": "object",
+      "properties": {
+        "profileVersion": {
+          "const": "placement-proposal/v1"
+        },
+        "worldRef": {
+          "$ref": "#/definitions/Ref"
+        },
+        "source": {
+          "$ref": "#/definitions/PlacementSource"
+        },
+        "target": {
+          "$ref": "#/definitions/PlacementTarget"
+        }
+      },
+      "required": [
+        "profileVersion",
+        "worldRef",
+        "source",
+        "target"
+      ],
+      "additionalProperties": false,
+      "x-typeName": "PlacementProposal"
+    },
+    "ConfirmedPlacementBinding": {
+      "type": "object",
+      "properties": {
+        "placement": {
+          "$ref": "#/definitions/PlacementProposal"
+        },
+        "placementDigest": {
+          "$ref": "#/definitions/Digest"
+        },
+        "intentDigest": {
+          "$ref": "#/definitions/Digest"
+        }
+      },
+      "required": [
+        "placement",
+        "placementDigest",
+        "intentDigest"
+      ],
+      "additionalProperties": false,
+      "x-typeName": "ConfirmedPlacementBinding"
     }
   }
 }

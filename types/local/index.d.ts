@@ -52,7 +52,7 @@ export declare function validateWitnessCoherence(input:{build:BuildProjection;fi
 export declare function projectScopedPreparedTransaction(input:ScopedPreparedTransactionResult):ScopedPreparedTransaction;
 export declare function validateExactEffects(operations:unknown,materials:unknown,effects:unknown):unknown;
 export declare function decodeRawJSON(input:string|Uint8Array):unknown;
-export declare class ContractError extends Error {constructor(code?:string,phase?:string,reason?:string,details?:Record<string,unknown>);readonly code:string;readonly phase:string;readonly reason:string;readonly mutationState:string;readonly publicError:Readonly<Record<string,unknown>>;}
+export declare class ContractError extends Error {constructor(code?:string,phase?:string,reason?:string,details?:Record<string,unknown>);readonly code:string;readonly phase:string;readonly reason:string;readonly mutationState:string;readonly publicError:Readonly<Record<string,unknown>>;readonly placementFailure?:PlacementFailure;}
 export declare function validateWorldSelection(input:unknown,facts:LocalRequestFacts,connection:unknown):import('./contracts.js').SelectWorldConnectionRequest;
 export declare function validateCommitReadback(receipt:unknown,expected:unknown,actual:unknown,durableHistory:unknown):import('./contracts.js').ReceiptProjection;
 export declare const placementSettingDescriptors: ReadonlyArray<{readonly name:string;readonly owner:string;readonly type:string;readonly default:number;readonly scope:string;readonly editable:boolean;readonly meaning:string;readonly consequence:string;readonly whenUnsetOrInvalid:string}>;
@@ -154,3 +154,28 @@ export declare function validateConfigEngineFacts(input:unknown,catalogue:C['Cat
 export declare function requireKnownWriteBackend(facts:unknown):C['Ref'];
 /** Always throws CAPABILITY_UNAVAILABLE/validate/REQUIRED_FACT_UNKNOWN: avatarDimensions has no public source. */
 export declare function requireKnownAvatarEnvelope(facts:unknown):never;
+/** confirmed-placement/v1: a placement shown before confirmation is a PlacementProposal (data, not prose),
+ * bound in Controls/ConfirmedIntent and matched against the final world effect set by Painter and Canvas. */
+export type PlacementFailure='PLACEMENT_TARGET_MISMATCH'|'PLACEMENT_BINDING_CHANGED'|'PLACEMENT_INSPECTION_CHANGED'|'PLACEMENT_REVISION_STALE'|'PLACEMENT_FRAME_CHANGED'|'PLACEMENT_WORLD_CHANGED'|'PLACEMENT_OUTSIDE_INSPECTION';
+export declare const confirmedPlacement:Readonly<{id:'confirmed-placement/v1';meaning:string;kinds:Readonly<Record<'EXACT_CELLS'|'ANCHORED_EXTENT',string>>;chain:ReadonlyArray<string>;namedFailures:ReadonlyArray<Readonly<{failure:PlacementFailure;code:import('./contracts.js').ErrorCode;phase:'validate';reason:import('./contracts.js').ErrorReason;cases:string}>>;remedy:string;notDecidedHere:string}>;
+/** The only PlacementProposal source: a real RegionInspection plus the selected target inside its sampled bounds. */
+export declare function createPlacementProposal(inspection:RegionInspection,target:import('./contracts.js').PlacementTarget):import('./contracts.js').PlacementProposal;
+/** The inspection used must be the placement's source inspection (same World, frame, revision, id and facts digest). */
+export declare function requirePlacementSource(placement:import('./contracts.js').PlacementProposal,inspection:RegionInspection,worldRef:string):import('./contracts.js').PlacementProposal;
+/** Final world positions (sorted, unique) against the target: EXACT_CELLS equal, ANCHORED_EXTENT inside. */
+export declare function requirePlacementTarget(placement:import('./contracts.js').PlacementProposal,positions:import('./contracts.js').Positions):import('./contracts.js').PlacementProposal;
+/** Brief controls and confirmed intent placement must be equal (both absent, or equal); returns it, or null when none was confirmed. */
+export declare function confirmedPlacementOf(intent:import('./contracts.js').IntentProjection,brief:import('./contracts.js').BriefProjection):import('./contracts.js').PlacementProposal|null;
+/** canvas/v6 regionInspectionBinding.confirmedPlacement for a confirmed intent; null when none was confirmed (send no confirmedPlacement field). */
+export declare function confirmedPlacementBinding(intent:import('./contracts.js').IntentProjection):import('./contracts.js').ConfirmedPlacementBinding|null;
+/** Canvas pre-commit: the apply's confirmed placement against Canvas's recorded inspection and current world revision. */
+export declare function checkConfirmedPlacementApply(apply:import('./contracts.js').ApplyRecoverableCommitRequest,recordedInspection:RegionInspection,currentWorldRevision:string):Readonly<{placementDigest:string;intentDigest:string;kind:'EXACT_CELLS'|'ANCHORED_EXTENT';cellCount:number}>|null;
+/** painter/v5 CreateBuildPlan (model path): confirmed placement needs its source inspection; planned operations match the target. */
+export declare function validateCreateBuildPlanRequest(input:unknown):import('./contracts.js').CreateBuildPlanRequest;
+export declare function validateCreateBuildPlanResponse(request:unknown,response:unknown):import('./contracts.js').CreateBuildPlanResponse|import('./contracts.js').ClarificationNeed;
+/** canvas-region/v2 Canvas pre-write: the commit's confirmed placement against Canvas's recorded inspection and current world revision, before any snapshot or Adapter WriteRegion. */
+export declare function checkConfirmedRegionPlacementCommit(commit:import('./contracts.js').ApplyRegionCommitRequest,recordedInspection:RegionInspection,currentWorldRevision:string):Readonly<{placementDigest:string;intentDigest:string;kind:'EXACT_CELLS'|'ANCHORED_EXTENT';cellCount:number}>|null;
+/** Workshop region submission: the commit carries exactly confirmedPlacementBinding(intent) (no confirmedPlacement field when none was confirmed). */
+export declare function validateRegionCommitSubmission(intent:import('./contracts.js').IntentProjection,brief:import('./contracts.js').BriefProjection,commit:import('./contracts.js').ApplyRegionCommitRequest):import('./contracts.js').ApplyRegionCommitRequest;
+/** canvas-region/v2 ApplyRegionCommit admission: shape, operations digest and the confirmed-placement coherence with its own operations. */
+export declare function validateRegionCommitRequest(commit:unknown):import('./contracts.js').ApplyRegionCommitRequest;

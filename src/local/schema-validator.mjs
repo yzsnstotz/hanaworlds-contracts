@@ -52,7 +52,7 @@ export function validateShape(typeName, value) {
         if (keys.some(k => !Object.hasOwn(s.properties, k))) fail('UNKNOWN_REQUIRED_FIELD', 'decode', 'UNKNOWN_FIELD');
         if (s.required.some(k => !Object.hasOwn(v, k))) invalid();
         const fields = Object.keys(s.properties);
-        for (let i = fields.length - 1; i >= 0; i--) { const field = fields[i]; work.push({ s: s.properties[field], value: v[field], field, parent: name }); }
+        for (let i = fields.length - 1; i >= 0; i--) { const field = fields[i]; if (!Object.hasOwn(v, field)) continue; work.push({ s: s.properties[field], value: v[field], field, parent: name }); }
       } else {
         if (s.minProperties !== undefined && keys.length < s.minProperties) invalid();
         for (let i = keys.length - 1; i >= 0; i--) {

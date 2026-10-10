@@ -66,12 +66,12 @@ export type CollisionBox = readonly [Finite, Finite, Finite, Finite, Finite, Fin
 export type CollisionBoxes = ReadonlyArray<CollisionBox>;
 export type CompilationConfig = { readonly "profileVersion": "compilation-config/v2"; readonly "backendProfileId": Ref; readonly "worldeditRevision": Revision; readonly "nodeWriteSemantics": "explicit-nodeName-param2-static-v2"; readonly "overlapRule": "last-writer-wins"; readonly "effectOrder": "numeric-x-y-z"; readonly "compressionRule": "exact-final-effects-only" };
 export type CompiledOperationSet = { readonly "projection": OperationsProjection; readonly "operationDigest": Digest; readonly "readBounds": Box; readonly "writeBounds": Box };
-export type ConfirmedIntent = { readonly "kind": IntentKind; readonly "text": Text; readonly "purpose": Text | null; readonly "dimensions": BuildDimensions | null; readonly "entrancePortalRefs": OrderedRefs; readonly "confirmedTurnRevision": Revision; readonly "siteRules": SiteRules };
+export type ConfirmedIntent = { readonly "kind": IntentKind; readonly "text": Text; readonly "purpose": Text | null; readonly "dimensions": BuildDimensions | null; readonly "entrancePortalRefs": OrderedRefs; readonly "confirmedTurnRevision": Revision; readonly "siteRules": SiteRules; readonly "placement"?: PlacementProposal };
 export type ConnectionDescriptor = { readonly "adapterId": Ref; readonly "connectionRef": Ref; readonly "worldRef": Ref; readonly "displayName": Text; readonly "capabilityRevision": Revision; readonly "payloadVersion": Ref; readonly "readiness": Readiness; readonly "connectionIncarnationRef": Ref };
 export type ConnectionInventory = { readonly "capabilityRevision": Revision; readonly "connections": Connections };
 export type Connections = ReadonlyArray<ConnectionDescriptor>;
 export type ContractHandshake = { readonly "contracts": Ref; readonly "wireVersions": WireVersions; readonly "compiledOperationsVersion": "operations/v3"; readonly "factProfiles": FactProfiles };
-export type Controls = { readonly "purpose": Text | null; readonly "dimensions": BuildDimensions | null; readonly "entrancePortalRefs": OrderedRefs; readonly "styleText": Text | null; readonly "siteRules": SiteRules | null };
+export type Controls = { readonly "purpose": Text | null; readonly "dimensions": BuildDimensions | null; readonly "entrancePortalRefs": OrderedRefs; readonly "styleText": Text | null; readonly "siteRules": SiteRules | null; readonly "placement"?: PlacementProposal };
 export type Coverage = { readonly "profileVersion": "coverage/v2"; readonly "sampledBounds": Box; readonly "sampledPositions": Positions };
 export type CoverageWitness = { readonly "evidence": EvidenceBinding; readonly "positions": Positions };
 export type CreateBuildPlanRequest = { readonly "contractVersion": "painter/v5"; readonly "sessionRef": Ref; readonly "requestId": Ref; readonly "worldRef": Ref; readonly "turnRevision": Revision; readonly "painterId": PainterId; readonly "invocationId": Ref; readonly "intent": IntentProjection; readonly "intentDigest": Digest; readonly "referenceBrief": BriefProjection; readonly "referenceBriefDigest": Digest; readonly "catalogue": Catalogue; readonly "targetFacts": TargetFacts; readonly "targetFactsDigest": Digest; readonly "safetyProfile": SafetyProfile; readonly "safetyProfileDigest": Digest; readonly "regionInspection": RegionInspection | null; readonly "localContext": LocalWorldContext };
@@ -244,7 +244,7 @@ export type Ref = string;
 export type RefSet = ReadonlyArray<Ref>;
 export type ReferenceBriefRequest = { readonly "contractVersion": "ReferenceBrief/v4"; readonly "sessionRef": Ref; readonly "requestId": Ref; readonly "brief": BriefProjection; readonly "briefDigest": Digest; readonly "localContext": LocalWorldContext };
 export type ReferenceBriefResponse = { readonly "contractVersion": "ReferenceBrief/v4"; readonly "requestId": Ref; readonly "result": BriefReceipt | null; readonly "error": Error | null };
-export type RegionApplyBinding = { readonly "inspectionId": Ref; readonly "build": BuildProjection };
+export type RegionApplyBinding = { readonly "inspectionId": Ref; readonly "build": BuildProjection; readonly "confirmedPlacement"?: ConfirmedPlacementBinding };
 export type RegionInspection = { readonly "inspectionId": Ref; readonly "anchorKind": PlacementAnchorKind; readonly "targetFacts": TargetFacts; readonly "targetFactsDigest": Digest; readonly "frame": Frame; readonly "evidence": EvidenceBinding; readonly "entranceFacing": Axis; readonly "placementSettings": PlacementSettings };
 export type RenameObjectRequest = { readonly "contractVersion": "canvas/v6"; readonly "sessionRef": Ref; readonly "requestId": Ref; readonly "worldRef": Ref; readonly "objectRef": Ref; readonly "name": Text; readonly "expectedRevision": Revision; readonly "expectedRegistryRevision": Revision; readonly "localContext": LocalWorldContext };
 export type ReopenExistingArtifactRequest = { readonly "contractVersion": "session/v4"; readonly "sessionRef": Ref; readonly "requestId": Ref; readonly "artifactRef": Ref; readonly "workRevision": Revision; readonly "resourceManifestDigest": Digest; readonly "localContext": LocalWorldContext };
@@ -379,7 +379,7 @@ export type RegionSnapshotChunk = { readonly "chunkPos": ChunkPosition; readonly
 export type RegionSnapshotChunks = ReadonlyArray<RegionSnapshotChunk>;
 export type RegionSnapshotContent = { readonly "profileVersion": "region-snapshot-content/v1"; readonly "worldRef": Ref; readonly "chunks": RegionSnapshotChunks };
 export type RegionSnapshotRef = { readonly "profileVersion": "region-snapshot/v1"; readonly "contentDigest": Digest; readonly "beforeSummaryDigest": Digest; readonly "compression": Ref; readonly "compressedSha256": Digest; readonly "compressedByteLength": PositiveInt };
-export type ApplyRegionCommitRequest = { readonly "contractVersion": "canvas-region/v2"; readonly "sessionRef": Ref; readonly "requestId": Ref; readonly "worldRef": Ref; readonly "transactionId": Ref; readonly "operations": RegionOperationsProjection; readonly "operationDigest": Digest; readonly "guarantee": Guarantee; readonly "localContext": LocalWorldContext };
+export type ApplyRegionCommitRequest = { readonly "contractVersion": "canvas-region/v2"; readonly "sessionRef": Ref; readonly "requestId": Ref; readonly "worldRef": Ref; readonly "transactionId": Ref; readonly "operations": RegionOperationsProjection; readonly "operationDigest": Digest; readonly "guarantee": Guarantee; readonly "localContext": LocalWorldContext; readonly "confirmedPlacement"?: ConfirmedPlacementBinding };
 export type RegionCommitStatus = "VERIFIED" | "ROLLED_BACK";
 export type RegionCommitResult = { readonly "transactionId": Ref; readonly "worldRef": Ref; readonly "status": RegionCommitStatus; readonly "operationDigest": Digest; readonly "beforeSummary": RegionSummary; readonly "expectedAfterSummary": RegionSummary; readonly "actualSummary": RegionSummary; readonly "snapshot": RegionSnapshotRef; readonly "historyRevision": Revision; readonly "lighting": RegionLighting; readonly "affectedObjectRefs": RefSet; readonly "localContext": LocalWorldContext };
 export type ApplyRegionCommitResponse = { readonly "contractVersion": "canvas-region/v2"; readonly "requestId": Ref; readonly "result": RegionCommitResult | null; readonly "error": Error | null; readonly "guardRefusal": GuardRefusal | null; readonly "applyFailure": FailureDetail | null };
@@ -440,6 +440,11 @@ export type GuardFinding = "BODY_OCCUPIED" | "PROTECTED_CELL" | "PLAYER_ENCLOSED
 export type GuardRefusal = { readonly "guard": EngineGuard; readonly "stage": EngineGuardStage; readonly "finding": GuardFinding };
 export type FailureDetail = { readonly "error": Error; readonly "guardRefusal": GuardRefusal | null };
 export type EngineGuardCoverages = ReadonlyArray<EngineGuardCoverage>;
+export type PlacementCells = ReadonlyArray<Position>;
+export type PlacementTarget = { readonly "kind": "EXACT_CELLS"; readonly "cells": PlacementCells } | { readonly "kind": "ANCHORED_EXTENT"; readonly "bounds": Box };
+export type PlacementSource = { readonly "inspectionId": Ref; readonly "anchorKind": PlacementAnchorKind; readonly "worldRevision": Revision; readonly "targetFactsDigest": Digest; readonly "frameDigest": Digest };
+export type PlacementProposal = { readonly "profileVersion": "placement-proposal/v1"; readonly "worldRef": Ref; readonly "source": PlacementSource; readonly "target": PlacementTarget };
+export type ConfirmedPlacementBinding = { readonly "placement": PlacementProposal; readonly "placementDigest": Digest; readonly "intentDigest": Digest };
 export interface TypeMap {
 AbortPreparedHistoryTransactionRequest: AbortPreparedHistoryTransactionRequest;
 AbortPreparedHistoryTransactionResponse: AbortPreparedHistoryTransactionResponse;
@@ -882,6 +887,11 @@ GuardFinding: GuardFinding;
 GuardRefusal: GuardRefusal;
 FailureDetail: FailureDetail;
 EngineGuardCoverages: EngineGuardCoverages;
+PlacementCells: PlacementCells;
+PlacementTarget: PlacementTarget;
+PlacementSource: PlacementSource;
+PlacementProposal: PlacementProposal;
+ConfirmedPlacementBinding: ConfirmedPlacementBinding;
 }
 export type TypeName=keyof TypeMap;
 export interface OperationMap {
@@ -1005,5 +1015,6 @@ export interface ProjectionMap {
 "region-summary": RegionSummary;
 "region-snapshot-content": RegionSnapshotContent;
 "config-engine-facts": ConfigEngineFactsProjection;
+"placement-proposal": PlacementProposal;
 }
 
