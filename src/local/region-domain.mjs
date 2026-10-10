@@ -104,6 +104,12 @@ export function validateRegionDomain(name, v) {
     world(v); summaryCoherent(v.worldRef, v.beforeSummary, v.expectedAfterSummary, v.actualSummary);
     if (v.status === 'VERIFIED') shape(same(v.actualSummary, v.expectedAfterSummary) && v.lighting.status === 'COMPLETE');
     else shape(same(v.actualSummary, v.beforeSummary));
+    // 1.2: the failure that made Canvas restore, only on a rollback, of this transaction, before restore.
+    if (Object.hasOwn(v, 'rollbackCause')) {
+      const e = v.rollbackCause.error;
+      shape(v.status === 'ROLLED_BACK' && e.phase !== 'restore' && ['NONE', 'PARTIAL', 'UNKNOWN'].includes(e.mutationState) &&
+        (e.transactionRef === null || e.transactionRef === v.transactionId));
+    }
   } else if (name === 'UndoRegionCommitRequest') { world(v); shape(v.originTransactionId !== v.undoTransactionId); }
   else if (name === 'RegionUndoResult') {
     world(v); summaryCoherent(v.worldRef, v.preUndoSummary, v.actualSummary);

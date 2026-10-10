@@ -222,6 +222,19 @@ export function validateRegionCommit(requestInput, responseInput) {
   validateDigestBinding('region-summary', r.beforeSummary, r.snapshot.beforeSummaryDigest);
   return response;
 }
+/** region-rollback-cause/v1: the cause of a successful whole-region rollback, read from the
+ * ApplyRegionCommit response of the same request (first answer or exact replay). Pure: it reports
+ * what the response states and never infers a cause; an absent cause is UNKNOWN. */
+export const regionRollbackCause = contractMetadata.regionRollbackCause;
+export function regionRollbackCauseOf(requestInput, responseInput) {
+  const response = validateRegionCommit(requestInput, responseInput);
+  requireFact(response.result !== null && response.result.status === 'ROLLED_BACK');
+  const r = response.result;
+  const reported = Object.hasOwn(r, 'rollbackCause');
+  return deepFreeze({ requestId: response.requestId, transactionId: r.transactionId, worldRef: r.worldRef,
+    localContext: r.localContext, operationDigest: r.operationDigest,
+    cause: reported ? 'REPORTED' : regionRollbackCause.unknown, failure: reported ? r.rollbackCause : null });
+}
 export function validateRegionUndo(requestInput, responseInput, originResultInput) {
   const request = validateRequest('canvas-region/v2', 'UndoRegionCommit', requestInput);
   const origin = validateType('RegionCommitResult', originResultInput);

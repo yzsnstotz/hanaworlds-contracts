@@ -1,5 +1,5 @@
 {
-  "version": "1.1.0",
+  "version": "1.2.0-rc.1",
   "wireVersions": [
     "interaction-surface/v4",
     "session/v4",
@@ -12432,6 +12432,9 @@
         },
         "localContext": {
           "$ref": "#/definitions/LocalWorldContext"
+        },
+        "rollbackCause": {
+          "$ref": "#/definitions/FailureDetail"
         }
       },
       "required": [
@@ -14287,6 +14290,11 @@
       "id": "world-adapter/v7:write-path-state-facts",
       "owner": "hanaworlds-adapter-luanti",
       "meaning": "Catalogue hasCallbacks/hasPersistentState are published under scope write-path-init/v1 and agree with a WritePathEvidence inventory (validateCatalogueWritePathFacts)."
+    },
+    {
+      "id": "canvas-region/v2:rollback-cause",
+      "owner": "hanaworlds-canvas",
+      "meaning": "Every ROLLED_BACK RegionCommitResult carries rollbackCause: the failure Canvas itself observed in this transaction that made it restore (an Adapter error and guard refusal relayed unchanged, or Canvas's own readback/lighting/transport finding), bound to the same transactionId; it is stored with the terminal outcome and returned unchanged on exact replay."
     }
   ],
   "regionInvariants": [
@@ -14331,6 +14339,13 @@
       "switchable": false,
       "text": "hasCallbacks/hasPersistentState are facts about the declared callback-free write and initialization path only; unknown or side-effecting initialization rejects the write, and UNKNOWN is never treated as false.",
       "consequence": "Plain nodes such as stone can be written; nodes that need initialization or carry state are refused before writing; later independent changes surface as readback/Undo conflicts."
+    },
+    {
+      "id": "REGION-ROLLBACK-CAUSE-OBSERVED",
+      "owner": "Canvas",
+      "switchable": false,
+      "text": "A region rollback cause states only the failure the transaction owner observed inside the transaction's own operation boxes, using the closed ErrorCode/ErrorReason/GuardRefusal values. It never names who or what else changed the world (natural simulation, other writers, test instrumentation) and never covers cells outside the operation boxes. An absent cause is UNKNOWN, never a guessed cause.",
+      "consequence": "A rolled-back region tells the player and the skill why Canvas restored, without inventing an engine cause; a missing cause is shown as unknown."
     }
   ],
   "writePathStateScope": {
@@ -14660,5 +14675,26 @@
     ],
     "remedy": "Every named failure is retryability AFTER_NEW_FACTS: make a new PlacementProposal from a current inspection and obtain a new human confirmation. Nothing is written.",
     "notDecidedHere": "Which cells or range to propose, how it is displayed, and whether a building needs a structured placement at all are skill/Workshop decisions. Known-empty, body and engine guards are unchanged and still apply."
+  },
+  "regionRollbackCause": {
+    "id": "region-rollback-cause/v1",
+    "field": "RegionCommitResult.rollbackCause",
+    "meaning": "The failure that made Canvas restore the whole region in a successful rollback (status ROLLED_BACK, actual summary equal to the before summary). The envelope keeps result XOR error, so a successful rollback has error null and applyFailure null; the cause therefore travels inside the result. A failed restore keeps the existing form (error RESTORE_FAILED with applyFailure) and has no result.",
+    "rules": [
+      "Present only when status is ROLLED_BACK; a VERIFIED result carrying it is SCHEMA_INVALID/INVALID_SHAPE.",
+      "rollbackCause.error.phase is not restore (it is the failure that made the restore necessary).",
+      "rollbackCause.error.mutationState is NONE, PARTIAL or UNKNOWN: the world state at the failing step, before the restore.",
+      "rollbackCause.error.transactionRef is null or the result transactionId: the cause lives inside this transaction's result and never names another transaction.",
+      "rollbackCause.guardRefusal, when not null, explains rollbackCause.error exactly (guardRefusalError); an Adapter WriteRegion error and guard refusal that caused the restore are relayed unchanged.",
+      "Absent means the cause is not reported: consumers read it as UNKNOWN (regionRollbackCauseOf returns cause UNKNOWN), never as a default or guessed cause. It is the 1.1 meaning, unchanged."
+    ],
+    "unknown": "UNKNOWN",
+    "readRoute": "The ApplyRegionCommit response of that request. Canvas stores the terminal response (including rollbackCause) with the request outcome; an exact replay of the same request (validateCurrentRequest disposition RETURN_STORED) returns it unchanged and never writes again. No QueryTransaction exists for regions; per-cell QueryTransaction and Adapter last-call facts are not this route.",
+    "notCovered": [
+      "Cells outside the transaction's operation boxes and natural simulation or other writers: neither restored nor attributed.",
+      "UndoRegionCommit results.",
+      "Test or bridge instrumentation identity: the cause reports what Canvas observed, not who injected it."
+    ],
+    "capability": "canvas-region/v2:rollback-cause"
   }
 }

@@ -120,6 +120,10 @@ export declare function requireKnownRegion(result:unknown):C['RegionReadResult']
 export declare function validateRegionWrite(request:unknown,response:unknown):{readonly response:C['WriteRegionResponse'];readonly allWritten:boolean;readonly committed:false};
 export declare function validateRegionSnapshotContent(content:unknown,ref:unknown,beforeSummary:unknown):C['RegionSnapshotContent'];
 export declare function validateRegionCommit(request:unknown,response:unknown):C['ApplyRegionCommitResponse'];
+/** region-rollback-cause/v1 metadata: field, rules, read route, what it never covers. */
+export declare const regionRollbackCause:Readonly<{id:'region-rollback-cause/v1';field:string;meaning:string;rules:ReadonlyArray<string>;unknown:'UNKNOWN';readRoute:string;notCovered:ReadonlyArray<string>;capability:'canvas-region/v2:rollback-cause'}>;
+/** Cause of a successful region rollback, read from the ApplyRegionCommit response of the same request (first answer or exact replay). Absent cause is 'UNKNOWN', never inferred. */
+export declare function regionRollbackCauseOf(request:unknown,response:unknown):Readonly<{requestId:C['Ref'];transactionId:C['Ref'];worldRef:C['Ref'];localContext:C['LocalWorldContext'];operationDigest:C['Digest'];cause:'REPORTED'|'UNKNOWN';failure:C['FailureDetail']|null}>;
 export declare function validateRegionUndo(request:unknown,response:unknown,originResult:unknown):C['UndoRegionCommitResponse'];
 export declare function protocolRequirement(wire:string,capabilities?:ReadonlyArray<string>,minMinor?:number):C['ProtocolRequirement'];
 /** Same major, minor >= minMinor, all capabilities. Provenance is recorded, never compared. */

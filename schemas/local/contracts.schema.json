@@ -1,6 +1,6 @@
 {
   "$schema": "http://json-schema.org/draft-07/schema#",
-  "$id": "https://hanaworlds.invalid/contracts/1.1.0/schema.json",
+  "$id": "https://hanaworlds.invalid/contracts/1.2.0-rc.1/schema.json",
   "x-contractsCompatibility": {
     "package": "hanaworlds-contracts",
     "major": 1,
@@ -11785,6 +11785,9 @@
         },
         "localContext": {
           "$ref": "#/definitions/LocalWorldContext"
+        },
+        "rollbackCause": {
+          "$ref": "#/definitions/FailureDetail"
         }
       },
       "required": [
