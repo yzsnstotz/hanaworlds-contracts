@@ -1,4 +1,4 @@
-# HanaWorlds Contracts 1.2.0-rc.1
+# HanaWorlds Contracts 1.2.0
 
 Pure public contracts for the single-user local-world MVP. Import from `hanaworlds-contracts`. This is a fresh-install protocol replacement. No prior exports, peer compatibility, state migration, or permission bridge ships in this package. Earlier source and evidence remain in Git and their original run directories.
 
@@ -6,9 +6,9 @@ Pure public contracts for the single-user local-world MVP. Import from `hanaworl
 
 Current wires: `session/v4`, `canvas/v6`, `world-adapter/v7`, `painter/v5`, `BUILD/V4`, `ReferenceBrief/v4`, `interaction-surface/v4`; region wires `region-build/v1`, `painter-region/v2`, `world-adapter-region/v2`, `canvas-region/v2`; compiled operations `operations/v3`; target facts `target-facts/v4`; safety profile `safety-profile/v4`; placement proposal `placement-proposal/v1` (1.1); region rollback cause `region-rollback-cause/v1` (1.2). Existing projections retain the `HanaWorlds|contracts@0.4.0|` domain prefix; every changed shape carries a new wire or profile identifier, so old digests cannot match. The sections below 1.1.0 are history and name the identifiers of their time.
 
-## 1.2.0 · cause of a successful region rollback (candidate 1.2.0-rc.1)
+## 1.2.0 · cause of a successful region rollback (release 1.2.0)
 
-**Change note (1.2.0-rc.1, qualified additive minor; every 1.1 value, digest, wire and capability id unchanged):** a successful whole-region rollback can state why Canvas restored. `RegionCommitResult.rollbackCause` (`FailureDetail {error, guardRefusal}`) is optional, has no null form, and appears only on `status: ROLLED_BACK`. Absent means what 1.1 meant: no cause is reported, which a consumer reads as `UNKNOWN`.
+**Change note (1.2.0, qualified additive minor; every 1.1 value, digest, wire and capability id unchanged):** a successful whole-region rollback can state why Canvas restored. `RegionCommitResult.rollbackCause` (`FailureDetail {error, guardRefusal}`) is optional, has no null form, and appears only on `status: ROLLED_BACK`. Absent means what 1.1 meant: no cause is reported, which a consumer reads as `UNKNOWN`.
 
 - **Why it was missing.** `ApplyRegionCommitResponse` keeps `result` XOR `error`. A successful rollback has a result, so `error` is null, and `applyFailure` is legal only beside a restore error (`RESTORE_FAILED`). So 1.1 had no legal place for the failure that made Canvas restore. There is no region `QueryTransaction` (`world-adapter-region/v2` and `canvas-region/v2` have none). Per-cell `QueryTransaction` needs the prepared `transactionPayloadDigest`, which `operationDigest` does not replace. Adapter last-call facts are not durable. History/pending records hold no rolled-back transaction.
 - **Rules** (`regionRollbackCause.rules`, all `SCHEMA_INVALID/INVALID_SHAPE` unless noted):
