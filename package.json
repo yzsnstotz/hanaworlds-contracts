@@ -1,6 +1,6 @@
 {
   "name": "hanaworlds-contracts",
-  "version": "2.9.0",
+  "version": "2.10.0",
   "description": "Pure current-local-world contracts. Fresh state only; strict decoding, business correlation, Canvas transactions and same-transaction history.",
   "type": "module",
   "private": true,
@@ -40,11 +40,12 @@
     "docs/local-world-source.md",
     "docs/world-error-context.md",
     "docs/history-receipt.md",
-    "docs/plugin-roles.md"
+    "docs/plugin-roles.md",
+    "docs/placement-settings.md"
   ],
   "scripts": {
     "build": "node tools/build-local.mjs",
-    "test": "node test/local-world.mjs && node test/world-source-facts.mjs && node --test test/world-source-facts-bindings.mjs test/world-source-facts-mock.mjs && node --test test/brush-placement-minor.mjs && node --test test/world-lifecycle-minor.mjs && node --test test/skill-tools-minor.mjs test/direct-build-minor.mjs && node --test test/local-world-source-minor.mjs && node --test test/world-error-minor.mjs && node --test test/history-receipt-minor.mjs && node --test test/plugin-roles-minor.mjs",
+    "test": "node test/local-world.mjs && node test/world-source-facts.mjs && node --test test/world-source-facts-bindings.mjs test/world-source-facts-mock.mjs && node --test test/brush-placement-minor.mjs && node --test test/world-lifecycle-minor.mjs && node --test test/skill-tools-minor.mjs test/direct-build-minor.mjs && node --test test/local-world-source-minor.mjs && node --test test/world-error-minor.mjs && node --test test/history-receipt-minor.mjs && node --test test/plugin-roles-minor.mjs && node --test test/placement-settings-minor.mjs",
     "typecheck": "tsc --project consumer/local/tsconfig.json",
     "verify:source": "node tools/verify-local.mjs",
     "test:image": "node test/image-proposal.mjs",
@@ -97,7 +98,8 @@
     "test:plugin-roles": "node --test test/plugin-roles-minor.mjs",
     "typecheck:plugin-roles": "tsc --project consumer/plugin-roles/tsconfig.json",
     "build:plugin-roles-fixture": "node tools/build-plugin-roles-fixture.mjs",
-    "test:plugin-roles-consumer": "node tools/gate-plugin-roles-consumer.mjs"
+    "test:plugin-roles-consumer": "node tools/gate-plugin-roles-consumer.mjs",
+    "typecheck:placement-settings": "tsc --project consumer/placement-settings/tsconfig.json"
   },
   "dependencies": {
     "canonicalize": "5.1.0"

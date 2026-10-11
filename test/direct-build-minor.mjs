@@ -139,6 +139,8 @@ test('2.5.0 definitions, operations, digests, ownership and old tool branches ar
  // 2.9.0 appends world-inspection/v1 ReadPluginRoles; project it out of the frozen 2.5.0 operations.
  const operations=structuredClone(a.operationContracts);
  assert.deepEqual(operations['world-inspection/v1'].pop(),{operation:'ReadPluginRoles',request:'ReadPluginRolesRequest',response:'ReadPluginRolesResponse'});
+ // 2.10.0 adds only this C-canvas read.
+ assert.deepEqual(operations['canvas/v7'].pop(),{operation:'ReadPlacementSettings',request:'ReadPlacementSettingsRequest',response:'ReadPlacementSettingsResponse'});
  assert.equal(sha(operations),b.operationsDigest);
  assert.equal(sha(a.digestProfile),b.digestDigest);
  assert.equal(sha(a.ownership),b.ownershipDigest);
