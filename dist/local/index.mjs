@@ -7,3 +7,5 @@ export {configEngineFacts, validateConfigEngineFacts, requireKnownWriteBackend, 
 export {confirmedPlacement, createPlacementProposal, requirePlacementSource, requirePlacementTarget, confirmedPlacementOf, confirmedPlacementBinding, checkConfirmedPlacementApply, checkConfirmedRegionPlacementCommit, validateRegionCommitSubmission} from './placement.mjs';
 export {worldSourceFacts, validateCatalogueFacts, validateMaterialSourceFacts, validateEngineFacts, validateWriteProfile, validateWorldSourceCapabilities, requireWriteProfileConfig, requireDeclaredAvatarEnvelope, validateInspectionContextResponse} from './world-source-facts.mjs';
 export {validatePlacementRegionRequest, validatePlacementRegionResponse} from './placement-region.mjs';
+export {worldLifecycle} from './world-lifecycle.mjs';
+export {createWorldLifecycleMock} from './world-lifecycle-mock.mjs';

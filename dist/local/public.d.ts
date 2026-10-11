@@ -1,6 +1,6 @@
 export * from './contracts.js';
 import type {TypeMap,TypeName,OperationMap,ProjectionMap,ContractHandshake,LocalRequestFacts,CurrentBuildSubmission,ValidateBuildProposalRequest,ValidateBuildProposalResponse,BuildProposalProviderFacts,ScopedPreparedTransaction,ScopedPreparedTransactionResult,RegionInspection,MaterialMap,Catalogue,BuildProjection,FinalEffects,TargetFacts,SafetyProfile,Coverage} from './contracts.js';
-export declare const version: '2.1.0';
+export declare const version: '2.3.0';
 export declare const wireVersions: ReadonlyArray<keyof OperationMap>;
 export declare const compiledOperationsVersion: 'operations/v4';
 export declare const contractHandshake: ContractHandshake;
@@ -211,3 +211,33 @@ export declare function validateInspectionContextResponse(request:unknown,respon
 export declare function validatePlacementRegionRequest(request:unknown,connection:unknown):C['InspectPlacementRegionRequest'];
 /** Binds successful inspection to request profile and current world declaration; missing profile fails closed. */
 export declare function validatePlacementRegionResponse(request:unknown,response:unknown,connection:unknown):C['PlacementRegionInspection'];
+
+/** Major-2 source-owned lifecycle operations, errors and provider declarations. */
+export declare const worldLifecycle: Readonly<{
+ contracts: ReadonlyArray<Readonly<{id:'C-world-lifecycle'|'C-engine-runtime'|'C-local-worlds';wire:'world-lifecycle/v2'|'engine-runtime/v2'|'local-worlds/v2';major:2;provider:string;providerRole?:'world-source';consumers:ReadonlyArray<string>}>>;
+ operations: ReadonlyArray<Readonly<{wire:keyof OperationMap;operation:string;request:TypeName;response:TypeName;errors:ReadonlyArray<import('./contracts.js').ErrorCode>}>>;
+ opaqueFields:ReadonlyArray<string>;rules:ReadonlyArray<string>;
+}>;
+/** Stateless SOURCE/FIXTURE only. Does not create/delete worlds or control processes. */
+export declare function createWorldLifecycleMock(fixture:unknown,refusals?:Readonly<Record<string,import('./contracts.js').ErrorCode>>):<W extends keyof OperationMap,N extends keyof OperationMap[W]>(wire:W,name:N,input:unknown)=>OperationMap[W][N] extends {response:infer R}?R:never;
+export interface WorldLifecyclePort {
+ describe(request:import('./contracts.js').WorldLifecycleDescribeRequest):Promise<import('./contracts.js').WorldLifecycleDescribeResponse>;
+ list(request:import('./contracts.js').WorldLifecycleListRequest):Promise<import('./contracts.js').WorldLifecycleListResponse>;
+ create(request:import('./contracts.js').WorldLifecycleCreateRequest):Promise<import('./contracts.js').WorldLifecycleCreateResponse>;
+ describeDelete(request:import('./contracts.js').WorldLifecycleDescribeDeleteRequest):Promise<import('./contracts.js').WorldLifecycleDescribeDeleteResponse>;
+ delete(request:import('./contracts.js').WorldLifecycleDeleteRequest):Promise<import('./contracts.js').WorldLifecycleDeleteResponse>;
+ launch(request:import('./contracts.js').WorldLifecycleLaunchRequest):Promise<import('./contracts.js').WorldLifecycleLaunchResponse>;
+ stop(request:import('./contracts.js').WorldLifecycleStopRequest):Promise<import('./contracts.js').WorldLifecycleStopResponse>;
+ play(request:import('./contracts.js').WorldLifecyclePlayRequest):Promise<import('./contracts.js').WorldLifecyclePlayResponse>;
+}
+export interface EngineRuntimePort {
+ StartWorldRuntime(request:import('./contracts.js').EngineRuntimeStartRequest):Promise<import('./contracts.js').EngineRuntimeStartResponse>;
+ StopWorldRuntime(request:import('./contracts.js').EngineRuntimeStopRequest):Promise<import('./contracts.js').EngineRuntimeStopResponse>;
+ ReadRuntimeStatus(request:import('./contracts.js').EngineRuntimeReadStatusRequest):Promise<import('./contracts.js').EngineRuntimeReadStatusResponse>;
+}
+export interface LocalWorldsPort {
+ discover(request:import('./contracts.js').LocalWorldsDiscoverRequest):Promise<import('./contracts.js').LocalWorldsDiscoverResponse>;
+ createWorld(request:import('./contracts.js').LocalWorldsCreateRequest):Promise<import('./contracts.js').LocalWorldsCreateResponse>;
+ pair(request:import('./contracts.js').LocalWorldsPairRequest):Promise<import('./contracts.js').LocalWorldsPairResponse>;
+ deleteWorld(request:import('./contracts.js').LocalWorldsDeleteRequest):Promise<import('./contracts.js').LocalWorldsDeleteResponse>;
+}

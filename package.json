@@ -1,6 +1,6 @@
 {
   "name": "hanaworlds-contracts",
-  "version": "2.2.1",
+  "version": "2.3.0",
   "description": "Pure current-local-world contracts. Fresh state only; strict decoding, business correlation, Canvas transactions and same-transaction history.",
   "type": "module",
   "private": true,
@@ -32,11 +32,12 @@
     "NOTICE",
     "README.md",
     "docs/world-source-facts.md",
-    "docs/brush-placement.md"
+    "docs/brush-placement.md",
+    "docs/world-lifecycle.md"
   ],
   "scripts": {
     "build": "node tools/build-local.mjs",
-    "test": "node test/local-world.mjs && node test/world-source-facts.mjs && node --test test/world-source-facts-bindings.mjs test/world-source-facts-mock.mjs && node --test test/brush-placement-minor.mjs",
+    "test": "node test/local-world.mjs && node test/world-source-facts.mjs && node --test test/world-source-facts-bindings.mjs test/world-source-facts-mock.mjs && node --test test/brush-placement-minor.mjs && node --test test/world-lifecycle-minor.mjs",
     "typecheck": "tsc --project consumer/local/tsconfig.json",
     "verify:source": "node tools/verify-local.mjs",
     "test:image": "node test/image-proposal.mjs",
@@ -69,7 +70,9 @@
     "test:brush-placement": "node --test test/brush-placement-minor.mjs",
     "typecheck:brush-placement": "tsc --project consumer/brush-placement/tsconfig.json",
     "build:brush-placement-fixture": "node tools/build-brush-placement-fixture.mjs",
-    "test:conformance": "npm test && npm run test:major-compat && npm run test:region && npm run test:seam && npm run test:placement && npm run test:rollback-cause"
+    "test:conformance": "npm test && npm run test:major-compat && npm run test:region && npm run test:seam && npm run test:placement && npm run test:rollback-cause",
+    "test:world-lifecycle": "node --test test/world-lifecycle-minor.mjs",
+    "typecheck:world-lifecycle": "tsc --project consumer/world-lifecycle/tsconfig.json"
   },
   "dependencies": {
     "canonicalize": "5.1.0"

@@ -14,6 +14,7 @@ const facts:CatalogueFacts=validateCatalogueFacts(raw,connection);
 const context:InspectionContext|null=validateInspectionContextResponse(raw,raw).result;
 const added:string|undefined=minorWires['world-facts/v1'];
 const id:'world-source-facts/v1'=worldSourceFacts.id;
-const currentVersion:'2.1.0'=version;
+// This minor port stays usable across package releases; package provenance is not its wire version.
+const currentVersion:typeof version=version;
 declare const response:Read;
 void [request,config,size,owner,facts,context,added,id,currentVersion,response];

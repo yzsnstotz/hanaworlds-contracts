@@ -1,6 +1,6 @@
 {
   "$schema": "http://json-schema.org/draft-07/schema#",
-  "$id": "https://hanaworlds.invalid/contracts/2.2.1/schema.json",
+  "$id": "https://hanaworlds.invalid/contracts/2.3.0/schema.json",
   "x-contractsCompatibility": {
     "package": "hanaworlds-contracts",
     "major": 2,
@@ -14343,6 +14343,1311 @@
           "anyOf": [
             {
               "$ref": "#/definitions/InspectionContext"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "error": {
+          "anyOf": [
+            {
+              "$ref": "#/definitions/Error"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        }
+      },
+      "required": [
+        "contractVersion",
+        "requestId",
+        "result",
+        "error"
+      ],
+      "additionalProperties": false
+    },
+    "WorldLifecycleTemplate": {
+      "x-typeName": "WorldLifecycleTemplate",
+      "type": "object",
+      "properties": {
+        "templateId": {
+          "$ref": "#/definitions/Ref"
+        },
+        "label": {
+          "$ref": "#/definitions/Ref"
+        }
+      },
+      "required": [
+        "templateId",
+        "label"
+      ],
+      "additionalProperties": false
+    },
+    "WorldLifecyclePrerequisite": {
+      "x-typeName": "WorldLifecyclePrerequisite",
+      "type": "object",
+      "properties": {
+        "prerequisiteId": {
+          "$ref": "#/definitions/Ref"
+        },
+        "label": {
+          "$ref": "#/definitions/Ref"
+        },
+        "satisfied": {
+          "type": "boolean"
+        }
+      },
+      "required": [
+        "prerequisiteId",
+        "label",
+        "satisfied"
+      ],
+      "additionalProperties": false
+    },
+    "WorldLifecycleDescription": {
+      "x-typeName": "WorldLifecycleDescription",
+      "type": "object",
+      "properties": {
+        "templates": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/WorldLifecycleTemplate"
+          }
+        },
+        "canDelete": {
+          "type": "boolean"
+        },
+        "canPlay": {
+          "type": "boolean"
+        },
+        "prerequisites": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/WorldLifecyclePrerequisite"
+          }
+        }
+      },
+      "required": [
+        "templates",
+        "canDelete",
+        "canPlay",
+        "prerequisites"
+      ],
+      "additionalProperties": false
+    },
+    "WorldLifecycleWorld": {
+      "x-typeName": "WorldLifecycleWorld",
+      "type": "object",
+      "properties": {
+        "worldId": {
+          "$ref": "#/definitions/Ref"
+        },
+        "worldRef": {
+          "$ref": "#/definitions/Ref"
+        },
+        "displayName": {
+          "$ref": "#/definitions/Ref"
+        },
+        "tags": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/Ref"
+          }
+        }
+      },
+      "required": [
+        "worldId",
+        "worldRef",
+        "displayName",
+        "tags"
+      ],
+      "additionalProperties": false
+    },
+    "WorldLifecycleInventory": {
+      "x-typeName": "WorldLifecycleInventory",
+      "type": "object",
+      "properties": {
+        "worlds": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/WorldLifecycleWorld"
+          }
+        }
+      },
+      "required": [
+        "worlds"
+      ],
+      "additionalProperties": false
+    },
+    "WorldLifecycleCreated": {
+      "x-typeName": "WorldLifecycleCreated",
+      "type": "object",
+      "properties": {
+        "worldId": {
+          "$ref": "#/definitions/Ref"
+        },
+        "worldRef": {
+          "$ref": "#/definitions/Ref"
+        },
+        "templateId": {
+          "$ref": "#/definitions/Ref"
+        },
+        "displayName": {
+          "$ref": "#/definitions/Ref"
+        },
+        "creationFacts": {
+          "$ref": "#/definitions/OpaqueValue"
+        }
+      },
+      "required": [
+        "worldId",
+        "worldRef",
+        "templateId",
+        "displayName",
+        "creationFacts"
+      ],
+      "additionalProperties": false
+    },
+    "WorldLifecycleDeleteDescription": {
+      "x-typeName": "WorldLifecycleDeleteDescription",
+      "type": "object",
+      "properties": {
+        "worldId": {
+          "$ref": "#/definitions/Ref"
+        },
+        "worldRef": {
+          "$ref": "#/definitions/Ref"
+        },
+        "confirmationName": {
+          "$ref": "#/definitions/Ref"
+        },
+        "impacts": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/Ref"
+          }
+        }
+      },
+      "required": [
+        "worldId",
+        "worldRef",
+        "confirmationName",
+        "impacts"
+      ],
+      "additionalProperties": false
+    },
+    "WorldLifecycleDeleted": {
+      "x-typeName": "WorldLifecycleDeleted",
+      "type": "object",
+      "properties": {
+        "worldId": {
+          "$ref": "#/definitions/Ref"
+        },
+        "worldRef": {
+          "$ref": "#/definitions/Ref"
+        },
+        "confirmationName": {
+          "$ref": "#/definitions/Ref"
+        },
+        "deleted": {
+          "const": true
+        }
+      },
+      "required": [
+        "worldId",
+        "worldRef",
+        "confirmationName",
+        "deleted"
+      ],
+      "additionalProperties": false
+    },
+    "WorldLifecycleLaunched": {
+      "x-typeName": "WorldLifecycleLaunched",
+      "type": "object",
+      "properties": {
+        "worldId": {
+          "$ref": "#/definitions/Ref"
+        },
+        "worldRef": {
+          "$ref": "#/definitions/Ref"
+        },
+        "connectionRef": {
+          "$ref": "#/definitions/Ref"
+        },
+        "connectionIncarnationRef": {
+          "$ref": "#/definitions/Ref"
+        }
+      },
+      "required": [
+        "worldId",
+        "worldRef",
+        "connectionRef",
+        "connectionIncarnationRef"
+      ],
+      "additionalProperties": false
+    },
+    "WorldLifecycleStopped": {
+      "x-typeName": "WorldLifecycleStopped",
+      "type": "object",
+      "properties": {
+        "connectionRef": {
+          "$ref": "#/definitions/Ref"
+        },
+        "state": {
+          "const": "STOPPED"
+        }
+      },
+      "required": [
+        "connectionRef",
+        "state"
+      ],
+      "additionalProperties": false
+    },
+    "WorldLifecyclePlayed": {
+      "x-typeName": "WorldLifecyclePlayed",
+      "type": "object",
+      "properties": {
+        "worldId": {
+          "$ref": "#/definitions/Ref"
+        },
+        "worldRef": {
+          "$ref": "#/definitions/Ref"
+        },
+        "state": {
+          "const": "ENTERED"
+        }
+      },
+      "required": [
+        "worldId",
+        "worldRef",
+        "state"
+      ],
+      "additionalProperties": false
+    },
+    "EngineRuntimeStarted": {
+      "x-typeName": "EngineRuntimeStarted",
+      "type": "object",
+      "properties": {
+        "worldRef": {
+          "$ref": "#/definitions/Ref"
+        },
+        "connectionRef": {
+          "$ref": "#/definitions/Ref"
+        },
+        "connectionIncarnationRef": {
+          "$ref": "#/definitions/Ref"
+        },
+        "state": {
+          "const": "RUNNING"
+        }
+      },
+      "required": [
+        "worldRef",
+        "connectionRef",
+        "connectionIncarnationRef",
+        "state"
+      ],
+      "additionalProperties": false
+    },
+    "EngineRuntimeStopped": {
+      "x-typeName": "EngineRuntimeStopped",
+      "type": "object",
+      "properties": {
+        "connectionRef": {
+          "$ref": "#/definitions/Ref"
+        },
+        "state": {
+          "const": "STOPPED"
+        }
+      },
+      "required": [
+        "connectionRef",
+        "state"
+      ],
+      "additionalProperties": false
+    },
+    "EngineRuntimeStatus": {
+      "x-typeName": "EngineRuntimeStatus",
+      "type": "object",
+      "properties": {
+        "connectionRef": {
+          "$ref": "#/definitions/Ref"
+        },
+        "connectionIncarnationRef": {
+          "$ref": "#/definitions/Ref"
+        },
+        "worldRef": {
+          "$ref": "#/definitions/Ref"
+        },
+        "state": {
+          "enum": [
+            "RUNNING",
+            "STOPPED",
+            "UNKNOWN"
+          ]
+        }
+      },
+      "required": [
+        "connectionRef",
+        "connectionIncarnationRef",
+        "worldRef",
+        "state"
+      ],
+      "additionalProperties": false
+    },
+    "LocalWorldsInventory": {
+      "x-typeName": "LocalWorldsInventory",
+      "type": "object",
+      "properties": {
+        "worlds": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/WorldLifecycleWorld"
+          }
+        }
+      },
+      "required": [
+        "worlds"
+      ],
+      "additionalProperties": false
+    },
+    "LocalWorldsCreated": {
+      "x-typeName": "LocalWorldsCreated",
+      "type": "object",
+      "properties": {
+        "worldRef": {
+          "$ref": "#/definitions/Ref"
+        },
+        "templateId": {
+          "$ref": "#/definitions/Ref"
+        },
+        "displayName": {
+          "$ref": "#/definitions/Ref"
+        },
+        "creationFacts": {
+          "$ref": "#/definitions/OpaqueValue"
+        }
+      },
+      "required": [
+        "worldRef",
+        "templateId",
+        "displayName",
+        "creationFacts"
+      ],
+      "additionalProperties": false
+    },
+    "LocalWorldsDeleted": {
+      "x-typeName": "LocalWorldsDeleted",
+      "type": "object",
+      "properties": {
+        "worldRef": {
+          "$ref": "#/definitions/Ref"
+        },
+        "confirmationName": {
+          "$ref": "#/definitions/Ref"
+        },
+        "deleted": {
+          "const": true
+        }
+      },
+      "required": [
+        "worldRef",
+        "confirmationName",
+        "deleted"
+      ],
+      "additionalProperties": false
+    },
+    "WorldLifecycleDescribeRequest": {
+      "x-typeName": "WorldLifecycleDescribeRequest",
+      "type": "object",
+      "properties": {
+        "contractVersion": {
+          "const": "world-lifecycle/v2"
+        },
+        "requestId": {
+          "$ref": "#/definitions/Ref"
+        }
+      },
+      "required": [
+        "contractVersion",
+        "requestId"
+      ],
+      "additionalProperties": false
+    },
+    "WorldLifecycleDescribeResponse": {
+      "x-typeName": "WorldLifecycleDescribeResponse",
+      "type": "object",
+      "properties": {
+        "contractVersion": {
+          "const": "world-lifecycle/v2"
+        },
+        "requestId": {
+          "$ref": "#/definitions/Ref"
+        },
+        "result": {
+          "anyOf": [
+            {
+              "$ref": "#/definitions/WorldLifecycleDescription"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "error": {
+          "anyOf": [
+            {
+              "$ref": "#/definitions/Error"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        }
+      },
+      "required": [
+        "contractVersion",
+        "requestId",
+        "result",
+        "error"
+      ],
+      "additionalProperties": false
+    },
+    "WorldLifecycleListRequest": {
+      "x-typeName": "WorldLifecycleListRequest",
+      "type": "object",
+      "properties": {
+        "contractVersion": {
+          "const": "world-lifecycle/v2"
+        },
+        "requestId": {
+          "$ref": "#/definitions/Ref"
+        }
+      },
+      "required": [
+        "contractVersion",
+        "requestId"
+      ],
+      "additionalProperties": false
+    },
+    "WorldLifecycleListResponse": {
+      "x-typeName": "WorldLifecycleListResponse",
+      "type": "object",
+      "properties": {
+        "contractVersion": {
+          "const": "world-lifecycle/v2"
+        },
+        "requestId": {
+          "$ref": "#/definitions/Ref"
+        },
+        "result": {
+          "anyOf": [
+            {
+              "$ref": "#/definitions/WorldLifecycleInventory"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "error": {
+          "anyOf": [
+            {
+              "$ref": "#/definitions/Error"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        }
+      },
+      "required": [
+        "contractVersion",
+        "requestId",
+        "result",
+        "error"
+      ],
+      "additionalProperties": false
+    },
+    "WorldLifecycleCreateRequest": {
+      "x-typeName": "WorldLifecycleCreateRequest",
+      "type": "object",
+      "properties": {
+        "contractVersion": {
+          "const": "world-lifecycle/v2"
+        },
+        "requestId": {
+          "$ref": "#/definitions/Ref"
+        },
+        "templateId": {
+          "$ref": "#/definitions/Ref"
+        },
+        "displayName": {
+          "$ref": "#/definitions/Ref"
+        }
+      },
+      "required": [
+        "contractVersion",
+        "requestId",
+        "templateId",
+        "displayName"
+      ],
+      "additionalProperties": false
+    },
+    "WorldLifecycleCreateResponse": {
+      "x-typeName": "WorldLifecycleCreateResponse",
+      "type": "object",
+      "properties": {
+        "contractVersion": {
+          "const": "world-lifecycle/v2"
+        },
+        "requestId": {
+          "$ref": "#/definitions/Ref"
+        },
+        "result": {
+          "anyOf": [
+            {
+              "$ref": "#/definitions/WorldLifecycleCreated"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "error": {
+          "anyOf": [
+            {
+              "$ref": "#/definitions/Error"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        }
+      },
+      "required": [
+        "contractVersion",
+        "requestId",
+        "result",
+        "error"
+      ],
+      "additionalProperties": false
+    },
+    "WorldLifecycleDescribeDeleteRequest": {
+      "x-typeName": "WorldLifecycleDescribeDeleteRequest",
+      "type": "object",
+      "properties": {
+        "contractVersion": {
+          "const": "world-lifecycle/v2"
+        },
+        "requestId": {
+          "$ref": "#/definitions/Ref"
+        },
+        "worldId": {
+          "$ref": "#/definitions/Ref"
+        }
+      },
+      "required": [
+        "contractVersion",
+        "requestId",
+        "worldId"
+      ],
+      "additionalProperties": false
+    },
+    "WorldLifecycleDescribeDeleteResponse": {
+      "x-typeName": "WorldLifecycleDescribeDeleteResponse",
+      "type": "object",
+      "properties": {
+        "contractVersion": {
+          "const": "world-lifecycle/v2"
+        },
+        "requestId": {
+          "$ref": "#/definitions/Ref"
+        },
+        "result": {
+          "anyOf": [
+            {
+              "$ref": "#/definitions/WorldLifecycleDeleteDescription"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "error": {
+          "anyOf": [
+            {
+              "$ref": "#/definitions/Error"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        }
+      },
+      "required": [
+        "contractVersion",
+        "requestId",
+        "result",
+        "error"
+      ],
+      "additionalProperties": false
+    },
+    "WorldLifecycleDeleteRequest": {
+      "x-typeName": "WorldLifecycleDeleteRequest",
+      "type": "object",
+      "properties": {
+        "contractVersion": {
+          "const": "world-lifecycle/v2"
+        },
+        "requestId": {
+          "$ref": "#/definitions/Ref"
+        },
+        "worldId": {
+          "$ref": "#/definitions/Ref"
+        },
+        "confirmationName": {
+          "$ref": "#/definitions/Ref"
+        }
+      },
+      "required": [
+        "contractVersion",
+        "requestId",
+        "worldId",
+        "confirmationName"
+      ],
+      "additionalProperties": false
+    },
+    "WorldLifecycleDeleteResponse": {
+      "x-typeName": "WorldLifecycleDeleteResponse",
+      "type": "object",
+      "properties": {
+        "contractVersion": {
+          "const": "world-lifecycle/v2"
+        },
+        "requestId": {
+          "$ref": "#/definitions/Ref"
+        },
+        "result": {
+          "anyOf": [
+            {
+              "$ref": "#/definitions/WorldLifecycleDeleted"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "error": {
+          "anyOf": [
+            {
+              "$ref": "#/definitions/Error"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        }
+      },
+      "required": [
+        "contractVersion",
+        "requestId",
+        "result",
+        "error"
+      ],
+      "additionalProperties": false
+    },
+    "WorldLifecycleLaunchRequest": {
+      "x-typeName": "WorldLifecycleLaunchRequest",
+      "type": "object",
+      "properties": {
+        "contractVersion": {
+          "const": "world-lifecycle/v2"
+        },
+        "requestId": {
+          "$ref": "#/definitions/Ref"
+        },
+        "worldId": {
+          "$ref": "#/definitions/Ref"
+        }
+      },
+      "required": [
+        "contractVersion",
+        "requestId",
+        "worldId"
+      ],
+      "additionalProperties": false
+    },
+    "WorldLifecycleLaunchResponse": {
+      "x-typeName": "WorldLifecycleLaunchResponse",
+      "type": "object",
+      "properties": {
+        "contractVersion": {
+          "const": "world-lifecycle/v2"
+        },
+        "requestId": {
+          "$ref": "#/definitions/Ref"
+        },
+        "result": {
+          "anyOf": [
+            {
+              "$ref": "#/definitions/WorldLifecycleLaunched"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "error": {
+          "anyOf": [
+            {
+              "$ref": "#/definitions/Error"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        }
+      },
+      "required": [
+        "contractVersion",
+        "requestId",
+        "result",
+        "error"
+      ],
+      "additionalProperties": false
+    },
+    "WorldLifecycleStopRequest": {
+      "x-typeName": "WorldLifecycleStopRequest",
+      "type": "object",
+      "properties": {
+        "contractVersion": {
+          "const": "world-lifecycle/v2"
+        },
+        "requestId": {
+          "$ref": "#/definitions/Ref"
+        },
+        "connectionRef": {
+          "$ref": "#/definitions/Ref"
+        }
+      },
+      "required": [
+        "contractVersion",
+        "requestId",
+        "connectionRef"
+      ],
+      "additionalProperties": false
+    },
+    "WorldLifecycleStopResponse": {
+      "x-typeName": "WorldLifecycleStopResponse",
+      "type": "object",
+      "properties": {
+        "contractVersion": {
+          "const": "world-lifecycle/v2"
+        },
+        "requestId": {
+          "$ref": "#/definitions/Ref"
+        },
+        "result": {
+          "anyOf": [
+            {
+              "$ref": "#/definitions/WorldLifecycleStopped"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "error": {
+          "anyOf": [
+            {
+              "$ref": "#/definitions/Error"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        }
+      },
+      "required": [
+        "contractVersion",
+        "requestId",
+        "result",
+        "error"
+      ],
+      "additionalProperties": false
+    },
+    "WorldLifecyclePlayRequest": {
+      "x-typeName": "WorldLifecyclePlayRequest",
+      "type": "object",
+      "properties": {
+        "contractVersion": {
+          "const": "world-lifecycle/v2"
+        },
+        "requestId": {
+          "$ref": "#/definitions/Ref"
+        },
+        "worldId": {
+          "$ref": "#/definitions/Ref"
+        }
+      },
+      "required": [
+        "contractVersion",
+        "requestId",
+        "worldId"
+      ],
+      "additionalProperties": false
+    },
+    "WorldLifecyclePlayResponse": {
+      "x-typeName": "WorldLifecyclePlayResponse",
+      "type": "object",
+      "properties": {
+        "contractVersion": {
+          "const": "world-lifecycle/v2"
+        },
+        "requestId": {
+          "$ref": "#/definitions/Ref"
+        },
+        "result": {
+          "anyOf": [
+            {
+              "$ref": "#/definitions/WorldLifecyclePlayed"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "error": {
+          "anyOf": [
+            {
+              "$ref": "#/definitions/Error"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        }
+      },
+      "required": [
+        "contractVersion",
+        "requestId",
+        "result",
+        "error"
+      ],
+      "additionalProperties": false
+    },
+    "EngineRuntimeStartRequest": {
+      "x-typeName": "EngineRuntimeStartRequest",
+      "type": "object",
+      "properties": {
+        "contractVersion": {
+          "const": "engine-runtime/v2"
+        },
+        "requestId": {
+          "$ref": "#/definitions/Ref"
+        },
+        "worldRef": {
+          "$ref": "#/definitions/Ref"
+        },
+        "engineProfile": {
+          "$ref": "#/definitions/OpaqueValue"
+        }
+      },
+      "required": [
+        "contractVersion",
+        "requestId",
+        "worldRef",
+        "engineProfile"
+      ],
+      "additionalProperties": false
+    },
+    "EngineRuntimeStartResponse": {
+      "x-typeName": "EngineRuntimeStartResponse",
+      "type": "object",
+      "properties": {
+        "contractVersion": {
+          "const": "engine-runtime/v2"
+        },
+        "requestId": {
+          "$ref": "#/definitions/Ref"
+        },
+        "result": {
+          "anyOf": [
+            {
+              "$ref": "#/definitions/EngineRuntimeStarted"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "error": {
+          "anyOf": [
+            {
+              "$ref": "#/definitions/Error"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        }
+      },
+      "required": [
+        "contractVersion",
+        "requestId",
+        "result",
+        "error"
+      ],
+      "additionalProperties": false
+    },
+    "EngineRuntimeStopRequest": {
+      "x-typeName": "EngineRuntimeStopRequest",
+      "type": "object",
+      "properties": {
+        "contractVersion": {
+          "const": "engine-runtime/v2"
+        },
+        "requestId": {
+          "$ref": "#/definitions/Ref"
+        },
+        "connectionRef": {
+          "$ref": "#/definitions/Ref"
+        }
+      },
+      "required": [
+        "contractVersion",
+        "requestId",
+        "connectionRef"
+      ],
+      "additionalProperties": false
+    },
+    "EngineRuntimeStopResponse": {
+      "x-typeName": "EngineRuntimeStopResponse",
+      "type": "object",
+      "properties": {
+        "contractVersion": {
+          "const": "engine-runtime/v2"
+        },
+        "requestId": {
+          "$ref": "#/definitions/Ref"
+        },
+        "result": {
+          "anyOf": [
+            {
+              "$ref": "#/definitions/EngineRuntimeStopped"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "error": {
+          "anyOf": [
+            {
+              "$ref": "#/definitions/Error"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        }
+      },
+      "required": [
+        "contractVersion",
+        "requestId",
+        "result",
+        "error"
+      ],
+      "additionalProperties": false
+    },
+    "EngineRuntimeReadStatusRequest": {
+      "x-typeName": "EngineRuntimeReadStatusRequest",
+      "type": "object",
+      "properties": {
+        "contractVersion": {
+          "const": "engine-runtime/v2"
+        },
+        "requestId": {
+          "$ref": "#/definitions/Ref"
+        },
+        "connectionRef": {
+          "$ref": "#/definitions/Ref"
+        }
+      },
+      "required": [
+        "contractVersion",
+        "requestId",
+        "connectionRef"
+      ],
+      "additionalProperties": false
+    },
+    "EngineRuntimeReadStatusResponse": {
+      "x-typeName": "EngineRuntimeReadStatusResponse",
+      "type": "object",
+      "properties": {
+        "contractVersion": {
+          "const": "engine-runtime/v2"
+        },
+        "requestId": {
+          "$ref": "#/definitions/Ref"
+        },
+        "result": {
+          "anyOf": [
+            {
+              "$ref": "#/definitions/EngineRuntimeStatus"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "error": {
+          "anyOf": [
+            {
+              "$ref": "#/definitions/Error"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        }
+      },
+      "required": [
+        "contractVersion",
+        "requestId",
+        "result",
+        "error"
+      ],
+      "additionalProperties": false
+    },
+    "LocalWorldsDiscoverRequest": {
+      "x-typeName": "LocalWorldsDiscoverRequest",
+      "type": "object",
+      "properties": {
+        "contractVersion": {
+          "const": "local-worlds/v2"
+        },
+        "requestId": {
+          "$ref": "#/definitions/Ref"
+        },
+        "worldRoot": {
+          "type": "string",
+          "minLength": 1,
+          "description": "Provider-owned local root locator; owning runtime canonicalizes it. Not a world reference."
+        }
+      },
+      "required": [
+        "contractVersion",
+        "requestId",
+        "worldRoot"
+      ],
+      "additionalProperties": false
+    },
+    "LocalWorldsDiscoverResponse": {
+      "x-typeName": "LocalWorldsDiscoverResponse",
+      "type": "object",
+      "properties": {
+        "contractVersion": {
+          "const": "local-worlds/v2"
+        },
+        "requestId": {
+          "$ref": "#/definitions/Ref"
+        },
+        "result": {
+          "anyOf": [
+            {
+              "$ref": "#/definitions/LocalWorldsInventory"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "error": {
+          "anyOf": [
+            {
+              "$ref": "#/definitions/Error"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        }
+      },
+      "required": [
+        "contractVersion",
+        "requestId",
+        "result",
+        "error"
+      ],
+      "additionalProperties": false
+    },
+    "LocalWorldsCreateRequest": {
+      "x-typeName": "LocalWorldsCreateRequest",
+      "type": "object",
+      "properties": {
+        "contractVersion": {
+          "const": "local-worlds/v2"
+        },
+        "requestId": {
+          "$ref": "#/definitions/Ref"
+        },
+        "templateId": {
+          "$ref": "#/definitions/Ref"
+        },
+        "displayName": {
+          "$ref": "#/definitions/Ref"
+        }
+      },
+      "required": [
+        "contractVersion",
+        "requestId",
+        "templateId",
+        "displayName"
+      ],
+      "additionalProperties": false
+    },
+    "LocalWorldsCreateResponse": {
+      "x-typeName": "LocalWorldsCreateResponse",
+      "type": "object",
+      "properties": {
+        "contractVersion": {
+          "const": "local-worlds/v2"
+        },
+        "requestId": {
+          "$ref": "#/definitions/Ref"
+        },
+        "result": {
+          "anyOf": [
+            {
+              "$ref": "#/definitions/LocalWorldsCreated"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "error": {
+          "anyOf": [
+            {
+              "$ref": "#/definitions/Error"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        }
+      },
+      "required": [
+        "contractVersion",
+        "requestId",
+        "result",
+        "error"
+      ],
+      "additionalProperties": false
+    },
+    "LocalWorldsPairRequest": {
+      "x-typeName": "LocalWorldsPairRequest",
+      "type": "object",
+      "properties": {
+        "contractVersion": {
+          "const": "local-worlds/v2"
+        },
+        "requestId": {
+          "$ref": "#/definitions/Ref"
+        },
+        "worldRef": {
+          "$ref": "#/definitions/Ref"
+        }
+      },
+      "required": [
+        "contractVersion",
+        "requestId",
+        "worldRef"
+      ],
+      "additionalProperties": false
+    },
+    "LocalWorldsPairResponse": {
+      "x-typeName": "LocalWorldsPairResponse",
+      "type": "object",
+      "properties": {
+        "contractVersion": {
+          "const": "local-worlds/v2"
+        },
+        "requestId": {
+          "$ref": "#/definitions/Ref"
+        },
+        "result": {
+          "anyOf": [
+            {
+              "$ref": "#/definitions/LocalConnectionReadback"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "error": {
+          "anyOf": [
+            {
+              "$ref": "#/definitions/Error"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        }
+      },
+      "required": [
+        "contractVersion",
+        "requestId",
+        "result",
+        "error"
+      ],
+      "additionalProperties": false
+    },
+    "LocalWorldsDeleteRequest": {
+      "x-typeName": "LocalWorldsDeleteRequest",
+      "type": "object",
+      "properties": {
+        "contractVersion": {
+          "const": "local-worlds/v2"
+        },
+        "requestId": {
+          "$ref": "#/definitions/Ref"
+        },
+        "worldRef": {
+          "$ref": "#/definitions/Ref"
+        },
+        "confirmationName": {
+          "$ref": "#/definitions/Ref"
+        }
+      },
+      "required": [
+        "contractVersion",
+        "requestId",
+        "worldRef",
+        "confirmationName"
+      ],
+      "additionalProperties": false
+    },
+    "LocalWorldsDeleteResponse": {
+      "x-typeName": "LocalWorldsDeleteResponse",
+      "type": "object",
+      "properties": {
+        "contractVersion": {
+          "const": "local-worlds/v2"
+        },
+        "requestId": {
+          "$ref": "#/definitions/Ref"
+        },
+        "result": {
+          "anyOf": [
+            {
+              "$ref": "#/definitions/LocalWorldsDeleted"
             },
             {
               "type": "null"

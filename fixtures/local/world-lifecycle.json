@@ -1,0 +1,968 @@
+{
+  "evidence": "SOURCE/FIXTURE only; no real world/runtime/UI",
+  "exchanges": [
+    {
+      "wire": "world-lifecycle/v2",
+      "operation": "describe",
+      "request": {
+        "contractVersion": "world-lifecycle/v2",
+        "requestId": "fixture-describe"
+      },
+      "response": {
+        "contractVersion": "world-lifecycle/v2",
+        "requestId": "fixture-describe",
+        "result": {
+          "templates": [
+            {
+              "templateId": "fixture-template",
+              "label": "Fixture template"
+            }
+          ],
+          "canDelete": true,
+          "canPlay": true,
+          "prerequisites": [
+            {
+              "prerequisiteId": "fixture-runtime",
+              "label": "Fixture runtime available",
+              "satisfied": true
+            }
+          ]
+        },
+        "error": null
+      }
+    },
+    {
+      "wire": "world-lifecycle/v2",
+      "operation": "describe",
+      "request": {
+        "contractVersion": "world-lifecycle/v2",
+        "requestId": "fixture-describe"
+      },
+      "response": {
+        "contractVersion": "world-lifecycle/v2",
+        "requestId": "fixture-describe",
+        "result": null,
+        "error": {
+          "code": "ADAPTER_UNAVAILABLE",
+          "phase": "validate",
+          "retryability": "AFTER_NEW_FACTS",
+          "mutationState": "NONE",
+          "transactionRef": null,
+          "causeCode": null,
+          "reason": "REQUIRED_FACT_UNKNOWN"
+        }
+      }
+    },
+    {
+      "wire": "world-lifecycle/v2",
+      "operation": "list",
+      "request": {
+        "contractVersion": "world-lifecycle/v2",
+        "requestId": "fixture-list"
+      },
+      "response": {
+        "contractVersion": "world-lifecycle/v2",
+        "requestId": "fixture-list",
+        "result": {
+          "worlds": [
+            {
+              "worldId": "fixture-world-id",
+              "worldRef": "fixture-world",
+              "displayName": "Fixture World",
+              "tags": [
+                "fixture"
+              ]
+            }
+          ]
+        },
+        "error": null
+      }
+    },
+    {
+      "wire": "world-lifecycle/v2",
+      "operation": "list",
+      "request": {
+        "contractVersion": "world-lifecycle/v2",
+        "requestId": "fixture-list"
+      },
+      "response": {
+        "contractVersion": "world-lifecycle/v2",
+        "requestId": "fixture-list",
+        "result": null,
+        "error": {
+          "code": "ADAPTER_UNAVAILABLE",
+          "phase": "validate",
+          "retryability": "AFTER_NEW_FACTS",
+          "mutationState": "NONE",
+          "transactionRef": null,
+          "causeCode": null,
+          "reason": "REQUIRED_FACT_UNKNOWN"
+        }
+      }
+    },
+    {
+      "wire": "world-lifecycle/v2",
+      "operation": "create",
+      "request": {
+        "contractVersion": "world-lifecycle/v2",
+        "requestId": "fixture-create",
+        "templateId": "fixture-template",
+        "displayName": "Fixture World"
+      },
+      "response": {
+        "contractVersion": "world-lifecycle/v2",
+        "requestId": "fixture-create",
+        "result": {
+          "worldId": "fixture-world-id",
+          "worldRef": "fixture-world",
+          "templateId": "fixture-template",
+          "displayName": "Fixture World",
+          "creationFacts": {
+            "profileId": "fixture-creation/v1",
+            "sourceOwned": {
+              "seed": {
+                "arbitrary": "opaque"
+              },
+              "contentReady": true
+            }
+          }
+        },
+        "error": null
+      }
+    },
+    {
+      "wire": "world-lifecycle/v2",
+      "operation": "create",
+      "request": {
+        "contractVersion": "world-lifecycle/v2",
+        "requestId": "fixture-create",
+        "templateId": "fixture-template",
+        "displayName": "Fixture World"
+      },
+      "response": {
+        "contractVersion": "world-lifecycle/v2",
+        "requestId": "fixture-create",
+        "result": null,
+        "error": {
+          "code": "INVALID_NAME",
+          "phase": "validate",
+          "retryability": "AFTER_NEW_FACTS",
+          "mutationState": "NONE",
+          "transactionRef": null,
+          "causeCode": null,
+          "reason": "NAME_INVISIBLE_OR_EMPTY"
+        }
+      }
+    },
+    {
+      "wire": "world-lifecycle/v2",
+      "operation": "create",
+      "request": {
+        "contractVersion": "world-lifecycle/v2",
+        "requestId": "fixture-create",
+        "templateId": "fixture-template",
+        "displayName": "Fixture World"
+      },
+      "response": {
+        "contractVersion": "world-lifecycle/v2",
+        "requestId": "fixture-create",
+        "result": null,
+        "error": {
+          "code": "ADAPTER_UNAVAILABLE",
+          "phase": "validate",
+          "retryability": "AFTER_NEW_FACTS",
+          "mutationState": "NONE",
+          "transactionRef": null,
+          "causeCode": null,
+          "reason": "REQUIRED_FACT_UNKNOWN"
+        }
+      }
+    },
+    {
+      "wire": "world-lifecycle/v2",
+      "operation": "describeDelete",
+      "request": {
+        "contractVersion": "world-lifecycle/v2",
+        "requestId": "fixture-describeDelete",
+        "worldId": "fixture-world-id"
+      },
+      "response": {
+        "contractVersion": "world-lifecycle/v2",
+        "requestId": "fixture-describeDelete",
+        "result": {
+          "worldId": "fixture-world-id",
+          "worldRef": "fixture-world",
+          "confirmationName": "Fixture World",
+          "impacts": [
+            "Fixture world data is removed."
+          ]
+        },
+        "error": null
+      }
+    },
+    {
+      "wire": "world-lifecycle/v2",
+      "operation": "describeDelete",
+      "request": {
+        "contractVersion": "world-lifecycle/v2",
+        "requestId": "fixture-describeDelete",
+        "worldId": "fixture-world-id"
+      },
+      "response": {
+        "contractVersion": "world-lifecycle/v2",
+        "requestId": "fixture-describeDelete",
+        "result": null,
+        "error": {
+          "code": "WORLD_NOT_FOUND",
+          "phase": "validate",
+          "retryability": "AFTER_NEW_FACTS",
+          "mutationState": "NONE",
+          "transactionRef": null,
+          "causeCode": null,
+          "reason": "REQUIRED_FACT_UNKNOWN"
+        }
+      }
+    },
+    {
+      "wire": "world-lifecycle/v2",
+      "operation": "delete",
+      "request": {
+        "contractVersion": "world-lifecycle/v2",
+        "requestId": "fixture-delete",
+        "worldId": "fixture-world-id",
+        "confirmationName": "Fixture World"
+      },
+      "response": {
+        "contractVersion": "world-lifecycle/v2",
+        "requestId": "fixture-delete",
+        "result": {
+          "worldId": "fixture-world-id",
+          "worldRef": "fixture-world",
+          "confirmationName": "Fixture World",
+          "deleted": true
+        },
+        "error": null
+      }
+    },
+    {
+      "wire": "world-lifecycle/v2",
+      "operation": "delete",
+      "request": {
+        "contractVersion": "world-lifecycle/v2",
+        "requestId": "fixture-delete",
+        "worldId": "fixture-world-id",
+        "confirmationName": "Fixture World"
+      },
+      "response": {
+        "contractVersion": "world-lifecycle/v2",
+        "requestId": "fixture-delete",
+        "result": null,
+        "error": {
+          "code": "WORLD_NOT_FOUND",
+          "phase": "validate",
+          "retryability": "AFTER_NEW_FACTS",
+          "mutationState": "NONE",
+          "transactionRef": null,
+          "causeCode": null,
+          "reason": "REQUIRED_FACT_UNKNOWN"
+        }
+      }
+    },
+    {
+      "wire": "world-lifecycle/v2",
+      "operation": "delete",
+      "request": {
+        "contractVersion": "world-lifecycle/v2",
+        "requestId": "fixture-delete",
+        "worldId": "fixture-world-id",
+        "confirmationName": "Fixture World"
+      },
+      "response": {
+        "contractVersion": "world-lifecycle/v2",
+        "requestId": "fixture-delete",
+        "result": null,
+        "error": {
+          "code": "TRANSACTION_CONFLICT",
+          "phase": "validate",
+          "retryability": "AFTER_NEW_FACTS",
+          "mutationState": "NONE",
+          "transactionRef": null,
+          "causeCode": null,
+          "reason": "PAYLOAD_CHANGED"
+        }
+      }
+    },
+    {
+      "wire": "world-lifecycle/v2",
+      "operation": "launch",
+      "request": {
+        "contractVersion": "world-lifecycle/v2",
+        "requestId": "fixture-launch",
+        "worldId": "fixture-world-id"
+      },
+      "response": {
+        "contractVersion": "world-lifecycle/v2",
+        "requestId": "fixture-launch",
+        "result": {
+          "worldId": "fixture-world-id",
+          "worldRef": "fixture-world",
+          "connectionRef": "local-connection",
+          "connectionIncarnationRef": "socket-open-1"
+        },
+        "error": null
+      }
+    },
+    {
+      "wire": "world-lifecycle/v2",
+      "operation": "launch",
+      "request": {
+        "contractVersion": "world-lifecycle/v2",
+        "requestId": "fixture-launch",
+        "worldId": "fixture-world-id"
+      },
+      "response": {
+        "contractVersion": "world-lifecycle/v2",
+        "requestId": "fixture-launch",
+        "result": null,
+        "error": {
+          "code": "WORLD_NOT_FOUND",
+          "phase": "validate",
+          "retryability": "AFTER_NEW_FACTS",
+          "mutationState": "NONE",
+          "transactionRef": null,
+          "causeCode": null,
+          "reason": "REQUIRED_FACT_UNKNOWN"
+        }
+      }
+    },
+    {
+      "wire": "world-lifecycle/v2",
+      "operation": "launch",
+      "request": {
+        "contractVersion": "world-lifecycle/v2",
+        "requestId": "fixture-launch",
+        "worldId": "fixture-world-id"
+      },
+      "response": {
+        "contractVersion": "world-lifecycle/v2",
+        "requestId": "fixture-launch",
+        "result": null,
+        "error": {
+          "code": "ADAPTER_UNAVAILABLE",
+          "phase": "validate",
+          "retryability": "AFTER_NEW_FACTS",
+          "mutationState": "NONE",
+          "transactionRef": null,
+          "causeCode": null,
+          "reason": "REQUIRED_FACT_UNKNOWN"
+        }
+      }
+    },
+    {
+      "wire": "world-lifecycle/v2",
+      "operation": "stop",
+      "request": {
+        "contractVersion": "world-lifecycle/v2",
+        "requestId": "fixture-stop",
+        "connectionRef": "local-connection"
+      },
+      "response": {
+        "contractVersion": "world-lifecycle/v2",
+        "requestId": "fixture-stop",
+        "result": {
+          "connectionRef": "local-connection",
+          "state": "STOPPED"
+        },
+        "error": null
+      }
+    },
+    {
+      "wire": "world-lifecycle/v2",
+      "operation": "stop",
+      "request": {
+        "contractVersion": "world-lifecycle/v2",
+        "requestId": "fixture-stop",
+        "connectionRef": "local-connection"
+      },
+      "response": {
+        "contractVersion": "world-lifecycle/v2",
+        "requestId": "fixture-stop",
+        "result": null,
+        "error": {
+          "code": "CONNECTION_NOT_FOUND",
+          "phase": "validate",
+          "retryability": "AFTER_NEW_FACTS",
+          "mutationState": "NONE",
+          "transactionRef": null,
+          "causeCode": null,
+          "reason": "REQUIRED_FACT_UNKNOWN"
+        }
+      }
+    },
+    {
+      "wire": "world-lifecycle/v2",
+      "operation": "play",
+      "request": {
+        "contractVersion": "world-lifecycle/v2",
+        "requestId": "fixture-play",
+        "worldId": "fixture-world-id"
+      },
+      "response": {
+        "contractVersion": "world-lifecycle/v2",
+        "requestId": "fixture-play",
+        "result": {
+          "worldId": "fixture-world-id",
+          "worldRef": "fixture-world",
+          "state": "ENTERED"
+        },
+        "error": null
+      }
+    },
+    {
+      "wire": "world-lifecycle/v2",
+      "operation": "play",
+      "request": {
+        "contractVersion": "world-lifecycle/v2",
+        "requestId": "fixture-play",
+        "worldId": "fixture-world-id"
+      },
+      "response": {
+        "contractVersion": "world-lifecycle/v2",
+        "requestId": "fixture-play",
+        "result": null,
+        "error": {
+          "code": "CAPABILITY_UNAVAILABLE",
+          "phase": "validate",
+          "retryability": "AFTER_NEW_FACTS",
+          "mutationState": "NONE",
+          "transactionRef": null,
+          "causeCode": null,
+          "reason": "REQUIRED_FACT_UNKNOWN"
+        }
+      }
+    },
+    {
+      "wire": "world-lifecycle/v2",
+      "operation": "play",
+      "request": {
+        "contractVersion": "world-lifecycle/v2",
+        "requestId": "fixture-play",
+        "worldId": "fixture-world-id"
+      },
+      "response": {
+        "contractVersion": "world-lifecycle/v2",
+        "requestId": "fixture-play",
+        "result": null,
+        "error": {
+          "code": "WORLD_NOT_FOUND",
+          "phase": "validate",
+          "retryability": "AFTER_NEW_FACTS",
+          "mutationState": "NONE",
+          "transactionRef": null,
+          "causeCode": null,
+          "reason": "REQUIRED_FACT_UNKNOWN"
+        }
+      }
+    },
+    {
+      "wire": "engine-runtime/v2",
+      "operation": "StartWorldRuntime",
+      "request": {
+        "contractVersion": "engine-runtime/v2",
+        "requestId": "fixture-StartWorldRuntime",
+        "worldRef": "fixture-world",
+        "engineProfile": {
+          "profileId": "fixture-engine/v1",
+          "sourceOwned": [
+            1,
+            false
+          ]
+        }
+      },
+      "response": {
+        "contractVersion": "engine-runtime/v2",
+        "requestId": "fixture-StartWorldRuntime",
+        "result": {
+          "worldRef": "fixture-world",
+          "connectionRef": "local-connection",
+          "connectionIncarnationRef": "socket-open-1",
+          "state": "RUNNING"
+        },
+        "error": null
+      }
+    },
+    {
+      "wire": "engine-runtime/v2",
+      "operation": "StartWorldRuntime",
+      "request": {
+        "contractVersion": "engine-runtime/v2",
+        "requestId": "fixture-StartWorldRuntime",
+        "worldRef": "fixture-world",
+        "engineProfile": {
+          "profileId": "fixture-engine/v1",
+          "sourceOwned": [
+            1,
+            false
+          ]
+        }
+      },
+      "response": {
+        "contractVersion": "engine-runtime/v2",
+        "requestId": "fixture-StartWorldRuntime",
+        "result": null,
+        "error": {
+          "code": "ADAPTER_UNAVAILABLE",
+          "phase": "validate",
+          "retryability": "AFTER_NEW_FACTS",
+          "mutationState": "NONE",
+          "transactionRef": null,
+          "causeCode": null,
+          "reason": "REQUIRED_FACT_UNKNOWN"
+        }
+      }
+    },
+    {
+      "wire": "engine-runtime/v2",
+      "operation": "StartWorldRuntime",
+      "request": {
+        "contractVersion": "engine-runtime/v2",
+        "requestId": "fixture-StartWorldRuntime",
+        "worldRef": "fixture-world",
+        "engineProfile": {
+          "profileId": "fixture-engine/v1",
+          "sourceOwned": [
+            1,
+            false
+          ]
+        }
+      },
+      "response": {
+        "contractVersion": "engine-runtime/v2",
+        "requestId": "fixture-StartWorldRuntime",
+        "result": null,
+        "error": {
+          "code": "WORLD_NOT_FOUND",
+          "phase": "validate",
+          "retryability": "AFTER_NEW_FACTS",
+          "mutationState": "NONE",
+          "transactionRef": null,
+          "causeCode": null,
+          "reason": "REQUIRED_FACT_UNKNOWN"
+        }
+      }
+    },
+    {
+      "wire": "engine-runtime/v2",
+      "operation": "StopWorldRuntime",
+      "request": {
+        "contractVersion": "engine-runtime/v2",
+        "requestId": "fixture-StopWorldRuntime",
+        "connectionRef": "local-connection"
+      },
+      "response": {
+        "contractVersion": "engine-runtime/v2",
+        "requestId": "fixture-StopWorldRuntime",
+        "result": {
+          "connectionRef": "local-connection",
+          "state": "STOPPED"
+        },
+        "error": null
+      }
+    },
+    {
+      "wire": "engine-runtime/v2",
+      "operation": "StopWorldRuntime",
+      "request": {
+        "contractVersion": "engine-runtime/v2",
+        "requestId": "fixture-StopWorldRuntime",
+        "connectionRef": "local-connection"
+      },
+      "response": {
+        "contractVersion": "engine-runtime/v2",
+        "requestId": "fixture-StopWorldRuntime",
+        "result": null,
+        "error": {
+          "code": "CONNECTION_NOT_FOUND",
+          "phase": "validate",
+          "retryability": "AFTER_NEW_FACTS",
+          "mutationState": "NONE",
+          "transactionRef": null,
+          "causeCode": null,
+          "reason": "REQUIRED_FACT_UNKNOWN"
+        }
+      }
+    },
+    {
+      "wire": "engine-runtime/v2",
+      "operation": "ReadRuntimeStatus",
+      "request": {
+        "contractVersion": "engine-runtime/v2",
+        "requestId": "fixture-ReadRuntimeStatus",
+        "connectionRef": "local-connection"
+      },
+      "response": {
+        "contractVersion": "engine-runtime/v2",
+        "requestId": "fixture-ReadRuntimeStatus",
+        "result": {
+          "connectionRef": "local-connection",
+          "connectionIncarnationRef": "socket-open-1",
+          "worldRef": "fixture-world",
+          "state": "RUNNING"
+        },
+        "error": null
+      }
+    },
+    {
+      "wire": "engine-runtime/v2",
+      "operation": "ReadRuntimeStatus",
+      "request": {
+        "contractVersion": "engine-runtime/v2",
+        "requestId": "fixture-ReadRuntimeStatus",
+        "connectionRef": "local-connection"
+      },
+      "response": {
+        "contractVersion": "engine-runtime/v2",
+        "requestId": "fixture-ReadRuntimeStatus",
+        "result": null,
+        "error": {
+          "code": "CONNECTION_NOT_FOUND",
+          "phase": "validate",
+          "retryability": "AFTER_NEW_FACTS",
+          "mutationState": "NONE",
+          "transactionRef": null,
+          "causeCode": null,
+          "reason": "REQUIRED_FACT_UNKNOWN"
+        }
+      }
+    },
+    {
+      "wire": "local-worlds/v2",
+      "operation": "discover",
+      "request": {
+        "contractVersion": "local-worlds/v2",
+        "requestId": "fixture-discover",
+        "worldRoot": "fixture-world-root"
+      },
+      "response": {
+        "contractVersion": "local-worlds/v2",
+        "requestId": "fixture-discover",
+        "result": {
+          "worlds": [
+            {
+              "worldId": "fixture-world-id",
+              "worldRef": "fixture-world",
+              "displayName": "Fixture World",
+              "tags": [
+                "fixture"
+              ]
+            }
+          ]
+        },
+        "error": null
+      }
+    },
+    {
+      "wire": "local-worlds/v2",
+      "operation": "discover",
+      "request": {
+        "contractVersion": "local-worlds/v2",
+        "requestId": "fixture-discover",
+        "worldRoot": "fixture-world-root"
+      },
+      "response": {
+        "contractVersion": "local-worlds/v2",
+        "requestId": "fixture-discover",
+        "result": null,
+        "error": {
+          "code": "ADAPTER_UNAVAILABLE",
+          "phase": "validate",
+          "retryability": "AFTER_NEW_FACTS",
+          "mutationState": "NONE",
+          "transactionRef": null,
+          "causeCode": null,
+          "reason": "REQUIRED_FACT_UNKNOWN"
+        }
+      }
+    },
+    {
+      "wire": "local-worlds/v2",
+      "operation": "createWorld",
+      "request": {
+        "contractVersion": "local-worlds/v2",
+        "requestId": "fixture-createWorld",
+        "templateId": "fixture-template",
+        "displayName": "Fixture World"
+      },
+      "response": {
+        "contractVersion": "local-worlds/v2",
+        "requestId": "fixture-createWorld",
+        "result": {
+          "worldRef": "fixture-world",
+          "templateId": "fixture-template",
+          "displayName": "Fixture World",
+          "creationFacts": {
+            "profileId": "fixture-creation/v1",
+            "sourceOwned": {
+              "seed": {
+                "arbitrary": "opaque"
+              },
+              "contentReady": true
+            }
+          }
+        },
+        "error": null
+      }
+    },
+    {
+      "wire": "local-worlds/v2",
+      "operation": "createWorld",
+      "request": {
+        "contractVersion": "local-worlds/v2",
+        "requestId": "fixture-createWorld",
+        "templateId": "fixture-template",
+        "displayName": "Fixture World"
+      },
+      "response": {
+        "contractVersion": "local-worlds/v2",
+        "requestId": "fixture-createWorld",
+        "result": null,
+        "error": {
+          "code": "INVALID_NAME",
+          "phase": "validate",
+          "retryability": "AFTER_NEW_FACTS",
+          "mutationState": "NONE",
+          "transactionRef": null,
+          "causeCode": null,
+          "reason": "NAME_INVISIBLE_OR_EMPTY"
+        }
+      }
+    },
+    {
+      "wire": "local-worlds/v2",
+      "operation": "createWorld",
+      "request": {
+        "contractVersion": "local-worlds/v2",
+        "requestId": "fixture-createWorld",
+        "templateId": "fixture-template",
+        "displayName": "Fixture World"
+      },
+      "response": {
+        "contractVersion": "local-worlds/v2",
+        "requestId": "fixture-createWorld",
+        "result": null,
+        "error": {
+          "code": "ADAPTER_UNAVAILABLE",
+          "phase": "validate",
+          "retryability": "AFTER_NEW_FACTS",
+          "mutationState": "NONE",
+          "transactionRef": null,
+          "causeCode": null,
+          "reason": "REQUIRED_FACT_UNKNOWN"
+        }
+      }
+    },
+    {
+      "wire": "local-worlds/v2",
+      "operation": "pair",
+      "request": {
+        "contractVersion": "local-worlds/v2",
+        "requestId": "fixture-pair",
+        "worldRef": "fixture-world"
+      },
+      "response": {
+        "contractVersion": "local-worlds/v2",
+        "requestId": "fixture-pair",
+        "result": {
+          "connectionRef": "local-connection",
+          "connectionIncarnationRef": "socket-open-1",
+          "worldRef": "fixture-world",
+          "payloadVersion": "fixture/v1",
+          "payloadDigest": "1111111111111111111111111111111111111111111111111111111111111111",
+          "capabilities": {
+            "providerRef": "fixture-world-source",
+            "capabilityRevision": "fixture-cap-1",
+            "worldRef": "fixture-world",
+            "engineBounds": {
+              "min": [
+                0,
+                0,
+                3
+              ],
+              "max": [
+                0,
+                1,
+                3
+              ]
+            },
+            "worldGeometry": {
+              "profileVersion": "world-geometry/v1",
+              "geometryProfiles": [
+                "voxel-grid/v1"
+              ],
+              "partition": {
+                "edge": [
+                  16,
+                  16,
+                  16
+                ]
+              },
+              "postWriteLighting": "REQUIRED"
+            },
+            "limits": [],
+            "recoveryGuarantee": "RECOVERABLE_VERIFIED",
+            "stateProfile": {
+              "profileVersion": "state-profile/v3",
+              "derivedFields": [
+                "param1"
+              ],
+              "preservedFields": [],
+              "clearedFields": [
+                "inventory",
+                "metadata",
+                "timer"
+              ]
+            },
+            "sessionDeleteSupported": true,
+            "imageMediaTypes": [],
+            "model": null,
+            "engineGuards": {
+              "profileVersion": "engine-guards/v1",
+              "coverage": [
+                {
+                  "guard": "BODY_CLEARANCE",
+                  "stages": [],
+                  "protectionPrincipal": null
+                },
+                {
+                  "guard": "CELL_PROTECTION",
+                  "stages": [],
+                  "protectionPrincipal": null
+                },
+                {
+                  "guard": "PLAYER_ENCLOSURE",
+                  "stages": [],
+                  "protectionPrincipal": null
+                }
+              ]
+            }
+          }
+        },
+        "error": null
+      }
+    },
+    {
+      "wire": "local-worlds/v2",
+      "operation": "pair",
+      "request": {
+        "contractVersion": "local-worlds/v2",
+        "requestId": "fixture-pair",
+        "worldRef": "fixture-world"
+      },
+      "response": {
+        "contractVersion": "local-worlds/v2",
+        "requestId": "fixture-pair",
+        "result": null,
+        "error": {
+          "code": "CONNECTION_NOT_FOUND",
+          "phase": "validate",
+          "retryability": "AFTER_NEW_FACTS",
+          "mutationState": "NONE",
+          "transactionRef": null,
+          "causeCode": null,
+          "reason": "REQUIRED_FACT_UNKNOWN"
+        }
+      }
+    },
+    {
+      "wire": "local-worlds/v2",
+      "operation": "pair",
+      "request": {
+        "contractVersion": "local-worlds/v2",
+        "requestId": "fixture-pair",
+        "worldRef": "fixture-world"
+      },
+      "response": {
+        "contractVersion": "local-worlds/v2",
+        "requestId": "fixture-pair",
+        "result": null,
+        "error": {
+          "code": "PAYLOAD_VERSION_MISMATCH",
+          "phase": "validate",
+          "retryability": "AFTER_NEW_FACTS",
+          "mutationState": "NONE",
+          "transactionRef": null,
+          "causeCode": null,
+          "reason": "VERSION_UNSUPPORTED"
+        }
+      }
+    },
+    {
+      "wire": "local-worlds/v2",
+      "operation": "deleteWorld",
+      "request": {
+        "contractVersion": "local-worlds/v2",
+        "requestId": "fixture-deleteWorld",
+        "worldRef": "fixture-world",
+        "confirmationName": "Fixture World"
+      },
+      "response": {
+        "contractVersion": "local-worlds/v2",
+        "requestId": "fixture-deleteWorld",
+        "result": {
+          "worldRef": "fixture-world",
+          "confirmationName": "Fixture World",
+          "deleted": true
+        },
+        "error": null
+      }
+    },
+    {
+      "wire": "local-worlds/v2",
+      "operation": "deleteWorld",
+      "request": {
+        "contractVersion": "local-worlds/v2",
+        "requestId": "fixture-deleteWorld",
+        "worldRef": "fixture-world",
+        "confirmationName": "Fixture World"
+      },
+      "response": {
+        "contractVersion": "local-worlds/v2",
+        "requestId": "fixture-deleteWorld",
+        "result": null,
+        "error": {
+          "code": "WORLD_NOT_FOUND",
+          "phase": "validate",
+          "retryability": "AFTER_NEW_FACTS",
+          "mutationState": "NONE",
+          "transactionRef": null,
+          "causeCode": null,
+          "reason": "REQUIRED_FACT_UNKNOWN"
+        }
+      }
+    },
+    {
+      "wire": "local-worlds/v2",
+      "operation": "deleteWorld",
+      "request": {
+        "contractVersion": "local-worlds/v2",
+        "requestId": "fixture-deleteWorld",
+        "worldRef": "fixture-world",
+        "confirmationName": "Fixture World"
+      },
+      "response": {
+        "contractVersion": "local-worlds/v2",
+        "requestId": "fixture-deleteWorld",
+        "result": null,
+        "error": {
+          "code": "TRANSACTION_CONFLICT",
+          "phase": "validate",
+          "retryability": "AFTER_NEW_FACTS",
+          "mutationState": "NONE",
+          "transactionRef": null,
+          "causeCode": null,
+          "reason": "PAYLOAD_CHANGED"
+        }
+      }
+    }
+  ]
+}
