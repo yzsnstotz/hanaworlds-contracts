@@ -148,6 +148,10 @@ function scopedRequest(v) {
 /** Local, declarative domain invariants only. Authenticity, durable storage,
  * actual world occupancy and event emission always require the owning provider. */
 export function validateDomain(visits) {
+  for (const {name,value:v} of visits) {
+    if (name === 'ResourceBudgetDeclaration') shape(v.min <= v.max && v.defaultValue >= v.min && v.defaultValue <= v.max && v.value >= v.min && v.value <= v.max && (v.editable || (v.min===v.max && v.value===v.defaultValue)));
+    if (name === 'WorldSourceTransportPolicy') shape(new Set(v.settings.map(s=>s.name)).size===v.settings.length);
+  }
   for (let i = visits.length - 1; i >= 0; i--) {
     const { name, value: v, parent } = visits[i];
     const schema = schemaBundle.definitions[name];

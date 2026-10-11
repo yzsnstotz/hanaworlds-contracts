@@ -9,7 +9,7 @@ const seven=['code','phase','retryability','mutationState','transactionRef','cau
 test('Error gains exactly one optional non-null worldRef; the seven fields are untouched',()=>{
  const e=a.schemaBundle.definitions.Error;
  assert.deepEqual(e.required,seven);
- assert.deepEqual(Object.keys(e.properties),[...seven,'worldRef']);
+ assert.deepEqual(Object.keys(e.properties).filter(k=>k!=='source'),[...seven,'worldRef']);
  assert.deepEqual(e.properties.worldRef,{$ref:'#/definitions/Ref'});
  assert.equal(e.additionalProperties,false);
  assert.equal(a.worldErrorContext.introducedIn,'2.7.0');
@@ -86,7 +86,7 @@ test('published mock names the target from the request or trusted Session, prese
 });
 test('a pre-2.7 closed decoder shape refuses worldRef; carrying it requires the new SDK',async()=>{
  const f=await load(),e=f.exchanges[1].response.error;
- const oldError=structuredClone(a.schemaBundle.definitions.Error);delete oldError.properties.worldRef;
+ const oldError=structuredClone(a.schemaBundle.definitions.Error);delete oldError.properties.worldRef;delete oldError.properties.source;
  assert.equal(oldError.additionalProperties,false);
  assert.ok(Object.keys(e).some(k=>!Object.hasOwn(oldError.properties,k)),'an error naming a world is outside the 2.6 closed shape');
  assert.match(a.worldErrorContext.compatibility,/UNKNOWN_REQUIRED_FIELD/u);

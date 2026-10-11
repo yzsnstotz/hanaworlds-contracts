@@ -76,7 +76,8 @@ test('no engine vocabulary, no player pose or identity in the added types',()=>{
   assert.doesNotMatch(JSON.stringify(d[t].properties??{}),/position|yaw|posture|player|collision/i,t);
   if(d[t].type==='object'&&d[t].properties)assert.equal(d[t].additionalProperties,false,t);}
  assert.deepEqual(Object.keys(d.KnownAvatarEnvelope.properties),['availability','basis','size']);
- assert.deepEqual(Object.keys(d.WorldSourceCapabilities.properties),['profileVersion','owner','connection','capabilityRevision','catalogueDigest','worldGeometry','engineBounds','stateProfile','writeBackend','compilationConfig','writeMethods','writePath','engineGuards','avatarEnvelope']);
+ assert.deepEqual(Object.keys(d.WorldSourceCapabilities.properties),['profileVersion','owner','connection','capabilityRevision','catalogueDigest','worldGeometry','engineBounds','stateProfile','writeBackend','compilationConfig','writeMethods','writePath','engineGuards','avatarEnvelope','transportPolicy']);
+ assert.ok(!d.WorldSourceCapabilities.required.includes('transportPolicy'),'old response remains valid');
  assert.equal(d.WorldSourceCapabilities.properties.owner.const,'world-source');
 });
 test('provider: every inconsistent or leaking value is refused by its type',()=>{

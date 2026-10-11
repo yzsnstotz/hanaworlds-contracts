@@ -1,7 +1,7 @@
 {
   "profileVersion": "skill-tools/v1",
   "package": "hanaworlds-contracts",
-  "version": "2.13.0",
+  "version": "2.14.0",
   "schemaExport": "hanaworlds-contracts/schema",
   "tools": [
     {
@@ -3472,6 +3472,9 @@
         },
         "worldRef": {
           "$ref": "#/definitions/Ref"
+        },
+        "source": {
+          "$ref": "#/definitions/FailureSource"
         }
       },
       "required": [
@@ -14122,6 +14125,9 @@
         },
         "writeBackend": {
           "$ref": "#/definitions/WriteBackendFact"
+        },
+        "transportPolicy": {
+          "$ref": "#/definitions/WorldSourceTransportPolicy"
         }
       },
       "required": [
@@ -14167,6 +14173,9 @@
         },
         "avatarEnvelope": {
           "$ref": "#/definitions/AvatarEnvelope"
+        },
+        "transportPolicy": {
+          "$ref": "#/definitions/WorldSourceTransportPolicy"
         }
       },
       "required": [
@@ -14487,6 +14496,9 @@
         },
         "avatarEnvelope": {
           "$ref": "#/definitions/AvatarEnvelope"
+        },
+        "transportPolicy": {
+          "$ref": "#/definitions/WorldSourceTransportPolicy"
         }
       },
       "required": [
@@ -18132,6 +18144,144 @@
         "localContext"
       ],
       "additionalProperties": false
+    },
+    "ResourceBudgetDeclaration": {
+      "x-typeName": "ResourceBudgetDeclaration",
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "name",
+        "unit",
+        "defaultValue",
+        "value",
+        "min",
+        "max",
+        "editable",
+        "meaning",
+        "tradeoff",
+        "validation"
+      ],
+      "properties": {
+        "name": {
+          "type": "string",
+          "minLength": 1
+        },
+        "unit": {
+          "enum": [
+            "ms",
+            "byte"
+          ]
+        },
+        "defaultValue": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 9007199254740991
+        },
+        "value": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 9007199254740991
+        },
+        "min": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 9007199254740991
+        },
+        "max": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 9007199254740991
+        },
+        "editable": {
+          "type": "boolean"
+        },
+        "meaning": {
+          "type": "string",
+          "minLength": 1
+        },
+        "tradeoff": {
+          "type": "string",
+          "minLength": 1
+        },
+        "validation": {
+          "type": "string",
+          "minLength": 1
+        }
+      }
+    },
+    "WorldSourceTransportPolicy": {
+      "x-typeName": "WorldSourceTransportPolicy",
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "profileVersion",
+        "owner",
+        "settings"
+      ],
+      "properties": {
+        "profileVersion": {
+          "const": "world-source-transport-policy/v1"
+        },
+        "owner": {
+          "const": "world-source"
+        },
+        "settings": {
+          "type": "array",
+          "minItems": 1,
+          "items": {
+            "$ref": "#/definitions/ResourceBudgetDeclaration"
+          }
+        }
+      }
+    },
+    "FailureSource": {
+      "x-typeName": "FailureSource",
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "owner",
+        "operation",
+        "resource",
+        "kind",
+        "nativeCode"
+      ],
+      "properties": {
+        "owner": {
+          "const": "world-source"
+        },
+        "operation": {
+          "type": "string",
+          "minLength": 1
+        },
+        "resource": {
+          "type": "string",
+          "minLength": 1
+        },
+        "kind": {
+          "enum": [
+            "NOT_FOUND",
+            "CORRUPT",
+            "PERMISSION",
+            "IO",
+            "INVALID_CONFIG",
+            "LIMIT",
+            "WAIT_EXPIRED",
+            "VERSION",
+            "UNSAFE_PATH"
+          ]
+        },
+        "nativeCode": {
+          "anyOf": [
+            {
+              "type": "string",
+              "minLength": 1
+            },
+            {
+              "type": "null"
+            }
+          ]
+        }
+      }
     }
   }
 }

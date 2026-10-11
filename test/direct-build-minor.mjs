@@ -132,6 +132,8 @@ test('2.5.0 definitions, operations, digests, ownership and old tool branches ar
  // 2.7.0 appends the optional Error.worldRef; project it out of the frozen 2.5.0 shape.
  assert.deepEqual(d.Error.properties.worldRef,{$ref:'#/definitions/Ref'});
  delete d.Error.properties.worldRef;
+ delete d.Error.properties.source;
+ for(const name of ['WorldSourceCapabilities','EngineFacts','WriteProfile']) if(d[name]) delete d[name].properties.transportPolicy;
  // 2.8.0 appends the optional QueryTransactionResponse historical pair.
  assert.deepEqual([d.QueryTransactionResponse.properties.currentLocalContext,d.QueryTransactionResponse.properties.receiptDigest],[{$ref:'#/definitions/LocalWorldContext'},{$ref:'#/definitions/Digest'}]);
  delete d.QueryTransactionResponse.properties.currentLocalContext;delete d.QueryTransactionResponse.properties.receiptDigest;

@@ -1,0 +1,537 @@
+{
+  "evidence": "REAL_NODE_HTTP/REAL_ENGINE observed in adapter-visible-policy-01; declaration from actual Adapter; neutral named-read exchanges use peer fixtures. No product Host/UI/owner acceptance.",
+  "policy": {
+    "profileVersion": "world-source-transport-policy/v1",
+    "owner": "world-source",
+    "settings": [
+      {
+        "name": "courierResultWaitMs",
+        "unit": "ms",
+        "defaultValue": 30000,
+        "value": 30000,
+        "min": 1000,
+        "max": 120000,
+        "editable": true,
+        "meaning": "Time from command queueing to receiving its result. Expiry means RECOVERY_PENDING; it does not cancel engine execution.",
+        "tradeoff": "A larger budget delays uncertainty reporting; it does not repair execution or permit retry.",
+        "validation": "Inclusive integer range; no coercion, zero, disabling, or unknown keys. Changes require a fresh paired payload and matching handshake."
+      },
+      {
+        "name": "courierBodyBytes",
+        "unit": "byte",
+        "defaultValue": 4194304,
+        "value": 131072,
+        "min": 131072,
+        "max": 4194304,
+        "editable": true,
+        "meaning": "Maximum UTF-8 bytes of complete JSON poll or result body, including envelope, in either direction. The 4 MiB hard ceiling cannot be disabled.",
+        "tradeoff": "Smaller bodies reduce memory use and region batch size; a single large record may be refused.",
+        "validation": "Inclusive integer range; no coercion, zero, disabling, or unknown keys. Changes require a fresh paired payload and matching handshake."
+      },
+      {
+        "name": "regionBatchEnvelopeReserveBytes",
+        "unit": "byte",
+        "defaultValue": 65536,
+        "value": 65536,
+        "min": 65536,
+        "max": 65536,
+        "editable": false,
+        "meaning": "Conservative region batch sizing reserve for JSON framing and guards. It is not a maximum envelope size or a business cell quota.",
+        "tradeoff": "Reserve lowers estimated blocks per batch; metadata is unbounded by cell count, so exact serialization still refuses oversized results.",
+        "validation": "Fixed batch sizing reserve; exact complete command and result sizes remain enforced independently."
+      }
+    ]
+  },
+  "refusal": {
+    "code": "LIMIT_EXCEEDED",
+    "phase": "validate",
+    "retryability": "AFTER_NEW_FACTS",
+    "mutationState": "NONE",
+    "transactionRef": null,
+    "causeCode": null,
+    "reason": "REQUIRED_FACT_UNKNOWN",
+    "source": {
+      "owner": "world-source",
+      "operation": "region_write",
+      "resource": "courier-command-body",
+      "kind": "LIMIT",
+      "nativeCode": null
+    }
+  },
+  "exchanges": [
+    {
+      "title": "ReadEngineFacts: geometry, partition, bounds, frame, lighting, write methods, backend",
+      "wire": "world-facts/v1",
+      "operation": "ReadEngineFacts",
+      "request": {
+        "contractVersion": "world-facts/v1",
+        "requestId": "read-engine-facts-1",
+        "worldRef": "fixture-world"
+      },
+      "response": {
+        "contractVersion": "world-facts/v1",
+        "requestId": "read-engine-facts-1",
+        "result": {
+          "profileVersion": "engine-facts/v1",
+          "connection": {
+            "worldRef": "fixture-world",
+            "connectionRef": "local-connection",
+            "connectionIncarnationRef": "socket-open-1"
+          },
+          "worldGeometry": {
+            "profileVersion": "world-geometry/v1",
+            "geometryProfiles": [
+              "voxel-grid/v1"
+            ],
+            "partition": {
+              "edge": [
+                16,
+                16,
+                16
+              ]
+            },
+            "postWriteLighting": "REQUIRED"
+          },
+          "engineBounds": {
+            "min": [
+              -30912,
+              -30912,
+              -30912
+            ],
+            "max": [
+              30927,
+              30927,
+              30927
+            ]
+          },
+          "frame": {
+            "axes": [
+              "+X",
+              "+Y",
+              "+Z"
+            ],
+            "handedness": "left",
+            "gridUnit": {
+              "name": "cell",
+              "metersPerGridUnit": 1
+            }
+          },
+          "writeMethods": [
+            "PER_CELL",
+            "REGION"
+          ],
+          "writeBackend": {
+            "availability": "KNOWN",
+            "basis": "LOADED_PAYLOAD_DECLARATION",
+            "writeBackend": {
+              "profileId": "fixture-world-source-cell-write/v1",
+              "revision": "fixture-world-source-rev-7"
+            }
+          },
+          "transportPolicy": {
+            "profileVersion": "world-source-transport-policy/v1",
+            "owner": "world-source",
+            "settings": [
+              {
+                "name": "courierResultWaitMs",
+                "unit": "ms",
+                "defaultValue": 30000,
+                "value": 30000,
+                "min": 1000,
+                "max": 120000,
+                "editable": true,
+                "meaning": "Time from command queueing to receiving its result. Expiry means RECOVERY_PENDING; it does not cancel engine execution.",
+                "tradeoff": "A larger budget delays uncertainty reporting; it does not repair execution or permit retry.",
+                "validation": "Inclusive integer range; no coercion, zero, disabling, or unknown keys. Changes require a fresh paired payload and matching handshake."
+              },
+              {
+                "name": "courierBodyBytes",
+                "unit": "byte",
+                "defaultValue": 4194304,
+                "value": 131072,
+                "min": 131072,
+                "max": 4194304,
+                "editable": true,
+                "meaning": "Maximum UTF-8 bytes of complete JSON poll or result body, including envelope, in either direction. The 4 MiB hard ceiling cannot be disabled.",
+                "tradeoff": "Smaller bodies reduce memory use and region batch size; a single large record may be refused.",
+                "validation": "Inclusive integer range; no coercion, zero, disabling, or unknown keys. Changes require a fresh paired payload and matching handshake."
+              },
+              {
+                "name": "regionBatchEnvelopeReserveBytes",
+                "unit": "byte",
+                "defaultValue": 65536,
+                "value": 65536,
+                "min": 65536,
+                "max": 65536,
+                "editable": false,
+                "meaning": "Conservative region batch sizing reserve for JSON framing and guards. It is not a maximum envelope size or a business cell quota.",
+                "tradeoff": "Reserve lowers estimated blocks per batch; metadata is unbounded by cell count, so exact serialization still refuses oversized results.",
+                "validation": "Fixed batch sizing reserve; exact complete command and result sizes remain enforced independently."
+              }
+            ]
+          }
+        },
+        "error": null
+      }
+    },
+    {
+      "title": "ReadWriteProfile: backend, complete configuration, write methods and declared body envelope",
+      "wire": "world-facts/v1",
+      "operation": "ReadWriteProfile",
+      "request": {
+        "contractVersion": "world-facts/v1",
+        "requestId": "read-write-profile-1",
+        "worldRef": "fixture-world"
+      },
+      "response": {
+        "contractVersion": "world-facts/v1",
+        "requestId": "read-write-profile-1",
+        "result": {
+          "profileVersion": "write-profile/v1",
+          "connection": {
+            "worldRef": "fixture-world",
+            "connectionRef": "local-connection",
+            "connectionIncarnationRef": "socket-open-1"
+          },
+          "catalogueDigest": "8429d43abbf2e574c8db6ce4045583924f9973ab615c86da0c876191ce745574",
+          "writeBackend": {
+            "availability": "KNOWN",
+            "basis": "LOADED_PAYLOAD_DECLARATION",
+            "writeBackend": {
+              "profileId": "fixture-world-source-cell-write/v1",
+              "revision": "fixture-world-source-rev-7"
+            }
+          },
+          "compilationConfig": {
+            "profileVersion": "compilation-config/v3",
+            "writeBackend": {
+              "profileId": "fixture-world-source-cell-write/v1",
+              "revision": "fixture-world-source-rev-7"
+            },
+            "overlapRule": "last-writer-wins",
+            "effectOrder": "numeric-x-y-z",
+            "compressionRule": "exact-final-effects-only"
+          },
+          "writeMethods": [
+            "PER_CELL",
+            "REGION"
+          ],
+          "avatarEnvelope": {
+            "availability": "KNOWN",
+            "basis": "WORLD_SOURCE_DECLARATION",
+            "size": {
+              "width": 0.6,
+              "height": 1.77,
+              "depth": 0.6
+            }
+          },
+          "transportPolicy": {
+            "profileVersion": "world-source-transport-policy/v1",
+            "owner": "world-source",
+            "settings": [
+              {
+                "name": "courierResultWaitMs",
+                "unit": "ms",
+                "defaultValue": 30000,
+                "value": 30000,
+                "min": 1000,
+                "max": 120000,
+                "editable": true,
+                "meaning": "Time from command queueing to receiving its result. Expiry means RECOVERY_PENDING; it does not cancel engine execution.",
+                "tradeoff": "A larger budget delays uncertainty reporting; it does not repair execution or permit retry.",
+                "validation": "Inclusive integer range; no coercion, zero, disabling, or unknown keys. Changes require a fresh paired payload and matching handshake."
+              },
+              {
+                "name": "courierBodyBytes",
+                "unit": "byte",
+                "defaultValue": 4194304,
+                "value": 131072,
+                "min": 131072,
+                "max": 4194304,
+                "editable": true,
+                "meaning": "Maximum UTF-8 bytes of complete JSON poll or result body, including envelope, in either direction. The 4 MiB hard ceiling cannot be disabled.",
+                "tradeoff": "Smaller bodies reduce memory use and region batch size; a single large record may be refused.",
+                "validation": "Inclusive integer range; no coercion, zero, disabling, or unknown keys. Changes require a fresh paired payload and matching handshake."
+              },
+              {
+                "name": "regionBatchEnvelopeReserveBytes",
+                "unit": "byte",
+                "defaultValue": 65536,
+                "value": 65536,
+                "min": 65536,
+                "max": 65536,
+                "editable": false,
+                "meaning": "Conservative region batch sizing reserve for JSON framing and guards. It is not a maximum envelope size or a business cell quota.",
+                "tradeoff": "Reserve lowers estimated blocks per batch; metadata is unbounded by cell count, so exact serialization still refuses oversized results.",
+                "validation": "Fixed batch sizing reserve; exact complete command and result sizes remain enforced independently."
+              }
+            ]
+          }
+        },
+        "error": null
+      }
+    },
+    {
+      "title": "ReadWriteProfile: nothing declared is UNAVAILABLE and null, never a default",
+      "wire": "world-facts/v1",
+      "operation": "ReadWriteProfile",
+      "request": {
+        "contractVersion": "world-facts/v1",
+        "requestId": "read-write-profile-1",
+        "worldRef": "fixture-world"
+      },
+      "response": {
+        "contractVersion": "world-facts/v1",
+        "requestId": "read-write-profile-1",
+        "result": {
+          "profileVersion": "write-profile/v1",
+          "connection": {
+            "worldRef": "fixture-world",
+            "connectionRef": "local-connection",
+            "connectionIncarnationRef": "socket-open-1"
+          },
+          "catalogueDigest": "8429d43abbf2e574c8db6ce4045583924f9973ab615c86da0c876191ce745574",
+          "writeBackend": {
+            "availability": "UNAVAILABLE",
+            "reason": "NOT_DECLARED_BY_PAYLOAD"
+          },
+          "compilationConfig": null,
+          "writeMethods": [],
+          "avatarEnvelope": {
+            "availability": "UNAVAILABLE",
+            "reason": "NO_PUBLIC_SOURCE"
+          },
+          "transportPolicy": {
+            "profileVersion": "world-source-transport-policy/v1",
+            "owner": "world-source",
+            "settings": [
+              {
+                "name": "courierResultWaitMs",
+                "unit": "ms",
+                "defaultValue": 30000,
+                "value": 30000,
+                "min": 1000,
+                "max": 120000,
+                "editable": true,
+                "meaning": "Time from command queueing to receiving its result. Expiry means RECOVERY_PENDING; it does not cancel engine execution.",
+                "tradeoff": "A larger budget delays uncertainty reporting; it does not repair execution or permit retry.",
+                "validation": "Inclusive integer range; no coercion, zero, disabling, or unknown keys. Changes require a fresh paired payload and matching handshake."
+              },
+              {
+                "name": "courierBodyBytes",
+                "unit": "byte",
+                "defaultValue": 4194304,
+                "value": 131072,
+                "min": 131072,
+                "max": 4194304,
+                "editable": true,
+                "meaning": "Maximum UTF-8 bytes of complete JSON poll or result body, including envelope, in either direction. The 4 MiB hard ceiling cannot be disabled.",
+                "tradeoff": "Smaller bodies reduce memory use and region batch size; a single large record may be refused.",
+                "validation": "Inclusive integer range; no coercion, zero, disabling, or unknown keys. Changes require a fresh paired payload and matching handshake."
+              },
+              {
+                "name": "regionBatchEnvelopeReserveBytes",
+                "unit": "byte",
+                "defaultValue": 65536,
+                "value": 65536,
+                "min": 65536,
+                "max": 65536,
+                "editable": false,
+                "meaning": "Conservative region batch sizing reserve for JSON framing and guards. It is not a maximum envelope size or a business cell quota.",
+                "tradeoff": "Reserve lowers estimated blocks per batch; metadata is unbounded by cell count, so exact serialization still refuses oversized results.",
+                "validation": "Fixed batch sizing reserve; exact complete command and result sizes remain enforced independently."
+              }
+            ]
+          }
+        },
+        "error": null
+      }
+    },
+    {
+      "title": "ReadWorldSourceCapabilities: one read of every world source declaration",
+      "wire": "world-adapter/v8",
+      "operation": "ReadWorldSourceCapabilities",
+      "request": {
+        "contractVersion": "world-adapter/v8",
+        "sessionRef": "fixture-session",
+        "requestId": "read-capabilities-1",
+        "worldRef": "fixture-world"
+      },
+      "response": {
+        "contractVersion": "world-adapter/v8",
+        "requestId": "read-capabilities-1",
+        "result": {
+          "profileVersion": "world-source-capabilities/v1",
+          "owner": "world-source",
+          "connection": {
+            "worldRef": "fixture-world",
+            "connectionRef": "local-connection",
+            "connectionIncarnationRef": "socket-open-1"
+          },
+          "capabilityRevision": "fixture-capability-1",
+          "catalogueDigest": "8429d43abbf2e574c8db6ce4045583924f9973ab615c86da0c876191ce745574",
+          "worldGeometry": {
+            "profileVersion": "world-geometry/v1",
+            "geometryProfiles": [
+              "voxel-grid/v1"
+            ],
+            "partition": {
+              "edge": [
+                16,
+                16,
+                16
+              ]
+            },
+            "postWriteLighting": "REQUIRED"
+          },
+          "engineBounds": {
+            "min": [
+              -30912,
+              -30912,
+              -30912
+            ],
+            "max": [
+              30927,
+              30927,
+              30927
+            ]
+          },
+          "stateProfile": {
+            "profileVersion": "state-profile/v3",
+            "derivedFields": [
+              "light"
+            ],
+            "preservedFields": [],
+            "clearedFields": [
+              "inventory",
+              "metadata",
+              "timer"
+            ]
+          },
+          "writeBackend": {
+            "availability": "KNOWN",
+            "basis": "LOADED_PAYLOAD_DECLARATION",
+            "writeBackend": {
+              "profileId": "fixture-world-source-cell-write/v1",
+              "revision": "fixture-world-source-rev-7"
+            }
+          },
+          "compilationConfig": {
+            "profileVersion": "compilation-config/v3",
+            "writeBackend": {
+              "profileId": "fixture-world-source-cell-write/v1",
+              "revision": "fixture-world-source-rev-7"
+            },
+            "overlapRule": "last-writer-wins",
+            "effectOrder": "numeric-x-y-z",
+            "compressionRule": "exact-final-effects-only"
+          },
+          "writeMethods": [
+            "PER_CELL",
+            "REGION"
+          ],
+          "writePath": {
+            "profileVersion": "write-path-conclusions/v1",
+            "catalogueDigest": "8429d43abbf2e574c8db6ce4045583924f9973ab615c86da0c876191ce745574",
+            "path": {
+              "hasSideEffects": false,
+              "hasPersistentState": false
+            },
+            "materials": {
+              "air": {
+                "hasSideEffects": false,
+                "hasPersistentState": false
+              },
+              "fixture:stone": {
+                "hasSideEffects": false,
+                "hasPersistentState": false
+              }
+            }
+          },
+          "engineGuards": {
+            "profileVersion": "engine-guards/v1",
+            "coverage": [
+              {
+                "guard": "BODY_CLEARANCE",
+                "stages": [
+                  "INSPECT_REGION",
+                  "PREPARE_RECOVERABLE",
+                  "APPLY_COMPILED",
+                  "RESTORE"
+                ],
+                "protectionPrincipal": null
+              },
+              {
+                "guard": "CELL_PROTECTION",
+                "stages": [
+                  "PREPARE_RECOVERABLE",
+                  "APPLY_COMPILED"
+                ],
+                "protectionPrincipal": "ANONYMOUS"
+              },
+              {
+                "guard": "PLAYER_ENCLOSURE",
+                "stages": [
+                  "APPLY_COMPILED"
+                ],
+                "protectionPrincipal": null
+              }
+            ]
+          },
+          "avatarEnvelope": {
+            "availability": "KNOWN",
+            "basis": "WORLD_SOURCE_DECLARATION",
+            "size": {
+              "width": 0.6,
+              "height": 1.77,
+              "depth": 0.6
+            }
+          },
+          "transportPolicy": {
+            "profileVersion": "world-source-transport-policy/v1",
+            "owner": "world-source",
+            "settings": [
+              {
+                "name": "courierResultWaitMs",
+                "unit": "ms",
+                "defaultValue": 30000,
+                "value": 30000,
+                "min": 1000,
+                "max": 120000,
+                "editable": true,
+                "meaning": "Time from command queueing to receiving its result. Expiry means RECOVERY_PENDING; it does not cancel engine execution.",
+                "tradeoff": "A larger budget delays uncertainty reporting; it does not repair execution or permit retry.",
+                "validation": "Inclusive integer range; no coercion, zero, disabling, or unknown keys. Changes require a fresh paired payload and matching handshake."
+              },
+              {
+                "name": "courierBodyBytes",
+                "unit": "byte",
+                "defaultValue": 4194304,
+                "value": 131072,
+                "min": 131072,
+                "max": 4194304,
+                "editable": true,
+                "meaning": "Maximum UTF-8 bytes of complete JSON poll or result body, including envelope, in either direction. The 4 MiB hard ceiling cannot be disabled.",
+                "tradeoff": "Smaller bodies reduce memory use and region batch size; a single large record may be refused.",
+                "validation": "Inclusive integer range; no coercion, zero, disabling, or unknown keys. Changes require a fresh paired payload and matching handshake."
+              },
+              {
+                "name": "regionBatchEnvelopeReserveBytes",
+                "unit": "byte",
+                "defaultValue": 65536,
+                "value": 65536,
+                "min": 65536,
+                "max": 65536,
+                "editable": false,
+                "meaning": "Conservative region batch sizing reserve for JSON framing and guards. It is not a maximum envelope size or a business cell quota.",
+                "tradeoff": "Reserve lowers estimated blocks per batch; metadata is unbounded by cell count, so exact serialization still refuses oversized results.",
+                "validation": "Fixed batch sizing reserve; exact complete command and result sizes remain enforced independently."
+              }
+            ]
+          }
+        },
+        "error": null
+      }
+    }
+  ]
+}

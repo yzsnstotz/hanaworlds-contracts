@@ -77,3 +77,26 @@ https://github.com/erdtman/canonicalize · unchanged registry dependency for RFC
 canonical JSON/digests. Its vendored 5.1.0 snapshot at
 spec/context/supplement/sources/canonicalize remains test-fixture-only (D-6).
 No dependency or upstream usage changes in this card.
+
+## 2.14.0 resource declarations and failure origins
+
+C-world-adapter and C-world-facts add optional `transportPolicy: WorldSourceTransportPolicy`
+to ReadWorldSourceCapabilities, ReadEngineFacts and ReadWriteProfile. Old operations and
+responses without this field remain valid. World-source owns values and enforcement; clients
+must display supplied names, units, defaults, inclusive ranges, current values, meaning,
+tradeoff and validation. Consumers must not invent a setting when the declaration is absent.
+The existing settings surface consumes these declarations; UI implementation belongs to its owner.
+
+ResourceBudgetDeclaration is closed. An uneditable descriptor has a fixed range and value.
+Duplicate names and inconsistent ranges/current/default values are refused.
+A result-wait budget expires into uncertainty, never cancellation or proof of no write.
+A complete serialized JSON body budget applies to both directions. A batching estimate
+reserve is not an envelope maximum. Metadata is not bounded by cells: exact serialization
+must still be checked before dispatch and before returning results. Polling is not command retry.
+
+Public Error gains optional FailureSource (owner world-source, operation, logical resource,
+kind, nativeCode), with no paths, secrets, content, stack or exception text.
+Absence, corruption, permission and IO differ. Missing diagnostics are unknown, never proof
+of NOT_FOUND. Existing code, phase, mutationState and recovery semantics remain authoritative.
+`fixtures/local/resource-policy.json` captures Adapter declarations and refusals from fresh
+loopback/engine boundaries. Packed runtime/type consumers validate it with old fixtures.

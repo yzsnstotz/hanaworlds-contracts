@@ -14,7 +14,7 @@ export class ContractError extends Error {
     this.name = 'ContractError';
     this.publicError = Object.freeze({ code, phase, retryability: details.retryability ?? retryFor(phase, code),
       mutationState: details.mutationState ?? 'NONE', transactionRef: details.transactionRef ?? null,
-      causeCode: details.causeCode ?? null, reason, ...worldContext(details) });
+      causeCode: details.causeCode ?? null, reason, ...worldContext(details), ...(details.source ? {source: Object.freeze({...details.source})} : {}) });
   }
   get code() { return this.publicError.code; }
   get phase() { return this.publicError.phase; }

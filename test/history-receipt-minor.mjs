@@ -17,7 +17,7 @@ test('QueryTransactionResponse gains exactly the optional non-null pair; Receipt
  assert.equal(a.historicalReceipt.introducedIn,'2.8.0');
  assert.deepEqual([a.historicalReceipt.wire,a.historicalReceipt.operation],[W,O]);
  assert.equal(a.historicalReceipt.fixture,'hanaworlds-contracts/fixtures/history-receipt');
- assert.equal(a.contractProtocols.find(p=>p.protocol==='world-adapter').minor,3);
+ assert.ok(a.contractProtocols.find(p=>p.protocol==='world-adapter').minor>=3);
 });
 test('same instance and same world after reconnect pass; the written context stays readable',async()=>{
  const f=await load();

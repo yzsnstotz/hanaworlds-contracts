@@ -92,6 +92,8 @@ test('every old schema, operation, digest rule and fixture stays unchanged',asyn
  // 2.7.0 appends the optional Error.worldRef.
  assert.deepEqual(definitions.Error.properties.worldRef,{$ref:'#/definitions/Ref'});
  delete definitions.Error.properties.worldRef;
+ delete definitions.Error.properties.source;
+ for(const name of ['WorldSourceCapabilities','EngineFacts','WriteProfile']) if(definitions[name]) delete definitions[name].properties.transportPolicy;
  // 2.8.0 appends the optional QueryTransactionResponse historical pair.
  const q=definitions.QueryTransactionResponse.properties;
  assert.deepEqual([q.currentLocalContext,q.receiptDigest],[{$ref:'#/definitions/LocalWorldContext'},{$ref:'#/definitions/Digest'}]);
