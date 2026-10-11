@@ -1,6 +1,6 @@
 export * from './contracts.js';
 import type {TypeMap,TypeName,OperationMap,ProjectionMap,ContractHandshake,LocalRequestFacts,CurrentBuildSubmission,ValidateBuildProposalRequest,ValidateBuildProposalResponse,BuildProposalProviderFacts,ScopedPreparedTransaction,ScopedPreparedTransactionResult,RegionInspection,MaterialMap,Catalogue,BuildProjection,FinalEffects,TargetFacts,SafetyProfile,Coverage} from './contracts.js';
-export declare const version: '2.4.0';
+export declare const version: '2.6.0';
 export type ToolName='hanaworlds_context'|'hanaworlds_proposal'|'hanaworlds_region_proposal'|'hanaworlds_build'|'hanaworlds_write_methods'|'hanaworlds_download_image'|'hanaworlds_image_material';
 export interface ToolMap {
  hanaworlds_context:{request:import('./contracts.js').ToolContextRequest;response:import('./contracts.js').ToolContextResponse};
@@ -12,12 +12,12 @@ export interface ToolMap {
  hanaworlds_image_material:{request:import('./contracts.js').ToolImageMaterialRequest;response:import('./contracts.js').ToolImageMaterialResponse};
 }
 export interface ToolDeclaration {readonly name:ToolName;readonly contract:'C-session'|'C-painter';readonly provider:'workshop'|'painter';readonly wire:'session/v5'|'painter/v6';readonly operation:ToolName;readonly request:TypeName;readonly response:TypeName;readonly inputSchema:{readonly $ref:string};readonly outputSchema:{readonly $ref:string};readonly hostInjectedFields:ReadonlyArray<string>;readonly actions:ReadonlyArray<{readonly action:string;readonly input:TypeName;readonly output:TypeName;readonly errors:ReadonlyArray<import('./contracts.js').ErrorCode>}>;}
-export declare const toolManifest:Readonly<{profileVersion:'skill-tools/v1';package:'hanaworlds-contracts';version:string;schemaExport:string;tools:ReadonlyArray<ToolDeclaration>;boundary:string}>;
-export declare const buildingSkill:Readonly<{name:'hanaworlds-building';contract:'C-skill';major:1;wire:'skill/v1';request:'BuildingSkillRequest';response:'BuildingSkillResponse';hostInjected:true;tools:ReadonlyArray<ToolName>;errors:ReadonlyArray<import('./contracts.js').ErrorCode>;description:string}>;
+export declare const toolManifest:Readonly<{profileVersion:'skill-tools/v1';package:'hanaworlds-contracts';version:string;schemaExport:string;tools:ReadonlyArray<ToolDeclaration>;boundary:string;directBuild:typeof directBuild}>;
+export declare const buildingSkill:Readonly<{name:'hanaworlds-building';contract:'C-skill';major:1;wire:'skill/v1';request:'BuildingSkillRequest';response:'BuildingSkillResponse';hostInjected:true;tools:ReadonlyArray<ToolName>;errors:ReadonlyArray<import('./contracts.js').ErrorCode>;description:string;directBuild:typeof directBuild}>;
 /** hostFacts must be independently injected/read by the host, never sourced from model arguments. */
-export declare function validateToolRequest<N extends ToolName>(name:N,input:unknown,hostFacts:import('./contracts.js').ToolHostContext):ToolMap[N]['request'];
+export declare function validateToolRequest<N extends ToolName>(name:N,input:unknown,hostFacts:import('./contracts.js').ToolHostContext|import('./contracts.js').ToolBuildHostFacts):ToolMap[N]['request'];
 export declare function validateToolResponse<N extends ToolName>(name:N,request:ToolMap[N]['request'],response:unknown):ToolMap[N]['response'];
-export declare function createSkillToolsMock(fixture:unknown,refusals?:Readonly<Record<string,import('./contracts.js').ErrorCode|undefined>>):<N extends ToolName>(name:N,input:ToolMap[N]['request'],hostFacts:import('./contracts.js').ToolHostContext)=>ToolMap[N]['response'];
+export declare function createSkillToolsMock(fixture:unknown,refusals?:Readonly<Record<string,import('./contracts.js').ErrorCode|undefined>>):<N extends ToolName>(name:N,input:ToolMap[N]['request'],hostFacts:import('./contracts.js').ToolHostContext|import('./contracts.js').ToolBuildHostFacts)=>ToolMap[N]['response'];
 export interface SkillToolsPort {invoke<N extends ToolName>(name:N,request:ToolMap[N]['request']):Promise<ToolMap[N]['response']>;}
 export interface BuildingSkillPort {run(request:import('./contracts.js').BuildingSkillRequest):Promise<import('./contracts.js').BuildingSkillResponse>;}
 export interface SessionRedoPort {RedoCurrentBuild(request:import('./contracts.js').RedoCurrentBuildRequest):Promise<import('./contracts.js').RedoCurrentBuildResponse>;}
@@ -267,3 +267,6 @@ export interface LocalWorldsPort {
 export declare function describeSourceWorld(port:Pick<LocalWorldsPort,'describeSourceWorld'>,input:unknown):Promise<import('./contracts.js').LocalWorldsDescribeSourceResponse>;
 /** SOURCE/FIXTURE only; exact worldRef selection with declared refusals and no side effects. */
 export declare function createLocalWorldSourceMock(fixture:unknown,refusalCode?:'WORLD_NOT_FOUND'|'ADAPTER_UNAVAILABLE'|'CURRENT_WORLD_MISMATCH'|null):(input:unknown)=>import('./contracts.js').LocalWorldsDescribeSourceResponse;
+
+/** Direct-build handoff metadata; SOURCE/FIXTURE only, the host owns trust and current state. */
+export declare const directBuild:Readonly<{introducedIn:'2.6.0';contract:'C-session';operation:'hanaworlds_build';action:'build';hostFacts:'ToolBuildHostFacts';authorization:'HostBuildIntentAuthorization';currentUserRequest:'CurrentBuildUserRequest';scope:string;digest:string;consumption:string;pipeline:ReadonlyArray<string>;otherObjects:string}>;

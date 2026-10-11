@@ -1,5 +1,5 @@
 import {version,toolManifest,buildingSkill,validateToolRequest,validateToolResponse,createSkillToolsMock,validateRequest,type ToolHostContext,type ToolBuildInput,type BuildingSkillRequest,type SkillToolsPort,type BuildingSkillPort,type SessionRedoPort} from 'hanaworlds-contracts';
-const release:'2.4.0'=version;
+const release:'2.6.0'=version;
 const host:ToolHostContext={sessionRef:'session',turnRef:'turn',turnRevision:'turn-1',localContext:{connectionRef:'connection',connectionIncarnationRef:'incarnation',worldRef:'world',selectionRevision:'selection'}};
 const q=validateToolRequest('hanaworlds_context',{contractVersion:'session/v5',requestId:'q',hostContext:host,input:{action:'read'}},host);
 const action:'read'=q.input.action;

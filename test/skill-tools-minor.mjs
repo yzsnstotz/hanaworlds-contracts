@@ -20,7 +20,7 @@ test('published declaration lists exactly the seven approved tools and their com
   assert.ok(a.schemaBundle.definitions[d.input]);assert.ok(a.schemaBundle.definitions[d.output]);
   assert.ok(d.errors.every(c=>a.schemaBundle.definitions.ErrorCode.enum.includes(c)));
  }
- assert.deepEqual(a.toolManifest.tools.find(t=>t.name==='hanaworlds_build').actions.map(d=>d.action),['apply','inspect','undo','redo']);
+ assert.deepEqual(a.toolManifest.tools.find(t=>t.name==='hanaworlds_build').actions.map(d=>d.action),['apply','inspect','undo','redo','build']);
  assert.equal(a.buildingSkill.name,'hanaworlds-building');
  assert.equal(a.buildingSkill.hostInjected,true);
  assert.deepEqual(a.buildingSkill.tools,names);
@@ -38,7 +38,7 @@ test('all public success and operation-specific refusal examples decode, bind an
   const q={...x.request,requestId:'fresh'};
   assert.equal(invoke(x.operation,q,q.hostContext).requestId,'fresh');
  }
- for(const t of a.toolManifest.tools)for(const d of t.actions){
+ for(const t of a.toolManifest.tools)for(const d of t.actions.filter(d=>d.action!=='build')){
   const xs=f.exchanges.filter(x=>x.operation===t.name&&x.request.input.action===d.action);
   assert.ok(xs.some(x=>x.response.result));
   for(const code of d.errors)assert.ok(xs.some(x=>x.response.error?.code===code),`${t.name}/${d.action}/${code}`);

@@ -1,5 +1,5 @@
 {
-  "version": "2.5.0",
+  "version": "2.6.0",
   "wireVersions": [
     "interaction-surface/v5",
     "session/v5",
@@ -16766,6 +16766,9 @@
             "action"
           ],
           "additionalProperties": false
+        },
+        {
+          "$ref": "#/definitions/ToolDirectBuildInput"
         }
       ],
       "x-discriminator": "action",
@@ -16773,7 +16776,8 @@
         "apply",
         "inspect",
         "undo",
-        "redo"
+        "redo",
+        "build"
       ],
       "x-typeName": "ToolBuildInput"
     },
@@ -16853,6 +16857,9 @@
             "receipt"
           ],
           "additionalProperties": false
+        },
+        {
+          "$ref": "#/definitions/ToolDirectBuildResult"
         }
       ],
       "x-discriminator": "action",
@@ -16860,7 +16867,8 @@
         "apply",
         "inspect",
         "undo",
-        "redo"
+        "redo",
+        "build"
       ],
       "x-typeName": "ToolBuildResult"
     },
@@ -17223,6 +17231,9 @@
         },
         "input": {
           "$ref": "#/definitions/ToolBuildInput"
+        },
+        "intentAuthorization": {
+          "$ref": "#/definitions/HostBuildIntentAuthorization"
         }
       },
       "required": [
@@ -17953,6 +17964,163 @@
         "error"
       ],
       "additionalProperties": false
+    },
+    "DirectBuildProposal": {
+      "oneOf": [
+        {
+          "$ref": "#/definitions/BuildProposal"
+        },
+        {
+          "$ref": "#/definitions/RegionProposal"
+        }
+      ],
+      "x-discriminator": "decision",
+      "x-variantKeys": [
+        "BUILD",
+        "REGION"
+      ],
+      "x-typeName": "DirectBuildProposal"
+    },
+    "ToolDirectBuildInput": {
+      "type": "object",
+      "properties": {
+        "action": {
+          "const": "build"
+        },
+        "proposal": {
+          "$ref": "#/definitions/DirectBuildProposal"
+        }
+      },
+      "required": [
+        "action",
+        "proposal"
+      ],
+      "additionalProperties": false,
+      "x-typeName": "ToolDirectBuildInput"
+    },
+    "ToolDirectBuildResult": {
+      "type": "object",
+      "properties": {
+        "action": {
+          "const": "build"
+        },
+        "outcome": {
+          "$ref": "#/definitions/BuildEntryOutcome"
+        }
+      },
+      "required": [
+        "action",
+        "outcome"
+      ],
+      "additionalProperties": false,
+      "x-typeName": "ToolDirectBuildResult"
+    },
+    "CurrentBuildUserRequest": {
+      "type": "object",
+      "properties": {
+        "messageRef": {
+          "$ref": "#/definitions/Ref"
+        },
+        "text": {
+          "$ref": "#/definitions/Text"
+        },
+        "media": {
+          "$ref": "#/definitions/Media"
+        }
+      },
+      "required": [
+        "messageRef",
+        "text",
+        "media"
+      ],
+      "additionalProperties": false,
+      "x-typeName": "CurrentBuildUserRequest"
+    },
+    "HostBuildIntentAuthorization": {
+      "type": "object",
+      "properties": {
+        "sessionRef": {
+          "$ref": "#/definitions/Ref"
+        },
+        "turnRef": {
+          "$ref": "#/definitions/Ref"
+        },
+        "turnRevision": {
+          "$ref": "#/definitions/Revision"
+        },
+        "localContext": {
+          "anyOf": [
+            {
+              "$ref": "#/definitions/LocalWorldContext"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "messageRef": {
+          "$ref": "#/definitions/Ref"
+        },
+        "messageDigest": {
+          "$ref": "#/definitions/Digest"
+        },
+        "intent": {
+          "$ref": "#/definitions/ConfirmedIntent"
+        },
+        "proposalDigest": {
+          "$ref": "#/definitions/Digest"
+        }
+      },
+      "required": [
+        "sessionRef",
+        "turnRef",
+        "turnRevision",
+        "localContext",
+        "messageRef",
+        "messageDigest",
+        "intent",
+        "proposalDigest"
+      ],
+      "additionalProperties": false,
+      "x-typeName": "HostBuildIntentAuthorization"
+    },
+    "ToolBuildHostFacts": {
+      "type": "object",
+      "properties": {
+        "sessionRef": {
+          "$ref": "#/definitions/Ref"
+        },
+        "turnRef": {
+          "$ref": "#/definitions/Ref"
+        },
+        "turnRevision": {
+          "$ref": "#/definitions/Revision"
+        },
+        "localContext": {
+          "anyOf": [
+            {
+              "$ref": "#/definitions/LocalWorldContext"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "currentUserRequest": {
+          "$ref": "#/definitions/CurrentBuildUserRequest"
+        },
+        "intentAuthorization": {
+          "$ref": "#/definitions/HostBuildIntentAuthorization"
+        }
+      },
+      "required": [
+        "sessionRef",
+        "turnRef",
+        "turnRevision",
+        "localContext"
+      ],
+      "additionalProperties": false,
+      "x-typeName": "ToolBuildHostFacts"
     }
   },
   "placementSettings": [
@@ -18074,14 +18242,15 @@
     "world-adapter-region": 0,
     "canvas-region": 1,
     "world-adapter": 2,
-    "session": 1,
+    "session": 2,
     "canvas": 1,
     "world-facts": 0,
     "world-inspection": 0,
     "world-lifecycle": 0,
     "engine-runtime": 0,
     "local-worlds": 0,
-    "painter": 1
+    "painter": 1,
+    "skill": 1
   },
   "regionCapabilities": [
     {
@@ -18879,7 +19048,7 @@
   "toolManifest": {
     "profileVersion": "skill-tools/v1",
     "package": "hanaworlds-contracts",
-    "version": "2.5.0",
+    "version": "2.6.0",
     "schemaExport": "hanaworlds-contracts/schema",
     "tools": [
       {
@@ -18984,7 +19153,8 @@
           "$ref": "#/definitions/ToolBuildResponse"
         },
         "hostInjectedFields": [
-          "hostContext"
+          "hostContext",
+          "intentAuthorization"
         ],
         "actions": [
           {
@@ -19033,6 +19203,30 @@
               "WORLD_NOT_BOUND",
               "CAPABILITY_UNAVAILABLE",
               "SAFETY_INVARIANT_FAILED",
+              "RESTORE_FAILED"
+            ]
+          },
+          {
+            "action": "build",
+            "input": "ToolDirectBuildInput",
+            "output": "ToolDirectBuildResult",
+            "errors": [
+              "WORLD_NOT_BOUND",
+              "CAPABILITY_UNAVAILABLE",
+              "CAPABILITY_GAP",
+              "SAFETY_INVARIANT_FAILED",
+              "INTENT_UNCONFIRMED",
+              "OTHER_OBJECTS_AFFECTED",
+              "TRANSACTION_CONFLICT",
+              "TURN_REVISION_MISMATCH",
+              "CURRENT_WORLD_MISMATCH",
+              "TARGET_FACTS_STALE",
+              "TARGET_FACTS_INCOMPLETE",
+              "TARGET_REQUIRED",
+              "BUILD_INVALID",
+              "UNSUPPORTED_MATERIAL",
+              "AMBIGUOUS_GEOMETRY",
+              "APPLY_FAILED",
               "RESTORE_FAILED"
             ]
           }
@@ -19123,7 +19317,26 @@
         ]
       }
     ],
-    "boundary": "Model arguments are input only. The host injects hostContext and image-material catalogueFacts from the current session and paired world. Providers must admit against independently read host/source facts; model arguments cannot select a session/world or assert confirmation."
+    "boundary": "Model arguments are input only. The host injects hostContext and image-material catalogueFacts from the current session and paired world. Providers must admit against independently read host/source facts; model arguments cannot select a session/world or assert confirmation.",
+    "directBuild": {
+      "introducedIn": "2.6.0",
+      "contract": "C-session",
+      "operation": "hanaworlds_build",
+      "action": "build",
+      "hostFacts": "ToolBuildHostFacts",
+      "authorization": "HostBuildIntentAuthorization",
+      "currentUserRequest": "CurrentBuildUserRequest",
+      "scope": "Exact canonical proposalDigest plus the host-authorized ConfirmedIntent. The host independently establishes that the proposal fits the actual current user request and allowed intent scope; unknown or changed scope has no authorization.",
+      "digest": "Lowercase SHA-256 of RFC 8785 canonical JSON, UTF-8, of the entire CurrentBuildUserRequest (messageDigest) or neutral DirectBuildProposal (proposalDigest). No existing projection/domain changes.",
+      "consumption": "validateToolRequest with independently read currentUserRequest and stored intentAuthorization before every execution or replay. The request carrier must equal stored authorization. Re-read current message/session/turn revision/world before committing; no old-message reuse. Structural admission alone does not authorize.",
+      "pipeline": [
+        "Painter ValidateBuildProposal or ValidateRegionProposal",
+        "fresh world-source facts and placement inspection",
+        "non-disableable safety invariants and engine guards",
+        "existing Brush/Canvas submission and readback"
+      ],
+      "otherObjects": "OTHER_OBJECTS_AFFECTED always refuses; original continue confirmation is required."
+    }
   },
   "buildingSkill": {
     "name": "hanaworlds-building",
@@ -19146,6 +19359,44 @@
       "CAPABILITY_UNAVAILABLE",
       "WORLD_NOT_BOUND"
     ],
-    "description": "Consume the current turn text and image attachment references. Return a clarification, a pending proposal, or a declared plugin tool call. The host alone supplies current session, turn and world; the model cannot self-report them. Choose per-cell or region writes using current world-source declarations, never engine vocabulary in the skill. Confirmed proposal state belongs to Workshop; apply cannot accept a model confirmation. Image material matching belongs to Painter and uses source colours with CIEDE2000, zero model calls and zero world writes. Only the seven declared tools and their declared actions are permitted."
+    "description": "Consume the current turn text and image attachment references. Return a clarification, a pending proposal, or a declared plugin tool call. The host alone supplies current session, turn and world; the model cannot self-report them. Choose per-cell or region writes using current world-source declarations, never engine vocabulary in the skill. Confirmed proposal state belongs to Workshop; apply cannot accept a model confirmation. Image material matching belongs to Painter and uses source colours with CIEDE2000, zero model calls and zero world writes. Only the seven declared tools and their declared actions are permitted. For a clear current user request, emit hanaworlds_build action=build with a neutral BUILD or REGION proposal. The current request itself is the approved direct-build user input; no second confirmation reply is required. Only independently read and stored host authorization bound to this message, session, turn revision, world and exact allowed proposal/intent scope permits execution. Model clear/confirmed claims and valid shape are never authorization. Ambiguous requirements use pending proposal clarification and formal confirmation. Painter validation, fresh world facts, placement checks and mandatory safety invariants precede existing Brush/Canvas commits. OTHER_OBJECTS_AFFECTED always stops for the existing continue confirmation.",
+    "directBuild": {
+      "introducedIn": "2.6.0",
+      "contract": "C-session",
+      "operation": "hanaworlds_build",
+      "action": "build",
+      "hostFacts": "ToolBuildHostFacts",
+      "authorization": "HostBuildIntentAuthorization",
+      "currentUserRequest": "CurrentBuildUserRequest",
+      "scope": "Exact canonical proposalDigest plus the host-authorized ConfirmedIntent. The host independently establishes that the proposal fits the actual current user request and allowed intent scope; unknown or changed scope has no authorization.",
+      "digest": "Lowercase SHA-256 of RFC 8785 canonical JSON, UTF-8, of the entire CurrentBuildUserRequest (messageDigest) or neutral DirectBuildProposal (proposalDigest). No existing projection/domain changes.",
+      "consumption": "validateToolRequest with independently read currentUserRequest and stored intentAuthorization before every execution or replay. The request carrier must equal stored authorization. Re-read current message/session/turn revision/world before committing; no old-message reuse. Structural admission alone does not authorize.",
+      "pipeline": [
+        "Painter ValidateBuildProposal or ValidateRegionProposal",
+        "fresh world-source facts and placement inspection",
+        "non-disableable safety invariants and engine guards",
+        "existing Brush/Canvas submission and readback"
+      ],
+      "otherObjects": "OTHER_OBJECTS_AFFECTED always refuses; original continue confirmation is required."
+    }
+  },
+  "directBuild": {
+    "introducedIn": "2.6.0",
+    "contract": "C-session",
+    "operation": "hanaworlds_build",
+    "action": "build",
+    "hostFacts": "ToolBuildHostFacts",
+    "authorization": "HostBuildIntentAuthorization",
+    "currentUserRequest": "CurrentBuildUserRequest",
+    "scope": "Exact canonical proposalDigest plus the host-authorized ConfirmedIntent. The host independently establishes that the proposal fits the actual current user request and allowed intent scope; unknown or changed scope has no authorization.",
+    "digest": "Lowercase SHA-256 of RFC 8785 canonical JSON, UTF-8, of the entire CurrentBuildUserRequest (messageDigest) or neutral DirectBuildProposal (proposalDigest). No existing projection/domain changes.",
+    "consumption": "validateToolRequest with independently read currentUserRequest and stored intentAuthorization before every execution or replay. The request carrier must equal stored authorization. Re-read current message/session/turn revision/world before committing; no old-message reuse. Structural admission alone does not authorize.",
+    "pipeline": [
+      "Painter ValidateBuildProposal or ValidateRegionProposal",
+      "fresh world-source facts and placement inspection",
+      "non-disableable safety invariants and engine guards",
+      "existing Brush/Canvas submission and readback"
+    ],
+    "otherObjects": "OTHER_OBJECTS_AFFECTED always refuses; original continue confirmation is required."
   }
 }

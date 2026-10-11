@@ -1,6 +1,6 @@
 {
   "name": "hanaworlds-contracts",
-  "version": "2.5.0",
+  "version": "2.6.0",
   "description": "Pure current-local-world contracts. Fresh state only; strict decoding, business correlation, Canvas transactions and same-transaction history.",
   "type": "module",
   "private": true,
@@ -41,7 +41,7 @@
   ],
   "scripts": {
     "build": "node tools/build-local.mjs",
-    "test": "node test/local-world.mjs && node test/world-source-facts.mjs && node --test test/world-source-facts-bindings.mjs test/world-source-facts-mock.mjs && node --test test/brush-placement-minor.mjs && node --test test/world-lifecycle-minor.mjs && node --test test/skill-tools-minor.mjs && node --test test/local-world-source-minor.mjs",
+    "test": "node test/local-world.mjs && node test/world-source-facts.mjs && node --test test/world-source-facts-bindings.mjs test/world-source-facts-mock.mjs && node --test test/brush-placement-minor.mjs && node --test test/world-lifecycle-minor.mjs && node --test test/skill-tools-minor.mjs test/direct-build-minor.mjs && node --test test/local-world-source-minor.mjs",
     "typecheck": "tsc --project consumer/local/tsconfig.json",
     "verify:source": "node tools/verify-local.mjs",
     "test:image": "node test/image-proposal.mjs",
@@ -77,10 +77,12 @@
     "test:conformance": "npm test && npm run test:major-compat && npm run test:region && npm run test:seam && npm run test:placement && npm run test:rollback-cause",
     "test:world-lifecycle": "node --test test/world-lifecycle-minor.mjs",
     "typecheck:world-lifecycle": "tsc --project consumer/world-lifecycle/tsconfig.json",
-    "test:skill-tools": "node --test test/skill-tools-minor.mjs",
-    "typecheck:skill-tools": "tsc --project consumer/skill-tools/tsconfig.json",
+    "test:skill-tools": "node --test test/skill-tools-minor.mjs test/direct-build-minor.mjs",
+    "typecheck:skill-tools": "tsc --project consumer/skill-tools/tsconfig.json && tsc --project consumer/direct-build/tsconfig.json",
     "test:local-world-source": "node --test test/local-world-source-minor.mjs",
-    "typecheck:local-world-source": "tsc --project consumer/local-world-source/tsconfig.json"
+    "typecheck:local-world-source": "tsc --project consumer/local-world-source/tsconfig.json",
+    "build:direct-build-fixture": "node tools/build-direct-build-fixture.mjs",
+    "test:direct-build-consumer": "node tools/gate-direct-build-consumer.mjs"
   },
   "dependencies": {
     "canonicalize": "5.1.0"

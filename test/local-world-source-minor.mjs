@@ -81,7 +81,14 @@ test('every old schema, operation, digest rule and fixture stays unchanged',asyn
  // Hashes recorded from immutable v2.4.0 before implementation; no external run directory dependency.
  const baseline=JSON.parse(await readFile(new URL('./local-world-source-baseline.json',import.meta.url),'utf8'));
  const sha=v=>createHash('sha256').update(a.canonicalJSON(v)).digest('hex');
- const definitions=Object.fromEntries(baseline.definitionNames.map(n=>[n,a.schemaBundle.definitions[n]]));
+ const definitions=structuredClone(Object.fromEntries(baseline.definitionNames.map(n=>[n,a.schemaBundle.definitions[n]])));
+ // 2.6.0 appends one build variant and one optional host carrier. Project the frozen 2.4 branches.
+ for(const name of ['ToolBuildInput','ToolBuildResult']){
+  assert.deepEqual(definitions[name].oneOf.pop(),{$ref:'#/definitions/'+(name==='ToolBuildInput'?'ToolDirectBuildInput':'ToolDirectBuildResult')});
+  assert.equal(definitions[name]['x-variantKeys'].pop(),'build');
+ }
+ assert.deepEqual(definitions.ToolBuildRequest.properties.intentAuthorization,{$ref:'#/definitions/HostBuildIntentAuthorization'});
+ delete definitions.ToolBuildRequest.properties.intentAuthorization;
  assert.equal(sha(definitions),baseline.definitionsDigest);
  const operations=Object.fromEntries(Object.entries(baseline.operationNames).map(([w,names])=>[w,names.map(n=>a.operationContracts[w].find(o=>o.operation===n))]));
  assert.equal(sha(operations),baseline.operationsDigest);

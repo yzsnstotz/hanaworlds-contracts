@@ -536,8 +536,8 @@ export type ToolProposalInput = { readonly "action": "validate"; readonly "propo
 export type ToolProposalResult = { readonly "action": "validate"; readonly "proposalRef": Ref; readonly "confirmed": false; readonly "plan": BuildPlan };
 export type ToolRegionProposalInput = { readonly "action": "validate"; readonly "proposal": RegionProposal };
 export type ToolRegionProposalResult = { readonly "action": "validate"; readonly "proposalRef": Ref; readonly "confirmed": false; readonly "plan": RegionBuildPlan };
-export type ToolBuildInput = { readonly "action": "apply"; readonly "confirmedProposalRef": Ref } | { readonly "action": "inspect" } | { readonly "action": "undo" } | { readonly "action": "redo" };
-export type ToolBuildResult = { readonly "action": "apply"; readonly "outcome": BuildEntryOutcome } | { readonly "action": "inspect"; readonly "undoStatus": CurrentUndoStatus; readonly "receipt": ReceiptProjection | null } | { readonly "action": "undo"; readonly "outcome": CurrentBuildUndoResult } | { readonly "action": "redo"; readonly "receipt": ReceiptProjection };
+export type ToolBuildInput = { readonly "action": "apply"; readonly "confirmedProposalRef": Ref } | { readonly "action": "inspect" } | { readonly "action": "undo" } | { readonly "action": "redo" } | ToolDirectBuildInput;
+export type ToolBuildResult = { readonly "action": "apply"; readonly "outcome": BuildEntryOutcome } | { readonly "action": "inspect"; readonly "undoStatus": CurrentUndoStatus; readonly "receipt": ReceiptProjection | null } | { readonly "action": "undo"; readonly "outcome": CurrentBuildUndoResult } | { readonly "action": "redo"; readonly "receipt": ReceiptProjection } | ToolDirectBuildResult;
 export type ToolWriteMethodsInput = { readonly "action": "read" };
 export type ToolWriteMethodsResult = { readonly "action": "read"; readonly "engineFacts": EngineFacts; readonly "catalogueFacts": CatalogueFacts };
 export type ToolDownloadImageInput = { readonly "action": "download"; readonly "url": string };
@@ -552,7 +552,7 @@ export type ToolProposalRequest = { readonly "contractVersion": "session/v5"; re
 export type ToolProposalResponse = { readonly "contractVersion": "session/v5"; readonly "requestId": Ref; readonly "result": ToolProposalResult | null; readonly "error": Error | null };
 export type ToolRegionProposalRequest = { readonly "contractVersion": "session/v5"; readonly "requestId": Ref; readonly "hostContext": ToolHostContext; readonly "input": ToolRegionProposalInput };
 export type ToolRegionProposalResponse = { readonly "contractVersion": "session/v5"; readonly "requestId": Ref; readonly "result": ToolRegionProposalResult | null; readonly "error": Error | null };
-export type ToolBuildRequest = { readonly "contractVersion": "session/v5"; readonly "requestId": Ref; readonly "hostContext": ToolHostContext; readonly "input": ToolBuildInput };
+export type ToolBuildRequest = { readonly "contractVersion": "session/v5"; readonly "requestId": Ref; readonly "hostContext": ToolHostContext; readonly "input": ToolBuildInput; readonly "intentAuthorization"?: HostBuildIntentAuthorization };
 export type ToolBuildResponse = { readonly "contractVersion": "session/v5"; readonly "requestId": Ref; readonly "result": ToolBuildResult | null; readonly "error": Error | null; readonly "guardRefusal": GuardRefusal | null };
 export type ToolWriteMethodsRequest = { readonly "contractVersion": "session/v5"; readonly "requestId": Ref; readonly "hostContext": ToolHostContext; readonly "input": ToolWriteMethodsInput };
 export type ToolWriteMethodsResponse = { readonly "contractVersion": "session/v5"; readonly "requestId": Ref; readonly "result": ToolWriteMethodsResult | null; readonly "error": Error | null };
@@ -571,6 +571,12 @@ export type BuildingSkillProposal = { readonly "kind": "per_cell"; readonly "val
 export type LocalWorldsSourceDescription = { readonly "worldRef": Ref; readonly "sourceLocator": OpaqueValue };
 export type LocalWorldsDescribeSourceRequest = { readonly "contractVersion": "local-worlds/v2"; readonly "requestId": Ref; readonly "worldRef": Ref };
 export type LocalWorldsDescribeSourceResponse = { readonly "contractVersion": "local-worlds/v2"; readonly "requestId": Ref; readonly "result": LocalWorldsSourceDescription | null; readonly "error": Error | null };
+export type DirectBuildProposal = BuildProposal | RegionProposal;
+export type ToolDirectBuildInput = { readonly "action": "build"; readonly "proposal": DirectBuildProposal };
+export type ToolDirectBuildResult = { readonly "action": "build"; readonly "outcome": BuildEntryOutcome };
+export type CurrentBuildUserRequest = { readonly "messageRef": Ref; readonly "text": Text; readonly "media": Media };
+export type HostBuildIntentAuthorization = { readonly "sessionRef": Ref; readonly "turnRef": Ref; readonly "turnRevision": Revision; readonly "localContext": LocalWorldContext | null; readonly "messageRef": Ref; readonly "messageDigest": Digest; readonly "intent": ConfirmedIntent; readonly "proposalDigest": Digest };
+export type ToolBuildHostFacts = { readonly "sessionRef": Ref; readonly "turnRef": Ref; readonly "turnRevision": Revision; readonly "localContext": LocalWorldContext | null; readonly "currentUserRequest"?: CurrentBuildUserRequest; readonly "intentAuthorization"?: HostBuildIntentAuthorization };
 export interface TypeMap {
 AbortPreparedHistoryTransactionRequest: AbortPreparedHistoryTransactionRequest;
 AbortPreparedHistoryTransactionResponse: AbortPreparedHistoryTransactionResponse;
@@ -1144,6 +1150,12 @@ BuildingSkillProposal: BuildingSkillProposal;
 LocalWorldsSourceDescription: LocalWorldsSourceDescription;
 LocalWorldsDescribeSourceRequest: LocalWorldsDescribeSourceRequest;
 LocalWorldsDescribeSourceResponse: LocalWorldsDescribeSourceResponse;
+DirectBuildProposal: DirectBuildProposal;
+ToolDirectBuildInput: ToolDirectBuildInput;
+ToolDirectBuildResult: ToolDirectBuildResult;
+CurrentBuildUserRequest: CurrentBuildUserRequest;
+HostBuildIntentAuthorization: HostBuildIntentAuthorization;
+ToolBuildHostFacts: ToolBuildHostFacts;
 }
 export type TypeName=keyof TypeMap;
 export interface OperationMap {

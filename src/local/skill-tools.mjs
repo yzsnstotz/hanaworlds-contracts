@@ -5,6 +5,7 @@ import {validateType,validateRequest,validateBoundResponse,validateDigestBinding
 
 export const toolManifest=contractMetadata.toolManifest;
 export const buildingSkill=contractMetadata.buildingSkill;
+export const directBuild=contractMetadata.directBuild;
 const shape=ok=>requireFact(ok,'SCHEMA_INVALID','INVALID_SHAPE');
 const current=ok=>requireFact(ok,'CURRENT_WORLD_MISMATCH','REVISION_CHANGED');
 const associated=ok=>requireFact(ok,'TRANSACTION_CONFLICT','PAYLOAD_CHANGED');
@@ -38,13 +39,32 @@ function sourceConnection(facts,host){
  const c=facts.connection,h=host.localContext;
  current(c.worldRef===h.worldRef&&c.connectionRef===h.connectionRef&&c.connectionIncarnationRef===h.connectionIncarnationRef);
 }
+const intent=ok=>requireFact(ok,'INTENT_UNCONFIRMED','REQUIRED_FACT_UNKNOWN');
+const sha=value=>createHash('sha256').update(canonicalJSON(value),'utf8').digest('hex');
+function directAuthorization(q){
+ requireFact(q.hostContext.localContext!==null,'WORLD_NOT_BOUND','REQUIRED_FACT_UNKNOWN');
+ const a=q.intentAuthorization,h=q.hostContext;
+ intent(!!a);
+ associated(a.sessionRef===h.sessionRef&&a.turnRef===h.turnRef);
+ requireFact(a.turnRevision===h.turnRevision&&a.intent.confirmedTurnRevision===h.turnRevision,'TURN_REVISION_MISMATCH','REVISION_CHANGED');
+ current(same(a.localContext,h.localContext));
+ intent(a.intent.kind==='BUILD_STRUCTURE'&&a.intent.text.trim().length>0);
+ intent(a.proposalDigest===sha(q.input.proposal));
+ return a;
+}
 /** Independent host readback is mandatory here; this does not authenticate a provider. */
 export function validateToolRequest(name,input,hostFacts){
- const t=tool(name),q=validateRequest(t.wire,name,input),h=validateType('ToolHostContext',hostFacts);
+ const t=tool(name),q=validateRequest(t.wire,name,input),h=validateType(name==='hanaworlds_build'?'ToolBuildHostFacts':'ToolHostContext',hostFacts);
  action(t,q.input.action);
  associated(q.hostContext.sessionRef===h.sessionRef&&q.hostContext.turnRef===h.turnRef);
  requireFact(q.hostContext.turnRevision===h.turnRevision,'TURN_REVISION_MISMATCH','REVISION_CHANGED');
  current(same(q.hostContext.localContext,h.localContext));
+ if(name==='hanaworlds_build'&&q.input.action==='build'){
+  const a=directAuthorization(q);
+  intent(!!h.intentAuthorization&&!!h.currentUserRequest);
+  intent(same(a,h.intentAuthorization));
+  intent(h.currentUserRequest.text.trim().length>0&&a.messageRef===h.currentUserRequest.messageRef&&a.messageDigest===sha(h.currentUserRequest));
+ }
  if(q.catalogueFacts)sourceConnection(q.catalogueFacts,h);
  return q;
 }
@@ -54,6 +74,7 @@ export function validateToolBinding(wire,name,q,response){
  if(!t)return;
  const a=action(t,q.input.action);
  if(response.error){shape(a.errors.includes(response.error.code));return;}
+ if(name==='hanaworlds_build'&&q.input.action==='build')directAuthorization(q);
  const result=response.result;
  associated(result.action===q.input.action);
  const host=q.hostContext;
@@ -87,10 +108,10 @@ export function validateToolResponse(name,request,response){
 }
 /** Stateless supplied-fixture provider: no model, network, image decoding or world writes. */
 export function createSkillToolsMock(fixture,refusals={}){
- const exchanges=fixture.exchanges.map(x=>({operation:x.operation,request:validateToolRequest(x.operation,x.request,x.request.hostContext),response:validateToolResponse(x.operation,x.request,x.response)}));
+ const exchanges=fixture.exchanges.map(x=>({operation:x.operation,request:validateToolRequest(x.operation,x.request,x.hostFacts??x.request.hostContext),response:validateToolResponse(x.operation,x.request,x.response)}));
  return (name,input,hostFacts)=>{
   const q=validateToolRequest(name,input,hostFacts),code=refusals[`${name}:${q.input.action}`];
-  const example=exchanges.find(x=>x.operation===name&&same(x.request.input,q.input)&&same(x.request.hostContext,q.hostContext)&&same(x.request.catalogueFacts??null,q.catalogueFacts??null)&&(code?x.response.error?.code===code:x.response.result!==null));
+  const example=exchanges.find(x=>x.operation===name&&same(x.request.input,q.input)&&same(x.request.hostContext,q.hostContext)&&same(x.request.catalogueFacts??null,q.catalogueFacts??null)&&same(x.request.intentAuthorization??null,q.intentAuthorization??null)&&(code?x.response.error?.code===code:x.response.result!==null));
   if(!example)throw new TypeError('No supplied fixture matches this invocation');
   return deepFreeze(validateToolResponse(name,q,{...example.response,requestId:q.requestId}));
  };

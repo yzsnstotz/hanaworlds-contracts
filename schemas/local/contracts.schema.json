@@ -1,6 +1,6 @@
 {
   "$schema": "http://json-schema.org/draft-07/schema#",
-  "$id": "https://hanaworlds.invalid/contracts/2.5.0/schema.json",
+  "$id": "https://hanaworlds.invalid/contracts/2.6.0/schema.json",
   "x-contractsCompatibility": {
     "package": "hanaworlds-contracts",
     "major": 2,
@@ -15922,6 +15922,9 @@
             "action"
           ],
           "additionalProperties": false
+        },
+        {
+          "$ref": "#/definitions/ToolDirectBuildInput"
         }
       ],
       "x-discriminator": "action",
@@ -15929,7 +15932,8 @@
         "apply",
         "inspect",
         "undo",
-        "redo"
+        "redo",
+        "build"
       ],
       "x-typeName": "ToolBuildInput"
     },
@@ -16009,6 +16013,9 @@
             "receipt"
           ],
           "additionalProperties": false
+        },
+        {
+          "$ref": "#/definitions/ToolDirectBuildResult"
         }
       ],
       "x-discriminator": "action",
@@ -16016,7 +16023,8 @@
         "apply",
         "inspect",
         "undo",
-        "redo"
+        "redo",
+        "build"
       ],
       "x-typeName": "ToolBuildResult"
     },
@@ -16379,6 +16387,9 @@
         },
         "input": {
           "$ref": "#/definitions/ToolBuildInput"
+        },
+        "intentAuthorization": {
+          "$ref": "#/definitions/HostBuildIntentAuthorization"
         }
       },
       "required": [
@@ -17109,6 +17120,163 @@
         "error"
       ],
       "additionalProperties": false
+    },
+    "DirectBuildProposal": {
+      "oneOf": [
+        {
+          "$ref": "#/definitions/BuildProposal"
+        },
+        {
+          "$ref": "#/definitions/RegionProposal"
+        }
+      ],
+      "x-discriminator": "decision",
+      "x-variantKeys": [
+        "BUILD",
+        "REGION"
+      ],
+      "x-typeName": "DirectBuildProposal"
+    },
+    "ToolDirectBuildInput": {
+      "type": "object",
+      "properties": {
+        "action": {
+          "const": "build"
+        },
+        "proposal": {
+          "$ref": "#/definitions/DirectBuildProposal"
+        }
+      },
+      "required": [
+        "action",
+        "proposal"
+      ],
+      "additionalProperties": false,
+      "x-typeName": "ToolDirectBuildInput"
+    },
+    "ToolDirectBuildResult": {
+      "type": "object",
+      "properties": {
+        "action": {
+          "const": "build"
+        },
+        "outcome": {
+          "$ref": "#/definitions/BuildEntryOutcome"
+        }
+      },
+      "required": [
+        "action",
+        "outcome"
+      ],
+      "additionalProperties": false,
+      "x-typeName": "ToolDirectBuildResult"
+    },
+    "CurrentBuildUserRequest": {
+      "type": "object",
+      "properties": {
+        "messageRef": {
+          "$ref": "#/definitions/Ref"
+        },
+        "text": {
+          "$ref": "#/definitions/Text"
+        },
+        "media": {
+          "$ref": "#/definitions/Media"
+        }
+      },
+      "required": [
+        "messageRef",
+        "text",
+        "media"
+      ],
+      "additionalProperties": false,
+      "x-typeName": "CurrentBuildUserRequest"
+    },
+    "HostBuildIntentAuthorization": {
+      "type": "object",
+      "properties": {
+        "sessionRef": {
+          "$ref": "#/definitions/Ref"
+        },
+        "turnRef": {
+          "$ref": "#/definitions/Ref"
+        },
+        "turnRevision": {
+          "$ref": "#/definitions/Revision"
+        },
+        "localContext": {
+          "anyOf": [
+            {
+              "$ref": "#/definitions/LocalWorldContext"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "messageRef": {
+          "$ref": "#/definitions/Ref"
+        },
+        "messageDigest": {
+          "$ref": "#/definitions/Digest"
+        },
+        "intent": {
+          "$ref": "#/definitions/ConfirmedIntent"
+        },
+        "proposalDigest": {
+          "$ref": "#/definitions/Digest"
+        }
+      },
+      "required": [
+        "sessionRef",
+        "turnRef",
+        "turnRevision",
+        "localContext",
+        "messageRef",
+        "messageDigest",
+        "intent",
+        "proposalDigest"
+      ],
+      "additionalProperties": false,
+      "x-typeName": "HostBuildIntentAuthorization"
+    },
+    "ToolBuildHostFacts": {
+      "type": "object",
+      "properties": {
+        "sessionRef": {
+          "$ref": "#/definitions/Ref"
+        },
+        "turnRef": {
+          "$ref": "#/definitions/Ref"
+        },
+        "turnRevision": {
+          "$ref": "#/definitions/Revision"
+        },
+        "localContext": {
+          "anyOf": [
+            {
+              "$ref": "#/definitions/LocalWorldContext"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "currentUserRequest": {
+          "$ref": "#/definitions/CurrentBuildUserRequest"
+        },
+        "intentAuthorization": {
+          "$ref": "#/definitions/HostBuildIntentAuthorization"
+        }
+      },
+      "required": [
+        "sessionRef",
+        "turnRef",
+        "turnRevision",
+        "localContext"
+      ],
+      "additionalProperties": false,
+      "x-typeName": "ToolBuildHostFacts"
     }
   }
 }
