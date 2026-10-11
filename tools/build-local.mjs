@@ -20,6 +20,9 @@ await writeFile('src/local/generated/contracts.mjs','// Generated from spec/loca
 for(const dir of ['schemas/local','types/local'])await mkdir(dir,{recursive:true});
 await writeFile('schemas/local/contracts.schema.json',JSON.stringify(schemaBundle,null,2)+'\n');
 await writeFile('schemas/local/profile.json',JSON.stringify(profile,null,2)+'\n');
+// Standalone declarations resolve their JSON Schema refs within the same document.
+await writeFile('schemas/local/tools.json',JSON.stringify({...profile.toolManifest,$schema:schemaBundle.$schema,definitions},null,2)+'\n');
+await writeFile('schemas/local/building-skill.json',JSON.stringify({...profile.buildingSkill,$schema:schemaBundle.$schema,inputSchema:{$ref:'#/definitions/BuildingSkillRequest'},outputSchema:{$ref:'#/definitions/BuildingSkillResponse'},definitions},null,2)+'\n');
 function ts(s){if(s['x-opaque'])return 'unknown';if(s.$ref)return s.$ref.split('/').at(-1);if(s.anyOf||s.oneOf)return (s.anyOf??s.oneOf).map(ts).join(' | ');if(Object.hasOwn(s,'const'))return JSON.stringify(s.const);if(s.enum)return s.enum.map(JSON.stringify).join(' | ');if(s.type==='object')return s.properties?'{ '+Object.entries(s.properties).map(([k,v])=>'readonly '+JSON.stringify(k)+((s.required??[]).includes(k)?'':'?')+': '+ts(v)).join('; ')+' }':'{readonly [key: string]: '+ts(s.additionalProperties)+'}';if(s.type==='array')return Array.isArray(s.items)?'readonly ['+s.items.map(ts).join(', ')+']':'ReadonlyArray<'+ts(s.items)+'>';return s.type==='integer'?'number':s.type;}
 let out='// Generated from spec/local-world/profile.json.\n'+Object.entries(definitions).map(([n,s])=>'export type '+n+' = '+ts(s)+';').join('\n');
 out+='\nexport interface TypeMap {\n'+Object.keys(definitions).map(n=>n+': '+n+';').join('\n')+'\n}\nexport type TypeName=keyof TypeMap;\n';

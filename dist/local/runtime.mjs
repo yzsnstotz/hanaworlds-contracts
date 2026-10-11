@@ -2,6 +2,7 @@ import canonicalize from 'canonicalize';
 import { createHash } from 'node:crypto';
 import { contractMetadata, schemaBundle } from './generated/contracts.mjs';
 import {validateLifecycleDomain, validateLifecycleBinding} from './world-lifecycle.mjs';
+import {validateToolDomain, validateToolBinding} from './skill-tools.mjs';
 import { snapshotJSON, deepFreeze, decodeRawJSON } from '../strict-json.mjs';
 import { validateShape } from './schema-validator.mjs';
 import { validateDomain, validateEventDomain, guardRefusalError as domainGuardRefusalError } from './domain.mjs';
@@ -32,6 +33,7 @@ export function validateType(typeName, value) {
   const visits = validateShape(typeName, snapshot);
   validateDomain(visits);
   validateLifecycleDomain(visits);
+  validateToolDomain(visits);
   // Check every nested RegionChunk, including standalone admission and enclosing digests.
   for (const {name, value} of visits) if (name === 'RegionChunk' && Object.hasOwn(value, 'blockDigest'))
     validateDigestBinding('region-block', value.block, value.blockDigest);
@@ -384,6 +386,7 @@ export function validateBoundResponse(wire,name,requestInput,responseInput) {
  const request=validateBoundRequest(wire,name,requestInput),response=validateResponse(wire,name,responseInput);
  associated(response.requestId===request.requestId);
  validateLifecycleBinding(wire,name,request,response);
+ validateToolBinding(wire,name,request,response);
  const result=response.result;
  if(result){
   if(result.connectionRef!==undefined&&request.connectionRef!==undefined)current(result.connectionRef===request.connectionRef);

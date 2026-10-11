@@ -1,6 +1,6 @@
 {
   "$schema": "http://json-schema.org/draft-07/schema#",
-  "$id": "https://hanaworlds.invalid/contracts/2.3.0/schema.json",
+  "$id": "https://hanaworlds.invalid/contracts/2.4.0/schema.json",
   "x-contractsCompatibility": {
     "package": "hanaworlds-contracts",
     "major": 2,
@@ -15672,6 +15672,1365 @@
         "error"
       ],
       "additionalProperties": false
+    },
+    "ToolHostContext": {
+      "type": "object",
+      "properties": {
+        "sessionRef": {
+          "$ref": "#/definitions/Ref"
+        },
+        "turnRef": {
+          "$ref": "#/definitions/Ref"
+        },
+        "turnRevision": {
+          "$ref": "#/definitions/Revision"
+        },
+        "localContext": {
+          "anyOf": [
+            {
+              "$ref": "#/definitions/LocalWorldContext"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        }
+      },
+      "required": [
+        "sessionRef",
+        "turnRef",
+        "turnRevision",
+        "localContext"
+      ],
+      "additionalProperties": false,
+      "x-typeName": "ToolHostContext"
+    },
+    "ImageBytes": {
+      "type": "object",
+      "properties": {
+        "mediaType": {
+          "$ref": "#/definitions/MediaType"
+        },
+        "bytesBase64": {
+          "type": "string",
+          "minLength": 4,
+          "pattern": "^(?:[A-Za-z0-9+/]{4})*(?:[A-Za-z0-9+/]{2}==|[A-Za-z0-9+/]{3}=)?$"
+        },
+        "bytesDigest": {
+          "$ref": "#/definitions/Digest"
+        },
+        "byteLength": {
+          "$ref": "#/definitions/PositiveInt"
+        }
+      },
+      "required": [
+        "mediaType",
+        "bytesBase64",
+        "bytesDigest",
+        "byteLength"
+      ],
+      "additionalProperties": false,
+      "x-typeName": "ImageBytes"
+    },
+    "ToolContextInput": {
+      "type": "object",
+      "properties": {
+        "action": {
+          "const": "read"
+        }
+      },
+      "required": [
+        "action"
+      ],
+      "additionalProperties": false,
+      "x-typeName": "ToolContextInput"
+    },
+    "ToolContextResult": {
+      "type": "object",
+      "properties": {
+        "action": {
+          "const": "read"
+        },
+        "localContext": {
+          "$ref": "#/definitions/LocalWorldContext"
+        },
+        "selectedObjectRefs": {
+          "$ref": "#/definitions/RefSet"
+        },
+        "placementTarget": {
+          "anyOf": [
+            {
+              "$ref": "#/definitions/PlacementTarget"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "engineFacts": {
+          "$ref": "#/definitions/EngineFacts"
+        },
+        "catalogueFacts": {
+          "$ref": "#/definitions/CatalogueFacts"
+        }
+      },
+      "required": [
+        "action",
+        "localContext",
+        "selectedObjectRefs",
+        "placementTarget",
+        "engineFacts",
+        "catalogueFacts"
+      ],
+      "additionalProperties": false,
+      "x-typeName": "ToolContextResult"
+    },
+    "ToolProposalInput": {
+      "type": "object",
+      "properties": {
+        "action": {
+          "const": "validate"
+        },
+        "proposal": {
+          "$ref": "#/definitions/BuildProposal"
+        }
+      },
+      "required": [
+        "action",
+        "proposal"
+      ],
+      "additionalProperties": false,
+      "x-typeName": "ToolProposalInput"
+    },
+    "ToolProposalResult": {
+      "type": "object",
+      "properties": {
+        "action": {
+          "const": "validate"
+        },
+        "proposalRef": {
+          "$ref": "#/definitions/Ref"
+        },
+        "confirmed": {
+          "const": false
+        },
+        "plan": {
+          "$ref": "#/definitions/BuildPlan"
+        }
+      },
+      "required": [
+        "action",
+        "proposalRef",
+        "confirmed",
+        "plan"
+      ],
+      "additionalProperties": false,
+      "x-typeName": "ToolProposalResult"
+    },
+    "ToolRegionProposalInput": {
+      "type": "object",
+      "properties": {
+        "action": {
+          "const": "validate"
+        },
+        "proposal": {
+          "$ref": "#/definitions/RegionProposal"
+        }
+      },
+      "required": [
+        "action",
+        "proposal"
+      ],
+      "additionalProperties": false,
+      "x-typeName": "ToolRegionProposalInput"
+    },
+    "ToolRegionProposalResult": {
+      "type": "object",
+      "properties": {
+        "action": {
+          "const": "validate"
+        },
+        "proposalRef": {
+          "$ref": "#/definitions/Ref"
+        },
+        "confirmed": {
+          "const": false
+        },
+        "plan": {
+          "$ref": "#/definitions/RegionBuildPlan"
+        }
+      },
+      "required": [
+        "action",
+        "proposalRef",
+        "confirmed",
+        "plan"
+      ],
+      "additionalProperties": false,
+      "x-typeName": "ToolRegionProposalResult"
+    },
+    "ToolBuildInput": {
+      "oneOf": [
+        {
+          "type": "object",
+          "properties": {
+            "action": {
+              "const": "apply"
+            },
+            "confirmedProposalRef": {
+              "$ref": "#/definitions/Ref"
+            }
+          },
+          "required": [
+            "action",
+            "confirmedProposalRef"
+          ],
+          "additionalProperties": false
+        },
+        {
+          "type": "object",
+          "properties": {
+            "action": {
+              "const": "inspect"
+            }
+          },
+          "required": [
+            "action"
+          ],
+          "additionalProperties": false
+        },
+        {
+          "type": "object",
+          "properties": {
+            "action": {
+              "const": "undo"
+            }
+          },
+          "required": [
+            "action"
+          ],
+          "additionalProperties": false
+        },
+        {
+          "type": "object",
+          "properties": {
+            "action": {
+              "const": "redo"
+            }
+          },
+          "required": [
+            "action"
+          ],
+          "additionalProperties": false
+        }
+      ],
+      "x-discriminator": "action",
+      "x-variantKeys": [
+        "apply",
+        "inspect",
+        "undo",
+        "redo"
+      ],
+      "x-typeName": "ToolBuildInput"
+    },
+    "ToolBuildResult": {
+      "oneOf": [
+        {
+          "type": "object",
+          "properties": {
+            "action": {
+              "const": "apply"
+            },
+            "outcome": {
+              "$ref": "#/definitions/BuildEntryOutcome"
+            }
+          },
+          "required": [
+            "action",
+            "outcome"
+          ],
+          "additionalProperties": false
+        },
+        {
+          "type": "object",
+          "properties": {
+            "action": {
+              "const": "inspect"
+            },
+            "undoStatus": {
+              "$ref": "#/definitions/CurrentUndoStatus"
+            },
+            "receipt": {
+              "anyOf": [
+                {
+                  "$ref": "#/definitions/ReceiptProjection"
+                },
+                {
+                  "type": "null"
+                }
+              ]
+            }
+          },
+          "required": [
+            "action",
+            "undoStatus",
+            "receipt"
+          ],
+          "additionalProperties": false
+        },
+        {
+          "type": "object",
+          "properties": {
+            "action": {
+              "const": "undo"
+            },
+            "outcome": {
+              "$ref": "#/definitions/CurrentBuildUndoResult"
+            }
+          },
+          "required": [
+            "action",
+            "outcome"
+          ],
+          "additionalProperties": false
+        },
+        {
+          "type": "object",
+          "properties": {
+            "action": {
+              "const": "redo"
+            },
+            "receipt": {
+              "$ref": "#/definitions/ReceiptProjection"
+            }
+          },
+          "required": [
+            "action",
+            "receipt"
+          ],
+          "additionalProperties": false
+        }
+      ],
+      "x-discriminator": "action",
+      "x-variantKeys": [
+        "apply",
+        "inspect",
+        "undo",
+        "redo"
+      ],
+      "x-typeName": "ToolBuildResult"
+    },
+    "ToolWriteMethodsInput": {
+      "type": "object",
+      "properties": {
+        "action": {
+          "const": "read"
+        }
+      },
+      "required": [
+        "action"
+      ],
+      "additionalProperties": false,
+      "x-typeName": "ToolWriteMethodsInput"
+    },
+    "ToolWriteMethodsResult": {
+      "type": "object",
+      "properties": {
+        "action": {
+          "const": "read"
+        },
+        "engineFacts": {
+          "$ref": "#/definitions/EngineFacts"
+        },
+        "catalogueFacts": {
+          "$ref": "#/definitions/CatalogueFacts"
+        }
+      },
+      "required": [
+        "action",
+        "engineFacts",
+        "catalogueFacts"
+      ],
+      "additionalProperties": false,
+      "x-typeName": "ToolWriteMethodsResult"
+    },
+    "ToolDownloadImageInput": {
+      "type": "object",
+      "properties": {
+        "action": {
+          "const": "download"
+        },
+        "url": {
+          "type": "string",
+          "pattern": "^https?://[^\\s]+$"
+        }
+      },
+      "required": [
+        "action",
+        "url"
+      ],
+      "additionalProperties": false,
+      "x-typeName": "ToolDownloadImageInput"
+    },
+    "ToolDownloadImageResult": {
+      "type": "object",
+      "properties": {
+        "action": {
+          "const": "download"
+        },
+        "attachmentRef": {
+          "$ref": "#/definitions/Ref"
+        },
+        "image": {
+          "$ref": "#/definitions/ImageBytes"
+        }
+      },
+      "required": [
+        "action",
+        "attachmentRef",
+        "image"
+      ],
+      "additionalProperties": false,
+      "x-typeName": "ToolDownloadImageResult"
+    },
+    "ToolImageMaterialInput": {
+      "type": "object",
+      "properties": {
+        "action": {
+          "const": "match"
+        },
+        "image": {
+          "$ref": "#/definitions/ImageBytes"
+        }
+      },
+      "required": [
+        "action",
+        "image"
+      ],
+      "additionalProperties": false,
+      "x-typeName": "ToolImageMaterialInput"
+    },
+    "ImageMaterialMatch": {
+      "type": "object",
+      "properties": {
+        "color": {
+          "$ref": "#/definitions/SrgbColor"
+        },
+        "materialRef": {
+          "$ref": "#/definitions/Ref"
+        },
+        "materialColor": {
+          "$ref": "#/definitions/SrgbColor"
+        },
+        "deltaE": {
+          "type": "number",
+          "minimum": 0
+        }
+      },
+      "required": [
+        "color",
+        "materialRef",
+        "materialColor",
+        "deltaE"
+      ],
+      "additionalProperties": false,
+      "x-typeName": "ImageMaterialMatch"
+    },
+    "ImageMaterialMatches": {
+      "type": "array",
+      "items": {
+        "$ref": "#/definitions/ImageMaterialMatch"
+      },
+      "minItems": 1,
+      "x-typeName": "ImageMaterialMatches"
+    },
+    "ToolImageMaterialResult": {
+      "type": "object",
+      "properties": {
+        "action": {
+          "const": "match"
+        },
+        "matches": {
+          "$ref": "#/definitions/ImageMaterialMatches"
+        },
+        "modelCalls": {
+          "const": 0
+        },
+        "worldWrites": {
+          "const": 0
+        },
+        "algorithm": {
+          "const": "CIEDE2000"
+        }
+      },
+      "required": [
+        "action",
+        "matches",
+        "modelCalls",
+        "worldWrites",
+        "algorithm"
+      ],
+      "additionalProperties": false,
+      "x-typeName": "ToolImageMaterialResult"
+    },
+    "ToolContextRequest": {
+      "type": "object",
+      "properties": {
+        "contractVersion": {
+          "const": "session/v5"
+        },
+        "requestId": {
+          "$ref": "#/definitions/Ref"
+        },
+        "hostContext": {
+          "$ref": "#/definitions/ToolHostContext"
+        },
+        "input": {
+          "$ref": "#/definitions/ToolContextInput"
+        }
+      },
+      "required": [
+        "contractVersion",
+        "requestId",
+        "hostContext",
+        "input"
+      ],
+      "additionalProperties": false,
+      "x-typeName": "ToolContextRequest"
+    },
+    "ToolContextResponse": {
+      "type": "object",
+      "properties": {
+        "contractVersion": {
+          "const": "session/v5"
+        },
+        "requestId": {
+          "$ref": "#/definitions/Ref"
+        },
+        "result": {
+          "anyOf": [
+            {
+              "$ref": "#/definitions/ToolContextResult"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "error": {
+          "anyOf": [
+            {
+              "$ref": "#/definitions/Error"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        }
+      },
+      "required": [
+        "contractVersion",
+        "requestId",
+        "result",
+        "error"
+      ],
+      "additionalProperties": false,
+      "x-typeName": "ToolContextResponse"
+    },
+    "ToolProposalRequest": {
+      "type": "object",
+      "properties": {
+        "contractVersion": {
+          "const": "session/v5"
+        },
+        "requestId": {
+          "$ref": "#/definitions/Ref"
+        },
+        "hostContext": {
+          "$ref": "#/definitions/ToolHostContext"
+        },
+        "input": {
+          "$ref": "#/definitions/ToolProposalInput"
+        }
+      },
+      "required": [
+        "contractVersion",
+        "requestId",
+        "hostContext",
+        "input"
+      ],
+      "additionalProperties": false,
+      "x-typeName": "ToolProposalRequest"
+    },
+    "ToolProposalResponse": {
+      "type": "object",
+      "properties": {
+        "contractVersion": {
+          "const": "session/v5"
+        },
+        "requestId": {
+          "$ref": "#/definitions/Ref"
+        },
+        "result": {
+          "anyOf": [
+            {
+              "$ref": "#/definitions/ToolProposalResult"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "error": {
+          "anyOf": [
+            {
+              "$ref": "#/definitions/Error"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        }
+      },
+      "required": [
+        "contractVersion",
+        "requestId",
+        "result",
+        "error"
+      ],
+      "additionalProperties": false,
+      "x-typeName": "ToolProposalResponse"
+    },
+    "ToolRegionProposalRequest": {
+      "type": "object",
+      "properties": {
+        "contractVersion": {
+          "const": "session/v5"
+        },
+        "requestId": {
+          "$ref": "#/definitions/Ref"
+        },
+        "hostContext": {
+          "$ref": "#/definitions/ToolHostContext"
+        },
+        "input": {
+          "$ref": "#/definitions/ToolRegionProposalInput"
+        }
+      },
+      "required": [
+        "contractVersion",
+        "requestId",
+        "hostContext",
+        "input"
+      ],
+      "additionalProperties": false,
+      "x-typeName": "ToolRegionProposalRequest"
+    },
+    "ToolRegionProposalResponse": {
+      "type": "object",
+      "properties": {
+        "contractVersion": {
+          "const": "session/v5"
+        },
+        "requestId": {
+          "$ref": "#/definitions/Ref"
+        },
+        "result": {
+          "anyOf": [
+            {
+              "$ref": "#/definitions/ToolRegionProposalResult"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "error": {
+          "anyOf": [
+            {
+              "$ref": "#/definitions/Error"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        }
+      },
+      "required": [
+        "contractVersion",
+        "requestId",
+        "result",
+        "error"
+      ],
+      "additionalProperties": false,
+      "x-typeName": "ToolRegionProposalResponse"
+    },
+    "ToolBuildRequest": {
+      "type": "object",
+      "properties": {
+        "contractVersion": {
+          "const": "session/v5"
+        },
+        "requestId": {
+          "$ref": "#/definitions/Ref"
+        },
+        "hostContext": {
+          "$ref": "#/definitions/ToolHostContext"
+        },
+        "input": {
+          "$ref": "#/definitions/ToolBuildInput"
+        }
+      },
+      "required": [
+        "contractVersion",
+        "requestId",
+        "hostContext",
+        "input"
+      ],
+      "additionalProperties": false,
+      "x-typeName": "ToolBuildRequest"
+    },
+    "ToolBuildResponse": {
+      "type": "object",
+      "properties": {
+        "contractVersion": {
+          "const": "session/v5"
+        },
+        "requestId": {
+          "$ref": "#/definitions/Ref"
+        },
+        "result": {
+          "anyOf": [
+            {
+              "$ref": "#/definitions/ToolBuildResult"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "error": {
+          "anyOf": [
+            {
+              "$ref": "#/definitions/Error"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "guardRefusal": {
+          "anyOf": [
+            {
+              "$ref": "#/definitions/GuardRefusal"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        }
+      },
+      "required": [
+        "contractVersion",
+        "requestId",
+        "result",
+        "error",
+        "guardRefusal"
+      ],
+      "additionalProperties": false,
+      "x-typeName": "ToolBuildResponse"
+    },
+    "ToolWriteMethodsRequest": {
+      "type": "object",
+      "properties": {
+        "contractVersion": {
+          "const": "session/v5"
+        },
+        "requestId": {
+          "$ref": "#/definitions/Ref"
+        },
+        "hostContext": {
+          "$ref": "#/definitions/ToolHostContext"
+        },
+        "input": {
+          "$ref": "#/definitions/ToolWriteMethodsInput"
+        }
+      },
+      "required": [
+        "contractVersion",
+        "requestId",
+        "hostContext",
+        "input"
+      ],
+      "additionalProperties": false,
+      "x-typeName": "ToolWriteMethodsRequest"
+    },
+    "ToolWriteMethodsResponse": {
+      "type": "object",
+      "properties": {
+        "contractVersion": {
+          "const": "session/v5"
+        },
+        "requestId": {
+          "$ref": "#/definitions/Ref"
+        },
+        "result": {
+          "anyOf": [
+            {
+              "$ref": "#/definitions/ToolWriteMethodsResult"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "error": {
+          "anyOf": [
+            {
+              "$ref": "#/definitions/Error"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        }
+      },
+      "required": [
+        "contractVersion",
+        "requestId",
+        "result",
+        "error"
+      ],
+      "additionalProperties": false,
+      "x-typeName": "ToolWriteMethodsResponse"
+    },
+    "ToolDownloadImageRequest": {
+      "type": "object",
+      "properties": {
+        "contractVersion": {
+          "const": "session/v5"
+        },
+        "requestId": {
+          "$ref": "#/definitions/Ref"
+        },
+        "hostContext": {
+          "$ref": "#/definitions/ToolHostContext"
+        },
+        "input": {
+          "$ref": "#/definitions/ToolDownloadImageInput"
+        }
+      },
+      "required": [
+        "contractVersion",
+        "requestId",
+        "hostContext",
+        "input"
+      ],
+      "additionalProperties": false,
+      "x-typeName": "ToolDownloadImageRequest"
+    },
+    "ToolDownloadImageResponse": {
+      "type": "object",
+      "properties": {
+        "contractVersion": {
+          "const": "session/v5"
+        },
+        "requestId": {
+          "$ref": "#/definitions/Ref"
+        },
+        "result": {
+          "anyOf": [
+            {
+              "$ref": "#/definitions/ToolDownloadImageResult"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "error": {
+          "anyOf": [
+            {
+              "$ref": "#/definitions/Error"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        }
+      },
+      "required": [
+        "contractVersion",
+        "requestId",
+        "result",
+        "error"
+      ],
+      "additionalProperties": false,
+      "x-typeName": "ToolDownloadImageResponse"
+    },
+    "ToolImageMaterialRequest": {
+      "type": "object",
+      "properties": {
+        "contractVersion": {
+          "const": "painter/v6"
+        },
+        "requestId": {
+          "$ref": "#/definitions/Ref"
+        },
+        "hostContext": {
+          "$ref": "#/definitions/ToolHostContext"
+        },
+        "input": {
+          "$ref": "#/definitions/ToolImageMaterialInput"
+        },
+        "catalogueFacts": {
+          "$ref": "#/definitions/CatalogueFacts"
+        }
+      },
+      "required": [
+        "contractVersion",
+        "requestId",
+        "hostContext",
+        "input",
+        "catalogueFacts"
+      ],
+      "additionalProperties": false,
+      "x-typeName": "ToolImageMaterialRequest"
+    },
+    "ToolImageMaterialResponse": {
+      "type": "object",
+      "properties": {
+        "contractVersion": {
+          "const": "painter/v6"
+        },
+        "requestId": {
+          "$ref": "#/definitions/Ref"
+        },
+        "result": {
+          "anyOf": [
+            {
+              "$ref": "#/definitions/ToolImageMaterialResult"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "error": {
+          "anyOf": [
+            {
+              "$ref": "#/definitions/Error"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        }
+      },
+      "required": [
+        "contractVersion",
+        "requestId",
+        "result",
+        "error"
+      ],
+      "additionalProperties": false,
+      "x-typeName": "ToolImageMaterialResponse"
+    },
+    "RedoCurrentBuildRequest": {
+      "type": "object",
+      "properties": {
+        "contractVersion": {
+          "const": "session/v5"
+        },
+        "sessionRef": {
+          "$ref": "#/definitions/Ref"
+        },
+        "requestId": {
+          "$ref": "#/definitions/Ref"
+        },
+        "worldRef": {
+          "$ref": "#/definitions/Ref"
+        },
+        "expectedTurnRevision": {
+          "$ref": "#/definitions/Revision"
+        },
+        "expectedHistoryRevision": {
+          "$ref": "#/definitions/Revision"
+        },
+        "localContext": {
+          "$ref": "#/definitions/LocalWorldContext"
+        }
+      },
+      "required": [
+        "contractVersion",
+        "sessionRef",
+        "requestId",
+        "worldRef",
+        "expectedTurnRevision",
+        "expectedHistoryRevision",
+        "localContext"
+      ],
+      "additionalProperties": false,
+      "x-typeName": "RedoCurrentBuildRequest"
+    },
+    "RedoCurrentBuildResponse": {
+      "type": "object",
+      "properties": {
+        "contractVersion": {
+          "const": "session/v5"
+        },
+        "requestId": {
+          "$ref": "#/definitions/Ref"
+        },
+        "result": {
+          "anyOf": [
+            {
+              "$ref": "#/definitions/ReceiptProjection"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "error": {
+          "anyOf": [
+            {
+              "$ref": "#/definitions/Error"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "guardRefusal": {
+          "anyOf": [
+            {
+              "$ref": "#/definitions/GuardRefusal"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        }
+      },
+      "required": [
+        "contractVersion",
+        "requestId",
+        "result",
+        "error",
+        "guardRefusal"
+      ],
+      "additionalProperties": false,
+      "x-typeName": "RedoCurrentBuildResponse"
+    },
+    "BuildingSkillTurn": {
+      "type": "object",
+      "properties": {
+        "text": {
+          "$ref": "#/definitions/Text"
+        },
+        "media": {
+          "$ref": "#/definitions/Media"
+        }
+      },
+      "required": [
+        "text",
+        "media"
+      ],
+      "additionalProperties": false,
+      "x-typeName": "BuildingSkillTurn"
+    },
+    "BuildingToolCall": {
+      "oneOf": [
+        {
+          "type": "object",
+          "properties": {
+            "tool": {
+              "const": "hanaworlds_context"
+            },
+            "input": {
+              "$ref": "#/definitions/ToolContextInput"
+            }
+          },
+          "required": [
+            "tool",
+            "input"
+          ],
+          "additionalProperties": false
+        },
+        {
+          "type": "object",
+          "properties": {
+            "tool": {
+              "const": "hanaworlds_proposal"
+            },
+            "input": {
+              "$ref": "#/definitions/ToolProposalInput"
+            }
+          },
+          "required": [
+            "tool",
+            "input"
+          ],
+          "additionalProperties": false
+        },
+        {
+          "type": "object",
+          "properties": {
+            "tool": {
+              "const": "hanaworlds_region_proposal"
+            },
+            "input": {
+              "$ref": "#/definitions/ToolRegionProposalInput"
+            }
+          },
+          "required": [
+            "tool",
+            "input"
+          ],
+          "additionalProperties": false
+        },
+        {
+          "type": "object",
+          "properties": {
+            "tool": {
+              "const": "hanaworlds_build"
+            },
+            "input": {
+              "$ref": "#/definitions/ToolBuildInput"
+            }
+          },
+          "required": [
+            "tool",
+            "input"
+          ],
+          "additionalProperties": false
+        },
+        {
+          "type": "object",
+          "properties": {
+            "tool": {
+              "const": "hanaworlds_write_methods"
+            },
+            "input": {
+              "$ref": "#/definitions/ToolWriteMethodsInput"
+            }
+          },
+          "required": [
+            "tool",
+            "input"
+          ],
+          "additionalProperties": false
+        },
+        {
+          "type": "object",
+          "properties": {
+            "tool": {
+              "const": "hanaworlds_download_image"
+            },
+            "input": {
+              "$ref": "#/definitions/ToolDownloadImageInput"
+            }
+          },
+          "required": [
+            "tool",
+            "input"
+          ],
+          "additionalProperties": false
+        },
+        {
+          "type": "object",
+          "properties": {
+            "tool": {
+              "const": "hanaworlds_image_material"
+            },
+            "input": {
+              "$ref": "#/definitions/ToolImageMaterialInput"
+            }
+          },
+          "required": [
+            "tool",
+            "input"
+          ],
+          "additionalProperties": false
+        }
+      ],
+      "x-discriminator": "tool",
+      "x-variantKeys": [
+        "hanaworlds_context",
+        "hanaworlds_proposal",
+        "hanaworlds_region_proposal",
+        "hanaworlds_build",
+        "hanaworlds_write_methods",
+        "hanaworlds_download_image",
+        "hanaworlds_image_material"
+      ],
+      "x-typeName": "BuildingToolCall"
+    },
+    "BuildingSkillOutput": {
+      "oneOf": [
+        {
+          "type": "object",
+          "properties": {
+            "kind": {
+              "const": "clarification"
+            },
+            "question": {
+              "$ref": "#/definitions/Text"
+            }
+          },
+          "required": [
+            "kind",
+            "question"
+          ],
+          "additionalProperties": false
+        },
+        {
+          "type": "object",
+          "properties": {
+            "kind": {
+              "const": "proposal"
+            },
+            "proposal": {
+              "$ref": "#/definitions/BuildingSkillProposal"
+            }
+          },
+          "required": [
+            "kind",
+            "proposal"
+          ],
+          "additionalProperties": false
+        },
+        {
+          "type": "object",
+          "properties": {
+            "kind": {
+              "const": "tool_call"
+            },
+            "call": {
+              "$ref": "#/definitions/BuildingToolCall"
+            }
+          },
+          "required": [
+            "kind",
+            "call"
+          ],
+          "additionalProperties": false
+        }
+      ],
+      "x-discriminator": "kind",
+      "x-variantKeys": [
+        "clarification",
+        "proposal",
+        "tool_call"
+      ],
+      "x-typeName": "BuildingSkillOutput"
+    },
+    "BuildingSkillRequest": {
+      "type": "object",
+      "properties": {
+        "contractVersion": {
+          "const": "skill/v1"
+        },
+        "requestId": {
+          "$ref": "#/definitions/Ref"
+        },
+        "hostContext": {
+          "$ref": "#/definitions/ToolHostContext"
+        },
+        "turn": {
+          "$ref": "#/definitions/BuildingSkillTurn"
+        }
+      },
+      "required": [
+        "contractVersion",
+        "requestId",
+        "hostContext",
+        "turn"
+      ],
+      "additionalProperties": false,
+      "x-typeName": "BuildingSkillRequest"
+    },
+    "BuildingSkillResponse": {
+      "type": "object",
+      "properties": {
+        "contractVersion": {
+          "const": "skill/v1"
+        },
+        "requestId": {
+          "$ref": "#/definitions/Ref"
+        },
+        "result": {
+          "anyOf": [
+            {
+              "$ref": "#/definitions/BuildingSkillOutput"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "error": {
+          "anyOf": [
+            {
+              "$ref": "#/definitions/Error"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        }
+      },
+      "required": [
+        "contractVersion",
+        "requestId",
+        "result",
+        "error"
+      ],
+      "additionalProperties": false,
+      "x-typeName": "BuildingSkillResponse"
+    },
+    "BuildingSkillProposal": {
+      "oneOf": [
+        {
+          "type": "object",
+          "properties": {
+            "kind": {
+              "const": "per_cell"
+            },
+            "value": {
+              "$ref": "#/definitions/BuildProposal"
+            }
+          },
+          "required": [
+            "kind",
+            "value"
+          ],
+          "additionalProperties": false
+        },
+        {
+          "type": "object",
+          "properties": {
+            "kind": {
+              "const": "region"
+            },
+            "value": {
+              "$ref": "#/definitions/RegionProposal"
+            }
+          },
+          "required": [
+            "kind",
+            "value"
+          ],
+          "additionalProperties": false
+        }
+      ],
+      "x-discriminator": "kind",
+      "x-variantKeys": [
+        "per_cell",
+        "region"
+      ],
+      "x-typeName": "BuildingSkillProposal"
     }
   }
 }

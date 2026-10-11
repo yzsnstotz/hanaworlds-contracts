@@ -1,6 +1,26 @@
 export * from './contracts.js';
 import type {TypeMap,TypeName,OperationMap,ProjectionMap,ContractHandshake,LocalRequestFacts,CurrentBuildSubmission,ValidateBuildProposalRequest,ValidateBuildProposalResponse,BuildProposalProviderFacts,ScopedPreparedTransaction,ScopedPreparedTransactionResult,RegionInspection,MaterialMap,Catalogue,BuildProjection,FinalEffects,TargetFacts,SafetyProfile,Coverage} from './contracts.js';
-export declare const version: '2.3.0';
+export declare const version: '2.4.0';
+export type ToolName='hanaworlds_context'|'hanaworlds_proposal'|'hanaworlds_region_proposal'|'hanaworlds_build'|'hanaworlds_write_methods'|'hanaworlds_download_image'|'hanaworlds_image_material';
+export interface ToolMap {
+ hanaworlds_context:{request:import('./contracts.js').ToolContextRequest;response:import('./contracts.js').ToolContextResponse};
+ hanaworlds_proposal:{request:import('./contracts.js').ToolProposalRequest;response:import('./contracts.js').ToolProposalResponse};
+ hanaworlds_region_proposal:{request:import('./contracts.js').ToolRegionProposalRequest;response:import('./contracts.js').ToolRegionProposalResponse};
+ hanaworlds_build:{request:import('./contracts.js').ToolBuildRequest;response:import('./contracts.js').ToolBuildResponse};
+ hanaworlds_write_methods:{request:import('./contracts.js').ToolWriteMethodsRequest;response:import('./contracts.js').ToolWriteMethodsResponse};
+ hanaworlds_download_image:{request:import('./contracts.js').ToolDownloadImageRequest;response:import('./contracts.js').ToolDownloadImageResponse};
+ hanaworlds_image_material:{request:import('./contracts.js').ToolImageMaterialRequest;response:import('./contracts.js').ToolImageMaterialResponse};
+}
+export interface ToolDeclaration {readonly name:ToolName;readonly contract:'C-session'|'C-painter';readonly provider:'workshop'|'painter';readonly wire:'session/v5'|'painter/v6';readonly operation:ToolName;readonly request:TypeName;readonly response:TypeName;readonly inputSchema:{readonly $ref:string};readonly outputSchema:{readonly $ref:string};readonly hostInjectedFields:ReadonlyArray<string>;readonly actions:ReadonlyArray<{readonly action:string;readonly input:TypeName;readonly output:TypeName;readonly errors:ReadonlyArray<import('./contracts.js').ErrorCode>}>;}
+export declare const toolManifest:Readonly<{profileVersion:'skill-tools/v1';package:'hanaworlds-contracts';version:string;schemaExport:string;tools:ReadonlyArray<ToolDeclaration>;boundary:string}>;
+export declare const buildingSkill:Readonly<{name:'hanaworlds-building';contract:'C-skill';major:1;wire:'skill/v1';request:'BuildingSkillRequest';response:'BuildingSkillResponse';hostInjected:true;tools:ReadonlyArray<ToolName>;errors:ReadonlyArray<import('./contracts.js').ErrorCode>;description:string}>;
+/** hostFacts must be independently injected/read by the host, never sourced from model arguments. */
+export declare function validateToolRequest<N extends ToolName>(name:N,input:unknown,hostFacts:import('./contracts.js').ToolHostContext):ToolMap[N]['request'];
+export declare function validateToolResponse<N extends ToolName>(name:N,request:ToolMap[N]['request'],response:unknown):ToolMap[N]['response'];
+export declare function createSkillToolsMock(fixture:unknown,refusals?:Readonly<Record<string,import('./contracts.js').ErrorCode|undefined>>):<N extends ToolName>(name:N,input:ToolMap[N]['request'],hostFacts:import('./contracts.js').ToolHostContext)=>ToolMap[N]['response'];
+export interface SkillToolsPort {invoke<N extends ToolName>(name:N,request:ToolMap[N]['request']):Promise<ToolMap[N]['response']>;}
+export interface BuildingSkillPort {run(request:import('./contracts.js').BuildingSkillRequest):Promise<import('./contracts.js').BuildingSkillResponse>;}
+export interface SessionRedoPort {RedoCurrentBuild(request:import('./contracts.js').RedoCurrentBuildRequest):Promise<import('./contracts.js').RedoCurrentBuildResponse>;}
 export declare const wireVersions: ReadonlyArray<keyof OperationMap>;
 export declare const compiledOperationsVersion: 'operations/v4';
 export declare const contractHandshake: ContractHandshake;

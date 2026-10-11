@@ -1,0 +1,3052 @@
+{
+  "evidence": "SOURCE/FIXTURE only. Supplied examples; no download, model call, image matching computation, world read/write, durable history or product acceptance.",
+  "exchanges": [
+    {
+      "wire": "session/v5",
+      "operation": "hanaworlds_context",
+      "request": {
+        "contractVersion": "session/v5",
+        "requestId": "hanaworlds_context-read",
+        "hostContext": {
+          "sessionRef": "fixture-session",
+          "turnRef": "turn-1",
+          "turnRevision": "fixture-turn-4",
+          "localContext": {
+            "connectionRef": "local-connection",
+            "connectionIncarnationRef": "socket-open-1",
+            "worldRef": "fixture-world",
+            "selectionRevision": "selection-1"
+          }
+        },
+        "input": {
+          "action": "read"
+        }
+      },
+      "response": {
+        "contractVersion": "session/v5",
+        "requestId": "hanaworlds_context-read",
+        "result": {
+          "action": "read",
+          "localContext": {
+            "connectionRef": "local-connection",
+            "connectionIncarnationRef": "socket-open-1",
+            "worldRef": "fixture-world",
+            "selectionRevision": "selection-1"
+          },
+          "selectedObjectRefs": [],
+          "placementTarget": {
+            "kind": "ANCHORED_EXTENT",
+            "bounds": {
+              "min": [
+                0,
+                0,
+                0
+              ],
+              "max": [
+                0,
+                0,
+                0
+              ]
+            }
+          },
+          "engineFacts": {
+            "profileVersion": "engine-facts/v1",
+            "connection": {
+              "worldRef": "fixture-world",
+              "connectionRef": "local-connection",
+              "connectionIncarnationRef": "socket-open-1"
+            },
+            "worldGeometry": {
+              "profileVersion": "world-geometry/v1",
+              "geometryProfiles": [
+                "voxel-grid/v1"
+              ],
+              "partition": {
+                "edge": [
+                  16,
+                  16,
+                  16
+                ]
+              },
+              "postWriteLighting": "REQUIRED"
+            },
+            "engineBounds": {
+              "min": [
+                -30912,
+                -30912,
+                -30912
+              ],
+              "max": [
+                30927,
+                30927,
+                30927
+              ]
+            },
+            "frame": {
+              "axes": [
+                "+X",
+                "+Y",
+                "+Z"
+              ],
+              "handedness": "left",
+              "gridUnit": {
+                "name": "cell",
+                "metersPerGridUnit": 1
+              }
+            },
+            "writeMethods": [
+              "PER_CELL",
+              "REGION"
+            ],
+            "writeBackend": {
+              "availability": "KNOWN",
+              "basis": "LOADED_PAYLOAD_DECLARATION",
+              "writeBackend": {
+                "profileId": "fixture-world-source-cell-write/v1",
+                "revision": "fixture-world-source-rev-7"
+              }
+            }
+          },
+          "catalogueFacts": {
+            "profileVersion": "catalogue-facts/v1",
+            "connection": {
+              "worldRef": "fixture-world",
+              "connectionRef": "local-connection",
+              "connectionIncarnationRef": "socket-open-1"
+            },
+            "catalogue": {
+              "profileVersion": "catalogue/v3",
+              "engineRevisions": {
+                "fixture-game": "fixture-game-1",
+                "fixture-mod": "fixture-mod-1"
+              },
+              "emptyMaterialRef": "air",
+              "materials": {
+                "air": {
+                  "passable": true,
+                  "liquid": false,
+                  "hazardPerSecond": 0,
+                  "emitsLight": false,
+                  "placeable": true,
+                  "orientations": [
+                    0
+                  ],
+                  "definitionRevision": "fixture-def-1",
+                  "unknownFields": [],
+                  "extension": {
+                    "collisionBoxes": [],
+                    "param2Type": "none"
+                  }
+                },
+                "fixture:stone": {
+                  "passable": false,
+                  "liquid": false,
+                  "hazardPerSecond": 0,
+                  "emitsLight": false,
+                  "placeable": true,
+                  "orientations": [
+                    0
+                  ],
+                  "definitionRevision": "fixture-def-1",
+                  "unknownFields": [],
+                  "extension": {
+                    "collisionBoxes": [
+                      [
+                        -0.5,
+                        -0.5,
+                        -0.5,
+                        0.5,
+                        0.5,
+                        0.5
+                      ]
+                    ],
+                    "param2Type": "none"
+                  }
+                }
+              }
+            },
+            "catalogueDigest": "8429d43abbf2e574c8db6ce4045583924f9973ab615c86da0c876191ce745574",
+            "presentation": {
+              "air": {
+                "displayName": null,
+                "color": null
+              },
+              "fixture:stone": {
+                "displayName": "Fixture stone",
+                "color": "#7f7f7f"
+              }
+            },
+            "orientationIndex": [
+              {
+                "orientation": 0,
+                "quarterTurnsAboutUp": 0,
+                "upsideDown": false
+              }
+            ]
+          }
+        },
+        "error": null
+      }
+    },
+    {
+      "wire": "session/v5",
+      "operation": "hanaworlds_context",
+      "request": {
+        "contractVersion": "session/v5",
+        "requestId": "hanaworlds_context-read",
+        "hostContext": {
+          "sessionRef": "fixture-session",
+          "turnRef": "turn-1",
+          "turnRevision": "fixture-turn-4",
+          "localContext": {
+            "connectionRef": "local-connection",
+            "connectionIncarnationRef": "socket-open-1",
+            "worldRef": "fixture-world",
+            "selectionRevision": "selection-1"
+          }
+        },
+        "input": {
+          "action": "read"
+        }
+      },
+      "response": {
+        "contractVersion": "session/v5",
+        "requestId": "hanaworlds_context-read",
+        "result": null,
+        "error": {
+          "code": "WORLD_NOT_BOUND",
+          "phase": "validate",
+          "retryability": "AFTER_NEW_FACTS",
+          "mutationState": "NONE",
+          "transactionRef": null,
+          "causeCode": null,
+          "reason": "REQUIRED_FACT_UNKNOWN"
+        }
+      }
+    },
+    {
+      "wire": "session/v5",
+      "operation": "hanaworlds_context",
+      "request": {
+        "contractVersion": "session/v5",
+        "requestId": "hanaworlds_context-read",
+        "hostContext": {
+          "sessionRef": "fixture-session",
+          "turnRef": "turn-1",
+          "turnRevision": "fixture-turn-4",
+          "localContext": {
+            "connectionRef": "local-connection",
+            "connectionIncarnationRef": "socket-open-1",
+            "worldRef": "fixture-world",
+            "selectionRevision": "selection-1"
+          }
+        },
+        "input": {
+          "action": "read"
+        }
+      },
+      "response": {
+        "contractVersion": "session/v5",
+        "requestId": "hanaworlds_context-read",
+        "result": null,
+        "error": {
+          "code": "CAPABILITY_UNAVAILABLE",
+          "phase": "validate",
+          "retryability": "AFTER_NEW_FACTS",
+          "mutationState": "NONE",
+          "transactionRef": null,
+          "causeCode": null,
+          "reason": "REQUIRED_FACT_UNKNOWN"
+        }
+      }
+    },
+    {
+      "wire": "session/v5",
+      "operation": "hanaworlds_proposal",
+      "request": {
+        "contractVersion": "session/v5",
+        "requestId": "hanaworlds_proposal-validate",
+        "hostContext": {
+          "sessionRef": "fixture-session",
+          "turnRef": "turn-1",
+          "turnRevision": "fixture-turn-4",
+          "localContext": {
+            "connectionRef": "local-connection",
+            "connectionIncarnationRef": "socket-open-1",
+            "worldRef": "fixture-world",
+            "selectionRevision": "selection-1"
+          }
+        },
+        "input": {
+          "action": "validate",
+          "proposal": {
+            "decision": "BUILD",
+            "materials": {
+              "stone": {
+                "materialRef": "fixture:stone",
+                "orientation": 0
+              }
+            },
+            "boxes": [
+              {
+                "min": [
+                  0,
+                  1,
+                  0
+                ],
+                "max": [
+                  0,
+                  1,
+                  0
+                ],
+                "materialRef": "stone"
+              }
+            ]
+          }
+        }
+      },
+      "response": {
+        "contractVersion": "session/v5",
+        "requestId": "hanaworlds_proposal-validate",
+        "result": {
+          "action": "validate",
+          "proposalRef": "pending-cell-1",
+          "confirmed": false,
+          "plan": {
+            "invocationId": "fixture-luanti-invocation-7",
+            "build": {
+              "contractVersion": "BUILD/V5",
+              "geometryProfile": "voxel-grid/v1",
+              "documentId": "exterior-fixture-luanti-invocation-7",
+              "coordinateFrame": {
+                "profileVersion": "frame/v2",
+                "frameId": "luanti-world-grid:fixture-world",
+                "origin": [
+                  0,
+                  0,
+                  0
+                ],
+                "axes": [
+                  "+X",
+                  "+Y",
+                  "+Z"
+                ],
+                "handedness": "left",
+                "gridUnit": {
+                  "name": "node",
+                  "metersPerGridUnit": null
+                },
+                "transformRevision": "fixture-adapter-exec-1"
+              },
+              "catalogueDigest": "8429d43abbf2e574c8db6ce4045583924f9973ab615c86da0c876191ce745574",
+              "targetFactsDigest": "74f1b28bd92d1a11a03a43769934cafe8f34c570e66bd1c42e836248ac7b8c4e",
+              "safetyProfileDigest": "ee93dff9a45cc73ea5c5b2726354b1b580b16be19e8af0870bbf623244c15e97",
+              "materials": {
+                "stone": {
+                  "materialRef": "fixture:stone",
+                  "orientation": 0
+                }
+              },
+              "operations": [
+                {
+                  "op": "set_box",
+                  "min": [
+                    0,
+                    1,
+                    3
+                  ],
+                  "max": [
+                    0,
+                    1,
+                    3
+                  ],
+                  "materialRef": "stone"
+                }
+              ],
+              "declaredBounds": {
+                "min": [
+                  0,
+                  1,
+                  3
+                ],
+                "max": [
+                  0,
+                  1,
+                  3
+                ]
+              },
+              "witnesses": [
+                {
+                  "witnessId": "w1",
+                  "predicate": "COVERAGE",
+                  "finalEffectsDigest": "a823a51f31f44a346ac9df81734f1b5aa3134524fa13e2db450c9b05fb3a38e6",
+                  "targetFactsDigest": "74f1b28bd92d1a11a03a43769934cafe8f34c570e66bd1c42e836248ac7b8c4e",
+                  "safetyProfileDigest": "ee93dff9a45cc73ea5c5b2726354b1b580b16be19e8af0870bbf623244c15e97",
+                  "facts": {
+                    "evidence": {
+                      "providerRef": "hanaworlds-adapter-luanti",
+                      "sourceRevision": "fixture-adapter-exec-1",
+                      "worldRef": "fixture-world",
+                      "worldRevision": "fixture-world-10"
+                    },
+                    "positions": [
+                      [
+                        0,
+                        1,
+                        3
+                      ]
+                    ]
+                  }
+                },
+                {
+                  "witnessId": "w3",
+                  "predicate": "BODY_CLEARANCE",
+                  "finalEffectsDigest": "a823a51f31f44a346ac9df81734f1b5aa3134524fa13e2db450c9b05fb3a38e6",
+                  "targetFactsDigest": "74f1b28bd92d1a11a03a43769934cafe8f34c570e66bd1c42e836248ac7b8c4e",
+                  "safetyProfileDigest": "ee93dff9a45cc73ea5c5b2726354b1b580b16be19e8af0870bbf623244c15e97",
+                  "facts": {
+                    "evidence": {
+                      "providerRef": "hanaworlds-adapter-luanti",
+                      "sourceRevision": "fixture-adapter-exec-1",
+                      "worldRef": "fixture-world",
+                      "worldRevision": "fixture-world-10"
+                    },
+                    "positions": [
+                      [
+                        0,
+                        1,
+                        3
+                      ]
+                    ]
+                  }
+                },
+                {
+                  "witnessId": "w4",
+                  "predicate": "HAZARD",
+                  "finalEffectsDigest": "a823a51f31f44a346ac9df81734f1b5aa3134524fa13e2db450c9b05fb3a38e6",
+                  "targetFactsDigest": "74f1b28bd92d1a11a03a43769934cafe8f34c570e66bd1c42e836248ac7b8c4e",
+                  "safetyProfileDigest": "ee93dff9a45cc73ea5c5b2726354b1b580b16be19e8af0870bbf623244c15e97",
+                  "facts": {
+                    "evidence": {
+                      "providerRef": "hanaworlds-adapter-luanti",
+                      "sourceRevision": "fixture-adapter-exec-1",
+                      "worldRef": "fixture-world",
+                      "worldRevision": "fixture-world-10"
+                    },
+                    "positions": [
+                      [
+                        0,
+                        1,
+                        3
+                      ]
+                    ],
+                    "forbidLiquid": true,
+                    "maximumDamagePerSecond": 0
+                  }
+                }
+              ]
+            },
+            "buildDigest": "c9d7df431c4f8cf458d1489907eafee74430283f5f8b35bc5beaf07d8f3661f3"
+          }
+        },
+        "error": null
+      }
+    },
+    {
+      "wire": "session/v5",
+      "operation": "hanaworlds_proposal",
+      "request": {
+        "contractVersion": "session/v5",
+        "requestId": "hanaworlds_proposal-validate",
+        "hostContext": {
+          "sessionRef": "fixture-session",
+          "turnRef": "turn-1",
+          "turnRevision": "fixture-turn-4",
+          "localContext": {
+            "connectionRef": "local-connection",
+            "connectionIncarnationRef": "socket-open-1",
+            "worldRef": "fixture-world",
+            "selectionRevision": "selection-1"
+          }
+        },
+        "input": {
+          "action": "validate",
+          "proposal": {
+            "decision": "BUILD",
+            "materials": {
+              "stone": {
+                "materialRef": "fixture:stone",
+                "orientation": 0
+              }
+            },
+            "boxes": [
+              {
+                "min": [
+                  0,
+                  1,
+                  0
+                ],
+                "max": [
+                  0,
+                  1,
+                  0
+                ],
+                "materialRef": "stone"
+              }
+            ]
+          }
+        }
+      },
+      "response": {
+        "contractVersion": "session/v5",
+        "requestId": "hanaworlds_proposal-validate",
+        "result": null,
+        "error": {
+          "code": "SAFETY_INVARIANT_FAILED",
+          "phase": "validate",
+          "retryability": "AFTER_NEW_FACTS",
+          "mutationState": "NONE",
+          "transactionRef": null,
+          "causeCode": null,
+          "reason": "REQUIRED_FACT_UNKNOWN"
+        }
+      }
+    },
+    {
+      "wire": "session/v5",
+      "operation": "hanaworlds_proposal",
+      "request": {
+        "contractVersion": "session/v5",
+        "requestId": "hanaworlds_proposal-validate",
+        "hostContext": {
+          "sessionRef": "fixture-session",
+          "turnRef": "turn-1",
+          "turnRevision": "fixture-turn-4",
+          "localContext": {
+            "connectionRef": "local-connection",
+            "connectionIncarnationRef": "socket-open-1",
+            "worldRef": "fixture-world",
+            "selectionRevision": "selection-1"
+          }
+        },
+        "input": {
+          "action": "validate",
+          "proposal": {
+            "decision": "BUILD",
+            "materials": {
+              "stone": {
+                "materialRef": "fixture:stone",
+                "orientation": 0
+              }
+            },
+            "boxes": [
+              {
+                "min": [
+                  0,
+                  1,
+                  0
+                ],
+                "max": [
+                  0,
+                  1,
+                  0
+                ],
+                "materialRef": "stone"
+              }
+            ]
+          }
+        }
+      },
+      "response": {
+        "contractVersion": "session/v5",
+        "requestId": "hanaworlds_proposal-validate",
+        "result": null,
+        "error": {
+          "code": "INTENT_UNCONFIRMED",
+          "phase": "validate",
+          "retryability": "AFTER_NEW_FACTS",
+          "mutationState": "NONE",
+          "transactionRef": null,
+          "causeCode": null,
+          "reason": "REQUIRED_FACT_UNKNOWN"
+        }
+      }
+    },
+    {
+      "wire": "session/v5",
+      "operation": "hanaworlds_region_proposal",
+      "request": {
+        "contractVersion": "session/v5",
+        "requestId": "hanaworlds_region_proposal-validate",
+        "hostContext": {
+          "sessionRef": "fixture-session",
+          "turnRef": "turn-1",
+          "turnRevision": "fixture-turn-4",
+          "localContext": {
+            "connectionRef": "local-connection",
+            "connectionIncarnationRef": "socket-open-1",
+            "worldRef": "fixture-world",
+            "selectionRevision": "selection-1"
+          }
+        },
+        "input": {
+          "action": "validate",
+          "proposal": {
+            "decision": "REGION",
+            "block": {
+              "profileVersion": "region-voxels/v2",
+              "geometryProfile": "voxel-grid/v1",
+              "origin": [
+                -2,
+                0,
+                -2
+              ],
+              "size": [
+                20,
+                2,
+                3
+              ],
+              "indexOrder": "X_FASTEST_THEN_Y_THEN_Z",
+              "palette": [
+                {
+                  "materialRef": "air",
+                  "orientation": 0
+                },
+                {
+                  "materialRef": "fixture:dirt",
+                  "orientation": 0
+                },
+                {
+                  "materialRef": "fixture:stone",
+                  "orientation": 0
+                }
+              ],
+              "runs": [
+                [
+                  20,
+                  2
+                ],
+                [
+                  6,
+                  1
+                ],
+                [
+                  4,
+                  0
+                ],
+                [
+                  10,
+                  1
+                ],
+                [
+                  20,
+                  2
+                ],
+                [
+                  6,
+                  1
+                ],
+                [
+                  4,
+                  0
+                ],
+                [
+                  2,
+                  1
+                ],
+                [
+                  8,
+                  null
+                ],
+                [
+                  20,
+                  2
+                ],
+                [
+                  6,
+                  1
+                ],
+                [
+                  4,
+                  0
+                ],
+                [
+                  10,
+                  1
+                ]
+              ]
+            }
+          }
+        }
+      },
+      "response": {
+        "contractVersion": "session/v5",
+        "requestId": "hanaworlds_region_proposal-validate",
+        "result": {
+          "action": "validate",
+          "proposalRef": "pending-region-1",
+          "confirmed": false,
+          "plan": {
+            "invocationId": "fixture-luanti-invocation-7",
+            "build": {
+              "contractVersion": "region-build/v2",
+              "documentId": "region-doc-1",
+              "coordinateSpace": "WORLD_NODE",
+              "worldRef": "fixture-world",
+              "catalogueDigest": "89dfb22e3b674be56a66bb066ca5ee51fb0c0571725b2970ab0478658357cc57",
+              "block": {
+                "profileVersion": "region-voxels/v2",
+                "geometryProfile": "voxel-grid/v1",
+                "origin": [
+                  -2,
+                  0,
+                  -2
+                ],
+                "size": [
+                  20,
+                  2,
+                  3
+                ],
+                "indexOrder": "X_FASTEST_THEN_Y_THEN_Z",
+                "palette": [
+                  {
+                    "materialRef": "air",
+                    "orientation": 0
+                  },
+                  {
+                    "materialRef": "fixture:dirt",
+                    "orientation": 0
+                  },
+                  {
+                    "materialRef": "fixture:stone",
+                    "orientation": 0
+                  }
+                ],
+                "runs": [
+                  [
+                    20,
+                    2
+                  ],
+                  [
+                    6,
+                    1
+                  ],
+                  [
+                    4,
+                    0
+                  ],
+                  [
+                    10,
+                    1
+                  ],
+                  [
+                    20,
+                    2
+                  ],
+                  [
+                    6,
+                    1
+                  ],
+                  [
+                    4,
+                    0
+                  ],
+                  [
+                    2,
+                    1
+                  ],
+                  [
+                    8,
+                    null
+                  ],
+                  [
+                    20,
+                    2
+                  ],
+                  [
+                    6,
+                    1
+                  ],
+                  [
+                    4,
+                    0
+                  ],
+                  [
+                    10,
+                    1
+                  ]
+                ]
+              },
+              "declaredBounds": {
+                "min": [
+                  -2,
+                  0,
+                  -2
+                ],
+                "max": [
+                  17,
+                  1,
+                  0
+                ]
+              }
+            },
+            "buildDigest": "be60b6d2819008253a44725d88c6758ae38d0ffa1f67c19ce39ddc69ed27e0f7"
+          }
+        },
+        "error": null
+      }
+    },
+    {
+      "wire": "session/v5",
+      "operation": "hanaworlds_region_proposal",
+      "request": {
+        "contractVersion": "session/v5",
+        "requestId": "hanaworlds_region_proposal-validate",
+        "hostContext": {
+          "sessionRef": "fixture-session",
+          "turnRef": "turn-1",
+          "turnRevision": "fixture-turn-4",
+          "localContext": {
+            "connectionRef": "local-connection",
+            "connectionIncarnationRef": "socket-open-1",
+            "worldRef": "fixture-world",
+            "selectionRevision": "selection-1"
+          }
+        },
+        "input": {
+          "action": "validate",
+          "proposal": {
+            "decision": "REGION",
+            "block": {
+              "profileVersion": "region-voxels/v2",
+              "geometryProfile": "voxel-grid/v1",
+              "origin": [
+                -2,
+                0,
+                -2
+              ],
+              "size": [
+                20,
+                2,
+                3
+              ],
+              "indexOrder": "X_FASTEST_THEN_Y_THEN_Z",
+              "palette": [
+                {
+                  "materialRef": "air",
+                  "orientation": 0
+                },
+                {
+                  "materialRef": "fixture:dirt",
+                  "orientation": 0
+                },
+                {
+                  "materialRef": "fixture:stone",
+                  "orientation": 0
+                }
+              ],
+              "runs": [
+                [
+                  20,
+                  2
+                ],
+                [
+                  6,
+                  1
+                ],
+                [
+                  4,
+                  0
+                ],
+                [
+                  10,
+                  1
+                ],
+                [
+                  20,
+                  2
+                ],
+                [
+                  6,
+                  1
+                ],
+                [
+                  4,
+                  0
+                ],
+                [
+                  2,
+                  1
+                ],
+                [
+                  8,
+                  null
+                ],
+                [
+                  20,
+                  2
+                ],
+                [
+                  6,
+                  1
+                ],
+                [
+                  4,
+                  0
+                ],
+                [
+                  10,
+                  1
+                ]
+              ]
+            }
+          }
+        }
+      },
+      "response": {
+        "contractVersion": "session/v5",
+        "requestId": "hanaworlds_region_proposal-validate",
+        "result": null,
+        "error": {
+          "code": "SAFETY_INVARIANT_FAILED",
+          "phase": "validate",
+          "retryability": "AFTER_NEW_FACTS",
+          "mutationState": "NONE",
+          "transactionRef": null,
+          "causeCode": null,
+          "reason": "REQUIRED_FACT_UNKNOWN"
+        }
+      }
+    },
+    {
+      "wire": "session/v5",
+      "operation": "hanaworlds_region_proposal",
+      "request": {
+        "contractVersion": "session/v5",
+        "requestId": "hanaworlds_region_proposal-validate",
+        "hostContext": {
+          "sessionRef": "fixture-session",
+          "turnRef": "turn-1",
+          "turnRevision": "fixture-turn-4",
+          "localContext": {
+            "connectionRef": "local-connection",
+            "connectionIncarnationRef": "socket-open-1",
+            "worldRef": "fixture-world",
+            "selectionRevision": "selection-1"
+          }
+        },
+        "input": {
+          "action": "validate",
+          "proposal": {
+            "decision": "REGION",
+            "block": {
+              "profileVersion": "region-voxels/v2",
+              "geometryProfile": "voxel-grid/v1",
+              "origin": [
+                -2,
+                0,
+                -2
+              ],
+              "size": [
+                20,
+                2,
+                3
+              ],
+              "indexOrder": "X_FASTEST_THEN_Y_THEN_Z",
+              "palette": [
+                {
+                  "materialRef": "air",
+                  "orientation": 0
+                },
+                {
+                  "materialRef": "fixture:dirt",
+                  "orientation": 0
+                },
+                {
+                  "materialRef": "fixture:stone",
+                  "orientation": 0
+                }
+              ],
+              "runs": [
+                [
+                  20,
+                  2
+                ],
+                [
+                  6,
+                  1
+                ],
+                [
+                  4,
+                  0
+                ],
+                [
+                  10,
+                  1
+                ],
+                [
+                  20,
+                  2
+                ],
+                [
+                  6,
+                  1
+                ],
+                [
+                  4,
+                  0
+                ],
+                [
+                  2,
+                  1
+                ],
+                [
+                  8,
+                  null
+                ],
+                [
+                  20,
+                  2
+                ],
+                [
+                  6,
+                  1
+                ],
+                [
+                  4,
+                  0
+                ],
+                [
+                  10,
+                  1
+                ]
+              ]
+            }
+          }
+        }
+      },
+      "response": {
+        "contractVersion": "session/v5",
+        "requestId": "hanaworlds_region_proposal-validate",
+        "result": null,
+        "error": {
+          "code": "INTENT_UNCONFIRMED",
+          "phase": "validate",
+          "retryability": "AFTER_NEW_FACTS",
+          "mutationState": "NONE",
+          "transactionRef": null,
+          "causeCode": null,
+          "reason": "REQUIRED_FACT_UNKNOWN"
+        }
+      }
+    },
+    {
+      "wire": "session/v5",
+      "operation": "hanaworlds_build",
+      "request": {
+        "contractVersion": "session/v5",
+        "requestId": "hanaworlds_build-apply",
+        "hostContext": {
+          "sessionRef": "fixture-session",
+          "turnRef": "turn-1",
+          "turnRevision": "fixture-turn-4",
+          "localContext": {
+            "connectionRef": "local-connection",
+            "connectionIncarnationRef": "socket-open-1",
+            "worldRef": "fixture-world",
+            "selectionRevision": "selection-1"
+          }
+        },
+        "input": {
+          "action": "apply",
+          "confirmedProposalRef": "confirmed-cell-1"
+        }
+      },
+      "response": {
+        "contractVersion": "session/v5",
+        "requestId": "hanaworlds_build-apply",
+        "result": {
+          "action": "apply",
+          "outcome": {
+            "sessionRef": "fixture-session",
+            "worldRef": "fixture-world",
+            "turnRevision": "fixture-turn-4",
+            "stage": "COMPLETE",
+            "outcome": "VERIFIED",
+            "receipt": {
+              "contractVersion": "canvas/v7",
+              "transactionId": "build-1",
+              "operationDigest": "1111111111111111111111111111111111111111111111111111111111111111",
+              "transactionPayloadDigest": "2222222222222222222222222222222222222222222222222222222222222222",
+              "status": "VERIFIED",
+              "previousWorldRevision": "world-1",
+              "observedWorldRevision": "world-2",
+              "readbackDigest": "3333333333333333333333333333333333333333333333333333333333333333",
+              "restoreStatus": "NOT_REQUIRED",
+              "error": null,
+              "localContext": {
+                "connectionRef": "local-connection",
+                "connectionIncarnationRef": "socket-open-1",
+                "worldRef": "fixture-world",
+                "selectionRevision": "selection-1"
+              },
+              "guardRefusal": null,
+              "applyFailure": null
+            }
+          }
+        },
+        "error": null,
+        "guardRefusal": null
+      }
+    },
+    {
+      "wire": "session/v5",
+      "operation": "hanaworlds_build",
+      "request": {
+        "contractVersion": "session/v5",
+        "requestId": "hanaworlds_build-apply",
+        "hostContext": {
+          "sessionRef": "fixture-session",
+          "turnRef": "turn-1",
+          "turnRevision": "fixture-turn-4",
+          "localContext": {
+            "connectionRef": "local-connection",
+            "connectionIncarnationRef": "socket-open-1",
+            "worldRef": "fixture-world",
+            "selectionRevision": "selection-1"
+          }
+        },
+        "input": {
+          "action": "apply",
+          "confirmedProposalRef": "confirmed-cell-1"
+        }
+      },
+      "response": {
+        "contractVersion": "session/v5",
+        "requestId": "hanaworlds_build-apply",
+        "result": null,
+        "error": {
+          "code": "INTENT_UNCONFIRMED",
+          "phase": "validate",
+          "retryability": "AFTER_NEW_FACTS",
+          "mutationState": "NONE",
+          "transactionRef": null,
+          "causeCode": null,
+          "reason": "REQUIRED_FACT_UNKNOWN"
+        },
+        "guardRefusal": null
+      }
+    },
+    {
+      "wire": "session/v5",
+      "operation": "hanaworlds_build",
+      "request": {
+        "contractVersion": "session/v5",
+        "requestId": "hanaworlds_build-apply",
+        "hostContext": {
+          "sessionRef": "fixture-session",
+          "turnRef": "turn-1",
+          "turnRevision": "fixture-turn-4",
+          "localContext": {
+            "connectionRef": "local-connection",
+            "connectionIncarnationRef": "socket-open-1",
+            "worldRef": "fixture-world",
+            "selectionRevision": "selection-1"
+          }
+        },
+        "input": {
+          "action": "apply",
+          "confirmedProposalRef": "confirmed-cell-1"
+        }
+      },
+      "response": {
+        "contractVersion": "session/v5",
+        "requestId": "hanaworlds_build-apply",
+        "result": null,
+        "error": {
+          "code": "OTHER_OBJECTS_AFFECTED",
+          "phase": "validate",
+          "retryability": "AFTER_NEW_FACTS",
+          "mutationState": "NONE",
+          "transactionRef": null,
+          "causeCode": null,
+          "reason": "SCOPE_DENIED"
+        },
+        "guardRefusal": null
+      }
+    },
+    {
+      "wire": "session/v5",
+      "operation": "hanaworlds_build",
+      "request": {
+        "contractVersion": "session/v5",
+        "requestId": "hanaworlds_build-apply",
+        "hostContext": {
+          "sessionRef": "fixture-session",
+          "turnRef": "turn-1",
+          "turnRevision": "fixture-turn-4",
+          "localContext": {
+            "connectionRef": "local-connection",
+            "connectionIncarnationRef": "socket-open-1",
+            "worldRef": "fixture-world",
+            "selectionRevision": "selection-1"
+          }
+        },
+        "input": {
+          "action": "apply",
+          "confirmedProposalRef": "confirmed-cell-1"
+        }
+      },
+      "response": {
+        "contractVersion": "session/v5",
+        "requestId": "hanaworlds_build-apply",
+        "result": null,
+        "error": {
+          "code": "APPLY_FAILED",
+          "phase": "apply",
+          "retryability": "AFTER_NEW_FACTS",
+          "mutationState": "NONE",
+          "transactionRef": null,
+          "causeCode": null,
+          "reason": "APPLY_ERROR"
+        },
+        "guardRefusal": null
+      }
+    },
+    {
+      "wire": "session/v5",
+      "operation": "hanaworlds_build",
+      "request": {
+        "contractVersion": "session/v5",
+        "requestId": "hanaworlds_build-apply",
+        "hostContext": {
+          "sessionRef": "fixture-session",
+          "turnRef": "turn-1",
+          "turnRevision": "fixture-turn-4",
+          "localContext": {
+            "connectionRef": "local-connection",
+            "connectionIncarnationRef": "socket-open-1",
+            "worldRef": "fixture-world",
+            "selectionRevision": "selection-1"
+          }
+        },
+        "input": {
+          "action": "apply",
+          "confirmedProposalRef": "confirmed-cell-1"
+        }
+      },
+      "response": {
+        "contractVersion": "session/v5",
+        "requestId": "hanaworlds_build-apply",
+        "result": null,
+        "error": {
+          "code": "TRANSACTION_CONFLICT",
+          "phase": "validate",
+          "retryability": "AFTER_NEW_FACTS",
+          "mutationState": "NONE",
+          "transactionRef": null,
+          "causeCode": null,
+          "reason": "REQUIRED_FACT_UNKNOWN"
+        },
+        "guardRefusal": null
+      }
+    },
+    {
+      "wire": "session/v5",
+      "operation": "hanaworlds_build",
+      "request": {
+        "contractVersion": "session/v5",
+        "requestId": "hanaworlds_build-apply",
+        "hostContext": {
+          "sessionRef": "fixture-session",
+          "turnRef": "turn-1",
+          "turnRevision": "fixture-turn-4",
+          "localContext": {
+            "connectionRef": "local-connection",
+            "connectionIncarnationRef": "socket-open-1",
+            "worldRef": "fixture-world",
+            "selectionRevision": "selection-1"
+          }
+        },
+        "input": {
+          "action": "apply",
+          "confirmedProposalRef": "confirmed-cell-1"
+        }
+      },
+      "response": {
+        "contractVersion": "session/v5",
+        "requestId": "hanaworlds_build-apply",
+        "result": null,
+        "error": {
+          "code": "WORLD_NOT_BOUND",
+          "phase": "validate",
+          "retryability": "AFTER_NEW_FACTS",
+          "mutationState": "NONE",
+          "transactionRef": null,
+          "causeCode": null,
+          "reason": "REQUIRED_FACT_UNKNOWN"
+        },
+        "guardRefusal": null
+      }
+    },
+    {
+      "wire": "session/v5",
+      "operation": "hanaworlds_build",
+      "request": {
+        "contractVersion": "session/v5",
+        "requestId": "hanaworlds_build-apply",
+        "hostContext": {
+          "sessionRef": "fixture-session",
+          "turnRef": "turn-1",
+          "turnRevision": "fixture-turn-4",
+          "localContext": {
+            "connectionRef": "local-connection",
+            "connectionIncarnationRef": "socket-open-1",
+            "worldRef": "fixture-world",
+            "selectionRevision": "selection-1"
+          }
+        },
+        "input": {
+          "action": "apply",
+          "confirmedProposalRef": "confirmed-cell-1"
+        }
+      },
+      "response": {
+        "contractVersion": "session/v5",
+        "requestId": "hanaworlds_build-apply",
+        "result": null,
+        "error": {
+          "code": "CAPABILITY_UNAVAILABLE",
+          "phase": "validate",
+          "retryability": "AFTER_NEW_FACTS",
+          "mutationState": "NONE",
+          "transactionRef": null,
+          "causeCode": null,
+          "reason": "REQUIRED_FACT_UNKNOWN"
+        },
+        "guardRefusal": null
+      }
+    },
+    {
+      "wire": "session/v5",
+      "operation": "hanaworlds_build",
+      "request": {
+        "contractVersion": "session/v5",
+        "requestId": "hanaworlds_build-apply",
+        "hostContext": {
+          "sessionRef": "fixture-session",
+          "turnRef": "turn-1",
+          "turnRevision": "fixture-turn-4",
+          "localContext": {
+            "connectionRef": "local-connection",
+            "connectionIncarnationRef": "socket-open-1",
+            "worldRef": "fixture-world",
+            "selectionRevision": "selection-1"
+          }
+        },
+        "input": {
+          "action": "apply",
+          "confirmedProposalRef": "confirmed-cell-1"
+        }
+      },
+      "response": {
+        "contractVersion": "session/v5",
+        "requestId": "hanaworlds_build-apply",
+        "result": null,
+        "error": {
+          "code": "SAFETY_INVARIANT_FAILED",
+          "phase": "validate",
+          "retryability": "AFTER_NEW_FACTS",
+          "mutationState": "NONE",
+          "transactionRef": null,
+          "causeCode": null,
+          "reason": "REQUIRED_FACT_UNKNOWN"
+        },
+        "guardRefusal": null
+      }
+    },
+    {
+      "wire": "session/v5",
+      "operation": "hanaworlds_build",
+      "request": {
+        "contractVersion": "session/v5",
+        "requestId": "hanaworlds_build-apply",
+        "hostContext": {
+          "sessionRef": "fixture-session",
+          "turnRef": "turn-1",
+          "turnRevision": "fixture-turn-4",
+          "localContext": {
+            "connectionRef": "local-connection",
+            "connectionIncarnationRef": "socket-open-1",
+            "worldRef": "fixture-world",
+            "selectionRevision": "selection-1"
+          }
+        },
+        "input": {
+          "action": "apply",
+          "confirmedProposalRef": "confirmed-cell-1"
+        }
+      },
+      "response": {
+        "contractVersion": "session/v5",
+        "requestId": "hanaworlds_build-apply",
+        "result": null,
+        "error": {
+          "code": "RESTORE_FAILED",
+          "phase": "validate",
+          "retryability": "AFTER_NEW_FACTS",
+          "mutationState": "NONE",
+          "transactionRef": null,
+          "causeCode": null,
+          "reason": "REQUIRED_FACT_UNKNOWN"
+        },
+        "guardRefusal": null
+      }
+    },
+    {
+      "wire": "session/v5",
+      "operation": "hanaworlds_build",
+      "request": {
+        "contractVersion": "session/v5",
+        "requestId": "hanaworlds_build-inspect",
+        "hostContext": {
+          "sessionRef": "fixture-session",
+          "turnRef": "turn-1",
+          "turnRevision": "fixture-turn-4",
+          "localContext": {
+            "connectionRef": "local-connection",
+            "connectionIncarnationRef": "socket-open-1",
+            "worldRef": "fixture-world",
+            "selectionRevision": "selection-1"
+          }
+        },
+        "input": {
+          "action": "inspect"
+        }
+      },
+      "response": {
+        "contractVersion": "session/v5",
+        "requestId": "hanaworlds_build-inspect",
+        "result": {
+          "action": "inspect",
+          "undoStatus": {
+            "sessionRef": "fixture-session",
+            "worldRef": "fixture-world",
+            "turnRef": "turn-1",
+            "turnRevision": "fixture-turn-4",
+            "availability": "AVAILABLE",
+            "head": {
+              "historyRevision": "history-1",
+              "headTransactionId": "build-1"
+            }
+          },
+          "receipt": {
+            "contractVersion": "canvas/v7",
+            "transactionId": "build-1",
+            "operationDigest": "1111111111111111111111111111111111111111111111111111111111111111",
+            "transactionPayloadDigest": "2222222222222222222222222222222222222222222222222222222222222222",
+            "status": "VERIFIED",
+            "previousWorldRevision": "world-1",
+            "observedWorldRevision": "world-2",
+            "readbackDigest": "3333333333333333333333333333333333333333333333333333333333333333",
+            "restoreStatus": "NOT_REQUIRED",
+            "error": null,
+            "localContext": {
+              "connectionRef": "local-connection",
+              "connectionIncarnationRef": "socket-open-1",
+              "worldRef": "fixture-world",
+              "selectionRevision": "selection-1"
+            },
+            "guardRefusal": null,
+            "applyFailure": null
+          }
+        },
+        "error": null,
+        "guardRefusal": null
+      }
+    },
+    {
+      "wire": "session/v5",
+      "operation": "hanaworlds_build",
+      "request": {
+        "contractVersion": "session/v5",
+        "requestId": "hanaworlds_build-inspect",
+        "hostContext": {
+          "sessionRef": "fixture-session",
+          "turnRef": "turn-1",
+          "turnRevision": "fixture-turn-4",
+          "localContext": {
+            "connectionRef": "local-connection",
+            "connectionIncarnationRef": "socket-open-1",
+            "worldRef": "fixture-world",
+            "selectionRevision": "selection-1"
+          }
+        },
+        "input": {
+          "action": "inspect"
+        }
+      },
+      "response": {
+        "contractVersion": "session/v5",
+        "requestId": "hanaworlds_build-inspect",
+        "result": null,
+        "error": {
+          "code": "WORLD_NOT_BOUND",
+          "phase": "validate",
+          "retryability": "AFTER_NEW_FACTS",
+          "mutationState": "NONE",
+          "transactionRef": null,
+          "causeCode": null,
+          "reason": "REQUIRED_FACT_UNKNOWN"
+        },
+        "guardRefusal": null
+      }
+    },
+    {
+      "wire": "session/v5",
+      "operation": "hanaworlds_build",
+      "request": {
+        "contractVersion": "session/v5",
+        "requestId": "hanaworlds_build-undo",
+        "hostContext": {
+          "sessionRef": "fixture-session",
+          "turnRef": "turn-1",
+          "turnRevision": "fixture-turn-4",
+          "localContext": {
+            "connectionRef": "local-connection",
+            "connectionIncarnationRef": "socket-open-1",
+            "worldRef": "fixture-world",
+            "selectionRevision": "selection-1"
+          }
+        },
+        "input": {
+          "action": "undo"
+        }
+      },
+      "response": {
+        "contractVersion": "session/v5",
+        "requestId": "hanaworlds_build-undo",
+        "result": {
+          "action": "undo",
+          "outcome": {
+            "sessionRef": "fixture-session",
+            "worldRef": "fixture-world",
+            "turnRef": "turn-1",
+            "turnRevision": "fixture-turn-4",
+            "status": "VERIFIED",
+            "beforeHead": {
+              "historyRevision": "history-1",
+              "headTransactionId": "build-1"
+            },
+            "afterHead": {
+              "historyRevision": "history-2",
+              "headTransactionId": null
+            }
+          }
+        },
+        "error": null,
+        "guardRefusal": null
+      }
+    },
+    {
+      "wire": "session/v5",
+      "operation": "hanaworlds_build",
+      "request": {
+        "contractVersion": "session/v5",
+        "requestId": "hanaworlds_build-undo",
+        "hostContext": {
+          "sessionRef": "fixture-session",
+          "turnRef": "turn-1",
+          "turnRevision": "fixture-turn-4",
+          "localContext": {
+            "connectionRef": "local-connection",
+            "connectionIncarnationRef": "socket-open-1",
+            "worldRef": "fixture-world",
+            "selectionRevision": "selection-1"
+          }
+        },
+        "input": {
+          "action": "undo"
+        }
+      },
+      "response": {
+        "contractVersion": "session/v5",
+        "requestId": "hanaworlds_build-undo",
+        "result": null,
+        "error": {
+          "code": "STALE_TRANSACTION",
+          "phase": "validate",
+          "retryability": "AFTER_NEW_FACTS",
+          "mutationState": "NONE",
+          "transactionRef": null,
+          "causeCode": null,
+          "reason": "REQUIRED_FACT_UNKNOWN"
+        },
+        "guardRefusal": null
+      }
+    },
+    {
+      "wire": "session/v5",
+      "operation": "hanaworlds_build",
+      "request": {
+        "contractVersion": "session/v5",
+        "requestId": "hanaworlds_build-undo",
+        "hostContext": {
+          "sessionRef": "fixture-session",
+          "turnRef": "turn-1",
+          "turnRevision": "fixture-turn-4",
+          "localContext": {
+            "connectionRef": "local-connection",
+            "connectionIncarnationRef": "socket-open-1",
+            "worldRef": "fixture-world",
+            "selectionRevision": "selection-1"
+          }
+        },
+        "input": {
+          "action": "undo"
+        }
+      },
+      "response": {
+        "contractVersion": "session/v5",
+        "requestId": "hanaworlds_build-undo",
+        "result": null,
+        "error": {
+          "code": "TRANSACTION_CONFLICT",
+          "phase": "validate",
+          "retryability": "AFTER_NEW_FACTS",
+          "mutationState": "NONE",
+          "transactionRef": null,
+          "causeCode": null,
+          "reason": "REQUIRED_FACT_UNKNOWN"
+        },
+        "guardRefusal": null
+      }
+    },
+    {
+      "wire": "session/v5",
+      "operation": "hanaworlds_build",
+      "request": {
+        "contractVersion": "session/v5",
+        "requestId": "hanaworlds_build-undo",
+        "hostContext": {
+          "sessionRef": "fixture-session",
+          "turnRef": "turn-1",
+          "turnRevision": "fixture-turn-4",
+          "localContext": {
+            "connectionRef": "local-connection",
+            "connectionIncarnationRef": "socket-open-1",
+            "worldRef": "fixture-world",
+            "selectionRevision": "selection-1"
+          }
+        },
+        "input": {
+          "action": "undo"
+        }
+      },
+      "response": {
+        "contractVersion": "session/v5",
+        "requestId": "hanaworlds_build-undo",
+        "result": null,
+        "error": {
+          "code": "WORLD_NOT_BOUND",
+          "phase": "validate",
+          "retryability": "AFTER_NEW_FACTS",
+          "mutationState": "NONE",
+          "transactionRef": null,
+          "causeCode": null,
+          "reason": "REQUIRED_FACT_UNKNOWN"
+        },
+        "guardRefusal": null
+      }
+    },
+    {
+      "wire": "session/v5",
+      "operation": "hanaworlds_build",
+      "request": {
+        "contractVersion": "session/v5",
+        "requestId": "hanaworlds_build-undo",
+        "hostContext": {
+          "sessionRef": "fixture-session",
+          "turnRef": "turn-1",
+          "turnRevision": "fixture-turn-4",
+          "localContext": {
+            "connectionRef": "local-connection",
+            "connectionIncarnationRef": "socket-open-1",
+            "worldRef": "fixture-world",
+            "selectionRevision": "selection-1"
+          }
+        },
+        "input": {
+          "action": "undo"
+        }
+      },
+      "response": {
+        "contractVersion": "session/v5",
+        "requestId": "hanaworlds_build-undo",
+        "result": null,
+        "error": {
+          "code": "CAPABILITY_UNAVAILABLE",
+          "phase": "validate",
+          "retryability": "AFTER_NEW_FACTS",
+          "mutationState": "NONE",
+          "transactionRef": null,
+          "causeCode": null,
+          "reason": "REQUIRED_FACT_UNKNOWN"
+        },
+        "guardRefusal": null
+      }
+    },
+    {
+      "wire": "session/v5",
+      "operation": "hanaworlds_build",
+      "request": {
+        "contractVersion": "session/v5",
+        "requestId": "hanaworlds_build-undo",
+        "hostContext": {
+          "sessionRef": "fixture-session",
+          "turnRef": "turn-1",
+          "turnRevision": "fixture-turn-4",
+          "localContext": {
+            "connectionRef": "local-connection",
+            "connectionIncarnationRef": "socket-open-1",
+            "worldRef": "fixture-world",
+            "selectionRevision": "selection-1"
+          }
+        },
+        "input": {
+          "action": "undo"
+        }
+      },
+      "response": {
+        "contractVersion": "session/v5",
+        "requestId": "hanaworlds_build-undo",
+        "result": null,
+        "error": {
+          "code": "SAFETY_INVARIANT_FAILED",
+          "phase": "validate",
+          "retryability": "AFTER_NEW_FACTS",
+          "mutationState": "NONE",
+          "transactionRef": null,
+          "causeCode": null,
+          "reason": "REQUIRED_FACT_UNKNOWN"
+        },
+        "guardRefusal": null
+      }
+    },
+    {
+      "wire": "session/v5",
+      "operation": "hanaworlds_build",
+      "request": {
+        "contractVersion": "session/v5",
+        "requestId": "hanaworlds_build-undo",
+        "hostContext": {
+          "sessionRef": "fixture-session",
+          "turnRef": "turn-1",
+          "turnRevision": "fixture-turn-4",
+          "localContext": {
+            "connectionRef": "local-connection",
+            "connectionIncarnationRef": "socket-open-1",
+            "worldRef": "fixture-world",
+            "selectionRevision": "selection-1"
+          }
+        },
+        "input": {
+          "action": "undo"
+        }
+      },
+      "response": {
+        "contractVersion": "session/v5",
+        "requestId": "hanaworlds_build-undo",
+        "result": null,
+        "error": {
+          "code": "RESTORE_FAILED",
+          "phase": "validate",
+          "retryability": "AFTER_NEW_FACTS",
+          "mutationState": "NONE",
+          "transactionRef": null,
+          "causeCode": null,
+          "reason": "REQUIRED_FACT_UNKNOWN"
+        },
+        "guardRefusal": null
+      }
+    },
+    {
+      "wire": "session/v5",
+      "operation": "hanaworlds_build",
+      "request": {
+        "contractVersion": "session/v5",
+        "requestId": "hanaworlds_build-redo",
+        "hostContext": {
+          "sessionRef": "fixture-session",
+          "turnRef": "turn-1",
+          "turnRevision": "fixture-turn-4",
+          "localContext": {
+            "connectionRef": "local-connection",
+            "connectionIncarnationRef": "socket-open-1",
+            "worldRef": "fixture-world",
+            "selectionRevision": "selection-1"
+          }
+        },
+        "input": {
+          "action": "redo"
+        }
+      },
+      "response": {
+        "contractVersion": "session/v5",
+        "requestId": "hanaworlds_build-redo",
+        "result": {
+          "action": "redo",
+          "receipt": {
+            "contractVersion": "canvas/v7",
+            "transactionId": "redo-1",
+            "operationDigest": "1111111111111111111111111111111111111111111111111111111111111111",
+            "transactionPayloadDigest": "2222222222222222222222222222222222222222222222222222222222222222",
+            "status": "VERIFIED",
+            "previousWorldRevision": "world-1",
+            "observedWorldRevision": "world-2",
+            "readbackDigest": "3333333333333333333333333333333333333333333333333333333333333333",
+            "restoreStatus": "NOT_REQUIRED",
+            "error": null,
+            "localContext": {
+              "connectionRef": "local-connection",
+              "connectionIncarnationRef": "socket-open-1",
+              "worldRef": "fixture-world",
+              "selectionRevision": "selection-1"
+            },
+            "guardRefusal": null,
+            "applyFailure": null
+          }
+        },
+        "error": null,
+        "guardRefusal": null
+      }
+    },
+    {
+      "wire": "session/v5",
+      "operation": "hanaworlds_build",
+      "request": {
+        "contractVersion": "session/v5",
+        "requestId": "hanaworlds_build-redo",
+        "hostContext": {
+          "sessionRef": "fixture-session",
+          "turnRef": "turn-1",
+          "turnRevision": "fixture-turn-4",
+          "localContext": {
+            "connectionRef": "local-connection",
+            "connectionIncarnationRef": "socket-open-1",
+            "worldRef": "fixture-world",
+            "selectionRevision": "selection-1"
+          }
+        },
+        "input": {
+          "action": "redo"
+        }
+      },
+      "response": {
+        "contractVersion": "session/v5",
+        "requestId": "hanaworlds_build-redo",
+        "result": null,
+        "error": {
+          "code": "STALE_TRANSACTION",
+          "phase": "validate",
+          "retryability": "AFTER_NEW_FACTS",
+          "mutationState": "NONE",
+          "transactionRef": null,
+          "causeCode": null,
+          "reason": "REQUIRED_FACT_UNKNOWN"
+        },
+        "guardRefusal": null
+      }
+    },
+    {
+      "wire": "session/v5",
+      "operation": "hanaworlds_build",
+      "request": {
+        "contractVersion": "session/v5",
+        "requestId": "hanaworlds_build-redo",
+        "hostContext": {
+          "sessionRef": "fixture-session",
+          "turnRef": "turn-1",
+          "turnRevision": "fixture-turn-4",
+          "localContext": {
+            "connectionRef": "local-connection",
+            "connectionIncarnationRef": "socket-open-1",
+            "worldRef": "fixture-world",
+            "selectionRevision": "selection-1"
+          }
+        },
+        "input": {
+          "action": "redo"
+        }
+      },
+      "response": {
+        "contractVersion": "session/v5",
+        "requestId": "hanaworlds_build-redo",
+        "result": null,
+        "error": {
+          "code": "TRANSACTION_CONFLICT",
+          "phase": "validate",
+          "retryability": "AFTER_NEW_FACTS",
+          "mutationState": "NONE",
+          "transactionRef": null,
+          "causeCode": null,
+          "reason": "REQUIRED_FACT_UNKNOWN"
+        },
+        "guardRefusal": null
+      }
+    },
+    {
+      "wire": "session/v5",
+      "operation": "hanaworlds_build",
+      "request": {
+        "contractVersion": "session/v5",
+        "requestId": "hanaworlds_build-redo",
+        "hostContext": {
+          "sessionRef": "fixture-session",
+          "turnRef": "turn-1",
+          "turnRevision": "fixture-turn-4",
+          "localContext": {
+            "connectionRef": "local-connection",
+            "connectionIncarnationRef": "socket-open-1",
+            "worldRef": "fixture-world",
+            "selectionRevision": "selection-1"
+          }
+        },
+        "input": {
+          "action": "redo"
+        }
+      },
+      "response": {
+        "contractVersion": "session/v5",
+        "requestId": "hanaworlds_build-redo",
+        "result": null,
+        "error": {
+          "code": "WORLD_NOT_BOUND",
+          "phase": "validate",
+          "retryability": "AFTER_NEW_FACTS",
+          "mutationState": "NONE",
+          "transactionRef": null,
+          "causeCode": null,
+          "reason": "REQUIRED_FACT_UNKNOWN"
+        },
+        "guardRefusal": null
+      }
+    },
+    {
+      "wire": "session/v5",
+      "operation": "hanaworlds_build",
+      "request": {
+        "contractVersion": "session/v5",
+        "requestId": "hanaworlds_build-redo",
+        "hostContext": {
+          "sessionRef": "fixture-session",
+          "turnRef": "turn-1",
+          "turnRevision": "fixture-turn-4",
+          "localContext": {
+            "connectionRef": "local-connection",
+            "connectionIncarnationRef": "socket-open-1",
+            "worldRef": "fixture-world",
+            "selectionRevision": "selection-1"
+          }
+        },
+        "input": {
+          "action": "redo"
+        }
+      },
+      "response": {
+        "contractVersion": "session/v5",
+        "requestId": "hanaworlds_build-redo",
+        "result": null,
+        "error": {
+          "code": "CAPABILITY_UNAVAILABLE",
+          "phase": "validate",
+          "retryability": "AFTER_NEW_FACTS",
+          "mutationState": "NONE",
+          "transactionRef": null,
+          "causeCode": null,
+          "reason": "REQUIRED_FACT_UNKNOWN"
+        },
+        "guardRefusal": null
+      }
+    },
+    {
+      "wire": "session/v5",
+      "operation": "hanaworlds_build",
+      "request": {
+        "contractVersion": "session/v5",
+        "requestId": "hanaworlds_build-redo",
+        "hostContext": {
+          "sessionRef": "fixture-session",
+          "turnRef": "turn-1",
+          "turnRevision": "fixture-turn-4",
+          "localContext": {
+            "connectionRef": "local-connection",
+            "connectionIncarnationRef": "socket-open-1",
+            "worldRef": "fixture-world",
+            "selectionRevision": "selection-1"
+          }
+        },
+        "input": {
+          "action": "redo"
+        }
+      },
+      "response": {
+        "contractVersion": "session/v5",
+        "requestId": "hanaworlds_build-redo",
+        "result": null,
+        "error": {
+          "code": "SAFETY_INVARIANT_FAILED",
+          "phase": "validate",
+          "retryability": "AFTER_NEW_FACTS",
+          "mutationState": "NONE",
+          "transactionRef": null,
+          "causeCode": null,
+          "reason": "REQUIRED_FACT_UNKNOWN"
+        },
+        "guardRefusal": null
+      }
+    },
+    {
+      "wire": "session/v5",
+      "operation": "hanaworlds_build",
+      "request": {
+        "contractVersion": "session/v5",
+        "requestId": "hanaworlds_build-redo",
+        "hostContext": {
+          "sessionRef": "fixture-session",
+          "turnRef": "turn-1",
+          "turnRevision": "fixture-turn-4",
+          "localContext": {
+            "connectionRef": "local-connection",
+            "connectionIncarnationRef": "socket-open-1",
+            "worldRef": "fixture-world",
+            "selectionRevision": "selection-1"
+          }
+        },
+        "input": {
+          "action": "redo"
+        }
+      },
+      "response": {
+        "contractVersion": "session/v5",
+        "requestId": "hanaworlds_build-redo",
+        "result": null,
+        "error": {
+          "code": "RESTORE_FAILED",
+          "phase": "validate",
+          "retryability": "AFTER_NEW_FACTS",
+          "mutationState": "NONE",
+          "transactionRef": null,
+          "causeCode": null,
+          "reason": "REQUIRED_FACT_UNKNOWN"
+        },
+        "guardRefusal": null
+      }
+    },
+    {
+      "wire": "session/v5",
+      "operation": "hanaworlds_write_methods",
+      "request": {
+        "contractVersion": "session/v5",
+        "requestId": "hanaworlds_write_methods-read",
+        "hostContext": {
+          "sessionRef": "fixture-session",
+          "turnRef": "turn-1",
+          "turnRevision": "fixture-turn-4",
+          "localContext": {
+            "connectionRef": "local-connection",
+            "connectionIncarnationRef": "socket-open-1",
+            "worldRef": "fixture-world",
+            "selectionRevision": "selection-1"
+          }
+        },
+        "input": {
+          "action": "read"
+        }
+      },
+      "response": {
+        "contractVersion": "session/v5",
+        "requestId": "hanaworlds_write_methods-read",
+        "result": {
+          "action": "read",
+          "engineFacts": {
+            "profileVersion": "engine-facts/v1",
+            "connection": {
+              "worldRef": "fixture-world",
+              "connectionRef": "local-connection",
+              "connectionIncarnationRef": "socket-open-1"
+            },
+            "worldGeometry": {
+              "profileVersion": "world-geometry/v1",
+              "geometryProfiles": [
+                "voxel-grid/v1"
+              ],
+              "partition": {
+                "edge": [
+                  16,
+                  16,
+                  16
+                ]
+              },
+              "postWriteLighting": "REQUIRED"
+            },
+            "engineBounds": {
+              "min": [
+                -30912,
+                -30912,
+                -30912
+              ],
+              "max": [
+                30927,
+                30927,
+                30927
+              ]
+            },
+            "frame": {
+              "axes": [
+                "+X",
+                "+Y",
+                "+Z"
+              ],
+              "handedness": "left",
+              "gridUnit": {
+                "name": "cell",
+                "metersPerGridUnit": 1
+              }
+            },
+            "writeMethods": [
+              "PER_CELL",
+              "REGION"
+            ],
+            "writeBackend": {
+              "availability": "KNOWN",
+              "basis": "LOADED_PAYLOAD_DECLARATION",
+              "writeBackend": {
+                "profileId": "fixture-world-source-cell-write/v1",
+                "revision": "fixture-world-source-rev-7"
+              }
+            }
+          },
+          "catalogueFacts": {
+            "profileVersion": "catalogue-facts/v1",
+            "connection": {
+              "worldRef": "fixture-world",
+              "connectionRef": "local-connection",
+              "connectionIncarnationRef": "socket-open-1"
+            },
+            "catalogue": {
+              "profileVersion": "catalogue/v3",
+              "engineRevisions": {
+                "fixture-game": "fixture-game-1",
+                "fixture-mod": "fixture-mod-1"
+              },
+              "emptyMaterialRef": "air",
+              "materials": {
+                "air": {
+                  "passable": true,
+                  "liquid": false,
+                  "hazardPerSecond": 0,
+                  "emitsLight": false,
+                  "placeable": true,
+                  "orientations": [
+                    0
+                  ],
+                  "definitionRevision": "fixture-def-1",
+                  "unknownFields": [],
+                  "extension": {
+                    "collisionBoxes": [],
+                    "param2Type": "none"
+                  }
+                },
+                "fixture:stone": {
+                  "passable": false,
+                  "liquid": false,
+                  "hazardPerSecond": 0,
+                  "emitsLight": false,
+                  "placeable": true,
+                  "orientations": [
+                    0
+                  ],
+                  "definitionRevision": "fixture-def-1",
+                  "unknownFields": [],
+                  "extension": {
+                    "collisionBoxes": [
+                      [
+                        -0.5,
+                        -0.5,
+                        -0.5,
+                        0.5,
+                        0.5,
+                        0.5
+                      ]
+                    ],
+                    "param2Type": "none"
+                  }
+                }
+              }
+            },
+            "catalogueDigest": "8429d43abbf2e574c8db6ce4045583924f9973ab615c86da0c876191ce745574",
+            "presentation": {
+              "air": {
+                "displayName": null,
+                "color": null
+              },
+              "fixture:stone": {
+                "displayName": "Fixture stone",
+                "color": "#7f7f7f"
+              }
+            },
+            "orientationIndex": [
+              {
+                "orientation": 0,
+                "quarterTurnsAboutUp": 0,
+                "upsideDown": false
+              }
+            ]
+          }
+        },
+        "error": null
+      }
+    },
+    {
+      "wire": "session/v5",
+      "operation": "hanaworlds_download_image",
+      "request": {
+        "contractVersion": "session/v5",
+        "requestId": "hanaworlds_download_image-download",
+        "hostContext": {
+          "sessionRef": "fixture-session",
+          "turnRef": "turn-1",
+          "turnRevision": "fixture-turn-4",
+          "localContext": {
+            "connectionRef": "local-connection",
+            "connectionIncarnationRef": "socket-open-1",
+            "worldRef": "fixture-world",
+            "selectionRevision": "selection-1"
+          }
+        },
+        "input": {
+          "action": "download",
+          "url": "https://example.invalid/fixture.png"
+        }
+      },
+      "response": {
+        "contractVersion": "session/v5",
+        "requestId": "hanaworlds_download_image-download",
+        "result": {
+          "action": "download",
+          "attachmentRef": "image-1",
+          "image": {
+            "mediaType": "image/png",
+            "bytesBase64": "iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mP8/x8AAwMCAO+aWQAAAABJRU5ErkJggg==",
+            "bytesDigest": "2142f54f2bd88700b1fdf7eb233fb97568eaba7a4e1d5faa03a8993eaa320b5a",
+            "byteLength": 67
+          }
+        },
+        "error": null
+      }
+    },
+    {
+      "wire": "session/v5",
+      "operation": "hanaworlds_download_image",
+      "request": {
+        "contractVersion": "session/v5",
+        "requestId": "hanaworlds_download_image-download",
+        "hostContext": {
+          "sessionRef": "fixture-session",
+          "turnRef": "turn-1",
+          "turnRevision": "fixture-turn-4",
+          "localContext": {
+            "connectionRef": "local-connection",
+            "connectionIncarnationRef": "socket-open-1",
+            "worldRef": "fixture-world",
+            "selectionRevision": "selection-1"
+          }
+        },
+        "input": {
+          "action": "download",
+          "url": "https://example.invalid/fixture.png"
+        }
+      },
+      "response": {
+        "contractVersion": "session/v5",
+        "requestId": "hanaworlds_download_image-download",
+        "result": null,
+        "error": {
+          "code": "CAPABILITY_UNAVAILABLE",
+          "phase": "validate",
+          "retryability": "AFTER_NEW_FACTS",
+          "mutationState": "NONE",
+          "transactionRef": null,
+          "causeCode": null,
+          "reason": "REQUIRED_FACT_UNKNOWN"
+        }
+      }
+    },
+    {
+      "wire": "session/v5",
+      "operation": "hanaworlds_download_image",
+      "request": {
+        "contractVersion": "session/v5",
+        "requestId": "hanaworlds_download_image-download",
+        "hostContext": {
+          "sessionRef": "fixture-session",
+          "turnRef": "turn-1",
+          "turnRevision": "fixture-turn-4",
+          "localContext": {
+            "connectionRef": "local-connection",
+            "connectionIncarnationRef": "socket-open-1",
+            "worldRef": "fixture-world",
+            "selectionRevision": "selection-1"
+          }
+        },
+        "input": {
+          "action": "download",
+          "url": "https://example.invalid/fixture.png"
+        }
+      },
+      "response": {
+        "contractVersion": "session/v5",
+        "requestId": "hanaworlds_download_image-download",
+        "result": null,
+        "error": {
+          "code": "SCHEMA_INVALID",
+          "phase": "validate",
+          "retryability": "AFTER_NEW_FACTS",
+          "mutationState": "NONE",
+          "transactionRef": null,
+          "causeCode": null,
+          "reason": "REQUIRED_FACT_UNKNOWN"
+        }
+      }
+    },
+    {
+      "wire": "painter/v6",
+      "operation": "hanaworlds_image_material",
+      "request": {
+        "contractVersion": "painter/v6",
+        "requestId": "hanaworlds_image_material-match",
+        "hostContext": {
+          "sessionRef": "fixture-session",
+          "turnRef": "turn-1",
+          "turnRevision": "fixture-turn-4",
+          "localContext": {
+            "connectionRef": "local-connection",
+            "connectionIncarnationRef": "socket-open-1",
+            "worldRef": "fixture-world",
+            "selectionRevision": "selection-1"
+          }
+        },
+        "input": {
+          "action": "match",
+          "image": {
+            "mediaType": "image/png",
+            "bytesBase64": "iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mP8/x8AAwMCAO+aWQAAAABJRU5ErkJggg==",
+            "bytesDigest": "2142f54f2bd88700b1fdf7eb233fb97568eaba7a4e1d5faa03a8993eaa320b5a",
+            "byteLength": 67
+          }
+        },
+        "catalogueFacts": {
+          "profileVersion": "catalogue-facts/v1",
+          "connection": {
+            "worldRef": "fixture-world",
+            "connectionRef": "local-connection",
+            "connectionIncarnationRef": "socket-open-1"
+          },
+          "catalogue": {
+            "profileVersion": "catalogue/v3",
+            "engineRevisions": {
+              "fixture-game": "fixture-game-1",
+              "fixture-mod": "fixture-mod-1"
+            },
+            "emptyMaterialRef": "air",
+            "materials": {
+              "air": {
+                "passable": true,
+                "liquid": false,
+                "hazardPerSecond": 0,
+                "emitsLight": false,
+                "placeable": true,
+                "orientations": [
+                  0
+                ],
+                "definitionRevision": "fixture-def-1",
+                "unknownFields": [],
+                "extension": {
+                  "collisionBoxes": [],
+                  "param2Type": "none"
+                }
+              },
+              "fixture:stone": {
+                "passable": false,
+                "liquid": false,
+                "hazardPerSecond": 0,
+                "emitsLight": false,
+                "placeable": true,
+                "orientations": [
+                  0
+                ],
+                "definitionRevision": "fixture-def-1",
+                "unknownFields": [],
+                "extension": {
+                  "collisionBoxes": [
+                    [
+                      -0.5,
+                      -0.5,
+                      -0.5,
+                      0.5,
+                      0.5,
+                      0.5
+                    ]
+                  ],
+                  "param2Type": "none"
+                }
+              }
+            }
+          },
+          "catalogueDigest": "8429d43abbf2e574c8db6ce4045583924f9973ab615c86da0c876191ce745574",
+          "presentation": {
+            "air": {
+              "displayName": null,
+              "color": null
+            },
+            "fixture:stone": {
+              "displayName": "Fixture stone",
+              "color": "#7f7f7f"
+            }
+          },
+          "orientationIndex": [
+            {
+              "orientation": 0,
+              "quarterTurnsAboutUp": 0,
+              "upsideDown": false
+            }
+          ]
+        }
+      },
+      "response": {
+        "contractVersion": "painter/v6",
+        "requestId": "hanaworlds_image_material-match",
+        "result": {
+          "action": "match",
+          "matches": [
+            {
+              "color": "#7f7f7f",
+              "materialRef": "fixture:stone",
+              "materialColor": "#7f7f7f",
+              "deltaE": 0
+            }
+          ],
+          "algorithm": "CIEDE2000",
+          "modelCalls": 0,
+          "worldWrites": 0
+        },
+        "error": null
+      }
+    },
+    {
+      "wire": "painter/v6",
+      "operation": "hanaworlds_image_material",
+      "request": {
+        "contractVersion": "painter/v6",
+        "requestId": "hanaworlds_image_material-match",
+        "hostContext": {
+          "sessionRef": "fixture-session",
+          "turnRef": "turn-1",
+          "turnRevision": "fixture-turn-4",
+          "localContext": {
+            "connectionRef": "local-connection",
+            "connectionIncarnationRef": "socket-open-1",
+            "worldRef": "fixture-world",
+            "selectionRevision": "selection-1"
+          }
+        },
+        "input": {
+          "action": "match",
+          "image": {
+            "mediaType": "image/png",
+            "bytesBase64": "iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mP8/x8AAwMCAO+aWQAAAABJRU5ErkJggg==",
+            "bytesDigest": "2142f54f2bd88700b1fdf7eb233fb97568eaba7a4e1d5faa03a8993eaa320b5a",
+            "byteLength": 67
+          }
+        },
+        "catalogueFacts": {
+          "profileVersion": "catalogue-facts/v1",
+          "connection": {
+            "worldRef": "fixture-world",
+            "connectionRef": "local-connection",
+            "connectionIncarnationRef": "socket-open-1"
+          },
+          "catalogue": {
+            "profileVersion": "catalogue/v3",
+            "engineRevisions": {
+              "fixture-game": "fixture-game-1",
+              "fixture-mod": "fixture-mod-1"
+            },
+            "emptyMaterialRef": "air",
+            "materials": {
+              "air": {
+                "passable": true,
+                "liquid": false,
+                "hazardPerSecond": 0,
+                "emitsLight": false,
+                "placeable": true,
+                "orientations": [
+                  0
+                ],
+                "definitionRevision": "fixture-def-1",
+                "unknownFields": [],
+                "extension": {
+                  "collisionBoxes": [],
+                  "param2Type": "none"
+                }
+              },
+              "fixture:stone": {
+                "passable": false,
+                "liquid": false,
+                "hazardPerSecond": 0,
+                "emitsLight": false,
+                "placeable": true,
+                "orientations": [
+                  0
+                ],
+                "definitionRevision": "fixture-def-1",
+                "unknownFields": [],
+                "extension": {
+                  "collisionBoxes": [
+                    [
+                      -0.5,
+                      -0.5,
+                      -0.5,
+                      0.5,
+                      0.5,
+                      0.5
+                    ]
+                  ],
+                  "param2Type": "none"
+                }
+              }
+            }
+          },
+          "catalogueDigest": "8429d43abbf2e574c8db6ce4045583924f9973ab615c86da0c876191ce745574",
+          "presentation": {
+            "air": {
+              "displayName": null,
+              "color": null
+            },
+            "fixture:stone": {
+              "displayName": "Fixture stone",
+              "color": "#7f7f7f"
+            }
+          },
+          "orientationIndex": [
+            {
+              "orientation": 0,
+              "quarterTurnsAboutUp": 0,
+              "upsideDown": false
+            }
+          ]
+        }
+      },
+      "response": {
+        "contractVersion": "painter/v6",
+        "requestId": "hanaworlds_image_material-match",
+        "result": null,
+        "error": {
+          "code": "CAPABILITY_UNAVAILABLE",
+          "phase": "validate",
+          "retryability": "AFTER_NEW_FACTS",
+          "mutationState": "NONE",
+          "transactionRef": null,
+          "causeCode": null,
+          "reason": "REQUIRED_FACT_UNKNOWN"
+        }
+      }
+    }
+  ],
+  "calls": [
+    {
+      "wire": "session/v5",
+      "operation": "RedoCurrentBuild",
+      "request": {
+        "contractVersion": "session/v5",
+        "sessionRef": "fixture-session",
+        "requestId": "session-redo",
+        "worldRef": "fixture-world",
+        "expectedTurnRevision": "fixture-turn-4",
+        "expectedHistoryRevision": "history-2",
+        "localContext": {
+          "connectionRef": "local-connection",
+          "connectionIncarnationRef": "socket-open-1",
+          "worldRef": "fixture-world",
+          "selectionRevision": "selection-1"
+        }
+      },
+      "response": {
+        "contractVersion": "session/v5",
+        "requestId": "session-redo",
+        "result": {
+          "contractVersion": "canvas/v7",
+          "transactionId": "redo-1",
+          "operationDigest": "1111111111111111111111111111111111111111111111111111111111111111",
+          "transactionPayloadDigest": "2222222222222222222222222222222222222222222222222222222222222222",
+          "status": "VERIFIED",
+          "previousWorldRevision": "world-1",
+          "observedWorldRevision": "world-2",
+          "readbackDigest": "3333333333333333333333333333333333333333333333333333333333333333",
+          "restoreStatus": "NOT_REQUIRED",
+          "error": null,
+          "localContext": {
+            "connectionRef": "local-connection",
+            "connectionIncarnationRef": "socket-open-1",
+            "worldRef": "fixture-world",
+            "selectionRevision": "selection-1"
+          },
+          "guardRefusal": null,
+          "applyFailure": null
+        },
+        "error": null,
+        "guardRefusal": null
+      }
+    },
+    {
+      "wire": "canvas/v7",
+      "operation": "Redo",
+      "request": {
+        "contractVersion": "canvas/v7",
+        "sessionRef": "fixture-session",
+        "requestId": "canvas-redo",
+        "worldRef": "fixture-world",
+        "objectRef": "object-1",
+        "transactionId": "redo-1",
+        "historyTransactionId": "redo-1",
+        "expectedHistoryRevision": "history-2",
+        "expectedWorldRevision": "world-2",
+        "expectedObjectRevisions": {
+          "object-1": "object-revision-1"
+        },
+        "intentDigest": "4444444444444444444444444444444444444444444444444444444444444444",
+        "surfaceActionDigest": "5555555555555555555555555555555555555555555555555555555555555555",
+        "localContext": {
+          "connectionRef": "local-connection",
+          "connectionIncarnationRef": "socket-open-1",
+          "worldRef": "fixture-world",
+          "selectionRevision": "selection-1"
+        }
+      },
+      "response": {
+        "contractVersion": "canvas/v7",
+        "requestId": "canvas-redo",
+        "result": {
+          "contractVersion": "canvas/v7",
+          "transactionId": "redo-1",
+          "operationDigest": "1111111111111111111111111111111111111111111111111111111111111111",
+          "transactionPayloadDigest": "2222222222222222222222222222222222222222222222222222222222222222",
+          "status": "VERIFIED",
+          "previousWorldRevision": "world-1",
+          "observedWorldRevision": "world-2",
+          "readbackDigest": "3333333333333333333333333333333333333333333333333333333333333333",
+          "restoreStatus": "NOT_REQUIRED",
+          "error": null,
+          "localContext": {
+            "connectionRef": "local-connection",
+            "connectionIncarnationRef": "socket-open-1",
+            "worldRef": "fixture-world",
+            "selectionRevision": "selection-1"
+          },
+          "guardRefusal": null,
+          "applyFailure": null
+        },
+        "error": null,
+        "guardRefusal": null
+      }
+    },
+    {
+      "wire": "skill/v1",
+      "operation": "hanaworlds-building",
+      "request": {
+        "contractVersion": "skill/v1",
+        "requestId": "skill-turn",
+        "hostContext": {
+          "sessionRef": "fixture-session",
+          "turnRef": "turn-1",
+          "turnRevision": "fixture-turn-4",
+          "localContext": {
+            "connectionRef": "local-connection",
+            "connectionIncarnationRef": "socket-open-1",
+            "worldRef": "fixture-world",
+            "selectionRevision": "selection-1"
+          }
+        },
+        "turn": {
+          "text": "Build from this image",
+          "media": [
+            {
+              "attachmentRef": "image-1",
+              "storedBytesDigest": "2142f54f2bd88700b1fdf7eb233fb97568eaba7a4e1d5faa03a8993eaa320b5a",
+              "projectionVariantId": null,
+              "projectionBytesDigest": null,
+              "mediaType": "image/png",
+              "bytes": 67,
+              "width": 1,
+              "height": 1
+            }
+          ]
+        }
+      },
+      "response": {
+        "contractVersion": "skill/v1",
+        "requestId": "skill-turn",
+        "result": {
+          "kind": "clarification",
+          "question": "Which size?"
+        },
+        "error": null
+      }
+    },
+    {
+      "wire": "skill/v1",
+      "operation": "hanaworlds-building",
+      "request": {
+        "contractVersion": "skill/v1",
+        "requestId": "skill-turn",
+        "hostContext": {
+          "sessionRef": "fixture-session",
+          "turnRef": "turn-1",
+          "turnRevision": "fixture-turn-4",
+          "localContext": {
+            "connectionRef": "local-connection",
+            "connectionIncarnationRef": "socket-open-1",
+            "worldRef": "fixture-world",
+            "selectionRevision": "selection-1"
+          }
+        },
+        "turn": {
+          "text": "Build from this image",
+          "media": [
+            {
+              "attachmentRef": "image-1",
+              "storedBytesDigest": "2142f54f2bd88700b1fdf7eb233fb97568eaba7a4e1d5faa03a8993eaa320b5a",
+              "projectionVariantId": null,
+              "projectionBytesDigest": null,
+              "mediaType": "image/png",
+              "bytes": 67,
+              "width": 1,
+              "height": 1
+            }
+          ]
+        }
+      },
+      "response": {
+        "contractVersion": "skill/v1",
+        "requestId": "skill-turn",
+        "result": {
+          "kind": "proposal",
+          "proposal": {
+            "kind": "per_cell",
+            "value": {
+              "decision": "BUILD",
+              "materials": {
+                "stone": {
+                  "materialRef": "fixture:stone",
+                  "orientation": 0
+                }
+              },
+              "boxes": [
+                {
+                  "min": [
+                    0,
+                    1,
+                    0
+                  ],
+                  "max": [
+                    0,
+                    1,
+                    0
+                  ],
+                  "materialRef": "stone"
+                }
+              ]
+            }
+          }
+        },
+        "error": null
+      }
+    },
+    {
+      "wire": "skill/v1",
+      "operation": "hanaworlds-building",
+      "request": {
+        "contractVersion": "skill/v1",
+        "requestId": "skill-turn",
+        "hostContext": {
+          "sessionRef": "fixture-session",
+          "turnRef": "turn-1",
+          "turnRevision": "fixture-turn-4",
+          "localContext": {
+            "connectionRef": "local-connection",
+            "connectionIncarnationRef": "socket-open-1",
+            "worldRef": "fixture-world",
+            "selectionRevision": "selection-1"
+          }
+        },
+        "turn": {
+          "text": "Build from this image",
+          "media": [
+            {
+              "attachmentRef": "image-1",
+              "storedBytesDigest": "2142f54f2bd88700b1fdf7eb233fb97568eaba7a4e1d5faa03a8993eaa320b5a",
+              "projectionVariantId": null,
+              "projectionBytesDigest": null,
+              "mediaType": "image/png",
+              "bytes": 67,
+              "width": 1,
+              "height": 1
+            }
+          ]
+        }
+      },
+      "response": {
+        "contractVersion": "skill/v1",
+        "requestId": "skill-turn",
+        "result": {
+          "kind": "proposal",
+          "proposal": {
+            "kind": "region",
+            "value": {
+              "decision": "REGION",
+              "block": {
+                "profileVersion": "region-voxels/v2",
+                "geometryProfile": "voxel-grid/v1",
+                "origin": [
+                  -2,
+                  0,
+                  -2
+                ],
+                "size": [
+                  20,
+                  2,
+                  3
+                ],
+                "indexOrder": "X_FASTEST_THEN_Y_THEN_Z",
+                "palette": [
+                  {
+                    "materialRef": "air",
+                    "orientation": 0
+                  },
+                  {
+                    "materialRef": "fixture:dirt",
+                    "orientation": 0
+                  },
+                  {
+                    "materialRef": "fixture:stone",
+                    "orientation": 0
+                  }
+                ],
+                "runs": [
+                  [
+                    20,
+                    2
+                  ],
+                  [
+                    6,
+                    1
+                  ],
+                  [
+                    4,
+                    0
+                  ],
+                  [
+                    10,
+                    1
+                  ],
+                  [
+                    20,
+                    2
+                  ],
+                  [
+                    6,
+                    1
+                  ],
+                  [
+                    4,
+                    0
+                  ],
+                  [
+                    2,
+                    1
+                  ],
+                  [
+                    8,
+                    null
+                  ],
+                  [
+                    20,
+                    2
+                  ],
+                  [
+                    6,
+                    1
+                  ],
+                  [
+                    4,
+                    0
+                  ],
+                  [
+                    10,
+                    1
+                  ]
+                ]
+              }
+            }
+          }
+        },
+        "error": null
+      }
+    },
+    {
+      "wire": "skill/v1",
+      "operation": "hanaworlds-building",
+      "request": {
+        "contractVersion": "skill/v1",
+        "requestId": "skill-turn",
+        "hostContext": {
+          "sessionRef": "fixture-session",
+          "turnRef": "turn-1",
+          "turnRevision": "fixture-turn-4",
+          "localContext": {
+            "connectionRef": "local-connection",
+            "connectionIncarnationRef": "socket-open-1",
+            "worldRef": "fixture-world",
+            "selectionRevision": "selection-1"
+          }
+        },
+        "turn": {
+          "text": "Build from this image",
+          "media": [
+            {
+              "attachmentRef": "image-1",
+              "storedBytesDigest": "2142f54f2bd88700b1fdf7eb233fb97568eaba7a4e1d5faa03a8993eaa320b5a",
+              "projectionVariantId": null,
+              "projectionBytesDigest": null,
+              "mediaType": "image/png",
+              "bytes": 67,
+              "width": 1,
+              "height": 1
+            }
+          ]
+        }
+      },
+      "response": {
+        "contractVersion": "skill/v1",
+        "requestId": "skill-turn",
+        "result": {
+          "kind": "tool_call",
+          "call": {
+            "tool": "hanaworlds_context",
+            "input": {
+              "action": "read"
+            }
+          }
+        },
+        "error": null
+      }
+    },
+    {
+      "wire": "skill/v1",
+      "operation": "hanaworlds-building",
+      "request": {
+        "contractVersion": "skill/v1",
+        "requestId": "skill-turn",
+        "hostContext": {
+          "sessionRef": "fixture-session",
+          "turnRef": "turn-1",
+          "turnRevision": "fixture-turn-4",
+          "localContext": {
+            "connectionRef": "local-connection",
+            "connectionIncarnationRef": "socket-open-1",
+            "worldRef": "fixture-world",
+            "selectionRevision": "selection-1"
+          }
+        },
+        "turn": {
+          "text": "Build from this image",
+          "media": [
+            {
+              "attachmentRef": "image-1",
+              "storedBytesDigest": "2142f54f2bd88700b1fdf7eb233fb97568eaba7a4e1d5faa03a8993eaa320b5a",
+              "projectionVariantId": null,
+              "projectionBytesDigest": null,
+              "mediaType": "image/png",
+              "bytes": 67,
+              "width": 1,
+              "height": 1
+            }
+          ]
+        }
+      },
+      "response": {
+        "contractVersion": "skill/v1",
+        "requestId": "skill-turn",
+        "result": null,
+        "error": {
+          "code": "CAPABILITY_UNAVAILABLE",
+          "phase": "validate",
+          "retryability": "AFTER_NEW_FACTS",
+          "mutationState": "NONE",
+          "transactionRef": null,
+          "causeCode": null,
+          "reason": "REQUIRED_FACT_UNKNOWN"
+        }
+      }
+    },
+    {
+      "wire": "skill/v1",
+      "operation": "hanaworlds-building",
+      "request": {
+        "contractVersion": "skill/v1",
+        "requestId": "skill-turn",
+        "hostContext": {
+          "sessionRef": "fixture-session",
+          "turnRef": "turn-1",
+          "turnRevision": "fixture-turn-4",
+          "localContext": {
+            "connectionRef": "local-connection",
+            "connectionIncarnationRef": "socket-open-1",
+            "worldRef": "fixture-world",
+            "selectionRevision": "selection-1"
+          }
+        },
+        "turn": {
+          "text": "Build from this image",
+          "media": [
+            {
+              "attachmentRef": "image-1",
+              "storedBytesDigest": "2142f54f2bd88700b1fdf7eb233fb97568eaba7a4e1d5faa03a8993eaa320b5a",
+              "projectionVariantId": null,
+              "projectionBytesDigest": null,
+              "mediaType": "image/png",
+              "bytes": 67,
+              "width": 1,
+              "height": 1
+            }
+          ]
+        }
+      },
+      "response": {
+        "contractVersion": "skill/v1",
+        "requestId": "skill-turn",
+        "result": null,
+        "error": {
+          "code": "WORLD_NOT_BOUND",
+          "phase": "validate",
+          "retryability": "AFTER_NEW_FACTS",
+          "mutationState": "NONE",
+          "transactionRef": null,
+          "causeCode": null,
+          "reason": "REQUIRED_FACT_UNKNOWN"
+        }
+      }
+    }
+  ]
+}

@@ -8,7 +8,7 @@ assert.deepEqual(profile.definitions,api.schemaBundle.definitions);
 assert.equal(api.version,(await json('package.json')).version);assert.equal(api.contractHandshake.contracts,'hanaworlds-contracts@'+api.version);
 assert.doesNotMatch(JSON.stringify(profile),/authorizationRef|grantEpoch|requireProtectedClearance|protectedPositions|AuthProjection|OriginalSessionBinding|allowedActions/);
 const pkg=await json('package.json');
-assert.deepEqual(Object.keys(pkg.exports),['.','./schema','./profile','./fixtures/*','./package.json']);
+assert.deepEqual(Object.keys(pkg.exports),['.','./schema','./profile','./fixtures/*','./package.json','./tools','./skill']);
 const refs=[];JSON.stringify(profile.definitions,(k,v)=>{if(k==='$ref')refs.push(v);return v;});for(const r of refs)assert.ok(profile.definitions[r.split('/').at(-1)],r);
 for(const name of await readdir('src/local'))if(name.endsWith('.mjs')){const source=await readFile('src/local/'+name,'utf8');assert.doesNotMatch(source,/node:(fs|child_process|http|https|net)|\bfetch\s*\(|\.\.\/v[234]\//,name);assert.equal(source,await readFile('dist/local/'+name,'utf8'));}
 for(const [wire,ops] of Object.entries(api.operationContracts))for(const op of ops){assert.ok(profile.definitions[op.request]);assert.ok(profile.definitions[op.response]);assert.equal(profile.definitions[op.request].properties.contractVersion.const,wire);}

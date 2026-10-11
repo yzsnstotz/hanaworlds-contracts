@@ -54,7 +54,7 @@ const GUARDED_RESPONSES = new Set(['ScopedPrepareResponse', 'ScopedApplyResponse
   'ApplyRegionCommitResponse', 'UndoRegionCommitResponse',
   // Relays up to the skill: Canvas per-cell and placement responses, Workshop build/undo responses.
   'RecoverableCommitAppliedReceipt', 'UndoReceipt', 'RedoReceipt', 'CanvasUndoRecoveryResponse', 'PlacementRegionInspection',
-  'AdvanceCurrentBuildResponse', 'UndoCurrentBuildResponse', 'SessionRecoverPendingUndoResponse']);
+  'AdvanceCurrentBuildResponse', 'UndoCurrentBuildResponse', 'SessionRecoverPendingUndoResponse', 'RedoCurrentBuildResponse', 'ToolBuildResponse']);
 function arrayCompare(name, order) {
   if (order === 'numeric ascending') return (a, b) => a - b;
   if (order === 'UTF16 ascending') return compareUTF16;

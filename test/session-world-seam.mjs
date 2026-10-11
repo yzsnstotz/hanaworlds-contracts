@@ -10,8 +10,8 @@ const SD='session/v5',CS='canvas/v7';
 test('exact candidate package; seam operations are appended minors of existing wires',()=>{
  a.checkContractsVersion(a.contractHandshake.contracts);assert.equal(a.contractHandshake.contracts,'hanaworlds-contracts@'+a.version);a.checkContractHandshake(a.contractHandshake);
  assert.ok(!a.wireVersions.some(w=>/session-directory|canvas-session-world/.test(w)));
- assert.deepEqual(a.operationContracts[SD].slice(13).map(o=>o.operation),['ReadSessionIdentity','ListSessions']);
- assert.deepEqual(a.operationContracts[CS].slice(20).map(o=>o.operation),['UnselectWorldConnection','RetireSessionSelection','ListWorldSelections','ReserveWorldRetirement','ReleaseWorldRetirement']);
+ assert.deepEqual(a.operationContracts[SD].slice(13,15).map(o=>o.operation),['ReadSessionIdentity','ListSessions']);
+ assert.deepEqual(a.operationContracts[CS].slice(20,25).map(o=>o.operation),['UnselectWorldConnection','RetireSessionSelection','ListWorldSelections','ReserveWorldRetirement','ReleaseWorldRetirement']);
  assert.deepEqual(a.ownership[SD],{domainOwner:'Workshop',mutationCaller:'none'});
  assert.deepEqual(a.ownership[CS],{domainOwner:'Canvas',mutationCaller:'Canvas only'});
  assert.equal(a.sessionWorldSeam.id,'session-world-seam/v1');

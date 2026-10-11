@@ -5,7 +5,7 @@ import {
  type WorldLifecycleCreateRequest, type EngineRuntimeStartRequest,
  type LocalWorldsPairResponse, type OperationMap
 } from 'hanaworlds-contracts';
-const release:'2.3.0'=version;
+const release:string=version;
 const create:WorldLifecycleCreateRequest={contractVersion:'world-lifecycle/v2',requestId:'create',templateId:'provider-template',displayName:'World'};
 const q=validateRequest('world-lifecycle/v2','create',create);
 const hash:string=requestDigest('world-lifecycle/v2','create',q);
