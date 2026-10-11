@@ -382,11 +382,18 @@ export function validateCurrentBuildSubmission(input,factsInput) {
  requireConfirmedPlacementSent(intent,apply);
  return submission;
 }
+/** World selectors a request itself carries: top-level worldRef, its localContext, or the
+ * host-injected tool context. Model input, raw JSON and messages are never selectors. */
+export function requestWorldSelectors(request) {
+ return [request.worldRef,request.localContext?.worldRef,request.hostContext?.localContext?.worldRef].filter(w=>typeof w==='string');
+}
 export function validateBoundResponse(wire,name,requestInput,responseInput) {
  const request=validateBoundRequest(wire,name,requestInput),response=validateResponse(wire,name,responseInput);
  associated(response.requestId===request.requestId);
  validateLifecycleBinding(wire,name,request,response);
  validateToolBinding(wire,name,request,response);
+ // 2.7.0: an error naming its target world must name every world the request selected.
+ if(response.error?.worldRef!==undefined)for(const selected of requestWorldSelectors(request))current(response.error.worldRef===selected);
  const result=response.result;
  if(result){
   if(result.connectionRef!==undefined&&request.connectionRef!==undefined)current(result.connectionRef===request.connectionRef);

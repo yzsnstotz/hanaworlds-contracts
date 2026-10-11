@@ -74,7 +74,7 @@ export declare function validateWitnessCoherence(input:{build:BuildProjection;fi
 export declare function projectScopedPreparedTransaction(input:ScopedPreparedTransactionResult):ScopedPreparedTransaction;
 export declare function validateExactEffects(operations:unknown,materials:unknown,effects:unknown):unknown;
 export declare function decodeRawJSON(input:string|Uint8Array):unknown;
-export declare class ContractError extends Error {constructor(code?:string,phase?:string,reason?:string,details?:Record<string,unknown>);readonly code:string;readonly phase:string;readonly reason:string;readonly mutationState:string;readonly publicError:Readonly<Record<string,unknown>>;readonly placementFailure?:PlacementFailure;}
+export declare class ContractError extends Error {constructor(code?:string,phase?:string,reason?:string,details?:Record<string,unknown>);readonly code:string;readonly phase:string;readonly reason:string;readonly mutationState:string;/** 2.7.0: present only when the constructor was given details.worldRef. */readonly worldRef:string|undefined;readonly publicError:Readonly<Record<string,unknown>>;readonly placementFailure?:PlacementFailure;}
 export declare function validateWorldSelection(input:unknown,facts:LocalRequestFacts,connection:unknown):import('./contracts.js').SelectWorldConnectionRequest;
 export declare function validateCommitReadback(receipt:unknown,expected:unknown,actual:unknown,durableHistory:unknown):import('./contracts.js').ReceiptProjection;
 export declare const placementSettingDescriptors: ReadonlyArray<{readonly name:string;readonly owner:string;readonly type:string;readonly default:number;readonly scope:string;readonly editable:boolean;readonly meaning:string;readonly consequence:string;readonly whenUnsetOrInvalid:string}>;
@@ -270,3 +270,10 @@ export declare function createLocalWorldSourceMock(fixture:unknown,refusalCode?:
 
 /** Direct-build handoff metadata; SOURCE/FIXTURE only, the host owns trust and current state. */
 export declare const directBuild:Readonly<{introducedIn:'2.6.0';contract:'C-session';operation:'hanaworlds_build';action:'build';hostFacts:'ToolBuildHostFacts';authorization:'HostBuildIntentAuthorization';currentUserRequest:'CurrentBuildUserRequest';scope:string;digest:string;consumption:string;pipeline:ReadonlyArray<string>;otherObjects:string}>;
+/** 2.7.0 optional target world on the public Error (C-canvas / C-session). */
+export declare const worldErrorContext:Readonly<{introducedIn:'2.7.0';contracts:ReadonlyArray<'C-canvas'|'C-session'>;type:'Error';field:'worldRef';meaning:string;absence:string;binding:string;unchanged:string;carrier:string;compatibility:string;fixture:string;mock:'createWorldErrorMock'}>;
+/** World selectors the request itself carries: worldRef, localContext.worldRef, hostContext.localContext.worldRef. */
+export declare function requestWorldSelectors(request:unknown):ReadonlyArray<string>;
+export declare function targetWorldRef(request:unknown,trustedSessionWorlds?:Readonly<Record<string,string>>|ReadonlyMap<string,string>):string|undefined;
+export declare function worldUnavailableError(request:unknown,error:Omit<import('./contracts.js').Error,'worldRef'>,trustedSessionWorlds?:Readonly<Record<string,string>>|ReadonlyMap<string,string>):import('./contracts.js').Error;
+export declare function createWorldErrorMock(fixture:unknown):<W extends keyof OperationMap,N extends keyof OperationMap[W]>(wire:W,operation:N,request:unknown)=>OperationMap[W][N] extends {response:infer R}?R:never;

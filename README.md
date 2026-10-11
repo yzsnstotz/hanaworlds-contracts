@@ -1,10 +1,22 @@
-# HanaWorlds Contracts 2.6.0
+# HanaWorlds Contracts 2.7.0
 
 Pure public contracts for the single-user local-world MVP. Import from `hanaworlds-contracts`. The 2.x major is a fresh-install protocol replacement; 2.1.0 adds named world source reads while preserving every 2.0.0 type, operation and digest rule. 2.2.0 adds optional canonical per-chunk digests and explicit placement geometry admission while preserving old decoded inputs. Earlier source and evidence remain in Git and their original run directories.
 
 `spec/local-world/profile.json` is the authored schema and operation source. `src/local/` owns pure relation/geometry validation. `npm run build` generates `dist/local`, `types/local`, `schemas/local`, and current fixtures. Never edit those outputs directly.
 
 Current wires: `session/v5`, `canvas/v7`, `world-adapter/v8`, `painter/v6`, `BUILD/V5`, `ReferenceBrief/v5`, `interaction-surface/v5`; region wires `region-build/v2`, `painter-region/v3`, `world-adapter-region/v3`, `canvas-region/v3`; region block `region-voxels/v2`; compiled operations `operations/v4`; target facts `target-facts/v5`; safety profile `safety-profile/v5`; final effects `final-effects/v3`; world geometry `world-geometry/v1`. Breaking shape changes carry a new wire or profile identifier, so old digests cannot match; qualified optional minor fields keep the existing identifier and preserve digests when absent. The sections below 2.0.0 are history and name the identifiers of their time.
+
+## 2.7.0 · optional target world on the public Error
+
+`Error` gains optional `worldRef: Ref` (no null form): the target world the admitted
+operation needed. A request selector (`worldRef`, `localContext.worldRef` or
+host-injected `hostContext.localContext.worldRef`) must match it, else
+CURRENT_WORLD_MISMATCH; without a selector only the provider's trusted Session
+binding may set it. The seven existing fields are unchanged, old errors stay valid,
+and a pre-2.7 closed decoder refuses the field (UNKNOWN_REQUIRED_FIELD). See
+[world error context](docs/world-error-context.md),
+`hanaworlds-contracts/fixtures/world-error`, `createWorldErrorMock` and
+`consumer/world-error`. Formal tag: `refs/tags/v2.7.0`; SOURCE/FIXTURE evidence only.
 
 ## 2.6.0 · authorized current-request direct build
 

@@ -3224,6 +3224,9 @@
         },
         "reason": {
           "$ref": "#/definitions/ErrorReason"
+        },
+        "worldRef": {
+          "$ref": "#/definitions/Ref"
         }
       },
       "required": [

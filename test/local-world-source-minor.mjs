@@ -89,6 +89,9 @@ test('every old schema, operation, digest rule and fixture stays unchanged',asyn
  }
  assert.deepEqual(definitions.ToolBuildRequest.properties.intentAuthorization,{$ref:'#/definitions/HostBuildIntentAuthorization'});
  delete definitions.ToolBuildRequest.properties.intentAuthorization;
+ // 2.7.0 appends the optional Error.worldRef.
+ assert.deepEqual(definitions.Error.properties.worldRef,{$ref:'#/definitions/Ref'});
+ delete definitions.Error.properties.worldRef;
  assert.equal(sha(definitions),baseline.definitionsDigest);
  const operations=Object.fromEntries(Object.entries(baseline.operationNames).map(([w,names])=>[w,names.map(n=>a.operationContracts[w].find(o=>o.operation===n))]));
  assert.equal(sha(operations),baseline.operationsDigest);

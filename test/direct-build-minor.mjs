@@ -129,6 +129,9 @@ test('2.5.0 definitions, operations, digests, ownership and old tool branches ar
  assert.deepEqual(d.ToolBuildRequest.properties.intentAuthorization,{$ref:'#/definitions/HostBuildIntentAuthorization'});
  assert.ok(!d.ToolBuildRequest.required.includes('intentAuthorization'));
  delete d.ToolBuildRequest.properties.intentAuthorization;
+ // 2.7.0 appends the optional Error.worldRef; project it out of the frozen 2.5.0 shape.
+ assert.deepEqual(d.Error.properties.worldRef,{$ref:'#/definitions/Ref'});
+ delete d.Error.properties.worldRef;
  assert.equal(sha(d),b.definitionsDigest);
  assert.equal(sha(a.operationContracts),b.operationsDigest);
  assert.equal(sha(a.digestProfile),b.digestDigest);

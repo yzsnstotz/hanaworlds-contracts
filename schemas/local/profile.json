@@ -1,5 +1,5 @@
 {
-  "version": "2.6.0",
+  "version": "2.7.0",
   "wireVersions": [
     "interaction-surface/v5",
     "session/v5",
@@ -4028,6 +4028,9 @@
         },
         "reason": {
           "$ref": "#/definitions/ErrorReason"
+        },
+        "worldRef": {
+          "$ref": "#/definitions/Ref"
         }
       },
       "required": [
@@ -19048,7 +19051,7 @@
   "toolManifest": {
     "profileVersion": "skill-tools/v1",
     "package": "hanaworlds-contracts",
-    "version": "2.6.0",
+    "version": "2.7.0",
     "schemaExport": "hanaworlds-contracts/schema",
     "tools": [
       {
@@ -19398,5 +19401,22 @@
       "existing Brush/Canvas submission and readback"
     ],
     "otherObjects": "OTHER_OBJECTS_AFFECTED always refuses; original continue confirmation is required."
+  },
+  "worldErrorContext": {
+    "introducedIn": "2.7.0",
+    "contracts": [
+      "C-canvas",
+      "C-session"
+    ],
+    "type": "Error",
+    "field": "worldRef",
+    "meaning": "Optional. The target world this admitted operation actually needed. Not the currently available/selected world, not a file path, never derived from model input, raw JSON, another Session or an exception message.",
+    "absence": "Absent keeps exactly the previous meaning: the error carries no world context. There is no null form; providers omit the field when no target can be determined.",
+    "binding": "When the request carries a top-level worldRef selector, or a tool request carries host-injected hostContext.localContext.worldRef, a response error worldRef must equal it (CURRENT_WORLD_MISMATCH). Without a selector the provider sets it only from its own trusted current-Session/operation binding; consumers cannot verify that source and must not treat it as a selection.",
+    "unchanged": "code, phase, retryability, mutationState, transactionRef, causeCode and reason keep their vocabulary and meaning. The world reference is never encoded into reason or transactionRef; no free message, path, credential or stack is added.",
+    "carrier": "ContractError details.worldRef -> publicError.worldRef; omitted when not supplied. An invalid worldRef (not a non-empty string) is a programmer error (TypeError), never silently dropped.",
+    "compatibility": "Same package major. Old errors without the field stay valid with unchanged digests. A previous-minor strict decoder (additionalProperties:false) refuses an error carrying worldRef with UNKNOWN_REQUIRED_FIELD; consuming it requires >= 2.7.0. No protocol minor requirement is added.",
+    "fixture": "hanaworlds-contracts/fixtures/world-error",
+    "mock": "createWorldErrorMock"
   }
 }

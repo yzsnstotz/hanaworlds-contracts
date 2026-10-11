@@ -1,6 +1,6 @@
 {
   "name": "hanaworlds-contracts",
-  "version": "2.6.0",
+  "version": "2.7.0",
   "description": "Pure current-local-world contracts. Fresh state only; strict decoding, business correlation, Canvas transactions and same-transaction history.",
   "type": "module",
   "private": true,
@@ -37,11 +37,12 @@
     "docs/brush-placement.md",
     "docs/world-lifecycle.md",
     "docs/skill-tools.md",
-    "docs/local-world-source.md"
+    "docs/local-world-source.md",
+    "docs/world-error-context.md"
   ],
   "scripts": {
     "build": "node tools/build-local.mjs",
-    "test": "node test/local-world.mjs && node test/world-source-facts.mjs && node --test test/world-source-facts-bindings.mjs test/world-source-facts-mock.mjs && node --test test/brush-placement-minor.mjs && node --test test/world-lifecycle-minor.mjs && node --test test/skill-tools-minor.mjs test/direct-build-minor.mjs && node --test test/local-world-source-minor.mjs",
+    "test": "node test/local-world.mjs && node test/world-source-facts.mjs && node --test test/world-source-facts-bindings.mjs test/world-source-facts-mock.mjs && node --test test/brush-placement-minor.mjs && node --test test/world-lifecycle-minor.mjs && node --test test/skill-tools-minor.mjs test/direct-build-minor.mjs && node --test test/local-world-source-minor.mjs && node --test test/world-error-minor.mjs",
     "typecheck": "tsc --project consumer/local/tsconfig.json",
     "verify:source": "node tools/verify-local.mjs",
     "test:image": "node test/image-proposal.mjs",
@@ -82,7 +83,11 @@
     "test:local-world-source": "node --test test/local-world-source-minor.mjs",
     "typecheck:local-world-source": "tsc --project consumer/local-world-source/tsconfig.json",
     "build:direct-build-fixture": "node tools/build-direct-build-fixture.mjs",
-    "test:direct-build-consumer": "node tools/gate-direct-build-consumer.mjs"
+    "test:direct-build-consumer": "node tools/gate-direct-build-consumer.mjs",
+    "test:world-error": "node --test test/world-error-minor.mjs",
+    "typecheck:world-error": "tsc --project consumer/world-error/tsconfig.json",
+    "build:world-error-fixture": "node tools/build-world-error-fixture.mjs",
+    "test:world-error-consumer": "node tools/gate-world-error-consumer.mjs"
   },
   "dependencies": {
     "canonicalize": "5.1.0"

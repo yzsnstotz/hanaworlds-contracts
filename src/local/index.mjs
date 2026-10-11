@@ -11,3 +11,4 @@ export {worldLifecycle} from './world-lifecycle.mjs';
 export {createWorldLifecycleMock} from './world-lifecycle-mock.mjs';
 export {describeSourceWorld,createLocalWorldSourceMock} from './local-world-source.mjs';
 export {toolManifest,buildingSkill,directBuild,validateToolRequest,validateToolResponse,createSkillToolsMock} from './skill-tools.mjs';
+export {worldErrorContext,targetWorldRef,worldUnavailableError,createWorldErrorMock} from './world-error.mjs';
