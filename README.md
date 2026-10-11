@@ -1,10 +1,20 @@
-# HanaWorlds Contracts 2.0.0
+# HanaWorlds Contracts 2.1.0
 
-Pure public contracts for the single-user local-world MVP. Import from `hanaworlds-contracts`. This is a fresh-install protocol replacement. No prior exports, peer compatibility, state migration, or permission bridge ships in this package. Earlier source and evidence remain in Git and their original run directories.
+Pure public contracts for the single-user local-world MVP. Import from `hanaworlds-contracts`. The 2.x major is a fresh-install protocol replacement; 2.1.0 adds named world source reads while preserving every 2.0.0 type, operation and digest rule. Earlier source and evidence remain in Git and their original run directories.
 
 `spec/local-world/profile.json` is the authored schema and operation source. `src/local/` owns pure relation/geometry validation. `npm run build` generates `dist/local`, `types/local`, `schemas/local`, and current fixtures. Never edit those outputs directly.
 
 Current wires: `session/v5`, `canvas/v7`, `world-adapter/v8`, `painter/v6`, `BUILD/V5`, `ReferenceBrief/v5`, `interaction-surface/v5`; region wires `region-build/v2`, `painter-region/v3`, `world-adapter-region/v3`, `canvas-region/v3`; region block `region-voxels/v2`; compiled operations `operations/v4`; target facts `target-facts/v5`; safety profile `safety-profile/v5`; final effects `final-effects/v3`; world geometry `world-geometry/v1`. Every changed shape carries a new wire or profile identifier, so old digests cannot match. The sections below 2.0.0 are history and name the identifiers of their time.
+
+## 2.1.0 · named world source facts
+
+The additive `world-facts/v1` and `world-inspection/v1` wires and Adapter
+`ReadWorldSourceCapabilities` operation are documented in
+[world-source-facts](docs/world-source-facts.md), including StateProfile rules,
+lighting, opaque write backend, supported methods, avatar envelope and write-path
+conclusions. The published `fixtures/world-source-facts` contains example reads
+and refusals; `consumer/world-source-facts/mock.mjs` is a reusable fixture-only
+provider. Run `npm test` and `npm run typecheck:world-facts`.
 
 ## 2.0.0 · the world source declares; contracts carry (release 2.0.0)
 

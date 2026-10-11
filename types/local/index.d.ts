@@ -1,6 +1,6 @@
 export * from './contracts.js';
 import type {TypeMap,TypeName,OperationMap,ProjectionMap,ContractHandshake,LocalRequestFacts,CurrentBuildSubmission,ValidateBuildProposalRequest,ValidateBuildProposalResponse,BuildProposalProviderFacts,ScopedPreparedTransaction,ScopedPreparedTransactionResult,RegionInspection,MaterialMap,Catalogue,BuildProjection,FinalEffects,TargetFacts,SafetyProfile,Coverage} from './contracts.js';
-export declare const version: '0.5.6';
+export declare const version: '2.1.0';
 export declare const wireVersions: ReadonlyArray<keyof OperationMap>;
 export declare const compiledOperationsVersion: 'operations/v4';
 export declare const contractHandshake: ContractHandshake;
@@ -187,3 +187,22 @@ export declare function checkConfirmedRegionPlacementCommit(commit:import('./con
 export declare function validateRegionCommitSubmission(intent:import('./contracts.js').IntentProjection,brief:import('./contracts.js').BriefProjection,commit:import('./contracts.js').ApplyRegionCommitRequest):import('./contracts.js').ApplyRegionCommitRequest;
 /** canvas-region/v3 ApplyRegionCommit admission: shape, operations digest and the confirmed-placement coherence with its own operations. */
 export declare function validateRegionCommitRequest(commit:unknown):import('./contracts.js').ApplyRegionCommitRequest;
+/** world-source-facts/v1 (2.1.0): named world source fact operations (world-facts/v1, world-adapter/v8
+ * ReadWorldSourceCapabilities) and the host inspection context (world-inspection/v1). Pure checks; no engine read. */
+export type WorldSourceFactsOperation={contract:'C-world-facts'|'C-world-adapter'|'C-world-inspection';wire:'world-facts/v1'|'world-adapter/v8'|'world-inspection/v1';operation:string;provider:'world-source'|'desktop-bridge';consumers:ReadonlyArray<string>;result:keyof C;errors:ReadonlyArray<C['ErrorCode']>};
+export declare const worldSourceFacts:Readonly<{id:'world-source-facts/v1';evidence:string;meaning:string;providerRole:'world-source';operations:ReadonlyArray<Readonly<WorldSourceFactsOperation>>;domainAndLifecycle:string;unavailable:string;forwarding:string;avatarEnvelope:string;writePath:string;errors:string}>;
+/** Wires added in a minor (with the version that added them); advertised, not required by the default handshake. */
+export declare const minorWires:Readonly<Record<string,string>>;
+/** Current connection; catalogueDigest is the digest of the carried Catalogue. */
+export declare function validateCatalogueFacts(input:unknown,currentConnection:C['MaterialSourceConnection']):C['CatalogueFacts'];
+/** Current connection and Catalogue; recomputed sourceRevision; only Catalogue materials. */
+export declare function validateMaterialSourceFacts(input:unknown,catalogue:C['Catalogue'],currentConnection:C['MaterialSourceConnection']):C['MaterialSourceFacts'];
+export declare function validateEngineFacts(input:unknown,currentConnection:C['MaterialSourceConnection']):C['EngineFacts'];
+export declare function validateWriteProfile(input:unknown,catalogue:C['Catalogue'],currentConnection:C['MaterialSourceConnection']):C['WriteProfile'];
+/** Also: write path conclusions name only Catalogue materials; a placeable material has clean path and material conclusions. */
+export declare function validateWorldSourceCapabilities(input:unknown,catalogue:C['Catalogue'],currentConnection:C['MaterialSourceConnection']):C['WorldSourceCapabilities'];
+/** The declared CompilationConfig unchanged; CAPABILITY_UNAVAILABLE/validate/REQUIRED_FACT_UNKNOWN when the backend is unknown. */
+export declare function requireWriteProfileConfig(profile:unknown):C['CompilationConfig'];
+/** The declared body size; CAPABILITY_UNAVAILABLE/validate/REQUIRED_FACT_UNKNOWN when none is declared. */
+export declare function requireDeclaredAvatarEnvelope(fact:C['WriteProfile']|C['WorldSourceCapabilities']):C['AvatarSize'];
+export declare function validateInspectionContextResponse(request:unknown,response:unknown):C['ReadInspectionContextResponse'];

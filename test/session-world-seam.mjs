@@ -100,6 +100,8 @@ test('existing v0.5.3 operations keep their order and still validate',()=>{
  const before={'session/v5':13,'canvas/v7':20,'world-adapter/v8':16};
  for(const n of ['ReadWorldSelectionContext','SelectWorldConnection','SwitchWorldConnection'])assert.ok(a.operationContracts['canvas/v7'].slice(0,20).some(o=>o.operation===n));
  assert.equal(a.operationContracts['session/v5'][0].operation,'StartOrResumeSession');assert.equal(a.operationContracts['canvas/v7'][19].operation,'ReadWorldSelectionContext');
- assert.equal(a.operationContracts['world-adapter/v8'].length,before['world-adapter/v8']);
+ const adapter=a.operationContracts['world-adapter/v8'];
+ assert.ok(adapter.length>=before['world-adapter/v8']);
+ assert.equal(adapter[before['world-adapter/v8']-1].operation,'ReadLocalConnection');
 });
 console.log(JSON.stringify({evidence:'SOURCE/FIXTURE',seam:'session-world-seam/v1',checks:passed,providerImplementations:'NOT_RUN',realRuntime:'NOT_RUN'}));

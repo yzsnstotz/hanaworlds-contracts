@@ -352,7 +352,10 @@ export function checkSchemaCompatibility(input,requiredTypes=[]) {
  requireFact(Array.isArray(requiredTypes)&&requiredTypes.every(t=>typeof t==='string'&&Object.hasOwn(definitions,t)),'CAPABILITY_UNAVAILABLE','VERSION_UNSUPPORTED','decode');
  return deepFreeze({result:'SCHEMA_MAJOR_MATCH',major,version,requiredTypes:[...requiredTypes]});
 }
-export function checkContractHandshake(advertisedInput,required={wires:wireVersions,factProfiles:['target-facts/v5']}) {
+/** Wires added in a minor are advertised but not required by default: an earlier minor of the same major stays compatible. */
+export const minorWires = contractMetadata.minorWires;
+const defaultRequiredWires = wireVersions.filter(w => !Object.hasOwn(minorWires, w));
+export function checkContractHandshake(advertisedInput,required={wires:defaultRequiredWires,factProfiles:['target-facts/v5']}) {
  const advertised=validateType('ContractHandshake',advertisedInput);
  checkContractsVersion(advertised.contracts);
  requireFact(advertised.compiledOperationsVersion===compiledOperationsVersion&&required.wires.every(w=>wireVersions.includes(w)&&advertised.wireVersions.includes(w))&&required.factProfiles.every(f=>advertised.factProfiles.includes(f)), 'UNSUPPORTED_VERSION','VERSION_UNSUPPORTED','decode');
@@ -385,6 +388,11 @@ export function validateBoundResponse(wire,name,requestInput,responseInput) {
   if(name==='BuildDocument'){validateDigestBinding('operations',result.projection,result.operationDigest);associated(result.projection.buildDigest===request.buildDigest&&result.projection.worldRef===request.worldRef&&result.projection.targetFactsDigest===request.targetFactsDigest&&result.projection.compilationConfigDigest===request.compilationConfigDigest);validateExactEffects(request.build.operations,request.build.materials,result.projection.effects);}
   if(result.localContext&&request.localContext)current(same(result.localContext,request.localContext));
   if(result.worldRef!==undefined&&request.worldRef!==undefined)current(result.worldRef===request.worldRef);
+  // Named fact reads carry their World in the connection rather than at the result root.
+  if(contractMetadata.worldSourceFacts.operations.some(o=>o.wire===wire&&o.operation===name)){
+   const connection=result.connection??result.snapshot?.connection;
+   if(connection)current(connection.worldRef===request.worldRef);
+  }
   if(result.sessionRef!==undefined)associated(result.sessionRef===request.sessionRef);
   if(result.transactionId!==undefined&&request.transactionId!==undefined)associated(result.transactionId===request.transactionId);
   if(result.operationDigest!==undefined&&request.operationDigest!==undefined)associated(result.operationDigest===request.operationDigest);

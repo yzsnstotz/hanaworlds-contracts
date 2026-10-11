@@ -1,6 +1,6 @@
 {
   "$schema": "http://json-schema.org/draft-07/schema#",
-  "$id": "https://hanaworlds.invalid/contracts/2.0.0/schema.json",
+  "$id": "https://hanaworlds.invalid/contracts/2.1.0/schema.json",
   "x-contractsCompatibility": {
     "package": "hanaworlds-contracts",
     "major": 2,
@@ -13473,6 +13473,894 @@
       "type": "number",
       "minimum": 0,
       "maximum": 1
+    },
+    "SrgbColor": {
+      "x-typeName": "SrgbColor",
+      "type": "string",
+      "pattern": "^#[0-9a-f]{6}$",
+      "x-meaning": "An sRGB colour as lower-case #rrggbb. The world source decides how it is obtained (declared, or from its own assets); consumers compare and match colours only."
+    },
+    "MaterialPresentation": {
+      "x-typeName": "MaterialPresentation",
+      "type": "object",
+      "properties": {
+        "displayName": {
+          "anyOf": [
+            {
+              "$ref": "#/definitions/Text"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "color": {
+          "anyOf": [
+            {
+              "$ref": "#/definitions/SrgbColor"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        }
+      },
+      "required": [
+        "displayName",
+        "color"
+      ],
+      "additionalProperties": false,
+      "x-meaning": "How the world source names and colours one material for people and for image material matching. null is unknown, never a default name or colour."
+    },
+    "MaterialPresentationMap": {
+      "x-typeName": "MaterialPresentationMap",
+      "type": "object",
+      "propertyNames": {
+        "$ref": "#/definitions/Ref"
+      },
+      "additionalProperties": {
+        "$ref": "#/definitions/MaterialPresentation"
+      },
+      "x-meaning": "materialRef -> presentation."
+    },
+    "QuarterTurns": {
+      "x-typeName": "QuarterTurns",
+      "type": "integer",
+      "minimum": 0,
+      "maximum": 3
+    },
+    "OrientationDescriptor": {
+      "x-typeName": "OrientationDescriptor",
+      "type": "object",
+      "properties": {
+        "orientation": {
+          "$ref": "#/definitions/Orientation"
+        },
+        "quarterTurnsAboutUp": {
+          "anyOf": [
+            {
+              "$ref": "#/definitions/QuarterTurns"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "upsideDown": {
+          "anyOf": [
+            {
+              "$ref": "#/definitions/Bool"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        }
+      },
+      "required": [
+        "orientation",
+        "quarterTurnsAboutUp",
+        "upsideDown"
+      ],
+      "additionalProperties": false,
+      "x-meaning": "Neutral meaning of one orientation index: clockwise quarter turns about the Frame up axis seen from above, and whether the material is flipped upside down. null means the world source has no neutral expression for that part; the conversion to an engine encoding stays inside the world source."
+    },
+    "OrientationIndex": {
+      "x-typeName": "OrientationIndex",
+      "type": "array",
+      "items": {
+        "$ref": "#/definitions/OrientationDescriptor"
+      },
+      "x-uniqueBy": "orientation",
+      "x-order": "orientation numeric ascending"
+    },
+    "WriteMethods": {
+      "x-typeName": "WriteMethods",
+      "type": "array",
+      "items": {
+        "$ref": "#/definitions/WriteMethod"
+      },
+      "uniqueItems": true,
+      "x-order": "WriteMethod enum order",
+      "x-meaning": "The write methods the world source supports on the paired connection. A method not listed is not supported; nothing is implied by a package or wire version."
+    },
+    "EngineFrame": {
+      "x-typeName": "EngineFrame",
+      "type": "object",
+      "properties": {
+        "axes": {
+          "$ref": "#/definitions/Axes"
+        },
+        "handedness": {
+          "$ref": "#/definitions/Handedness"
+        },
+        "gridUnit": {
+          "$ref": "#/definitions/GridUnit"
+        }
+      },
+      "required": [
+        "axes",
+        "handedness",
+        "gridUnit"
+      ],
+      "additionalProperties": false,
+      "x-meaning": "The world source coordinate frame: axis directions, handedness and grid unit. A Frame for one target adds origin and revision."
+    },
+    "AvatarSize": {
+      "x-typeName": "AvatarSize",
+      "type": "object",
+      "properties": {
+        "width": {
+          "$ref": "#/definitions/PositiveFinite"
+        },
+        "height": {
+          "$ref": "#/definitions/PositiveFinite"
+        },
+        "depth": {
+          "$ref": "#/definitions/PositiveFinite"
+        }
+      },
+      "required": [
+        "width",
+        "height",
+        "depth"
+      ],
+      "additionalProperties": false,
+      "x-meaning": "Extent in Frame grid units: width along x, height along the up axis, depth along z."
+    },
+    "KnownAvatarEnvelope": {
+      "x-typeName": "KnownAvatarEnvelope",
+      "type": "object",
+      "properties": {
+        "availability": {
+          "const": "KNOWN"
+        },
+        "basis": {
+          "const": "WORLD_SOURCE_DECLARATION"
+        },
+        "size": {
+          "$ref": "#/definitions/AvatarSize"
+        }
+      },
+      "required": [
+        "availability",
+        "basis",
+        "size"
+      ],
+      "additionalProperties": false
+    },
+    "AvatarEnvelope": {
+      "x-typeName": "AvatarEnvelope",
+      "oneOf": [
+        {
+          "$ref": "#/definitions/KnownAvatarEnvelope"
+        },
+        {
+          "$ref": "#/definitions/AvatarEnvelopeFact"
+        }
+      ],
+      "x-discriminator": "availability",
+      "x-variantKeys": [
+        "KNOWN",
+        "UNAVAILABLE"
+      ],
+      "x-meaning": "The body envelope the world source declares for its player body: a fixed size it vouches for, the same for every player and every moment. Never a live position, yaw, posture or identity; players joining, leaving or moving never change it. UNAVAILABLE/NO_PUBLIC_SOURCE when the world source declares none; consumers then refuse by name, never fill a size."
+    },
+    "SideEffectConclusion": {
+      "x-typeName": "SideEffectConclusion",
+      "type": "object",
+      "properties": {
+        "hasSideEffects": {
+          "anyOf": [
+            {
+              "$ref": "#/definitions/Bool"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "hasPersistentState": {
+          "anyOf": [
+            {
+              "$ref": "#/definitions/Bool"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        }
+      },
+      "required": [
+        "hasSideEffects",
+        "hasPersistentState"
+      ],
+      "additionalProperties": false,
+      "x-meaning": "The world source conclusion for its declared write path. hasSideEffects: writing (or restoring) runs engine behaviour beyond setting material and orientation. hasPersistentState: the write can leave per-cell state that a readback must account for. null is unknown and is never treated as false or true."
+    },
+    "SideEffectConclusionMap": {
+      "x-typeName": "SideEffectConclusionMap",
+      "type": "object",
+      "propertyNames": {
+        "$ref": "#/definitions/Ref"
+      },
+      "additionalProperties": {
+        "$ref": "#/definitions/SideEffectConclusion"
+      },
+      "x-meaning": "materialRef -> conclusion. A material that is absent is unknown."
+    },
+    "WritePathConclusions": {
+      "x-typeName": "WritePathConclusions",
+      "type": "object",
+      "properties": {
+        "profileVersion": {
+          "const": "write-path-conclusions/v1"
+        },
+        "catalogueDigest": {
+          "$ref": "#/definitions/Digest"
+        },
+        "path": {
+          "$ref": "#/definitions/SideEffectConclusion"
+        },
+        "materials": {
+          "$ref": "#/definitions/SideEffectConclusionMap"
+        }
+      },
+      "required": [
+        "profileVersion",
+        "catalogueDigest",
+        "path",
+        "materials"
+      ],
+      "additionalProperties": false,
+      "x-meaning": "Write path conclusions derived inside the world source from its own engine. path covers what fires for every write on the path; materials covers each material definition. Contracts derive nothing from engine callback names here."
+    },
+    "CatalogueFacts": {
+      "x-typeName": "CatalogueFacts",
+      "type": "object",
+      "properties": {
+        "profileVersion": {
+          "const": "catalogue-facts/v1"
+        },
+        "connection": {
+          "$ref": "#/definitions/MaterialSourceConnection"
+        },
+        "catalogue": {
+          "$ref": "#/definitions/Catalogue"
+        },
+        "catalogueDigest": {
+          "$ref": "#/definitions/Digest"
+        },
+        "presentation": {
+          "$ref": "#/definitions/MaterialPresentationMap"
+        },
+        "orientationIndex": {
+          "$ref": "#/definitions/OrientationIndex"
+        }
+      },
+      "required": [
+        "profileVersion",
+        "connection",
+        "catalogue",
+        "catalogueDigest",
+        "presentation",
+        "orientationIndex"
+      ],
+      "additionalProperties": false,
+      "x-meaning": "The world source material vocabulary with names, colours and the neutral orientation index. presentation has exactly the Catalogue materials as keys; orientationIndex describes every orientation any material declares."
+    },
+    "MaterialSourceFacts": {
+      "x-typeName": "MaterialSourceFacts",
+      "type": "object",
+      "properties": {
+        "profileVersion": {
+          "const": "material-source-facts/v1"
+        },
+        "snapshot": {
+          "$ref": "#/definitions/MaterialSourcesSnapshot"
+        },
+        "presentation": {
+          "$ref": "#/definitions/MaterialPresentationMap"
+        }
+      },
+      "required": [
+        "profileVersion",
+        "snapshot",
+        "presentation"
+      ],
+      "additionalProperties": false,
+      "x-meaning": "Material sources and colours for image material selection. presentation has exactly the materialRefs of snapshot.materials as keys. Texture bytes are not on the wire: they are referenced by bytesDigest and travel through the in-process material sources port."
+    },
+    "EngineFacts": {
+      "x-typeName": "EngineFacts",
+      "type": "object",
+      "properties": {
+        "profileVersion": {
+          "const": "engine-facts/v1"
+        },
+        "connection": {
+          "$ref": "#/definitions/MaterialSourceConnection"
+        },
+        "worldGeometry": {
+          "$ref": "#/definitions/WorldGeometry"
+        },
+        "engineBounds": {
+          "anyOf": [
+            {
+              "$ref": "#/definitions/Box"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "frame": {
+          "$ref": "#/definitions/EngineFrame"
+        },
+        "writeMethods": {
+          "$ref": "#/definitions/WriteMethods"
+        },
+        "writeBackend": {
+          "$ref": "#/definitions/WriteBackendFact"
+        }
+      },
+      "required": [
+        "profileVersion",
+        "connection",
+        "worldGeometry",
+        "engineBounds",
+        "frame",
+        "writeMethods",
+        "writeBackend"
+      ],
+      "additionalProperties": false,
+      "x-meaning": "Geometry, partition, bounds, frame, lighting and write facts the world source declares for the paired connection. engineBounds null means the world source declares no bound."
+    },
+    "WriteProfile": {
+      "x-typeName": "WriteProfile",
+      "type": "object",
+      "properties": {
+        "profileVersion": {
+          "const": "write-profile/v1"
+        },
+        "connection": {
+          "$ref": "#/definitions/MaterialSourceConnection"
+        },
+        "catalogueDigest": {
+          "$ref": "#/definitions/Digest"
+        },
+        "writeBackend": {
+          "$ref": "#/definitions/WriteBackendFact"
+        },
+        "compilationConfig": {
+          "anyOf": [
+            {
+              "$ref": "#/definitions/CompilationConfig"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "writeMethods": {
+          "$ref": "#/definitions/WriteMethods"
+        },
+        "avatarEnvelope": {
+          "$ref": "#/definitions/AvatarEnvelope"
+        }
+      },
+      "required": [
+        "profileVersion",
+        "connection",
+        "catalogueDigest",
+        "writeBackend",
+        "compilationConfig",
+        "writeMethods",
+        "avatarEnvelope"
+      ],
+      "additionalProperties": false,
+      "x-meaning": "Everything a host needs to forward for writing: opaque write backend, the complete compilation configuration, supported write methods and the body envelope. compilationConfig is non-null exactly when writeBackend is KNOWN and then carries that writeBackend unchanged. A host forwards it as is: it never interprets, completes or defaults a field."
+    },
+    "ReadCatalogueRequest": {
+      "x-typeName": "ReadCatalogueRequest",
+      "type": "object",
+      "properties": {
+        "contractVersion": {
+          "const": "world-facts/v1"
+        },
+        "requestId": {
+          "$ref": "#/definitions/Ref"
+        },
+        "worldRef": {
+          "$ref": "#/definitions/Ref"
+        }
+      },
+      "required": [
+        "contractVersion",
+        "requestId",
+        "worldRef"
+      ],
+      "additionalProperties": false
+    },
+    "ReadCatalogueResponse": {
+      "x-typeName": "ReadCatalogueResponse",
+      "type": "object",
+      "properties": {
+        "contractVersion": {
+          "const": "world-facts/v1"
+        },
+        "requestId": {
+          "$ref": "#/definitions/Ref"
+        },
+        "result": {
+          "anyOf": [
+            {
+              "$ref": "#/definitions/CatalogueFacts"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "error": {
+          "anyOf": [
+            {
+              "$ref": "#/definitions/Error"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        }
+      },
+      "required": [
+        "contractVersion",
+        "requestId",
+        "result",
+        "error"
+      ],
+      "additionalProperties": false
+    },
+    "ReadMaterialSourcesRequest": {
+      "x-typeName": "ReadMaterialSourcesRequest",
+      "type": "object",
+      "properties": {
+        "contractVersion": {
+          "const": "world-facts/v1"
+        },
+        "requestId": {
+          "$ref": "#/definitions/Ref"
+        },
+        "worldRef": {
+          "$ref": "#/definitions/Ref"
+        }
+      },
+      "required": [
+        "contractVersion",
+        "requestId",
+        "worldRef"
+      ],
+      "additionalProperties": false
+    },
+    "ReadMaterialSourcesResponse": {
+      "x-typeName": "ReadMaterialSourcesResponse",
+      "type": "object",
+      "properties": {
+        "contractVersion": {
+          "const": "world-facts/v1"
+        },
+        "requestId": {
+          "$ref": "#/definitions/Ref"
+        },
+        "result": {
+          "anyOf": [
+            {
+              "$ref": "#/definitions/MaterialSourceFacts"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "error": {
+          "anyOf": [
+            {
+              "$ref": "#/definitions/Error"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        }
+      },
+      "required": [
+        "contractVersion",
+        "requestId",
+        "result",
+        "error"
+      ],
+      "additionalProperties": false
+    },
+    "ReadEngineFactsRequest": {
+      "x-typeName": "ReadEngineFactsRequest",
+      "type": "object",
+      "properties": {
+        "contractVersion": {
+          "const": "world-facts/v1"
+        },
+        "requestId": {
+          "$ref": "#/definitions/Ref"
+        },
+        "worldRef": {
+          "$ref": "#/definitions/Ref"
+        }
+      },
+      "required": [
+        "contractVersion",
+        "requestId",
+        "worldRef"
+      ],
+      "additionalProperties": false
+    },
+    "ReadEngineFactsResponse": {
+      "x-typeName": "ReadEngineFactsResponse",
+      "type": "object",
+      "properties": {
+        "contractVersion": {
+          "const": "world-facts/v1"
+        },
+        "requestId": {
+          "$ref": "#/definitions/Ref"
+        },
+        "result": {
+          "anyOf": [
+            {
+              "$ref": "#/definitions/EngineFacts"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "error": {
+          "anyOf": [
+            {
+              "$ref": "#/definitions/Error"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        }
+      },
+      "required": [
+        "contractVersion",
+        "requestId",
+        "result",
+        "error"
+      ],
+      "additionalProperties": false
+    },
+    "ReadWriteProfileRequest": {
+      "x-typeName": "ReadWriteProfileRequest",
+      "type": "object",
+      "properties": {
+        "contractVersion": {
+          "const": "world-facts/v1"
+        },
+        "requestId": {
+          "$ref": "#/definitions/Ref"
+        },
+        "worldRef": {
+          "$ref": "#/definitions/Ref"
+        }
+      },
+      "required": [
+        "contractVersion",
+        "requestId",
+        "worldRef"
+      ],
+      "additionalProperties": false
+    },
+    "ReadWriteProfileResponse": {
+      "x-typeName": "ReadWriteProfileResponse",
+      "type": "object",
+      "properties": {
+        "contractVersion": {
+          "const": "world-facts/v1"
+        },
+        "requestId": {
+          "$ref": "#/definitions/Ref"
+        },
+        "result": {
+          "anyOf": [
+            {
+              "$ref": "#/definitions/WriteProfile"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "error": {
+          "anyOf": [
+            {
+              "$ref": "#/definitions/Error"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        }
+      },
+      "required": [
+        "contractVersion",
+        "requestId",
+        "result",
+        "error"
+      ],
+      "additionalProperties": false
+    },
+    "WorldSourceCapabilities": {
+      "x-typeName": "WorldSourceCapabilities",
+      "type": "object",
+      "properties": {
+        "profileVersion": {
+          "const": "world-source-capabilities/v1"
+        },
+        "owner": {
+          "const": "world-source"
+        },
+        "connection": {
+          "$ref": "#/definitions/MaterialSourceConnection"
+        },
+        "capabilityRevision": {
+          "$ref": "#/definitions/Revision"
+        },
+        "catalogueDigest": {
+          "$ref": "#/definitions/Digest"
+        },
+        "worldGeometry": {
+          "$ref": "#/definitions/WorldGeometry"
+        },
+        "engineBounds": {
+          "anyOf": [
+            {
+              "$ref": "#/definitions/Box"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "stateProfile": {
+          "$ref": "#/definitions/StateProfile"
+        },
+        "writeBackend": {
+          "$ref": "#/definitions/WriteBackendFact"
+        },
+        "compilationConfig": {
+          "anyOf": [
+            {
+              "$ref": "#/definitions/CompilationConfig"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "writeMethods": {
+          "$ref": "#/definitions/WriteMethods"
+        },
+        "writePath": {
+          "$ref": "#/definitions/WritePathConclusions"
+        },
+        "engineGuards": {
+          "anyOf": [
+            {
+              "$ref": "#/definitions/EngineGuardDeclaration"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "avatarEnvelope": {
+          "$ref": "#/definitions/AvatarEnvelope"
+        }
+      },
+      "required": [
+        "profileVersion",
+        "owner",
+        "connection",
+        "capabilityRevision",
+        "catalogueDigest",
+        "worldGeometry",
+        "engineBounds",
+        "stateProfile",
+        "writeBackend",
+        "compilationConfig",
+        "writeMethods",
+        "writePath",
+        "engineGuards",
+        "avatarEnvelope"
+      ],
+      "additionalProperties": false,
+      "x-meaning": "One read of what the world source (owner is the role, never a package) declares for the paired connection: geometry and partition, bounds, state field rules, post-write lighting, write backend and compilation configuration, write methods, write path conclusions, the guards it covers and the body envelope. engineGuards null means no guard is covered."
+    },
+    "ReadWorldSourceCapabilitiesRequest": {
+      "x-typeName": "ReadWorldSourceCapabilitiesRequest",
+      "type": "object",
+      "properties": {
+        "contractVersion": {
+          "const": "world-adapter/v8"
+        },
+        "requestId": {
+          "$ref": "#/definitions/Ref"
+        },
+        "sessionRef": {
+          "$ref": "#/definitions/Ref"
+        },
+        "worldRef": {
+          "$ref": "#/definitions/Ref"
+        }
+      },
+      "required": [
+        "contractVersion",
+        "requestId",
+        "sessionRef",
+        "worldRef"
+      ],
+      "additionalProperties": false
+    },
+    "ReadWorldSourceCapabilitiesResponse": {
+      "x-typeName": "ReadWorldSourceCapabilitiesResponse",
+      "type": "object",
+      "properties": {
+        "contractVersion": {
+          "const": "world-adapter/v8"
+        },
+        "requestId": {
+          "$ref": "#/definitions/Ref"
+        },
+        "result": {
+          "anyOf": [
+            {
+              "$ref": "#/definitions/WorldSourceCapabilities"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "error": {
+          "anyOf": [
+            {
+              "$ref": "#/definitions/Error"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        }
+      },
+      "required": [
+        "contractVersion",
+        "requestId",
+        "result",
+        "error"
+      ],
+      "additionalProperties": false
+    },
+    "InspectionContext": {
+      "x-typeName": "InspectionContext",
+      "type": "object",
+      "properties": {
+        "sessionRef": {
+          "$ref": "#/definitions/Ref"
+        },
+        "worldRef": {
+          "$ref": "#/definitions/Ref"
+        },
+        "localContext": {
+          "$ref": "#/definitions/LocalWorldContext"
+        },
+        "orderedSelectedObjectRefs": {
+          "$ref": "#/definitions/OrderedRefs"
+        }
+      },
+      "required": [
+        "sessionRef",
+        "worldRef",
+        "localContext",
+        "orderedSelectedObjectRefs"
+      ],
+      "additionalProperties": false,
+      "x-meaning": "The world and selection the session is currently bound to, as the host bridge holds them. localContext.worldRef equals worldRef."
+    },
+    "ReadInspectionContextRequest": {
+      "x-typeName": "ReadInspectionContextRequest",
+      "type": "object",
+      "properties": {
+        "contractVersion": {
+          "const": "world-inspection/v1"
+        },
+        "requestId": {
+          "$ref": "#/definitions/Ref"
+        },
+        "sessionRef": {
+          "$ref": "#/definitions/Ref"
+        },
+        "worldRef": {
+          "$ref": "#/definitions/Ref"
+        }
+      },
+      "required": [
+        "contractVersion",
+        "requestId",
+        "sessionRef",
+        "worldRef"
+      ],
+      "additionalProperties": false
+    },
+    "ReadInspectionContextResponse": {
+      "x-typeName": "ReadInspectionContextResponse",
+      "type": "object",
+      "properties": {
+        "contractVersion": {
+          "const": "world-inspection/v1"
+        },
+        "requestId": {
+          "$ref": "#/definitions/Ref"
+        },
+        "result": {
+          "anyOf": [
+            {
+              "$ref": "#/definitions/InspectionContext"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "error": {
+          "anyOf": [
+            {
+              "$ref": "#/definitions/Error"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        }
+      },
+      "required": [
+        "contractVersion",
+        "requestId",
+        "result",
+        "error"
+      ],
+      "additionalProperties": false
     }
   }
 }

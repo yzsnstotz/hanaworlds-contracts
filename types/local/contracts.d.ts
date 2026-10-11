@@ -449,6 +449,38 @@ export type Partition = { readonly "edge": RegionSize };
 export type PostWriteLighting = "REQUIRED" | "NONE";
 export type WorldGeometry = { readonly "profileVersion": "world-geometry/v1"; readonly "geometryProfiles": RefSet; readonly "partition": Partition | null; readonly "postWriteLighting": PostWriteLighting };
 export type UnitInterval = number;
+export type SrgbColor = string;
+export type MaterialPresentation = { readonly "displayName": Text | null; readonly "color": SrgbColor | null };
+export type MaterialPresentationMap = {readonly [key: string]: MaterialPresentation};
+export type QuarterTurns = number;
+export type OrientationDescriptor = { readonly "orientation": Orientation; readonly "quarterTurnsAboutUp": QuarterTurns | null; readonly "upsideDown": Bool | null };
+export type OrientationIndex = ReadonlyArray<OrientationDescriptor>;
+export type WriteMethods = ReadonlyArray<WriteMethod>;
+export type EngineFrame = { readonly "axes": Axes; readonly "handedness": Handedness; readonly "gridUnit": GridUnit };
+export type AvatarSize = { readonly "width": PositiveFinite; readonly "height": PositiveFinite; readonly "depth": PositiveFinite };
+export type KnownAvatarEnvelope = { readonly "availability": "KNOWN"; readonly "basis": "WORLD_SOURCE_DECLARATION"; readonly "size": AvatarSize };
+export type AvatarEnvelope = KnownAvatarEnvelope | AvatarEnvelopeFact;
+export type SideEffectConclusion = { readonly "hasSideEffects": Bool | null; readonly "hasPersistentState": Bool | null };
+export type SideEffectConclusionMap = {readonly [key: string]: SideEffectConclusion};
+export type WritePathConclusions = { readonly "profileVersion": "write-path-conclusions/v1"; readonly "catalogueDigest": Digest; readonly "path": SideEffectConclusion; readonly "materials": SideEffectConclusionMap };
+export type CatalogueFacts = { readonly "profileVersion": "catalogue-facts/v1"; readonly "connection": MaterialSourceConnection; readonly "catalogue": Catalogue; readonly "catalogueDigest": Digest; readonly "presentation": MaterialPresentationMap; readonly "orientationIndex": OrientationIndex };
+export type MaterialSourceFacts = { readonly "profileVersion": "material-source-facts/v1"; readonly "snapshot": MaterialSourcesSnapshot; readonly "presentation": MaterialPresentationMap };
+export type EngineFacts = { readonly "profileVersion": "engine-facts/v1"; readonly "connection": MaterialSourceConnection; readonly "worldGeometry": WorldGeometry; readonly "engineBounds": Box | null; readonly "frame": EngineFrame; readonly "writeMethods": WriteMethods; readonly "writeBackend": WriteBackendFact };
+export type WriteProfile = { readonly "profileVersion": "write-profile/v1"; readonly "connection": MaterialSourceConnection; readonly "catalogueDigest": Digest; readonly "writeBackend": WriteBackendFact; readonly "compilationConfig": CompilationConfig | null; readonly "writeMethods": WriteMethods; readonly "avatarEnvelope": AvatarEnvelope };
+export type ReadCatalogueRequest = { readonly "contractVersion": "world-facts/v1"; readonly "requestId": Ref; readonly "worldRef": Ref };
+export type ReadCatalogueResponse = { readonly "contractVersion": "world-facts/v1"; readonly "requestId": Ref; readonly "result": CatalogueFacts | null; readonly "error": Error | null };
+export type ReadMaterialSourcesRequest = { readonly "contractVersion": "world-facts/v1"; readonly "requestId": Ref; readonly "worldRef": Ref };
+export type ReadMaterialSourcesResponse = { readonly "contractVersion": "world-facts/v1"; readonly "requestId": Ref; readonly "result": MaterialSourceFacts | null; readonly "error": Error | null };
+export type ReadEngineFactsRequest = { readonly "contractVersion": "world-facts/v1"; readonly "requestId": Ref; readonly "worldRef": Ref };
+export type ReadEngineFactsResponse = { readonly "contractVersion": "world-facts/v1"; readonly "requestId": Ref; readonly "result": EngineFacts | null; readonly "error": Error | null };
+export type ReadWriteProfileRequest = { readonly "contractVersion": "world-facts/v1"; readonly "requestId": Ref; readonly "worldRef": Ref };
+export type ReadWriteProfileResponse = { readonly "contractVersion": "world-facts/v1"; readonly "requestId": Ref; readonly "result": WriteProfile | null; readonly "error": Error | null };
+export type WorldSourceCapabilities = { readonly "profileVersion": "world-source-capabilities/v1"; readonly "owner": "world-source"; readonly "connection": MaterialSourceConnection; readonly "capabilityRevision": Revision; readonly "catalogueDigest": Digest; readonly "worldGeometry": WorldGeometry; readonly "engineBounds": Box | null; readonly "stateProfile": StateProfile; readonly "writeBackend": WriteBackendFact; readonly "compilationConfig": CompilationConfig | null; readonly "writeMethods": WriteMethods; readonly "writePath": WritePathConclusions; readonly "engineGuards": EngineGuardDeclaration | null; readonly "avatarEnvelope": AvatarEnvelope };
+export type ReadWorldSourceCapabilitiesRequest = { readonly "contractVersion": "world-adapter/v8"; readonly "requestId": Ref; readonly "sessionRef": Ref; readonly "worldRef": Ref };
+export type ReadWorldSourceCapabilitiesResponse = { readonly "contractVersion": "world-adapter/v8"; readonly "requestId": Ref; readonly "result": WorldSourceCapabilities | null; readonly "error": Error | null };
+export type InspectionContext = { readonly "sessionRef": Ref; readonly "worldRef": Ref; readonly "localContext": LocalWorldContext; readonly "orderedSelectedObjectRefs": OrderedRefs };
+export type ReadInspectionContextRequest = { readonly "contractVersion": "world-inspection/v1"; readonly "requestId": Ref; readonly "sessionRef": Ref; readonly "worldRef": Ref };
+export type ReadInspectionContextResponse = { readonly "contractVersion": "world-inspection/v1"; readonly "requestId": Ref; readonly "result": InspectionContext | null; readonly "error": Error | null };
 export interface TypeMap {
 AbortPreparedHistoryTransactionRequest: AbortPreparedHistoryTransactionRequest;
 AbortPreparedHistoryTransactionResponse: AbortPreparedHistoryTransactionResponse;
@@ -900,6 +932,38 @@ Partition: Partition;
 PostWriteLighting: PostWriteLighting;
 WorldGeometry: WorldGeometry;
 UnitInterval: UnitInterval;
+SrgbColor: SrgbColor;
+MaterialPresentation: MaterialPresentation;
+MaterialPresentationMap: MaterialPresentationMap;
+QuarterTurns: QuarterTurns;
+OrientationDescriptor: OrientationDescriptor;
+OrientationIndex: OrientationIndex;
+WriteMethods: WriteMethods;
+EngineFrame: EngineFrame;
+AvatarSize: AvatarSize;
+KnownAvatarEnvelope: KnownAvatarEnvelope;
+AvatarEnvelope: AvatarEnvelope;
+SideEffectConclusion: SideEffectConclusion;
+SideEffectConclusionMap: SideEffectConclusionMap;
+WritePathConclusions: WritePathConclusions;
+CatalogueFacts: CatalogueFacts;
+MaterialSourceFacts: MaterialSourceFacts;
+EngineFacts: EngineFacts;
+WriteProfile: WriteProfile;
+ReadCatalogueRequest: ReadCatalogueRequest;
+ReadCatalogueResponse: ReadCatalogueResponse;
+ReadMaterialSourcesRequest: ReadMaterialSourcesRequest;
+ReadMaterialSourcesResponse: ReadMaterialSourcesResponse;
+ReadEngineFactsRequest: ReadEngineFactsRequest;
+ReadEngineFactsResponse: ReadEngineFactsResponse;
+ReadWriteProfileRequest: ReadWriteProfileRequest;
+ReadWriteProfileResponse: ReadWriteProfileResponse;
+WorldSourceCapabilities: WorldSourceCapabilities;
+ReadWorldSourceCapabilitiesRequest: ReadWorldSourceCapabilitiesRequest;
+ReadWorldSourceCapabilitiesResponse: ReadWorldSourceCapabilitiesResponse;
+InspectionContext: InspectionContext;
+ReadInspectionContextRequest: ReadInspectionContextRequest;
+ReadInspectionContextResponse: ReadInspectionContextResponse;
 }
 export type TypeName=keyof TypeMap;
 export interface OperationMap {
@@ -978,6 +1042,7 @@ export interface OperationMap {
 "AbortPreparedHistoryTransaction": {request:AbortPreparedHistoryTransactionRequest;response:AbortPreparedHistoryTransactionResponse};
 "InspectRegion": {request:InspectRegionRequest;response:InspectRegionResponse};
 "ReadLocalConnection": {request:LocalConnectionReadbackRequest;response:LocalConnectionReadbackResponse};
+"ReadWorldSourceCapabilities": {request:ReadWorldSourceCapabilitiesRequest;response:ReadWorldSourceCapabilitiesResponse};
 };
 "region-build/v2": {
 "CompileRegionBuild": {request:CompileRegionBuildRequest;response:CompileRegionBuildResponse};
@@ -992,6 +1057,15 @@ export interface OperationMap {
 "canvas-region/v3": {
 "ApplyRegionCommit": {request:ApplyRegionCommitRequest;response:ApplyRegionCommitResponse};
 "UndoRegionCommit": {request:UndoRegionCommitRequest;response:UndoRegionCommitResponse};
+};
+"world-facts/v1": {
+"ReadCatalogue": {request:ReadCatalogueRequest;response:ReadCatalogueResponse};
+"ReadMaterialSources": {request:ReadMaterialSourcesRequest;response:ReadMaterialSourcesResponse};
+"ReadEngineFacts": {request:ReadEngineFactsRequest;response:ReadEngineFactsResponse};
+"ReadWriteProfile": {request:ReadWriteProfileRequest;response:ReadWriteProfileResponse};
+};
+"world-inspection/v1": {
+"ReadInspectionContext": {request:ReadInspectionContextRequest;response:ReadInspectionContextResponse};
 };
 }
 export interface ProjectionMap {

@@ -5,3 +5,4 @@ export * from './region.mjs';
 export * from './write-path.mjs';
 export {configEngineFacts, validateConfigEngineFacts, requireKnownWriteBackend, requireKnownAvatarEnvelope} from './config-engine-facts.mjs';
 export {confirmedPlacement, createPlacementProposal, requirePlacementSource, requirePlacementTarget, confirmedPlacementOf, confirmedPlacementBinding, checkConfirmedPlacementApply, checkConfirmedRegionPlacementCommit, validateRegionCommitSubmission} from './placement.mjs';
+export {worldSourceFacts, validateCatalogueFacts, validateMaterialSourceFacts, validateEngineFacts, validateWriteProfile, validateWorldSourceCapabilities, requireWriteProfileConfig, requireDeclaredAvatarEnvelope, validateInspectionContextResponse} from './world-source-facts.mjs';

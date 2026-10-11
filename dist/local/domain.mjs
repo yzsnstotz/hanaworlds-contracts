@@ -64,6 +64,8 @@ function arrayCompare(name, order) {
   if (order === 'materialRef UTF16 ascending') return (a, b) => compareUTF16(a.materialRef, b.materialRef);
   if (order === 'chunkPos numeric x,y,z') return (a, b) => comparePosition(a.chunkPos, b.chunkPos);
   if (order === 'EngineGuardStage enum order') return enumOrder('EngineGuardStage', x => x);
+  if (order === 'WriteMethod enum order') return enumOrder('WriteMethod', x => x);
+  if (order === 'orientation numeric ascending') return (a, b) => a.orientation - b.orientation;
   if (order === 'guard EngineGuard enum order') return enumOrder('EngineGuard', x => x.guard);
   if (order === 'protocol UTF16 ascending') return (a, b) => compareUTF16(a.protocol, b.protocol);
   if (order === 'objectRef UTF16 ascending') return (a, b) => compareUTF16(a.objectRef, b.objectRef);
@@ -176,6 +178,22 @@ export function validateDomain(visits) {
     } else if (name === 'StateProfile') {
       const all = [...v.derivedFields, ...v.preservedFields, ...v.clearedFields];
       shape(new Set(all).size === all.length);
+    } else if (name === 'WriteProfile' || name === 'WorldSourceCapabilities') {
+      // world-source-facts/v1: the configuration exists exactly when the backend is known, and carries it unchanged.
+      shape((v.compilationConfig !== null) === (v.writeBackend.availability === 'KNOWN'));
+      if (v.compilationConfig !== null) {
+        const a = v.compilationConfig.writeBackend, b = v.writeBackend.writeBackend;
+        shape(a.profileId === b.profileId && a.revision === b.revision);
+      }
+      if (name === 'WorldSourceCapabilities') shape(v.writePath.catalogueDigest === v.catalogueDigest);
+    } else if (name === 'CatalogueFacts') {
+      shape(same(Object.keys(v.presentation).sort(compareUTF16), Object.keys(v.catalogue.materials).sort(compareUTF16)));
+      const described = new Set(v.orientationIndex.map(o => o.orientation));
+      shape(Object.values(v.catalogue.materials).every(m => (m.orientations ?? []).every(o => described.has(o))));
+    } else if (name === 'MaterialSourceFacts') {
+      shape(same(Object.keys(v.presentation).sort(compareUTF16), [...new Set(v.snapshot.materials.map(m => m.materialRef))].sort(compareUTF16)));
+    } else if (name === 'InspectionContext') {
+      shape(v.localContext.worldRef === v.worldRef);
     } else if (name === 'Coverage') geometry(v.sampledPositions.every(p => inside(p, v.sampledBounds)));
     else if (name === 'Portal') {
       geometry(v.positions.length > 0);

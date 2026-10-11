@@ -9,11 +9,14 @@ const profile=JSON.parse(await readFile(new URL(import.meta.resolve('hanaworlds-
 const catalogue=main.request.catalogue;
 let passed=0;function test(name,fn){fn();console.log('ok',++passed,name)}
 const code=e=>({code:e.code,reason:e.reason});
-test('same-major package; facts are an in-process port, not a wire or a changed type',()=>{
+test('same-major package; ConfigEngineFacts remains an unchanged in-process port',()=>{
  a.checkContractsVersion(a.contractHandshake.contracts);assert.equal(a.contractHandshake.contracts,'hanaworlds-contracts@'+a.version);a.checkContractHandshake(a.contractHandshake);
  assert.equal(a.configEngineFacts.id,'config-engine-facts/v2');
  assert.equal(profile.configEngineFacts.id,'config-engine-facts/v2');
- for(const ops of Object.values(a.operationContracts))for(const o of ops)assert.ok(!/EngineFacts/.test(o.operation));
+ for(const [wire,ops] of Object.entries(a.operationContracts))for(const o of ops){
+  assert.notEqual(o.operation,'ReadConfigEngineFacts');
+  if(/EngineFacts/.test(o.operation)){assert.equal(wire,'world-facts/v1');assert.equal(o.operation,'ReadEngineFacts');}
+ }
  assert.equal(a.schemaBundle.definitions.CompilationConfig.properties.writeBackend.$ref,'#/definitions/WriteBackendRef');
  assert.deepEqual(a.schemaBundle.definitions.SafetyProfile.required,['profileVersion','connectivity','requireBodyClearance','requireEntranceConnectivity','hazardPolicy','optionalLightRule']);
  assert.equal(a.digestProfile.domainPrefixByKind['config-engine-facts'],'HanaWorlds|config-engine-facts/v2|');

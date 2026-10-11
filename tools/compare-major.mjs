@@ -26,13 +26,18 @@ const report=[];
 for(const w of Object.keys(b.operations)){
  const {protocol,major}=parse(w),nw=Object.keys(n.operations).find(x=>parse(x).protocol===protocol);assert.ok(nw,'wire removed '+w);
  const x=closure(b,w),y=closure(n,nw),changed=[...new Set([...Object.keys(x),...Object.keys(y)])].filter(t=>x[t]!==y[t]).sort();
- assert.deepEqual(b.operations[w].map(o=>o.operation),n.operations[nw].map(o=>o.operation),'operations of '+w);
+ // Existing operations keep their order; operations appended to the wire are additive (protocolPolicy.minor).
+ const baseOps=b.operations[w].map(o=>o.operation),newOps=n.operations[nw].map(o=>o.operation);
+ assert.deepEqual(newOps.slice(0,baseOps.length),baseOps,'operations of '+w);
+ const addedOperations=newOps.slice(baseOps.length);
  const additions=changed.map(additive),breaking=changed.filter((t,i)=>additions[i]===null);
  if(breaking.length)assert.ok(parse(nw).major>major,`${w} changed shape (${breaking.join(',')}) but kept major`);
  else assert.equal(nw,w,changed.length?`${w} changed only additively but was renamed to ${nw}`:`${w} unchanged but renamed to ${nw}`);
- report.push({old:w,new:nw,changed:changed.length>0,classification:!changed.length?'UNCHANGED':breaking.length?'BREAKING':'ADDITIVE',changedTypes:changed,breakingTypes:breaking,additions:additions.filter(Boolean)});
+ if(addedOperations.length&&!breaking.length)assert.equal(nw,w,`${w} only appended operations but was renamed to ${nw}`);
+ report.push({old:w,new:nw,changed:changed.length>0||addedOperations.length>0,classification:breaking.length?'BREAKING':changed.length||addedOperations.length?'ADDITIVE':'UNCHANGED',changedTypes:changed,breakingTypes:breaking,additions:additions.filter(Boolean),addedOperations});
 }
 const sp=t=>t.definitions.SafetyProfile.properties.profileVersion.const;
-console.log(JSON.stringify({baseline:b.version,current:n.version,wires:report,safetyProfile:{old:sp(b),new:sp(n)},
+const addedWires=Object.keys(n.operations).filter(x=>!Object.keys(b.operations).some(y=>parse(y).protocol===parse(x).protocol));
+console.log(JSON.stringify({baseline:b.version,current:n.version,wires:report,addedWires,safetyProfile:{old:sp(b),new:sp(n)},
  removedTypes:Object.keys(b.definitions).filter(k=>!(k in n.definitions)),addedTypes:Object.keys(n.definitions).filter(k=>!(k in b.definitions)),
  compiledOperations:{old:b.compiledOperationsVersion,new:n.compiledOperationsVersion}},null,1));

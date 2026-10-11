@@ -1,6 +1,7 @@
 import assert from 'node:assert/strict';
 import { readFile } from 'node:fs/promises';
 import { gunzipSync } from 'node:zlib';
+import { createHash } from 'node:crypto';
 import * as a from 'hanaworlds-contracts';
 import { buildRegionScenario } from './region-fixture.mjs';
 const json = async spec => JSON.parse(await readFile(new URL(import.meta.resolve(spec))));
@@ -17,9 +18,23 @@ const stone = { materialRef: 'fixture:stone', orientation: 0 }, air = { material
 const block = (runs, palette = [stone], size = [4, 1, 1], origin = [0, 0, 0]) => ({ profileVersion: 'region-voxels/v2', geometryProfile: 'voxel-grid/v1', origin, size, indexOrder: 'X_FASTEST_THEN_Y_THEN_Z', palette, runs });
 let checks = 0; function test(name, run) { run(); console.log('ok', ++checks, name); }
 
-test('same-major package and published region fixture equals the regenerated scenario', () => {
+test('same-major package and region fixture preserves content across gzip implementations', () => {
   a.checkContractsVersion(a.contractHandshake.contracts);
-  eq(JSON.parse(JSON.stringify(S())), published);
+  const normalise = input => {
+    const scenario = plain(input);
+    const bytes = Buffer.from(scenario.snapshotGzipBase64, 'base64');
+    const snapshot = scenario.commitResponse.result.snapshot;
+    assert.equal(bytes.length, snapshot.compressedByteLength);
+    assert.equal(createHash('sha256').update(bytes).digest('hex'), snapshot.compressedSha256);
+    assert.equal(gunzipSync(bytes).toString('utf8'), a.canonicalJSON(scenario.snapshotContent));
+    a.validateRegionSnapshotContent(scenario.snapshotContent, snapshot, scenario.commitResponse.result.beforeSummary);
+    // gzip has multiple valid encodings of the same content; contracts identify each by its own digest.
+    delete scenario.snapshotGzipBase64;
+    delete snapshot.compressedByteLength;
+    delete snapshot.compressedSha256;
+    return scenario;
+  };
+  eq(normalise(S()), normalise(published));
   assert.match(published.evidence, /^SOURCE\/FIXTURE/);
 });
 test('fill: block+palette decodes, expands in VoxelArea order (x, then y, then z) and encodes canonically', () => {
