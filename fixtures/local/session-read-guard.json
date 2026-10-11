@@ -1,0 +1,6 @@
+{
+  "protocol": "session-read-guard/v1",
+  "support": "UNAVAILABLE_ON_OFFICIAL_0.2.0-rc.2_JSONL",
+  "capture": {"protocol":"session-read-guard/v1","guard":null,"error":{"code":"CAPABILITY_UNAVAILABLE"},"missing":["OFFICIAL_PERSISTENCE_SYNCHRONOUS_CURRENTNESS","OFFICIAL_PERSISTENCE_COMPLETE_MONOTONIC_INVALIDATION","COMMITTED_PROJECTION_SYNCHRONOUS_CURRENTNESS_AND_INVALIDATION"]},
+  "finalBoundary": "After final await, same no-await segment: Session check, connection check, Canvas local-state check, then return. All must pass; no retry."
+}

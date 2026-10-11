@@ -1,5 +1,5 @@
 {
-  "version": "2.10.0",
+  "version": "2.11.0",
   "wireVersions": [
     "interaction-surface/v5",
     "session/v5",
@@ -19345,7 +19345,7 @@
   "toolManifest": {
     "profileVersion": "skill-tools/v1",
     "package": "hanaworlds-contracts",
-    "version": "2.10.0",
+    "version": "2.11.0",
     "schemaExport": "hanaworlds-contracts/schema",
     "tools": [
       {

@@ -3,7 +3,7 @@ export declare const placementSettingsRead: Readonly<{introducedIn:string;wire:'
 export declare function readPlacementSettings(request:import('./contracts.js').ReadPlacementSettingsRequest,response:import('./contracts.js').ReadPlacementSettingsResponse):import('./contracts.js').PlacementSettingsReadback;
 export declare function createPlacementSettingsMock(state:import('./contracts.js').PlacementSettingsReadback):Readonly<{effects:typeof placementSettingsRead.effects;call(operation:'ReadPlacementSettings',request:import('./contracts.js').ReadPlacementSettingsRequest):Promise<import('./contracts.js').ReadPlacementSettingsResponse>}>;
 import type {TypeMap,TypeName,OperationMap,ProjectionMap,ContractHandshake,LocalRequestFacts,CurrentBuildSubmission,ValidateBuildProposalRequest,ValidateBuildProposalResponse,BuildProposalProviderFacts,ScopedPreparedTransaction,ScopedPreparedTransactionResult,RegionInspection,MaterialMap,Catalogue,BuildProjection,FinalEffects,TargetFacts,SafetyProfile,Coverage} from './contracts.js';
-export declare const version: '2.6.0';
+export declare const version: '2.11.0';
 export type ToolName='hanaworlds_context'|'hanaworlds_proposal'|'hanaworlds_region_proposal'|'hanaworlds_build'|'hanaworlds_write_methods'|'hanaworlds_download_image'|'hanaworlds_image_material';
 export interface ToolMap {
  hanaworlds_context:{request:import('./contracts.js').ToolContextRequest;response:import('./contracts.js').ToolContextResponse};
@@ -298,3 +298,17 @@ export declare function derivePluginRoles(host?:PluginRolesHost):import('./contr
 export declare function pluginRolesResponse(request:unknown,result:import('./contracts.js').PluginRoles):import('./contracts.js').ReadPluginRolesResponse;
 export declare function pluginRolesUnavailable(request:unknown):import('./contracts.js').ReadPluginRolesResponse;
 export declare function createPluginRolesMock(host:{readonly services?:ReadonlyArray<RegisteredPluginService>;readonly skills?:ReadonlyArray<RegisteredPluginSkill>}|{readonly unreadable:true}):(wire:'world-inspection/v1',operation:'ReadPluginRoles',request:unknown)=>import('./contracts.js').ReadPluginRolesResponse;
+/** Same-runtime observations only. Never serialize guards or register these methods as wire operations. */
+declare const sessionReadGuardBrand: unique symbol;
+export interface SessionReadGuard {readonly [sessionReadGuardBrand]: true;}
+export interface SessionReadGuardScope {readonly sessionRef:string;readonly worldRef?:string|null;readonly sessionRevision?:string;}
+export interface SessionReadGuardSnapshot {readonly sessionRef:string;readonly sessionRevision:string;readonly worldRef:string|null;}
+export type SessionReadGuardCapture = Readonly<{protocol:'session-read-guard/v1';guard:SessionReadGuard;snapshot:SessionReadGuardSnapshot;error:null}> | Readonly<{protocol:'session-read-guard/v1';guard:null;error:Readonly<{code:'CAPABILITY_UNAVAILABLE'}>;missing:readonly string[]}>;
+export interface SessionReadGuardProvider {
+  /** Capture and establish complete invalidation before the first await; never creates a Session. */
+  captureSessionReadGuard(scope:SessionReadGuardScope):SessionReadGuardCapture;
+  /** Synchronous, permanently false after invalidation; rejects foreign, fabricated and wrong-scope guards. */
+  isSessionReadGuardCurrent(guard:SessionReadGuard,scope:SessionReadGuardScope):boolean;
+}
+export declare const sessionReadGuard:Readonly<{protocol:'session-read-guard/v1';contract:'C-session';introducedIn:'2.11.0';service:'hanaworldsWorkshop';capture:'captureSessionReadGuard';check:'isSessionReadGuardCurrent';boundary:string;validity:string;transport:string;unavailable:'CAPABILITY_UNAVAILABLE';fixture:string}>;
+export declare function createUnavailableSessionReadGuardFixture(missing:readonly string[]):SessionReadGuardProvider;
