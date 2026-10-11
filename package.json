@@ -1,6 +1,6 @@
 {
   "name": "hanaworlds-contracts",
-  "version": "2.7.0",
+  "version": "2.8.0",
   "description": "Pure current-local-world contracts. Fresh state only; strict decoding, business correlation, Canvas transactions and same-transaction history.",
   "type": "module",
   "private": true,
@@ -38,11 +38,12 @@
     "docs/world-lifecycle.md",
     "docs/skill-tools.md",
     "docs/local-world-source.md",
-    "docs/world-error-context.md"
+    "docs/world-error-context.md",
+    "docs/history-receipt.md"
   ],
   "scripts": {
     "build": "node tools/build-local.mjs",
-    "test": "node test/local-world.mjs && node test/world-source-facts.mjs && node --test test/world-source-facts-bindings.mjs test/world-source-facts-mock.mjs && node --test test/brush-placement-minor.mjs && node --test test/world-lifecycle-minor.mjs && node --test test/skill-tools-minor.mjs test/direct-build-minor.mjs && node --test test/local-world-source-minor.mjs && node --test test/world-error-minor.mjs",
+    "test": "node test/local-world.mjs && node test/world-source-facts.mjs && node --test test/world-source-facts-bindings.mjs test/world-source-facts-mock.mjs && node --test test/brush-placement-minor.mjs && node --test test/world-lifecycle-minor.mjs && node --test test/skill-tools-minor.mjs test/direct-build-minor.mjs && node --test test/local-world-source-minor.mjs && node --test test/world-error-minor.mjs && node --test test/history-receipt-minor.mjs",
     "typecheck": "tsc --project consumer/local/tsconfig.json",
     "verify:source": "node tools/verify-local.mjs",
     "test:image": "node test/image-proposal.mjs",
@@ -87,7 +88,11 @@
     "test:world-error": "node --test test/world-error-minor.mjs",
     "typecheck:world-error": "tsc --project consumer/world-error/tsconfig.json",
     "build:world-error-fixture": "node tools/build-world-error-fixture.mjs",
-    "test:world-error-consumer": "node tools/gate-world-error-consumer.mjs"
+    "test:world-error-consumer": "node tools/gate-world-error-consumer.mjs",
+    "test:history-receipt": "node --test test/history-receipt-minor.mjs",
+    "typecheck:history-receipt": "tsc --project consumer/history-receipt/tsconfig.json",
+    "build:history-receipt-fixture": "node tools/build-history-receipt-fixture.mjs",
+    "test:history-receipt-consumer": "node tools/gate-history-receipt-consumer.mjs"
   },
   "dependencies": {
     "canonicalize": "5.1.0"

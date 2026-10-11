@@ -387,6 +387,20 @@ export function validateCurrentBuildSubmission(input,factsInput) {
 export function requestWorldSelectors(request) {
  return [request.worldRef,request.localContext?.worldRef,request.hostContext?.localContext?.worldRef].filter(w=>typeof w==='string');
 }
+/** 2.8.0 world-adapter/v8 QueryTransaction: a durable receipt keeps the context it was written
+ * with. The envelope's currentLocalContext is bound to the request in full (currency is not
+ * relaxed); the historical receipt is bound by its digest, world and transaction only. */
+function historicalReceiptBinding(wire,name,request,response) {
+ const pair=contractMetadata.historicalReceipt.fields.filter(k=>Object.hasOwn(response,k));
+ if(pair.length===0)return false;
+ requireFact(wire===contractMetadata.historicalReceipt.wire&&name===contractMetadata.historicalReceipt.operation&&pair.length===2&&response.result!==null&&response.error===null,'SCHEMA_INVALID','INVALID_SHAPE','decode');
+ const receipt=response.result;
+ current(same(response.currentLocalContext,request.localContext));
+ validateDigestBinding('receipt',receipt,response.receiptDigest);
+ current(receipt.localContext.worldRef===request.worldRef);
+ associated(receipt.transactionId===request.transactionId&&receipt.transactionPayloadDigest===request.transactionPayloadDigest);
+ return true;
+}
 export function validateBoundResponse(wire,name,requestInput,responseInput) {
  const request=validateBoundRequest(wire,name,requestInput),response=validateResponse(wire,name,responseInput);
  associated(response.requestId===request.requestId);
@@ -394,6 +408,7 @@ export function validateBoundResponse(wire,name,requestInput,responseInput) {
  validateToolBinding(wire,name,request,response);
  // 2.7.0: an error naming its target world must name every world the request selected.
  if(response.error?.worldRef!==undefined)for(const selected of requestWorldSelectors(request))current(response.error.worldRef===selected);
+ const history=historicalReceiptBinding(wire,name,request,response);
  const result=response.result;
  if(result){
   if(result.connectionRef!==undefined&&request.connectionRef!==undefined)current(result.connectionRef===request.connectionRef);
@@ -408,7 +423,7 @@ export function validateBoundResponse(wire,name,requestInput,responseInput) {
    associated(inspection.anchorKind===request.anchor.kind);
    requireFact(inspection.targetFacts.geometryProfile===request.footprint.geometryProfile,'CAPABILITY_GAP','GEOMETRY_PROFILE_UNSUPPORTED');
   }
-  if(result.localContext&&request.localContext)current(same(result.localContext,request.localContext));
+  if(result.localContext&&request.localContext&&!history)current(same(result.localContext,request.localContext));
   if(result.worldRef!==undefined&&request.worldRef!==undefined)current(result.worldRef===request.worldRef);
   // Named fact reads carry their World in the connection rather than at the result root.
   if(contractMetadata.worldSourceFacts.operations.some(o=>o.wire===wire&&o.operation===name)){

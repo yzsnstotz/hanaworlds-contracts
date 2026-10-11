@@ -6650,6 +6650,12 @@
               "type": "null"
             }
           ]
+        },
+        "currentLocalContext": {
+          "$ref": "#/definitions/LocalWorldContext"
+        },
+        "receiptDigest": {
+          "$ref": "#/definitions/Digest"
         }
       },
       "required": [

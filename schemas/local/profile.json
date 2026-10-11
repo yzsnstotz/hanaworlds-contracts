@@ -1,5 +1,5 @@
 {
-  "version": "2.7.0",
+  "version": "2.8.0",
   "wireVersions": [
     "interaction-surface/v5",
     "session/v5",
@@ -7454,6 +7454,12 @@
               "type": "null"
             }
           ]
+        },
+        "currentLocalContext": {
+          "$ref": "#/definitions/LocalWorldContext"
+        },
+        "receiptDigest": {
+          "$ref": "#/definitions/Digest"
         }
       },
       "required": [
@@ -18244,7 +18250,7 @@
     "painter-region": 0,
     "world-adapter-region": 0,
     "canvas-region": 1,
-    "world-adapter": 2,
+    "world-adapter": 3,
     "session": 2,
     "canvas": 1,
     "world-facts": 0,
@@ -19051,7 +19057,7 @@
   "toolManifest": {
     "profileVersion": "skill-tools/v1",
     "package": "hanaworlds-contracts",
-    "version": "2.7.0",
+    "version": "2.8.0",
     "schemaExport": "hanaworlds-contracts/schema",
     "tools": [
       {
@@ -19418,5 +19424,26 @@
     "compatibility": "Same package major. Old errors without the field stay valid with unchanged digests. A previous-minor strict decoder (additionalProperties:false) refuses an error carrying worldRef with UNKNOWN_REQUIRED_FIELD; consuming it requires >= 2.7.0. No protocol minor requirement is added.",
     "fixture": "hanaworlds-contracts/fixtures/world-error",
     "mock": "createWorldErrorMock"
+  },
+  "historicalReceipt": {
+    "introducedIn": "2.8.0",
+    "contracts": [
+      "C-world-adapter",
+      "C-canvas"
+    ],
+    "wire": "world-adapter/v8",
+    "operation": "QueryTransaction",
+    "type": "QueryTransactionResponse",
+    "fields": [
+      "currentLocalContext",
+      "receiptDigest"
+    ],
+    "meaning": "Optional pair. A durable receipt read back after a stop/reconnect keeps the localContext it was written with (connectionIncarnationRef, selectionRevision, connectionRef) and its receipt digest. The response envelope names the current context in currentLocalContext; result is the historical ReceiptProjection exactly as written, never re-bound to the current incarnation.",
+    "absence": "Both absent keeps exactly the previous meaning: result.localContext must equal the request localContext in full. There is no null form; the two fields are present together or not at all, only beside a non-null result and a null error (otherwise SCHEMA_INVALID).",
+    "binding": "currentLocalContext must equal the request localContext in full (CURRENT_WORLD_MISMATCH; currency is not relaxed). receiptDigest must equal the receipt digest of result (NON_CANONICAL_AMBIGUITY), the same value as HistoryEntry.receiptDigest. result.localContext.worldRef must equal the request worldRef (CURRENT_WORLD_MISMATCH). result.transactionId and result.transactionPayloadDigest must equal the request (TRANSACTION_CONFLICT); result.operationDigest is bound through receiptDigest. result.localContext.connectionRef, connectionIncarnationRef and selectionRevision may differ from the current context and are read with readHistoricalReceipt.",
+    "unchanged": "Every other operation, and QueryTransaction responses without the pair, keep the full-equality localContext check. ReceiptProjection, its digest and every old fixture are unchanged. A receipt from another world is still refused.",
+    "compatibility": "Same package major; world-adapter protocol minor 2 -> 3. A previous-minor strict decoder (additionalProperties:false) refuses a response carrying the pair with UNKNOWN_REQUIRED_FIELD; consuming it requires >= 2.8.0. A consumer that needs historical receipts requires world-adapter minor 3.",
+    "fixture": "hanaworlds-contracts/fixtures/history-receipt",
+    "mock": "createHistoricalReceiptMock"
   }
 }

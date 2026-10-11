@@ -1,6 +1,6 @@
 {
   "$schema": "http://json-schema.org/draft-07/schema#",
-  "$id": "https://hanaworlds.invalid/contracts/2.7.0/schema.json",
+  "$id": "https://hanaworlds.invalid/contracts/2.8.0/schema.json",
   "x-contractsCompatibility": {
     "package": "hanaworlds-contracts",
     "major": 2,
@@ -6610,6 +6610,12 @@
               "type": "null"
             }
           ]
+        },
+        "currentLocalContext": {
+          "$ref": "#/definitions/LocalWorldContext"
+        },
+        "receiptDigest": {
+          "$ref": "#/definitions/Digest"
         }
       },
       "required": [

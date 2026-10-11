@@ -1,10 +1,25 @@
-# HanaWorlds Contracts 2.7.0
+# HanaWorlds Contracts 2.8.0
 
 Pure public contracts for the single-user local-world MVP. Import from `hanaworlds-contracts`. The 2.x major is a fresh-install protocol replacement; 2.1.0 adds named world source reads while preserving every 2.0.0 type, operation and digest rule. 2.2.0 adds optional canonical per-chunk digests and explicit placement geometry admission while preserving old decoded inputs. Earlier source and evidence remain in Git and their original run directories.
 
 `spec/local-world/profile.json` is the authored schema and operation source. `src/local/` owns pure relation/geometry validation. `npm run build` generates `dist/local`, `types/local`, `schemas/local`, and current fixtures. Never edit those outputs directly.
 
 Current wires: `session/v5`, `canvas/v7`, `world-adapter/v8`, `painter/v6`, `BUILD/V5`, `ReferenceBrief/v5`, `interaction-surface/v5`; region wires `region-build/v2`, `painter-region/v3`, `world-adapter-region/v3`, `canvas-region/v3`; region block `region-voxels/v2`; compiled operations `operations/v4`; target facts `target-facts/v5`; safety profile `safety-profile/v5`; final effects `final-effects/v3`; world geometry `world-geometry/v1`. Breaking shape changes carry a new wire or profile identifier, so old digests cannot match; qualified optional minor fields keep the existing identifier and preserve digests when absent. The sections below 2.0.0 are history and name the identifiers of their time.
+
+## 2.8.0 · historical receipt on QueryTransaction
+
+`world-adapter/v8 QueryTransactionResponse` gains an optional pair
+`currentLocalContext` + `receiptDigest` (no null form, both or neither). The envelope
+context must equal the request `localContext` in full (currency is not relaxed); the
+`result` receipt stays exactly as written, bound by its digest, its world and its
+transaction, so a durable VERIFIED receipt read after stop/reconnect is accepted while
+its written `connectionIncarnationRef`/`selectionRevision` stay readable
+(`readHistoricalReceipt`). Another world, a re-bound or tampered receipt still refuse.
+Other operations and responses without the pair are unchanged. `world-adapter` minor
+2 → 3; a pre-2.8 closed decoder refuses the pair (UNKNOWN_REQUIRED_FIELD). See
+[historical receipt](docs/history-receipt.md), `hanaworlds-contracts/fixtures/history-receipt`,
+`createHistoricalReceiptMock` and `consumer/history-receipt`. Formal tag:
+`refs/tags/v2.8.0`; SOURCE/FIXTURE evidence only.
 
 ## 2.7.0 · optional target world on the public Error
 
