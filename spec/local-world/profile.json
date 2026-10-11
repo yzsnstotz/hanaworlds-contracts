@@ -1,5 +1,5 @@
 {
-  "version": "2.11.0",
+  "version": "2.12.0",
   "wireVersions": [
     "interaction-surface/v5",
     "session/v5",
@@ -432,6 +432,11 @@
         "operation": "UndoRegionCommit",
         "request": "UndoRegionCommitRequest",
         "response": "UndoRegionCommitResponse"
+      },
+      {
+        "operation": "UndoScopedRegionCommit",
+        "request": "UndoScopedRegionCommitRequest",
+        "response": "UndoScopedRegionCommitResponse"
       }
     ],
     "world-facts/v1": [
@@ -594,7 +599,8 @@
       "region-summary": "RegionSummary",
       "region-snapshot-content": "RegionSnapshotContent",
       "config-engine-facts": "ConfigEngineFactsProjection",
-      "placement-proposal": "PlacementProposal"
+      "placement-proposal": "PlacementProposal",
+      "confirmed-region-undo-scope": "ConfirmedRegionUndoScope"
     },
     "domainPrefixByKind": {
       "material-sources": "HanaWorlds|material-sources/v2|",
@@ -18418,6 +18424,286 @@
       ],
       "additionalProperties": false,
       "x-typeName": "ReadPlacementSettingsResponse"
+    },
+    "RegionUndoOriginEvidence": {
+      "x-typeName": "RegionUndoOriginEvidence",
+      "type": "object",
+      "properties": {
+        "request": {
+          "$ref": "#/definitions/ApplyRegionCommitRequest"
+        },
+        "result": {
+          "$ref": "#/definitions/RegionCommitResult"
+        },
+        "before": {
+          "$ref": "#/definitions/RegionSnapshotContent"
+        },
+        "after": {
+          "$ref": "#/definitions/RegionSnapshotContent"
+        }
+      },
+      "required": [
+        "request",
+        "result",
+        "before",
+        "after"
+      ],
+      "additionalProperties": false
+    },
+    "ConfirmedRegionUndoScope": {
+      "x-typeName": "ConfirmedRegionUndoScope",
+      "type": "object",
+      "properties": {
+        "profileVersion": {
+          "const": "confirmed-region-undo-scope/v1"
+        },
+        "originTransactionId": {
+          "$ref": "#/definitions/Ref"
+        },
+        "sessionRef": {
+          "$ref": "#/definitions/Ref"
+        },
+        "worldRef": {
+          "$ref": "#/definitions/Ref"
+        },
+        "localContext": {
+          "$ref": "#/definitions/LocalWorldContext"
+        },
+        "operationDigest": {
+          "$ref": "#/definitions/Digest"
+        },
+        "beforeContentDigest": {
+          "$ref": "#/definitions/Digest"
+        },
+        "afterContentDigest": {
+          "$ref": "#/definitions/Digest"
+        },
+        "positions": {
+          "$ref": "#/definitions/Positions"
+        }
+      },
+      "required": [
+        "profileVersion",
+        "originTransactionId",
+        "sessionRef",
+        "worldRef",
+        "localContext",
+        "operationDigest",
+        "beforeContentDigest",
+        "afterContentDigest",
+        "positions"
+      ],
+      "additionalProperties": false
+    },
+    "UndoScopedRegionCommitRequest": {
+      "x-typeName": "UndoScopedRegionCommitRequest",
+      "type": "object",
+      "properties": {
+        "contractVersion": {
+          "const": "canvas-region/v3"
+        },
+        "sessionRef": {
+          "$ref": "#/definitions/Ref"
+        },
+        "requestId": {
+          "$ref": "#/definitions/Ref"
+        },
+        "worldRef": {
+          "$ref": "#/definitions/Ref"
+        },
+        "originTransactionId": {
+          "$ref": "#/definitions/Ref"
+        },
+        "undoTransactionId": {
+          "$ref": "#/definitions/Ref"
+        },
+        "expectedHistoryRevision": {
+          "$ref": "#/definitions/Revision"
+        },
+        "localContext": {
+          "$ref": "#/definitions/LocalWorldContext"
+        },
+        "expectedScopeDigest": {
+          "$ref": "#/definitions/Digest"
+        }
+      },
+      "required": [
+        "contractVersion",
+        "sessionRef",
+        "requestId",
+        "worldRef",
+        "originTransactionId",
+        "undoTransactionId",
+        "expectedHistoryRevision",
+        "localContext",
+        "expectedScopeDigest"
+      ],
+      "additionalProperties": false
+    },
+    "ScopedRegionUndoResult": {
+      "x-typeName": "ScopedRegionUndoResult",
+      "type": "object",
+      "properties": {
+        "outcome": {
+          "$ref": "#/definitions/ScopedRegionUndoOutcome"
+        },
+        "scope": {
+          "$ref": "#/definitions/ConfirmedRegionUndoScope"
+        },
+        "preUndoContent": {
+          "$ref": "#/definitions/RegionSnapshotContent"
+        },
+        "actualContent": {
+          "$ref": "#/definitions/RegionSnapshotContent"
+        },
+        "preRestoreContent": {
+          "$ref": "#/definitions/RegionSnapshotContent"
+        }
+      },
+      "required": [
+        "outcome",
+        "scope",
+        "preUndoContent",
+        "actualContent",
+        "preRestoreContent"
+      ],
+      "additionalProperties": false
+    },
+    "UndoScopedRegionCommitResponse": {
+      "x-typeName": "UndoScopedRegionCommitResponse",
+      "type": "object",
+      "properties": {
+        "contractVersion": {
+          "const": "canvas-region/v3"
+        },
+        "requestId": {
+          "$ref": "#/definitions/Ref"
+        },
+        "result": {
+          "anyOf": [
+            {
+              "$ref": "#/definitions/ScopedRegionUndoResult"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "error": {
+          "anyOf": [
+            {
+              "$ref": "#/definitions/Error"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "guardRefusal": {
+          "anyOf": [
+            {
+              "$ref": "#/definitions/GuardRefusal"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "applyFailure": {
+          "anyOf": [
+            {
+              "$ref": "#/definitions/FailureDetail"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "undoFailure": {
+          "anyOf": [
+            {
+              "$ref": "#/definitions/FailureDetail"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        }
+      },
+      "required": [
+        "contractVersion",
+        "requestId",
+        "result",
+        "error",
+        "guardRefusal",
+        "applyFailure",
+        "undoFailure"
+      ],
+      "additionalProperties": false
+    },
+    "ScopedRegionUndoOutcome": {
+      "x-typeName": "ScopedRegionUndoOutcome",
+      "type": "object",
+      "properties": {
+        "originTransactionId": {
+          "$ref": "#/definitions/Ref"
+        },
+        "undoTransactionId": {
+          "$ref": "#/definitions/Ref"
+        },
+        "worldRef": {
+          "$ref": "#/definitions/Ref"
+        },
+        "status": {
+          "$ref": "#/definitions/RegionCommitStatus"
+        },
+        "originBeforeSummaryDigest": {
+          "$ref": "#/definitions/Digest"
+        },
+        "originAfterSummaryDigest": {
+          "$ref": "#/definitions/Digest"
+        },
+        "preUndoSummary": {
+          "$ref": "#/definitions/RegionSummary"
+        },
+        "actualSummary": {
+          "$ref": "#/definitions/RegionSummary"
+        },
+        "historyRevision": {
+          "$ref": "#/definitions/Revision"
+        },
+        "postWriteLighting": {
+          "$ref": "#/definitions/PostWriteLighting"
+        },
+        "lighting": {
+          "anyOf": [
+            {
+              "$ref": "#/definitions/RegionLighting"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "localContext": {
+          "$ref": "#/definitions/LocalWorldContext"
+        }
+      },
+      "required": [
+        "originTransactionId",
+        "undoTransactionId",
+        "worldRef",
+        "status",
+        "originBeforeSummaryDigest",
+        "originAfterSummaryDigest",
+        "preUndoSummary",
+        "actualSummary",
+        "historyRevision",
+        "postWriteLighting",
+        "lighting",
+        "localContext"
+      ],
+      "additionalProperties": false
     }
   },
   "placementSettings": [
@@ -18537,7 +18823,7 @@
     "region-build": 1,
     "painter-region": 0,
     "world-adapter-region": 0,
-    "canvas-region": 1,
+    "canvas-region": 2,
     "world-adapter": 3,
     "session": 2,
     "canvas": 2,
@@ -18629,6 +18915,11 @@
       "id": "canvas-region/v3:rollback-cause",
       "owner": "hanaworlds-canvas",
       "meaning": "Every ROLLED_BACK RegionCommitResult carries rollbackCause: the failure Canvas itself observed in this transaction that made it restore (an Adapter error and guard refusal relayed unchanged, or Canvas's own readback/lighting/transport finding), bound to the same transactionId; it is stored with the terminal outcome and returned unchanged on exact replay."
+    },
+    {
+      "id": "canvas-region/v3:confirmed-scope-undo",
+      "owner": "canvas",
+      "meaning": "Undo only cells specified by committed origin operations, verified from bound before/after snapshots; preserve actual outside state through source CAS. No region Redo."
     }
   ],
   "regionInvariants": [
@@ -19345,7 +19636,7 @@
   "toolManifest": {
     "profileVersion": "skill-tools/v1",
     "package": "hanaworlds-contracts",
-    "version": "2.11.0",
+    "version": "2.12.0",
     "schemaExport": "hanaworlds-contracts/schema",
     "tools": [
       {
@@ -19900,5 +20191,21 @@
       "SafetyProfile": "Existing SafetyProfile and safetyProfileFromConfirmedIntent; only confirmed intent supplies site rules. No body size, no Canvas setting/default provider; this read does not construct or modify it.",
       "AvatarEnvelope": "Existing AvatarEnvelope: world source declared body size, not connected-player measurements. Supplied via existing WriteProfile/WorldSourceCapabilities; unknown remains UNAVAILABLE. Canvas does not read or fabricate it here; other provider semantics are unchanged."
     }
+  },
+  "scopedRegionUndo": {
+    "wire": "canvas-region/v3",
+    "operation": "UndoScopedRegionCommit",
+    "minMinor": 2,
+    "capability": "canvas-region/v3:confirmed-scope-undo",
+    "scopeProfile": "confirmed-region-undo-scope/v1",
+    "errors": {
+      "missingEvidence": "SCHEMA_INVALID/INVALID_SHAPE",
+      "forgedScopeOrOrigin": "UNDO_CONFLICT/PAYLOAD_CHANGED",
+      "digestTamper": "NON_CANONICAL_AMBIGUITY/PAYLOAD_CHANGED",
+      "crossWorldOrIdentity": "CURRENT_WORLD_MISMATCH/SCOPE_DENIED",
+      "insideChanged": "UNDO_CONFLICT/EXTERNAL_EDIT_CONFLICT",
+      "profileChanged": "CAPABILITY_GAP/GEOMETRY_PROFILE_UNSUPPORTED"
+    },
+    "redo": false
   }
 }

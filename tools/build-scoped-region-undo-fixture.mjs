@@ -1,0 +1,25 @@
+import {readFile,writeFile} from 'node:fs/promises';
+import {gzipSync} from 'node:zlib';
+import {createHash} from 'node:crypto';
+import * as a from '../dist/local/index.mjs';
+const old=JSON.parse(await readFile('fixtures/local/region.json','utf8'));
+const D=(k,v)=>a.digestValue(k,v).sha256;
+const block=(material,indices)=>a.encodeRegionBlock({origin:[0,0,0],size:[4,1,4],palette:[{materialRef:material,orientation:0}],indices});
+const mask=Array.from({length:16},(_,i)=>i%4<2?0:-1);
+const beforeState={...old.snapshotContent.chunks[0].state,block:block('air',new Int32Array(16)),extras:[]};
+const operations={...old.commitRequest.operations,chunks:[{chunkPos:[0,0,0],block:block('fixture:glass',mask)}]};
+const snapshot=state=>({profileVersion:'region-snapshot-content/v2',worldRef:operations.worldRef,partition:operations.partition,chunks:[{chunkPos:[0,0,0],state,stateDigest:D('region-state',state)}]});
+const before=snapshot(beforeState),after=snapshot(a.expectedRegionState(beforeState,operations.chunks[0].block));
+const summary=c=>a.summarizeRegionStates(c.worldRef,c.partition,c.chunks);
+const compressed=gzipSync(a.canonicalJSON(before));
+const ref={profileVersion:'region-snapshot/v1',contentDigest:D('region-snapshot-content',before),beforeSummaryDigest:D('region-summary',summary(before)),compression:'gzip',compressedSha256:createHash('sha256').update(compressed).digest('hex'),compressedByteLength:compressed.length};
+const origin={request:{...old.commitRequest,operations,operationDigest:D('region-operations',operations)},
+  result:{...old.commitResponse.result,operationDigest:D('region-operations',operations),beforeSummary:summary(before),expectedAfterSummary:summary(after),actualSummary:summary(after),snapshot:ref},before,after};
+const scope=a.deriveConfirmedRegionUndoScope(origin);
+const preState={...after.chunks[0].state,block:a.encodeRegionBlock({origin:[0,0,0],size:[4,1,4],palette:[{materialRef:'fixture:glass',orientation:0},{materialRef:'fixture:gold',orientation:0}],indices:mask.map(v=>v===-1?1:0)}),extras:[{position:[3,0,0],state:{metadata:{text:'external survives'}}}]};
+const preUndoContent=snapshot(preState),actualContent=a.composeScopedRegionUndoTarget(origin,preUndoContent);
+const request={...old.undoRequest,expectedScopeDigest:D('confirmed-region-undo-scope',scope)};
+const outcome={...old.undoResponse.result,preUndoSummary:summary(preUndoContent),actualSummary:summary(actualContent),originBeforeSummaryDigest:D('region-summary',summary(before)),originAfterSummaryDigest:D('region-summary',summary(after)),postWriteLighting:origin.result.postWriteLighting,lighting:origin.result.lighting};
+const response={contractVersion:request.contractVersion,requestId:request.requestId,result:{scope,outcome,preUndoContent,actualContent,preRestoreContent:preUndoContent},error:null,guardRefusal:null,applyFailure:null,undoFailure:null};
+a.validateScopedRegionUndo(request,response,origin);
+await writeFile('spec/local-world/fixtures/scoped-region-undo.json',JSON.stringify({evidence:'FIXTURE_ONLY: not a real world, source CAS or host receipt',origin,request,response},null,2)+'\n');

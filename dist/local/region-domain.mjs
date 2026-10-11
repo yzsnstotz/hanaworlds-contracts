@@ -115,11 +115,12 @@ export function validateRegionDomain(name, v) {
       shape(v.status === 'ROLLED_BACK' && e.phase !== 'restore' && ['NONE', 'PARTIAL', 'UNKNOWN'].includes(e.mutationState) &&
         (e.transactionRef === null || e.transactionRef === v.transactionId));
     }
-  } else if (name === 'UndoRegionCommitRequest') { world(v); shape(v.originTransactionId !== v.undoTransactionId); }
-  else if (name === 'RegionUndoResult') {
+  } else if (name === 'UndoRegionCommitRequest' || name === 'UndoScopedRegionCommitRequest') { world(v); shape(v.originTransactionId !== v.undoTransactionId); }
+  else if (name === 'RegionUndoResult' || name === 'ScopedRegionUndoOutcome') {
     world(v); summaryCoherent(v.worldRef, v.preUndoSummary, v.actualSummary); lightingDeclared(v);
     shape(v.originTransactionId !== v.undoTransactionId);
     if (v.status === 'VERIFIED') shape(lit(v));
-    else shape(same(v.actualSummary, v.preUndoSummary));
+    else if (name === 'RegionUndoResult') shape(same(v.actualSummary, v.preUndoSummary));
   }
+  if (name === 'UndoScopedRegionCommitResponse' && v.result) shape((v.result.outcome.status === 'VERIFIED') === (v.undoFailure === null));
 }

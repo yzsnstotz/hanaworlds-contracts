@@ -1,0 +1,11 @@
+# Confirmed scope undo (D-21=A)
+
+C-canvas adds `canvas-region/v3 UndoScopedRegionCommit` at minor 2 and `canvas-region/v3:confirmed-scope-undo`. Existing UndoRegionCommit and validateRegionUndo retain full-block equality. No region Redo is published.
+
+The provider retains RegionUndoOriginEvidence: the submitted successful origin request/result and actual before/verified-after RegionSnapshotContent. `deriveConfirmedRegionUndoScope` validates all operation/content/state/summary digests and derives positions exclusively from non-UNSPECIFIED origin operations. The scope binds session, world, original localContext and transaction, operation digest and both content digests. Missing snapshots or request scope digest cannot authorize a write. `validateScopedRegionUndoRequest` rejects changed source, world, history revision, incarnation, selection or forged digest before reservation.
+
+`composeScopedRegionUndoTarget` checks actual current confirmed cells against verified after, including declared StateProfile and neutral material/orientation/opaque state. It combines confirmed before with actual current outside. The source still reads whole original chunk boxes; preUndoSummary and actualSummary truthfully include outside edits. The consumer uses `validateScopedRegionUndo` with its trusted original evidence, not response-supplied origin facts. Receipt evidence includes complete preUndoContent, preRestoreContent and actualContent. VERIFIED restores confirmed before and preserves outside preUndo. A ROLLED_BACK attempt restores its confirmed preUndo cells while preserving its actual preRestore outside.
+
+Provider writes remain guarded source ReadRegion/WriteRegion with expectedCurrentDigest CAS, source partition/profile and declared lighting. A source refusal and mutationState are retained in error/undoFailure; partial or unknown outcomes stay recovery pending when safe rollback cannot be proved. Recovery only writes original specified cells: it refuses any in-scope value not proved to be the same attempt's prior or target, with RECOVERY_PENDING rather than attributing an external writer. No retry or unconditional restore.
+
+The exported mock and public fixture are FIXTURE_ONLY. They cannot establish native source CAS, actual world writes, real host UI or I-K3-REGION-01 acceptance.

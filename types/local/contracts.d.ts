@@ -586,6 +586,12 @@ export type ReadPluginRolesResponse = { readonly "contractVersion": "world-inspe
 export type ReadPlacementSettingsRequest = { readonly "contractVersion": "canvas/v7"; readonly "sessionRef": Ref; readonly "requestId": Ref; readonly "worldRef": Ref; readonly "localContext": LocalWorldContext | null };
 export type PlacementSettingsReadback = { readonly "sessionRef": Ref; readonly "worldRef": Ref; readonly "localContext": LocalWorldContext; readonly "placementSettings": PlacementSettings };
 export type ReadPlacementSettingsResponse = { readonly "contractVersion": "canvas/v7"; readonly "requestId": Ref; readonly "result": PlacementSettingsReadback | null; readonly "error": Error | null };
+export type RegionUndoOriginEvidence = { readonly "request": ApplyRegionCommitRequest; readonly "result": RegionCommitResult; readonly "before": RegionSnapshotContent; readonly "after": RegionSnapshotContent };
+export type ConfirmedRegionUndoScope = { readonly "profileVersion": "confirmed-region-undo-scope/v1"; readonly "originTransactionId": Ref; readonly "sessionRef": Ref; readonly "worldRef": Ref; readonly "localContext": LocalWorldContext; readonly "operationDigest": Digest; readonly "beforeContentDigest": Digest; readonly "afterContentDigest": Digest; readonly "positions": Positions };
+export type UndoScopedRegionCommitRequest = { readonly "contractVersion": "canvas-region/v3"; readonly "sessionRef": Ref; readonly "requestId": Ref; readonly "worldRef": Ref; readonly "originTransactionId": Ref; readonly "undoTransactionId": Ref; readonly "expectedHistoryRevision": Revision; readonly "localContext": LocalWorldContext; readonly "expectedScopeDigest": Digest };
+export type ScopedRegionUndoResult = { readonly "outcome": ScopedRegionUndoOutcome; readonly "scope": ConfirmedRegionUndoScope; readonly "preUndoContent": RegionSnapshotContent; readonly "actualContent": RegionSnapshotContent; readonly "preRestoreContent": RegionSnapshotContent };
+export type UndoScopedRegionCommitResponse = { readonly "contractVersion": "canvas-region/v3"; readonly "requestId": Ref; readonly "result": ScopedRegionUndoResult | null; readonly "error": Error | null; readonly "guardRefusal": GuardRefusal | null; readonly "applyFailure": FailureDetail | null; readonly "undoFailure": FailureDetail | null };
+export type ScopedRegionUndoOutcome = { readonly "originTransactionId": Ref; readonly "undoTransactionId": Ref; readonly "worldRef": Ref; readonly "status": RegionCommitStatus; readonly "originBeforeSummaryDigest": Digest; readonly "originAfterSummaryDigest": Digest; readonly "preUndoSummary": RegionSummary; readonly "actualSummary": RegionSummary; readonly "historyRevision": Revision; readonly "postWriteLighting": PostWriteLighting; readonly "lighting": RegionLighting | null; readonly "localContext": LocalWorldContext };
 export interface TypeMap {
 AbortPreparedHistoryTransactionRequest: AbortPreparedHistoryTransactionRequest;
 AbortPreparedHistoryTransactionResponse: AbortPreparedHistoryTransactionResponse;
@@ -1174,6 +1180,12 @@ ReadPluginRolesResponse: ReadPluginRolesResponse;
 ReadPlacementSettingsRequest: ReadPlacementSettingsRequest;
 PlacementSettingsReadback: PlacementSettingsReadback;
 ReadPlacementSettingsResponse: ReadPlacementSettingsResponse;
+RegionUndoOriginEvidence: RegionUndoOriginEvidence;
+ConfirmedRegionUndoScope: ConfirmedRegionUndoScope;
+UndoScopedRegionCommitRequest: UndoScopedRegionCommitRequest;
+ScopedRegionUndoResult: ScopedRegionUndoResult;
+UndoScopedRegionCommitResponse: UndoScopedRegionCommitResponse;
+ScopedRegionUndoOutcome: ScopedRegionUndoOutcome;
 }
 export type TypeName=keyof TypeMap;
 export interface OperationMap {
@@ -1276,6 +1288,7 @@ export interface OperationMap {
 "canvas-region/v3": {
 "ApplyRegionCommit": {request:ApplyRegionCommitRequest;response:ApplyRegionCommitResponse};
 "UndoRegionCommit": {request:UndoRegionCommitRequest;response:UndoRegionCommitResponse};
+"UndoScopedRegionCommit": {request:UndoScopedRegionCommitRequest;response:UndoScopedRegionCommitResponse};
 };
 "world-facts/v1": {
 "ReadCatalogue": {request:ReadCatalogueRequest;response:ReadCatalogueResponse};
@@ -1343,5 +1356,6 @@ export interface ProjectionMap {
 "region-snapshot-content": RegionSnapshotContent;
 "config-engine-facts": ConfigEngineFactsProjection;
 "placement-proposal": PlacementProposal;
+"confirmed-region-undo-scope": ConfirmedRegionUndoScope;
 }
 

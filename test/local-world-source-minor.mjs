@@ -99,6 +99,9 @@ test('every old schema, operation, digest rule and fixture stays unchanged',asyn
  assert.equal(sha(definitions),baseline.definitionsDigest);
  const operations=Object.fromEntries(Object.entries(baseline.operationNames).map(([w,names])=>[w,names.map(n=>a.operationContracts[w].find(o=>o.operation===n))]));
  assert.equal(sha(operations),baseline.operationsDigest);
- assert.equal(sha(a.digestProfile),baseline.digestProfileDigest);
+ const digest=structuredClone(a.digestProfile);
+ assert.equal(digest.projectionTypes['confirmed-region-undo-scope'],'ConfirmedRegionUndoScope');
+ delete digest.projectionTypes['confirmed-region-undo-scope'];
+ assert.equal(sha(digest),baseline.digestProfileDigest);
  for(const [file,hash] of Object.entries(baseline.fixtures))assert.equal(sha(JSON.parse(await readFile(new URL('../fixtures/local/'+file,import.meta.url),'utf8'))),hash,file);
 });

@@ -359,3 +359,5 @@ KNOWN describes texture provenance only. It never fills unknown static capabilit
 Validation returns frozen JSON/records and owned copies of the byte arrays. Typed array elements remain mutable: decode those copies or revalidate after editing them; do not treat the returned wrapper as immutable pixel storage. JSON serialization is only for the snapshot, never the byte envelope.
 
 Run `npm run test:materials`, `npm run typecheck:materials`, and `npm run verify:source` after build. `tools/gate-material-sources.sh FULL_SOURCE_SHA ABSOLUTE_EVIDENCE_DIR` verifies a clean archived source, deterministic generation, an actual tarball and an independently installed typed consumer. This is SOURCE/FIXTURE evidence; actual Adapter/Luanti and product UI gates belong to their writers.
+
+C-canvas additive scoped undo: [D-21=A public operation and evidence](docs/scoped-region-undo.md). Legacy full-region undo remains unchanged.

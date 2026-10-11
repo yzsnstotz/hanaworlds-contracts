@@ -141,8 +141,12 @@ test('2.5.0 definitions, operations, digests, ownership and old tool branches ar
  assert.deepEqual(operations['world-inspection/v1'].pop(),{operation:'ReadPluginRoles',request:'ReadPluginRolesRequest',response:'ReadPluginRolesResponse'});
  // 2.10.0 adds only this C-canvas read.
  assert.deepEqual(operations['canvas/v7'].pop(),{operation:'ReadPlacementSettings',request:'ReadPlacementSettingsRequest',response:'ReadPlacementSettingsResponse'});
+ assert.deepEqual(operations['canvas-region/v3'].pop(),{operation:'UndoScopedRegionCommit',request:'UndoScopedRegionCommitRequest',response:'UndoScopedRegionCommitResponse'});
  assert.equal(sha(operations),b.operationsDigest);
- assert.equal(sha(a.digestProfile),b.digestDigest);
+ const digest=structuredClone(a.digestProfile);
+ assert.equal(digest.projectionTypes['confirmed-region-undo-scope'],'ConfirmedRegionUndoScope');
+ delete digest.projectionTypes['confirmed-region-undo-scope'];
+ assert.equal(sha(digest),b.digestDigest);
  assert.equal(sha(a.ownership),b.ownershipDigest);
  const tools=structuredClone(a.toolManifest.tools),t=tools.find(t=>t.name==='hanaworlds_build');
  assert.equal(t.actions.pop().action,'build');assert.equal(t.hostInjectedFields.pop(),'intentAuthorization');

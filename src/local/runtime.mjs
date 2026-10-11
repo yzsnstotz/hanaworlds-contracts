@@ -4,6 +4,7 @@ import { contractMetadata, schemaBundle } from './generated/contracts.mjs';
 import {validateLifecycleDomain, validateLifecycleBinding} from './world-lifecycle.mjs';
 import {validateToolDomain, validateToolBinding} from './skill-tools.mjs';
 import {validatePluginRolesBinding} from './plugin-roles-binding.mjs';
+import {validateScopedRegionUndoBinding} from './scoped-region-undo.mjs';
 import {validatePlacementSettingsBinding} from './placement-settings.mjs';
 import { snapshotJSON, deepFreeze, decodeRawJSON } from '../strict-json.mjs';
 import { validateShape } from './schema-validator.mjs';
@@ -410,6 +411,7 @@ export function validateBoundResponse(wire,name,requestInput,responseInput) {
  validateToolBinding(wire,name,request,response);
  validatePluginRolesBinding(wire,name,request,response);
  validatePlacementSettingsBinding(wire,name,request,response);
+ validateScopedRegionUndoBinding(wire,name,request,response);
  // 2.7.0: an error naming its target world must name every world the request selected.
  if(response.error?.worldRef!==undefined)for(const selected of requestWorldSelectors(request))current(response.error.worldRef===selected);
  const history=historicalReceiptBinding(wire,name,request,response);

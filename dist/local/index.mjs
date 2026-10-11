@@ -16,3 +16,4 @@ export {worldErrorContext,targetWorldRef,worldUnavailableError,createWorldErrorM
 export {historicalReceipt,historicalReceiptResponse,readHistoricalReceipt,createHistoricalReceiptMock} from './history-receipt.mjs';
 export {pluginRoles,derivePluginRoles,pluginRolesResponse,pluginRolesUnavailable,createPluginRolesMock} from './plugin-roles.mjs';
 export {sessionReadGuard,createUnavailableSessionReadGuardFixture} from './session-read-guard.mjs';
+export * from './scoped-region-undo.mjs';

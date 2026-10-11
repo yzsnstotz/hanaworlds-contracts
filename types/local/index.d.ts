@@ -312,3 +312,12 @@ export interface SessionReadGuardProvider {
 }
 export declare const sessionReadGuard:Readonly<{protocol:'session-read-guard/v1';contract:'C-session';introducedIn:'2.11.0';service:'hanaworldsWorkshop';capture:'captureSessionReadGuard';check:'isSessionReadGuardCurrent';boundary:string;validity:string;transport:string;unavailable:'CAPABILITY_UNAVAILABLE';fixture:string}>;
 export declare function createUnavailableSessionReadGuardFixture(missing:readonly string[]):SessionReadGuardProvider;
+
+export declare const scopedRegionUndo: Readonly<{wire:'canvas-region/v3';operation:'UndoScopedRegionCommit';minMinor:2;capability:string;scopeProfile:'confirmed-region-undo-scope/v1';redo:false;errors:Readonly<Record<string,string>>}>;
+export declare function deriveConfirmedRegionUndoScope(origin:C['RegionUndoOriginEvidence']):C['ConfirmedRegionUndoScope'];
+export declare function validateScopedRegionUndoRequest(request:unknown,origin:unknown):C['UndoScopedRegionCommitRequest'];
+export declare function composeScopedRegionUndoTarget(origin:unknown,current:unknown):C['RegionSnapshotContent'];
+export declare function validateScopedRegionUndo(request:unknown,response:unknown,origin:unknown):C['UndoScopedRegionCommitResponse'];
+export declare function createScopedRegionUndoMock(fixture:{origin:C['RegionUndoOriginEvidence'];response:C['UndoScopedRegionCommitResponse']}):Readonly<{evidence:'FIXTURE_ONLY';call(operation:string,request:unknown):Promise<C['UndoScopedRegionCommitResponse']>}>;
+export declare function composeScopedRegionUndoRecoveryTarget(origin:unknown,preUndo:unknown,current:unknown):C['RegionSnapshotContent'];
+export declare function validateScopedRegionUndoBinding(wire:string,operation:string,request:C['UndoScopedRegionCommitRequest'],response:C['UndoScopedRegionCommitResponse']):void;
