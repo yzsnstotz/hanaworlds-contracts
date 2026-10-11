@@ -135,6 +135,9 @@ test('2.5.0 definitions, operations, digests, ownership and old tool branches ar
  // 2.8.0 appends the optional QueryTransactionResponse historical pair.
  assert.deepEqual([d.QueryTransactionResponse.properties.currentLocalContext,d.QueryTransactionResponse.properties.receiptDigest],[{$ref:'#/definitions/LocalWorldContext'},{$ref:'#/definitions/Digest'}]);
  delete d.QueryTransactionResponse.properties.currentLocalContext;delete d.QueryTransactionResponse.properties.receiptDigest;
+ assert.deepEqual(d.LocalWorldsSourceDescription.properties.sourceStartupFacts,{$ref:'#/definitions/OpaqueValue'});
+ assert.ok(!d.LocalWorldsSourceDescription.required.includes('sourceStartupFacts'));
+ delete d.LocalWorldsSourceDescription.properties.sourceStartupFacts;
  assert.equal(sha(d),b.definitionsDigest);
  // 2.9.0 appends world-inspection/v1 ReadPluginRoles; project it out of the frozen 2.5.0 operations.
  const operations=structuredClone(a.operationContracts);

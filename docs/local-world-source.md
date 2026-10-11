@@ -70,3 +70,29 @@ Validation: `npm test`, `npm run typecheck:world-lifecycle`,
 `npm run typecheck:local-world-source`, `npm run test:major-compat`,
 `npm run test:conformance`, `npm run verify:source`. Evidence is SOURCE/PACK/FIXTURE;
 actual Adapter/local-runtime source reads and product acceptance belong to peers.
+
+## Optional source startup facts · 2.13.0
+
+`LocalWorldsSourceDescription.sourceStartupFacts?: OpaqueValue` is a second, optional
+world-source-owned JSON observation. It does not change `sourceLocator`, previous
+operations, requests, creationFacts, or digests. Old provider shapes and consumers
+that do not need startup facts remain valid with this SDK. A consumer that needs
+these facts must pin at least v2.13.0 and refuse their absence explicitly; an older
+closed-schema SDK must be upgraded before consuming the new field.
+
+Only the paired adapter/local-runtime world source interprets the value. Hosts,
+clients and other plugins must neither extract engine fields nor forward this
+observation as product input or lifecycle authority. The source supplies facts from
+its current, verified payload; request JSON cannot supply mod identities or broaden
+permissions. The paired runtime rechecks world/directory/payload identity before
+each native launch. Missing, forged or stale facts are not authorization. The
+opaque observation is allowed to describe an unavailable prerequisite; that is not
+a successful launch. `fixtures/source-startup` demonstrates renamed and
+heterogeneous source shapes with no common engine fields.
+
+Identity semantics remain unchanged: `Frame.frameId` and `providerRef` are opaque
+identities, even when their strings contain an engine name. `MaterialSpec.extension`
+is opaque: baseline extensions such as `param2Type` and `collisionBoxes` retain their
+source meaning and are not interpreted by non-world-source consumers. Visible grid
+units and geometry values use the existing neutral schema. No lexical renaming of
+opaque identity/extension data is a neutrality proof.

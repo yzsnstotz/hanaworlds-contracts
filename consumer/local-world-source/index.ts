@@ -31,3 +31,9 @@ const host:import('hanaworlds-contracts').WorldLifecycleCreated={worldId:'w',wor
 const mock=createLocalWorldSourceMock({exchanges:[]});
 const mocked:LocalWorldsDescribeSourceResponse=mock(request);
 void [read,host,mocked];
+
+const withStartup:LocalWorldsSourceDescription={...result,sourceStartupFacts:{worldSourceOwned:true}};
+const opaqueStartup:unknown=withStartup.sourceStartupFacts;
+// @ts-expect-error Non-world-source clients cannot interpret engine authorization fields.
+withStartup.sourceStartupFacts.httpMods;
+void opaqueStartup;

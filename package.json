@@ -1,6 +1,6 @@
 {
   "name": "hanaworlds-contracts",
-  "version": "2.12.0",
+  "version": "2.13.0",
   "description": "Pure current-local-world contracts. Fresh state only; strict decoding, business correlation, Canvas transactions and same-transaction history.",
   "type": "module",
   "private": true,
@@ -43,7 +43,8 @@
     "docs/plugin-roles.md",
     "docs/placement-settings.md",
     "docs/session-read-guard.md",
-    "docs/scoped-region-undo.md"
+    "docs/scoped-region-undo.md",
+    "fixtures/local/source-startup.json"
   ],
   "scripts": {
     "build": "node tools/build-local.mjs",

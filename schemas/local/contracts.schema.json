@@ -1,6 +1,6 @@
 {
   "$schema": "http://json-schema.org/draft-07/schema#",
-  "$id": "https://hanaworlds.invalid/contracts/2.12.0/schema.json",
+  "$id": "https://hanaworlds.invalid/contracts/2.13.0/schema.json",
   "x-contractsCompatibility": {
     "package": "hanaworlds-contracts",
     "major": 2,
@@ -17060,6 +17060,9 @@
           "$ref": "#/definitions/Ref"
         },
         "sourceLocator": {
+          "$ref": "#/definitions/OpaqueValue"
+        },
+        "sourceStartupFacts": {
           "$ref": "#/definitions/OpaqueValue"
         }
       },

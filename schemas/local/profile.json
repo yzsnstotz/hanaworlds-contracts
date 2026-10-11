@@ -1,5 +1,5 @@
 {
-  "version": "2.12.0",
+  "version": "2.13.0",
   "wireVersions": [
     "interaction-surface/v5",
     "session/v5",
@@ -17921,6 +17921,9 @@
         },
         "sourceLocator": {
           "$ref": "#/definitions/OpaqueValue"
+        },
+        "sourceStartupFacts": {
+          "$ref": "#/definitions/OpaqueValue"
         }
       },
       "required": [
@@ -18831,7 +18834,7 @@
     "world-inspection": 1,
     "world-lifecycle": 0,
     "engine-runtime": 0,
-    "local-worlds": 0,
+    "local-worlds": 1,
     "painter": 1,
     "skill": 1
   },
@@ -19618,7 +19621,8 @@
     "opaqueFields": [
       "creationFacts",
       "engineProfile",
-      "sourceLocator"
+      "sourceLocator",
+      "sourceStartupFacts"
     ],
     "rules": [
       "creationFacts and engineProfile are strict JSON owned by the world source. Carry unchanged; hosts never interpret them.",
@@ -19630,13 +19634,14 @@
       "UNKNOWN runtime status asserts no running or stopped fact. STOPPED and ENTERED are provider observations, never inferred from timers.",
       "Contracts validate pure data only; fixture mocks have no process, filesystem, connection or world side effects.",
       "describeSourceWorld is a read-only optional LocalWorldsPort capability. Success binds exactly to the requested worldRef, never displayName; missing worlds return WORLD_NOT_FOUND, unavailable source returns ADAPTER_UNAVAILABLE, identity or reference inconsistencies return CURRENT_WORLD_MISMATCH. A consumer with no method explicitly reports CAPABILITY_UNAVAILABLE.",
-      "sourceLocator is strict opaque JSON describing the locator at read time. Only the paired adapter/local-runtime world source interprets it. It grants no startup, write or delete authority, supplies no persistent identity or freshness proof, and must not enter any C-world-lifecycle host field. creationFacts retains its original meaning and shape."
+      "sourceLocator is strict opaque JSON describing the locator at read time. Only the paired adapter/local-runtime world source interprets it. It grants no startup, write or delete authority, supplies no persistent identity or freshness proof, and must not enter any C-world-lifecycle host field. creationFacts retains its original meaning and shape.",
+      "sourceStartupFacts is optional strict opaque JSON supplied by the paired world source from its current verified payload. Only that source interprets it; callers cannot self-report engine permissions, and missing/stale observations never imply startup authority."
     ]
   },
   "toolManifest": {
     "profileVersion": "skill-tools/v1",
     "package": "hanaworlds-contracts",
-    "version": "2.12.0",
+    "version": "2.13.0",
     "schemaExport": "hanaworlds-contracts/schema",
     "tools": [
       {

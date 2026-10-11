@@ -105,3 +105,16 @@ test('every old schema, operation, digest rule and fixture stays unchanged',asyn
  assert.equal(sha(digest),baseline.digestProfileDigest);
  for(const [file,hash] of Object.entries(baseline.fixtures))assert.equal(sha(JSON.parse(await readFile(new URL('../fixtures/local/'+file,import.meta.url),'utf8'))),hash,file);
 });
+
+test('opaque source startup facts are optional for old providers and survive renamed/heterogeneous sources',async()=>{
+ const old=await a.describeSourceWorld({describeSourceWorld:async()=>response},request);
+ assert.equal(Object.hasOwn(old.result,'sourceStartupFacts'),false);
+ const startup=JSON.parse(await readFile(new URL(import.meta.resolve('hanaworlds-contracts/fixtures/source-startup')),'utf8'));
+ for(const x of startup.exchanges){
+  a.validateBoundResponse(wire,operation,x.request,x.response);
+  const sourceStartupFacts=x.response.result.sourceStartupFacts;
+  const r=await a.describeSourceWorld({describeSourceWorld:async()=>({...response,result:{...response.result,sourceStartupFacts}})},request);
+  assert.equal(a.canonicalJSON(r.result.sourceStartupFacts),a.canonicalJSON(sourceStartupFacts));
+ }
+ reject(()=>a.validateResponse(wire,operation,{...response,result:{...response.result,sourceStartupFacts:{unsafe:()=>true}}}),'SCHEMA_INVALID');
+});

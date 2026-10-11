@@ -17101,6 +17101,9 @@
         },
         "sourceLocator": {
           "$ref": "#/definitions/OpaqueValue"
+        },
+        "sourceStartupFacts": {
+          "$ref": "#/definitions/OpaqueValue"
         }
       },
       "required": [

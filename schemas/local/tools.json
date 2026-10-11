@@ -1,7 +1,7 @@
 {
   "profileVersion": "skill-tools/v1",
   "package": "hanaworlds-contracts",
-  "version": "2.12.0",
+  "version": "2.13.0",
   "schemaExport": "hanaworlds-contracts/schema",
   "tools": [
     {
@@ -17345,6 +17345,9 @@
           "$ref": "#/definitions/Ref"
         },
         "sourceLocator": {
+          "$ref": "#/definitions/OpaqueValue"
+        },
+        "sourceStartupFacts": {
           "$ref": "#/definitions/OpaqueValue"
         }
       },
