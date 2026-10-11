@@ -568,6 +568,9 @@ export type BuildingSkillOutput = { readonly "kind": "clarification"; readonly "
 export type BuildingSkillRequest = { readonly "contractVersion": "skill/v1"; readonly "requestId": Ref; readonly "hostContext": ToolHostContext; readonly "turn": BuildingSkillTurn };
 export type BuildingSkillResponse = { readonly "contractVersion": "skill/v1"; readonly "requestId": Ref; readonly "result": BuildingSkillOutput | null; readonly "error": Error | null };
 export type BuildingSkillProposal = { readonly "kind": "per_cell"; readonly "value": BuildProposal } | { readonly "kind": "region"; readonly "value": RegionProposal };
+export type LocalWorldsSourceDescription = { readonly "worldRef": Ref; readonly "sourceLocator": OpaqueValue };
+export type LocalWorldsDescribeSourceRequest = { readonly "contractVersion": "local-worlds/v2"; readonly "requestId": Ref; readonly "worldRef": Ref };
+export type LocalWorldsDescribeSourceResponse = { readonly "contractVersion": "local-worlds/v2"; readonly "requestId": Ref; readonly "result": LocalWorldsSourceDescription | null; readonly "error": Error | null };
 export interface TypeMap {
 AbortPreparedHistoryTransactionRequest: AbortPreparedHistoryTransactionRequest;
 AbortPreparedHistoryTransactionResponse: AbortPreparedHistoryTransactionResponse;
@@ -1138,6 +1141,9 @@ BuildingSkillOutput: BuildingSkillOutput;
 BuildingSkillRequest: BuildingSkillRequest;
 BuildingSkillResponse: BuildingSkillResponse;
 BuildingSkillProposal: BuildingSkillProposal;
+LocalWorldsSourceDescription: LocalWorldsSourceDescription;
+LocalWorldsDescribeSourceRequest: LocalWorldsDescribeSourceRequest;
+LocalWorldsDescribeSourceResponse: LocalWorldsDescribeSourceResponse;
 }
 export type TypeName=keyof TypeMap;
 export interface OperationMap {
@@ -1269,6 +1275,7 @@ export interface OperationMap {
 "createWorld": {request:LocalWorldsCreateRequest;response:LocalWorldsCreateResponse};
 "pair": {request:LocalWorldsPairRequest;response:LocalWorldsPairResponse};
 "deleteWorld": {request:LocalWorldsDeleteRequest;response:LocalWorldsDeleteResponse};
+"describeSourceWorld": {request:LocalWorldsDescribeSourceRequest;response:LocalWorldsDescribeSourceResponse};
 };
 "skill/v1": {
 "hanaworlds-building": {request:BuildingSkillRequest;response:BuildingSkillResponse};

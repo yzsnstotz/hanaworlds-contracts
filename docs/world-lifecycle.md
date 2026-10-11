@@ -9,7 +9,10 @@ plugins depend on the Git release `git+https://github.com/yzsnstotz/hanaworlds-c
 | --- | --- | --- |
 | C-world-lifecycle / `world-lifecycle/v2` | local-runtime → desktop-bridge, shell-ui | describe, list, create, describeDelete, delete, launch, stop, play |
 | C-engine-runtime / `engine-runtime/v2` | local-runtime → adapter | StartWorldRuntime, StopWorldRuntime, ReadRuntimeStatus |
-| C-local-worlds / `local-worlds/v2` | adapter → local-runtime | discover, createWorld, pair, deleteWorld |
+| C-local-worlds / `local-worlds/v2` | adapter → local-runtime | discover, createWorld, pair, deleteWorld; optional describeSourceWorld in 2.5.0 |
+
+The optional read-only extension is specified in [local world source](local-world-source.md).
+It retains creationFacts and all existing operations and host fields unchanged.
 
 All requests contain `contractVersion`, `requestId` and their declared inputs.
 All responses contain `contractVersion`, the same `requestId`, and `result` XOR

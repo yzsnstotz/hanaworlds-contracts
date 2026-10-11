@@ -1,6 +1,6 @@
 {
   "$schema": "http://json-schema.org/draft-07/schema#",
-  "$id": "https://hanaworlds.invalid/contracts/2.4.0/schema.json",
+  "$id": "https://hanaworlds.invalid/contracts/2.5.0/schema.json",
   "x-contractsCompatibility": {
     "package": "hanaworlds-contracts",
     "major": 2,
@@ -17031,6 +17031,84 @@
         "region"
       ],
       "x-typeName": "BuildingSkillProposal"
+    },
+    "LocalWorldsSourceDescription": {
+      "x-typeName": "LocalWorldsSourceDescription",
+      "type": "object",
+      "properties": {
+        "worldRef": {
+          "$ref": "#/definitions/Ref"
+        },
+        "sourceLocator": {
+          "$ref": "#/definitions/OpaqueValue"
+        }
+      },
+      "required": [
+        "worldRef",
+        "sourceLocator"
+      ],
+      "additionalProperties": false,
+      "description": "Read-only current locator for the exact requested worldRef. Interpreted only inside the paired adapter/local-runtime world source; grants no launch/write/delete authority and never enters host C-world-lifecycle fields."
+    },
+    "LocalWorldsDescribeSourceRequest": {
+      "x-typeName": "LocalWorldsDescribeSourceRequest",
+      "type": "object",
+      "properties": {
+        "contractVersion": {
+          "const": "local-worlds/v2"
+        },
+        "requestId": {
+          "$ref": "#/definitions/Ref"
+        },
+        "worldRef": {
+          "$ref": "#/definitions/Ref"
+        }
+      },
+      "required": [
+        "contractVersion",
+        "requestId",
+        "worldRef"
+      ],
+      "additionalProperties": false
+    },
+    "LocalWorldsDescribeSourceResponse": {
+      "x-typeName": "LocalWorldsDescribeSourceResponse",
+      "type": "object",
+      "properties": {
+        "contractVersion": {
+          "const": "local-worlds/v2"
+        },
+        "requestId": {
+          "$ref": "#/definitions/Ref"
+        },
+        "result": {
+          "anyOf": [
+            {
+              "$ref": "#/definitions/LocalWorldsSourceDescription"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "error": {
+          "anyOf": [
+            {
+              "$ref": "#/definitions/Error"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        }
+      },
+      "required": [
+        "contractVersion",
+        "requestId",
+        "result",
+        "error"
+      ],
+      "additionalProperties": false
     }
   }
 }

@@ -1,0 +1,130 @@
+{
+  "evidence": "SOURCE/FIXTURE only; no real world, locator, runtime or UI",
+  "worlds": [
+    {
+      "worldRef": "source-world-a",
+      "displayName": "Same world"
+    },
+    {
+      "worldRef": "source-world-b",
+      "displayName": "Same world"
+    }
+  ],
+  "exchanges": [
+    {
+      "wire": "local-worlds/v2",
+      "operation": "describeSourceWorld",
+      "request": {
+        "contractVersion": "local-worlds/v2",
+        "requestId": "fixture-source-0",
+        "worldRef": "source-world-a"
+      },
+      "response": {
+        "contractVersion": "local-worlds/v2",
+        "requestId": "fixture-source-0",
+        "result": {
+          "worldRef": "source-world-a",
+          "sourceLocator": {
+            "sourceOwned": {
+              "fixtureLocator": "source-0",
+              "revision": "fixture-current"
+            }
+          }
+        },
+        "error": null
+      }
+    },
+    {
+      "wire": "local-worlds/v2",
+      "operation": "describeSourceWorld",
+      "request": {
+        "contractVersion": "local-worlds/v2",
+        "requestId": "fixture-source-1",
+        "worldRef": "source-world-b"
+      },
+      "response": {
+        "contractVersion": "local-worlds/v2",
+        "requestId": "fixture-source-1",
+        "result": {
+          "worldRef": "source-world-b",
+          "sourceLocator": {
+            "sourceOwned": {
+              "fixtureLocator": "source-1",
+              "revision": "fixture-current"
+            }
+          }
+        },
+        "error": null
+      }
+    },
+    {
+      "wire": "local-worlds/v2",
+      "operation": "describeSourceWorld",
+      "request": {
+        "contractVersion": "local-worlds/v2",
+        "requestId": "fixture-WORLD_NOT_FOUND",
+        "worldRef": "source-world-a"
+      },
+      "response": {
+        "contractVersion": "local-worlds/v2",
+        "requestId": "fixture-WORLD_NOT_FOUND",
+        "result": null,
+        "error": {
+          "code": "WORLD_NOT_FOUND",
+          "phase": "validate",
+          "retryability": "AFTER_NEW_FACTS",
+          "mutationState": "NONE",
+          "transactionRef": null,
+          "causeCode": null,
+          "reason": "REQUIRED_FACT_UNKNOWN"
+        }
+      }
+    },
+    {
+      "wire": "local-worlds/v2",
+      "operation": "describeSourceWorld",
+      "request": {
+        "contractVersion": "local-worlds/v2",
+        "requestId": "fixture-ADAPTER_UNAVAILABLE",
+        "worldRef": "source-world-a"
+      },
+      "response": {
+        "contractVersion": "local-worlds/v2",
+        "requestId": "fixture-ADAPTER_UNAVAILABLE",
+        "result": null,
+        "error": {
+          "code": "ADAPTER_UNAVAILABLE",
+          "phase": "validate",
+          "retryability": "AFTER_NEW_FACTS",
+          "mutationState": "NONE",
+          "transactionRef": null,
+          "causeCode": null,
+          "reason": "REQUIRED_FACT_UNKNOWN"
+        }
+      }
+    },
+    {
+      "wire": "local-worlds/v2",
+      "operation": "describeSourceWorld",
+      "request": {
+        "contractVersion": "local-worlds/v2",
+        "requestId": "fixture-CURRENT_WORLD_MISMATCH",
+        "worldRef": "source-world-a"
+      },
+      "response": {
+        "contractVersion": "local-worlds/v2",
+        "requestId": "fixture-CURRENT_WORLD_MISMATCH",
+        "result": null,
+        "error": {
+          "code": "CURRENT_WORLD_MISMATCH",
+          "phase": "validate",
+          "retryability": "AFTER_NEW_FACTS",
+          "mutationState": "NONE",
+          "transactionRef": null,
+          "causeCode": null,
+          "reason": "REVISION_CHANGED"
+        }
+      }
+    }
+  ]
+}

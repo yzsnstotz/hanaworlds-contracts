@@ -9,4 +9,5 @@ export {worldSourceFacts, validateCatalogueFacts, validateMaterialSourceFacts, v
 export {validatePlacementRegionRequest, validatePlacementRegionResponse} from './placement-region.mjs';
 export {worldLifecycle} from './world-lifecycle.mjs';
 export {createWorldLifecycleMock} from './world-lifecycle-mock.mjs';
+export {describeSourceWorld,createLocalWorldSourceMock} from './local-world-source.mjs';
 export {toolManifest,buildingSkill,validateToolRequest,validateToolResponse,createSkillToolsMock} from './skill-tools.mjs';

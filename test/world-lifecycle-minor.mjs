@@ -6,9 +6,9 @@ const clone=x=>structuredClone(x);
 const load=async()=>JSON.parse(await readFile(new URL('../fixtures/local/world-lifecycle.json',import.meta.url),'utf8'));
 const reject=(fn,code)=>assert.throws(fn,e=>e instanceof a.ContractError&&e.code===code);
 
-test('major-2 lifecycle metadata declares all 15 operations and ownership',()=>{
+test('major-2 lifecycle metadata retains all 15 original operations and ownership',()=>{
  assert.ok(a.worldLifecycle,'missing additive lifecycle declaration');
- assert.equal(a.worldLifecycle.operations.length,15);
+ assert.equal(a.worldLifecycle.operations.filter(o=>o.operation!=='describeSourceWorld').length,15);
  for(const id of ['C-world-lifecycle','C-engine-runtime','C-local-worlds'])assert.equal(a.worldLifecycle.contracts.find(c=>c.id===id).major,2);
  for(const c of a.worldLifecycle.contracts){assert.ok(a.wireVersions.includes(c.wire));assert.ok(a.operationContracts[c.wire]);}
 });
@@ -21,7 +21,7 @@ test('every published success/refusal strictly decodes and binds to its request'
   reject(()=>a.validateBoundResponse(x.wire,x.operation,x.request,bad),'TRANSACTION_CONFLICT');
  }
  assert.equal(f.exchanges.filter(x=>x.response.result!==null).length,15);
- for(const d of a.worldLifecycle.operations)for(const code of d.errors)assert.ok(f.exchanges.some(x=>x.wire===d.wire&&x.operation===d.operation&&x.response.error?.code===code),`${d.operation}:${code}`);
+ for(const d of a.worldLifecycle.operations.filter(o=>o.operation!=='describeSourceWorld'))for(const code of d.errors)assert.ok(f.exchanges.some(x=>x.wire===d.wire&&x.operation===d.operation&&x.response.error?.code===code),`${d.operation}:${code}`);
 });
 test('closed envelopes reject unknown fields, wrong versions and illegal result/error combinations',async()=>{
  const f=await load();for(const x of f.exchanges.filter(x=>x.response.result!==null)){

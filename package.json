@@ -1,6 +1,6 @@
 {
   "name": "hanaworlds-contracts",
-  "version": "2.4.0",
+  "version": "2.5.0",
   "description": "Pure current-local-world contracts. Fresh state only; strict decoding, business correlation, Canvas transactions and same-transaction history.",
   "type": "module",
   "private": true,
@@ -36,11 +36,12 @@
     "docs/world-source-facts.md",
     "docs/brush-placement.md",
     "docs/world-lifecycle.md",
-    "docs/skill-tools.md"
+    "docs/skill-tools.md",
+    "docs/local-world-source.md"
   ],
   "scripts": {
     "build": "node tools/build-local.mjs",
-    "test": "node test/local-world.mjs && node test/world-source-facts.mjs && node --test test/world-source-facts-bindings.mjs test/world-source-facts-mock.mjs && node --test test/brush-placement-minor.mjs && node --test test/world-lifecycle-minor.mjs && node --test test/skill-tools-minor.mjs",
+    "test": "node test/local-world.mjs && node test/world-source-facts.mjs && node --test test/world-source-facts-bindings.mjs test/world-source-facts-mock.mjs && node --test test/brush-placement-minor.mjs && node --test test/world-lifecycle-minor.mjs && node --test test/skill-tools-minor.mjs && node --test test/local-world-source-minor.mjs",
     "typecheck": "tsc --project consumer/local/tsconfig.json",
     "verify:source": "node tools/verify-local.mjs",
     "test:image": "node test/image-proposal.mjs",
@@ -77,7 +78,9 @@
     "test:world-lifecycle": "node --test test/world-lifecycle-minor.mjs",
     "typecheck:world-lifecycle": "tsc --project consumer/world-lifecycle/tsconfig.json",
     "test:skill-tools": "node --test test/skill-tools-minor.mjs",
-    "typecheck:skill-tools": "tsc --project consumer/skill-tools/tsconfig.json"
+    "typecheck:skill-tools": "tsc --project consumer/skill-tools/tsconfig.json",
+    "test:local-world-source": "node --test test/local-world-source-minor.mjs",
+    "typecheck:local-world-source": "tsc --project consumer/local-world-source/tsconfig.json"
   },
   "dependencies": {
     "canonicalize": "5.1.0"

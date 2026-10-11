@@ -256,8 +256,14 @@ export interface EngineRuntimePort {
  ReadRuntimeStatus(request:import('./contracts.js').EngineRuntimeReadStatusRequest):Promise<import('./contracts.js').EngineRuntimeReadStatusResponse>;
 }
 export interface LocalWorldsPort {
+ /** Optional read-only capability. Consumers report CAPABILITY_UNAVAILABLE when absent. */
+ describeSourceWorld?(request:import('./contracts.js').LocalWorldsDescribeSourceRequest):Promise<import('./contracts.js').LocalWorldsDescribeSourceResponse>;
  discover(request:import('./contracts.js').LocalWorldsDiscoverRequest):Promise<import('./contracts.js').LocalWorldsDiscoverResponse>;
  createWorld(request:import('./contracts.js').LocalWorldsCreateRequest):Promise<import('./contracts.js').LocalWorldsCreateResponse>;
  pair(request:import('./contracts.js').LocalWorldsPairRequest):Promise<import('./contracts.js').LocalWorldsPairResponse>;
  deleteWorld(request:import('./contracts.js').LocalWorldsDeleteRequest):Promise<import('./contracts.js').LocalWorldsDeleteResponse>;
 }
+/** Checks the optional capability and binds requestId/worldRef in the returned receipt. */
+export declare function describeSourceWorld(port:Pick<LocalWorldsPort,'describeSourceWorld'>,input:unknown):Promise<import('./contracts.js').LocalWorldsDescribeSourceResponse>;
+/** SOURCE/FIXTURE only; exact worldRef selection with declared refusals and no side effects. */
+export declare function createLocalWorldSourceMock(fixture:unknown,refusalCode?:'WORLD_NOT_FOUND'|'ADAPTER_UNAVAILABLE'|'CURRENT_WORLD_MISMATCH'|null):(input:unknown)=>import('./contracts.js').LocalWorldsDescribeSourceResponse;

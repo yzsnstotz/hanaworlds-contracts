@@ -1,5 +1,5 @@
 {
-  "version": "2.4.0",
+  "version": "2.5.0",
   "wireVersions": [
     "interaction-surface/v5",
     "session/v5",
@@ -537,6 +537,11 @@
         "operation": "deleteWorld",
         "request": "LocalWorldsDeleteRequest",
         "response": "LocalWorldsDeleteResponse"
+      },
+      {
+        "operation": "describeSourceWorld",
+        "request": "LocalWorldsDescribeSourceRequest",
+        "response": "LocalWorldsDescribeSourceResponse"
       }
     ],
     "skill/v1": [
@@ -17870,6 +17875,84 @@
         "region"
       ],
       "x-typeName": "BuildingSkillProposal"
+    },
+    "LocalWorldsSourceDescription": {
+      "x-typeName": "LocalWorldsSourceDescription",
+      "type": "object",
+      "properties": {
+        "worldRef": {
+          "$ref": "#/definitions/Ref"
+        },
+        "sourceLocator": {
+          "$ref": "#/definitions/OpaqueValue"
+        }
+      },
+      "required": [
+        "worldRef",
+        "sourceLocator"
+      ],
+      "additionalProperties": false,
+      "description": "Read-only current locator for the exact requested worldRef. Interpreted only inside the paired adapter/local-runtime world source; grants no launch/write/delete authority and never enters host C-world-lifecycle fields."
+    },
+    "LocalWorldsDescribeSourceRequest": {
+      "x-typeName": "LocalWorldsDescribeSourceRequest",
+      "type": "object",
+      "properties": {
+        "contractVersion": {
+          "const": "local-worlds/v2"
+        },
+        "requestId": {
+          "$ref": "#/definitions/Ref"
+        },
+        "worldRef": {
+          "$ref": "#/definitions/Ref"
+        }
+      },
+      "required": [
+        "contractVersion",
+        "requestId",
+        "worldRef"
+      ],
+      "additionalProperties": false
+    },
+    "LocalWorldsDescribeSourceResponse": {
+      "x-typeName": "LocalWorldsDescribeSourceResponse",
+      "type": "object",
+      "properties": {
+        "contractVersion": {
+          "const": "local-worlds/v2"
+        },
+        "requestId": {
+          "$ref": "#/definitions/Ref"
+        },
+        "result": {
+          "anyOf": [
+            {
+              "$ref": "#/definitions/LocalWorldsSourceDescription"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "error": {
+          "anyOf": [
+            {
+              "$ref": "#/definitions/Error"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        }
+      },
+      "required": [
+        "contractVersion",
+        "requestId",
+        "result",
+        "error"
+      ],
+      "additionalProperties": false
     }
   },
   "placementSettings": [
@@ -18762,11 +18845,23 @@
           "WORLD_NOT_FOUND",
           "TRANSACTION_CONFLICT"
         ]
+      },
+      {
+        "wire": "local-worlds/v2",
+        "operation": "describeSourceWorld",
+        "request": "LocalWorldsDescribeSourceRequest",
+        "response": "LocalWorldsDescribeSourceResponse",
+        "errors": [
+          "WORLD_NOT_FOUND",
+          "ADAPTER_UNAVAILABLE",
+          "CURRENT_WORLD_MISMATCH"
+        ]
       }
     ],
     "opaqueFields": [
       "creationFacts",
-      "engineProfile"
+      "engineProfile",
+      "sourceLocator"
     ],
     "rules": [
       "creationFacts and engineProfile are strict JSON owned by the world source. Carry unchanged; hosts never interpret them.",
@@ -18776,13 +18871,15 @@
       "launch/start/pair receipts refer to actual connection incarnations; providers must read back the real connection.",
       "play ENTERED is only returned after the graphical client actually entered the selected world; canPlay absence is a refusal.",
       "UNKNOWN runtime status asserts no running or stopped fact. STOPPED and ENTERED are provider observations, never inferred from timers.",
-      "Contracts validate pure data only; fixture mocks have no process, filesystem, connection or world side effects."
+      "Contracts validate pure data only; fixture mocks have no process, filesystem, connection or world side effects.",
+      "describeSourceWorld is a read-only optional LocalWorldsPort capability. Success binds exactly to the requested worldRef, never displayName; missing worlds return WORLD_NOT_FOUND, unavailable source returns ADAPTER_UNAVAILABLE, identity or reference inconsistencies return CURRENT_WORLD_MISMATCH. A consumer with no method explicitly reports CAPABILITY_UNAVAILABLE.",
+      "sourceLocator is strict opaque JSON describing the locator at read time. Only the paired adapter/local-runtime world source interprets it. It grants no startup, write or delete authority, supplies no persistent identity or freshness proof, and must not enter any C-world-lifecycle host field. creationFacts retains its original meaning and shape."
     ]
   },
   "toolManifest": {
     "profileVersion": "skill-tools/v1",
     "package": "hanaworlds-contracts",
-    "version": "2.4.0",
+    "version": "2.5.0",
     "schemaExport": "hanaworlds-contracts/schema",
     "tools": [
       {
