@@ -1,7 +1,7 @@
 {
   "profileVersion": "skill-tools/v1",
   "package": "hanaworlds-contracts",
-  "version": "2.9.0",
+  "version": "2.10.0",
   "schemaExport": "hanaworlds-contracts/schema",
   "tools": [
     {
@@ -17749,6 +17749,106 @@
         "error"
       ],
       "additionalProperties": false
+    },
+    "ReadPlacementSettingsRequest": {
+      "type": "object",
+      "properties": {
+        "contractVersion": {
+          "const": "canvas/v7"
+        },
+        "sessionRef": {
+          "$ref": "#/definitions/Ref"
+        },
+        "requestId": {
+          "$ref": "#/definitions/Ref"
+        },
+        "worldRef": {
+          "$ref": "#/definitions/Ref"
+        },
+        "localContext": {
+          "anyOf": [
+            {
+              "$ref": "#/definitions/LocalWorldContext"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        }
+      },
+      "required": [
+        "contractVersion",
+        "sessionRef",
+        "requestId",
+        "worldRef",
+        "localContext"
+      ],
+      "additionalProperties": false,
+      "x-typeName": "ReadPlacementSettingsRequest"
+    },
+    "PlacementSettingsReadback": {
+      "type": "object",
+      "properties": {
+        "sessionRef": {
+          "$ref": "#/definitions/Ref"
+        },
+        "worldRef": {
+          "$ref": "#/definitions/Ref"
+        },
+        "localContext": {
+          "$ref": "#/definitions/LocalWorldContext"
+        },
+        "placementSettings": {
+          "$ref": "#/definitions/PlacementSettings"
+        }
+      },
+      "required": [
+        "sessionRef",
+        "worldRef",
+        "localContext",
+        "placementSettings"
+      ],
+      "additionalProperties": false,
+      "x-typeName": "PlacementSettingsReadback"
+    },
+    "ReadPlacementSettingsResponse": {
+      "type": "object",
+      "properties": {
+        "contractVersion": {
+          "const": "canvas/v7"
+        },
+        "requestId": {
+          "$ref": "#/definitions/Ref"
+        },
+        "result": {
+          "anyOf": [
+            {
+              "$ref": "#/definitions/PlacementSettingsReadback"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "error": {
+          "anyOf": [
+            {
+              "$ref": "#/definitions/Error"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        }
+      },
+      "required": [
+        "contractVersion",
+        "requestId",
+        "result",
+        "error"
+      ],
+      "additionalProperties": false,
+      "x-typeName": "ReadPlacementSettingsResponse"
     }
   }
 }

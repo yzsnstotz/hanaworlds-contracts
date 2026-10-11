@@ -583,6 +583,9 @@ export type PluginRoleProviders = { readonly "shell-ui": ReadonlyArray<Ref>; rea
 export type PluginRoles = { readonly "status": PluginRolesStatus; readonly "providers": PluginRoleProviders; readonly "missingRoles": ReadonlyArray<PluginRole> };
 export type ReadPluginRolesRequest = { readonly "contractVersion": "world-inspection/v1"; readonly "requestId": Ref };
 export type ReadPluginRolesResponse = { readonly "contractVersion": "world-inspection/v1"; readonly "requestId": Ref; readonly "result": PluginRoles | null; readonly "error": Error | null };
+export type ReadPlacementSettingsRequest = { readonly "contractVersion": "canvas/v7"; readonly "sessionRef": Ref; readonly "requestId": Ref; readonly "worldRef": Ref; readonly "localContext": LocalWorldContext | null };
+export type PlacementSettingsReadback = { readonly "sessionRef": Ref; readonly "worldRef": Ref; readonly "localContext": LocalWorldContext; readonly "placementSettings": PlacementSettings };
+export type ReadPlacementSettingsResponse = { readonly "contractVersion": "canvas/v7"; readonly "requestId": Ref; readonly "result": PlacementSettingsReadback | null; readonly "error": Error | null };
 export interface TypeMap {
 AbortPreparedHistoryTransactionRequest: AbortPreparedHistoryTransactionRequest;
 AbortPreparedHistoryTransactionResponse: AbortPreparedHistoryTransactionResponse;
@@ -1168,6 +1171,9 @@ PluginRoleProviders: PluginRoleProviders;
 PluginRoles: PluginRoles;
 ReadPluginRolesRequest: ReadPluginRolesRequest;
 ReadPluginRolesResponse: ReadPluginRolesResponse;
+ReadPlacementSettingsRequest: ReadPlacementSettingsRequest;
+PlacementSettingsReadback: PlacementSettingsReadback;
+ReadPlacementSettingsResponse: ReadPlacementSettingsResponse;
 }
 export type TypeName=keyof TypeMap;
 export interface OperationMap {
@@ -1236,6 +1242,7 @@ export interface OperationMap {
 "ListWorldSelections": {request:ListWorldSelectionsRequest;response:WorldSelectionInventoryResponse};
 "ReserveWorldRetirement": {request:ReserveWorldRetirementRequest;response:WorldRetirementReservedReceipt};
 "ReleaseWorldRetirement": {request:ReleaseWorldRetirementRequest;response:WorldRetirementReleasedReceipt};
+"ReadPlacementSettings": {request:ReadPlacementSettingsRequest;response:ReadPlacementSettingsResponse};
 };
 "world-adapter/v8": {
 "DiscoverConnections": {request:DiscoverConnectionsRequest;response:DiscoverConnectionsResponse};

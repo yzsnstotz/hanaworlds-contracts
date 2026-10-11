@@ -1,5 +1,5 @@
 {
-  "version": "2.9.0",
+  "version": "2.10.0",
   "wireVersions": [
     "interaction-surface/v5",
     "session/v5",
@@ -302,6 +302,11 @@
         "operation": "ReleaseWorldRetirement",
         "request": "ReleaseWorldRetirementRequest",
         "response": "WorldRetirementReleasedReceipt"
+      },
+      {
+        "operation": "ReadPlacementSettings",
+        "request": "ReadPlacementSettingsRequest",
+        "response": "ReadPlacementSettingsResponse"
       }
     ],
     "world-adapter/v8": [
@@ -18313,6 +18318,106 @@
         "error"
       ],
       "additionalProperties": false
+    },
+    "ReadPlacementSettingsRequest": {
+      "type": "object",
+      "properties": {
+        "contractVersion": {
+          "const": "canvas/v7"
+        },
+        "sessionRef": {
+          "$ref": "#/definitions/Ref"
+        },
+        "requestId": {
+          "$ref": "#/definitions/Ref"
+        },
+        "worldRef": {
+          "$ref": "#/definitions/Ref"
+        },
+        "localContext": {
+          "anyOf": [
+            {
+              "$ref": "#/definitions/LocalWorldContext"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        }
+      },
+      "required": [
+        "contractVersion",
+        "sessionRef",
+        "requestId",
+        "worldRef",
+        "localContext"
+      ],
+      "additionalProperties": false,
+      "x-typeName": "ReadPlacementSettingsRequest"
+    },
+    "PlacementSettingsReadback": {
+      "type": "object",
+      "properties": {
+        "sessionRef": {
+          "$ref": "#/definitions/Ref"
+        },
+        "worldRef": {
+          "$ref": "#/definitions/Ref"
+        },
+        "localContext": {
+          "$ref": "#/definitions/LocalWorldContext"
+        },
+        "placementSettings": {
+          "$ref": "#/definitions/PlacementSettings"
+        }
+      },
+      "required": [
+        "sessionRef",
+        "worldRef",
+        "localContext",
+        "placementSettings"
+      ],
+      "additionalProperties": false,
+      "x-typeName": "PlacementSettingsReadback"
+    },
+    "ReadPlacementSettingsResponse": {
+      "type": "object",
+      "properties": {
+        "contractVersion": {
+          "const": "canvas/v7"
+        },
+        "requestId": {
+          "$ref": "#/definitions/Ref"
+        },
+        "result": {
+          "anyOf": [
+            {
+              "$ref": "#/definitions/PlacementSettingsReadback"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "error": {
+          "anyOf": [
+            {
+              "$ref": "#/definitions/Error"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        }
+      },
+      "required": [
+        "contractVersion",
+        "requestId",
+        "result",
+        "error"
+      ],
+      "additionalProperties": false,
+      "x-typeName": "ReadPlacementSettingsResponse"
     }
   },
   "placementSettings": [
@@ -18435,7 +18540,7 @@
     "canvas-region": 1,
     "world-adapter": 3,
     "session": 2,
-    "canvas": 1,
+    "canvas": 2,
     "world-facts": 0,
     "world-inspection": 1,
     "world-lifecycle": 0,
@@ -19240,7 +19345,7 @@
   "toolManifest": {
     "profileVersion": "skill-tools/v1",
     "package": "hanaworlds-contracts",
-    "version": "2.9.0",
+    "version": "2.10.0",
     "schemaExport": "hanaworlds-contracts/schema",
     "tools": [
       {
@@ -19755,5 +19860,45 @@
     "compatibility": "Same package major; world-inspection protocol minor 0 -> 1. New operation and new types only; every old type, operation and digest is unchanged. A consumer that needs ReadPluginRoles requires world-inspection minor 1.",
     "fixture": "hanaworlds-contracts/fixtures/plugin-roles",
     "mock": "createPluginRolesMock"
+  },
+  "placementSettingsRead": {
+    "introducedIn": "2.10.0",
+    "wire": "canvas/v7",
+    "minor": 2,
+    "operation": "ReadPlacementSettings",
+    "provider": "canvas",
+    "request": "ReadPlacementSettingsRequest",
+    "response": "ReadPlacementSettingsResponse",
+    "fixture": "hanaworlds-contracts/fixtures/placement-settings",
+    "errors": [
+      "SESSION_NOT_FOUND",
+      "WORLD_NOT_BOUND",
+      "CURRENT_WORLD_MISMATCH",
+      "STALE_REVISION",
+      "WORLD_NOT_FOUND",
+      "CONNECTION_NOT_FOUND",
+      "PAYLOAD_VERSION_MISMATCH",
+      "ADAPTER_UNAVAILABLE",
+      "CAPABILITY_UNAVAILABLE",
+      "READBACK_FAILED",
+      "SCHEMA_INVALID",
+      "UNSUPPORTED_VERSION",
+      "UNKNOWN_REQUIRED_FIELD",
+      "TRANSACTION_CONFLICT"
+    ],
+    "currentValues": "Only the bound world placementSettings, synchronized to the currently effective Canvas Config; descriptor defaults are display/documentation metadata, never current-value evidence. Missing/invalid/unsynchronized policy: CAPABILITY_UNAVAILABLE/validate/POLICY_UNAVAILABLE, no repair or hidden defaults.",
+    "scope": "Identity verified through the existing session port before and after the read; session revision, active world, full localContext, saved/live connection and settingsRevision must remain current. Null localContext only permits requesting an unbound error; never a successful read. No replay cache.",
+    "effects": {
+      "worldWrites": 0,
+      "inspections": 0,
+      "historyCreates": 0,
+      "persistentChanges": 0
+    },
+    "surface": {
+      "placementSettingDescriptors": "Existing export supplies name/owner/default/scope/meaning/consequence; show result.placementSettings as current. Config is plugin-wide and synchronized to bound worlds only by existing startup/selection behavior; save and reload to take effect.",
+      "placementInvariants": "Existing export; switchable=false, show read-only. Search distance zero never disables engine guards, body checks or recoverable transactions.",
+      "SafetyProfile": "Existing SafetyProfile and safetyProfileFromConfirmedIntent; only confirmed intent supplies site rules. No body size, no Canvas setting/default provider; this read does not construct or modify it.",
+      "AvatarEnvelope": "Existing AvatarEnvelope: world source declared body size, not connected-player measurements. Supplied via existing WriteProfile/WorldSourceCapabilities; unknown remains UNAVAILABLE. Canvas does not read or fabricate it here; other provider semantics are unchanged."
+    }
   }
 }
