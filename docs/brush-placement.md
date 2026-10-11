@@ -85,5 +85,10 @@ The older `fixtures/region` is retained unchanged as a compatibility oracle.
 Validation: `npm test`, `npm run typecheck:brush-placement`,
 `npm run verify:source`, and `tools/cross-version-brush-placement.mjs` with real
 old-tag checkouts. All evidence is SOURCE/FIXTURE/PACK: brush-01 and canvas-01
-must implement and validate against the formal `v2.2.0` tag separately. No real
+must implement and validate against the formal `v2.2.1` tag separately. No real
 world, GUI, provider acceptance or owner ACCEPTED is implied.
+
+2.2.1 corrects the seam test's fixed provider minor assertion and adds
+`npm run test:conformance` for the full six-suite chain. All protocol minors,
+schema definitions and digest rules remain exactly those of 2.2.0; the 2.2.0
+tag is retained unchanged.

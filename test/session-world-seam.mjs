@@ -15,8 +15,15 @@ test('exact candidate package; seam operations are appended minors of existing w
  assert.deepEqual(a.ownership[SD],{domainOwner:'Workshop',mutationCaller:'none'});
  assert.deepEqual(a.ownership[CS],{domainOwner:'Canvas',mutationCaller:'Canvas only'});
  assert.equal(a.sessionWorldSeam.id,'session-world-seam/v1');
- assert.ok(a.contractProtocols.some(p=>p.protocol==='session'&&p.major===5&&p.minor===0));
- assert.ok(a.contractProtocols.some(p=>p.protocol==='canvas'&&p.major===7&&p.minor===0));
+ // The seam needs minor 0; an additive later provider minor remains compatible.
+ // Check compatibility, rather than pinning the provider's current minor to the seam's minimum.
+ for(const [wire,protocol,major] of [[SD,'session',5],[CS,'canvas',7]]) {
+  const declared=a.contractProtocols.find(p=>p.protocol===protocol);assert.equal(declared.major,major);
+  const peer={profileVersion:'protocol-handshake/v1',component:'fixture-seam-peer',protocols:[declared],capabilities:[],
+   provenance:{packageName:'fixture-seam-peer',packageVersion:a.version,sourceRevision:null,artifactDigest:null}};
+  assert.equal(a.checkProtocolCompatibility(peer,[a.protocolRequirement(wire,[],0)]).result,'PROTOCOL_COMPATIBLE');
+  assert.throws(()=>a.checkProtocolCompatibility(peer,[a.protocolRequirement(wire,[],declared.minor+1)]),{code:'UNSUPPORTED_VERSION'});
+ }
  assert.equal(a.checkSchemaCompatibility(v053).major,a.contractsCompatibility.major);assert.equal(v053.version,a.version);
 });
 test('no Adapter-owned binding authority and no breaking Readiness value',()=>{

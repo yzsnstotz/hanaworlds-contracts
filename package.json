@@ -1,6 +1,6 @@
 {
   "name": "hanaworlds-contracts",
-  "version": "2.2.0",
+  "version": "2.2.1",
   "description": "Pure current-local-world contracts. Fresh state only; strict decoding, business correlation, Canvas transactions and same-transaction history.",
   "type": "module",
   "private": true,
@@ -68,7 +68,8 @@
     "typecheck:world-facts": "tsc --project consumer/world-source-facts/tsconfig.json",
     "test:brush-placement": "node --test test/brush-placement-minor.mjs",
     "typecheck:brush-placement": "tsc --project consumer/brush-placement/tsconfig.json",
-    "build:brush-placement-fixture": "node tools/build-brush-placement-fixture.mjs"
+    "build:brush-placement-fixture": "node tools/build-brush-placement-fixture.mjs",
+    "test:conformance": "npm test && npm run test:major-compat && npm run test:region && npm run test:seam && npm run test:placement && npm run test:rollback-cause"
   },
   "dependencies": {
     "canonicalize": "5.1.0"
