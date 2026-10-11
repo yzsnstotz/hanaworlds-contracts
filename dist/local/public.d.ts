@@ -107,7 +107,7 @@ export declare function regionBlockBox(block:C['RegionVoxelBlock']):C['Box'];
 export declare function chunkOf(position:C['Position'],partition:C['Partition']):C['ChunkPosition'];
 export declare function regionChunksOfBox(box:C['Box'],partition:C['Partition']):ReadonlyArray<{readonly chunkPos:C['ChunkPosition'];readonly box:C['Box']}>;
 /** Throws CAPABILITY_GAP (GEOMETRY_PROFILE_UNSUPPORTED) unless worldGeometry declares profile; null declares nothing. */
-export declare function requireGeometryProfile(worldGeometry:C['WorldGeometry']|null,profile:C['GeometryProfile']):C['WorldGeometry'];
+export declare function requireGeometryProfile(worldGeometry:C['WorldGeometry']|null,profile:C['Ref']):C['WorldGeometry'];
 export declare function expandRegionBlock(block:C['RegionVoxelBlock']):ExpandedRegionBlock;
 export declare function encodeRegionBlock(input:{origin:C['Position'];size:C['RegionSize'];palette:ReadonlyArray<C['MaterialSpec']>;indices:ArrayLike<number>}):C['RegionVoxelBlock'];
 export declare function validateRegionPalette(block:C['RegionVoxelBlock'],catalogue:C['Catalogue']):C['RegionVoxelBlock'];
@@ -206,3 +206,8 @@ export declare function requireWriteProfileConfig(profile:unknown):C['Compilatio
 /** The declared body size; CAPABILITY_UNAVAILABLE/validate/REQUIRED_FACT_UNKNOWN when none is declared. */
 export declare function requireDeclaredAvatarEnvelope(fact:C['WriteProfile']|C['WorldSourceCapabilities']):C['AvatarSize'];
 export declare function validateInspectionContextResponse(request:unknown,response:unknown):C['ReadInspectionContextResponse'];
+
+/** Neutral Canvas admission: explicit profile, supported shape and current ReadLocalConnection identity/geometry. */
+export declare function validatePlacementRegionRequest(request:unknown,connection:unknown):C['InspectPlacementRegionRequest'];
+/** Binds successful inspection to request profile and current world declaration; missing profile fails closed. */
+export declare function validatePlacementRegionResponse(request:unknown,response:unknown,connection:unknown):C['PlacementRegionInspection'];

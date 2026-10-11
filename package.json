@@ -1,6 +1,6 @@
 {
   "name": "hanaworlds-contracts",
-  "version": "2.1.0",
+  "version": "2.2.0",
   "description": "Pure current-local-world contracts. Fresh state only; strict decoding, business correlation, Canvas transactions and same-transaction history.",
   "type": "module",
   "private": true,
@@ -31,11 +31,12 @@
     "LICENSE",
     "NOTICE",
     "README.md",
-    "docs/world-source-facts.md"
+    "docs/world-source-facts.md",
+    "docs/brush-placement.md"
   ],
   "scripts": {
     "build": "node tools/build-local.mjs",
-    "test": "node test/local-world.mjs && node test/world-source-facts.mjs && node --test test/world-source-facts-bindings.mjs test/world-source-facts-mock.mjs",
+    "test": "node test/local-world.mjs && node test/world-source-facts.mjs && node --test test/world-source-facts-bindings.mjs test/world-source-facts-mock.mjs && node --test test/brush-placement-minor.mjs",
     "typecheck": "tsc --project consumer/local/tsconfig.json",
     "verify:source": "node tools/verify-local.mjs",
     "test:image": "node test/image-proposal.mjs",
@@ -64,7 +65,10 @@
     "test:g3": "node test/write-path-g3.mjs",
     "build:world-facts-fixture": "node tools/build-world-source-facts-fixture.mjs",
     "test:world-facts": "node test/world-source-facts.mjs && node --test test/world-source-facts-bindings.mjs test/world-source-facts-mock.mjs",
-    "typecheck:world-facts": "tsc --project consumer/world-source-facts/tsconfig.json"
+    "typecheck:world-facts": "tsc --project consumer/world-source-facts/tsconfig.json",
+    "test:brush-placement": "node --test test/brush-placement-minor.mjs",
+    "typecheck:brush-placement": "tsc --project consumer/brush-placement/tsconfig.json",
+    "build:brush-placement-fixture": "node tools/build-brush-placement-fixture.mjs"
   },
   "dependencies": {
     "canonicalize": "5.1.0"

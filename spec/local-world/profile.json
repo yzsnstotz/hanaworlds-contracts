@@ -1,5 +1,5 @@
 {
-  "version": "2.1.0",
+  "version": "2.2.0",
   "wireVersions": [
     "interaction-surface/v5",
     "session/v5",
@@ -6571,6 +6571,9 @@
         },
         "heightCells": {
           "$ref": "#/definitions/PositiveInt"
+        },
+        "geometryProfile": {
+          "$ref": "#/definitions/Ref"
         }
       },
       "required": [
@@ -11167,6 +11170,9 @@
         },
         "block": {
           "$ref": "#/definitions/RegionVoxelBlock"
+        },
+        "blockDigest": {
+          "$ref": "#/definitions/Digest"
         }
       },
       "required": [
@@ -15168,13 +15174,13 @@
   },
   "protocolMinors": {
     "region-voxels": 0,
-    "region-build": 0,
+    "region-build": 1,
     "painter-region": 0,
     "world-adapter-region": 0,
-    "canvas-region": 0,
-    "world-adapter": 1,
+    "canvas-region": 1,
+    "world-adapter": 2,
     "session": 0,
-    "canvas": 0,
+    "canvas": 1,
     "world-facts": 0,
     "world-inspection": 0
   },
@@ -15757,5 +15763,11 @@
     "avatarEnvelope": "The body envelope is a size the world source declares (D-17, WORLD-ABSTRACTION.md section 0.1 B6), not a measurement of a connected player: no position, yaw, posture or identity is representable (KnownAvatarEnvelope has only availability, basis and size). config-engine-facts/v2 is unchanged and keeps its fixed UNAVAILABLE record; SafetyProfile still carries no body size.",
     "writePath": "hasSideEffects/hasPersistentState are conclusions the world source derives from its own engine (C6). A Catalogue material whose placeable tag is true must have path and material conclusions both false; placeable false or null is always allowed.",
     "errors": "The errors listed per operation are the operation errors of that call; decoding (SCHEMA_INVALID, UNKNOWN_REQUIRED_FIELD, UNSUPPORTED_VERSION) and currency (CURRENT_WORLD_MISMATCH, CATALOGUE_MISMATCH) refusals apply to every call."
+  },
+  "brushPlacementMinor": {
+    "introducedIn": "2.2.0",
+    "blockDigest": "Optional blockDigest is digestValue('region-block', chunk.block).sha256 over the SDK canonical RegionVoxelBlock. CompileRegionBuild providers return it for every chunk; SDK verifies it whenever present. Absence preserves old 2.0.0 input and digest meaning.",
+    "geometryProfile": "Optional open geometry profile reference on the shared footprint used by canvas/v7 InspectPlacementRegion and world-adapter/v8 InspectRegion. Old inputs decode unchanged. Neutral Canvas admission requires it explicitly and checks the current ReadLocalConnection worldGeometry declaration. Missing: CAPABILITY_UNAVAILABLE/REQUIRED_FACT_UNKNOWN; unsupported: CAPABILITY_GAP/GEOMETRY_PROFILE_UNSUPPORTED. Dimensions remain integer grid dimensions; this minor defines no non-voxel success shape. Never add the field to an older closed Adapter wire.",
+    "evidence": "SOURCE/FIXTURE only; Brush and Canvas provider implementation belongs to brush-01 and canvas-01."
   }
 }

@@ -24,7 +24,7 @@ export function regionChunksOfBox(box, partition) { return deepFreeze(chunksOfBo
  * declaration (worldGeometry null) is a gap too: the profile is never assumed. */
 export function requireGeometryProfile(worldGeometryInput, profile) {
   const geometry = worldGeometryInput === null ? null : validateType('WorldGeometry', worldGeometryInput);
-  validateType('GeometryProfile', profile);
+  validateType('Ref', profile);
   requireFact(geometry !== null && geometry.geometryProfiles.includes(profile), 'CAPABILITY_GAP', 'GEOMETRY_PROFILE_UNSUPPORTED');
   return geometry;
 }

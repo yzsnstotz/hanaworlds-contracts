@@ -31,9 +31,9 @@ test('named operations exist on their wires with the baseline errors (C-world-fa
  for(const op of Object.keys(expected))assert.ok(ops.some(x=>x.endsWith(' '+op)),'example for '+op);
 });
 test('additive minor: protocol minors, ownership and the 2.0 handshake stay accepted',()=>{
- assert.equal(a.version,'2.1.0');assert.equal(a.contractsCompatibility.major,2);
+ assert.match(a.version,/^2\./);assert.equal(a.contractsCompatibility.major,2);
  const minor=p=>a.contractProtocols.find(x=>x.protocol===p);
- assert.deepEqual([minor('world-adapter').minor,minor('world-facts').major,minor('world-inspection').major],[1,1,1]);
+ assert.ok(minor('world-adapter').minor>=1);assert.deepEqual([minor('world-facts').major,minor('world-inspection').major],[1,1]);
  assert.deepEqual({...a.minorWires},{'world-facts/v1':'2.1.0','world-inspection/v1':'2.1.0'});
  for(const w of Object.keys(a.minorWires))assert.ok(a.contractHandshake.wireVersions.includes(w));
  // A 2.0.0 peer advertises neither added wire: still the same major, still accepted by default.

@@ -1,0 +1,759 @@
+{
+  "evidence": "SOURCE/FIXTURE: 2.2.0 per-block digests and explicit neutral Canvas geometry admission. No real provider or world ran.",
+  "region": {
+    "compileRequest": {
+      "contractVersion": "region-build/v2",
+      "sessionRef": "fixture-session",
+      "requestId": "compile-region-1",
+      "worldRef": "fixture-world",
+      "build": {
+        "contractVersion": "region-build/v2",
+        "documentId": "region-doc-1",
+        "coordinateSpace": "WORLD_NODE",
+        "worldRef": "fixture-world",
+        "catalogueDigest": "89dfb22e3b674be56a66bb066ca5ee51fb0c0571725b2970ab0478658357cc57",
+        "block": {
+          "profileVersion": "region-voxels/v2",
+          "geometryProfile": "voxel-grid/v1",
+          "origin": [
+            -2,
+            0,
+            -2
+          ],
+          "size": [
+            20,
+            2,
+            3
+          ],
+          "indexOrder": "X_FASTEST_THEN_Y_THEN_Z",
+          "palette": [
+            {
+              "materialRef": "air",
+              "orientation": 0
+            },
+            {
+              "materialRef": "fixture:dirt",
+              "orientation": 0
+            },
+            {
+              "materialRef": "fixture:stone",
+              "orientation": 0
+            }
+          ],
+          "runs": [
+            [
+              20,
+              2
+            ],
+            [
+              6,
+              1
+            ],
+            [
+              4,
+              0
+            ],
+            [
+              10,
+              1
+            ],
+            [
+              20,
+              2
+            ],
+            [
+              6,
+              1
+            ],
+            [
+              4,
+              0
+            ],
+            [
+              2,
+              1
+            ],
+            [
+              8,
+              null
+            ],
+            [
+              20,
+              2
+            ],
+            [
+              6,
+              1
+            ],
+            [
+              4,
+              0
+            ],
+            [
+              10,
+              1
+            ]
+          ]
+        },
+        "declaredBounds": {
+          "min": [
+            -2,
+            0,
+            -2
+          ],
+          "max": [
+            17,
+            1,
+            0
+          ]
+        }
+      },
+      "buildDigest": "be60b6d2819008253a44725d88c6758ae38d0ffa1f67c19ce39ddc69ed27e0f7",
+      "catalogue": {
+        "profileVersion": "catalogue/v3",
+        "engineRevisions": {
+          "fixture-game": "fixture-game-1",
+          "fixture-mod": "fixture-mod-1"
+        },
+        "emptyMaterialRef": "air",
+        "materials": {
+          "air": {
+            "passable": true,
+            "liquid": false,
+            "hazardPerSecond": 0,
+            "emitsLight": false,
+            "placeable": true,
+            "orientations": [
+              0
+            ],
+            "definitionRevision": "fixture-def-1",
+            "unknownFields": [],
+            "extension": {
+              "collisionBoxes": [],
+              "param2Type": "none"
+            }
+          },
+          "fixture:stone": {
+            "passable": false,
+            "liquid": false,
+            "hazardPerSecond": 0,
+            "emitsLight": false,
+            "placeable": true,
+            "orientations": [
+              0
+            ],
+            "definitionRevision": "fixture-def-1",
+            "unknownFields": [],
+            "extension": {
+              "collisionBoxes": [
+                [
+                  -0.5,
+                  -0.5,
+                  -0.5,
+                  0.5,
+                  0.5,
+                  0.5
+                ]
+              ],
+              "param2Type": "none"
+            }
+          },
+          "fixture:dirt": {
+            "passable": false,
+            "liquid": false,
+            "hazardPerSecond": 0,
+            "emitsLight": false,
+            "placeable": true,
+            "orientations": [
+              0
+            ],
+            "definitionRevision": "fixture-def-1",
+            "unknownFields": [],
+            "extension": {
+              "collisionBoxes": [
+                [
+                  -0.5,
+                  -0.5,
+                  -0.5,
+                  0.5,
+                  0.5,
+                  0.5
+                ]
+              ],
+              "param2Type": "none"
+            }
+          }
+        }
+      },
+      "catalogueDigest": "89dfb22e3b674be56a66bb066ca5ee51fb0c0571725b2970ab0478658357cc57",
+      "partition": {
+        "edge": [
+          16,
+          16,
+          16
+        ]
+      },
+      "compilerRevision": "fixture-brush-region-1",
+      "localContext": {
+        "connectionRef": "local-connection",
+        "connectionIncarnationRef": "socket-open-1",
+        "worldRef": "fixture-world",
+        "selectionRevision": "selection-1"
+      }
+    },
+    "compileResponse": {
+      "contractVersion": "region-build/v2",
+      "requestId": "compile-region-1",
+      "result": {
+        "projection": {
+          "contractVersion": "region-operations/v2",
+          "buildDigest": "be60b6d2819008253a44725d88c6758ae38d0ffa1f67c19ce39ddc69ed27e0f7",
+          "compilerRevision": "fixture-brush-region-1",
+          "worldRef": "fixture-world",
+          "catalogueDigest": "89dfb22e3b674be56a66bb066ca5ee51fb0c0571725b2970ab0478658357cc57",
+          "partition": {
+            "edge": [
+              16,
+              16,
+              16
+            ]
+          },
+          "chunks": [
+            {
+              "chunkPos": [
+                -1,
+                0,
+                -1
+              ],
+              "block": {
+                "profileVersion": "region-voxels/v2",
+                "geometryProfile": "voxel-grid/v1",
+                "origin": [
+                  -2,
+                  0,
+                  -2
+                ],
+                "size": [
+                  2,
+                  2,
+                  2
+                ],
+                "indexOrder": "X_FASTEST_THEN_Y_THEN_Z",
+                "palette": [
+                  {
+                    "materialRef": "fixture:dirt",
+                    "orientation": 0
+                  },
+                  {
+                    "materialRef": "fixture:stone",
+                    "orientation": 0
+                  }
+                ],
+                "runs": [
+                  [
+                    2,
+                    1
+                  ],
+                  [
+                    2,
+                    0
+                  ],
+                  [
+                    2,
+                    1
+                  ],
+                  [
+                    2,
+                    0
+                  ]
+                ]
+              },
+              "blockDigest": "6c681048bf20877f540faa184634ef8d74e90d1fa32a12d19ed643f741b3de45"
+            },
+            {
+              "chunkPos": [
+                -1,
+                0,
+                0
+              ],
+              "block": {
+                "profileVersion": "region-voxels/v2",
+                "geometryProfile": "voxel-grid/v1",
+                "origin": [
+                  -2,
+                  0,
+                  0
+                ],
+                "size": [
+                  2,
+                  2,
+                  1
+                ],
+                "indexOrder": "X_FASTEST_THEN_Y_THEN_Z",
+                "palette": [
+                  {
+                    "materialRef": "fixture:dirt",
+                    "orientation": 0
+                  },
+                  {
+                    "materialRef": "fixture:stone",
+                    "orientation": 0
+                  }
+                ],
+                "runs": [
+                  [
+                    2,
+                    1
+                  ],
+                  [
+                    2,
+                    0
+                  ]
+                ]
+              },
+              "blockDigest": "85e3ef314b6bf1e1e791853649128167caa38e14b6a40a2850c27c6fe1665dc7"
+            },
+            {
+              "chunkPos": [
+                0,
+                0,
+                -1
+              ],
+              "block": {
+                "profileVersion": "region-voxels/v2",
+                "geometryProfile": "voxel-grid/v1",
+                "origin": [
+                  0,
+                  0,
+                  -2
+                ],
+                "size": [
+                  16,
+                  2,
+                  2
+                ],
+                "indexOrder": "X_FASTEST_THEN_Y_THEN_Z",
+                "palette": [
+                  {
+                    "materialRef": "air",
+                    "orientation": 0
+                  },
+                  {
+                    "materialRef": "fixture:dirt",
+                    "orientation": 0
+                  },
+                  {
+                    "materialRef": "fixture:stone",
+                    "orientation": 0
+                  }
+                ],
+                "runs": [
+                  [
+                    16,
+                    2
+                  ],
+                  [
+                    4,
+                    1
+                  ],
+                  [
+                    4,
+                    0
+                  ],
+                  [
+                    8,
+                    1
+                  ],
+                  [
+                    16,
+                    2
+                  ],
+                  [
+                    4,
+                    1
+                  ],
+                  [
+                    4,
+                    0
+                  ],
+                  [
+                    2,
+                    1
+                  ],
+                  [
+                    6,
+                    null
+                  ]
+                ]
+              },
+              "blockDigest": "f537f347ab070dfee4b8755f8eaf34cfa0d64e16f112c2bd9ca974e7ff08616a"
+            },
+            {
+              "chunkPos": [
+                0,
+                0,
+                0
+              ],
+              "block": {
+                "profileVersion": "region-voxels/v2",
+                "geometryProfile": "voxel-grid/v1",
+                "origin": [
+                  0,
+                  0,
+                  0
+                ],
+                "size": [
+                  16,
+                  2,
+                  1
+                ],
+                "indexOrder": "X_FASTEST_THEN_Y_THEN_Z",
+                "palette": [
+                  {
+                    "materialRef": "air",
+                    "orientation": 0
+                  },
+                  {
+                    "materialRef": "fixture:dirt",
+                    "orientation": 0
+                  },
+                  {
+                    "materialRef": "fixture:stone",
+                    "orientation": 0
+                  }
+                ],
+                "runs": [
+                  [
+                    16,
+                    2
+                  ],
+                  [
+                    4,
+                    1
+                  ],
+                  [
+                    4,
+                    0
+                  ],
+                  [
+                    8,
+                    1
+                  ]
+                ]
+              },
+              "blockDigest": "b76cafc44f9b81218cb89280ddb49e013f07d55326e8442542cd5764c2e89283"
+            },
+            {
+              "chunkPos": [
+                1,
+                0,
+                -1
+              ],
+              "block": {
+                "profileVersion": "region-voxels/v2",
+                "geometryProfile": "voxel-grid/v1",
+                "origin": [
+                  16,
+                  0,
+                  -2
+                ],
+                "size": [
+                  2,
+                  2,
+                  2
+                ],
+                "indexOrder": "X_FASTEST_THEN_Y_THEN_Z",
+                "palette": [
+                  {
+                    "materialRef": "fixture:dirt",
+                    "orientation": 0
+                  },
+                  {
+                    "materialRef": "fixture:stone",
+                    "orientation": 0
+                  }
+                ],
+                "runs": [
+                  [
+                    2,
+                    1
+                  ],
+                  [
+                    2,
+                    0
+                  ],
+                  [
+                    2,
+                    1
+                  ],
+                  [
+                    2,
+                    null
+                  ]
+                ]
+              },
+              "blockDigest": "45b5b59bd1a9cf7d299623f04157195fd989ab98b0ee544da22e794ca2f48de7"
+            },
+            {
+              "chunkPos": [
+                1,
+                0,
+                0
+              ],
+              "block": {
+                "profileVersion": "region-voxels/v2",
+                "geometryProfile": "voxel-grid/v1",
+                "origin": [
+                  16,
+                  0,
+                  0
+                ],
+                "size": [
+                  2,
+                  2,
+                  1
+                ],
+                "indexOrder": "X_FASTEST_THEN_Y_THEN_Z",
+                "palette": [
+                  {
+                    "materialRef": "fixture:dirt",
+                    "orientation": 0
+                  },
+                  {
+                    "materialRef": "fixture:stone",
+                    "orientation": 0
+                  }
+                ],
+                "runs": [
+                  [
+                    2,
+                    1
+                  ],
+                  [
+                    2,
+                    0
+                  ]
+                ]
+              },
+              "blockDigest": "00c80843e4286592c1cb0a96c5f233c02072e5253b6a370106aac90b35db2806"
+            }
+          ]
+        },
+        "operationDigest": "ea53ffe9c55d972eff84e96cd2d5dae97c2cc0e7e44af7f913ad6cdc8aec36fb",
+        "writeBounds": {
+          "min": [
+            -2,
+            0,
+            -2
+          ],
+          "max": [
+            17,
+            1,
+            0
+          ]
+        }
+      },
+      "error": null
+    }
+  },
+  "canvas": {
+    "request": {
+      "contractVersion": "canvas/v7",
+      "sessionRef": "fixture-session",
+      "requestId": "inspect-placement-profile",
+      "worldRef": "fixture-world",
+      "anchor": {
+        "kind": "CURRENT_VIEW",
+        "invocationId": "fixture-luanti-invocation-7"
+      },
+      "footprint": {
+        "widthCells": 1,
+        "depthCells": 1,
+        "heightCells": 2,
+        "geometryProfile": "voxel-grid/v1"
+      },
+      "localContext": {
+        "connectionRef": "local-connection",
+        "connectionIncarnationRef": "socket-open-1",
+        "worldRef": "fixture-world",
+        "selectionRevision": "selection-1"
+      }
+    },
+    "response": {
+      "contractVersion": "canvas/v7",
+      "requestId": "inspect-placement-profile",
+      "result": {
+        "outcome": "REGION_INSPECTED",
+        "inspection": {
+          "inspectionId": "canvas-inspection-1",
+          "anchorKind": "CURRENT_VIEW",
+          "targetFacts": {
+            "profileVersion": "target-facts/v5",
+            "geometryProfile": "voxel-grid/v1",
+            "source": "REGION_INSPECTED",
+            "worldRef": "fixture-world",
+            "objectRef": null,
+            "worldRevision": "fixture-world-10",
+            "objectRevision": null,
+            "buildDigest": null,
+            "planRevision": null,
+            "catalogueDigest": "8429d43abbf2e574c8db6ce4045583924f9973ab615c86da0c876191ce745574",
+            "frameDigest": "d17042f1f5e4d592a350737b929a0497d9efa758eefdfd6699c5edeaf9718baa",
+            "sampledBounds": {
+              "min": [
+                0,
+                0,
+                3
+              ],
+              "max": [
+                0,
+                1,
+                3
+              ]
+            },
+            "coverageDigest": "45c2b1d28194a5818635bb08c5ecaf1bd3b96eec6083cf4f1fedaa5b90892585",
+            "occupiedCells": [
+              {
+                "position": [
+                  0,
+                  0,
+                  3
+                ],
+                "materialRef": "fixture:stone",
+                "orientation": 0
+              }
+            ],
+            "knownEmptyCells": [
+              [
+                0,
+                1,
+                3
+              ]
+            ],
+            "unknownCells": [],
+            "portals": [],
+            "usableVolume": {
+              "emptyCellCount": 1,
+              "physicalVolume": null,
+              "standingArea": null,
+              "unit": "node"
+            }
+          },
+          "targetFactsDigest": "74f1b28bd92d1a11a03a43769934cafe8f34c570e66bd1c42e836248ac7b8c4e",
+          "frame": {
+            "profileVersion": "frame/v2",
+            "frameId": "luanti-world-grid:fixture-world",
+            "origin": [
+              0,
+              0,
+              0
+            ],
+            "axes": [
+              "+X",
+              "+Y",
+              "+Z"
+            ],
+            "handedness": "left",
+            "gridUnit": {
+              "name": "node",
+              "metersPerGridUnit": null
+            },
+            "transformRevision": "fixture-adapter-exec-1"
+          },
+          "evidence": {
+            "providerRef": "hanaworlds-adapter-luanti",
+            "sourceRevision": "fixture-adapter-exec-1",
+            "worldRef": "fixture-world",
+            "worldRevision": "fixture-world-10"
+          },
+          "entranceFacing": "-Z",
+          "placementSettings": {
+            "frontGapCells": 2,
+            "forwardSearchCells": 16,
+            "lateralSearchCells": 8,
+            "verticalSearchCells": 4,
+            "settingsRevision": "fixture-settings-1"
+          }
+        }
+      },
+      "error": null,
+      "unavailableSettings": null,
+      "guardRefusal": null
+    },
+    "connection": {
+      "connectionRef": "local-connection",
+      "connectionIncarnationRef": "socket-open-1",
+      "worldRef": "fixture-world",
+      "payloadVersion": "fixture/v1",
+      "payloadDigest": "1111111111111111111111111111111111111111111111111111111111111111",
+      "capabilities": {
+        "providerRef": "fixture-world-source",
+        "capabilityRevision": "fixture-cap-1",
+        "worldRef": "fixture-world",
+        "engineBounds": {
+          "min": [
+            0,
+            0,
+            3
+          ],
+          "max": [
+            0,
+            1,
+            3
+          ]
+        },
+        "worldGeometry": {
+          "profileVersion": "world-geometry/v1",
+          "geometryProfiles": [
+            "voxel-grid/v1"
+          ],
+          "partition": {
+            "edge": [
+              16,
+              16,
+              16
+            ]
+          },
+          "postWriteLighting": "REQUIRED"
+        },
+        "limits": [],
+        "recoveryGuarantee": "RECOVERABLE_VERIFIED",
+        "stateProfile": {
+          "profileVersion": "state-profile/v3",
+          "derivedFields": [
+            "param1"
+          ],
+          "preservedFields": [],
+          "clearedFields": [
+            "inventory",
+            "metadata",
+            "timer"
+          ]
+        },
+        "sessionDeleteSupported": true,
+        "imageMediaTypes": [],
+        "model": null,
+        "engineGuards": {
+          "profileVersion": "engine-guards/v1",
+          "coverage": [
+            {
+              "guard": "BODY_CLEARANCE",
+              "stages": [],
+              "protectionPrincipal": null
+            },
+            {
+              "guard": "CELL_PROTECTION",
+              "stages": [],
+              "protectionPrincipal": null
+            },
+            {
+              "guard": "PLAYER_ENCLOSURE",
+              "stages": [],
+              "protectionPrincipal": null
+            }
+          ]
+        }
+      }
+    }
+  }
+}

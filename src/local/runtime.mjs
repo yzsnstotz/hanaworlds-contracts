@@ -30,6 +30,9 @@ export function validateType(typeName, value) {
   const snapshot = snapshotJSON(value);
   const visits = validateShape(typeName, snapshot);
   validateDomain(visits);
+  // Check every nested RegionChunk, including standalone admission and enclosing digests.
+  for (const {name, value} of visits) if (name === 'RegionChunk' && Object.hasOwn(value, 'blockDigest'))
+    validateDigestBinding('region-block', value.block, value.blockDigest);
   if (Object.hasOwn(canvasEventRules, typeName)) validateEventDomain(typeName, snapshot);
   return deepFreeze(snapshot);
 }
@@ -386,6 +389,12 @@ export function validateBoundResponse(wire,name,requestInput,responseInput) {
   if(name==='ReserveWorldRetirement')current(result.inventoryRevision===request.expectedInventoryRevision);
   if(name==='ReleaseWorldRetirement')associated(result.reservationRef===request.reservationRef&&result.outcome===request.outcome);
   if(name==='BuildDocument'){validateDigestBinding('operations',result.projection,result.operationDigest);associated(result.projection.buildDigest===request.buildDigest&&result.projection.worldRef===request.worldRef&&result.projection.targetFactsDigest===request.targetFactsDigest&&result.projection.compilationConfigDigest===request.compilationConfigDigest);validateExactEffects(request.build.operations,request.build.materials,result.projection.effects);}
+  if((name==='InspectPlacementRegion'||name==='InspectRegion') && request.footprint?.geometryProfile!==undefined && result.outcome==='REGION_INSPECTED'){
+   const inspection=validateRegionInspection(result.inspection);
+   current(inspection.targetFacts.worldRef===request.worldRef);
+   associated(inspection.anchorKind===request.anchor.kind);
+   requireFact(inspection.targetFacts.geometryProfile===request.footprint.geometryProfile,'CAPABILITY_GAP','GEOMETRY_PROFILE_UNSUPPORTED');
+  }
   if(result.localContext&&request.localContext)current(same(result.localContext,request.localContext));
   if(result.worldRef!==undefined&&request.worldRef!==undefined)current(result.worldRef===request.worldRef);
   // Named fact reads carry their World in the connection rather than at the result root.

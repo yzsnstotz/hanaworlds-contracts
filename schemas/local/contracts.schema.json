@@ -1,6 +1,6 @@
 {
   "$schema": "http://json-schema.org/draft-07/schema#",
-  "$id": "https://hanaworlds.invalid/contracts/2.1.0/schema.json",
+  "$id": "https://hanaworlds.invalid/contracts/2.2.0/schema.json",
   "x-contractsCompatibility": {
     "package": "hanaworlds-contracts",
     "major": 2,
@@ -5880,6 +5880,9 @@
         },
         "heightCells": {
           "$ref": "#/definitions/PositiveInt"
+        },
+        "geometryProfile": {
+          "$ref": "#/definitions/Ref"
         }
       },
       "required": [
@@ -10476,6 +10479,9 @@
         },
         "block": {
           "$ref": "#/definitions/RegionVoxelBlock"
+        },
+        "blockDigest": {
+          "$ref": "#/definitions/Digest"
         }
       },
       "required": [
