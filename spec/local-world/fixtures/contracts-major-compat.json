@@ -170,7 +170,7 @@
     "patch": {
      "contracts": "hanaworlds-contracts@2.0.0"
     },
-    "dropWire": "canvas/v6",
+    "dropWire": "canvas/v7",
     "error": {
      "code": "UNSUPPORTED_VERSION",
      "reason": "VERSION_UNSUPPORTED"
@@ -192,7 +192,7 @@
    {
     "title": "same major, other compiled operations profile (structure)",
     "patch": {
-     "compiledOperationsVersion": "operations/v4"
+     "compiledOperationsVersion": "operations/v5"
     },
     "error": {
      "code": "SCHEMA_INVALID",
@@ -252,9 +252,9 @@
     }
    },
    {
-    "title": "painter/v5 wire missing",
+    "title": "painter/v6 wire missing",
     "patch": {},
-    "dropWire": "painter/v5",
+    "dropWire": "painter/v6",
     "error": {
      "code": "UNSUPPORTED_VERSION",
      "reason": "VERSION_UNSUPPORTED"
@@ -393,9 +393,9 @@
  },
  "protocol": {
   "requirement": {
-   "wire": "canvas/v6",
+   "wire": "canvas/v7",
    "capabilities": [
-    "canvas/v6:fixture-capability"
+    "canvas/v7:fixture-capability"
    ]
   },
   "peer": {
@@ -404,12 +404,12 @@
    "protocols": [
     {
      "protocol": "canvas",
-     "major": 6,
+     "major": 7,
      "minor": 1
     }
    ],
    "capabilities": [
-    "canvas/v6:fixture-capability"
+    "canvas/v7:fixture-capability"
    ],
    "provenance": {
     "packageName": "fixture-peer",
@@ -435,7 +435,7 @@
     "protocols": [
      {
       "protocol": "canvas",
-      "major": 7,
+      "major": 8,
       "minor": 0
      }
     ],
@@ -449,7 +449,7 @@
     "protocols": [
      {
       "protocol": "session",
-      "major": 3,
+      "major": 4,
       "minor": 1
      }
     ],

@@ -19,7 +19,7 @@ const HOOKS = {
 function world({ global = [], hooks = HOOKS, publish } = {}) {
   const catalogue = structuredClone(base.request.catalogue);
   for (const n of Object.keys(hooks)) catalogue.materials[n] ??= { ...catalogue.materials['fixture:stone'] };
-  const evidence = cat => ({ profileVersion: 'write-path-evidence/v1', scope: 'write-path-init/v1', writePath: 'CALLBACK_FREE_WRITE',
+  const evidence = cat => ({ profileVersion: 'write-path-evidence/v2', scope: 'write-path-init/v1', writePath: 'CALLBACK_FREE_WRITE',
     catalogueDigest: D('catalogue', cat), globalWriteCallbacks: global,
     materials: Object.keys(hooks).sort().map(n => ({ materialRef: n, definitionRevision: cat.materials[n].definitionRevision, definedCallbacks: hooks[n] })) });
   // Adapter-side projection: publish exactly the derived facts (or a supplied override).
@@ -40,7 +40,7 @@ test('scope is published: callback-free write path, callback classes, out-of-sco
   assert.ok(a.writePathStateScope.initializationCallbacks.includes('on_construct'));
   assert.ok(a.writePathStateScope.outOfScope.some(t => /ABM/.test(t)) && /UNDO_CONFLICT/.test(a.writePathStateScope.guards));
   const ids = new Set(a.regionCapabilities.map(c => c.id));
-  for (const id of ['world-adapter/v7:callback-free-write', 'world-adapter-region/v2:callback-free-write', 'world-adapter/v7:write-path-state-facts']) assert.ok(ids.has(id), id);
+  for (const id of ['world-adapter/v8:callback-free-write', 'world-adapter-region/v3:callback-free-write', 'world-adapter/v8:write-path-state-facts']) assert.ok(ids.has(id), id);
   assert.ok(a.regionInvariants.some(i => i.id === 'MATERIAL-FACT-SCOPE' && i.switchable === false));
 });
 test('derivation: player-only hooks are out of scope; initialization/state callbacks or unknown inventories are never placeable', () => {
@@ -91,15 +91,15 @@ test('a Catalogue looser than its inventory, off-revision or for another Catalog
   assert.deepEqual([...a.validateCatalogueWritePathFacts(strict.catalogue, ev4).stricter], ['fixture:stone']);
 });
 test('the write path and fact scope are required capabilities; missing capability or wrong major rejects', () => {
-  const caps = ['world-adapter-region/v2:callback-free-write', 'world-adapter/v7:callback-free-write', 'world-adapter/v7:write-path-state-facts'];
-  const peer = { profileVersion: 'protocol-handshake/v1', component: 'fixture-adapter', protocols: [{ protocol: 'world-adapter', major: 7, minor: 0 }, { protocol: 'world-adapter-region', major: 2, minor: 0 }],
+  const caps = ['world-adapter-region/v3:callback-free-write', 'world-adapter/v8:callback-free-write', 'world-adapter/v8:write-path-state-facts'];
+  const peer = { profileVersion: 'protocol-handshake/v1', component: 'fixture-adapter', protocols: [{ protocol: 'world-adapter', major: 8, minor: 0 }, { protocol: 'world-adapter-region', major: 3, minor: 0 }],
     capabilities: caps, provenance: { packageName: 'fixture-adapter', packageVersion: '0.6.2', sourceRevision: null, artifactDigest: null } };
   // ProtocolRequirements are ordered by protocol name (UTF-16).
-  const req = [a.protocolRequirement('world-adapter/v7', ['world-adapter/v7:callback-free-write', 'world-adapter/v7:write-path-state-facts']), a.protocolRequirement('world-adapter-region/v2', ['world-adapter-region/v2:callback-free-write'])];
+  const req = [a.protocolRequirement('world-adapter/v8', ['world-adapter/v8:callback-free-write', 'world-adapter/v8:write-path-state-facts']), a.protocolRequirement('world-adapter-region/v3', ['world-adapter-region/v3:callback-free-write'])];
   assert.equal(a.checkProtocolCompatibility(peer, req).result, 'PROTOCOL_COMPATIBLE');
   assert.throws(() => a.checkProtocolCompatibility({ ...peer, capabilities: caps.slice(0, 2) }, req), code('CAPABILITY_UNAVAILABLE'));
-  assert.throws(() => a.checkProtocolCompatibility({ ...peer, protocols: [{ protocol: 'world-adapter', major: 8, minor: 0 }, peer.protocols[1]] }, req), code('UNSUPPORTED_VERSION'));
-  assert.ok(a.contractProtocols.some(p => p.protocol === 'world-adapter-region' && p.major === 2 && p.minor === 0));
+  assert.throws(() => a.checkProtocolCompatibility({ ...peer, protocols: [{ protocol: 'world-adapter', major: 9, minor: 0 }, peer.protocols[1]] }, req), code('UNSUPPORTED_VERSION'));
+  assert.ok(a.contractProtocols.some(p => p.protocol === 'world-adapter-region' && p.major === 3 && p.minor === 0));
 });
 test('later independent changes are not claimed absent: full-state readback differs and same-transaction Undo conflicts', () => {
   const s = JSON.parse(JSON.stringify(buildRegionScenario(a, base)));
@@ -124,11 +124,11 @@ test('ContractHandshake is same-major; protocol interop across patches is decide
   }
   assert.equal(a.sameContractLine, undefined);
   // A Brush on another package patch is consumable iff it advertises BUILD major 4 and the required capability.
-  const brush = patch => ({ profileVersion: 'protocol-handshake/v1', component: 'fixture-brush', protocols: [{ protocol: 'BUILD', major: 4, minor: 0 }, { protocol: 'region-build', major: 1, minor: 0 }],
-    capabilities: ['BUILD/V4:per-cell-compile', 'region-build/v1:compile-mapblock-chunks'], provenance: { packageName: 'hanaworlds-contracts', packageVersion: patch, sourceRevision: null, artifactDigest: null } });
-  const req = [a.protocolRequirement('BUILD/V4', ['BUILD/V4:per-cell-compile'])];
+  const brush = patch => ({ profileVersion: 'protocol-handshake/v1', component: 'fixture-brush', protocols: [{ protocol: 'BUILD', major: 5, minor: 0 }, { protocol: 'region-build', major: 2, minor: 0 }],
+    capabilities: ['BUILD/V5:per-cell-compile', 'region-build/v2:compile-mapblock-chunks'], provenance: { packageName: 'hanaworlds-contracts', packageVersion: patch, sourceRevision: null, artifactDigest: null } });
+  const req = [a.protocolRequirement('BUILD/V5', ['BUILD/V5:per-cell-compile'])];
   for (const v of ['0.5.0', '0.5.1', '0.5.2']) assert.equal(a.checkProtocolCompatibility(brush(v), req).result, 'PROTOCOL_COMPATIBLE');
-  assert.throws(() => a.checkProtocolCompatibility({ ...brush('0.5.2'), capabilities: ['region-build/v1:compile-mapblock-chunks'] }, req), code('CAPABILITY_UNAVAILABLE'));
-  assert.throws(() => a.checkProtocolCompatibility({ ...brush('0.5.2'), protocols: [{ protocol: 'BUILD', major: 5, minor: 0 }] }, req), code('UNSUPPORTED_VERSION'));
+  assert.throws(() => a.checkProtocolCompatibility({ ...brush('0.5.2'), capabilities: ['region-build/v2:compile-mapblock-chunks'] }, req), code('CAPABILITY_UNAVAILABLE'));
+  assert.throws(() => a.checkProtocolCompatibility({ ...brush('0.5.2'), protocols: [{ protocol: 'BUILD', major: 6, minor: 0 }] }, req), code('UNSUPPORTED_VERSION'));
 });
 console.log(JSON.stringify({ evidence: 'SOURCE/FIXTURE', suite: 'write-path-g3', checks, modelCalls: 0, worldWrites: 0, realRuntime: 'NOT_RUN', realUI: 'NOT_RUN' }));

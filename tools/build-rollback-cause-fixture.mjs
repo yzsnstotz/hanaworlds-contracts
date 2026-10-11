@@ -1,5 +1,5 @@
 // Regenerates spec/local-world/fixtures/region-rollback-cause.json (region-rollback-cause/v1) from the
-// published region fixture. Each case is a canvas-region/v2 ApplyRegionCommit request/response pair; the
+// published region fixture. Each case is a canvas-region/v3 ApplyRegionCommit request/response pair; the
 // expected outcome (accepted with the read cause, or the exact refusal) is computed with the package's own
 // public functions and recorded as data so Canvas (producer) and consumers run the same cases. Hand-built
 // SOURCE/FIXTURE: no Canvas, Adapter, World or durable store ran. Run after `npm run build`, then build

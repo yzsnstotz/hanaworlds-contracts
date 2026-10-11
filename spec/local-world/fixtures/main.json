@@ -1,7 +1,7 @@
 {
   "evidence": "SOURCE/FIXTURE",
   "request": {
-    "contractVersion": "painter/v5",
+    "contractVersion": "painter/v6",
     "sessionRef": "fixture-session",
     "requestId": "workshop-paint-1",
     "worldRef": "fixture-world",
@@ -9,8 +9,8 @@
     "painterId": "building-exterior",
     "invocationId": "fixture-luanti-invocation-7",
     "intent": {
-      "contractVersion": "session/v4",
-      "referenceBriefDigest": "2daf8a8d8cb72370103dd96855ef23e5b273911365cf748e2851337706103cf5",
+      "contractVersion": "session/v5",
+      "referenceBriefDigest": "35fc4e78946fafa10292aad3094083e7ff4eb278e71930e7f6d2fa2e6bedca27",
       "confirmedIntent": {
         "kind": "BUILD_STRUCTURE",
         "text": "一个小石屋",
@@ -36,9 +36,9 @@
       "intendedWorldRef": "fixture-world",
       "orderedTargetRefs": []
     },
-    "intentDigest": "1e5e42886da8d9240b7c2fd9581b649651d7693ef78c02de87393f14e3c31d2e",
+    "intentDigest": "3d9c1637ee52a97f9179ea0b8ee5fda88bb4cfbef2c921ddd555d4be1cf166c7",
     "referenceBrief": {
-      "contractVersion": "ReferenceBrief/v4",
+      "contractVersion": "ReferenceBrief/v5",
       "sessionRef": "fixture-session",
       "turnRevision": "fixture-turn-4",
       "briefRevision": "fixture-brief-4",
@@ -65,7 +65,7 @@
         }
       }
     },
-    "referenceBriefDigest": "2daf8a8d8cb72370103dd96855ef23e5b273911365cf748e2851337706103cf5",
+    "referenceBriefDigest": "35fc4e78946fafa10292aad3094083e7ff4eb278e71930e7f6d2fa2e6bedca27",
     "catalogue": {
       "profileVersion": "catalogue/v3",
       "engineRevisions": {
@@ -118,7 +118,8 @@
       }
     },
     "targetFacts": {
-      "profileVersion": "target-facts/v4",
+      "profileVersion": "target-facts/v5",
+      "geometryProfile": "voxel-grid/v1",
       "source": "REGION_INSPECTED",
       "worldRef": "fixture-world",
       "objectRef": null,
@@ -168,9 +169,9 @@
         "unit": "node"
       }
     },
-    "targetFactsDigest": "62d22094b9008e4c894a2c37117477cdc94e77825affe2b72f2d46ca8cb877cb",
+    "targetFactsDigest": "74f1b28bd92d1a11a03a43769934cafe8f34c570e66bd1c42e836248ac7b8c4e",
     "safetyProfile": {
-      "profileVersion": "safety-profile/v4",
+      "profileVersion": "safety-profile/v5",
       "connectivity": 6,
       "requireBodyClearance": true,
       "requireEntranceConnectivity": false,
@@ -180,12 +181,13 @@
       },
       "optionalLightRule": null
     },
-    "safetyProfileDigest": "68cd994299d897623b5798a5aefe65e6b103190a726495f5278d345e14c67590",
+    "safetyProfileDigest": "ee93dff9a45cc73ea5c5b2726354b1b580b16be19e8af0870bbf623244c15e97",
     "regionInspection": {
       "inspectionId": "canvas-inspection-1",
       "anchorKind": "CURRENT_VIEW",
       "targetFacts": {
-        "profileVersion": "target-facts/v4",
+        "profileVersion": "target-facts/v5",
+        "geometryProfile": "voxel-grid/v1",
         "source": "REGION_INSPECTED",
         "worldRef": "fixture-world",
         "objectRef": null,
@@ -235,7 +237,7 @@
           "unit": "node"
         }
       },
-      "targetFactsDigest": "62d22094b9008e4c894a2c37117477cdc94e77825affe2b72f2d46ca8cb877cb",
+      "targetFactsDigest": "74f1b28bd92d1a11a03a43769934cafe8f34c570e66bd1c42e836248ac7b8c4e",
       "frame": {
         "profileVersion": "frame/v2",
         "frameId": "luanti-world-grid:fixture-world",
@@ -303,12 +305,13 @@
     }
   },
   "response": {
-    "contractVersion": "painter/v5",
+    "contractVersion": "painter/v6",
     "requestId": "workshop-paint-1",
     "result": {
       "invocationId": "fixture-luanti-invocation-7",
       "build": {
-        "contractVersion": "BUILD/V4",
+        "contractVersion": "BUILD/V5",
+        "geometryProfile": "voxel-grid/v1",
         "documentId": "exterior-fixture-luanti-invocation-7",
         "coordinateFrame": {
           "profileVersion": "frame/v2",
@@ -331,8 +334,8 @@
           "transformRevision": "fixture-adapter-exec-1"
         },
         "catalogueDigest": "8429d43abbf2e574c8db6ce4045583924f9973ab615c86da0c876191ce745574",
-        "targetFactsDigest": "62d22094b9008e4c894a2c37117477cdc94e77825affe2b72f2d46ca8cb877cb",
-        "safetyProfileDigest": "68cd994299d897623b5798a5aefe65e6b103190a726495f5278d345e14c67590",
+        "targetFactsDigest": "74f1b28bd92d1a11a03a43769934cafe8f34c570e66bd1c42e836248ac7b8c4e",
+        "safetyProfileDigest": "ee93dff9a45cc73ea5c5b2726354b1b580b16be19e8af0870bbf623244c15e97",
         "materials": {
           "stone": {
             "materialRef": "fixture:stone",
@@ -371,9 +374,9 @@
           {
             "witnessId": "w1",
             "predicate": "COVERAGE",
-            "finalEffectsDigest": "93661bc2f15e4c06e5ee2075d40ce1c14f7e75b7fed44559af957cb615a70b1b",
-            "targetFactsDigest": "62d22094b9008e4c894a2c37117477cdc94e77825affe2b72f2d46ca8cb877cb",
-            "safetyProfileDigest": "68cd994299d897623b5798a5aefe65e6b103190a726495f5278d345e14c67590",
+            "finalEffectsDigest": "a823a51f31f44a346ac9df81734f1b5aa3134524fa13e2db450c9b05fb3a38e6",
+            "targetFactsDigest": "74f1b28bd92d1a11a03a43769934cafe8f34c570e66bd1c42e836248ac7b8c4e",
+            "safetyProfileDigest": "ee93dff9a45cc73ea5c5b2726354b1b580b16be19e8af0870bbf623244c15e97",
             "facts": {
               "evidence": {
                 "providerRef": "hanaworlds-adapter-luanti",
@@ -393,9 +396,9 @@
           {
             "witnessId": "w3",
             "predicate": "BODY_CLEARANCE",
-            "finalEffectsDigest": "93661bc2f15e4c06e5ee2075d40ce1c14f7e75b7fed44559af957cb615a70b1b",
-            "targetFactsDigest": "62d22094b9008e4c894a2c37117477cdc94e77825affe2b72f2d46ca8cb877cb",
-            "safetyProfileDigest": "68cd994299d897623b5798a5aefe65e6b103190a726495f5278d345e14c67590",
+            "finalEffectsDigest": "a823a51f31f44a346ac9df81734f1b5aa3134524fa13e2db450c9b05fb3a38e6",
+            "targetFactsDigest": "74f1b28bd92d1a11a03a43769934cafe8f34c570e66bd1c42e836248ac7b8c4e",
+            "safetyProfileDigest": "ee93dff9a45cc73ea5c5b2726354b1b580b16be19e8af0870bbf623244c15e97",
             "facts": {
               "evidence": {
                 "providerRef": "hanaworlds-adapter-luanti",
@@ -415,9 +418,9 @@
           {
             "witnessId": "w4",
             "predicate": "HAZARD",
-            "finalEffectsDigest": "93661bc2f15e4c06e5ee2075d40ce1c14f7e75b7fed44559af957cb615a70b1b",
-            "targetFactsDigest": "62d22094b9008e4c894a2c37117477cdc94e77825affe2b72f2d46ca8cb877cb",
-            "safetyProfileDigest": "68cd994299d897623b5798a5aefe65e6b103190a726495f5278d345e14c67590",
+            "finalEffectsDigest": "a823a51f31f44a346ac9df81734f1b5aa3134524fa13e2db450c9b05fb3a38e6",
+            "targetFactsDigest": "74f1b28bd92d1a11a03a43769934cafe8f34c570e66bd1c42e836248ac7b8c4e",
+            "safetyProfileDigest": "ee93dff9a45cc73ea5c5b2726354b1b580b16be19e8af0870bbf623244c15e97",
             "facts": {
               "evidence": {
                 "providerRef": "hanaworlds-adapter-luanti",
@@ -438,21 +441,21 @@
           }
         ]
       },
-      "buildDigest": "98e1c02b252e9cebddc6bc500eb46b2ee2ec173dc97aadb736d6e6b781eefb6d"
+      "buildDigest": "c9d7df431c4f8cf458d1489907eafee74430283f5f8b35bc5beaf07d8f3661f3"
     },
     "error": null
   },
   "facts": {
     "sourceContext": {
-      "contractVersion": "painter/v5",
+      "contractVersion": "painter/v6",
       "sessionRef": "fixture-session",
       "worldRef": "fixture-world",
       "turnRevision": "fixture-turn-4",
       "painterId": "building-exterior",
       "invocationId": "fixture-luanti-invocation-7",
       "intent": {
-        "contractVersion": "session/v4",
-        "referenceBriefDigest": "2daf8a8d8cb72370103dd96855ef23e5b273911365cf748e2851337706103cf5",
+        "contractVersion": "session/v5",
+        "referenceBriefDigest": "35fc4e78946fafa10292aad3094083e7ff4eb278e71930e7f6d2fa2e6bedca27",
         "confirmedIntent": {
           "kind": "BUILD_STRUCTURE",
           "text": "一个小石屋",
@@ -478,9 +481,9 @@
         "intendedWorldRef": "fixture-world",
         "orderedTargetRefs": []
       },
-      "intentDigest": "1e5e42886da8d9240b7c2fd9581b649651d7693ef78c02de87393f14e3c31d2e",
+      "intentDigest": "3d9c1637ee52a97f9179ea0b8ee5fda88bb4cfbef2c921ddd555d4be1cf166c7",
       "referenceBrief": {
-        "contractVersion": "ReferenceBrief/v4",
+        "contractVersion": "ReferenceBrief/v5",
         "sessionRef": "fixture-session",
         "turnRevision": "fixture-turn-4",
         "briefRevision": "fixture-brief-4",
@@ -507,7 +510,7 @@
           }
         }
       },
-      "referenceBriefDigest": "2daf8a8d8cb72370103dd96855ef23e5b273911365cf748e2851337706103cf5",
+      "referenceBriefDigest": "35fc4e78946fafa10292aad3094083e7ff4eb278e71930e7f6d2fa2e6bedca27",
       "catalogue": {
         "profileVersion": "catalogue/v3",
         "engineRevisions": {
@@ -560,7 +563,8 @@
         }
       },
       "targetFacts": {
-        "profileVersion": "target-facts/v4",
+        "profileVersion": "target-facts/v5",
+        "geometryProfile": "voxel-grid/v1",
         "source": "REGION_INSPECTED",
         "worldRef": "fixture-world",
         "objectRef": null,
@@ -610,9 +614,9 @@
           "unit": "node"
         }
       },
-      "targetFactsDigest": "62d22094b9008e4c894a2c37117477cdc94e77825affe2b72f2d46ca8cb877cb",
+      "targetFactsDigest": "74f1b28bd92d1a11a03a43769934cafe8f34c570e66bd1c42e836248ac7b8c4e",
       "safetyProfile": {
-        "profileVersion": "safety-profile/v4",
+        "profileVersion": "safety-profile/v5",
         "connectivity": 6,
         "requireBodyClearance": true,
         "requireEntranceConnectivity": false,
@@ -622,12 +626,13 @@
         },
         "optionalLightRule": null
       },
-      "safetyProfileDigest": "68cd994299d897623b5798a5aefe65e6b103190a726495f5278d345e14c67590",
+      "safetyProfileDigest": "ee93dff9a45cc73ea5c5b2726354b1b580b16be19e8af0870bbf623244c15e97",
       "regionInspection": {
         "inspectionId": "canvas-inspection-1",
         "anchorKind": "CURRENT_VIEW",
         "targetFacts": {
-          "profileVersion": "target-facts/v4",
+          "profileVersion": "target-facts/v5",
+          "geometryProfile": "voxel-grid/v1",
           "source": "REGION_INSPECTED",
           "worldRef": "fixture-world",
           "objectRef": null,
@@ -677,7 +682,7 @@
             "unit": "node"
           }
         },
-        "targetFactsDigest": "62d22094b9008e4c894a2c37117477cdc94e77825affe2b72f2d46ca8cb877cb",
+        "targetFactsDigest": "74f1b28bd92d1a11a03a43769934cafe8f34c570e66bd1c42e836248ac7b8c4e",
         "frame": {
           "profileVersion": "frame/v2",
           "frameId": "luanti-world-grid:fixture-world",
@@ -721,15 +726,15 @@
       }
     },
     "currentContext": {
-      "contractVersion": "painter/v5",
+      "contractVersion": "painter/v6",
       "sessionRef": "fixture-session",
       "worldRef": "fixture-world",
       "turnRevision": "fixture-turn-4",
       "painterId": "building-exterior",
       "invocationId": "fixture-luanti-invocation-7",
       "intent": {
-        "contractVersion": "session/v4",
-        "referenceBriefDigest": "2daf8a8d8cb72370103dd96855ef23e5b273911365cf748e2851337706103cf5",
+        "contractVersion": "session/v5",
+        "referenceBriefDigest": "35fc4e78946fafa10292aad3094083e7ff4eb278e71930e7f6d2fa2e6bedca27",
         "confirmedIntent": {
           "kind": "BUILD_STRUCTURE",
           "text": "一个小石屋",
@@ -755,9 +760,9 @@
         "intendedWorldRef": "fixture-world",
         "orderedTargetRefs": []
       },
-      "intentDigest": "1e5e42886da8d9240b7c2fd9581b649651d7693ef78c02de87393f14e3c31d2e",
+      "intentDigest": "3d9c1637ee52a97f9179ea0b8ee5fda88bb4cfbef2c921ddd555d4be1cf166c7",
       "referenceBrief": {
-        "contractVersion": "ReferenceBrief/v4",
+        "contractVersion": "ReferenceBrief/v5",
         "sessionRef": "fixture-session",
         "turnRevision": "fixture-turn-4",
         "briefRevision": "fixture-brief-4",
@@ -784,7 +789,7 @@
           }
         }
       },
-      "referenceBriefDigest": "2daf8a8d8cb72370103dd96855ef23e5b273911365cf748e2851337706103cf5",
+      "referenceBriefDigest": "35fc4e78946fafa10292aad3094083e7ff4eb278e71930e7f6d2fa2e6bedca27",
       "catalogue": {
         "profileVersion": "catalogue/v3",
         "engineRevisions": {
@@ -837,7 +842,8 @@
         }
       },
       "targetFacts": {
-        "profileVersion": "target-facts/v4",
+        "profileVersion": "target-facts/v5",
+        "geometryProfile": "voxel-grid/v1",
         "source": "REGION_INSPECTED",
         "worldRef": "fixture-world",
         "objectRef": null,
@@ -887,9 +893,9 @@
           "unit": "node"
         }
       },
-      "targetFactsDigest": "62d22094b9008e4c894a2c37117477cdc94e77825affe2b72f2d46ca8cb877cb",
+      "targetFactsDigest": "74f1b28bd92d1a11a03a43769934cafe8f34c570e66bd1c42e836248ac7b8c4e",
       "safetyProfile": {
-        "profileVersion": "safety-profile/v4",
+        "profileVersion": "safety-profile/v5",
         "connectivity": 6,
         "requireBodyClearance": true,
         "requireEntranceConnectivity": false,
@@ -899,12 +905,13 @@
         },
         "optionalLightRule": null
       },
-      "safetyProfileDigest": "68cd994299d897623b5798a5aefe65e6b103190a726495f5278d345e14c67590",
+      "safetyProfileDigest": "ee93dff9a45cc73ea5c5b2726354b1b580b16be19e8af0870bbf623244c15e97",
       "regionInspection": {
         "inspectionId": "canvas-inspection-1",
         "anchorKind": "CURRENT_VIEW",
         "targetFacts": {
-          "profileVersion": "target-facts/v4",
+          "profileVersion": "target-facts/v5",
+          "geometryProfile": "voxel-grid/v1",
           "source": "REGION_INSPECTED",
           "worldRef": "fixture-world",
           "objectRef": null,
@@ -954,7 +961,7 @@
             "unit": "node"
           }
         },
-        "targetFactsDigest": "62d22094b9008e4c894a2c37117477cdc94e77825affe2b72f2d46ca8cb877cb",
+        "targetFactsDigest": "74f1b28bd92d1a11a03a43769934cafe8f34c570e66bd1c42e836248ac7b8c4e",
         "frame": {
           "profileVersion": "frame/v2",
           "frameId": "luanti-world-grid:fixture-world",
@@ -1006,7 +1013,7 @@
       },
       "sessionRef": "fixture-session",
       "currentTurnRevision": "fixture-turn-4",
-      "currentBriefDigest": "2daf8a8d8cb72370103dd96855ef23e5b273911365cf748e2851337706103cf5",
+      "currentBriefDigest": "35fc4e78946fafa10292aad3094083e7ff4eb278e71930e7f6d2fa2e6bedca27",
       "requestState": "ACTIVE",
       "replay": "NEW",
       "priorRequestDigest": null

@@ -190,10 +190,10 @@ export function requireEngineGuards(declarationInput, requirements) {
  * A stated light rule always is (no light witness kind exists); a required entrance is refused
  * only on paths without an entrance check (`entrance:false`, e.g. painter-region). */
 export function requireSiteRuleChecks(rules, { entrance }) {
-  const light = safetyCapability('painter/v5:light-rule').whenAbsent;
+  const light = safetyCapability('painter/v6:light-rule').whenAbsent;
   requireFact(rules.optionalLightRule === null, light.code, light.reason, light.phase);
   if (!entrance) {
-    const e = safetyCapability('painter-region/v2:entrance-rule').whenAbsent;
+    const e = safetyCapability('painter-region/v3:entrance-rule').whenAbsent;
     requireFact(!rules.requireEntranceConnectivity, e.code, e.reason, e.phase);
   }
 }
@@ -201,7 +201,7 @@ export function requireSiteRuleChecks(rules, { entrance }) {
  * player-confirmed skill site rules. No World, Host or package value is consulted. */
 export function safetyProfileFromConfirmedIntent(intentInput) {
   const { siteRules } = validateType('IntentProjection', intentInput).confirmedIntent;
-  return deepFreeze(validateType('SafetyProfile', { profileVersion: 'safety-profile/v4', connectivity: 6,
+  return deepFreeze(validateType('SafetyProfile', { profileVersion: 'safety-profile/v5', connectivity: 6,
     requireBodyClearance: true, requireEntranceConnectivity: siteRules.requireEntranceConnectivity,
     hazardPolicy: siteRules.hazardPolicy, optionalLightRule: siteRules.optionalLightRule }));
 }
@@ -352,7 +352,7 @@ export function checkSchemaCompatibility(input,requiredTypes=[]) {
  requireFact(Array.isArray(requiredTypes)&&requiredTypes.every(t=>typeof t==='string'&&Object.hasOwn(definitions,t)),'CAPABILITY_UNAVAILABLE','VERSION_UNSUPPORTED','decode');
  return deepFreeze({result:'SCHEMA_MAJOR_MATCH',major,version,requiredTypes:[...requiredTypes]});
 }
-export function checkContractHandshake(advertisedInput,required={wires:wireVersions,factProfiles:['target-facts/v4']}) {
+export function checkContractHandshake(advertisedInput,required={wires:wireVersions,factProfiles:['target-facts/v5']}) {
  const advertised=validateType('ContractHandshake',advertisedInput);
  checkContractsVersion(advertised.contracts);
  requireFact(advertised.compiledOperationsVersion===compiledOperationsVersion&&required.wires.every(w=>wireVersions.includes(w)&&advertised.wireVersions.includes(w))&&required.factProfiles.every(f=>advertised.factProfiles.includes(f)), 'UNSUPPORTED_VERSION','VERSION_UNSUPPORTED','decode');
@@ -360,8 +360,8 @@ export function checkContractHandshake(advertisedInput,required={wires:wireVersi
 }
 export function validateCurrentBuildSubmission(input,factsInput) {
  const submission=validateType('CurrentBuildSubmission',input),{parentRequest:parent,apply,intent,analysis}=submission;
- validateCurrentRequest('session/v4','AdvanceCurrentBuild',parent,factsInput);
- validateBoundRequest('canvas/v6','ApplyRecoverableCommit',apply);
+ validateCurrentRequest('session/v5','AdvanceCurrentBuild',parent,factsInput);
+ validateBoundRequest('canvas/v7','ApplyRecoverableCommit',apply);
  current(same(parent.localContext,apply.localContext));associated(parent.sessionRef===apply.sessionRef&&parent.worldRef===apply.worldRef);
  associated(intent.intendedWorldRef===parent.worldRef&&intent.confirmedIntent.confirmedTurnRevision===parent.expectedTurnRevision&&intent.referenceBriefDigest===factsInput.currentBriefDigest);
  associated(analysis.worldRef===parent.worldRef&&analysis.operationDigest===apply.operationDigest);
@@ -397,7 +397,7 @@ export function projectScopedPreparedTransaction(input) {
  return validateType('ScopedPreparedTransaction',Object.fromEntries(Object.keys(schemaBundle.definitions.ScopedPreparedTransaction.properties).map(k=>[k,result[k]])));
 }
 export function validateWorldSelection(input,factsInput,connectionInput) {
- const {request}=validateCurrentRequest('canvas/v6','SelectWorldConnection',input,factsInput);
+ const {request}=validateCurrentRequest('canvas/v7','SelectWorldConnection',input,factsInput);
  const connection=validateType('LocalConnectionReadback',connectionInput);
  current(request.connectionRef===connection.connectionRef&&request.worldRef===connection.worldRef&&request.connectionIncarnationRef===connection.connectionIncarnationRef);
  current(connection.capabilities.worldRef===connection.worldRef);

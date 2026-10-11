@@ -2,7 +2,7 @@ export * from './contracts.js';
 import type {TypeMap,TypeName,OperationMap,ProjectionMap,ContractHandshake,LocalRequestFacts,CurrentBuildSubmission,ValidateBuildProposalRequest,ValidateBuildProposalResponse,BuildProposalProviderFacts,ScopedPreparedTransaction,ScopedPreparedTransactionResult,RegionInspection,MaterialMap,Catalogue,BuildProjection,FinalEffects,TargetFacts,SafetyProfile,Coverage} from './contracts.js';
 export declare const version: '0.5.6';
 export declare const wireVersions: ReadonlyArray<keyof OperationMap>;
-export declare const compiledOperationsVersion: 'operations/v3';
+export declare const compiledOperationsVersion: 'operations/v4';
 export declare const contractHandshake: ContractHandshake;
 export declare const schemaBundle: {readonly $id:string;readonly 'x-contractsCompatibility':{readonly package:'hanaworlds-contracts';readonly major:number;readonly rule:'same-major'};readonly definitions: Readonly<Record<TypeName,unknown>>};
 export declare const operationContracts: Readonly<Record<keyof OperationMap, ReadonlyArray<{operation:string;request:TypeName;response:TypeName}>>>;
@@ -39,7 +39,7 @@ export declare function validateStaticMaterials(input:MaterialMap,catalogue:Cata
 export declare function requireOccupiedNotEmpty(facts:import('./contracts.js').TargetFacts,catalogue:Catalogue):import('./contracts.js').TargetFacts;
 export declare function safetyProfileFromConfirmedIntent(intent:import('./contracts.js').IntentProjection):SafetyProfile;
 /** Named site-rule checks that no peer of this major can perform yet (light rule, region entrance). */
-export type SafetyCapabilityId='painter/v5:light-rule'|'painter-region/v2:entrance-rule';
+export type SafetyCapabilityId='painter/v6:light-rule'|'painter-region/v3:entrance-rule';
 export declare const safetyCapabilities:ReadonlyArray<Readonly<{id:SafetyCapabilityId;owner:string;gap:'LIGHT'|'ENTRANCE_ON_REGION';cause:string;meaning:string;whenAbsent:Omit<import('./contracts.js').Error,'transactionRef'>}>>;
 export declare function unmetSafetyCapabilities(handshake:unknown,ids:readonly SafetyCapabilityId[]):ReadonlyArray<Readonly<{id:SafetyCapabilityId;cause:string;error:Omit<import('./contracts.js').Error,'transactionRef'>}>>;
 export declare function requireSafetyCapabilities(handshake:unknown,ids:readonly SafetyCapabilityId[]):readonly SafetyCapabilityId[];
@@ -98,19 +98,21 @@ export interface MaterialSourceFactsPort {readMaterialSources(worldRef:import('.
 /** Checks association and content integrity, not provider authenticity, image
  * decoding or static build eligibility. Call validateStaticMaterials as usual. */
 export declare function validateMaterialSources(input:unknown,catalogue:Catalogue,currentConnection:import('./contracts.js').MaterialSourceConnection):MaterialSources;
-/** region-voxels/v1. Runs are [count, paletteIndex|null] in X_FASTEST_THEN_Y_THEN_Z order.
+/** region-voxels/v2. Runs are [count, paletteIndex|null] in X_FASTEST_THEN_Y_THEN_Z order.
  * null is UNSPECIFIED (keep); only an explicit palette entry of the Catalogue emptyMaterialRef
  * carves. Pure helpers over supplied facts. */
 type C=import('./contracts.js').TypeMap;
 export interface ExpandedRegionBlock {readonly box:C['Box'];readonly size:C['RegionSize'];readonly palette:C['RegionPalette'];readonly indices:Int32Array;}
 export declare function regionBlockBox(block:C['RegionVoxelBlock']):C['Box'];
-export declare function mapblockOf(position:C['Position']):C['ChunkPosition'];
-export declare function regionChunksOfBox(box:C['Box']):ReadonlyArray<{readonly chunkPos:C['ChunkPosition'];readonly box:C['Box']}>;
+export declare function chunkOf(position:C['Position'],partition:C['Partition']):C['ChunkPosition'];
+export declare function regionChunksOfBox(box:C['Box'],partition:C['Partition']):ReadonlyArray<{readonly chunkPos:C['ChunkPosition'];readonly box:C['Box']}>;
+/** Throws CAPABILITY_GAP (GEOMETRY_PROFILE_UNSUPPORTED) unless worldGeometry declares profile; null declares nothing. */
+export declare function requireGeometryProfile(worldGeometry:C['WorldGeometry']|null,profile:C['GeometryProfile']):C['WorldGeometry'];
 export declare function expandRegionBlock(block:C['RegionVoxelBlock']):ExpandedRegionBlock;
 export declare function encodeRegionBlock(input:{origin:C['Position'];size:C['RegionSize'];palette:ReadonlyArray<C['MaterialSpec']>;indices:ArrayLike<number>}):C['RegionVoxelBlock'];
 export declare function validateRegionPalette(block:C['RegionVoxelBlock'],catalogue:C['Catalogue']):C['RegionVoxelBlock'];
 export declare function expectedRegionState(before:C['RegionState'],ops:C['RegionVoxelBlock']):C['RegionState'];
-export declare function summarizeRegionStates(worldRef:C['Ref'],chunks:ReadonlyArray<{chunkPos:C['ChunkPosition'];state:C['RegionState']}>):C['RegionSummary'];
+export declare function summarizeRegionStates(worldRef:C['Ref'],partition:C['Partition'],chunks:ReadonlyArray<{chunkPos:C['ChunkPosition'];state:C['RegionState']}>):C['RegionSummary'];
 export declare function expectedRegionSummary(content:C['RegionSnapshotContent'],operations:C['RegionOperationsProjection']):C['RegionSummary'];
 export declare function validateRegionProposalRequest(input:unknown):C['ValidateRegionProposalRequest'];
 export declare function validateRegionProposalResponse(request:unknown,response:unknown):C['ValidateRegionProposalResponse'];
@@ -123,7 +125,7 @@ export declare function validateRegionWrite(request:unknown,response:unknown):{r
 export declare function validateRegionSnapshotContent(content:unknown,ref:unknown,beforeSummary:unknown):C['RegionSnapshotContent'];
 export declare function validateRegionCommit(request:unknown,response:unknown):C['ApplyRegionCommitResponse'];
 /** region-rollback-cause/v1 metadata: field, rules, read route, what it never covers. */
-export declare const regionRollbackCause:Readonly<{id:'region-rollback-cause/v1';field:string;meaning:string;rules:ReadonlyArray<string>;unknown:'UNKNOWN';readRoute:string;notCovered:ReadonlyArray<string>;capability:'canvas-region/v2:rollback-cause'}>;
+export declare const regionRollbackCause:Readonly<{id:'region-rollback-cause/v1';field:string;meaning:string;rules:ReadonlyArray<string>;unknown:'UNKNOWN';readRoute:string;notCovered:ReadonlyArray<string>;capability:'canvas-region/v3:rollback-cause'}>;
 /** Cause of a successful region rollback, read from the ApplyRegionCommit response of the same request (first answer or exact replay). Absent cause is 'UNKNOWN', never inferred. */
 export declare function regionRollbackCauseOf(request:unknown,response:unknown):Readonly<{requestId:C['Ref'];transactionId:C['Ref'];worldRef:C['Ref'];localContext:C['LocalWorldContext'];operationDigest:C['Digest'];cause:'REPORTED'|'UNKNOWN';failure:C['FailureDetail']|null}>;
 export declare function validateRegionUndo(request:unknown,response:unknown,originResult:unknown):C['UndoRegionCommitResponse'];
@@ -172,16 +174,16 @@ export declare function requirePlacementSource(placement:import('./contracts.js'
 export declare function requirePlacementTarget(placement:import('./contracts.js').PlacementProposal,positions:import('./contracts.js').Positions):import('./contracts.js').PlacementProposal;
 /** Brief controls and confirmed intent placement must be equal (both absent, or equal); returns it, or null when none was confirmed. */
 export declare function confirmedPlacementOf(intent:import('./contracts.js').IntentProjection,brief:import('./contracts.js').BriefProjection):import('./contracts.js').PlacementProposal|null;
-/** canvas/v6 regionInspectionBinding.confirmedPlacement for a confirmed intent; null when none was confirmed (send no confirmedPlacement field). */
+/** canvas/v7 regionInspectionBinding.confirmedPlacement for a confirmed intent; null when none was confirmed (send no confirmedPlacement field). */
 export declare function confirmedPlacementBinding(intent:import('./contracts.js').IntentProjection):import('./contracts.js').ConfirmedPlacementBinding|null;
 /** Canvas pre-commit: the apply's confirmed placement against Canvas's recorded inspection and current world revision. */
 export declare function checkConfirmedPlacementApply(apply:import('./contracts.js').ApplyRecoverableCommitRequest,recordedInspection:RegionInspection,currentWorldRevision:string):Readonly<{placementDigest:string;intentDigest:string;kind:'EXACT_CELLS'|'ANCHORED_EXTENT';cellCount:number}>|null;
-/** painter/v5 CreateBuildPlan (model path): confirmed placement needs its source inspection; planned operations match the target. */
+/** painter/v6 CreateBuildPlan (model path): confirmed placement needs its source inspection; planned operations match the target. */
 export declare function validateCreateBuildPlanRequest(input:unknown):import('./contracts.js').CreateBuildPlanRequest;
 export declare function validateCreateBuildPlanResponse(request:unknown,response:unknown):import('./contracts.js').CreateBuildPlanResponse|import('./contracts.js').ClarificationNeed;
-/** canvas-region/v2 Canvas pre-write: the commit's confirmed placement against Canvas's recorded inspection and current world revision, before any snapshot or Adapter WriteRegion. */
+/** canvas-region/v3 Canvas pre-write: the commit's confirmed placement against Canvas's recorded inspection and current world revision, before any snapshot or Adapter WriteRegion. */
 export declare function checkConfirmedRegionPlacementCommit(commit:import('./contracts.js').ApplyRegionCommitRequest,recordedInspection:RegionInspection,currentWorldRevision:string):Readonly<{placementDigest:string;intentDigest:string;kind:'EXACT_CELLS'|'ANCHORED_EXTENT';cellCount:number}>|null;
 /** Workshop region submission: the commit carries exactly confirmedPlacementBinding(intent) (no confirmedPlacement field when none was confirmed). */
 export declare function validateRegionCommitSubmission(intent:import('./contracts.js').IntentProjection,brief:import('./contracts.js').BriefProjection,commit:import('./contracts.js').ApplyRegionCommitRequest):import('./contracts.js').ApplyRegionCommitRequest;
-/** canvas-region/v2 ApplyRegionCommit admission: shape, operations digest and the confirmed-placement coherence with its own operations. */
+/** canvas-region/v3 ApplyRegionCommit admission: shape, operations digest and the confirmed-placement coherence with its own operations. */
 export declare function validateRegionCommitRequest(commit:unknown):import('./contracts.js').ApplyRegionCommitRequest;

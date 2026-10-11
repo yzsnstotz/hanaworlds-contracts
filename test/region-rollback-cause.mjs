@@ -17,9 +17,9 @@ test('contract surface: optional field without null form, capability, invariant,
  assert.ok(!def.required.includes('rollbackCause'));assert.deepEqual(def.properties.rollbackCause,{$ref:'#/definitions/FailureDetail'});
  assert.equal(a.regionRollbackCause.id,'region-rollback-cause/v1');assert.equal(a.regionRollbackCause.unknown,'UNKNOWN');
  assert.equal(fx.capability,a.regionRollbackCause.capability);
- assert.ok(a.regionCapabilities.some(c=>c.id==='canvas-region/v2:rollback-cause'&&c.owner==='hanaworlds-canvas'));
+ assert.ok(a.regionCapabilities.some(c=>c.id==='canvas-region/v3:rollback-cause'&&c.owner==='hanaworlds-canvas'));
  assert.ok(a.regionInvariants.some(i=>i.id==='REGION-ROLLBACK-CAUSE-OBSERVED'&&i.switchable===false));
- assert.ok(a.wireVersions.includes('canvas-region/v2'));
+ assert.ok(a.wireVersions.includes('canvas-region/v3'));
  // Envelope unchanged: result XOR error; applyFailure still only beside a restore error.
  assert.deepEqual(Object.keys(a.schemaBundle.definitions.ApplyRegionCommitResponse.properties),['contractVersion','requestId','result','error','guardRefusal','applyFailure']);
 });
@@ -50,7 +50,7 @@ test('every rejected case is refused with the recorded public error',()=>{
 });
 test('validateResponse alone refuses the same malformed causes (not only the helper)',()=>{
  for(const id of ['R1','R2','R3','R4','R5','R6','R7','R8']){const c=fx.reject.find(x=>x.id===id);
-  rejects(()=>a.validateResponse('canvas-region/v2','ApplyRegionCommit',c.response),{code:c.error.code},id);}
+  rejects(()=>a.validateResponse('canvas-region/v3','ApplyRegionCommit',c.response),{code:c.error.code},id);}
 });
 test('cause adds no digest or summary change: 1.1 region commit values keep their digests',()=>{
  const r=region.commitResponse.result;
@@ -62,6 +62,6 @@ test('cause adds no digest or summary change: 1.1 region commit values keep thei
 test('Undo results do not carry a rollback cause (not covered by this capability)',()=>{
  assert.ok(!Object.hasOwn(a.schemaBundle.definitions.RegionUndoResult.properties,'rollbackCause'));
  const u=clone(region.undoResponse);u.result.rollbackCause=clone(fx.accept[1].read.failure);
- rejects(()=>a.validateResponse('canvas-region/v2','UndoRegionCommit',u),{code:'UNKNOWN_REQUIRED_FIELD'},'undo');
+ rejects(()=>a.validateResponse('canvas-region/v3','UndoRegionCommit',u),{code:'UNKNOWN_REQUIRED_FIELD'},'undo');
 });
 console.log(`region-rollback-cause: ${passed} passed`);

@@ -8,11 +8,11 @@ const semver=/^(0|[1-9][0-9]*)\.(0|[1-9][0-9]*)\.(0|[1-9][0-9]*)(?:-[0-9A-Za-z-]
 if(!semver)throw Error('Unparseable package version '+pkg.version);
 const contractsCompatibility={package:pkg.name,major:Number(semver[1]),rule:'same-major'};
 const schemaBundle={$schema:'http://json-schema.org/draft-07/schema#',$id:`https://hanaworlds.invalid/contracts/${pkg.version}/schema.json`,'x-contractsCompatibility':contractsCompatibility,definitions};
-metadata.contractHandshake={contracts:`${pkg.name}@${pkg.version}`,wireVersions:profile.wireVersions.toSorted(),compiledOperationsVersion:profile.compiledOperationsVersion,factProfiles:['target-facts/v4']};
+metadata.contractHandshake={contracts:`${pkg.name}@${pkg.version}`,wireVersions:profile.wireVersions.toSorted(),compiledOperationsVersion:profile.compiledOperationsVersion,factProfiles:['target-facts/v5']};
 metadata.contractsCompatibility=contractsCompatibility;
 metadata.typeNames=Object.keys(definitions);
 // Protocol majors come from the declared wire strings; minors from protocolMinors.
-const protocolEntries=[...profile.wireVersions,'region-voxels/v1'].map(w=>{const m=/^(.+)\/[vV]([1-9][0-9]*)$/u.exec(w);if(!m)throw Error('Unparseable wire '+w);return {protocol:m[1],major:Number(m[2]),minor:profile.protocolMinors?.[m[1]]??0};});
+const protocolEntries=[...profile.wireVersions,'region-voxels/v2'].map(w=>{const m=/^(.+)\/[vV]([1-9][0-9]*)$/u.exec(w);if(!m)throw Error('Unparseable wire '+w);return {protocol:m[1],major:Number(m[2]),minor:profile.protocolMinors?.[m[1]]??0};});
 metadata.contractProtocols=protocolEntries.toSorted((a,b)=>a.protocol<b.protocol?-1:a.protocol>b.protocol?1:0);
 const freeze=`const freeze=x=>{if(x&&typeof x==='object'&&!Object.isFrozen(x)){Object.values(x).forEach(freeze);Object.freeze(x)}return x};\n`;
 await mkdir('src/local/generated',{recursive:true});

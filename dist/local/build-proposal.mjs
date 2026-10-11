@@ -7,17 +7,17 @@ import { validateType, validateRequest, validateResponse, validateDigestBinding,
 import { requireFact } from '../errors.mjs';
 import { confirmedPlacementOf, requirePlacementSource, requirePlacementTarget, requirePlacementInspection, requireOperationsPlacementTarget } from './placement.mjs';
 import { inside, unionCellCount, comparePosition } from '../geometry.mjs';
-const WIRE = 'painter/v5', OPERATION = 'ValidateBuildProposal', PLAN = 'CreateBuildPlan';
+const WIRE = 'painter/v6', OPERATION = 'ValidateBuildProposal', PLAN = 'CreateBuildPlan';
 const same = (a, b) => canonicalJSON(a) === canonicalJSON(b);
 const identity = ok => requireFact(ok, 'TRANSACTION_CONFLICT', 'PAYLOAD_CHANGED');
 const stale = ok => requireFact(ok, 'TARGET_FACTS_STALE', 'REVISION_CHANGED');
 const geometry = ok => requireFact(ok, 'BUILD_INVALID', 'INVALID_GEOMETRY');
 
 /** Check this new Painter producer only; not a request to update default peers. Same contracts
- * major (checkContractHandshake) plus the painter/v5 wire; minor/patch never decide. */
+ * major (checkContractHandshake) plus the painter/v6 wire; minor/patch never decide. */
 export function checkBuildProposalHandshake(input) {
   const { advertised } = checkContractHandshake(input,
-    { wires: [WIRE], factProfiles: ['target-facts/v4'] });
+    { wires: [WIRE], factProfiles: ['target-facts/v5'] });
   return Object.freeze({ result: 'HANDSHAKE_OPERATION_MATCH', advertised });
 }
 
@@ -48,7 +48,7 @@ function proposalGeometry(request) {
   // inspection and rechecks every written cell before mutation.
   const effects = written.map(position => {
     const op = operations.findLast(op => inside(position, op));
-    return { position, ...proposal.materials[op.materialRef] };
+    return { position, geometryProfile: 'voxel-grid/v1', ...proposal.materials[op.materialRef] };
   });
   for (const effect of effects) {
     const tags = request.catalogue.materials[effect.materialRef];
@@ -131,7 +131,8 @@ export function validateBuildProposalResponse(input, responseInput) {
   stale(same(build.coordinateFrame, request.regionInspection.frame) &&
     build.catalogueDigest === digestValue('catalogue', request.catalogue).sha256 &&
     build.targetFactsDigest === request.targetFactsDigest && build.safetyProfileDigest === request.safetyProfileDigest);
-  geometry(same(build.materials, request.proposal.materials) && same(build.operations, operations));
+  geometry(build.geometryProfile === request.targetFacts.geometryProfile &&
+    same(build.materials, request.proposal.materials) && same(build.operations, operations));
   const positions = effects.map(effect => effect.position);
   for (const witness of build.witnesses) {
     if (witness.facts.evidence) identity(same(witness.facts.evidence, request.regionInspection.evidence));
@@ -146,13 +147,13 @@ export function validateBuildProposalResponse(input, responseInput) {
         (witness.facts.portalRef === null ? entrancePortalRefs.length === 0 : entrancePortalRefs.includes(witness.facts.portalRef)));
     }
   }
-  validateWitnessCoherence({ build, finalEffects: { profileVersion: 'final-effects/v2',
+  validateWitnessCoherence({ build, finalEffects: { profileVersion: 'final-effects/v3',
     frameDigest: request.targetFacts.frameDigest, catalogueDigest: build.catalogueDigest, effects },
     targetFacts: request.targetFacts, safetyProfile: request.safetyProfile, catalogue: request.catalogue });
   return response;
 }
 
-/** painter/v5 CreateBuildPlan (model path) request coherence for a confirmed placement: the plan is
+/** painter/v6 CreateBuildPlan (model path) request coherence for a confirmed placement: the plan is
  * made on the placement's source inspection (no re-sampled view). Same named refusals as
  * ValidateBuildProposal; without a placement the request is checked exactly as in 1.0. */
 export function validateCreateBuildPlanRequest(input) {

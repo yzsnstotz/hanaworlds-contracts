@@ -20,7 +20,7 @@ test('contract surface: profile, placement types, wires and named failures',()=>
  for(const [t,f] of [['Controls','placement'],['ConfirmedIntent','placement'],['RegionApplyBinding','confirmedPlacement'],['ApplyRegionCommitRequest','confirmedPlacement']]){
   assert.ok(!a.schemaBundle.definitions[t].required.includes(f),t);assert.ok(a.schemaBundle.definitions[t].properties[f].$ref,t);}
  assert.equal(a.digestProfile.projectionTypes['placement-proposal'],'PlacementProposal');
- for(const w of ['session/v4','painter/v5','ReferenceBrief/v4','painter-region/v2','canvas/v6','world-adapter/v7','BUILD/V4','region-build/v1','world-adapter-region/v2','canvas-region/v2','interaction-surface/v4'])assert.ok(a.wireVersions.includes(w),w);
+ for(const w of ['session/v5','painter/v6','ReferenceBrief/v5','painter-region/v3','canvas/v7','world-adapter/v8','BUILD/V5','region-build/v2','world-adapter-region/v3','canvas-region/v3','interaction-surface/v5'])assert.ok(a.wireVersions.includes(w),w);
  const names=a.confirmedPlacement.namedFailures.map(f=>f.failure),pairs=a.confirmedPlacement.namedFailures.map(f=>f.code+'/'+f.reason);
  assert.equal(new Set(names).size,names.length);assert.equal(new Set(pairs).size,pairs.length,'each named failure has its own public code/reason');
  for(const f of a.confirmedPlacement.namedFailures){assert.equal(f.phase,'validate');a.validateType('ErrorCode',f.code);a.validateType('ErrorReason',f.reason);}
@@ -47,14 +47,14 @@ test('a placement is made only from a real inspection; its target stays inside w
  a.requirePlacementTarget(fx.placements.A,[[0,1,3],[1,1,3],[2,1,3]]);
  rejects(()=>a.requirePlacementTarget(fx.placements.A,[[3,1,3],[4,1,3],[5,1,3]]),{placementFailure:'PLACEMENT_TARGET_MISMATCH'},'A vs B');
 });
-test('Painter (painter/v5): confirmed A writes A; extent, a new proposal with a new confirmation and no placement pass',()=>{
+test('Painter (painter/v6): confirmed A writes A; extent, a new proposal with a new confirmation and no placement pass',()=>{
  for(const c of fx.perCell.accept){a.validateBuildProposalRequest(c.request);a.validateBuildProposalResponse(c.request,c.response);}
 });
-test('Painter (painter/v5): B under A, partial, outside extent, new view, stale, frame, binding, old confirmation and occupied are refused by name',()=>{
+test('Painter (painter/v6): B under A, partial, outside extent, new view, stale, frame, binding, old confirmation and occupied are refused by name',()=>{
  for(const c of fx.perCell.reject){rejects(()=>a.validateBuildProposalRequest(c.request),c.error,c.title);
   if(c.error.placementFailure){const f=a.confirmedPlacement.namedFailures.find(x=>x.failure===c.error.placementFailure);assert.equal(f.code,c.error.code);assert.equal(f.reason,c.error.reason);}}
 });
-test('Painter model path (painter/v5 CreateBuildPlan): the plan honours the confirmed placement or is refused by name',()=>{
+test('Painter model path (painter/v6 CreateBuildPlan): the plan honours the confirmed placement or is refused by name',()=>{
  for(const c of fx.createBuildPlan.accept){a.validateCreateBuildPlanRequest(c.request);a.validateCreateBuildPlanResponse(c.request,c.response);}
  for(const c of fx.createBuildPlan.reject)rejects(()=>c.at==='request'?a.validateCreateBuildPlanRequest(c.request):a.validateCreateBuildPlanResponse(c.request,c.response),c.error,c.title);
  const [ok]=fx.createBuildPlan.accept;
@@ -68,10 +68,10 @@ test('Painter response: a response for another request (A confirmed, B built) is
 test('replay: a completed request returns the stored outcome; the same requestId with B is a conflict',()=>{
  const [okA]=fx.perCell.accept,b=fx.perCell.reject[0].request;
  const facts={...clone(main.facts.requestFacts),currentTurnRevision:okA.request.turnRevision,currentBriefDigest:okA.request.referenceBriefDigest};
- const first=a.validateCurrentRequest('painter/v5','ValidateBuildProposal',okA.request,facts);assert.equal(first.disposition,'EXECUTE');
+ const first=a.validateCurrentRequest('painter/v6','ValidateBuildProposal',okA.request,facts);assert.equal(first.disposition,'EXECUTE');
  const done={...facts,requestState:'COMPLETED',replay:'EXACT_REPLAY',priorRequestDigest:first.requestDigest};
- assert.equal(a.validateCurrentRequest('painter/v5','ValidateBuildProposal',okA.request,done).disposition,'RETURN_STORED');
- rejects(()=>a.validateCurrentRequest('painter/v5','ValidateBuildProposal',{...b,requestId:okA.request.requestId},done),{code:'TRANSACTION_CONFLICT'},'changed payload under the same requestId');
+ assert.equal(a.validateCurrentRequest('painter/v6','ValidateBuildProposal',okA.request,done).disposition,'RETURN_STORED');
+ rejects(()=>a.validateCurrentRequest('painter/v6','ValidateBuildProposal',{...b,requestId:okA.request.requestId},done),{code:'TRANSACTION_CONFLICT'},'changed payload under the same requestId');
 });
 test('Workshop context: a re-read on a new view is not the retained context of the confirmed placement',()=>{
  const [okA]=fx.perCell.accept,moved=fx.perCell.reject[3].request,keys=Object.keys(a.schemaBundle.definitions.BuildProposalContext.properties);
@@ -80,14 +80,14 @@ test('Workshop context: a re-read on a new view is not the retained context of t
  a.validateBuildProposalContext(okA.request,{sourceContext:ctx(okA.request),currentContext:ctx(okA.request),requestFacts});
  rejects(()=>a.validateBuildProposalContext(okA.request,{sourceContext:ctx(okA.request),currentContext:ctx(moved),requestFacts}),{code:'TARGET_FACTS_STALE'},'current context moved');
 });
-test('Canvas (canvas/v6) and Workshop submission: the confirmed binding is carried and rechecked before any write',()=>{
+test('Canvas (canvas/v7) and Workshop submission: the confirmed binding is carried and rechecked before any write',()=>{
  for(const c of fx.canvas.accept){a.validateCurrentBuildSubmission(c.submission,c.requestFacts);
   const checked=a.checkConfirmedPlacementApply(c.submission.apply,ins(c.recordedInspection),c.currentWorldRevision);
   const sent=c.submission.apply.regionInspectionBinding.confirmedPlacement;
   if(sent===undefined)assert.equal(checked,null,c.title);else{assert.equal(checked.placementDigest,D('placement-proposal',sent.placement));assert.equal(checked.intentDigest,D('intent',c.submission.intent));}}
  for(const c of fx.canvas.reject){
   const run=c.at==='canvas'?()=>a.checkConfirmedPlacementApply(c.submission.apply,ins(c.recordedInspection),c.currentWorldRevision)
-   :c.at==='apply'?()=>a.validateBoundRequest('canvas/v6','ApplyRecoverableCommit',c.submission.apply):()=>a.validateCurrentBuildSubmission(c.submission,c.requestFacts);
+   :c.at==='apply'?()=>a.validateBoundRequest('canvas/v7','ApplyRecoverableCommit',c.submission.apply):()=>a.validateCurrentBuildSubmission(c.submission,c.requestFacts);
   rejects(run,c.error,c.title);
  }
 });
@@ -97,11 +97,11 @@ test('Canvas binding needs its intent: confirmedPlacementBinding is null without
  const b=a.confirmedPlacementBinding(okA.request.intent);assert.equal(b.intentDigest,okA.request.intentDigest);assert.equal(b.placementDigest,D('placement-proposal',fx.placements.A));
  assert.equal(a.canonicalJSON(a.confirmedPlacementOf(okA.request.intent,okA.request.referenceBrief)),a.canonicalJSON(fx.placements.A));
 });
-test('region (painter-region/v2): specified world cells match the confirmed target',()=>{
+test('region (painter-region/v3): specified world cells match the confirmed target',()=>{
  for(const c of fx.region.accept)a.validateRegionProposalRequest(c.request);
  for(const c of fx.region.reject)rejects(()=>a.validateRegionProposalRequest(c.request),c.error,c.title);
 });
-test('Canvas region (canvas-region/v2): the confirmed binding is carried and checked before any snapshot or WriteRegion',()=>{
+test('Canvas region (canvas-region/v3): the confirmed binding is carried and checked before any snapshot or WriteRegion',()=>{
  for(const c of fx.canvasRegion.accept){a.validateRegionCommitSubmission(c.intent,c.brief,c.commit);
   const checked=a.checkConfirmedRegionPlacementCommit(c.commit,ins(c.recordedInspection),c.currentWorldRevision);
   if(c.commit.confirmedPlacement===undefined)assert.equal(checked,null,c.title);else{assert.equal(checked.intentDigest,D('intent',c.intent));assert.equal(checked.placementDigest,D('placement-proposal',c.commit.confirmedPlacement.placement));}}

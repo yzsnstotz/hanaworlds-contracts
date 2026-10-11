@@ -39,7 +39,7 @@ test('fixture profile and every rule set decode as SiteRules (open values, no de
 });
 test('SafetyProfile is derived only from the confirmed intent: invariants fixed, rules copied',()=>{
  for(const name of fx.perCell.accept){const {r}=perCell(fx.ruleSets[name]);const s=a.safetyProfileFromConfirmedIntent(r.intent);
-  assert.equal(s.profileVersion,'safety-profile/v4');assert.equal(s.connectivity,6);assert.equal(s.requireBodyClearance,true);
+  assert.equal(s.profileVersion,'safety-profile/v5');assert.equal(s.connectivity,6);assert.equal(s.requireBodyClearance,true);
   for(const k of ['requireEntranceConnectivity','hazardPolicy','optionalLightRule'])same(s[k],fx.ruleSets[name][k],name+'.'+k);}
 });
 test('per-cell: confirmed rule sets pass request and response validation (incl. open hazard and doorway entrance)',()=>{
@@ -57,13 +57,13 @@ test('per-cell: mismatching, post-confirmation, unsupported or unsatisfiable rul
 });
 test('per-cell: stated light rule is refused by witness coherence too (Brush recheck)',()=>{
  const {r,resp}=perCell(fx.ruleSets.light);const b=resp.result.build;
- rejects(()=>a.validateWitnessCoherence({build:b,finalEffects:{profileVersion:'final-effects/v2',frameDigest:r.targetFacts.frameDigest,catalogueDigest:b.catalogueDigest,effects:r.targetFacts.knownEmptyCells.map(position=>({position,...b.materials.stone}))},targetFacts:r.targetFacts,safetyProfile:r.safetyProfile,catalogue:r.catalogue}),{code:'CAPABILITY_UNAVAILABLE',reason:'REQUIRED_FACT_UNKNOWN'},'light at coherence');
+ rejects(()=>a.validateWitnessCoherence({build:b,finalEffects:{profileVersion:'final-effects/v3',frameDigest:r.targetFacts.frameDigest,catalogueDigest:b.catalogueDigest,effects:r.targetFacts.knownEmptyCells.map(position=>({position,geometryProfile:b.geometryProfile,...b.materials.stone}))},targetFacts:r.targetFacts,safetyProfile:r.safetyProfile,catalogue:r.catalogue}),{code:'CAPABILITY_UNAVAILABLE',reason:'REQUIRED_FACT_UNKNOWN'},'light at coherence');
 });
 test('decode: missing or extended SiteRules and any player geometry are rejected',()=>{
  for(const c of fx.perCell.decodeReject){
   const {r}=perCell(fx.ruleSets.strict);const target=at(r,c.path);
   if(c.remove)delete target[c.remove];if(c.set)Object.assign(target,c.set);
-  rejects(()=>a.validateBoundRequest('painter/v5','ValidateBuildProposal',r),c.error,c.title);
+  rejects(()=>a.validateBoundRequest('painter/v6','ValidateBuildProposal',r),c.error,c.title);
  }
 });
 test('witnesses: entrance clearance/portal must match the confirmation; body witness carries no geometry',()=>{
@@ -93,18 +93,18 @@ test('region: confirmed rules apply; entrance/light refused by name; hazard chec
  for(const c of fx.region.reject)rejects(()=>a.validateRegionProposalRequest(regionCase(fx.ruleSets[c.rules],c.damagingPaletteNode??null)),c.error,c.title);
  a.validateRegionProposalRequest(regionCase(fx.ruleSets[fx.region.acceptDamaging.rules],fx.region.acceptDamaging.damagingPaletteNode));
 });
-const peer=caps=>({profileVersion:'protocol-handshake/v1',component:'fixture-painter',protocols:[{protocol:'painter',major:5,minor:0},{protocol:'painter-region',major:2,minor:0}],capabilities:caps,provenance:{packageName:'fixture-painter',packageVersion:'1.0.0',sourceRevision:null,artifactDigest:null}});
+const peer=caps=>({profileVersion:'protocol-handshake/v1',component:'fixture-painter',protocols:[{protocol:'painter',major:6,minor:0},{protocol:'painter-region',major:3,minor:0}],capabilities:caps,provenance:{packageName:'fixture-painter',packageVersion:'1.0.0',sourceRevision:null,artifactDigest:null}});
 test('site-rule capabilities: light and region entrance are declared once on a current wire with a named absent error',()=>{
  assert.deepEqual(a.safetyCapabilities.map(c=>c.id),fx.capabilities.ids);
- const wires=[...a.contractHandshake.wireVersions,'region-voxels/v1'];
+ const wires=[...a.contractHandshake.wireVersions,'region-voxels/v2'];
  for(const c of a.safetyCapabilities){assert.ok(wires.includes(c.id.split(':')[0]),c.id);same(c.whenAbsent,fx.capabilities.absentError,c.id);assert.ok(c.cause.length>0);}
  assert.deepEqual(a.unmetSafetyCapabilities(peer([]),fx.capabilities.ids).map(u=>u.id),fx.capabilities.ids);
- rejects(()=>a.requireSafetyCapabilities(peer([]),['painter/v5:light-rule']),{code:'CAPABILITY_UNAVAILABLE',reason:'REQUIRED_FACT_UNKNOWN'},'light absent');
+ rejects(()=>a.requireSafetyCapabilities(peer([]),['painter/v6:light-rule']),{code:'CAPABILITY_UNAVAILABLE',reason:'REQUIRED_FACT_UNKNOWN'},'light absent');
 });
 const G=fx.engineGuards;
 test('engine guards: the declaration states per-stage coverage; partial coverage is never "available"',()=>{
  a.validateType('EngineGuardDeclaration',G.declaration);
- const caps={providerRef:'adapter',capabilityRevision:'cap-1',worldRef:'w',engineBounds:null,limits:[],recoveryGuarantee:null,stateProfile:null,sessionDeleteSupported:false,imageMediaTypes:[],model:null,engineGuards:G.declaration};
+ const caps={providerRef:'adapter',capabilityRevision:'cap-1',worldRef:'w',engineBounds:null,worldGeometry:null,limits:[],recoveryGuarantee:null,stateProfile:null,sessionDeleteSupported:false,imageMediaTypes:[],model:null,engineGuards:G.declaration};
  a.validateType('PublicCapabilities',caps);a.validateType('PublicCapabilities',{...caps,engineGuards:null});
  assert.deepEqual([...a.unmetEngineGuards(G.declaration,G.covered)],[]);
  a.requireEngineGuards(G.declaration,G.covered);
@@ -133,19 +133,19 @@ test('engine guards: BODY_OCCUPIED, PROTECTED_CELL, PLAYER_ENCLOSED and RESTORE_
 const envelope=(type,wire,refusal,error)=>({contractVersion:wire,requestId:'r-1',result:null,error,guardRefusal:refusal,...(type.endsWith('RegionCommitResponse')?{applyFailure:null}:{})});
 test('engine guards: a guard refusal travels beside the error it explains, on every guarded response',()=>{
  const named=Object.fromEntries(G.named.map(n=>[n.name,n]));
- const cases=[['ScopedApplyResponse','world-adapter/v7','BODY_OCCUPIED'],['ScopedPrepareResponse','world-adapter/v7','PLAYER_ENCLOSED'],['WriteRegionResponse','world-adapter-region/v2','PROTECTED_CELL'],
-  ['RestoreTransactionResponse','world-adapter/v7','RESTORE_GUARD_UNAVAILABLE'],['ApplyRegionCommitResponse','canvas-region/v2','PROTECTED_CELL']];
+ const cases=[['ScopedApplyResponse','world-adapter/v8','BODY_OCCUPIED'],['ScopedPrepareResponse','world-adapter/v8','PLAYER_ENCLOSED'],['WriteRegionResponse','world-adapter-region/v3','PROTECTED_CELL'],
+  ['RestoreTransactionResponse','world-adapter/v8','RESTORE_GUARD_UNAVAILABLE'],['ApplyRegionCommitResponse','canvas-region/v3','PROTECTED_CELL']];
  for(const [type,wire,name] of cases){const n=named[name],err={...n.error,transactionRef:null};
   a.validateType(type,envelope(type,wire,n.refusal,err));
   assert.throws(()=>a.validateType(type,envelope(type,wire,n.refusal,null)),{code:'SCHEMA_INVALID'},type+' refusal without error');
   assert.throws(()=>a.validateType(type,envelope(type,wire,n.refusal,{...err,reason:'PAYLOAD_CHANGED'})),{code:'SCHEMA_INVALID'},type+' error not matching refusal');}
  const pre={guard:'PLAYER_ENCLOSURE',stage:'REGION_APPLY',finding:'GUARD_UNAVAILABLE'};
- a.validateType('WriteRegionResponse',envelope('WriteRegionResponse','world-adapter-region/v2',pre,{...G.preflightError,transactionRef:null}));
- a.validateType('ScopedApplyResponse',envelope('ScopedApplyResponse','world-adapter/v7',null,{...G.preflightError,transactionRef:null}));
+ a.validateType('WriteRegionResponse',envelope('WriteRegionResponse','world-adapter-region/v3',pre,{...G.preflightError,transactionRef:null}));
+ a.validateType('ScopedApplyResponse',envelope('ScopedApplyResponse','world-adapter/v8',null,{...G.preflightError,transactionRef:null}));
 });
 function restoreFailedReceipt(){
  const R=G.restoreFailedReceipt,applyError=a.guardRefusalError(R.applyRefusal,{transactionRef:'transaction-1'});
- return {contractVersion:'canvas/v6',transactionId:'transaction-1',operationDigest:'1'.repeat(64),transactionPayloadDigest:'2'.repeat(64),status:'RESTORE_FAILED',previousWorldRevision:'world-1',observedWorldRevision:null,readbackDigest:null,restoreStatus:R.restoreStatus,
+ return {contractVersion:'canvas/v7',transactionId:'transaction-1',operationDigest:'1'.repeat(64),transactionPayloadDigest:'2'.repeat(64),status:'RESTORE_FAILED',previousWorldRevision:'world-1',observedWorldRevision:null,readbackDigest:null,restoreStatus:R.restoreStatus,
   error:clone(a.guardRefusalError(R.restoreRefusal,{transactionRef:'transaction-1',cause:applyError.code})),localContext:main.request.localContext,guardRefusal:clone(R.restoreRefusal),applyFailure:{error:clone(applyError),guardRefusal:clone(R.applyRefusal)}};
 }
 test('G1: a refused restore keeps both causes and stays pending manual recovery',()=>{
@@ -159,20 +159,20 @@ test('G1: a refused restore keeps both causes and stays pending manual recovery'
 test('region: a refused region restore keeps the causing failure in applyFailure',()=>{
  const applyRefusal={guard:'CELL_PROTECTION',stage:'REGION_APPLY',finding:'PROTECTED_CELL'},restoreRefusal={guard:'BODY_CLEARANCE',stage:'REGION_RESTORE',finding:'BODY_OCCUPIED'};
  const applyError=clone(a.guardRefusalError(applyRefusal));
- const res={contractVersion:'canvas-region/v2',requestId:'r-1',result:null,error:clone(a.guardRefusalError(restoreRefusal,{cause:applyError.code})),guardRefusal:restoreRefusal,applyFailure:{error:applyError,guardRefusal:applyRefusal}};
+ const res={contractVersion:'canvas-region/v3',requestId:'r-1',result:null,error:clone(a.guardRefusalError(restoreRefusal,{cause:applyError.code})),guardRefusal:restoreRefusal,applyFailure:{error:applyError,guardRefusal:applyRefusal}};
  a.validateType('ApplyRegionCommitResponse',res);
  assert.throws(()=>a.validateType('ApplyRegionCommitResponse',{...res,applyFailure:{...res.applyFailure,error:{...applyError,code:'READBACK_MISMATCH'}}}),{code:'SCHEMA_INVALID'},'applyFailure must match its refusal and the causeCode');
 });
 test('REGION_RESTORE: the engine reports a refused restore without a cause; Canvas turns a rollback into a pending RESTORE_FAILED and passes an Undo refusal through',()=>{
  const R=G.regionRestore;
  for(const c of R.engine){same(a.guardRefusalError(c.refusal),{...c.error,transactionRef:null},c.name);
-  a.validateType('WriteRegionResponse',envelope('WriteRegionResponse','world-adapter-region/v2',c.refusal,{...c.error,transactionRef:null}));
-  a.validateType('UndoRegionCommitResponse',envelope('UndoRegionCommitResponse','canvas-region/v2',c.refusal,{...c.error,transactionRef:null}));}
+  a.validateType('WriteRegionResponse',envelope('WriteRegionResponse','world-adapter-region/v3',c.refusal,{...c.error,transactionRef:null}));
+  a.validateType('UndoRegionCommitResponse',envelope('UndoRegionCommitResponse','canvas-region/v3',c.refusal,{...c.error,transactionRef:null}));}
  for(const c of R.reject){const bad={...R.engine[0].error,transactionRef:null,...Object.fromEntries(['mutationState','retryability','reason'].filter(k=>c[k]).map(k=>[k,c[k]]))};
-  assert.throws(()=>a.validateType('WriteRegionResponse',envelope('WriteRegionResponse','world-adapter-region/v2',R.engine[0].refusal,bad)),{code:'SCHEMA_INVALID'},c.title);}
+  assert.throws(()=>a.validateType('WriteRegionResponse',envelope('WriteRegionResponse','world-adapter-region/v3',R.engine[0].refusal,bad)),{code:'SCHEMA_INVALID'},c.title);}
  // Rollback after a refused region apply: Canvas wraps the engine refusal into the transaction form.
  const applyError=clone(a.guardRefusalError(R.rollbackApplyRefusal)),restoreRefusal=R.engine[0].refusal;
- const rollback={contractVersion:'canvas-region/v2',requestId:'r-1',result:null,error:clone(a.guardRefusalError(restoreRefusal,{cause:applyError.code})),guardRefusal:restoreRefusal,applyFailure:{error:applyError,guardRefusal:R.rollbackApplyRefusal}};
+ const rollback={contractVersion:'canvas-region/v3',requestId:'r-1',result:null,error:clone(a.guardRefusalError(restoreRefusal,{cause:applyError.code})),guardRefusal:restoreRefusal,applyFailure:{error:applyError,guardRefusal:R.rollbackApplyRefusal}};
  a.validateType('ApplyRegionCommitResponse',rollback);
  assert.throws(()=>a.validateType('ApplyRegionCommitResponse',{...rollback,error:{...R.engine[0].error,transactionRef:null}}),{code:'SCHEMA_INVALID'},'a rollback with applyFailure must use the pending transaction form');
  // A per-cell RESTORE_FAILED receipt never carries the engine form.

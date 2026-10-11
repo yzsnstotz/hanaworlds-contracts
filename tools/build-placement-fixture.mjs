@@ -45,7 +45,7 @@ const placements={
  occupied:a.createPlacementProposal(inspections.view1,exact([[0,0,3]])),
 };
 
-// --- painter/v5 requests: same Session, materials and dimensions; only what the case names differs.
+// --- painter/v6 requests: same Session, materials and dimensions; only what the case names differs.
 function perCell({inspection:ins,brief,intent=brief,boxes,turn='fixture-turn-4',confirmedTurn=turn}){
  const r=clone(r0),dims={width:3,height:1,depth:1,unit:'node'};
  Object.assign(r,{turnRevision:turn,regionInspection:clone(ins),targetFacts:clone(ins.targetFacts),targetFactsDigest:ins.targetFactsDigest});
@@ -62,8 +62,8 @@ function respond(r){
  const resp=clone(main.response),b=resp.result.build,tf=r.targetFacts,o=tf.sampledBounds.min;
  b.operations=r.proposal.boxes.map(x=>({op:'set_box',min:x.min.map((v,i)=>v+o[i]),max:x.max.map((v,i)=>v+o[i]),materialRef:x.materialRef}));
  const positions=tf.knownEmptyCells.filter(p=>b.operations.some(op=>p.every((v,i)=>v>=op.min[i]&&v<=op.max[i]))).sort(a.comparePosition);
- const effects=positions.map(position=>({position,...b.materials.stone}));
- const finalEffectsDigest=D('final-effects',{profileVersion:'final-effects/v2',frameDigest:tf.frameDigest,catalogueDigest:b.catalogueDigest,effects});
+ const effects=positions.map(position=>({position,geometryProfile:b.geometryProfile,...b.materials.stone}));
+ const finalEffectsDigest=D('final-effects',{profileVersion:'final-effects/v3',frameDigest:tf.frameDigest,catalogueDigest:b.catalogueDigest,effects});
  Object.assign(b,{coordinateFrame:clone(r.regionInspection.frame),targetFactsDigest:r.targetFactsDigest,
   declaredBounds:{min:[0,1,2].map(i=>Math.min(...b.operations.map(op=>op.min[i]))),max:[0,1,2].map(i=>Math.max(...b.operations.map(op=>op.max[i])))}});
  for(const w of b.witnesses)Object.assign(w,{finalEffectsDigest,targetFactsDigest:r.targetFactsDigest,facts:{...w.facts,evidence:clone(r.regionInspection.evidence),positions}});
@@ -99,17 +99,17 @@ for(const c of proposal.reject)expectError(()=>a.createPlacementProposal(inspect
 const source={reject:[{title:'another World',placement:'A',inspection:'otherWorld',worldRef:'fixture-world-b',error:failure('PLACEMENT_WORLD_CHANGED')}]};
 for(const c of source.reject)expectError(()=>a.requirePlacementSource(placements[c.placement],inspections[c.inspection],c.worldRef));
 
-// --- Workshop submission and Canvas canvas/v6 apply (Canvas rechecks before any write).
+// --- Workshop submission and Canvas canvas/v7 apply (Canvas rechecks before any write).
 const config={profileVersion:'compilation-config/v3',writeBackend:{profileId:'static-local',revision:'static-1'},overlapRule:'last-writer-wins',effectOrder:'numeric-x-y-z',compressionRule:'exact-final-effects-only'};
 function submission(r,{binding='confirmed',bindingIntent=r.intent}={}){
  const {response,effects}=respond(r),b=response.result.build,tf=r.targetFacts;
- const operations={contractVersion:'operations/v3',buildDigest:response.result.buildDigest,compilerRevision:'brush-1',compilationConfigDigest:D('compilation-config',config),worldRef:r.worldRef,frameDigest:tf.frameDigest,catalogueDigest:b.catalogueDigest,targetFactsDigest:r.targetFactsDigest,effects};
+ const operations={contractVersion:'operations/v4',buildDigest:response.result.buildDigest,compilerRevision:'brush-1',compilationConfigDigest:D('compilation-config',config),worldRef:r.worldRef,frameDigest:tf.frameDigest,catalogueDigest:b.catalogueDigest,targetFactsDigest:r.targetFactsDigest,effects};
  const operationDigest=D('operations',operations);
- const analysis={contractVersion:'canvas/v6',worldRef:r.worldRef,worldRevision:tf.worldRevision,registryRevision:'registry-1',selectionRevision:'selection-1',operationDigest,orderedSelectedRefs:[],affectedObjectRefs:[]};
+ const analysis={contractVersion:'canvas/v7',worldRef:r.worldRef,worldRevision:tf.worldRevision,registryRevision:'registry-1',selectionRevision:'selection-1',operationDigest,orderedSelectedRefs:[],affectedObjectRefs:[]};
  const confirmedPlacement=binding==='confirmed'?a.confirmedPlacementBinding(bindingIntent):binding;
  const envelope=(wire,requestId,fields)=>({contractVersion:wire,sessionRef:r.sessionRef,requestId,worldRef:r.worldRef,...fields,localContext:clone(r.localContext)});
- const apply=envelope('canvas/v6','apply',{transactionId:'transaction-1',operations,operationDigest,analysisDigest:D('affected-analysis',analysis),decisionRevision:null,expectedWorldRevision:tf.worldRevision,expectedObjectRevisions:{},guarantee:'RECOVERABLE_VERIFIED',regionInspectionBinding:{inspectionId:r.regionInspection.inspectionId,build:b}});setOpt(apply.regionInspectionBinding,'confirmedPlacement',confirmedPlacement);
- const advance=envelope('session/v4','advance',{expectedTurnRevision:r.turnRevision});
+ const apply=envelope('canvas/v7','apply',{transactionId:'transaction-1',operations,operationDigest,analysisDigest:D('affected-analysis',analysis),decisionRevision:null,expectedWorldRevision:tf.worldRevision,expectedObjectRevisions:{},guarantee:'RECOVERABLE_VERIFIED',regionInspectionBinding:{inspectionId:r.regionInspection.inspectionId,build:b}});setOpt(apply.regionInspectionBinding,'confirmedPlacement',confirmedPlacement);
+ const advance=envelope('session/v5','advance',{expectedTurnRevision:r.turnRevision});
  return {submission:{parentRequest:advance,turnRef:'turn-1',confirmationInputId:'confirmation-1',intent:r.intent,analysis,apply},
   requestFacts:{...clone(main.facts.requestFacts),currentTurnRevision:r.turnRevision,currentBriefDigest:r.referenceBriefDigest}};
 }
@@ -129,9 +129,9 @@ const canvas={
 {const c=submission(okA.request);c.submission.apply.regionInspectionBinding.confirmedPlacement.placementDigest='0'.repeat(64);canvas.reject.push({title:'Canvas: placement digest does not match the bound placement',...c,at:'apply',error:failure('PLACEMENT_BINDING_CHANGED')});}
 {const c=submission(okA.request);c.submission.apply.regionInspectionBinding.confirmedPlacement.intentDigest=okA.request.intentDigest.replace(/^./,x=>x==='0'?'1':'0');canvas.reject.push({title:'Workshop: intent digest in the binding is not the confirmed intent',...c,at:'submission',error:failure('PLACEMENT_BINDING_CHANGED')});}
 for(const c of canvas.accept){a.validateCurrentBuildSubmission(c.submission,c.requestFacts);a.checkConfirmedPlacementApply(c.submission.apply,inspections[c.recordedInspection],c.currentWorldRevision);}
-for(const c of canvas.reject)expectError(()=>c.at==='canvas'?a.checkConfirmedPlacementApply(c.submission.apply,inspections[c.recordedInspection],c.currentWorldRevision):c.at==='apply'?a.validateBoundRequest('canvas/v6','ApplyRecoverableCommit',c.submission.apply):a.validateCurrentBuildSubmission(c.submission,c.requestFacts));
+for(const c of canvas.reject)expectError(()=>c.at==='canvas'?a.checkConfirmedPlacementApply(c.submission.apply,inspections[c.recordedInspection],c.currentWorldRevision):c.at==='apply'?a.validateBoundRequest('canvas/v7','ApplyRecoverableCommit',c.submission.apply):a.validateCurrentBuildSubmission(c.submission,c.requestFacts));
 
-// --- painter-region/v2: the region block is in world coordinates; its specified cells are the target.
+// --- painter-region/v3: the region block is in world coordinates; its specified cells are the target.
 const pr=regionFx.proposalRequest,block=a.expandRegionBlock(pr.proposal.block);
 const specified=[];for(let i=0;i<block.indices.length;i++)if(block.indices[i]!==-1){const [sx,sy]=[0,1].map(k=>block.box.max[k]-block.box.min[k]+1);specified.push([block.box.min[0]+i%sx,block.box.min[1]+Math.floor(i/sx)%sy,block.box.min[2]+Math.floor(i/(sx*sy))]);}
 specified.sort(a.comparePosition);
@@ -154,11 +154,11 @@ const regionCases={accept:[{title:'region: specified cells are exactly the confi
 for(const c of regionCases.accept)a.validateRegionProposalRequest(c.request);
 for(const c of regionCases.reject)expectError(()=>a.validateRegionProposalRequest(c.request));
 
-// --- canvas-region/v2 ApplyRegionCommit: Canvas checks before any snapshot or Adapter WriteRegion.
-// Brush compilation here is the public expand/encode split per mapblock (as the region fixture does).
+// --- canvas-region/v3 ApplyRegionCommit: Canvas checks before any snapshot or Adapter WriteRegion.
+// Brush compilation here is the public expand/encode split along the region fixture's declared partition.
 function compileRegion(blockInput){
  const e=a.expandRegionBlock(blockInput),{min}=e.box,[sx,sy]=[0,1].map(k=>e.box.max[k]-min[k]+1);
- return a.regionChunksOfBox(e.box).map(({chunkPos,box})=>{const size=[0,1,2].map(k=>box.max[k]-box.min[k]+1),indices=[];
+ return a.regionChunksOfBox(e.box,regionFx.commitRequest.operations.partition).map(({chunkPos,box})=>{const size=[0,1,2].map(k=>box.max[k]-box.min[k]+1),indices=[];
   for(let z=box.min[2];z<=box.max[2];z++)for(let y=box.min[1];y<=box.max[1];y++)for(let x=box.min[0];x<=box.max[0];x++)indices.push(e.indices[(x-min[0])+sx*((y-min[1])+sy*(z-min[2]))]);
   return indices.some(v=>v!==-1)?{chunkPos,block:a.encodeRegionBlock({origin:box.min,size,palette:e.palette,indices})}:null;}).filter(Boolean);
 }
@@ -189,10 +189,10 @@ const runRegion=c=>c.at==='admission'?a.validateRegionCommitRequest(c.commit):c.
 for(const c of canvasRegion.accept){a.validateRegionCommitSubmission(c.intent,c.brief,c.commit);a.checkConfirmedRegionPlacementCommit(c.commit,inspections[c.recordedInspection],c.currentWorldRevision);}
 for(const c of canvasRegion.reject){const e=expectError(()=>runRegion(c));for(const [k,v] of Object.entries(c.error))if(e[k]!==v)throw Error(`${c.title}: ${k}=${e[k]}`);}
 
-// --- painter/v5 CreateBuildPlan (model path): the same binding without a model-supplied proposal.
+// --- painter/v6 CreateBuildPlan (model path): the same binding without a model-supplied proposal.
 function plan(r){const q=clone(r);delete q.proposal;q.painterId='building-exterior';return q;}
 function planned(r,boxes){const withBoxes=clone(r);withBoxes.proposal.boxes=boxes.map(([min,max])=>({min,max,materialRef:'stone'}));
- const {response}=respond(withBoxes);return {contractVersion:'painter/v5',requestId:r.requestId,result:response.result,error:null};}
+ const {response}=respond(withBoxes);return {contractVersion:'painter/v6',requestId:r.requestId,result:response.result,error:null};}
 const inspectedOnly=(()=>{const q=plan(perCell({inspection:inspections.view1,brief:A,boxes:[local(0,2)]}));
  Object.assign(q.targetFacts,{source:'INSPECTED',objectRef:'object-1',objectRevision:'object-revision-1'});q.targetFactsDigest=D('target-facts',q.targetFacts);q.regionInspection=null;return q;})();
 const createBuildPlan={

@@ -17,7 +17,7 @@ let checks=0;function test(name,run){run();console.log('ok',++checks,name);}
 test('affected normal text proposal remains exact',()=>{const admitted=a.validateBuildProposalContext(base.request,base.facts);assert.deepEqual(admitted.referenceBrief.media,[]);a.validateBuildProposalResponse(admitted,base.response);});
 test('same-Session stored image survives context, raw request and geometry response',()=>{
  a.validateType('BuildProposalContext',context(image));
- const decoded=a.admitRequest('painter/v5','ValidateBuildProposal',Buffer.from(JSON.stringify(image)));
+ const decoded=a.admitRequest('painter/v6','ValidateBuildProposal',Buffer.from(JSON.stringify(image)));
  const admitted=a.validateBuildProposalContext(decoded,facts);
  assert.equal(a.canonicalJSON(admitted.referenceBrief.media),a.canonicalJSON([media]));assert.equal(admitted.referenceBrief.media[0].storedBytesDigest,storedBytesDigest);
  assert.equal(a.validateBuildProposalResponse(admitted,base.response).result.buildDigest,base.response.result.buildDigest);

@@ -1,5 +1,5 @@
 {
-  "evidence": "SOURCE/FIXTURE: hand-built region-voxels/v1 scenario; no real Painter, Brush, Adapter, Canvas, Luanti world or durable store ran.",
+  "evidence": "SOURCE/FIXTURE: hand-built region-voxels/v2 scenario; no real Painter, Brush, Adapter, Canvas, world source or durable store ran.",
   "catalogue": {
     "profileVersion": "catalogue/v3",
     "engineRevisions": {
@@ -77,15 +77,15 @@
     }
   },
   "proposalRequest": {
-    "contractVersion": "painter-region/v2",
+    "contractVersion": "painter-region/v3",
     "sessionRef": "fixture-session",
     "requestId": "painter-region-1",
     "worldRef": "fixture-world",
     "turnRevision": "fixture-turn-4",
     "invocationId": "fixture-luanti-invocation-7",
     "intent": {
-      "contractVersion": "session/v4",
-      "referenceBriefDigest": "2daf8a8d8cb72370103dd96855ef23e5b273911365cf748e2851337706103cf5",
+      "contractVersion": "session/v5",
+      "referenceBriefDigest": "35fc4e78946fafa10292aad3094083e7ff4eb278e71930e7f6d2fa2e6bedca27",
       "confirmedIntent": {
         "kind": "BUILD_STRUCTURE",
         "text": "一个小石屋",
@@ -111,9 +111,9 @@
       "intendedWorldRef": "fixture-world",
       "orderedTargetRefs": []
     },
-    "intentDigest": "1e5e42886da8d9240b7c2fd9581b649651d7693ef78c02de87393f14e3c31d2e",
+    "intentDigest": "3d9c1637ee52a97f9179ea0b8ee5fda88bb4cfbef2c921ddd555d4be1cf166c7",
     "referenceBrief": {
-      "contractVersion": "ReferenceBrief/v4",
+      "contractVersion": "ReferenceBrief/v5",
       "sessionRef": "fixture-session",
       "turnRevision": "fixture-turn-4",
       "briefRevision": "fixture-brief-4",
@@ -140,7 +140,7 @@
         }
       }
     },
-    "referenceBriefDigest": "2daf8a8d8cb72370103dd96855ef23e5b273911365cf748e2851337706103cf5",
+    "referenceBriefDigest": "35fc4e78946fafa10292aad3094083e7ff4eb278e71930e7f6d2fa2e6bedca27",
     "catalogue": {
       "profileVersion": "catalogue/v3",
       "engineRevisions": {
@@ -221,7 +221,8 @@
     "proposal": {
       "decision": "REGION",
       "block": {
-        "profileVersion": "region-voxels/v1",
+        "profileVersion": "region-voxels/v2",
+        "geometryProfile": "voxel-grid/v1",
         "origin": [
           -2,
           0,
@@ -311,18 +312,19 @@
     }
   },
   "proposalResponse": {
-    "contractVersion": "painter-region/v2",
+    "contractVersion": "painter-region/v3",
     "requestId": "painter-region-1",
     "result": {
       "invocationId": "fixture-luanti-invocation-7",
       "build": {
-        "contractVersion": "region-build/v1",
+        "contractVersion": "region-build/v2",
         "documentId": "region-doc-1",
         "coordinateSpace": "WORLD_NODE",
         "worldRef": "fixture-world",
         "catalogueDigest": "89dfb22e3b674be56a66bb066ca5ee51fb0c0571725b2970ab0478658357cc57",
         "block": {
-          "profileVersion": "region-voxels/v1",
+          "profileVersion": "region-voxels/v2",
+          "geometryProfile": "voxel-grid/v1",
           "origin": [
             -2,
             0,
@@ -416,23 +418,24 @@
           ]
         }
       },
-      "buildDigest": "267b7595e51404dd02931bae76c9e0ba9b6a0f69b4466bc5774dad0ed0a7456e"
+      "buildDigest": "be60b6d2819008253a44725d88c6758ae38d0ffa1f67c19ce39ddc69ed27e0f7"
     },
     "error": null
   },
   "compileRequest": {
-    "contractVersion": "region-build/v1",
+    "contractVersion": "region-build/v2",
     "sessionRef": "fixture-session",
     "requestId": "compile-region-1",
     "worldRef": "fixture-world",
     "build": {
-      "contractVersion": "region-build/v1",
+      "contractVersion": "region-build/v2",
       "documentId": "region-doc-1",
       "coordinateSpace": "WORLD_NODE",
       "worldRef": "fixture-world",
       "catalogueDigest": "89dfb22e3b674be56a66bb066ca5ee51fb0c0571725b2970ab0478658357cc57",
       "block": {
-        "profileVersion": "region-voxels/v1",
+        "profileVersion": "region-voxels/v2",
+        "geometryProfile": "voxel-grid/v1",
         "origin": [
           -2,
           0,
@@ -526,7 +529,7 @@
         ]
       }
     },
-    "buildDigest": "267b7595e51404dd02931bae76c9e0ba9b6a0f69b4466bc5774dad0ed0a7456e",
+    "buildDigest": "be60b6d2819008253a44725d88c6758ae38d0ffa1f67c19ce39ddc69ed27e0f7",
     "catalogue": {
       "profileVersion": "catalogue/v3",
       "engineRevisions": {
@@ -604,6 +607,13 @@
       }
     },
     "catalogueDigest": "89dfb22e3b674be56a66bb066ca5ee51fb0c0571725b2970ab0478658357cc57",
+    "partition": {
+      "edge": [
+        16,
+        16,
+        16
+      ]
+    },
     "compilerRevision": "fixture-brush-region-1",
     "localContext": {
       "connectionRef": "local-connection",
@@ -613,16 +623,22 @@
     }
   },
   "compileResponse": {
-    "contractVersion": "region-build/v1",
+    "contractVersion": "region-build/v2",
     "requestId": "compile-region-1",
     "result": {
       "projection": {
-        "contractVersion": "region-operations/v1",
-        "buildDigest": "267b7595e51404dd02931bae76c9e0ba9b6a0f69b4466bc5774dad0ed0a7456e",
+        "contractVersion": "region-operations/v2",
+        "buildDigest": "be60b6d2819008253a44725d88c6758ae38d0ffa1f67c19ce39ddc69ed27e0f7",
         "compilerRevision": "fixture-brush-region-1",
         "worldRef": "fixture-world",
         "catalogueDigest": "89dfb22e3b674be56a66bb066ca5ee51fb0c0571725b2970ab0478658357cc57",
-        "chunkEdge": 16,
+        "partition": {
+          "edge": [
+            16,
+            16,
+            16
+          ]
+        },
         "chunks": [
           {
             "chunkPos": [
@@ -631,7 +647,8 @@
               -1
             ],
             "block": {
-              "profileVersion": "region-voxels/v1",
+              "profileVersion": "region-voxels/v2",
+              "geometryProfile": "voxel-grid/v1",
               "origin": [
                 -2,
                 0,
@@ -680,7 +697,8 @@
               0
             ],
             "block": {
-              "profileVersion": "region-voxels/v1",
+              "profileVersion": "region-voxels/v2",
+              "geometryProfile": "voxel-grid/v1",
               "origin": [
                 -2,
                 0,
@@ -721,7 +739,8 @@
               -1
             ],
             "block": {
-              "profileVersion": "region-voxels/v1",
+              "profileVersion": "region-voxels/v2",
+              "geometryProfile": "voxel-grid/v1",
               "origin": [
                 0,
                 0,
@@ -794,7 +813,8 @@
               0
             ],
             "block": {
-              "profileVersion": "region-voxels/v1",
+              "profileVersion": "region-voxels/v2",
+              "geometryProfile": "voxel-grid/v1",
               "origin": [
                 0,
                 0,
@@ -847,7 +867,8 @@
               -1
             ],
             "block": {
-              "profileVersion": "region-voxels/v1",
+              "profileVersion": "region-voxels/v2",
+              "geometryProfile": "voxel-grid/v1",
               "origin": [
                 16,
                 0,
@@ -896,7 +917,8 @@
               0
             ],
             "block": {
-              "profileVersion": "region-voxels/v1",
+              "profileVersion": "region-voxels/v2",
+              "geometryProfile": "voxel-grid/v1",
               "origin": [
                 16,
                 0,
@@ -932,7 +954,7 @@
           }
         ]
       },
-      "operationDigest": "5ca8c217ffc2a044244e87b6f150cf9175371abee2391e49a9b08ecd3da775fd",
+      "operationDigest": "6b5dde5c2481dfe4c2a750f41f06cb4d8a55e03645362e2acf56dfd740088825",
       "writeBounds": {
         "min": [
           -2,
@@ -949,7 +971,7 @@
     "error": null
   },
   "readRequest": {
-    "contractVersion": "world-adapter-region/v2",
+    "contractVersion": "world-adapter-region/v3",
     "sessionRef": "fixture-session",
     "requestId": "read-region-1",
     "worldRef": "fixture-world",
@@ -965,6 +987,13 @@
         0
       ]
     },
+    "partition": {
+      "edge": [
+        16,
+        16,
+        16
+      ]
+    },
     "purpose": "BEFORE_IMAGE",
     "localContext": {
       "connectionRef": "local-connection",
@@ -974,7 +1003,7 @@
     }
   },
   "readResponse": {
-    "contractVersion": "world-adapter-region/v2",
+    "contractVersion": "world-adapter-region/v3",
     "requestId": "read-region-1",
     "result": {
       "worldRef": "fixture-world",
@@ -988,6 +1017,13 @@
           17,
           1,
           0
+        ]
+      },
+      "partition": {
+        "edge": [
+          16,
+          16,
+          16
         ]
       },
       "chunks": [
@@ -1016,7 +1052,8 @@
             "profileVersion": "region-state/v2",
             "worldRef": "fixture-world",
             "block": {
-              "profileVersion": "region-voxels/v1",
+              "profileVersion": "region-voxels/v2",
+              "geometryProfile": "voxel-grid/v1",
               "origin": [
                 -2,
                 0,
@@ -1070,7 +1107,7 @@
               ]
             }
           },
-          "stateDigest": "e0115e9cad4d978bbf84829f25350978f776c2a7f24870993b187102d2233d1e"
+          "stateDigest": "3dd4e330cfb941c8a84a451f839ee9edb514f31dd252d5c5b023356d6fff49fb"
         },
         {
           "chunkPos": [
@@ -1097,7 +1134,8 @@
             "profileVersion": "region-state/v2",
             "worldRef": "fixture-world",
             "block": {
-              "profileVersion": "region-voxels/v1",
+              "profileVersion": "region-voxels/v2",
+              "geometryProfile": "voxel-grid/v1",
               "origin": [
                 -2,
                 0,
@@ -1136,7 +1174,7 @@
               ]
             }
           },
-          "stateDigest": "081ec395d52091d802e998698482ec0decf69a623cb86b0bb0a509f8e8d4fe99"
+          "stateDigest": "878583d6d53cae96dde3d85d4e7489298fc27c91e81ecc221c8c40889a1b4710"
         },
         {
           "chunkPos": [
@@ -1163,7 +1201,8 @@
             "profileVersion": "region-state/v2",
             "worldRef": "fixture-world",
             "block": {
-              "profileVersion": "region-voxels/v1",
+              "profileVersion": "region-voxels/v2",
+              "geometryProfile": "voxel-grid/v1",
               "origin": [
                 0,
                 0,
@@ -1202,7 +1241,7 @@
               ]
             }
           },
-          "stateDigest": "c3abf6af5ef30bc817f62ed15933889bc119ffb20d6fff0604adc9a7df88b9e7"
+          "stateDigest": "38def0b62aba9044e23bafccbba017a2d6cf8ef9696c938eeccd6cc1be32115b"
         },
         {
           "chunkPos": [
@@ -1229,7 +1268,8 @@
             "profileVersion": "region-state/v2",
             "worldRef": "fixture-world",
             "block": {
-              "profileVersion": "region-voxels/v1",
+              "profileVersion": "region-voxels/v2",
+              "geometryProfile": "voxel-grid/v1",
               "origin": [
                 0,
                 0,
@@ -1268,7 +1308,7 @@
               ]
             }
           },
-          "stateDigest": "c7d59d10f9961494c77651529006f1055d4e5db42e4f88924cf9c913b4bf4333"
+          "stateDigest": "bd134371dcaf634a078ab81dd9cc701d1cc193590bc02f1bd6cd9d80d446018f"
         },
         {
           "chunkPos": [
@@ -1295,7 +1335,8 @@
             "profileVersion": "region-state/v2",
             "worldRef": "fixture-world",
             "block": {
-              "profileVersion": "region-voxels/v1",
+              "profileVersion": "region-voxels/v2",
+              "geometryProfile": "voxel-grid/v1",
               "origin": [
                 16,
                 0,
@@ -1334,7 +1375,7 @@
               ]
             }
           },
-          "stateDigest": "90057e98225ce397b09583119eb0558c4bfd78736faecb54d06e2a86a12530d4"
+          "stateDigest": "f076080b9dddbfc39cd87a3a39c5b298f830eb0d19b860022bd4d4f0f328798b"
         },
         {
           "chunkPos": [
@@ -1361,7 +1402,8 @@
             "profileVersion": "region-state/v2",
             "worldRef": "fixture-world",
             "block": {
-              "profileVersion": "region-voxels/v1",
+              "profileVersion": "region-voxels/v2",
+              "geometryProfile": "voxel-grid/v1",
               "origin": [
                 16,
                 0,
@@ -1400,7 +1442,7 @@
               ]
             }
           },
-          "stateDigest": "5a6c901554e575c743f2ff027540f0e66e5f16c2a91b3d96f226ed8d2fe4fec6"
+          "stateDigest": "e039550cf329058f1afad32ee1f669ffbf610b397bf3534b29e8d085a5dcd091"
         }
       ],
       "localContext": {
@@ -1413,12 +1455,19 @@
     "error": null
   },
   "writeRequest": {
-    "contractVersion": "world-adapter-region/v2",
+    "contractVersion": "world-adapter-region/v3",
     "sessionRef": "fixture-session",
     "requestId": "write-region-1",
     "worldRef": "fixture-world",
     "transactionId": "region-tx-1",
     "purpose": "APPLY",
+    "partition": {
+      "edge": [
+        16,
+        16,
+        16
+      ]
+    },
     "writes": [
       {
         "chunkPos": [
@@ -1426,9 +1475,10 @@
           0,
           -1
         ],
-        "expectedCurrentDigest": "e0115e9cad4d978bbf84829f25350978f776c2a7f24870993b187102d2233d1e",
+        "expectedCurrentDigest": "3dd4e330cfb941c8a84a451f839ee9edb514f31dd252d5c5b023356d6fff49fb",
         "ops": {
-          "profileVersion": "region-voxels/v1",
+          "profileVersion": "region-voxels/v2",
+          "geometryProfile": "voxel-grid/v1",
           "origin": [
             -2,
             0,
@@ -1477,9 +1527,10 @@
           0,
           0
         ],
-        "expectedCurrentDigest": "081ec395d52091d802e998698482ec0decf69a623cb86b0bb0a509f8e8d4fe99",
+        "expectedCurrentDigest": "878583d6d53cae96dde3d85d4e7489298fc27c91e81ecc221c8c40889a1b4710",
         "ops": {
-          "profileVersion": "region-voxels/v1",
+          "profileVersion": "region-voxels/v2",
+          "geometryProfile": "voxel-grid/v1",
           "origin": [
             -2,
             0,
@@ -1520,9 +1571,10 @@
           0,
           -1
         ],
-        "expectedCurrentDigest": "c3abf6af5ef30bc817f62ed15933889bc119ffb20d6fff0604adc9a7df88b9e7",
+        "expectedCurrentDigest": "38def0b62aba9044e23bafccbba017a2d6cf8ef9696c938eeccd6cc1be32115b",
         "ops": {
-          "profileVersion": "region-voxels/v1",
+          "profileVersion": "region-voxels/v2",
+          "geometryProfile": "voxel-grid/v1",
           "origin": [
             0,
             0,
@@ -1595,9 +1647,10 @@
           0,
           0
         ],
-        "expectedCurrentDigest": "c7d59d10f9961494c77651529006f1055d4e5db42e4f88924cf9c913b4bf4333",
+        "expectedCurrentDigest": "bd134371dcaf634a078ab81dd9cc701d1cc193590bc02f1bd6cd9d80d446018f",
         "ops": {
-          "profileVersion": "region-voxels/v1",
+          "profileVersion": "region-voxels/v2",
+          "geometryProfile": "voxel-grid/v1",
           "origin": [
             0,
             0,
@@ -1650,9 +1703,10 @@
           0,
           -1
         ],
-        "expectedCurrentDigest": "90057e98225ce397b09583119eb0558c4bfd78736faecb54d06e2a86a12530d4",
+        "expectedCurrentDigest": "f076080b9dddbfc39cd87a3a39c5b298f830eb0d19b860022bd4d4f0f328798b",
         "ops": {
-          "profileVersion": "region-voxels/v1",
+          "profileVersion": "region-voxels/v2",
+          "geometryProfile": "voxel-grid/v1",
           "origin": [
             16,
             0,
@@ -1701,9 +1755,10 @@
           0,
           0
         ],
-        "expectedCurrentDigest": "5a6c901554e575c743f2ff027540f0e66e5f16c2a91b3d96f226ed8d2fe4fec6",
+        "expectedCurrentDigest": "e039550cf329058f1afad32ee1f669ffbf610b397bf3534b29e8d085a5dcd091",
         "ops": {
-          "profileVersion": "region-voxels/v1",
+          "profileVersion": "region-voxels/v2",
+          "geometryProfile": "voxel-grid/v1",
           "origin": [
             16,
             0,
@@ -1747,7 +1802,7 @@
     }
   },
   "writeResponse": {
-    "contractVersion": "world-adapter-region/v2",
+    "contractVersion": "world-adapter-region/v3",
     "requestId": "write-region-1",
     "result": {
       "transactionId": "region-tx-1",
@@ -1761,7 +1816,7 @@
             -1
           ],
           "status": "WRITTEN",
-          "readbackDigest": "d49508f93ec5ab912e301415fe2d5f0551661f600de0582239a1757c207be5b0"
+          "readbackDigest": "bcb886208a9ab795c3a3bb0e23be77bd59494fd804af6d1e28004cccba18826c"
         },
         {
           "chunkPos": [
@@ -1770,7 +1825,7 @@
             0
           ],
           "status": "WRITTEN",
-          "readbackDigest": "b5f745855ff3ef6238e66af46083e1717e7ddc465ba1071794dabdfffcb2e898"
+          "readbackDigest": "be107441ac7128381066d9767597146895560d8b8b81fb693a25903eb2e223bb"
         },
         {
           "chunkPos": [
@@ -1779,7 +1834,7 @@
             -1
           ],
           "status": "WRITTEN",
-          "readbackDigest": "ef44bd8e634f817bc3cd00615e06b7cf677aa4221c791d32d68520bb5c488a33"
+          "readbackDigest": "cb3fd8ef76e7c43693862c676124254804f6371e8d0ec92c445384bd19813c81"
         },
         {
           "chunkPos": [
@@ -1788,7 +1843,7 @@
             0
           ],
           "status": "WRITTEN",
-          "readbackDigest": "eaed2261d8685d6208b0adce3427a52a195bfc05f1a54174060c3422b1809b1a"
+          "readbackDigest": "a9fd3f203f51ed5168678c1295a3b1c99579c7087af41b38f65df9cc9ac0a31b"
         },
         {
           "chunkPos": [
@@ -1797,7 +1852,7 @@
             -1
           ],
           "status": "WRITTEN",
-          "readbackDigest": "08986e47c57816432da17efecc5e61a65e613c365b5b02babeec7ee95b11410f"
+          "readbackDigest": "cc59d9f7ef30166defd375729b77b80ca99bec82c5d017036a2f592b87fede1b"
         },
         {
           "chunkPos": [
@@ -1806,9 +1861,10 @@
             0
           ],
           "status": "WRITTEN",
-          "readbackDigest": "fc1b87442243b8c6936344f2c291081a30aa248baef749c4b3939fdab89a0a84"
+          "readbackDigest": "8df88cd7831f15b103ebbdecfc84a63b9a23c0ca7f3abcd53988cd50c7109135"
         }
       ],
+      "postWriteLighting": "REQUIRED",
       "lighting": {
         "status": "COMPLETE",
         "box": {
@@ -1823,7 +1879,7 @@
             0
           ]
         },
-        "method": "fixture:voxelmanip.calc_lighting+write_to_map"
+        "method": "fixture:light-pass"
       },
       "localContext": {
         "connectionRef": "local-connection",
@@ -1836,8 +1892,15 @@
     "guardRefusal": null
   },
   "snapshotContent": {
-    "profileVersion": "region-snapshot-content/v1",
+    "profileVersion": "region-snapshot-content/v2",
     "worldRef": "fixture-world",
+    "partition": {
+      "edge": [
+        16,
+        16,
+        16
+      ]
+    },
     "chunks": [
       {
         "chunkPos": [
@@ -1849,7 +1912,8 @@
           "profileVersion": "region-state/v2",
           "worldRef": "fixture-world",
           "block": {
-            "profileVersion": "region-voxels/v1",
+            "profileVersion": "region-voxels/v2",
+            "geometryProfile": "voxel-grid/v1",
             "origin": [
               -2,
               0,
@@ -1903,7 +1967,7 @@
             ]
           }
         },
-        "stateDigest": "e0115e9cad4d978bbf84829f25350978f776c2a7f24870993b187102d2233d1e"
+        "stateDigest": "3dd4e330cfb941c8a84a451f839ee9edb514f31dd252d5c5b023356d6fff49fb"
       },
       {
         "chunkPos": [
@@ -1915,7 +1979,8 @@
           "profileVersion": "region-state/v2",
           "worldRef": "fixture-world",
           "block": {
-            "profileVersion": "region-voxels/v1",
+            "profileVersion": "region-voxels/v2",
+            "geometryProfile": "voxel-grid/v1",
             "origin": [
               -2,
               0,
@@ -1954,7 +2019,7 @@
             ]
           }
         },
-        "stateDigest": "081ec395d52091d802e998698482ec0decf69a623cb86b0bb0a509f8e8d4fe99"
+        "stateDigest": "878583d6d53cae96dde3d85d4e7489298fc27c91e81ecc221c8c40889a1b4710"
       },
       {
         "chunkPos": [
@@ -1966,7 +2031,8 @@
           "profileVersion": "region-state/v2",
           "worldRef": "fixture-world",
           "block": {
-            "profileVersion": "region-voxels/v1",
+            "profileVersion": "region-voxels/v2",
+            "geometryProfile": "voxel-grid/v1",
             "origin": [
               0,
               0,
@@ -2005,7 +2071,7 @@
             ]
           }
         },
-        "stateDigest": "c3abf6af5ef30bc817f62ed15933889bc119ffb20d6fff0604adc9a7df88b9e7"
+        "stateDigest": "38def0b62aba9044e23bafccbba017a2d6cf8ef9696c938eeccd6cc1be32115b"
       },
       {
         "chunkPos": [
@@ -2017,7 +2083,8 @@
           "profileVersion": "region-state/v2",
           "worldRef": "fixture-world",
           "block": {
-            "profileVersion": "region-voxels/v1",
+            "profileVersion": "region-voxels/v2",
+            "geometryProfile": "voxel-grid/v1",
             "origin": [
               0,
               0,
@@ -2056,7 +2123,7 @@
             ]
           }
         },
-        "stateDigest": "c7d59d10f9961494c77651529006f1055d4e5db42e4f88924cf9c913b4bf4333"
+        "stateDigest": "bd134371dcaf634a078ab81dd9cc701d1cc193590bc02f1bd6cd9d80d446018f"
       },
       {
         "chunkPos": [
@@ -2068,7 +2135,8 @@
           "profileVersion": "region-state/v2",
           "worldRef": "fixture-world",
           "block": {
-            "profileVersion": "region-voxels/v1",
+            "profileVersion": "region-voxels/v2",
+            "geometryProfile": "voxel-grid/v1",
             "origin": [
               16,
               0,
@@ -2107,7 +2175,7 @@
             ]
           }
         },
-        "stateDigest": "90057e98225ce397b09583119eb0558c4bfd78736faecb54d06e2a86a12530d4"
+        "stateDigest": "f076080b9dddbfc39cd87a3a39c5b298f830eb0d19b860022bd4d4f0f328798b"
       },
       {
         "chunkPos": [
@@ -2119,7 +2187,8 @@
           "profileVersion": "region-state/v2",
           "worldRef": "fixture-world",
           "block": {
-            "profileVersion": "region-voxels/v1",
+            "profileVersion": "region-voxels/v2",
+            "geometryProfile": "voxel-grid/v1",
             "origin": [
               16,
               0,
@@ -2158,24 +2227,30 @@
             ]
           }
         },
-        "stateDigest": "5a6c901554e575c743f2ff027540f0e66e5f16c2a91b3d96f226ed8d2fe4fec6"
+        "stateDigest": "e039550cf329058f1afad32ee1f669ffbf610b397bf3534b29e8d085a5dcd091"
       }
     ]
   },
-  "snapshotGzipBase64": "H4sIAAAAAAACE+2W227TQBCGXwX5OlFnz7u5Q6IVV1BBhYCqqvYw21p17cp2QqDquzObFEib0quoQgrKRew9/PPvzqfx3Fbxct5eDdXs9Hb9eNyVlymbwGTKzibVMPoRq9ltFZouXpWHuk24fN8n7KtZ9fn86PXHk8OPJ+cnbw/fnX9Z/32tJlXX1xd1W7R40eKkdeMbHIsaBbsm2b72zQfMJJPr5TjvcTaMXYvrzdhS5LojBbgre/su1w1+wn5YDVY9XtDDdNEtsRkOFox29fO2mD+1Ezgr1usfJRaf0O/sblLhcuz9+qg33VCvxTfs/T5q3S4oetd/pxfad42jT37066ncjST0x/Orob5oK1o21tflStp509w953gV5mDBq/uIx+t1RT026HtMRzU2qRjdcLJh41coikFJqBebG258769ZtQqPA/abk095WjmY3g8fLEQ5yLeub9KDvExXQ2Vutf5NfYFDuQIExhS66JNMztgQspWWu8yVUEAD2RgduTeZS2vAORGYNQx44lyIxJAUt7GD3VEHLwid3IKOPYBuP4gAyzAKp5Li4FiywNE5q13hAiMkjFk7r7mIweoAIYAnUrJFm2SmpY+JgN3VIXjpMqQfIsH0ViHaDyai8CFrnxVmASFaZrLmmJhyQljrQmTM5Rw4JJ1zBg3Sp+i8Sdna4NA8xQTsDImXrBGCbxOxj1UimqRcYpCd00w6Gek7oZjiDkBnBkoliSoFyVESA47LmF10TAQZshRCPCZih90K5eQf61b2AwlKvTLoLOcqonAmgFNWUGXAQDzYSJlPxhqhs8cYlEygkXurPaNmA5J8CgnYHRH/O4mXBkJ5HR0wpagUGBWNFJnT14EbJSEDao0qs9JdOhZEcjpzrjHZxDMVDYy6erYHb/3NcNmN09i1I93COgF/N/cTCJHILigNAAA=",
+  "snapshotGzipBase64": "H4sIAAAAAAACE+2XXW/UOhCG/8pRrnfV8Wfs3iEB4goQVEdwUFXZnvESkSaVk+4pVP3vTJICW1q4jJCKdqWd+Gtev3408V5X6eNl92mojj9cL+HrfnrYig1stuJ0Uw1jGKk6vq5i26dPU7Cj/pzG8vl16XPTcl+176+o3e5Kg0d7UW2qpkO6elWQCne+O3v+5O3Js7cnZycvnr08e7/8/MfD+tLsmm7KJqdskrNdhJbGKR/LOefEpQntG8q8TG6uxstCx8PYd7RMpo61NT2vADfT3EXPv1SGubEqtONgO6sbjvaSZ5XLbtreB7eB02lzzZcpl9zw5/RmU9HVWMJixkU/NMviB/K+m9F0e87el8/8wPPYj4BhDEtX7kde6Ifmf4Zm11U8bGzOJ0u6y7a9+Z3iOc0ieA6/O81n1FIohM8banESeqDkQMa3VJyDD6HZH064CCWci2pOTwOVw86HNM0KtrfNR3s1beT/vrR451y2c9PUN49/2uxomCxQiJqUgpSj1yK54HTQRmSnPJEnjEborASiNBJNMhGkUsaizTlrnyOveB9MWJNLWBFLfQ9LcQfLx8GMq51xCi0alQJ5i0gKnWGQau289C4nWScvyAlKSUrGKmlwzgcRdS3gZ2ZgzVoGa5cyexcaYe8Vs0dSaRxShmhliMGD1iRVDDmlGAOIOki0KTvK3nqbvHLE6HBTEpGUFMLEh6iBFaFZs84oeZ+Zx1hpIgqlVS0whWyVDlC7EB2/jXxKNQgUzIdXxkNMILOIDAx6dIBaWxAu/8zMqrcmPrU/7Nb0OKDJUFtwED0ixpyUT+jqoAIHJk5vJ6eAIqDw0VkAKSNq1Bmykq72Lj4EDazJzN8bzdrIEChvDF+ClfRgXBYhB1SSSGRrfc4xWwFR+TpmZZRmisghOBMMJgQvqtn2UMbbvyTXFeHutnLP38nTX/rYhYvhYz9uU9+N7NJi6a/FfwWYXOUuFA4AAA==",
   "commitRequest": {
-    "contractVersion": "canvas-region/v2",
+    "contractVersion": "canvas-region/v3",
     "sessionRef": "fixture-session",
     "requestId": "commit-region-1",
     "worldRef": "fixture-world",
     "transactionId": "region-tx-1",
     "operations": {
-      "contractVersion": "region-operations/v1",
-      "buildDigest": "267b7595e51404dd02931bae76c9e0ba9b6a0f69b4466bc5774dad0ed0a7456e",
+      "contractVersion": "region-operations/v2",
+      "buildDigest": "be60b6d2819008253a44725d88c6758ae38d0ffa1f67c19ce39ddc69ed27e0f7",
       "compilerRevision": "fixture-brush-region-1",
       "worldRef": "fixture-world",
       "catalogueDigest": "89dfb22e3b674be56a66bb066ca5ee51fb0c0571725b2970ab0478658357cc57",
-      "chunkEdge": 16,
+      "partition": {
+        "edge": [
+          16,
+          16,
+          16
+        ]
+      },
       "chunks": [
         {
           "chunkPos": [
@@ -2184,7 +2259,8 @@
             -1
           ],
           "block": {
-            "profileVersion": "region-voxels/v1",
+            "profileVersion": "region-voxels/v2",
+            "geometryProfile": "voxel-grid/v1",
             "origin": [
               -2,
               0,
@@ -2233,7 +2309,8 @@
             0
           ],
           "block": {
-            "profileVersion": "region-voxels/v1",
+            "profileVersion": "region-voxels/v2",
+            "geometryProfile": "voxel-grid/v1",
             "origin": [
               -2,
               0,
@@ -2274,7 +2351,8 @@
             -1
           ],
           "block": {
-            "profileVersion": "region-voxels/v1",
+            "profileVersion": "region-voxels/v2",
+            "geometryProfile": "voxel-grid/v1",
             "origin": [
               0,
               0,
@@ -2347,7 +2425,8 @@
             0
           ],
           "block": {
-            "profileVersion": "region-voxels/v1",
+            "profileVersion": "region-voxels/v2",
+            "geometryProfile": "voxel-grid/v1",
             "origin": [
               0,
               0,
@@ -2400,7 +2479,8 @@
             -1
           ],
           "block": {
-            "profileVersion": "region-voxels/v1",
+            "profileVersion": "region-voxels/v2",
+            "geometryProfile": "voxel-grid/v1",
             "origin": [
               16,
               0,
@@ -2449,7 +2529,8 @@
             0
           ],
           "block": {
-            "profileVersion": "region-voxels/v1",
+            "profileVersion": "region-voxels/v2",
+            "geometryProfile": "voxel-grid/v1",
             "origin": [
               16,
               0,
@@ -2485,7 +2566,7 @@
         }
       ]
     },
-    "operationDigest": "5ca8c217ffc2a044244e87b6f150cf9175371abee2391e49a9b08ecd3da775fd",
+    "operationDigest": "6b5dde5c2481dfe4c2a750f41f06cb4d8a55e03645362e2acf56dfd740088825",
     "guarantee": "RECOVERABLE_VERIFIED",
     "localContext": {
       "connectionRef": "local-connection",
@@ -2495,16 +2576,23 @@
     }
   },
   "commitResponse": {
-    "contractVersion": "canvas-region/v2",
+    "contractVersion": "canvas-region/v3",
     "requestId": "commit-region-1",
     "result": {
       "transactionId": "region-tx-1",
       "worldRef": "fixture-world",
       "status": "VERIFIED",
-      "operationDigest": "5ca8c217ffc2a044244e87b6f150cf9175371abee2391e49a9b08ecd3da775fd",
+      "operationDigest": "6b5dde5c2481dfe4c2a750f41f06cb4d8a55e03645362e2acf56dfd740088825",
       "beforeSummary": {
-        "profileVersion": "region-summary/v1",
+        "profileVersion": "region-summary/v2",
         "worldRef": "fixture-world",
+        "partition": {
+          "edge": [
+            16,
+            16,
+            16
+          ]
+        },
         "chunks": [
           {
             "chunkPos": [
@@ -2524,7 +2612,7 @@
                 -1
               ]
             },
-            "stateDigest": "e0115e9cad4d978bbf84829f25350978f776c2a7f24870993b187102d2233d1e"
+            "stateDigest": "3dd4e330cfb941c8a84a451f839ee9edb514f31dd252d5c5b023356d6fff49fb"
           },
           {
             "chunkPos": [
@@ -2544,7 +2632,7 @@
                 0
               ]
             },
-            "stateDigest": "081ec395d52091d802e998698482ec0decf69a623cb86b0bb0a509f8e8d4fe99"
+            "stateDigest": "878583d6d53cae96dde3d85d4e7489298fc27c91e81ecc221c8c40889a1b4710"
           },
           {
             "chunkPos": [
@@ -2564,7 +2652,7 @@
                 -1
               ]
             },
-            "stateDigest": "c3abf6af5ef30bc817f62ed15933889bc119ffb20d6fff0604adc9a7df88b9e7"
+            "stateDigest": "38def0b62aba9044e23bafccbba017a2d6cf8ef9696c938eeccd6cc1be32115b"
           },
           {
             "chunkPos": [
@@ -2584,7 +2672,7 @@
                 0
               ]
             },
-            "stateDigest": "c7d59d10f9961494c77651529006f1055d4e5db42e4f88924cf9c913b4bf4333"
+            "stateDigest": "bd134371dcaf634a078ab81dd9cc701d1cc193590bc02f1bd6cd9d80d446018f"
           },
           {
             "chunkPos": [
@@ -2604,7 +2692,7 @@
                 -1
               ]
             },
-            "stateDigest": "90057e98225ce397b09583119eb0558c4bfd78736faecb54d06e2a86a12530d4"
+            "stateDigest": "f076080b9dddbfc39cd87a3a39c5b298f830eb0d19b860022bd4d4f0f328798b"
           },
           {
             "chunkPos": [
@@ -2624,13 +2712,20 @@
                 0
               ]
             },
-            "stateDigest": "5a6c901554e575c743f2ff027540f0e66e5f16c2a91b3d96f226ed8d2fe4fec6"
+            "stateDigest": "e039550cf329058f1afad32ee1f669ffbf610b397bf3534b29e8d085a5dcd091"
           }
         ]
       },
       "expectedAfterSummary": {
-        "profileVersion": "region-summary/v1",
+        "profileVersion": "region-summary/v2",
         "worldRef": "fixture-world",
+        "partition": {
+          "edge": [
+            16,
+            16,
+            16
+          ]
+        },
         "chunks": [
           {
             "chunkPos": [
@@ -2650,7 +2745,7 @@
                 -1
               ]
             },
-            "stateDigest": "d49508f93ec5ab912e301415fe2d5f0551661f600de0582239a1757c207be5b0"
+            "stateDigest": "bcb886208a9ab795c3a3bb0e23be77bd59494fd804af6d1e28004cccba18826c"
           },
           {
             "chunkPos": [
@@ -2670,7 +2765,7 @@
                 0
               ]
             },
-            "stateDigest": "b5f745855ff3ef6238e66af46083e1717e7ddc465ba1071794dabdfffcb2e898"
+            "stateDigest": "be107441ac7128381066d9767597146895560d8b8b81fb693a25903eb2e223bb"
           },
           {
             "chunkPos": [
@@ -2690,7 +2785,7 @@
                 -1
               ]
             },
-            "stateDigest": "ef44bd8e634f817bc3cd00615e06b7cf677aa4221c791d32d68520bb5c488a33"
+            "stateDigest": "cb3fd8ef76e7c43693862c676124254804f6371e8d0ec92c445384bd19813c81"
           },
           {
             "chunkPos": [
@@ -2710,7 +2805,7 @@
                 0
               ]
             },
-            "stateDigest": "eaed2261d8685d6208b0adce3427a52a195bfc05f1a54174060c3422b1809b1a"
+            "stateDigest": "a9fd3f203f51ed5168678c1295a3b1c99579c7087af41b38f65df9cc9ac0a31b"
           },
           {
             "chunkPos": [
@@ -2730,7 +2825,7 @@
                 -1
               ]
             },
-            "stateDigest": "08986e47c57816432da17efecc5e61a65e613c365b5b02babeec7ee95b11410f"
+            "stateDigest": "cc59d9f7ef30166defd375729b77b80ca99bec82c5d017036a2f592b87fede1b"
           },
           {
             "chunkPos": [
@@ -2750,13 +2845,20 @@
                 0
               ]
             },
-            "stateDigest": "fc1b87442243b8c6936344f2c291081a30aa248baef749c4b3939fdab89a0a84"
+            "stateDigest": "8df88cd7831f15b103ebbdecfc84a63b9a23c0ca7f3abcd53988cd50c7109135"
           }
         ]
       },
       "actualSummary": {
-        "profileVersion": "region-summary/v1",
+        "profileVersion": "region-summary/v2",
         "worldRef": "fixture-world",
+        "partition": {
+          "edge": [
+            16,
+            16,
+            16
+          ]
+        },
         "chunks": [
           {
             "chunkPos": [
@@ -2776,7 +2878,7 @@
                 -1
               ]
             },
-            "stateDigest": "d49508f93ec5ab912e301415fe2d5f0551661f600de0582239a1757c207be5b0"
+            "stateDigest": "bcb886208a9ab795c3a3bb0e23be77bd59494fd804af6d1e28004cccba18826c"
           },
           {
             "chunkPos": [
@@ -2796,7 +2898,7 @@
                 0
               ]
             },
-            "stateDigest": "b5f745855ff3ef6238e66af46083e1717e7ddc465ba1071794dabdfffcb2e898"
+            "stateDigest": "be107441ac7128381066d9767597146895560d8b8b81fb693a25903eb2e223bb"
           },
           {
             "chunkPos": [
@@ -2816,7 +2918,7 @@
                 -1
               ]
             },
-            "stateDigest": "ef44bd8e634f817bc3cd00615e06b7cf677aa4221c791d32d68520bb5c488a33"
+            "stateDigest": "cb3fd8ef76e7c43693862c676124254804f6371e8d0ec92c445384bd19813c81"
           },
           {
             "chunkPos": [
@@ -2836,7 +2938,7 @@
                 0
               ]
             },
-            "stateDigest": "eaed2261d8685d6208b0adce3427a52a195bfc05f1a54174060c3422b1809b1a"
+            "stateDigest": "a9fd3f203f51ed5168678c1295a3b1c99579c7087af41b38f65df9cc9ac0a31b"
           },
           {
             "chunkPos": [
@@ -2856,7 +2958,7 @@
                 -1
               ]
             },
-            "stateDigest": "08986e47c57816432da17efecc5e61a65e613c365b5b02babeec7ee95b11410f"
+            "stateDigest": "cc59d9f7ef30166defd375729b77b80ca99bec82c5d017036a2f592b87fede1b"
           },
           {
             "chunkPos": [
@@ -2876,19 +2978,20 @@
                 0
               ]
             },
-            "stateDigest": "fc1b87442243b8c6936344f2c291081a30aa248baef749c4b3939fdab89a0a84"
+            "stateDigest": "8df88cd7831f15b103ebbdecfc84a63b9a23c0ca7f3abcd53988cd50c7109135"
           }
         ]
       },
       "snapshot": {
         "profileVersion": "region-snapshot/v1",
-        "contentDigest": "74a90f96f7ec57941305e589b1ffdd6c5d478b2c7a5432b37dd2b6e6014ba49b",
-        "beforeSummaryDigest": "7d74a23c7ed190912cb7fdd38ab3d8d73ca9f24633cc6515da959c3664724410",
+        "contentDigest": "9a6b372b2a46f631185c86fe876267b68595f2e9210d01e269b6e4d6fda362b1",
+        "beforeSummaryDigest": "e9521ae8c7899282eaf4ac3e6c36d5105daabeb28bd11477ec9d03ef5aac584c",
         "compression": "gzip",
-        "compressedSha256": "d8d264150d7204583e97c27d997ff898b3ca1cc9118305c9122f9cfd11603b2e",
-        "compressedByteLength": 704
+        "compressedSha256": "d589b97cad7e8c37085dfd90cb035f82bde1912a8d8a6752611c891522e83f9e",
+        "compressedByteLength": 736
       },
       "historyRevision": "history-2",
+      "postWriteLighting": "REQUIRED",
       "lighting": {
         "status": "COMPLETE",
         "box": {
@@ -2903,7 +3006,7 @@
             0
           ]
         },
-        "method": "fixture:voxelmanip.calc_lighting+write_to_map"
+        "method": "fixture:light-pass"
       },
       "affectedObjectRefs": [],
       "localContext": {
@@ -2918,7 +3021,7 @@
     "applyFailure": null
   },
   "undoRequest": {
-    "contractVersion": "canvas-region/v2",
+    "contractVersion": "canvas-region/v3",
     "sessionRef": "fixture-session",
     "requestId": "undo-region-1",
     "worldRef": "fixture-world",
@@ -2933,18 +3036,25 @@
     }
   },
   "undoResponse": {
-    "contractVersion": "canvas-region/v2",
+    "contractVersion": "canvas-region/v3",
     "requestId": "undo-region-1",
     "result": {
       "originTransactionId": "region-tx-1",
       "undoTransactionId": "region-undo-1",
       "worldRef": "fixture-world",
       "status": "VERIFIED",
-      "originBeforeSummaryDigest": "7d74a23c7ed190912cb7fdd38ab3d8d73ca9f24633cc6515da959c3664724410",
-      "originAfterSummaryDigest": "d3a22533fa9b0a0534d94e7250a1316c1db9755bf8aff03a02992129ca41a8c2",
+      "originBeforeSummaryDigest": "e9521ae8c7899282eaf4ac3e6c36d5105daabeb28bd11477ec9d03ef5aac584c",
+      "originAfterSummaryDigest": "c13c32ac623ef6657d8bbc099eb433417abaaaeedfd3553a7c2919713b77ed7d",
       "preUndoSummary": {
-        "profileVersion": "region-summary/v1",
+        "profileVersion": "region-summary/v2",
         "worldRef": "fixture-world",
+        "partition": {
+          "edge": [
+            16,
+            16,
+            16
+          ]
+        },
         "chunks": [
           {
             "chunkPos": [
@@ -2964,7 +3074,7 @@
                 -1
               ]
             },
-            "stateDigest": "d49508f93ec5ab912e301415fe2d5f0551661f600de0582239a1757c207be5b0"
+            "stateDigest": "bcb886208a9ab795c3a3bb0e23be77bd59494fd804af6d1e28004cccba18826c"
           },
           {
             "chunkPos": [
@@ -2984,7 +3094,7 @@
                 0
               ]
             },
-            "stateDigest": "b5f745855ff3ef6238e66af46083e1717e7ddc465ba1071794dabdfffcb2e898"
+            "stateDigest": "be107441ac7128381066d9767597146895560d8b8b81fb693a25903eb2e223bb"
           },
           {
             "chunkPos": [
@@ -3004,7 +3114,7 @@
                 -1
               ]
             },
-            "stateDigest": "ef44bd8e634f817bc3cd00615e06b7cf677aa4221c791d32d68520bb5c488a33"
+            "stateDigest": "cb3fd8ef76e7c43693862c676124254804f6371e8d0ec92c445384bd19813c81"
           },
           {
             "chunkPos": [
@@ -3024,7 +3134,7 @@
                 0
               ]
             },
-            "stateDigest": "eaed2261d8685d6208b0adce3427a52a195bfc05f1a54174060c3422b1809b1a"
+            "stateDigest": "a9fd3f203f51ed5168678c1295a3b1c99579c7087af41b38f65df9cc9ac0a31b"
           },
           {
             "chunkPos": [
@@ -3044,7 +3154,7 @@
                 -1
               ]
             },
-            "stateDigest": "08986e47c57816432da17efecc5e61a65e613c365b5b02babeec7ee95b11410f"
+            "stateDigest": "cc59d9f7ef30166defd375729b77b80ca99bec82c5d017036a2f592b87fede1b"
           },
           {
             "chunkPos": [
@@ -3064,13 +3174,20 @@
                 0
               ]
             },
-            "stateDigest": "fc1b87442243b8c6936344f2c291081a30aa248baef749c4b3939fdab89a0a84"
+            "stateDigest": "8df88cd7831f15b103ebbdecfc84a63b9a23c0ca7f3abcd53988cd50c7109135"
           }
         ]
       },
       "actualSummary": {
-        "profileVersion": "region-summary/v1",
+        "profileVersion": "region-summary/v2",
         "worldRef": "fixture-world",
+        "partition": {
+          "edge": [
+            16,
+            16,
+            16
+          ]
+        },
         "chunks": [
           {
             "chunkPos": [
@@ -3090,7 +3207,7 @@
                 -1
               ]
             },
-            "stateDigest": "e0115e9cad4d978bbf84829f25350978f776c2a7f24870993b187102d2233d1e"
+            "stateDigest": "3dd4e330cfb941c8a84a451f839ee9edb514f31dd252d5c5b023356d6fff49fb"
           },
           {
             "chunkPos": [
@@ -3110,7 +3227,7 @@
                 0
               ]
             },
-            "stateDigest": "081ec395d52091d802e998698482ec0decf69a623cb86b0bb0a509f8e8d4fe99"
+            "stateDigest": "878583d6d53cae96dde3d85d4e7489298fc27c91e81ecc221c8c40889a1b4710"
           },
           {
             "chunkPos": [
@@ -3130,7 +3247,7 @@
                 -1
               ]
             },
-            "stateDigest": "c3abf6af5ef30bc817f62ed15933889bc119ffb20d6fff0604adc9a7df88b9e7"
+            "stateDigest": "38def0b62aba9044e23bafccbba017a2d6cf8ef9696c938eeccd6cc1be32115b"
           },
           {
             "chunkPos": [
@@ -3150,7 +3267,7 @@
                 0
               ]
             },
-            "stateDigest": "c7d59d10f9961494c77651529006f1055d4e5db42e4f88924cf9c913b4bf4333"
+            "stateDigest": "bd134371dcaf634a078ab81dd9cc701d1cc193590bc02f1bd6cd9d80d446018f"
           },
           {
             "chunkPos": [
@@ -3170,7 +3287,7 @@
                 -1
               ]
             },
-            "stateDigest": "90057e98225ce397b09583119eb0558c4bfd78736faecb54d06e2a86a12530d4"
+            "stateDigest": "f076080b9dddbfc39cd87a3a39c5b298f830eb0d19b860022bd4d4f0f328798b"
           },
           {
             "chunkPos": [
@@ -3190,11 +3307,12 @@
                 0
               ]
             },
-            "stateDigest": "5a6c901554e575c743f2ff027540f0e66e5f16c2a91b3d96f226ed8d2fe4fec6"
+            "stateDigest": "e039550cf329058f1afad32ee1f669ffbf610b397bf3534b29e8d085a5dcd091"
           }
         ]
       },
       "historyRevision": "history-3",
+      "postWriteLighting": "REQUIRED",
       "lighting": {
         "status": "COMPLETE",
         "box": {
@@ -3209,7 +3327,7 @@
             0
           ]
         },
-        "method": "fixture:voxelmanip.calc_lighting+write_to_map"
+        "method": "fixture:light-pass"
       },
       "localContext": {
         "connectionRef": "local-connection",
@@ -3228,17 +3346,17 @@
     "protocols": [
       {
         "protocol": "world-adapter-region",
-        "major": 2,
+        "major": 3,
         "minor": 0
       }
     ],
     "capabilities": [
-      "world-adapter-region/v2:callback-free-write",
-      "world-adapter-region/v2:chunked-read",
-      "world-adapter-region/v2:chunked-write",
-      "world-adapter-region/v2:lighting-complete",
-      "world-adapter-region/v2:load-then-know",
-      "world-adapter-region/v2:restore-state"
+      "world-adapter-region/v3:callback-free-write",
+      "world-adapter-region/v3:chunked-read",
+      "world-adapter-region/v3:chunked-write",
+      "world-adapter-region/v3:lighting-complete",
+      "world-adapter-region/v3:load-then-know",
+      "world-adapter-region/v3:restore-state"
     ],
     "provenance": {
       "packageName": "fixture-adapter",
@@ -3256,22 +3374,22 @@
       "typicalScale": "A single cell up to a few hundred cells, e.g. a door, a window or touching up an edge.",
       "scaleUnit": "cells",
       "requiredCapabilities": [
-        "BUILD/V4:per-cell-compile"
+        "BUILD/V5:per-cell-compile"
       ],
       "unavailableReason": null
     },
     {
       "method": "REGION",
       "toolName": "fixture_write_region",
-      "purpose": "Large fills and carves (terrain, flattening, digging) as one region block with explicit air for carving.",
+      "purpose": "Large fills and carves (terrain, flattening, digging) as one region block with the explicit empty material for carving.",
       "inputType": "RegionProposal",
-      "typicalScale": "Hundreds to millions of cells, e.g. levelling a plot or digging a valley; written per mapblock as one Canvas transaction.",
+      "typicalScale": "Hundreds to millions of cells, e.g. levelling a plot or digging a valley; written per world-source partition chunk as one Canvas transaction.",
       "scaleUnit": "cells",
       "requiredCapabilities": [
-        "canvas-region/v2:single-logical-transaction",
-        "canvas-region/v2:whole-region-undo",
-        "region-build/v1:compile-mapblock-chunks",
-        "world-adapter-region/v2:load-then-know"
+        "canvas-region/v3:single-logical-transaction",
+        "canvas-region/v3:whole-region-undo",
+        "region-build/v2:compile-partition-chunks",
+        "world-adapter-region/v3:load-then-know"
       ],
       "unavailableReason": null
     }

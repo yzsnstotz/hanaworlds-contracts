@@ -1,11 +1,11 @@
-// Public region-voxels/v1 helpers. Pure functions over supplied facts only: no
+// Public region-voxels/v2 helpers. Pure functions over supplied facts only: no
 // world access, compression, transaction decision or provider authentication.
 import { contractMetadata } from './generated/contracts.mjs';
 import { validateType, validateRequest, validateResponse, validateDigestBinding, digestValue,
   validateStaticMaterials, deepFreeze, canonicalJSON, requireSiteRuleChecks } from './runtime.mjs';
 import { requireFact, fail } from '../errors.mjs';
 import { confirmedPlacementOf, requireRegionPlacementTarget, requirePlacementWorld, regionPlacementCommitCoherence } from './placement.mjs';
-import { blockBox, blockCellCount, chunksOfBox, floorDiv, comparePalette } from './region-domain.mjs';
+import { blockBox, blockCellCount, chunksOfBox, chunkOfPosition, comparePalette } from './region-domain.mjs';
 export const protocolPolicy = contractMetadata.protocolPolicy;
 export const contractProtocols = contractMetadata.contractProtocols;
 export const regionCapabilities = contractMetadata.regionCapabilities;
@@ -16,9 +16,18 @@ const sha = (kind, v) => digestValue(kind, v).sha256;
 const noMutation = error => requireFact(error.mutationState === 'NONE' && error.transactionRef === null);
 
 export function regionBlockBox(block) { return deepFreeze(blockBox(validateType('RegionVoxelBlock', block))); }
-export function mapblockOf(position) { validateType('Position', position); return Object.freeze(position.map(floorDiv)); }
-/** Mapblocks intersecting box (ascending x,y,z) with the node box clipped to each. */
-export function regionChunksOfBox(box) { return deepFreeze(chunksOfBox(validateType('Box', box))); }
+/** Partition chunk holding position, under the world source's declared partition. */
+export function chunkOf(position, partition) { validateType('Position', position); return Object.freeze(chunkOfPosition(position, validateType('Partition', partition))); }
+/** Partition chunks intersecting box (ascending x,y,z) with the cell box clipped to each. */
+export function regionChunksOfBox(box, partition) { return deepFreeze(chunksOfBox(validateType('Box', box), validateType('Partition', partition))); }
+/** CAPABILITY_GAP unless the world source declares the payload's geometry profile. A missing
+ * declaration (worldGeometry null) is a gap too: the profile is never assumed. */
+export function requireGeometryProfile(worldGeometryInput, profile) {
+  const geometry = worldGeometryInput === null ? null : validateType('WorldGeometry', worldGeometryInput);
+  validateType('GeometryProfile', profile);
+  requireFact(geometry !== null && geometry.geometryProfiles.includes(profile), 'CAPABILITY_GAP', 'GEOMETRY_PROFILE_UNSUPPORTED');
+  return geometry;
+}
 
 /** Expand canonical runs into VoxelArea order indices; -1 means UNSPECIFIED. */
 export function expandRegionBlock(input) {
@@ -45,7 +54,7 @@ export function encodeRegionBlock({ origin, size, palette, indices }) {
     const value = indices[i] === -1 ? null : remap.get(indices[i]);
     if (runs.length && runs.at(-1)[1] === value) runs.at(-1)[0]++; else runs.push([1, value]);
   }
-  return validateType('RegionVoxelBlock', { profileVersion: 'region-voxels/v1', origin: [...origin], size: [...size],
+  return validateType('RegionVoxelBlock', { profileVersion: 'region-voxels/v2', geometryProfile: 'voxel-grid/v1', origin: [...origin], size: [...size],
     indexOrder: 'X_FASTEST_THEN_Y_THEN_Z', palette: sorted.map(e => ({ materialRef: e.materialRef, orientation: e.orientation })), runs });
 }
 /** Every palette entry (the empty material included) must be a placeable material with a
@@ -75,21 +84,21 @@ export function expectedRegionState(beforeInput, opsInput) {
   return validateType('RegionState', { profileVersion: 'region-state/v2', worldRef: before.worldRef,
     block: encodeRegionBlock({ origin: before.block.origin, size: before.block.size, palette, indices }), extras, stateProfile: before.stateProfile });
 }
-export function summarizeRegionStates(worldRef, chunks) {
-  return validateType('RegionSummary', { profileVersion: 'region-summary/v1', worldRef,
+export function summarizeRegionStates(worldRef, partition, chunks) {
+  return validateType('RegionSummary', { profileVersion: 'region-summary/v2', worldRef, partition,
     chunks: chunks.map(({ chunkPos, state }) => ({ chunkPos, box: blockBox(validateType('RegionState', state).block), stateDigest: sha('region-state', state) })) });
 }
 /** Expected after summary from the durable pre-write snapshot and the operations. */
 export function expectedRegionSummary(contentInput, operationsInput) {
   const content = validateType('RegionSnapshotContent', contentInput); const ops = validateType('RegionOperationsProjection', operationsInput);
   requireFact(content.worldRef === ops.worldRef, 'CURRENT_WORLD_MISMATCH', 'SCOPE_DENIED');
-  requireFact(same(content.chunks.map(c => c.chunkPos), ops.chunks.map(c => c.chunkPos)), 'TARGET_FACTS_INCOMPLETE', 'REQUIRED_FACT_UNKNOWN');
-  return summarizeRegionStates(content.worldRef, content.chunks.map((c, i) => ({ chunkPos: c.chunkPos, state: expectedRegionState(c.state, ops.chunks[i].block) })));
+  requireFact(same(content.partition, ops.partition) && same(content.chunks.map(c => c.chunkPos), ops.chunks.map(c => c.chunkPos)), 'TARGET_FACTS_INCOMPLETE', 'REQUIRED_FACT_UNKNOWN');
+  return summarizeRegionStates(content.worldRef, content.partition, content.chunks.map((c, i) => ({ chunkPos: c.chunkPos, state: expectedRegionState(c.state, ops.chunks[i].block) })));
 }
 
-// --- painter-region/v2 -------------------------------------------------------
+// --- painter-region/v3 -------------------------------------------------------
 export function validateRegionProposalRequest(input) {
-  const request = validateRequest('painter-region/v2', 'ValidateRegionProposal', input);
+  const request = validateRequest('painter-region/v3', 'ValidateRegionProposal', input);
   validateDigestBinding('intent', request.intent, request.intentDigest);
   validateDigestBinding('reference-brief', request.referenceBrief, request.referenceBriefDigest);
   validateDigestBinding('catalogue', request.catalogue, request.catalogueDigest);
@@ -115,7 +124,7 @@ export function validateRegionProposalRequest(input) {
 /** Painter returns the proposal block unchanged as a RegionBuildProjection. */
 export function validateRegionProposalResponse(requestInput, responseInput) {
   const request = validateRegionProposalRequest(requestInput);
-  const response = validateResponse('painter-region/v2', 'ValidateRegionProposal', responseInput);
+  const response = validateResponse('painter-region/v3', 'ValidateRegionProposal', responseInput);
   changed(response.requestId === request.requestId);
   if (response.error) { noMutation(response.error); return response; }
   const { build } = response.result;
@@ -125,9 +134,9 @@ export function validateRegionProposalResponse(requestInput, responseInput) {
   return response;
 }
 
-// --- region-build/v1 (Brush) -------------------------------------------------
+// --- region-build/v2 (Brush) -------------------------------------------------
 export function validateCompileRegionBuildRequest(input) {
-  const request = validateRequest('region-build/v1', 'CompileRegionBuild', input);
+  const request = validateRequest('region-build/v2', 'CompileRegionBuild', input);
   validateDigestBinding('region-build', request.build, request.buildDigest);
   validateDigestBinding('catalogue', request.catalogue, request.catalogueDigest);
   validateRegionPalette(request.build.block, request.catalogue);
@@ -137,12 +146,13 @@ export function validateCompileRegionBuildRequest(input) {
  * same material/orientation; UNSPECIFIED never becomes the empty material; nothing outside the build box. */
 export function validateCompiledRegionSet(requestInput, responseInput) {
   const request = validateCompileRegionBuildRequest(requestInput);
-  const response = validateResponse('region-build/v1', 'CompileRegionBuild', responseInput);
+  const response = validateResponse('region-build/v2', 'CompileRegionBuild', responseInput);
   changed(response.requestId === request.requestId);
   if (response.error) { noMutation(response.error); return response; }
   const { projection } = response.result;
   changed(projection.buildDigest === request.buildDigest && projection.worldRef === request.worldRef &&
-    projection.catalogueDigest === request.catalogueDigest && projection.compilerRevision === request.compilerRevision);
+    projection.catalogueDigest === request.catalogueDigest && projection.compilerRevision === request.compilerRevision &&
+    same(projection.partition, request.partition));
   validateDigestBinding('region-operations', projection, response.result.operationDigest);
   const build = expandRegionBlock(request.build.block);
   const [bx, by] = [0, 1].map(a => build.box.max[a] - build.box.min[a] + 1);
@@ -163,15 +173,15 @@ export function validateCompiledRegionSet(requestInput, responseInput) {
   return response;
 }
 
-// --- world-adapter-region/v2 (Adapter transport facts) -----------------------
+// --- world-adapter-region/v3 (Adapter transport facts) -----------------------
 export function validateRegionRead(requestInput, responseInput) {
-  const request = validateRequest('world-adapter-region/v2', 'ReadRegion', requestInput);
-  const response = validateResponse('world-adapter-region/v2', 'ReadRegion', responseInput);
+  const request = validateRequest('world-adapter-region/v3', 'ReadRegion', requestInput);
+  const response = validateResponse('world-adapter-region/v3', 'ReadRegion', responseInput);
   changed(response.requestId === request.requestId);
   if (response.error) return response;
   const r = response.result;
   requireFact(r.worldRef === request.worldRef && same(r.localContext, request.localContext), 'CURRENT_WORLD_MISMATCH', 'SCOPE_DENIED');
-  changed(same(r.box, request.box));
+  changed(same(r.box, request.box) && same(r.partition, request.partition));
   for (const c of r.chunks) if (c.state) validateDigestBinding('region-state', c.state, c.stateDigest);
   return response;
 }
@@ -183,46 +193,48 @@ export function requireKnownRegion(resultInput) {
 }
 /** Per-chunk transport facts only. allWritten is not a commit: Canvas decides. */
 export function validateRegionWrite(requestInput, responseInput) {
-  const request = validateRequest('world-adapter-region/v2', 'WriteRegion', requestInput);
-  const response = validateResponse('world-adapter-region/v2', 'WriteRegion', responseInput);
+  const request = validateRequest('world-adapter-region/v3', 'WriteRegion', requestInput);
+  const response = validateResponse('world-adapter-region/v3', 'WriteRegion', responseInput);
   changed(response.requestId === request.requestId);
   if (response.error) return deepFreeze({ response, allWritten: false, committed: false });
   const r = response.result;
   requireFact(r.worldRef === request.worldRef && same(r.localContext, request.localContext), 'CURRENT_WORLD_MISMATCH', 'SCOPE_DENIED');
   changed(r.transactionId === request.transactionId && r.purpose === request.purpose &&
     same(r.chunks.map(c => c.chunkPos), request.writes.map(w => w.chunkPos)));
-  const allWritten = r.chunks.every(c => c.status === 'WRITTEN') && r.lighting.status === 'COMPLETE';
+  // Lighting is checked only when the world source declares a light pass (postWriteLighting REQUIRED).
+  const allWritten = r.chunks.every(c => c.status === 'WRITTEN') && (r.postWriteLighting === 'NONE' || r.lighting.status === 'COMPLETE');
   return deepFreeze({ response, allWritten, committed: false });
 }
 
-// --- canvas-region/v2 (Canvas transaction facts) -----------------------------
+// --- canvas-region/v3 (Canvas transaction facts) -----------------------------
 export function validateRegionSnapshotContent(contentInput, refInput, beforeSummaryInput) {
   const content = validateType('RegionSnapshotContent', contentInput); const ref = validateType('RegionSnapshotRef', refInput);
   const before = validateType('RegionSummary', beforeSummaryInput);
   validateDigestBinding('region-snapshot-content', content, ref.contentDigest);
   validateDigestBinding('region-summary', before, ref.beforeSummaryDigest);
   for (const c of content.chunks) validateDigestBinding('region-state', c.state, c.stateDigest);
-  changed(same(summarizeRegionStates(content.worldRef, content.chunks), before));
+  changed(same(summarizeRegionStates(content.worldRef, content.partition, content.chunks), before));
   return content;
 }
-/** canvas-region/v2 ApplyRegionCommit admission: shape, operations digest and, with a confirmed
+/** canvas-region/v3 ApplyRegionCommit admission: shape, operations digest and, with a confirmed
  * placement, its digest, World and the specified world cells against the target. Canvas then runs
  * checkConfirmedRegionPlacementCommit with its own records before any snapshot or WriteRegion. */
 export function validateRegionCommitRequest(requestInput) {
-  const request = validateRequest('canvas-region/v2', 'ApplyRegionCommit', requestInput);
+  const request = validateRequest('canvas-region/v3', 'ApplyRegionCommit', requestInput);
   validateDigestBinding('region-operations', request.operations, request.operationDigest);
   regionPlacementCommitCoherence(request);
   return request;
 }
 export function validateRegionCommit(requestInput, responseInput) {
   const request = validateRegionCommitRequest(requestInput);
-  const response = validateResponse('canvas-region/v2', 'ApplyRegionCommit', responseInput);
+  const response = validateResponse('canvas-region/v3', 'ApplyRegionCommit', responseInput);
   changed(response.requestId === request.requestId);
   if (response.error) return response;
   const r = response.result;
   requireFact(r.worldRef === request.worldRef && same(r.localContext, request.localContext), 'CURRENT_WORLD_MISMATCH', 'SCOPE_DENIED');
   changed(r.transactionId === request.transactionId && r.operationDigest === request.operationDigest);
-  changed(same(r.beforeSummary.chunks.map(c => [c.chunkPos, c.box]), request.operations.chunks.map(c => [c.chunkPos, blockBox(c.block)])));
+  changed(same(r.beforeSummary.partition, request.operations.partition) &&
+    same(r.beforeSummary.chunks.map(c => [c.chunkPos, c.box]), request.operations.chunks.map(c => [c.chunkPos, blockBox(c.block)])));
   validateDigestBinding('region-summary', r.beforeSummary, r.snapshot.beforeSummaryDigest);
   return response;
 }
@@ -240,11 +252,11 @@ export function regionRollbackCauseOf(requestInput, responseInput) {
     cause: reported ? 'REPORTED' : regionRollbackCause.unknown, failure: reported ? r.rollbackCause : null });
 }
 export function validateRegionUndo(requestInput, responseInput, originResultInput) {
-  const request = validateRequest('canvas-region/v2', 'UndoRegionCommit', requestInput);
+  const request = validateRequest('canvas-region/v3', 'UndoRegionCommit', requestInput);
   const origin = validateType('RegionCommitResult', originResultInput);
   requireFact(origin.status === 'VERIFIED' && origin.transactionId === request.originTransactionId, 'UNDO_CONFLICT', 'PAYLOAD_CHANGED');
   requireFact(origin.worldRef === request.worldRef, 'CURRENT_WORLD_MISMATCH', 'SCOPE_DENIED');
-  const response = validateResponse('canvas-region/v2', 'UndoRegionCommit', responseInput);
+  const response = validateResponse('canvas-region/v3', 'UndoRegionCommit', responseInput);
   changed(response.requestId === request.requestId);
   if (response.error) return response;
   const r = response.result;
@@ -258,7 +270,7 @@ export function validateRegionUndo(requestInput, responseInput, originResultInpu
 }
 
 // --- protocol major + capability compatibility -------------------------------
-/** ProtocolRequirement for a wire such as 'canvas-region/v2' or 'BUILD/V4'. */
+/** ProtocolRequirement for a wire such as 'canvas-region/v3' or 'BUILD/V5'. */
 export function protocolRequirement(wire, capabilities = [], minMinor = 0) {
   const m = /^(.+)\/[vV]([1-9][0-9]*)$/u.exec(wire);
   requireFact(m !== null, 'UNSUPPORTED_VERSION', 'VERSION_UNSUPPORTED', 'decode');

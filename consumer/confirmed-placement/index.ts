@@ -1,5 +1,5 @@
 // Consumer typecheck fixture for confirmed-placement/v1: proposal creation, the brief/intent binding,
-// Painter/Canvas checks and the canvas/v6 apply binding.
+// Painter/Canvas checks and the canvas/v7 apply binding.
 import {confirmedPlacement,createPlacementProposal,requirePlacementSource,requirePlacementTarget,confirmedPlacementOf,confirmedPlacementBinding,checkConfirmedPlacementApply,validateCreateBuildPlanRequest,validateCreateBuildPlanResponse,validateRegionCommitRequest,checkConfirmedRegionPlacementCommit,validateRegionCommitSubmission,ContractError,
   type PlacementProposal,type PlacementTarget,type ConfirmedPlacementBinding,type RegionInspection,type IntentProjection,type BriefProjection,
   type ApplyRecoverableCommitRequest,type ApplyRegionCommitRequest,type CreateBuildPlanRequest,type CreateBuildPlanResponse,type ClarificationNeed,type PlacementFailure,type Controls,type ConfirmedIntent} from 'hanaworlds-contracts';

@@ -15,8 +15,8 @@ const b=f.response.result.build;
 b.safetyProfileDigest=r.safetyProfileDigest;
 const covers=(p,o)=>p.every((v,i)=>v>=o.min[i]&&v<=o.max[i]);
 const effects=r.targetFacts.knownEmptyCells.filter(p=>b.operations.some(o=>covers(p,o))).sort(a.comparePosition)
- .map(position=>({position,...b.materials[b.operations.findLast(o=>covers(position,o)).materialRef]}));
-const finalEffectsDigest=D('final-effects',{profileVersion:'final-effects/v2',frameDigest:r.targetFacts.frameDigest,catalogueDigest:b.catalogueDigest,effects});
+ .map(position=>({position,geometryProfile:b.geometryProfile,...b.materials[b.operations.findLast(o=>covers(position,o)).materialRef]}));
+const finalEffectsDigest=D('final-effects',{profileVersion:'final-effects/v3',frameDigest:r.targetFacts.frameDigest,catalogueDigest:b.catalogueDigest,effects});
 for(const w of b.witnesses){w.safetyProfileDigest=r.safetyProfileDigest;w.finalEffectsDigest=finalEffectsDigest;}
 f.response.result.buildDigest=D('build',b);
 const keys=Object.keys(a.schemaBundle.definitions.BuildProposalContext.properties);

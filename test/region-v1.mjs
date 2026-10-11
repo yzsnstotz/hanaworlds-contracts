@@ -13,8 +13,8 @@ const code = c => ({ code: c });
 // Validators return frozen null-prototype snapshots; compare JSON content.
 const plain = x => JSON.parse(JSON.stringify(x, (k, v) => ArrayBuffer.isView(v) ? Array.from(v) : v));
 const eq = (x, y) => assert.deepEqual(plain(x), plain(y));
-const stone = { materialRef: 'fixture:stone', orientation: 0 }, air = { materialRef: 'air', orientation: 0 };
-const block = (runs, palette = [stone], size = [4, 1, 1], origin = [0, 0, 0]) => ({ profileVersion: 'region-voxels/v1', origin, size, indexOrder: 'X_FASTEST_THEN_Y_THEN_Z', palette, runs });
+const stone = { materialRef: 'fixture:stone', orientation: 0 }, air = { materialRef: base.request.catalogue.emptyMaterialRef, orientation: 0 };
+const block = (runs, palette = [stone], size = [4, 1, 1], origin = [0, 0, 0]) => ({ profileVersion: 'region-voxels/v2', geometryProfile: 'voxel-grid/v1', origin, size, indexOrder: 'X_FASTEST_THEN_Y_THEN_Z', palette, runs });
 let checks = 0; function test(name, run) { run(); console.log('ok', ++checks, name); }
 
 test('same-major package and published region fixture equals the regenerated scenario', () => {
@@ -33,7 +33,7 @@ test('fill: block+palette decodes, expands in VoxelArea order (x, then y, then z
   assert.equal(D('region-block', b), D('region-block', a.encodeRegionBlock({ origin: [-2, 0, -2], size: [20, 2, 3], palette: [air, stone], indices: new Array(120).fill(1) })));
   a.validateRegionPalette(s.compileRequest.build.block, s.catalogue);
 });
-test('carve: explicit air is distinct from UNSPECIFIED; unspecified cells and their extras are kept', () => {
+test('carve: the explicit empty material is distinct from UNSPECIFIED; unspecified cells and their extras are kept', () => {
   const before = { profileVersion: 'region-state/v2', worldRef: 'w', block: block([[4, 0]]), stateProfile: { profileVersion: 'state-profile/v3', derivedFields: ['param1'], preservedFields: [], clearedFields: ['inventory', 'metadata', 'timer'] },
     extras: [{ position: [1, 0, 0], state: { metadata: { k: 'v' } } }, { position: [2, 0, 0], state: { metadata: { k: 'v' } } }] };
   const carve = block([[1, 0], [1, null], [1, 0], [1, null]], [air]);
@@ -43,8 +43,13 @@ test('carve: explicit air is distinct from UNSPECIFIED; unspecified cells and th
   eq(after.extras.map(x => x.position), [[1, 0, 0]]);
   assert.notEqual(D('region-block', carve), D('region-block', block([[4, 0]], [air])));
   assert.throws(() => a.validateType('RegionVoxelBlock', block([[4, null]])), code('SCHEMA_INVALID'));
-  assert.throws(() => a.validateType('RegionVoxelBlock', block([[4, 0]], [{ materialRef: 'ignore', orientation: 0 }])), code('SCHEMA_INVALID'));
-  assert.throws(() => a.validateType('RegionVoxelBlock', block([[4, 0]], [{ materialRef: 'air', orientation: 1 }])), code('SCHEMA_INVALID'));
+  // A block names no material specially: palette legality, the empty material's orientation included,
+  // is read from the world source's Catalogue.
+  const cat = base.request.catalogue, odd = block([[4, 0]], [{ materialRef: 'ignore', orientation: 0 }]);
+  a.validateType('RegionVoxelBlock', odd);
+  assert.throws(() => a.validateRegionPalette(odd, cat), code('CATALOGUE_MISMATCH'));
+  assert.ok(!cat.materials[cat.emptyMaterialRef].orientations.includes(1));
+  assert.throws(() => a.validateRegionPalette(block([[4, 0]], [{ ...air, orientation: 1 }]), cat), code('UNSUPPORTED_MUTATION_SEMANTICS'));
   assert.throws(() => a.validateType('RegionState', { ...before, block: carve }), code('SCHEMA_INVALID'));
 });
 test('strict canonical decoding rejects ambiguous or malformed blocks', () => {
@@ -52,9 +57,9 @@ test('strict canonical decoding rejects ambiguous or malformed blocks', () => {
     block([[4, 0]], [stone, air]), block([[1, 0]], [stone], [9007199254740991, 2, 1]), block([[2, 0]], [stone], [2, 1, 1], [9007199254740991, 0, 0])])
     assert.throws(() => a.validateType('RegionVoxelBlock', bad), code('SCHEMA_INVALID'));
   assert.throws(() => a.validateType('RegionVoxelBlock', { ...block([[4, 0]]), extra: 1 }), code('UNKNOWN_REQUIRED_FIELD'));
-  assert.throws(() => a.validateType('RegionVoxelBlock', { ...block([[4, 0]]), profileVersion: 'region-voxels/v2' }), code('UNSUPPORTED_VERSION'));
+  assert.throws(() => a.validateType('RegionVoxelBlock', { ...block([[4, 0]]), profileVersion: 'region-voxels/v3' }), code('UNSUPPORTED_VERSION'));
   assert.throws(() => a.validateType('RegionVoxelBlock', { ...block([[4, 0]]), indexOrder: 'Z_FASTEST' }), code('SCHEMA_INVALID'));
-  assert.throws(() => a.admitType('RegionVoxelBlock', '{"profileVersion":"region-voxels/v1","profileVersion":"region-voxels/v1"}'), code('SCHEMA_INVALID'));
+  assert.throws(() => a.admitType('RegionVoxelBlock', '{"profileVersion":"region-voxels/v2","profileVersion":"region-voxels/v2"}'), code('SCHEMA_INVALID'));
 });
 test('catalogue legality: unknown node, illegal orientation and unknown static capability are rejected before any write', () => {
   const s = S(); const cat = s.catalogue;
@@ -63,12 +68,12 @@ test('catalogue legality: unknown node, illegal orientation and unknown static c
   const unknown = structuredClone(cat); unknown.materials['fixture:stone'].placeable = null; unknown.materials['fixture:stone'].unknownFields = ['placeable'];
   assert.throws(() => a.validateRegionPalette(block([[4, 0]]), unknown), code('UNSUPPORTED_MUTATION_SEMANTICS'));
 });
-test('per-cell BUILD/V4 is retained unchanged beside region v1', () => {
-  assert.ok(a.wireVersions.includes('BUILD/V4')); assert.equal(a.compiledOperationsVersion, 'operations/v3');
-  eq(a.operationContracts['BUILD/V4'].map(o => o.operation), ['BuildDocument']);
+test('per-cell BUILD/V5 is retained unchanged beside region v1', () => {
+  assert.ok(a.wireVersions.includes('BUILD/V5')); assert.equal(a.compiledOperationsVersion, 'operations/v4');
+  eq(a.operationContracts['BUILD/V5'].map(o => o.operation), ['BuildDocument']);
   a.validateBuildProposalRequest(base.request);
   assert.equal(a.validateType('BuildProposal', base.request.proposal).decision, 'BUILD');
-  assert.ok(a.protocolRequirement('BUILD/V4', ['BUILD/V4:per-cell-compile']).major === 4);
+  assert.ok(a.protocolRequirement('BUILD/V5', ['BUILD/V5:per-cell-compile']).major === 5);
 });
 test('Painter region proposal keeps the same Session/brief/world and returns the block unchanged', () => {
   const s = S(); a.validateRegionProposalResponse(s.proposalRequest, s.proposalResponse);
@@ -84,12 +89,12 @@ test('Painter region proposal keeps the same Session/brief/world and returns the
   refused.proposalResponse.error = { code: 'BUILD_INVALID', phase: 'validate', retryability: 'AFTER_NEW_FACTS', mutationState: 'NONE', transactionRef: null, causeCode: null, reason: 'INVALID_GEOMETRY' };
   a.validateRegionProposalResponse(refused.proposalRequest, refused.proposalResponse);
 });
-test('Brush compile: mapblock chunks equal the build exactly; UNSPECIFIED never becomes air; cross-chunk', () => {
+test('Brush compile: partition chunks equal the build exactly; UNSPECIFIED never becomes the empty material; cross-chunk', () => {
   const s = S(); a.validateCompiledRegionSet(s.compileRequest, s.compileResponse);
   assert.equal(s.compileResponse.result.projection.chunks.length, 6);
   const resign = x => { x.compileResponse.result.operationDigest = D('region-operations', x.compileResponse.result.projection); return x; };
   const carved = S(); const c = carved.compileResponse.result.projection.chunks[2];
-  const e = a.expandRegionBlock(c.block); const idx = Array.from(e.indices); idx[idx.lastIndexOf(-1)] = e.palette.findIndex(p => p.materialRef === 'air');
+  const e = a.expandRegionBlock(c.block); const idx = Array.from(e.indices); idx[idx.lastIndexOf(-1)] = e.palette.findIndex(p => p.materialRef === air.materialRef);
   c.block = a.encodeRegionBlock({ origin: c.block.origin, size: c.block.size, palette: e.palette, indices: idx });
   assert.throws(() => a.validateCompiledRegionSet(carved.compileRequest, resign(carved).compileResponse), code('BUILD_INVALID'));
   const dropped = S(); dropped.compileResponse.result.projection.chunks.pop();
@@ -128,6 +133,39 @@ test('Adapter write: per-chunk facts and lighting completion; partial success is
   const mixed = S(); mixed.writeRequest.purpose = 'RESTORE';
   assert.throws(() => a.validateRegionWrite(mixed.writeRequest, mixed.writeResponse), code('SCHEMA_INVALID'));
 });
+test('partition is the world source declaration carried by every region payload; any edge works, a mismatch is refused', () => {
+  // A non-cubic, non-16 partition: the same scenario compiles, reads, writes and commits end to end.
+  const odd = JSON.parse(JSON.stringify(buildRegionScenario(a, base, { partition: { edge: [8, 1, 2] } })));
+  a.validateCompiledRegionSet(odd.compileRequest, odd.compileResponse);
+  assert.ok(odd.compileResponse.result.projection.chunks.length > S().compileResponse.result.projection.chunks.length);
+  a.validateRegionRead(odd.readRequest, odd.readResponse); a.validateRegionWrite(odd.writeRequest, odd.writeResponse);
+  a.validateRegionCommit(odd.commitRequest, odd.commitResponse);
+  const content = JSON.parse(gunzipSync(Buffer.from(odd.snapshotGzipBase64, 'base64')).toString('utf8'));
+  eq(a.expectedRegionSummary(content, odd.commitRequest.operations), odd.commitResponse.result.expectedAfterSummary);
+  // Brush must cut along the partition the request carries.
+  const relabelled = S().compileResponse.result.projection; relabelled.partition = { edge: [8, 1, 2] };
+  assert.throws(() => D('region-operations', relabelled), code('SCHEMA_INVALID'));
+  const other = S(); other.compileResponse = odd.compileResponse;
+  assert.throws(() => a.validateCompiledRegionSet(other.compileRequest, other.compileResponse), code('TRANSACTION_CONFLICT'));
+  // The world source reads with the partition it was asked for, or the read is refused.
+  const read = S(); read.readRequest.partition = { edge: [32, 32, 32] };
+  assert.throws(() => a.validateRegionRead(read.readRequest, read.readResponse), code('TRANSACTION_CONFLICT'));
+  // A write chunk outside its partition chunk is a geometry error.
+  const write = S(); write.writeRequest.partition = { edge: [4, 4, 4] };
+  assert.throws(() => a.validateRegionWrite(write.writeRequest, write.writeResponse), code('SCHEMA_INVALID'));
+  assert.throws(() => a.validateType('Partition', { edge: [16, 0, 16] }), code('SCHEMA_INVALID'));
+});
+test('post-write lighting is checked only when the world source declares it', () => {
+  const none = JSON.parse(JSON.stringify(buildRegionScenario(a, base, { postWriteLighting: 'NONE' })));
+  assert.equal(a.validateRegionWrite(none.writeRequest, none.writeResponse).allWritten, true);
+  a.validateRegionCommit(none.commitRequest, none.commitResponse);
+  a.validateType('RegionUndoResult', none.undoResponse.result);
+  // NONE carries no lighting fact; REQUIRED always carries one.
+  const invented = S(); invented.writeResponse.result.postWriteLighting = 'NONE';
+  assert.throws(() => a.validateRegionWrite(invented.writeRequest, invented.writeResponse), code('SCHEMA_INVALID'));
+  const missing = S(); missing.commitResponse.result.lighting = null;
+  assert.throws(() => a.validateRegionCommit(missing.commitRequest, missing.commitResponse), code('SCHEMA_INVALID'));
+});
 test('Canvas commit: one logical transaction, full readback summary equality, whole rollback, compressed snapshot', () => {
   const s = S(); const r = s.commitResponse.result;
   a.validateRegionCommit(s.commitRequest, s.commitResponse);
@@ -162,26 +200,26 @@ test('Canvas whole-region Undo: same transaction, external edit conflict, verifi
 test('published fixture peer handshake satisfies the same package G3 declaration (regression)', async () => {
   const published = JSON.parse(await readFile(new URL(import.meta.resolve('hanaworlds-contracts/fixtures/region')), 'utf8')).peerHandshake;
   const declared = a.contractProtocols.find(p => p.protocol === 'world-adapter-region');
-  const declaredCaps = a.regionCapabilities.map(c => c.id).filter(id => id.startsWith('world-adapter-region/v2:')).sort();
-  assert.ok(declaredCaps.includes('world-adapter-region/v2:callback-free-write'));
+  const declaredCaps = a.regionCapabilities.map(c => c.id).filter(id => id.startsWith('world-adapter-region/v3:')).sort();
+  assert.ok(declaredCaps.includes('world-adapter-region/v3:callback-free-write'));
   assert.deepEqual(published.protocols, [{ protocol: 'world-adapter-region', major: declared.major, minor: declared.minor }]);
   assert.deepEqual([...published.capabilities].sort(), declaredCaps);
-  assert.equal(a.checkProtocolCompatibility(published, [a.protocolRequirement('world-adapter-region/v2', declaredCaps, declared.minor)]).result, 'PROTOCOL_COMPATIBLE');
+  assert.equal(a.checkProtocolCompatibility(published, [a.protocolRequirement('world-adapter-region/v3', declaredCaps, declared.minor)]).result, 'PROTOCOL_COMPATIBLE');
 });
 test('protocol major + capability: same major consumable across patch/hash; wrong major or missing capability rejected', () => {
-  const s = S(); const req = [a.protocolRequirement('world-adapter-region/v2', ['world-adapter-region/v2:load-then-know', 'world-adapter-region/v2:chunked-write'])];
+  const s = S(); const req = [a.protocolRequirement('world-adapter-region/v3', ['world-adapter-region/v3:load-then-know', 'world-adapter-region/v3:chunked-write'])];
   const first = a.checkProtocolCompatibility(s.peerHandshake, req);
-  const patched = { ...s.peerHandshake, protocols: [{ protocol: 'world-adapter-region', major: 2, minor: 2 }], provenance: { packageName: 'fixture-adapter', packageVersion: '0.4.9', sourceRevision: 'f'.repeat(40), artifactDigest: 'a'.repeat(64) } };
+  const patched = { ...s.peerHandshake, protocols: [{ protocol: 'world-adapter-region', major: 3, minor: 2 }], provenance: { packageName: 'fixture-adapter', packageVersion: '0.4.9', sourceRevision: 'f'.repeat(40), artifactDigest: 'a'.repeat(64) } };
   assert.equal(a.checkProtocolCompatibility(patched, req).result, first.result);
-  assert.throws(() => a.checkProtocolCompatibility({ ...s.peerHandshake, protocols: [{ protocol: 'world-adapter-region', major: 3, minor: 0 }] }, req), code('UNSUPPORTED_VERSION'));
-  assert.throws(() => a.checkProtocolCompatibility(s.peerHandshake, [a.protocolRequirement('world-adapter-region/v2', [], s.peerHandshake.protocols[0].minor + 1)]), code('UNSUPPORTED_VERSION'));
-  assert.throws(() => a.checkProtocolCompatibility({ ...s.peerHandshake, capabilities: ['world-adapter-region/v2:chunked-read'] }, req), code('CAPABILITY_UNAVAILABLE'));
-  assert.throws(() => a.checkProtocolCompatibility(s.peerHandshake, [a.protocolRequirement('canvas-region/v2')]), code('UNSUPPORTED_VERSION'));
+  assert.throws(() => a.checkProtocolCompatibility({ ...s.peerHandshake, protocols: [{ protocol: 'world-adapter-region', major: 4, minor: 0 }] }, req), code('UNSUPPORTED_VERSION'));
+  assert.throws(() => a.checkProtocolCompatibility(s.peerHandshake, [a.protocolRequirement('world-adapter-region/v3', [], s.peerHandshake.protocols[0].minor + 1)]), code('UNSUPPORTED_VERSION'));
+  assert.throws(() => a.checkProtocolCompatibility({ ...s.peerHandshake, capabilities: ['world-adapter-region/v3:chunked-read'] }, req), code('CAPABILITY_UNAVAILABLE'));
+  assert.throws(() => a.checkProtocolCompatibility(s.peerHandshake, [a.protocolRequirement('canvas-region/v3')]), code('UNSUPPORTED_VERSION'));
   assert.throws(() => a.checkProtocolCompatibility(a.contractHandshake, req), code('UNSUPPORTED_VERSION'));
   assert.throws(() => a.checkProtocolCompatibility({ ...s.peerHandshake, protocols: [{ protocol: 'world-adapter-region', major: 0, minor: 9 }] }, [{ protocol: 'world-adapter-region', major: 0, minMinor: 0, capabilities: [] }]), code('SCHEMA_INVALID'));
-  assert.throws(() => a.validateRequest('world-adapter-region/v2', 'ReadRegion', { ...s.readRequest, contractVersion: 'world-adapter-region/v3' }), code('UNSUPPORTED_VERSION'));
-  assert.ok(a.contractProtocols.some(p => p.protocol === 'region-voxels' && p.major === 1));
-  assert.match(a.digestValue('region-state', s.readResponse.result.chunks[0].state).preimageUtf8, /^HanaWorlds\|region-voxels\/v1\|region-state\|/);
+  assert.throws(() => a.validateRequest('world-adapter-region/v3', 'ReadRegion', { ...s.readRequest, contractVersion: 'world-adapter-region/v4' }), code('UNSUPPORTED_VERSION'));
+  assert.ok(a.contractProtocols.some(p => p.protocol === 'region-voxels' && p.major === 2));
+  assert.match(a.digestValue('region-state', s.readResponse.result.chunks[0].state).preimageUtf8, /^HanaWorlds\|region-voxels\/v2\|region-state\|/);
   assert.match(a.protocolPolicy.rule, /provenance only/);
 });
 test('write-method self-description carries purpose, typical scale and prerequisites without thresholds', () => {

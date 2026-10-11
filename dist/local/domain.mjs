@@ -97,7 +97,7 @@ function targetFacts(v) {
   const actual = ['worldRef', 'objectRef', 'worldRevision', 'objectRevision'];
   const planned = ['buildDigest', 'planRevision'];
   // rc.7: target-facts/v3 iff REGION_INSPECTED; INSPECTED and PLANNED keep target-facts/v2.
-  decodeShape(v.profileVersion === 'target-facts/v4');
+  decodeShape(v.profileVersion === 'target-facts/v5');
   if (v.source === 'REGION_INSPECTED') {
     decodeShape(v.worldRef !== null && v.worldRevision !== null);
     decodeShape(['objectRef', 'objectRevision', ...planned].every(k => v[k] === null));

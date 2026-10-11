@@ -73,7 +73,7 @@ export function confirmedPlacementOf(intentInput, briefInput) {
   need(same(none(intent.confirmedIntent.placement), none(brief.controls.placement)), 'PLACEMENT_BINDING_CHANGED');
   return none(intent.confirmedIntent.placement);
 }
-/** The canvas/v6 apply binding Workshop sends for a confirmed intent; null when none was confirmed
+/** The canvas/v7 apply binding Workshop sends for a confirmed intent; null when none was confirmed
  * (then the apply carries no confirmedPlacement field). */
 export function confirmedPlacementBinding(intentInput) {
   const intent = validateType('IntentProjection', intentInput), placement = none(intent.confirmedIntent.placement);
@@ -85,7 +85,7 @@ export function confirmedPlacementBinding(intentInput) {
 export function requireConfirmedPlacementSent(intent, apply) {
   need(same(confirmedPlacementBinding(intent), none(apply.regionInspectionBinding?.confirmedPlacement)), 'PLACEMENT_BINDING_CHANGED');
 }
-/** Pure coherence of a canvas/v6 ApplyRecoverableCommit binding with its own operations; called by
+/** Pure coherence of a canvas/v7 ApplyRecoverableCommit binding with its own operations; called by
  * validateBoundRequest, so every admission of that request checks it. */
 export function placementApplyCoherence(request) {
   const binding = request.regionInspectionBinding, confirmed = none(binding?.confirmedPlacement);
@@ -99,11 +99,11 @@ export function placementApplyCoherence(request) {
     'PLACEMENT_INSPECTION_CHANGED');
   matchTarget(placement.target, request.operations.effects.map(e => e.position));
 }
-/** Canvas pre-commit check of a canvas/v6 ApplyRecoverableCommit against Canvas's own recorded
+/** Canvas pre-commit check of a canvas/v7 ApplyRecoverableCommit against Canvas's own recorded
  * inspection and current world revision. Returns null when the apply carries no confirmedPlacement field
  * (validateCurrentBuildSubmission makes Workshop send it whenever one was confirmed). */
 export function checkConfirmedPlacementApply(applyInput, recordedInspectionInput, currentWorldRevision) {
-  const apply = validateBoundRequest('canvas/v6', 'ApplyRecoverableCommit', applyInput);
+  const apply = validateBoundRequest('canvas/v7', 'ApplyRecoverableCommit', applyInput);
   const confirmed = none(apply.regionInspectionBinding?.confirmedPlacement);
   if (confirmed === null) return null;
   requirePlacementSource(confirmed.placement, recordedInspectionInput, apply.worldRef);
@@ -111,7 +111,7 @@ export function checkConfirmedPlacementApply(applyInput, recordedInspectionInput
   return deepFreeze({ placementDigest: confirmed.placementDigest, intentDigest: confirmed.intentDigest,
     kind: confirmed.placement.target.kind, cellCount: apply.operations.effects.length });
 }
-/** painter/v5 CreateBuildPlan: a confirmed placement needs the source inspection to plan on. */
+/** painter/v6 CreateBuildPlan: a confirmed placement needs the source inspection to plan on. */
 export function requirePlacementInspection(placement, inspection) {
   if (placement !== null) need(inspection !== null, 'PLACEMENT_INSPECTION_CHANGED');
 }
@@ -125,9 +125,9 @@ export function requireOperationsPlacementTarget(placement, operations) {
   }
   need(t.cells.every(c => operations.some(op => inside(c, op))) && unionCellCount(operations) === BigInt(t.cells.length), 'PLACEMENT_TARGET_MISMATCH');
 }
-/** painter-region/v2: the region is in world node coordinates of the placement World. */
+/** painter-region/v3: the region is in world node coordinates of the placement World. */
 export function requirePlacementWorld(placement, worldRef) { need(placement.worldRef === worldRef, 'PLACEMENT_WORLD_CHANGED'); }
-/** painter-region/v2 and canvas-region/v2: specified (non-UNSPECIFIED) world cells of one or more
+/** painter-region/v3 and canvas-region/v3: specified (non-UNSPECIFIED) world cells of one or more
  * expanded region blocks against the confirmed target. */
 export function requireRegionPlacementTarget(placement, ...blocks) {
   const t = placement.target;
@@ -141,7 +141,7 @@ export function requireRegionPlacementTarget(placement, ...blocks) {
   }
   matchTarget(t, specified());
 }
-/** Pure coherence of a canvas-region/v2 ApplyRegionCommit binding with its own operations; called by
+/** Pure coherence of a canvas-region/v3 ApplyRegionCommit binding with its own operations; called by
  * validateRegionCommitRequest, so every admission of that request checks it. */
 export function regionPlacementCommitCoherence(request) {
   const confirmed = none(request.confirmedPlacement);
@@ -150,7 +150,7 @@ export function regionPlacementCommitCoherence(request) {
   need(confirmed.placement.worldRef === request.worldRef && request.operations.worldRef === request.worldRef, 'PLACEMENT_WORLD_CHANGED');
   requireRegionPlacementTarget(confirmed.placement, ...request.operations.chunks.map(c => expandRegionBlock(c.block)));
 }
-/** Canvas pre-write check of a canvas-region/v2 ApplyRegionCommit against Canvas's own recorded
+/** Canvas pre-write check of a canvas-region/v3 ApplyRegionCommit against Canvas's own recorded
  * placement inspection and current world revision, before any snapshot or Adapter WriteRegion.
  * Returns null when the commit carries no confirmedPlacement field (validateRegionCommitSubmission makes
  * Workshop send it whenever one was confirmed). */

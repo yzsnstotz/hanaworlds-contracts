@@ -1,25 +1,31 @@
 {
   "profileVersion": "region-rollback-cause-fixture/v1",
   "contract": "region-rollback-cause/v1",
-  "capability": "canvas-region/v2:rollback-cause",
+  "capability": "canvas-region/v3:rollback-cause",
   "level": "SOURCE/FIXTURE (hand-built from fixtures/region; no peer, World or durable store ran)",
   "accept": [
     {
       "id": "A1",
       "what": "rollback caused by a relayed Adapter guard refusal at REGION_APPLY (transactionRef null as relayed)",
       "request": {
-        "contractVersion": "canvas-region/v2",
+        "contractVersion": "canvas-region/v3",
         "sessionRef": "fixture-session",
         "requestId": "commit-region-1",
         "worldRef": "fixture-world",
         "transactionId": "region-tx-1",
         "operations": {
-          "contractVersion": "region-operations/v1",
-          "buildDigest": "267b7595e51404dd02931bae76c9e0ba9b6a0f69b4466bc5774dad0ed0a7456e",
+          "contractVersion": "region-operations/v2",
+          "buildDigest": "be60b6d2819008253a44725d88c6758ae38d0ffa1f67c19ce39ddc69ed27e0f7",
           "compilerRevision": "fixture-brush-region-1",
           "worldRef": "fixture-world",
           "catalogueDigest": "89dfb22e3b674be56a66bb066ca5ee51fb0c0571725b2970ab0478658357cc57",
-          "chunkEdge": 16,
+          "partition": {
+            "edge": [
+              16,
+              16,
+              16
+            ]
+          },
           "chunks": [
             {
               "chunkPos": [
@@ -28,7 +34,8 @@
                 -1
               ],
               "block": {
-                "profileVersion": "region-voxels/v1",
+                "profileVersion": "region-voxels/v2",
+                "geometryProfile": "voxel-grid/v1",
                 "origin": [
                   -2,
                   0,
@@ -77,7 +84,8 @@
                 0
               ],
               "block": {
-                "profileVersion": "region-voxels/v1",
+                "profileVersion": "region-voxels/v2",
+                "geometryProfile": "voxel-grid/v1",
                 "origin": [
                   -2,
                   0,
@@ -118,7 +126,8 @@
                 -1
               ],
               "block": {
-                "profileVersion": "region-voxels/v1",
+                "profileVersion": "region-voxels/v2",
+                "geometryProfile": "voxel-grid/v1",
                 "origin": [
                   0,
                   0,
@@ -191,7 +200,8 @@
                 0
               ],
               "block": {
-                "profileVersion": "region-voxels/v1",
+                "profileVersion": "region-voxels/v2",
+                "geometryProfile": "voxel-grid/v1",
                 "origin": [
                   0,
                   0,
@@ -244,7 +254,8 @@
                 -1
               ],
               "block": {
-                "profileVersion": "region-voxels/v1",
+                "profileVersion": "region-voxels/v2",
+                "geometryProfile": "voxel-grid/v1",
                 "origin": [
                   16,
                   0,
@@ -293,7 +304,8 @@
                 0
               ],
               "block": {
-                "profileVersion": "region-voxels/v1",
+                "profileVersion": "region-voxels/v2",
+                "geometryProfile": "voxel-grid/v1",
                 "origin": [
                   16,
                   0,
@@ -329,7 +341,7 @@
             }
           ]
         },
-        "operationDigest": "5ca8c217ffc2a044244e87b6f150cf9175371abee2391e49a9b08ecd3da775fd",
+        "operationDigest": "6b5dde5c2481dfe4c2a750f41f06cb4d8a55e03645362e2acf56dfd740088825",
         "guarantee": "RECOVERABLE_VERIFIED",
         "localContext": {
           "connectionRef": "local-connection",
@@ -339,16 +351,23 @@
         }
       },
       "response": {
-        "contractVersion": "canvas-region/v2",
+        "contractVersion": "canvas-region/v3",
         "requestId": "commit-region-1",
         "result": {
           "transactionId": "region-tx-1",
           "worldRef": "fixture-world",
           "status": "ROLLED_BACK",
-          "operationDigest": "5ca8c217ffc2a044244e87b6f150cf9175371abee2391e49a9b08ecd3da775fd",
+          "operationDigest": "6b5dde5c2481dfe4c2a750f41f06cb4d8a55e03645362e2acf56dfd740088825",
           "beforeSummary": {
-            "profileVersion": "region-summary/v1",
+            "profileVersion": "region-summary/v2",
             "worldRef": "fixture-world",
+            "partition": {
+              "edge": [
+                16,
+                16,
+                16
+              ]
+            },
             "chunks": [
               {
                 "chunkPos": [
@@ -368,7 +387,7 @@
                     -1
                   ]
                 },
-                "stateDigest": "e0115e9cad4d978bbf84829f25350978f776c2a7f24870993b187102d2233d1e"
+                "stateDigest": "3dd4e330cfb941c8a84a451f839ee9edb514f31dd252d5c5b023356d6fff49fb"
               },
               {
                 "chunkPos": [
@@ -388,7 +407,7 @@
                     0
                   ]
                 },
-                "stateDigest": "081ec395d52091d802e998698482ec0decf69a623cb86b0bb0a509f8e8d4fe99"
+                "stateDigest": "878583d6d53cae96dde3d85d4e7489298fc27c91e81ecc221c8c40889a1b4710"
               },
               {
                 "chunkPos": [
@@ -408,7 +427,7 @@
                     -1
                   ]
                 },
-                "stateDigest": "c3abf6af5ef30bc817f62ed15933889bc119ffb20d6fff0604adc9a7df88b9e7"
+                "stateDigest": "38def0b62aba9044e23bafccbba017a2d6cf8ef9696c938eeccd6cc1be32115b"
               },
               {
                 "chunkPos": [
@@ -428,7 +447,7 @@
                     0
                   ]
                 },
-                "stateDigest": "c7d59d10f9961494c77651529006f1055d4e5db42e4f88924cf9c913b4bf4333"
+                "stateDigest": "bd134371dcaf634a078ab81dd9cc701d1cc193590bc02f1bd6cd9d80d446018f"
               },
               {
                 "chunkPos": [
@@ -448,7 +467,7 @@
                     -1
                   ]
                 },
-                "stateDigest": "90057e98225ce397b09583119eb0558c4bfd78736faecb54d06e2a86a12530d4"
+                "stateDigest": "f076080b9dddbfc39cd87a3a39c5b298f830eb0d19b860022bd4d4f0f328798b"
               },
               {
                 "chunkPos": [
@@ -468,13 +487,20 @@
                     0
                   ]
                 },
-                "stateDigest": "5a6c901554e575c743f2ff027540f0e66e5f16c2a91b3d96f226ed8d2fe4fec6"
+                "stateDigest": "e039550cf329058f1afad32ee1f669ffbf610b397bf3534b29e8d085a5dcd091"
               }
             ]
           },
           "expectedAfterSummary": {
-            "profileVersion": "region-summary/v1",
+            "profileVersion": "region-summary/v2",
             "worldRef": "fixture-world",
+            "partition": {
+              "edge": [
+                16,
+                16,
+                16
+              ]
+            },
             "chunks": [
               {
                 "chunkPos": [
@@ -494,7 +520,7 @@
                     -1
                   ]
                 },
-                "stateDigest": "d49508f93ec5ab912e301415fe2d5f0551661f600de0582239a1757c207be5b0"
+                "stateDigest": "bcb886208a9ab795c3a3bb0e23be77bd59494fd804af6d1e28004cccba18826c"
               },
               {
                 "chunkPos": [
@@ -514,7 +540,7 @@
                     0
                   ]
                 },
-                "stateDigest": "b5f745855ff3ef6238e66af46083e1717e7ddc465ba1071794dabdfffcb2e898"
+                "stateDigest": "be107441ac7128381066d9767597146895560d8b8b81fb693a25903eb2e223bb"
               },
               {
                 "chunkPos": [
@@ -534,7 +560,7 @@
                     -1
                   ]
                 },
-                "stateDigest": "ef44bd8e634f817bc3cd00615e06b7cf677aa4221c791d32d68520bb5c488a33"
+                "stateDigest": "cb3fd8ef76e7c43693862c676124254804f6371e8d0ec92c445384bd19813c81"
               },
               {
                 "chunkPos": [
@@ -554,7 +580,7 @@
                     0
                   ]
                 },
-                "stateDigest": "eaed2261d8685d6208b0adce3427a52a195bfc05f1a54174060c3422b1809b1a"
+                "stateDigest": "a9fd3f203f51ed5168678c1295a3b1c99579c7087af41b38f65df9cc9ac0a31b"
               },
               {
                 "chunkPos": [
@@ -574,7 +600,7 @@
                     -1
                   ]
                 },
-                "stateDigest": "08986e47c57816432da17efecc5e61a65e613c365b5b02babeec7ee95b11410f"
+                "stateDigest": "cc59d9f7ef30166defd375729b77b80ca99bec82c5d017036a2f592b87fede1b"
               },
               {
                 "chunkPos": [
@@ -594,13 +620,20 @@
                     0
                   ]
                 },
-                "stateDigest": "fc1b87442243b8c6936344f2c291081a30aa248baef749c4b3939fdab89a0a84"
+                "stateDigest": "8df88cd7831f15b103ebbdecfc84a63b9a23c0ca7f3abcd53988cd50c7109135"
               }
             ]
           },
           "actualSummary": {
-            "profileVersion": "region-summary/v1",
+            "profileVersion": "region-summary/v2",
             "worldRef": "fixture-world",
+            "partition": {
+              "edge": [
+                16,
+                16,
+                16
+              ]
+            },
             "chunks": [
               {
                 "chunkPos": [
@@ -620,7 +653,7 @@
                     -1
                   ]
                 },
-                "stateDigest": "e0115e9cad4d978bbf84829f25350978f776c2a7f24870993b187102d2233d1e"
+                "stateDigest": "3dd4e330cfb941c8a84a451f839ee9edb514f31dd252d5c5b023356d6fff49fb"
               },
               {
                 "chunkPos": [
@@ -640,7 +673,7 @@
                     0
                   ]
                 },
-                "stateDigest": "081ec395d52091d802e998698482ec0decf69a623cb86b0bb0a509f8e8d4fe99"
+                "stateDigest": "878583d6d53cae96dde3d85d4e7489298fc27c91e81ecc221c8c40889a1b4710"
               },
               {
                 "chunkPos": [
@@ -660,7 +693,7 @@
                     -1
                   ]
                 },
-                "stateDigest": "c3abf6af5ef30bc817f62ed15933889bc119ffb20d6fff0604adc9a7df88b9e7"
+                "stateDigest": "38def0b62aba9044e23bafccbba017a2d6cf8ef9696c938eeccd6cc1be32115b"
               },
               {
                 "chunkPos": [
@@ -680,7 +713,7 @@
                     0
                   ]
                 },
-                "stateDigest": "c7d59d10f9961494c77651529006f1055d4e5db42e4f88924cf9c913b4bf4333"
+                "stateDigest": "bd134371dcaf634a078ab81dd9cc701d1cc193590bc02f1bd6cd9d80d446018f"
               },
               {
                 "chunkPos": [
@@ -700,7 +733,7 @@
                     -1
                   ]
                 },
-                "stateDigest": "90057e98225ce397b09583119eb0558c4bfd78736faecb54d06e2a86a12530d4"
+                "stateDigest": "f076080b9dddbfc39cd87a3a39c5b298f830eb0d19b860022bd4d4f0f328798b"
               },
               {
                 "chunkPos": [
@@ -720,19 +753,20 @@
                     0
                   ]
                 },
-                "stateDigest": "5a6c901554e575c743f2ff027540f0e66e5f16c2a91b3d96f226ed8d2fe4fec6"
+                "stateDigest": "e039550cf329058f1afad32ee1f669ffbf610b397bf3534b29e8d085a5dcd091"
               }
             ]
           },
           "snapshot": {
             "profileVersion": "region-snapshot/v1",
-            "contentDigest": "74a90f96f7ec57941305e589b1ffdd6c5d478b2c7a5432b37dd2b6e6014ba49b",
-            "beforeSummaryDigest": "7d74a23c7ed190912cb7fdd38ab3d8d73ca9f24633cc6515da959c3664724410",
+            "contentDigest": "9a6b372b2a46f631185c86fe876267b68595f2e9210d01e269b6e4d6fda362b1",
+            "beforeSummaryDigest": "e9521ae8c7899282eaf4ac3e6c36d5105daabeb28bd11477ec9d03ef5aac584c",
             "compression": "gzip",
-            "compressedSha256": "d8d264150d7204583e97c27d997ff898b3ca1cc9118305c9122f9cfd11603b2e",
-            "compressedByteLength": 704
+            "compressedSha256": "d589b97cad7e8c37085dfd90cb035f82bde1912a8d8a6752611c891522e83f9e",
+            "compressedByteLength": 736
           },
           "historyRevision": "history-2",
+          "postWriteLighting": "REQUIRED",
           "lighting": {
             "status": "COMPLETE",
             "box": {
@@ -747,7 +781,7 @@
                 0
               ]
             },
-            "method": "fixture:voxelmanip.calc_lighting+write_to_map"
+            "method": "fixture:light-pass"
           },
           "affectedObjectRefs": [],
           "localContext": {
@@ -787,7 +821,7 @@
           "worldRef": "fixture-world",
           "selectionRevision": "selection-1"
         },
-        "operationDigest": "5ca8c217ffc2a044244e87b6f150cf9175371abee2391e49a9b08ecd3da775fd",
+        "operationDigest": "6b5dde5c2481dfe4c2a750f41f06cb4d8a55e03645362e2acf56dfd740088825",
         "cause": "REPORTED",
         "failure": {
           "error": {
@@ -811,18 +845,24 @@
       "id": "A2",
       "what": "rollback caused by Canvas readback mismatch, bound to the same transaction",
       "request": {
-        "contractVersion": "canvas-region/v2",
+        "contractVersion": "canvas-region/v3",
         "sessionRef": "fixture-session",
         "requestId": "commit-region-1",
         "worldRef": "fixture-world",
         "transactionId": "region-tx-1",
         "operations": {
-          "contractVersion": "region-operations/v1",
-          "buildDigest": "267b7595e51404dd02931bae76c9e0ba9b6a0f69b4466bc5774dad0ed0a7456e",
+          "contractVersion": "region-operations/v2",
+          "buildDigest": "be60b6d2819008253a44725d88c6758ae38d0ffa1f67c19ce39ddc69ed27e0f7",
           "compilerRevision": "fixture-brush-region-1",
           "worldRef": "fixture-world",
           "catalogueDigest": "89dfb22e3b674be56a66bb066ca5ee51fb0c0571725b2970ab0478658357cc57",
-          "chunkEdge": 16,
+          "partition": {
+            "edge": [
+              16,
+              16,
+              16
+            ]
+          },
           "chunks": [
             {
               "chunkPos": [
@@ -831,7 +871,8 @@
                 -1
               ],
               "block": {
-                "profileVersion": "region-voxels/v1",
+                "profileVersion": "region-voxels/v2",
+                "geometryProfile": "voxel-grid/v1",
                 "origin": [
                   -2,
                   0,
@@ -880,7 +921,8 @@
                 0
               ],
               "block": {
-                "profileVersion": "region-voxels/v1",
+                "profileVersion": "region-voxels/v2",
+                "geometryProfile": "voxel-grid/v1",
                 "origin": [
                   -2,
                   0,
@@ -921,7 +963,8 @@
                 -1
               ],
               "block": {
-                "profileVersion": "region-voxels/v1",
+                "profileVersion": "region-voxels/v2",
+                "geometryProfile": "voxel-grid/v1",
                 "origin": [
                   0,
                   0,
@@ -994,7 +1037,8 @@
                 0
               ],
               "block": {
-                "profileVersion": "region-voxels/v1",
+                "profileVersion": "region-voxels/v2",
+                "geometryProfile": "voxel-grid/v1",
                 "origin": [
                   0,
                   0,
@@ -1047,7 +1091,8 @@
                 -1
               ],
               "block": {
-                "profileVersion": "region-voxels/v1",
+                "profileVersion": "region-voxels/v2",
+                "geometryProfile": "voxel-grid/v1",
                 "origin": [
                   16,
                   0,
@@ -1096,7 +1141,8 @@
                 0
               ],
               "block": {
-                "profileVersion": "region-voxels/v1",
+                "profileVersion": "region-voxels/v2",
+                "geometryProfile": "voxel-grid/v1",
                 "origin": [
                   16,
                   0,
@@ -1132,7 +1178,7 @@
             }
           ]
         },
-        "operationDigest": "5ca8c217ffc2a044244e87b6f150cf9175371abee2391e49a9b08ecd3da775fd",
+        "operationDigest": "6b5dde5c2481dfe4c2a750f41f06cb4d8a55e03645362e2acf56dfd740088825",
         "guarantee": "RECOVERABLE_VERIFIED",
         "localContext": {
           "connectionRef": "local-connection",
@@ -1142,16 +1188,23 @@
         }
       },
       "response": {
-        "contractVersion": "canvas-region/v2",
+        "contractVersion": "canvas-region/v3",
         "requestId": "commit-region-1",
         "result": {
           "transactionId": "region-tx-1",
           "worldRef": "fixture-world",
           "status": "ROLLED_BACK",
-          "operationDigest": "5ca8c217ffc2a044244e87b6f150cf9175371abee2391e49a9b08ecd3da775fd",
+          "operationDigest": "6b5dde5c2481dfe4c2a750f41f06cb4d8a55e03645362e2acf56dfd740088825",
           "beforeSummary": {
-            "profileVersion": "region-summary/v1",
+            "profileVersion": "region-summary/v2",
             "worldRef": "fixture-world",
+            "partition": {
+              "edge": [
+                16,
+                16,
+                16
+              ]
+            },
             "chunks": [
               {
                 "chunkPos": [
@@ -1171,7 +1224,7 @@
                     -1
                   ]
                 },
-                "stateDigest": "e0115e9cad4d978bbf84829f25350978f776c2a7f24870993b187102d2233d1e"
+                "stateDigest": "3dd4e330cfb941c8a84a451f839ee9edb514f31dd252d5c5b023356d6fff49fb"
               },
               {
                 "chunkPos": [
@@ -1191,7 +1244,7 @@
                     0
                   ]
                 },
-                "stateDigest": "081ec395d52091d802e998698482ec0decf69a623cb86b0bb0a509f8e8d4fe99"
+                "stateDigest": "878583d6d53cae96dde3d85d4e7489298fc27c91e81ecc221c8c40889a1b4710"
               },
               {
                 "chunkPos": [
@@ -1211,7 +1264,7 @@
                     -1
                   ]
                 },
-                "stateDigest": "c3abf6af5ef30bc817f62ed15933889bc119ffb20d6fff0604adc9a7df88b9e7"
+                "stateDigest": "38def0b62aba9044e23bafccbba017a2d6cf8ef9696c938eeccd6cc1be32115b"
               },
               {
                 "chunkPos": [
@@ -1231,7 +1284,7 @@
                     0
                   ]
                 },
-                "stateDigest": "c7d59d10f9961494c77651529006f1055d4e5db42e4f88924cf9c913b4bf4333"
+                "stateDigest": "bd134371dcaf634a078ab81dd9cc701d1cc193590bc02f1bd6cd9d80d446018f"
               },
               {
                 "chunkPos": [
@@ -1251,7 +1304,7 @@
                     -1
                   ]
                 },
-                "stateDigest": "90057e98225ce397b09583119eb0558c4bfd78736faecb54d06e2a86a12530d4"
+                "stateDigest": "f076080b9dddbfc39cd87a3a39c5b298f830eb0d19b860022bd4d4f0f328798b"
               },
               {
                 "chunkPos": [
@@ -1271,13 +1324,20 @@
                     0
                   ]
                 },
-                "stateDigest": "5a6c901554e575c743f2ff027540f0e66e5f16c2a91b3d96f226ed8d2fe4fec6"
+                "stateDigest": "e039550cf329058f1afad32ee1f669ffbf610b397bf3534b29e8d085a5dcd091"
               }
             ]
           },
           "expectedAfterSummary": {
-            "profileVersion": "region-summary/v1",
+            "profileVersion": "region-summary/v2",
             "worldRef": "fixture-world",
+            "partition": {
+              "edge": [
+                16,
+                16,
+                16
+              ]
+            },
             "chunks": [
               {
                 "chunkPos": [
@@ -1297,7 +1357,7 @@
                     -1
                   ]
                 },
-                "stateDigest": "d49508f93ec5ab912e301415fe2d5f0551661f600de0582239a1757c207be5b0"
+                "stateDigest": "bcb886208a9ab795c3a3bb0e23be77bd59494fd804af6d1e28004cccba18826c"
               },
               {
                 "chunkPos": [
@@ -1317,7 +1377,7 @@
                     0
                   ]
                 },
-                "stateDigest": "b5f745855ff3ef6238e66af46083e1717e7ddc465ba1071794dabdfffcb2e898"
+                "stateDigest": "be107441ac7128381066d9767597146895560d8b8b81fb693a25903eb2e223bb"
               },
               {
                 "chunkPos": [
@@ -1337,7 +1397,7 @@
                     -1
                   ]
                 },
-                "stateDigest": "ef44bd8e634f817bc3cd00615e06b7cf677aa4221c791d32d68520bb5c488a33"
+                "stateDigest": "cb3fd8ef76e7c43693862c676124254804f6371e8d0ec92c445384bd19813c81"
               },
               {
                 "chunkPos": [
@@ -1357,7 +1417,7 @@
                     0
                   ]
                 },
-                "stateDigest": "eaed2261d8685d6208b0adce3427a52a195bfc05f1a54174060c3422b1809b1a"
+                "stateDigest": "a9fd3f203f51ed5168678c1295a3b1c99579c7087af41b38f65df9cc9ac0a31b"
               },
               {
                 "chunkPos": [
@@ -1377,7 +1437,7 @@
                     -1
                   ]
                 },
-                "stateDigest": "08986e47c57816432da17efecc5e61a65e613c365b5b02babeec7ee95b11410f"
+                "stateDigest": "cc59d9f7ef30166defd375729b77b80ca99bec82c5d017036a2f592b87fede1b"
               },
               {
                 "chunkPos": [
@@ -1397,13 +1457,20 @@
                     0
                   ]
                 },
-                "stateDigest": "fc1b87442243b8c6936344f2c291081a30aa248baef749c4b3939fdab89a0a84"
+                "stateDigest": "8df88cd7831f15b103ebbdecfc84a63b9a23c0ca7f3abcd53988cd50c7109135"
               }
             ]
           },
           "actualSummary": {
-            "profileVersion": "region-summary/v1",
+            "profileVersion": "region-summary/v2",
             "worldRef": "fixture-world",
+            "partition": {
+              "edge": [
+                16,
+                16,
+                16
+              ]
+            },
             "chunks": [
               {
                 "chunkPos": [
@@ -1423,7 +1490,7 @@
                     -1
                   ]
                 },
-                "stateDigest": "e0115e9cad4d978bbf84829f25350978f776c2a7f24870993b187102d2233d1e"
+                "stateDigest": "3dd4e330cfb941c8a84a451f839ee9edb514f31dd252d5c5b023356d6fff49fb"
               },
               {
                 "chunkPos": [
@@ -1443,7 +1510,7 @@
                     0
                   ]
                 },
-                "stateDigest": "081ec395d52091d802e998698482ec0decf69a623cb86b0bb0a509f8e8d4fe99"
+                "stateDigest": "878583d6d53cae96dde3d85d4e7489298fc27c91e81ecc221c8c40889a1b4710"
               },
               {
                 "chunkPos": [
@@ -1463,7 +1530,7 @@
                     -1
                   ]
                 },
-                "stateDigest": "c3abf6af5ef30bc817f62ed15933889bc119ffb20d6fff0604adc9a7df88b9e7"
+                "stateDigest": "38def0b62aba9044e23bafccbba017a2d6cf8ef9696c938eeccd6cc1be32115b"
               },
               {
                 "chunkPos": [
@@ -1483,7 +1550,7 @@
                     0
                   ]
                 },
-                "stateDigest": "c7d59d10f9961494c77651529006f1055d4e5db42e4f88924cf9c913b4bf4333"
+                "stateDigest": "bd134371dcaf634a078ab81dd9cc701d1cc193590bc02f1bd6cd9d80d446018f"
               },
               {
                 "chunkPos": [
@@ -1503,7 +1570,7 @@
                     -1
                   ]
                 },
-                "stateDigest": "90057e98225ce397b09583119eb0558c4bfd78736faecb54d06e2a86a12530d4"
+                "stateDigest": "f076080b9dddbfc39cd87a3a39c5b298f830eb0d19b860022bd4d4f0f328798b"
               },
               {
                 "chunkPos": [
@@ -1523,19 +1590,20 @@
                     0
                   ]
                 },
-                "stateDigest": "5a6c901554e575c743f2ff027540f0e66e5f16c2a91b3d96f226ed8d2fe4fec6"
+                "stateDigest": "e039550cf329058f1afad32ee1f669ffbf610b397bf3534b29e8d085a5dcd091"
               }
             ]
           },
           "snapshot": {
             "profileVersion": "region-snapshot/v1",
-            "contentDigest": "74a90f96f7ec57941305e589b1ffdd6c5d478b2c7a5432b37dd2b6e6014ba49b",
-            "beforeSummaryDigest": "7d74a23c7ed190912cb7fdd38ab3d8d73ca9f24633cc6515da959c3664724410",
+            "contentDigest": "9a6b372b2a46f631185c86fe876267b68595f2e9210d01e269b6e4d6fda362b1",
+            "beforeSummaryDigest": "e9521ae8c7899282eaf4ac3e6c36d5105daabeb28bd11477ec9d03ef5aac584c",
             "compression": "gzip",
-            "compressedSha256": "d8d264150d7204583e97c27d997ff898b3ca1cc9118305c9122f9cfd11603b2e",
-            "compressedByteLength": 704
+            "compressedSha256": "d589b97cad7e8c37085dfd90cb035f82bde1912a8d8a6752611c891522e83f9e",
+            "compressedByteLength": 736
           },
           "historyRevision": "history-2",
+          "postWriteLighting": "REQUIRED",
           "lighting": {
             "status": "COMPLETE",
             "box": {
@@ -1550,7 +1618,7 @@
                 0
               ]
             },
-            "method": "fixture:voxelmanip.calc_lighting+write_to_map"
+            "method": "fixture:light-pass"
           },
           "affectedObjectRefs": [],
           "localContext": {
@@ -1586,7 +1654,7 @@
           "worldRef": "fixture-world",
           "selectionRevision": "selection-1"
         },
-        "operationDigest": "5ca8c217ffc2a044244e87b6f150cf9175371abee2391e49a9b08ecd3da775fd",
+        "operationDigest": "6b5dde5c2481dfe4c2a750f41f06cb4d8a55e03645362e2acf56dfd740088825",
         "cause": "REPORTED",
         "failure": {
           "error": {
@@ -1606,18 +1674,24 @@
       "id": "A3",
       "what": "rollback after an apply whose outcome was unknown to Canvas",
       "request": {
-        "contractVersion": "canvas-region/v2",
+        "contractVersion": "canvas-region/v3",
         "sessionRef": "fixture-session",
         "requestId": "commit-region-1",
         "worldRef": "fixture-world",
         "transactionId": "region-tx-1",
         "operations": {
-          "contractVersion": "region-operations/v1",
-          "buildDigest": "267b7595e51404dd02931bae76c9e0ba9b6a0f69b4466bc5774dad0ed0a7456e",
+          "contractVersion": "region-operations/v2",
+          "buildDigest": "be60b6d2819008253a44725d88c6758ae38d0ffa1f67c19ce39ddc69ed27e0f7",
           "compilerRevision": "fixture-brush-region-1",
           "worldRef": "fixture-world",
           "catalogueDigest": "89dfb22e3b674be56a66bb066ca5ee51fb0c0571725b2970ab0478658357cc57",
-          "chunkEdge": 16,
+          "partition": {
+            "edge": [
+              16,
+              16,
+              16
+            ]
+          },
           "chunks": [
             {
               "chunkPos": [
@@ -1626,7 +1700,8 @@
                 -1
               ],
               "block": {
-                "profileVersion": "region-voxels/v1",
+                "profileVersion": "region-voxels/v2",
+                "geometryProfile": "voxel-grid/v1",
                 "origin": [
                   -2,
                   0,
@@ -1675,7 +1750,8 @@
                 0
               ],
               "block": {
-                "profileVersion": "region-voxels/v1",
+                "profileVersion": "region-voxels/v2",
+                "geometryProfile": "voxel-grid/v1",
                 "origin": [
                   -2,
                   0,
@@ -1716,7 +1792,8 @@
                 -1
               ],
               "block": {
-                "profileVersion": "region-voxels/v1",
+                "profileVersion": "region-voxels/v2",
+                "geometryProfile": "voxel-grid/v1",
                 "origin": [
                   0,
                   0,
@@ -1789,7 +1866,8 @@
                 0
               ],
               "block": {
-                "profileVersion": "region-voxels/v1",
+                "profileVersion": "region-voxels/v2",
+                "geometryProfile": "voxel-grid/v1",
                 "origin": [
                   0,
                   0,
@@ -1842,7 +1920,8 @@
                 -1
               ],
               "block": {
-                "profileVersion": "region-voxels/v1",
+                "profileVersion": "region-voxels/v2",
+                "geometryProfile": "voxel-grid/v1",
                 "origin": [
                   16,
                   0,
@@ -1891,7 +1970,8 @@
                 0
               ],
               "block": {
-                "profileVersion": "region-voxels/v1",
+                "profileVersion": "region-voxels/v2",
+                "geometryProfile": "voxel-grid/v1",
                 "origin": [
                   16,
                   0,
@@ -1927,7 +2007,7 @@
             }
           ]
         },
-        "operationDigest": "5ca8c217ffc2a044244e87b6f150cf9175371abee2391e49a9b08ecd3da775fd",
+        "operationDigest": "6b5dde5c2481dfe4c2a750f41f06cb4d8a55e03645362e2acf56dfd740088825",
         "guarantee": "RECOVERABLE_VERIFIED",
         "localContext": {
           "connectionRef": "local-connection",
@@ -1937,16 +2017,23 @@
         }
       },
       "response": {
-        "contractVersion": "canvas-region/v2",
+        "contractVersion": "canvas-region/v3",
         "requestId": "commit-region-1",
         "result": {
           "transactionId": "region-tx-1",
           "worldRef": "fixture-world",
           "status": "ROLLED_BACK",
-          "operationDigest": "5ca8c217ffc2a044244e87b6f150cf9175371abee2391e49a9b08ecd3da775fd",
+          "operationDigest": "6b5dde5c2481dfe4c2a750f41f06cb4d8a55e03645362e2acf56dfd740088825",
           "beforeSummary": {
-            "profileVersion": "region-summary/v1",
+            "profileVersion": "region-summary/v2",
             "worldRef": "fixture-world",
+            "partition": {
+              "edge": [
+                16,
+                16,
+                16
+              ]
+            },
             "chunks": [
               {
                 "chunkPos": [
@@ -1966,7 +2053,7 @@
                     -1
                   ]
                 },
-                "stateDigest": "e0115e9cad4d978bbf84829f25350978f776c2a7f24870993b187102d2233d1e"
+                "stateDigest": "3dd4e330cfb941c8a84a451f839ee9edb514f31dd252d5c5b023356d6fff49fb"
               },
               {
                 "chunkPos": [
@@ -1986,7 +2073,7 @@
                     0
                   ]
                 },
-                "stateDigest": "081ec395d52091d802e998698482ec0decf69a623cb86b0bb0a509f8e8d4fe99"
+                "stateDigest": "878583d6d53cae96dde3d85d4e7489298fc27c91e81ecc221c8c40889a1b4710"
               },
               {
                 "chunkPos": [
@@ -2006,7 +2093,7 @@
                     -1
                   ]
                 },
-                "stateDigest": "c3abf6af5ef30bc817f62ed15933889bc119ffb20d6fff0604adc9a7df88b9e7"
+                "stateDigest": "38def0b62aba9044e23bafccbba017a2d6cf8ef9696c938eeccd6cc1be32115b"
               },
               {
                 "chunkPos": [
@@ -2026,7 +2113,7 @@
                     0
                   ]
                 },
-                "stateDigest": "c7d59d10f9961494c77651529006f1055d4e5db42e4f88924cf9c913b4bf4333"
+                "stateDigest": "bd134371dcaf634a078ab81dd9cc701d1cc193590bc02f1bd6cd9d80d446018f"
               },
               {
                 "chunkPos": [
@@ -2046,7 +2133,7 @@
                     -1
                   ]
                 },
-                "stateDigest": "90057e98225ce397b09583119eb0558c4bfd78736faecb54d06e2a86a12530d4"
+                "stateDigest": "f076080b9dddbfc39cd87a3a39c5b298f830eb0d19b860022bd4d4f0f328798b"
               },
               {
                 "chunkPos": [
@@ -2066,13 +2153,20 @@
                     0
                   ]
                 },
-                "stateDigest": "5a6c901554e575c743f2ff027540f0e66e5f16c2a91b3d96f226ed8d2fe4fec6"
+                "stateDigest": "e039550cf329058f1afad32ee1f669ffbf610b397bf3534b29e8d085a5dcd091"
               }
             ]
           },
           "expectedAfterSummary": {
-            "profileVersion": "region-summary/v1",
+            "profileVersion": "region-summary/v2",
             "worldRef": "fixture-world",
+            "partition": {
+              "edge": [
+                16,
+                16,
+                16
+              ]
+            },
             "chunks": [
               {
                 "chunkPos": [
@@ -2092,7 +2186,7 @@
                     -1
                   ]
                 },
-                "stateDigest": "d49508f93ec5ab912e301415fe2d5f0551661f600de0582239a1757c207be5b0"
+                "stateDigest": "bcb886208a9ab795c3a3bb0e23be77bd59494fd804af6d1e28004cccba18826c"
               },
               {
                 "chunkPos": [
@@ -2112,7 +2206,7 @@
                     0
                   ]
                 },
-                "stateDigest": "b5f745855ff3ef6238e66af46083e1717e7ddc465ba1071794dabdfffcb2e898"
+                "stateDigest": "be107441ac7128381066d9767597146895560d8b8b81fb693a25903eb2e223bb"
               },
               {
                 "chunkPos": [
@@ -2132,7 +2226,7 @@
                     -1
                   ]
                 },
-                "stateDigest": "ef44bd8e634f817bc3cd00615e06b7cf677aa4221c791d32d68520bb5c488a33"
+                "stateDigest": "cb3fd8ef76e7c43693862c676124254804f6371e8d0ec92c445384bd19813c81"
               },
               {
                 "chunkPos": [
@@ -2152,7 +2246,7 @@
                     0
                   ]
                 },
-                "stateDigest": "eaed2261d8685d6208b0adce3427a52a195bfc05f1a54174060c3422b1809b1a"
+                "stateDigest": "a9fd3f203f51ed5168678c1295a3b1c99579c7087af41b38f65df9cc9ac0a31b"
               },
               {
                 "chunkPos": [
@@ -2172,7 +2266,7 @@
                     -1
                   ]
                 },
-                "stateDigest": "08986e47c57816432da17efecc5e61a65e613c365b5b02babeec7ee95b11410f"
+                "stateDigest": "cc59d9f7ef30166defd375729b77b80ca99bec82c5d017036a2f592b87fede1b"
               },
               {
                 "chunkPos": [
@@ -2192,13 +2286,20 @@
                     0
                   ]
                 },
-                "stateDigest": "fc1b87442243b8c6936344f2c291081a30aa248baef749c4b3939fdab89a0a84"
+                "stateDigest": "8df88cd7831f15b103ebbdecfc84a63b9a23c0ca7f3abcd53988cd50c7109135"
               }
             ]
           },
           "actualSummary": {
-            "profileVersion": "region-summary/v1",
+            "profileVersion": "region-summary/v2",
             "worldRef": "fixture-world",
+            "partition": {
+              "edge": [
+                16,
+                16,
+                16
+              ]
+            },
             "chunks": [
               {
                 "chunkPos": [
@@ -2218,7 +2319,7 @@
                     -1
                   ]
                 },
-                "stateDigest": "e0115e9cad4d978bbf84829f25350978f776c2a7f24870993b187102d2233d1e"
+                "stateDigest": "3dd4e330cfb941c8a84a451f839ee9edb514f31dd252d5c5b023356d6fff49fb"
               },
               {
                 "chunkPos": [
@@ -2238,7 +2339,7 @@
                     0
                   ]
                 },
-                "stateDigest": "081ec395d52091d802e998698482ec0decf69a623cb86b0bb0a509f8e8d4fe99"
+                "stateDigest": "878583d6d53cae96dde3d85d4e7489298fc27c91e81ecc221c8c40889a1b4710"
               },
               {
                 "chunkPos": [
@@ -2258,7 +2359,7 @@
                     -1
                   ]
                 },
-                "stateDigest": "c3abf6af5ef30bc817f62ed15933889bc119ffb20d6fff0604adc9a7df88b9e7"
+                "stateDigest": "38def0b62aba9044e23bafccbba017a2d6cf8ef9696c938eeccd6cc1be32115b"
               },
               {
                 "chunkPos": [
@@ -2278,7 +2379,7 @@
                     0
                   ]
                 },
-                "stateDigest": "c7d59d10f9961494c77651529006f1055d4e5db42e4f88924cf9c913b4bf4333"
+                "stateDigest": "bd134371dcaf634a078ab81dd9cc701d1cc193590bc02f1bd6cd9d80d446018f"
               },
               {
                 "chunkPos": [
@@ -2298,7 +2399,7 @@
                     -1
                   ]
                 },
-                "stateDigest": "90057e98225ce397b09583119eb0558c4bfd78736faecb54d06e2a86a12530d4"
+                "stateDigest": "f076080b9dddbfc39cd87a3a39c5b298f830eb0d19b860022bd4d4f0f328798b"
               },
               {
                 "chunkPos": [
@@ -2318,19 +2419,20 @@
                     0
                   ]
                 },
-                "stateDigest": "5a6c901554e575c743f2ff027540f0e66e5f16c2a91b3d96f226ed8d2fe4fec6"
+                "stateDigest": "e039550cf329058f1afad32ee1f669ffbf610b397bf3534b29e8d085a5dcd091"
               }
             ]
           },
           "snapshot": {
             "profileVersion": "region-snapshot/v1",
-            "contentDigest": "74a90f96f7ec57941305e589b1ffdd6c5d478b2c7a5432b37dd2b6e6014ba49b",
-            "beforeSummaryDigest": "7d74a23c7ed190912cb7fdd38ab3d8d73ca9f24633cc6515da959c3664724410",
+            "contentDigest": "9a6b372b2a46f631185c86fe876267b68595f2e9210d01e269b6e4d6fda362b1",
+            "beforeSummaryDigest": "e9521ae8c7899282eaf4ac3e6c36d5105daabeb28bd11477ec9d03ef5aac584c",
             "compression": "gzip",
-            "compressedSha256": "d8d264150d7204583e97c27d997ff898b3ca1cc9118305c9122f9cfd11603b2e",
-            "compressedByteLength": 704
+            "compressedSha256": "d589b97cad7e8c37085dfd90cb035f82bde1912a8d8a6752611c891522e83f9e",
+            "compressedByteLength": 736
           },
           "historyRevision": "history-2",
+          "postWriteLighting": "REQUIRED",
           "lighting": {
             "status": "COMPLETE",
             "box": {
@@ -2345,7 +2447,7 @@
                 0
               ]
             },
-            "method": "fixture:voxelmanip.calc_lighting+write_to_map"
+            "method": "fixture:light-pass"
           },
           "affectedObjectRefs": [],
           "localContext": {
@@ -2381,7 +2483,7 @@
           "worldRef": "fixture-world",
           "selectionRevision": "selection-1"
         },
-        "operationDigest": "5ca8c217ffc2a044244e87b6f150cf9175371abee2391e49a9b08ecd3da775fd",
+        "operationDigest": "6b5dde5c2481dfe4c2a750f41f06cb4d8a55e03645362e2acf56dfd740088825",
         "cause": "REPORTED",
         "failure": {
           "error": {
@@ -2401,18 +2503,24 @@
       "id": "A4",
       "what": "rollback without a reported cause (the 1.1 value): cause UNKNOWN",
       "request": {
-        "contractVersion": "canvas-region/v2",
+        "contractVersion": "canvas-region/v3",
         "sessionRef": "fixture-session",
         "requestId": "commit-region-1",
         "worldRef": "fixture-world",
         "transactionId": "region-tx-1",
         "operations": {
-          "contractVersion": "region-operations/v1",
-          "buildDigest": "267b7595e51404dd02931bae76c9e0ba9b6a0f69b4466bc5774dad0ed0a7456e",
+          "contractVersion": "region-operations/v2",
+          "buildDigest": "be60b6d2819008253a44725d88c6758ae38d0ffa1f67c19ce39ddc69ed27e0f7",
           "compilerRevision": "fixture-brush-region-1",
           "worldRef": "fixture-world",
           "catalogueDigest": "89dfb22e3b674be56a66bb066ca5ee51fb0c0571725b2970ab0478658357cc57",
-          "chunkEdge": 16,
+          "partition": {
+            "edge": [
+              16,
+              16,
+              16
+            ]
+          },
           "chunks": [
             {
               "chunkPos": [
@@ -2421,7 +2529,8 @@
                 -1
               ],
               "block": {
-                "profileVersion": "region-voxels/v1",
+                "profileVersion": "region-voxels/v2",
+                "geometryProfile": "voxel-grid/v1",
                 "origin": [
                   -2,
                   0,
@@ -2470,7 +2579,8 @@
                 0
               ],
               "block": {
-                "profileVersion": "region-voxels/v1",
+                "profileVersion": "region-voxels/v2",
+                "geometryProfile": "voxel-grid/v1",
                 "origin": [
                   -2,
                   0,
@@ -2511,7 +2621,8 @@
                 -1
               ],
               "block": {
-                "profileVersion": "region-voxels/v1",
+                "profileVersion": "region-voxels/v2",
+                "geometryProfile": "voxel-grid/v1",
                 "origin": [
                   0,
                   0,
@@ -2584,7 +2695,8 @@
                 0
               ],
               "block": {
-                "profileVersion": "region-voxels/v1",
+                "profileVersion": "region-voxels/v2",
+                "geometryProfile": "voxel-grid/v1",
                 "origin": [
                   0,
                   0,
@@ -2637,7 +2749,8 @@
                 -1
               ],
               "block": {
-                "profileVersion": "region-voxels/v1",
+                "profileVersion": "region-voxels/v2",
+                "geometryProfile": "voxel-grid/v1",
                 "origin": [
                   16,
                   0,
@@ -2686,7 +2799,8 @@
                 0
               ],
               "block": {
-                "profileVersion": "region-voxels/v1",
+                "profileVersion": "region-voxels/v2",
+                "geometryProfile": "voxel-grid/v1",
                 "origin": [
                   16,
                   0,
@@ -2722,7 +2836,7 @@
             }
           ]
         },
-        "operationDigest": "5ca8c217ffc2a044244e87b6f150cf9175371abee2391e49a9b08ecd3da775fd",
+        "operationDigest": "6b5dde5c2481dfe4c2a750f41f06cb4d8a55e03645362e2acf56dfd740088825",
         "guarantee": "RECOVERABLE_VERIFIED",
         "localContext": {
           "connectionRef": "local-connection",
@@ -2732,16 +2846,23 @@
         }
       },
       "response": {
-        "contractVersion": "canvas-region/v2",
+        "contractVersion": "canvas-region/v3",
         "requestId": "commit-region-1",
         "result": {
           "transactionId": "region-tx-1",
           "worldRef": "fixture-world",
           "status": "ROLLED_BACK",
-          "operationDigest": "5ca8c217ffc2a044244e87b6f150cf9175371abee2391e49a9b08ecd3da775fd",
+          "operationDigest": "6b5dde5c2481dfe4c2a750f41f06cb4d8a55e03645362e2acf56dfd740088825",
           "beforeSummary": {
-            "profileVersion": "region-summary/v1",
+            "profileVersion": "region-summary/v2",
             "worldRef": "fixture-world",
+            "partition": {
+              "edge": [
+                16,
+                16,
+                16
+              ]
+            },
             "chunks": [
               {
                 "chunkPos": [
@@ -2761,7 +2882,7 @@
                     -1
                   ]
                 },
-                "stateDigest": "e0115e9cad4d978bbf84829f25350978f776c2a7f24870993b187102d2233d1e"
+                "stateDigest": "3dd4e330cfb941c8a84a451f839ee9edb514f31dd252d5c5b023356d6fff49fb"
               },
               {
                 "chunkPos": [
@@ -2781,7 +2902,7 @@
                     0
                   ]
                 },
-                "stateDigest": "081ec395d52091d802e998698482ec0decf69a623cb86b0bb0a509f8e8d4fe99"
+                "stateDigest": "878583d6d53cae96dde3d85d4e7489298fc27c91e81ecc221c8c40889a1b4710"
               },
               {
                 "chunkPos": [
@@ -2801,7 +2922,7 @@
                     -1
                   ]
                 },
-                "stateDigest": "c3abf6af5ef30bc817f62ed15933889bc119ffb20d6fff0604adc9a7df88b9e7"
+                "stateDigest": "38def0b62aba9044e23bafccbba017a2d6cf8ef9696c938eeccd6cc1be32115b"
               },
               {
                 "chunkPos": [
@@ -2821,7 +2942,7 @@
                     0
                   ]
                 },
-                "stateDigest": "c7d59d10f9961494c77651529006f1055d4e5db42e4f88924cf9c913b4bf4333"
+                "stateDigest": "bd134371dcaf634a078ab81dd9cc701d1cc193590bc02f1bd6cd9d80d446018f"
               },
               {
                 "chunkPos": [
@@ -2841,7 +2962,7 @@
                     -1
                   ]
                 },
-                "stateDigest": "90057e98225ce397b09583119eb0558c4bfd78736faecb54d06e2a86a12530d4"
+                "stateDigest": "f076080b9dddbfc39cd87a3a39c5b298f830eb0d19b860022bd4d4f0f328798b"
               },
               {
                 "chunkPos": [
@@ -2861,13 +2982,20 @@
                     0
                   ]
                 },
-                "stateDigest": "5a6c901554e575c743f2ff027540f0e66e5f16c2a91b3d96f226ed8d2fe4fec6"
+                "stateDigest": "e039550cf329058f1afad32ee1f669ffbf610b397bf3534b29e8d085a5dcd091"
               }
             ]
           },
           "expectedAfterSummary": {
-            "profileVersion": "region-summary/v1",
+            "profileVersion": "region-summary/v2",
             "worldRef": "fixture-world",
+            "partition": {
+              "edge": [
+                16,
+                16,
+                16
+              ]
+            },
             "chunks": [
               {
                 "chunkPos": [
@@ -2887,7 +3015,7 @@
                     -1
                   ]
                 },
-                "stateDigest": "d49508f93ec5ab912e301415fe2d5f0551661f600de0582239a1757c207be5b0"
+                "stateDigest": "bcb886208a9ab795c3a3bb0e23be77bd59494fd804af6d1e28004cccba18826c"
               },
               {
                 "chunkPos": [
@@ -2907,7 +3035,7 @@
                     0
                   ]
                 },
-                "stateDigest": "b5f745855ff3ef6238e66af46083e1717e7ddc465ba1071794dabdfffcb2e898"
+                "stateDigest": "be107441ac7128381066d9767597146895560d8b8b81fb693a25903eb2e223bb"
               },
               {
                 "chunkPos": [
@@ -2927,7 +3055,7 @@
                     -1
                   ]
                 },
-                "stateDigest": "ef44bd8e634f817bc3cd00615e06b7cf677aa4221c791d32d68520bb5c488a33"
+                "stateDigest": "cb3fd8ef76e7c43693862c676124254804f6371e8d0ec92c445384bd19813c81"
               },
               {
                 "chunkPos": [
@@ -2947,7 +3075,7 @@
                     0
                   ]
                 },
-                "stateDigest": "eaed2261d8685d6208b0adce3427a52a195bfc05f1a54174060c3422b1809b1a"
+                "stateDigest": "a9fd3f203f51ed5168678c1295a3b1c99579c7087af41b38f65df9cc9ac0a31b"
               },
               {
                 "chunkPos": [
@@ -2967,7 +3095,7 @@
                     -1
                   ]
                 },
-                "stateDigest": "08986e47c57816432da17efecc5e61a65e613c365b5b02babeec7ee95b11410f"
+                "stateDigest": "cc59d9f7ef30166defd375729b77b80ca99bec82c5d017036a2f592b87fede1b"
               },
               {
                 "chunkPos": [
@@ -2987,13 +3115,20 @@
                     0
                   ]
                 },
-                "stateDigest": "fc1b87442243b8c6936344f2c291081a30aa248baef749c4b3939fdab89a0a84"
+                "stateDigest": "8df88cd7831f15b103ebbdecfc84a63b9a23c0ca7f3abcd53988cd50c7109135"
               }
             ]
           },
           "actualSummary": {
-            "profileVersion": "region-summary/v1",
+            "profileVersion": "region-summary/v2",
             "worldRef": "fixture-world",
+            "partition": {
+              "edge": [
+                16,
+                16,
+                16
+              ]
+            },
             "chunks": [
               {
                 "chunkPos": [
@@ -3013,7 +3148,7 @@
                     -1
                   ]
                 },
-                "stateDigest": "e0115e9cad4d978bbf84829f25350978f776c2a7f24870993b187102d2233d1e"
+                "stateDigest": "3dd4e330cfb941c8a84a451f839ee9edb514f31dd252d5c5b023356d6fff49fb"
               },
               {
                 "chunkPos": [
@@ -3033,7 +3168,7 @@
                     0
                   ]
                 },
-                "stateDigest": "081ec395d52091d802e998698482ec0decf69a623cb86b0bb0a509f8e8d4fe99"
+                "stateDigest": "878583d6d53cae96dde3d85d4e7489298fc27c91e81ecc221c8c40889a1b4710"
               },
               {
                 "chunkPos": [
@@ -3053,7 +3188,7 @@
                     -1
                   ]
                 },
-                "stateDigest": "c3abf6af5ef30bc817f62ed15933889bc119ffb20d6fff0604adc9a7df88b9e7"
+                "stateDigest": "38def0b62aba9044e23bafccbba017a2d6cf8ef9696c938eeccd6cc1be32115b"
               },
               {
                 "chunkPos": [
@@ -3073,7 +3208,7 @@
                     0
                   ]
                 },
-                "stateDigest": "c7d59d10f9961494c77651529006f1055d4e5db42e4f88924cf9c913b4bf4333"
+                "stateDigest": "bd134371dcaf634a078ab81dd9cc701d1cc193590bc02f1bd6cd9d80d446018f"
               },
               {
                 "chunkPos": [
@@ -3093,7 +3228,7 @@
                     -1
                   ]
                 },
-                "stateDigest": "90057e98225ce397b09583119eb0558c4bfd78736faecb54d06e2a86a12530d4"
+                "stateDigest": "f076080b9dddbfc39cd87a3a39c5b298f830eb0d19b860022bd4d4f0f328798b"
               },
               {
                 "chunkPos": [
@@ -3113,19 +3248,20 @@
                     0
                   ]
                 },
-                "stateDigest": "5a6c901554e575c743f2ff027540f0e66e5f16c2a91b3d96f226ed8d2fe4fec6"
+                "stateDigest": "e039550cf329058f1afad32ee1f669ffbf610b397bf3534b29e8d085a5dcd091"
               }
             ]
           },
           "snapshot": {
             "profileVersion": "region-snapshot/v1",
-            "contentDigest": "74a90f96f7ec57941305e589b1ffdd6c5d478b2c7a5432b37dd2b6e6014ba49b",
-            "beforeSummaryDigest": "7d74a23c7ed190912cb7fdd38ab3d8d73ca9f24633cc6515da959c3664724410",
+            "contentDigest": "9a6b372b2a46f631185c86fe876267b68595f2e9210d01e269b6e4d6fda362b1",
+            "beforeSummaryDigest": "e9521ae8c7899282eaf4ac3e6c36d5105daabeb28bd11477ec9d03ef5aac584c",
             "compression": "gzip",
-            "compressedSha256": "d8d264150d7204583e97c27d997ff898b3ca1cc9118305c9122f9cfd11603b2e",
-            "compressedByteLength": 704
+            "compressedSha256": "d589b97cad7e8c37085dfd90cb035f82bde1912a8d8a6752611c891522e83f9e",
+            "compressedByteLength": 736
           },
           "historyRevision": "history-2",
+          "postWriteLighting": "REQUIRED",
           "lighting": {
             "status": "COMPLETE",
             "box": {
@@ -3140,7 +3276,7 @@
                 0
               ]
             },
-            "method": "fixture:voxelmanip.calc_lighting+write_to_map"
+            "method": "fixture:light-pass"
           },
           "affectedObjectRefs": [],
           "localContext": {
@@ -3164,7 +3300,7 @@
           "worldRef": "fixture-world",
           "selectionRevision": "selection-1"
         },
-        "operationDigest": "5ca8c217ffc2a044244e87b6f150cf9175371abee2391e49a9b08ecd3da775fd",
+        "operationDigest": "6b5dde5c2481dfe4c2a750f41f06cb4d8a55e03645362e2acf56dfd740088825",
         "cause": "UNKNOWN",
         "failure": null
       }
@@ -3175,18 +3311,24 @@
       "id": "R1",
       "what": "VERIFIED result carrying a rollback cause",
       "request": {
-        "contractVersion": "canvas-region/v2",
+        "contractVersion": "canvas-region/v3",
         "sessionRef": "fixture-session",
         "requestId": "commit-region-1",
         "worldRef": "fixture-world",
         "transactionId": "region-tx-1",
         "operations": {
-          "contractVersion": "region-operations/v1",
-          "buildDigest": "267b7595e51404dd02931bae76c9e0ba9b6a0f69b4466bc5774dad0ed0a7456e",
+          "contractVersion": "region-operations/v2",
+          "buildDigest": "be60b6d2819008253a44725d88c6758ae38d0ffa1f67c19ce39ddc69ed27e0f7",
           "compilerRevision": "fixture-brush-region-1",
           "worldRef": "fixture-world",
           "catalogueDigest": "89dfb22e3b674be56a66bb066ca5ee51fb0c0571725b2970ab0478658357cc57",
-          "chunkEdge": 16,
+          "partition": {
+            "edge": [
+              16,
+              16,
+              16
+            ]
+          },
           "chunks": [
             {
               "chunkPos": [
@@ -3195,7 +3337,8 @@
                 -1
               ],
               "block": {
-                "profileVersion": "region-voxels/v1",
+                "profileVersion": "region-voxels/v2",
+                "geometryProfile": "voxel-grid/v1",
                 "origin": [
                   -2,
                   0,
@@ -3244,7 +3387,8 @@
                 0
               ],
               "block": {
-                "profileVersion": "region-voxels/v1",
+                "profileVersion": "region-voxels/v2",
+                "geometryProfile": "voxel-grid/v1",
                 "origin": [
                   -2,
                   0,
@@ -3285,7 +3429,8 @@
                 -1
               ],
               "block": {
-                "profileVersion": "region-voxels/v1",
+                "profileVersion": "region-voxels/v2",
+                "geometryProfile": "voxel-grid/v1",
                 "origin": [
                   0,
                   0,
@@ -3358,7 +3503,8 @@
                 0
               ],
               "block": {
-                "profileVersion": "region-voxels/v1",
+                "profileVersion": "region-voxels/v2",
+                "geometryProfile": "voxel-grid/v1",
                 "origin": [
                   0,
                   0,
@@ -3411,7 +3557,8 @@
                 -1
               ],
               "block": {
-                "profileVersion": "region-voxels/v1",
+                "profileVersion": "region-voxels/v2",
+                "geometryProfile": "voxel-grid/v1",
                 "origin": [
                   16,
                   0,
@@ -3460,7 +3607,8 @@
                 0
               ],
               "block": {
-                "profileVersion": "region-voxels/v1",
+                "profileVersion": "region-voxels/v2",
+                "geometryProfile": "voxel-grid/v1",
                 "origin": [
                   16,
                   0,
@@ -3496,7 +3644,7 @@
             }
           ]
         },
-        "operationDigest": "5ca8c217ffc2a044244e87b6f150cf9175371abee2391e49a9b08ecd3da775fd",
+        "operationDigest": "6b5dde5c2481dfe4c2a750f41f06cb4d8a55e03645362e2acf56dfd740088825",
         "guarantee": "RECOVERABLE_VERIFIED",
         "localContext": {
           "connectionRef": "local-connection",
@@ -3506,16 +3654,23 @@
         }
       },
       "response": {
-        "contractVersion": "canvas-region/v2",
+        "contractVersion": "canvas-region/v3",
         "requestId": "commit-region-1",
         "result": {
           "transactionId": "region-tx-1",
           "worldRef": "fixture-world",
           "status": "VERIFIED",
-          "operationDigest": "5ca8c217ffc2a044244e87b6f150cf9175371abee2391e49a9b08ecd3da775fd",
+          "operationDigest": "6b5dde5c2481dfe4c2a750f41f06cb4d8a55e03645362e2acf56dfd740088825",
           "beforeSummary": {
-            "profileVersion": "region-summary/v1",
+            "profileVersion": "region-summary/v2",
             "worldRef": "fixture-world",
+            "partition": {
+              "edge": [
+                16,
+                16,
+                16
+              ]
+            },
             "chunks": [
               {
                 "chunkPos": [
@@ -3535,7 +3690,7 @@
                     -1
                   ]
                 },
-                "stateDigest": "e0115e9cad4d978bbf84829f25350978f776c2a7f24870993b187102d2233d1e"
+                "stateDigest": "3dd4e330cfb941c8a84a451f839ee9edb514f31dd252d5c5b023356d6fff49fb"
               },
               {
                 "chunkPos": [
@@ -3555,7 +3710,7 @@
                     0
                   ]
                 },
-                "stateDigest": "081ec395d52091d802e998698482ec0decf69a623cb86b0bb0a509f8e8d4fe99"
+                "stateDigest": "878583d6d53cae96dde3d85d4e7489298fc27c91e81ecc221c8c40889a1b4710"
               },
               {
                 "chunkPos": [
@@ -3575,7 +3730,7 @@
                     -1
                   ]
                 },
-                "stateDigest": "c3abf6af5ef30bc817f62ed15933889bc119ffb20d6fff0604adc9a7df88b9e7"
+                "stateDigest": "38def0b62aba9044e23bafccbba017a2d6cf8ef9696c938eeccd6cc1be32115b"
               },
               {
                 "chunkPos": [
@@ -3595,7 +3750,7 @@
                     0
                   ]
                 },
-                "stateDigest": "c7d59d10f9961494c77651529006f1055d4e5db42e4f88924cf9c913b4bf4333"
+                "stateDigest": "bd134371dcaf634a078ab81dd9cc701d1cc193590bc02f1bd6cd9d80d446018f"
               },
               {
                 "chunkPos": [
@@ -3615,7 +3770,7 @@
                     -1
                   ]
                 },
-                "stateDigest": "90057e98225ce397b09583119eb0558c4bfd78736faecb54d06e2a86a12530d4"
+                "stateDigest": "f076080b9dddbfc39cd87a3a39c5b298f830eb0d19b860022bd4d4f0f328798b"
               },
               {
                 "chunkPos": [
@@ -3635,13 +3790,20 @@
                     0
                   ]
                 },
-                "stateDigest": "5a6c901554e575c743f2ff027540f0e66e5f16c2a91b3d96f226ed8d2fe4fec6"
+                "stateDigest": "e039550cf329058f1afad32ee1f669ffbf610b397bf3534b29e8d085a5dcd091"
               }
             ]
           },
           "expectedAfterSummary": {
-            "profileVersion": "region-summary/v1",
+            "profileVersion": "region-summary/v2",
             "worldRef": "fixture-world",
+            "partition": {
+              "edge": [
+                16,
+                16,
+                16
+              ]
+            },
             "chunks": [
               {
                 "chunkPos": [
@@ -3661,7 +3823,7 @@
                     -1
                   ]
                 },
-                "stateDigest": "d49508f93ec5ab912e301415fe2d5f0551661f600de0582239a1757c207be5b0"
+                "stateDigest": "bcb886208a9ab795c3a3bb0e23be77bd59494fd804af6d1e28004cccba18826c"
               },
               {
                 "chunkPos": [
@@ -3681,7 +3843,7 @@
                     0
                   ]
                 },
-                "stateDigest": "b5f745855ff3ef6238e66af46083e1717e7ddc465ba1071794dabdfffcb2e898"
+                "stateDigest": "be107441ac7128381066d9767597146895560d8b8b81fb693a25903eb2e223bb"
               },
               {
                 "chunkPos": [
@@ -3701,7 +3863,7 @@
                     -1
                   ]
                 },
-                "stateDigest": "ef44bd8e634f817bc3cd00615e06b7cf677aa4221c791d32d68520bb5c488a33"
+                "stateDigest": "cb3fd8ef76e7c43693862c676124254804f6371e8d0ec92c445384bd19813c81"
               },
               {
                 "chunkPos": [
@@ -3721,7 +3883,7 @@
                     0
                   ]
                 },
-                "stateDigest": "eaed2261d8685d6208b0adce3427a52a195bfc05f1a54174060c3422b1809b1a"
+                "stateDigest": "a9fd3f203f51ed5168678c1295a3b1c99579c7087af41b38f65df9cc9ac0a31b"
               },
               {
                 "chunkPos": [
@@ -3741,7 +3903,7 @@
                     -1
                   ]
                 },
-                "stateDigest": "08986e47c57816432da17efecc5e61a65e613c365b5b02babeec7ee95b11410f"
+                "stateDigest": "cc59d9f7ef30166defd375729b77b80ca99bec82c5d017036a2f592b87fede1b"
               },
               {
                 "chunkPos": [
@@ -3761,13 +3923,20 @@
                     0
                   ]
                 },
-                "stateDigest": "fc1b87442243b8c6936344f2c291081a30aa248baef749c4b3939fdab89a0a84"
+                "stateDigest": "8df88cd7831f15b103ebbdecfc84a63b9a23c0ca7f3abcd53988cd50c7109135"
               }
             ]
           },
           "actualSummary": {
-            "profileVersion": "region-summary/v1",
+            "profileVersion": "region-summary/v2",
             "worldRef": "fixture-world",
+            "partition": {
+              "edge": [
+                16,
+                16,
+                16
+              ]
+            },
             "chunks": [
               {
                 "chunkPos": [
@@ -3787,7 +3956,7 @@
                     -1
                   ]
                 },
-                "stateDigest": "d49508f93ec5ab912e301415fe2d5f0551661f600de0582239a1757c207be5b0"
+                "stateDigest": "bcb886208a9ab795c3a3bb0e23be77bd59494fd804af6d1e28004cccba18826c"
               },
               {
                 "chunkPos": [
@@ -3807,7 +3976,7 @@
                     0
                   ]
                 },
-                "stateDigest": "b5f745855ff3ef6238e66af46083e1717e7ddc465ba1071794dabdfffcb2e898"
+                "stateDigest": "be107441ac7128381066d9767597146895560d8b8b81fb693a25903eb2e223bb"
               },
               {
                 "chunkPos": [
@@ -3827,7 +3996,7 @@
                     -1
                   ]
                 },
-                "stateDigest": "ef44bd8e634f817bc3cd00615e06b7cf677aa4221c791d32d68520bb5c488a33"
+                "stateDigest": "cb3fd8ef76e7c43693862c676124254804f6371e8d0ec92c445384bd19813c81"
               },
               {
                 "chunkPos": [
@@ -3847,7 +4016,7 @@
                     0
                   ]
                 },
-                "stateDigest": "eaed2261d8685d6208b0adce3427a52a195bfc05f1a54174060c3422b1809b1a"
+                "stateDigest": "a9fd3f203f51ed5168678c1295a3b1c99579c7087af41b38f65df9cc9ac0a31b"
               },
               {
                 "chunkPos": [
@@ -3867,7 +4036,7 @@
                     -1
                   ]
                 },
-                "stateDigest": "08986e47c57816432da17efecc5e61a65e613c365b5b02babeec7ee95b11410f"
+                "stateDigest": "cc59d9f7ef30166defd375729b77b80ca99bec82c5d017036a2f592b87fede1b"
               },
               {
                 "chunkPos": [
@@ -3887,19 +4056,20 @@
                     0
                   ]
                 },
-                "stateDigest": "fc1b87442243b8c6936344f2c291081a30aa248baef749c4b3939fdab89a0a84"
+                "stateDigest": "8df88cd7831f15b103ebbdecfc84a63b9a23c0ca7f3abcd53988cd50c7109135"
               }
             ]
           },
           "snapshot": {
             "profileVersion": "region-snapshot/v1",
-            "contentDigest": "74a90f96f7ec57941305e589b1ffdd6c5d478b2c7a5432b37dd2b6e6014ba49b",
-            "beforeSummaryDigest": "7d74a23c7ed190912cb7fdd38ab3d8d73ca9f24633cc6515da959c3664724410",
+            "contentDigest": "9a6b372b2a46f631185c86fe876267b68595f2e9210d01e269b6e4d6fda362b1",
+            "beforeSummaryDigest": "e9521ae8c7899282eaf4ac3e6c36d5105daabeb28bd11477ec9d03ef5aac584c",
             "compression": "gzip",
-            "compressedSha256": "d8d264150d7204583e97c27d997ff898b3ca1cc9118305c9122f9cfd11603b2e",
-            "compressedByteLength": 704
+            "compressedSha256": "d589b97cad7e8c37085dfd90cb035f82bde1912a8d8a6752611c891522e83f9e",
+            "compressedByteLength": 736
           },
           "historyRevision": "history-2",
+          "postWriteLighting": "REQUIRED",
           "lighting": {
             "status": "COMPLETE",
             "box": {
@@ -3914,7 +4084,7 @@
                 0
               ]
             },
-            "method": "fixture:voxelmanip.calc_lighting+write_to_map"
+            "method": "fixture:light-pass"
           },
           "affectedObjectRefs": [],
           "localContext": {
@@ -3950,18 +4120,24 @@
       "id": "R2",
       "what": "cause in phase restore (a failed restore keeps the RESTORE_FAILED/applyFailure form)",
       "request": {
-        "contractVersion": "canvas-region/v2",
+        "contractVersion": "canvas-region/v3",
         "sessionRef": "fixture-session",
         "requestId": "commit-region-1",
         "worldRef": "fixture-world",
         "transactionId": "region-tx-1",
         "operations": {
-          "contractVersion": "region-operations/v1",
-          "buildDigest": "267b7595e51404dd02931bae76c9e0ba9b6a0f69b4466bc5774dad0ed0a7456e",
+          "contractVersion": "region-operations/v2",
+          "buildDigest": "be60b6d2819008253a44725d88c6758ae38d0ffa1f67c19ce39ddc69ed27e0f7",
           "compilerRevision": "fixture-brush-region-1",
           "worldRef": "fixture-world",
           "catalogueDigest": "89dfb22e3b674be56a66bb066ca5ee51fb0c0571725b2970ab0478658357cc57",
-          "chunkEdge": 16,
+          "partition": {
+            "edge": [
+              16,
+              16,
+              16
+            ]
+          },
           "chunks": [
             {
               "chunkPos": [
@@ -3970,7 +4146,8 @@
                 -1
               ],
               "block": {
-                "profileVersion": "region-voxels/v1",
+                "profileVersion": "region-voxels/v2",
+                "geometryProfile": "voxel-grid/v1",
                 "origin": [
                   -2,
                   0,
@@ -4019,7 +4196,8 @@
                 0
               ],
               "block": {
-                "profileVersion": "region-voxels/v1",
+                "profileVersion": "region-voxels/v2",
+                "geometryProfile": "voxel-grid/v1",
                 "origin": [
                   -2,
                   0,
@@ -4060,7 +4238,8 @@
                 -1
               ],
               "block": {
-                "profileVersion": "region-voxels/v1",
+                "profileVersion": "region-voxels/v2",
+                "geometryProfile": "voxel-grid/v1",
                 "origin": [
                   0,
                   0,
@@ -4133,7 +4312,8 @@
                 0
               ],
               "block": {
-                "profileVersion": "region-voxels/v1",
+                "profileVersion": "region-voxels/v2",
+                "geometryProfile": "voxel-grid/v1",
                 "origin": [
                   0,
                   0,
@@ -4186,7 +4366,8 @@
                 -1
               ],
               "block": {
-                "profileVersion": "region-voxels/v1",
+                "profileVersion": "region-voxels/v2",
+                "geometryProfile": "voxel-grid/v1",
                 "origin": [
                   16,
                   0,
@@ -4235,7 +4416,8 @@
                 0
               ],
               "block": {
-                "profileVersion": "region-voxels/v1",
+                "profileVersion": "region-voxels/v2",
+                "geometryProfile": "voxel-grid/v1",
                 "origin": [
                   16,
                   0,
@@ -4271,7 +4453,7 @@
             }
           ]
         },
-        "operationDigest": "5ca8c217ffc2a044244e87b6f150cf9175371abee2391e49a9b08ecd3da775fd",
+        "operationDigest": "6b5dde5c2481dfe4c2a750f41f06cb4d8a55e03645362e2acf56dfd740088825",
         "guarantee": "RECOVERABLE_VERIFIED",
         "localContext": {
           "connectionRef": "local-connection",
@@ -4281,16 +4463,23 @@
         }
       },
       "response": {
-        "contractVersion": "canvas-region/v2",
+        "contractVersion": "canvas-region/v3",
         "requestId": "commit-region-1",
         "result": {
           "transactionId": "region-tx-1",
           "worldRef": "fixture-world",
           "status": "ROLLED_BACK",
-          "operationDigest": "5ca8c217ffc2a044244e87b6f150cf9175371abee2391e49a9b08ecd3da775fd",
+          "operationDigest": "6b5dde5c2481dfe4c2a750f41f06cb4d8a55e03645362e2acf56dfd740088825",
           "beforeSummary": {
-            "profileVersion": "region-summary/v1",
+            "profileVersion": "region-summary/v2",
             "worldRef": "fixture-world",
+            "partition": {
+              "edge": [
+                16,
+                16,
+                16
+              ]
+            },
             "chunks": [
               {
                 "chunkPos": [
@@ -4310,7 +4499,7 @@
                     -1
                   ]
                 },
-                "stateDigest": "e0115e9cad4d978bbf84829f25350978f776c2a7f24870993b187102d2233d1e"
+                "stateDigest": "3dd4e330cfb941c8a84a451f839ee9edb514f31dd252d5c5b023356d6fff49fb"
               },
               {
                 "chunkPos": [
@@ -4330,7 +4519,7 @@
                     0
                   ]
                 },
-                "stateDigest": "081ec395d52091d802e998698482ec0decf69a623cb86b0bb0a509f8e8d4fe99"
+                "stateDigest": "878583d6d53cae96dde3d85d4e7489298fc27c91e81ecc221c8c40889a1b4710"
               },
               {
                 "chunkPos": [
@@ -4350,7 +4539,7 @@
                     -1
                   ]
                 },
-                "stateDigest": "c3abf6af5ef30bc817f62ed15933889bc119ffb20d6fff0604adc9a7df88b9e7"
+                "stateDigest": "38def0b62aba9044e23bafccbba017a2d6cf8ef9696c938eeccd6cc1be32115b"
               },
               {
                 "chunkPos": [
@@ -4370,7 +4559,7 @@
                     0
                   ]
                 },
-                "stateDigest": "c7d59d10f9961494c77651529006f1055d4e5db42e4f88924cf9c913b4bf4333"
+                "stateDigest": "bd134371dcaf634a078ab81dd9cc701d1cc193590bc02f1bd6cd9d80d446018f"
               },
               {
                 "chunkPos": [
@@ -4390,7 +4579,7 @@
                     -1
                   ]
                 },
-                "stateDigest": "90057e98225ce397b09583119eb0558c4bfd78736faecb54d06e2a86a12530d4"
+                "stateDigest": "f076080b9dddbfc39cd87a3a39c5b298f830eb0d19b860022bd4d4f0f328798b"
               },
               {
                 "chunkPos": [
@@ -4410,13 +4599,20 @@
                     0
                   ]
                 },
-                "stateDigest": "5a6c901554e575c743f2ff027540f0e66e5f16c2a91b3d96f226ed8d2fe4fec6"
+                "stateDigest": "e039550cf329058f1afad32ee1f669ffbf610b397bf3534b29e8d085a5dcd091"
               }
             ]
           },
           "expectedAfterSummary": {
-            "profileVersion": "region-summary/v1",
+            "profileVersion": "region-summary/v2",
             "worldRef": "fixture-world",
+            "partition": {
+              "edge": [
+                16,
+                16,
+                16
+              ]
+            },
             "chunks": [
               {
                 "chunkPos": [
@@ -4436,7 +4632,7 @@
                     -1
                   ]
                 },
-                "stateDigest": "d49508f93ec5ab912e301415fe2d5f0551661f600de0582239a1757c207be5b0"
+                "stateDigest": "bcb886208a9ab795c3a3bb0e23be77bd59494fd804af6d1e28004cccba18826c"
               },
               {
                 "chunkPos": [
@@ -4456,7 +4652,7 @@
                     0
                   ]
                 },
-                "stateDigest": "b5f745855ff3ef6238e66af46083e1717e7ddc465ba1071794dabdfffcb2e898"
+                "stateDigest": "be107441ac7128381066d9767597146895560d8b8b81fb693a25903eb2e223bb"
               },
               {
                 "chunkPos": [
@@ -4476,7 +4672,7 @@
                     -1
                   ]
                 },
-                "stateDigest": "ef44bd8e634f817bc3cd00615e06b7cf677aa4221c791d32d68520bb5c488a33"
+                "stateDigest": "cb3fd8ef76e7c43693862c676124254804f6371e8d0ec92c445384bd19813c81"
               },
               {
                 "chunkPos": [
@@ -4496,7 +4692,7 @@
                     0
                   ]
                 },
-                "stateDigest": "eaed2261d8685d6208b0adce3427a52a195bfc05f1a54174060c3422b1809b1a"
+                "stateDigest": "a9fd3f203f51ed5168678c1295a3b1c99579c7087af41b38f65df9cc9ac0a31b"
               },
               {
                 "chunkPos": [
@@ -4516,7 +4712,7 @@
                     -1
                   ]
                 },
-                "stateDigest": "08986e47c57816432da17efecc5e61a65e613c365b5b02babeec7ee95b11410f"
+                "stateDigest": "cc59d9f7ef30166defd375729b77b80ca99bec82c5d017036a2f592b87fede1b"
               },
               {
                 "chunkPos": [
@@ -4536,13 +4732,20 @@
                     0
                   ]
                 },
-                "stateDigest": "fc1b87442243b8c6936344f2c291081a30aa248baef749c4b3939fdab89a0a84"
+                "stateDigest": "8df88cd7831f15b103ebbdecfc84a63b9a23c0ca7f3abcd53988cd50c7109135"
               }
             ]
           },
           "actualSummary": {
-            "profileVersion": "region-summary/v1",
+            "profileVersion": "region-summary/v2",
             "worldRef": "fixture-world",
+            "partition": {
+              "edge": [
+                16,
+                16,
+                16
+              ]
+            },
             "chunks": [
               {
                 "chunkPos": [
@@ -4562,7 +4765,7 @@
                     -1
                   ]
                 },
-                "stateDigest": "e0115e9cad4d978bbf84829f25350978f776c2a7f24870993b187102d2233d1e"
+                "stateDigest": "3dd4e330cfb941c8a84a451f839ee9edb514f31dd252d5c5b023356d6fff49fb"
               },
               {
                 "chunkPos": [
@@ -4582,7 +4785,7 @@
                     0
                   ]
                 },
-                "stateDigest": "081ec395d52091d802e998698482ec0decf69a623cb86b0bb0a509f8e8d4fe99"
+                "stateDigest": "878583d6d53cae96dde3d85d4e7489298fc27c91e81ecc221c8c40889a1b4710"
               },
               {
                 "chunkPos": [
@@ -4602,7 +4805,7 @@
                     -1
                   ]
                 },
-                "stateDigest": "c3abf6af5ef30bc817f62ed15933889bc119ffb20d6fff0604adc9a7df88b9e7"
+                "stateDigest": "38def0b62aba9044e23bafccbba017a2d6cf8ef9696c938eeccd6cc1be32115b"
               },
               {
                 "chunkPos": [
@@ -4622,7 +4825,7 @@
                     0
                   ]
                 },
-                "stateDigest": "c7d59d10f9961494c77651529006f1055d4e5db42e4f88924cf9c913b4bf4333"
+                "stateDigest": "bd134371dcaf634a078ab81dd9cc701d1cc193590bc02f1bd6cd9d80d446018f"
               },
               {
                 "chunkPos": [
@@ -4642,7 +4845,7 @@
                     -1
                   ]
                 },
-                "stateDigest": "90057e98225ce397b09583119eb0558c4bfd78736faecb54d06e2a86a12530d4"
+                "stateDigest": "f076080b9dddbfc39cd87a3a39c5b298f830eb0d19b860022bd4d4f0f328798b"
               },
               {
                 "chunkPos": [
@@ -4662,19 +4865,20 @@
                     0
                   ]
                 },
-                "stateDigest": "5a6c901554e575c743f2ff027540f0e66e5f16c2a91b3d96f226ed8d2fe4fec6"
+                "stateDigest": "e039550cf329058f1afad32ee1f669ffbf610b397bf3534b29e8d085a5dcd091"
               }
             ]
           },
           "snapshot": {
             "profileVersion": "region-snapshot/v1",
-            "contentDigest": "74a90f96f7ec57941305e589b1ffdd6c5d478b2c7a5432b37dd2b6e6014ba49b",
-            "beforeSummaryDigest": "7d74a23c7ed190912cb7fdd38ab3d8d73ca9f24633cc6515da959c3664724410",
+            "contentDigest": "9a6b372b2a46f631185c86fe876267b68595f2e9210d01e269b6e4d6fda362b1",
+            "beforeSummaryDigest": "e9521ae8c7899282eaf4ac3e6c36d5105daabeb28bd11477ec9d03ef5aac584c",
             "compression": "gzip",
-            "compressedSha256": "d8d264150d7204583e97c27d997ff898b3ca1cc9118305c9122f9cfd11603b2e",
-            "compressedByteLength": 704
+            "compressedSha256": "d589b97cad7e8c37085dfd90cb035f82bde1912a8d8a6752611c891522e83f9e",
+            "compressedByteLength": 736
           },
           "historyRevision": "history-2",
+          "postWriteLighting": "REQUIRED",
           "lighting": {
             "status": "COMPLETE",
             "box": {
@@ -4689,7 +4893,7 @@
                 0
               ]
             },
-            "method": "fixture:voxelmanip.calc_lighting+write_to_map"
+            "method": "fixture:light-pass"
           },
           "affectedObjectRefs": [],
           "localContext": {
@@ -4725,18 +4929,24 @@
       "id": "R3",
       "what": "cause with mutationState ROLLED_BACK",
       "request": {
-        "contractVersion": "canvas-region/v2",
+        "contractVersion": "canvas-region/v3",
         "sessionRef": "fixture-session",
         "requestId": "commit-region-1",
         "worldRef": "fixture-world",
         "transactionId": "region-tx-1",
         "operations": {
-          "contractVersion": "region-operations/v1",
-          "buildDigest": "267b7595e51404dd02931bae76c9e0ba9b6a0f69b4466bc5774dad0ed0a7456e",
+          "contractVersion": "region-operations/v2",
+          "buildDigest": "be60b6d2819008253a44725d88c6758ae38d0ffa1f67c19ce39ddc69ed27e0f7",
           "compilerRevision": "fixture-brush-region-1",
           "worldRef": "fixture-world",
           "catalogueDigest": "89dfb22e3b674be56a66bb066ca5ee51fb0c0571725b2970ab0478658357cc57",
-          "chunkEdge": 16,
+          "partition": {
+            "edge": [
+              16,
+              16,
+              16
+            ]
+          },
           "chunks": [
             {
               "chunkPos": [
@@ -4745,7 +4955,8 @@
                 -1
               ],
               "block": {
-                "profileVersion": "region-voxels/v1",
+                "profileVersion": "region-voxels/v2",
+                "geometryProfile": "voxel-grid/v1",
                 "origin": [
                   -2,
                   0,
@@ -4794,7 +5005,8 @@
                 0
               ],
               "block": {
-                "profileVersion": "region-voxels/v1",
+                "profileVersion": "region-voxels/v2",
+                "geometryProfile": "voxel-grid/v1",
                 "origin": [
                   -2,
                   0,
@@ -4835,7 +5047,8 @@
                 -1
               ],
               "block": {
-                "profileVersion": "region-voxels/v1",
+                "profileVersion": "region-voxels/v2",
+                "geometryProfile": "voxel-grid/v1",
                 "origin": [
                   0,
                   0,
@@ -4908,7 +5121,8 @@
                 0
               ],
               "block": {
-                "profileVersion": "region-voxels/v1",
+                "profileVersion": "region-voxels/v2",
+                "geometryProfile": "voxel-grid/v1",
                 "origin": [
                   0,
                   0,
@@ -4961,7 +5175,8 @@
                 -1
               ],
               "block": {
-                "profileVersion": "region-voxels/v1",
+                "profileVersion": "region-voxels/v2",
+                "geometryProfile": "voxel-grid/v1",
                 "origin": [
                   16,
                   0,
@@ -5010,7 +5225,8 @@
                 0
               ],
               "block": {
-                "profileVersion": "region-voxels/v1",
+                "profileVersion": "region-voxels/v2",
+                "geometryProfile": "voxel-grid/v1",
                 "origin": [
                   16,
                   0,
@@ -5046,7 +5262,7 @@
             }
           ]
         },
-        "operationDigest": "5ca8c217ffc2a044244e87b6f150cf9175371abee2391e49a9b08ecd3da775fd",
+        "operationDigest": "6b5dde5c2481dfe4c2a750f41f06cb4d8a55e03645362e2acf56dfd740088825",
         "guarantee": "RECOVERABLE_VERIFIED",
         "localContext": {
           "connectionRef": "local-connection",
@@ -5056,16 +5272,23 @@
         }
       },
       "response": {
-        "contractVersion": "canvas-region/v2",
+        "contractVersion": "canvas-region/v3",
         "requestId": "commit-region-1",
         "result": {
           "transactionId": "region-tx-1",
           "worldRef": "fixture-world",
           "status": "ROLLED_BACK",
-          "operationDigest": "5ca8c217ffc2a044244e87b6f150cf9175371abee2391e49a9b08ecd3da775fd",
+          "operationDigest": "6b5dde5c2481dfe4c2a750f41f06cb4d8a55e03645362e2acf56dfd740088825",
           "beforeSummary": {
-            "profileVersion": "region-summary/v1",
+            "profileVersion": "region-summary/v2",
             "worldRef": "fixture-world",
+            "partition": {
+              "edge": [
+                16,
+                16,
+                16
+              ]
+            },
             "chunks": [
               {
                 "chunkPos": [
@@ -5085,7 +5308,7 @@
                     -1
                   ]
                 },
-                "stateDigest": "e0115e9cad4d978bbf84829f25350978f776c2a7f24870993b187102d2233d1e"
+                "stateDigest": "3dd4e330cfb941c8a84a451f839ee9edb514f31dd252d5c5b023356d6fff49fb"
               },
               {
                 "chunkPos": [
@@ -5105,7 +5328,7 @@
                     0
                   ]
                 },
-                "stateDigest": "081ec395d52091d802e998698482ec0decf69a623cb86b0bb0a509f8e8d4fe99"
+                "stateDigest": "878583d6d53cae96dde3d85d4e7489298fc27c91e81ecc221c8c40889a1b4710"
               },
               {
                 "chunkPos": [
@@ -5125,7 +5348,7 @@
                     -1
                   ]
                 },
-                "stateDigest": "c3abf6af5ef30bc817f62ed15933889bc119ffb20d6fff0604adc9a7df88b9e7"
+                "stateDigest": "38def0b62aba9044e23bafccbba017a2d6cf8ef9696c938eeccd6cc1be32115b"
               },
               {
                 "chunkPos": [
@@ -5145,7 +5368,7 @@
                     0
                   ]
                 },
-                "stateDigest": "c7d59d10f9961494c77651529006f1055d4e5db42e4f88924cf9c913b4bf4333"
+                "stateDigest": "bd134371dcaf634a078ab81dd9cc701d1cc193590bc02f1bd6cd9d80d446018f"
               },
               {
                 "chunkPos": [
@@ -5165,7 +5388,7 @@
                     -1
                   ]
                 },
-                "stateDigest": "90057e98225ce397b09583119eb0558c4bfd78736faecb54d06e2a86a12530d4"
+                "stateDigest": "f076080b9dddbfc39cd87a3a39c5b298f830eb0d19b860022bd4d4f0f328798b"
               },
               {
                 "chunkPos": [
@@ -5185,13 +5408,20 @@
                     0
                   ]
                 },
-                "stateDigest": "5a6c901554e575c743f2ff027540f0e66e5f16c2a91b3d96f226ed8d2fe4fec6"
+                "stateDigest": "e039550cf329058f1afad32ee1f669ffbf610b397bf3534b29e8d085a5dcd091"
               }
             ]
           },
           "expectedAfterSummary": {
-            "profileVersion": "region-summary/v1",
+            "profileVersion": "region-summary/v2",
             "worldRef": "fixture-world",
+            "partition": {
+              "edge": [
+                16,
+                16,
+                16
+              ]
+            },
             "chunks": [
               {
                 "chunkPos": [
@@ -5211,7 +5441,7 @@
                     -1
                   ]
                 },
-                "stateDigest": "d49508f93ec5ab912e301415fe2d5f0551661f600de0582239a1757c207be5b0"
+                "stateDigest": "bcb886208a9ab795c3a3bb0e23be77bd59494fd804af6d1e28004cccba18826c"
               },
               {
                 "chunkPos": [
@@ -5231,7 +5461,7 @@
                     0
                   ]
                 },
-                "stateDigest": "b5f745855ff3ef6238e66af46083e1717e7ddc465ba1071794dabdfffcb2e898"
+                "stateDigest": "be107441ac7128381066d9767597146895560d8b8b81fb693a25903eb2e223bb"
               },
               {
                 "chunkPos": [
@@ -5251,7 +5481,7 @@
                     -1
                   ]
                 },
-                "stateDigest": "ef44bd8e634f817bc3cd00615e06b7cf677aa4221c791d32d68520bb5c488a33"
+                "stateDigest": "cb3fd8ef76e7c43693862c676124254804f6371e8d0ec92c445384bd19813c81"
               },
               {
                 "chunkPos": [
@@ -5271,7 +5501,7 @@
                     0
                   ]
                 },
-                "stateDigest": "eaed2261d8685d6208b0adce3427a52a195bfc05f1a54174060c3422b1809b1a"
+                "stateDigest": "a9fd3f203f51ed5168678c1295a3b1c99579c7087af41b38f65df9cc9ac0a31b"
               },
               {
                 "chunkPos": [
@@ -5291,7 +5521,7 @@
                     -1
                   ]
                 },
-                "stateDigest": "08986e47c57816432da17efecc5e61a65e613c365b5b02babeec7ee95b11410f"
+                "stateDigest": "cc59d9f7ef30166defd375729b77b80ca99bec82c5d017036a2f592b87fede1b"
               },
               {
                 "chunkPos": [
@@ -5311,13 +5541,20 @@
                     0
                   ]
                 },
-                "stateDigest": "fc1b87442243b8c6936344f2c291081a30aa248baef749c4b3939fdab89a0a84"
+                "stateDigest": "8df88cd7831f15b103ebbdecfc84a63b9a23c0ca7f3abcd53988cd50c7109135"
               }
             ]
           },
           "actualSummary": {
-            "profileVersion": "region-summary/v1",
+            "profileVersion": "region-summary/v2",
             "worldRef": "fixture-world",
+            "partition": {
+              "edge": [
+                16,
+                16,
+                16
+              ]
+            },
             "chunks": [
               {
                 "chunkPos": [
@@ -5337,7 +5574,7 @@
                     -1
                   ]
                 },
-                "stateDigest": "e0115e9cad4d978bbf84829f25350978f776c2a7f24870993b187102d2233d1e"
+                "stateDigest": "3dd4e330cfb941c8a84a451f839ee9edb514f31dd252d5c5b023356d6fff49fb"
               },
               {
                 "chunkPos": [
@@ -5357,7 +5594,7 @@
                     0
                   ]
                 },
-                "stateDigest": "081ec395d52091d802e998698482ec0decf69a623cb86b0bb0a509f8e8d4fe99"
+                "stateDigest": "878583d6d53cae96dde3d85d4e7489298fc27c91e81ecc221c8c40889a1b4710"
               },
               {
                 "chunkPos": [
@@ -5377,7 +5614,7 @@
                     -1
                   ]
                 },
-                "stateDigest": "c3abf6af5ef30bc817f62ed15933889bc119ffb20d6fff0604adc9a7df88b9e7"
+                "stateDigest": "38def0b62aba9044e23bafccbba017a2d6cf8ef9696c938eeccd6cc1be32115b"
               },
               {
                 "chunkPos": [
@@ -5397,7 +5634,7 @@
                     0
                   ]
                 },
-                "stateDigest": "c7d59d10f9961494c77651529006f1055d4e5db42e4f88924cf9c913b4bf4333"
+                "stateDigest": "bd134371dcaf634a078ab81dd9cc701d1cc193590bc02f1bd6cd9d80d446018f"
               },
               {
                 "chunkPos": [
@@ -5417,7 +5654,7 @@
                     -1
                   ]
                 },
-                "stateDigest": "90057e98225ce397b09583119eb0558c4bfd78736faecb54d06e2a86a12530d4"
+                "stateDigest": "f076080b9dddbfc39cd87a3a39c5b298f830eb0d19b860022bd4d4f0f328798b"
               },
               {
                 "chunkPos": [
@@ -5437,19 +5674,20 @@
                     0
                   ]
                 },
-                "stateDigest": "5a6c901554e575c743f2ff027540f0e66e5f16c2a91b3d96f226ed8d2fe4fec6"
+                "stateDigest": "e039550cf329058f1afad32ee1f669ffbf610b397bf3534b29e8d085a5dcd091"
               }
             ]
           },
           "snapshot": {
             "profileVersion": "region-snapshot/v1",
-            "contentDigest": "74a90f96f7ec57941305e589b1ffdd6c5d478b2c7a5432b37dd2b6e6014ba49b",
-            "beforeSummaryDigest": "7d74a23c7ed190912cb7fdd38ab3d8d73ca9f24633cc6515da959c3664724410",
+            "contentDigest": "9a6b372b2a46f631185c86fe876267b68595f2e9210d01e269b6e4d6fda362b1",
+            "beforeSummaryDigest": "e9521ae8c7899282eaf4ac3e6c36d5105daabeb28bd11477ec9d03ef5aac584c",
             "compression": "gzip",
-            "compressedSha256": "d8d264150d7204583e97c27d997ff898b3ca1cc9118305c9122f9cfd11603b2e",
-            "compressedByteLength": 704
+            "compressedSha256": "d589b97cad7e8c37085dfd90cb035f82bde1912a8d8a6752611c891522e83f9e",
+            "compressedByteLength": 736
           },
           "historyRevision": "history-2",
+          "postWriteLighting": "REQUIRED",
           "lighting": {
             "status": "COMPLETE",
             "box": {
@@ -5464,7 +5702,7 @@
                 0
               ]
             },
-            "method": "fixture:voxelmanip.calc_lighting+write_to_map"
+            "method": "fixture:light-pass"
           },
           "affectedObjectRefs": [],
           "localContext": {
@@ -5500,18 +5738,24 @@
       "id": "R4",
       "what": "cause naming another transaction",
       "request": {
-        "contractVersion": "canvas-region/v2",
+        "contractVersion": "canvas-region/v3",
         "sessionRef": "fixture-session",
         "requestId": "commit-region-1",
         "worldRef": "fixture-world",
         "transactionId": "region-tx-1",
         "operations": {
-          "contractVersion": "region-operations/v1",
-          "buildDigest": "267b7595e51404dd02931bae76c9e0ba9b6a0f69b4466bc5774dad0ed0a7456e",
+          "contractVersion": "region-operations/v2",
+          "buildDigest": "be60b6d2819008253a44725d88c6758ae38d0ffa1f67c19ce39ddc69ed27e0f7",
           "compilerRevision": "fixture-brush-region-1",
           "worldRef": "fixture-world",
           "catalogueDigest": "89dfb22e3b674be56a66bb066ca5ee51fb0c0571725b2970ab0478658357cc57",
-          "chunkEdge": 16,
+          "partition": {
+            "edge": [
+              16,
+              16,
+              16
+            ]
+          },
           "chunks": [
             {
               "chunkPos": [
@@ -5520,7 +5764,8 @@
                 -1
               ],
               "block": {
-                "profileVersion": "region-voxels/v1",
+                "profileVersion": "region-voxels/v2",
+                "geometryProfile": "voxel-grid/v1",
                 "origin": [
                   -2,
                   0,
@@ -5569,7 +5814,8 @@
                 0
               ],
               "block": {
-                "profileVersion": "region-voxels/v1",
+                "profileVersion": "region-voxels/v2",
+                "geometryProfile": "voxel-grid/v1",
                 "origin": [
                   -2,
                   0,
@@ -5610,7 +5856,8 @@
                 -1
               ],
               "block": {
-                "profileVersion": "region-voxels/v1",
+                "profileVersion": "region-voxels/v2",
+                "geometryProfile": "voxel-grid/v1",
                 "origin": [
                   0,
                   0,
@@ -5683,7 +5930,8 @@
                 0
               ],
               "block": {
-                "profileVersion": "region-voxels/v1",
+                "profileVersion": "region-voxels/v2",
+                "geometryProfile": "voxel-grid/v1",
                 "origin": [
                   0,
                   0,
@@ -5736,7 +5984,8 @@
                 -1
               ],
               "block": {
-                "profileVersion": "region-voxels/v1",
+                "profileVersion": "region-voxels/v2",
+                "geometryProfile": "voxel-grid/v1",
                 "origin": [
                   16,
                   0,
@@ -5785,7 +6034,8 @@
                 0
               ],
               "block": {
-                "profileVersion": "region-voxels/v1",
+                "profileVersion": "region-voxels/v2",
+                "geometryProfile": "voxel-grid/v1",
                 "origin": [
                   16,
                   0,
@@ -5821,7 +6071,7 @@
             }
           ]
         },
-        "operationDigest": "5ca8c217ffc2a044244e87b6f150cf9175371abee2391e49a9b08ecd3da775fd",
+        "operationDigest": "6b5dde5c2481dfe4c2a750f41f06cb4d8a55e03645362e2acf56dfd740088825",
         "guarantee": "RECOVERABLE_VERIFIED",
         "localContext": {
           "connectionRef": "local-connection",
@@ -5831,16 +6081,23 @@
         }
       },
       "response": {
-        "contractVersion": "canvas-region/v2",
+        "contractVersion": "canvas-region/v3",
         "requestId": "commit-region-1",
         "result": {
           "transactionId": "region-tx-1",
           "worldRef": "fixture-world",
           "status": "ROLLED_BACK",
-          "operationDigest": "5ca8c217ffc2a044244e87b6f150cf9175371abee2391e49a9b08ecd3da775fd",
+          "operationDigest": "6b5dde5c2481dfe4c2a750f41f06cb4d8a55e03645362e2acf56dfd740088825",
           "beforeSummary": {
-            "profileVersion": "region-summary/v1",
+            "profileVersion": "region-summary/v2",
             "worldRef": "fixture-world",
+            "partition": {
+              "edge": [
+                16,
+                16,
+                16
+              ]
+            },
             "chunks": [
               {
                 "chunkPos": [
@@ -5860,7 +6117,7 @@
                     -1
                   ]
                 },
-                "stateDigest": "e0115e9cad4d978bbf84829f25350978f776c2a7f24870993b187102d2233d1e"
+                "stateDigest": "3dd4e330cfb941c8a84a451f839ee9edb514f31dd252d5c5b023356d6fff49fb"
               },
               {
                 "chunkPos": [
@@ -5880,7 +6137,7 @@
                     0
                   ]
                 },
-                "stateDigest": "081ec395d52091d802e998698482ec0decf69a623cb86b0bb0a509f8e8d4fe99"
+                "stateDigest": "878583d6d53cae96dde3d85d4e7489298fc27c91e81ecc221c8c40889a1b4710"
               },
               {
                 "chunkPos": [
@@ -5900,7 +6157,7 @@
                     -1
                   ]
                 },
-                "stateDigest": "c3abf6af5ef30bc817f62ed15933889bc119ffb20d6fff0604adc9a7df88b9e7"
+                "stateDigest": "38def0b62aba9044e23bafccbba017a2d6cf8ef9696c938eeccd6cc1be32115b"
               },
               {
                 "chunkPos": [
@@ -5920,7 +6177,7 @@
                     0
                   ]
                 },
-                "stateDigest": "c7d59d10f9961494c77651529006f1055d4e5db42e4f88924cf9c913b4bf4333"
+                "stateDigest": "bd134371dcaf634a078ab81dd9cc701d1cc193590bc02f1bd6cd9d80d446018f"
               },
               {
                 "chunkPos": [
@@ -5940,7 +6197,7 @@
                     -1
                   ]
                 },
-                "stateDigest": "90057e98225ce397b09583119eb0558c4bfd78736faecb54d06e2a86a12530d4"
+                "stateDigest": "f076080b9dddbfc39cd87a3a39c5b298f830eb0d19b860022bd4d4f0f328798b"
               },
               {
                 "chunkPos": [
@@ -5960,13 +6217,20 @@
                     0
                   ]
                 },
-                "stateDigest": "5a6c901554e575c743f2ff027540f0e66e5f16c2a91b3d96f226ed8d2fe4fec6"
+                "stateDigest": "e039550cf329058f1afad32ee1f669ffbf610b397bf3534b29e8d085a5dcd091"
               }
             ]
           },
           "expectedAfterSummary": {
-            "profileVersion": "region-summary/v1",
+            "profileVersion": "region-summary/v2",
             "worldRef": "fixture-world",
+            "partition": {
+              "edge": [
+                16,
+                16,
+                16
+              ]
+            },
             "chunks": [
               {
                 "chunkPos": [
@@ -5986,7 +6250,7 @@
                     -1
                   ]
                 },
-                "stateDigest": "d49508f93ec5ab912e301415fe2d5f0551661f600de0582239a1757c207be5b0"
+                "stateDigest": "bcb886208a9ab795c3a3bb0e23be77bd59494fd804af6d1e28004cccba18826c"
               },
               {
                 "chunkPos": [
@@ -6006,7 +6270,7 @@
                     0
                   ]
                 },
-                "stateDigest": "b5f745855ff3ef6238e66af46083e1717e7ddc465ba1071794dabdfffcb2e898"
+                "stateDigest": "be107441ac7128381066d9767597146895560d8b8b81fb693a25903eb2e223bb"
               },
               {
                 "chunkPos": [
@@ -6026,7 +6290,7 @@
                     -1
                   ]
                 },
-                "stateDigest": "ef44bd8e634f817bc3cd00615e06b7cf677aa4221c791d32d68520bb5c488a33"
+                "stateDigest": "cb3fd8ef76e7c43693862c676124254804f6371e8d0ec92c445384bd19813c81"
               },
               {
                 "chunkPos": [
@@ -6046,7 +6310,7 @@
                     0
                   ]
                 },
-                "stateDigest": "eaed2261d8685d6208b0adce3427a52a195bfc05f1a54174060c3422b1809b1a"
+                "stateDigest": "a9fd3f203f51ed5168678c1295a3b1c99579c7087af41b38f65df9cc9ac0a31b"
               },
               {
                 "chunkPos": [
@@ -6066,7 +6330,7 @@
                     -1
                   ]
                 },
-                "stateDigest": "08986e47c57816432da17efecc5e61a65e613c365b5b02babeec7ee95b11410f"
+                "stateDigest": "cc59d9f7ef30166defd375729b77b80ca99bec82c5d017036a2f592b87fede1b"
               },
               {
                 "chunkPos": [
@@ -6086,13 +6350,20 @@
                     0
                   ]
                 },
-                "stateDigest": "fc1b87442243b8c6936344f2c291081a30aa248baef749c4b3939fdab89a0a84"
+                "stateDigest": "8df88cd7831f15b103ebbdecfc84a63b9a23c0ca7f3abcd53988cd50c7109135"
               }
             ]
           },
           "actualSummary": {
-            "profileVersion": "region-summary/v1",
+            "profileVersion": "region-summary/v2",
             "worldRef": "fixture-world",
+            "partition": {
+              "edge": [
+                16,
+                16,
+                16
+              ]
+            },
             "chunks": [
               {
                 "chunkPos": [
@@ -6112,7 +6383,7 @@
                     -1
                   ]
                 },
-                "stateDigest": "e0115e9cad4d978bbf84829f25350978f776c2a7f24870993b187102d2233d1e"
+                "stateDigest": "3dd4e330cfb941c8a84a451f839ee9edb514f31dd252d5c5b023356d6fff49fb"
               },
               {
                 "chunkPos": [
@@ -6132,7 +6403,7 @@
                     0
                   ]
                 },
-                "stateDigest": "081ec395d52091d802e998698482ec0decf69a623cb86b0bb0a509f8e8d4fe99"
+                "stateDigest": "878583d6d53cae96dde3d85d4e7489298fc27c91e81ecc221c8c40889a1b4710"
               },
               {
                 "chunkPos": [
@@ -6152,7 +6423,7 @@
                     -1
                   ]
                 },
-                "stateDigest": "c3abf6af5ef30bc817f62ed15933889bc119ffb20d6fff0604adc9a7df88b9e7"
+                "stateDigest": "38def0b62aba9044e23bafccbba017a2d6cf8ef9696c938eeccd6cc1be32115b"
               },
               {
                 "chunkPos": [
@@ -6172,7 +6443,7 @@
                     0
                   ]
                 },
-                "stateDigest": "c7d59d10f9961494c77651529006f1055d4e5db42e4f88924cf9c913b4bf4333"
+                "stateDigest": "bd134371dcaf634a078ab81dd9cc701d1cc193590bc02f1bd6cd9d80d446018f"
               },
               {
                 "chunkPos": [
@@ -6192,7 +6463,7 @@
                     -1
                   ]
                 },
-                "stateDigest": "90057e98225ce397b09583119eb0558c4bfd78736faecb54d06e2a86a12530d4"
+                "stateDigest": "f076080b9dddbfc39cd87a3a39c5b298f830eb0d19b860022bd4d4f0f328798b"
               },
               {
                 "chunkPos": [
@@ -6212,19 +6483,20 @@
                     0
                   ]
                 },
-                "stateDigest": "5a6c901554e575c743f2ff027540f0e66e5f16c2a91b3d96f226ed8d2fe4fec6"
+                "stateDigest": "e039550cf329058f1afad32ee1f669ffbf610b397bf3534b29e8d085a5dcd091"
               }
             ]
           },
           "snapshot": {
             "profileVersion": "region-snapshot/v1",
-            "contentDigest": "74a90f96f7ec57941305e589b1ffdd6c5d478b2c7a5432b37dd2b6e6014ba49b",
-            "beforeSummaryDigest": "7d74a23c7ed190912cb7fdd38ab3d8d73ca9f24633cc6515da959c3664724410",
+            "contentDigest": "9a6b372b2a46f631185c86fe876267b68595f2e9210d01e269b6e4d6fda362b1",
+            "beforeSummaryDigest": "e9521ae8c7899282eaf4ac3e6c36d5105daabeb28bd11477ec9d03ef5aac584c",
             "compression": "gzip",
-            "compressedSha256": "d8d264150d7204583e97c27d997ff898b3ca1cc9118305c9122f9cfd11603b2e",
-            "compressedByteLength": 704
+            "compressedSha256": "d589b97cad7e8c37085dfd90cb035f82bde1912a8d8a6752611c891522e83f9e",
+            "compressedByteLength": 736
           },
           "historyRevision": "history-2",
+          "postWriteLighting": "REQUIRED",
           "lighting": {
             "status": "COMPLETE",
             "box": {
@@ -6239,7 +6511,7 @@
                 0
               ]
             },
-            "method": "fixture:voxelmanip.calc_lighting+write_to_map"
+            "method": "fixture:light-pass"
           },
           "affectedObjectRefs": [],
           "localContext": {
@@ -6275,18 +6547,24 @@
       "id": "R5",
       "what": "guard refusal that does not explain the error",
       "request": {
-        "contractVersion": "canvas-region/v2",
+        "contractVersion": "canvas-region/v3",
         "sessionRef": "fixture-session",
         "requestId": "commit-region-1",
         "worldRef": "fixture-world",
         "transactionId": "region-tx-1",
         "operations": {
-          "contractVersion": "region-operations/v1",
-          "buildDigest": "267b7595e51404dd02931bae76c9e0ba9b6a0f69b4466bc5774dad0ed0a7456e",
+          "contractVersion": "region-operations/v2",
+          "buildDigest": "be60b6d2819008253a44725d88c6758ae38d0ffa1f67c19ce39ddc69ed27e0f7",
           "compilerRevision": "fixture-brush-region-1",
           "worldRef": "fixture-world",
           "catalogueDigest": "89dfb22e3b674be56a66bb066ca5ee51fb0c0571725b2970ab0478658357cc57",
-          "chunkEdge": 16,
+          "partition": {
+            "edge": [
+              16,
+              16,
+              16
+            ]
+          },
           "chunks": [
             {
               "chunkPos": [
@@ -6295,7 +6573,8 @@
                 -1
               ],
               "block": {
-                "profileVersion": "region-voxels/v1",
+                "profileVersion": "region-voxels/v2",
+                "geometryProfile": "voxel-grid/v1",
                 "origin": [
                   -2,
                   0,
@@ -6344,7 +6623,8 @@
                 0
               ],
               "block": {
-                "profileVersion": "region-voxels/v1",
+                "profileVersion": "region-voxels/v2",
+                "geometryProfile": "voxel-grid/v1",
                 "origin": [
                   -2,
                   0,
@@ -6385,7 +6665,8 @@
                 -1
               ],
               "block": {
-                "profileVersion": "region-voxels/v1",
+                "profileVersion": "region-voxels/v2",
+                "geometryProfile": "voxel-grid/v1",
                 "origin": [
                   0,
                   0,
@@ -6458,7 +6739,8 @@
                 0
               ],
               "block": {
-                "profileVersion": "region-voxels/v1",
+                "profileVersion": "region-voxels/v2",
+                "geometryProfile": "voxel-grid/v1",
                 "origin": [
                   0,
                   0,
@@ -6511,7 +6793,8 @@
                 -1
               ],
               "block": {
-                "profileVersion": "region-voxels/v1",
+                "profileVersion": "region-voxels/v2",
+                "geometryProfile": "voxel-grid/v1",
                 "origin": [
                   16,
                   0,
@@ -6560,7 +6843,8 @@
                 0
               ],
               "block": {
-                "profileVersion": "region-voxels/v1",
+                "profileVersion": "region-voxels/v2",
+                "geometryProfile": "voxel-grid/v1",
                 "origin": [
                   16,
                   0,
@@ -6596,7 +6880,7 @@
             }
           ]
         },
-        "operationDigest": "5ca8c217ffc2a044244e87b6f150cf9175371abee2391e49a9b08ecd3da775fd",
+        "operationDigest": "6b5dde5c2481dfe4c2a750f41f06cb4d8a55e03645362e2acf56dfd740088825",
         "guarantee": "RECOVERABLE_VERIFIED",
         "localContext": {
           "connectionRef": "local-connection",
@@ -6606,16 +6890,23 @@
         }
       },
       "response": {
-        "contractVersion": "canvas-region/v2",
+        "contractVersion": "canvas-region/v3",
         "requestId": "commit-region-1",
         "result": {
           "transactionId": "region-tx-1",
           "worldRef": "fixture-world",
           "status": "ROLLED_BACK",
-          "operationDigest": "5ca8c217ffc2a044244e87b6f150cf9175371abee2391e49a9b08ecd3da775fd",
+          "operationDigest": "6b5dde5c2481dfe4c2a750f41f06cb4d8a55e03645362e2acf56dfd740088825",
           "beforeSummary": {
-            "profileVersion": "region-summary/v1",
+            "profileVersion": "region-summary/v2",
             "worldRef": "fixture-world",
+            "partition": {
+              "edge": [
+                16,
+                16,
+                16
+              ]
+            },
             "chunks": [
               {
                 "chunkPos": [
@@ -6635,7 +6926,7 @@
                     -1
                   ]
                 },
-                "stateDigest": "e0115e9cad4d978bbf84829f25350978f776c2a7f24870993b187102d2233d1e"
+                "stateDigest": "3dd4e330cfb941c8a84a451f839ee9edb514f31dd252d5c5b023356d6fff49fb"
               },
               {
                 "chunkPos": [
@@ -6655,7 +6946,7 @@
                     0
                   ]
                 },
-                "stateDigest": "081ec395d52091d802e998698482ec0decf69a623cb86b0bb0a509f8e8d4fe99"
+                "stateDigest": "878583d6d53cae96dde3d85d4e7489298fc27c91e81ecc221c8c40889a1b4710"
               },
               {
                 "chunkPos": [
@@ -6675,7 +6966,7 @@
                     -1
                   ]
                 },
-                "stateDigest": "c3abf6af5ef30bc817f62ed15933889bc119ffb20d6fff0604adc9a7df88b9e7"
+                "stateDigest": "38def0b62aba9044e23bafccbba017a2d6cf8ef9696c938eeccd6cc1be32115b"
               },
               {
                 "chunkPos": [
@@ -6695,7 +6986,7 @@
                     0
                   ]
                 },
-                "stateDigest": "c7d59d10f9961494c77651529006f1055d4e5db42e4f88924cf9c913b4bf4333"
+                "stateDigest": "bd134371dcaf634a078ab81dd9cc701d1cc193590bc02f1bd6cd9d80d446018f"
               },
               {
                 "chunkPos": [
@@ -6715,7 +7006,7 @@
                     -1
                   ]
                 },
-                "stateDigest": "90057e98225ce397b09583119eb0558c4bfd78736faecb54d06e2a86a12530d4"
+                "stateDigest": "f076080b9dddbfc39cd87a3a39c5b298f830eb0d19b860022bd4d4f0f328798b"
               },
               {
                 "chunkPos": [
@@ -6735,13 +7026,20 @@
                     0
                   ]
                 },
-                "stateDigest": "5a6c901554e575c743f2ff027540f0e66e5f16c2a91b3d96f226ed8d2fe4fec6"
+                "stateDigest": "e039550cf329058f1afad32ee1f669ffbf610b397bf3534b29e8d085a5dcd091"
               }
             ]
           },
           "expectedAfterSummary": {
-            "profileVersion": "region-summary/v1",
+            "profileVersion": "region-summary/v2",
             "worldRef": "fixture-world",
+            "partition": {
+              "edge": [
+                16,
+                16,
+                16
+              ]
+            },
             "chunks": [
               {
                 "chunkPos": [
@@ -6761,7 +7059,7 @@
                     -1
                   ]
                 },
-                "stateDigest": "d49508f93ec5ab912e301415fe2d5f0551661f600de0582239a1757c207be5b0"
+                "stateDigest": "bcb886208a9ab795c3a3bb0e23be77bd59494fd804af6d1e28004cccba18826c"
               },
               {
                 "chunkPos": [
@@ -6781,7 +7079,7 @@
                     0
                   ]
                 },
-                "stateDigest": "b5f745855ff3ef6238e66af46083e1717e7ddc465ba1071794dabdfffcb2e898"
+                "stateDigest": "be107441ac7128381066d9767597146895560d8b8b81fb693a25903eb2e223bb"
               },
               {
                 "chunkPos": [
@@ -6801,7 +7099,7 @@
                     -1
                   ]
                 },
-                "stateDigest": "ef44bd8e634f817bc3cd00615e06b7cf677aa4221c791d32d68520bb5c488a33"
+                "stateDigest": "cb3fd8ef76e7c43693862c676124254804f6371e8d0ec92c445384bd19813c81"
               },
               {
                 "chunkPos": [
@@ -6821,7 +7119,7 @@
                     0
                   ]
                 },
-                "stateDigest": "eaed2261d8685d6208b0adce3427a52a195bfc05f1a54174060c3422b1809b1a"
+                "stateDigest": "a9fd3f203f51ed5168678c1295a3b1c99579c7087af41b38f65df9cc9ac0a31b"
               },
               {
                 "chunkPos": [
@@ -6841,7 +7139,7 @@
                     -1
                   ]
                 },
-                "stateDigest": "08986e47c57816432da17efecc5e61a65e613c365b5b02babeec7ee95b11410f"
+                "stateDigest": "cc59d9f7ef30166defd375729b77b80ca99bec82c5d017036a2f592b87fede1b"
               },
               {
                 "chunkPos": [
@@ -6861,13 +7159,20 @@
                     0
                   ]
                 },
-                "stateDigest": "fc1b87442243b8c6936344f2c291081a30aa248baef749c4b3939fdab89a0a84"
+                "stateDigest": "8df88cd7831f15b103ebbdecfc84a63b9a23c0ca7f3abcd53988cd50c7109135"
               }
             ]
           },
           "actualSummary": {
-            "profileVersion": "region-summary/v1",
+            "profileVersion": "region-summary/v2",
             "worldRef": "fixture-world",
+            "partition": {
+              "edge": [
+                16,
+                16,
+                16
+              ]
+            },
             "chunks": [
               {
                 "chunkPos": [
@@ -6887,7 +7192,7 @@
                     -1
                   ]
                 },
-                "stateDigest": "e0115e9cad4d978bbf84829f25350978f776c2a7f24870993b187102d2233d1e"
+                "stateDigest": "3dd4e330cfb941c8a84a451f839ee9edb514f31dd252d5c5b023356d6fff49fb"
               },
               {
                 "chunkPos": [
@@ -6907,7 +7212,7 @@
                     0
                   ]
                 },
-                "stateDigest": "081ec395d52091d802e998698482ec0decf69a623cb86b0bb0a509f8e8d4fe99"
+                "stateDigest": "878583d6d53cae96dde3d85d4e7489298fc27c91e81ecc221c8c40889a1b4710"
               },
               {
                 "chunkPos": [
@@ -6927,7 +7232,7 @@
                     -1
                   ]
                 },
-                "stateDigest": "c3abf6af5ef30bc817f62ed15933889bc119ffb20d6fff0604adc9a7df88b9e7"
+                "stateDigest": "38def0b62aba9044e23bafccbba017a2d6cf8ef9696c938eeccd6cc1be32115b"
               },
               {
                 "chunkPos": [
@@ -6947,7 +7252,7 @@
                     0
                   ]
                 },
-                "stateDigest": "c7d59d10f9961494c77651529006f1055d4e5db42e4f88924cf9c913b4bf4333"
+                "stateDigest": "bd134371dcaf634a078ab81dd9cc701d1cc193590bc02f1bd6cd9d80d446018f"
               },
               {
                 "chunkPos": [
@@ -6967,7 +7272,7 @@
                     -1
                   ]
                 },
-                "stateDigest": "90057e98225ce397b09583119eb0558c4bfd78736faecb54d06e2a86a12530d4"
+                "stateDigest": "f076080b9dddbfc39cd87a3a39c5b298f830eb0d19b860022bd4d4f0f328798b"
               },
               {
                 "chunkPos": [
@@ -6987,19 +7292,20 @@
                     0
                   ]
                 },
-                "stateDigest": "5a6c901554e575c743f2ff027540f0e66e5f16c2a91b3d96f226ed8d2fe4fec6"
+                "stateDigest": "e039550cf329058f1afad32ee1f669ffbf610b397bf3534b29e8d085a5dcd091"
               }
             ]
           },
           "snapshot": {
             "profileVersion": "region-snapshot/v1",
-            "contentDigest": "74a90f96f7ec57941305e589b1ffdd6c5d478b2c7a5432b37dd2b6e6014ba49b",
-            "beforeSummaryDigest": "7d74a23c7ed190912cb7fdd38ab3d8d73ca9f24633cc6515da959c3664724410",
+            "contentDigest": "9a6b372b2a46f631185c86fe876267b68595f2e9210d01e269b6e4d6fda362b1",
+            "beforeSummaryDigest": "e9521ae8c7899282eaf4ac3e6c36d5105daabeb28bd11477ec9d03ef5aac584c",
             "compression": "gzip",
-            "compressedSha256": "d8d264150d7204583e97c27d997ff898b3ca1cc9118305c9122f9cfd11603b2e",
-            "compressedByteLength": 704
+            "compressedSha256": "d589b97cad7e8c37085dfd90cb035f82bde1912a8d8a6752611c891522e83f9e",
+            "compressedByteLength": 736
           },
           "historyRevision": "history-2",
+          "postWriteLighting": "REQUIRED",
           "lighting": {
             "status": "COMPLETE",
             "box": {
@@ -7014,7 +7320,7 @@
                 0
               ]
             },
-            "method": "fixture:voxelmanip.calc_lighting+write_to_map"
+            "method": "fixture:light-pass"
           },
           "affectedObjectRefs": [],
           "localContext": {
@@ -7054,18 +7360,24 @@
       "id": "R6",
       "what": "null rollback cause (no null form)",
       "request": {
-        "contractVersion": "canvas-region/v2",
+        "contractVersion": "canvas-region/v3",
         "sessionRef": "fixture-session",
         "requestId": "commit-region-1",
         "worldRef": "fixture-world",
         "transactionId": "region-tx-1",
         "operations": {
-          "contractVersion": "region-operations/v1",
-          "buildDigest": "267b7595e51404dd02931bae76c9e0ba9b6a0f69b4466bc5774dad0ed0a7456e",
+          "contractVersion": "region-operations/v2",
+          "buildDigest": "be60b6d2819008253a44725d88c6758ae38d0ffa1f67c19ce39ddc69ed27e0f7",
           "compilerRevision": "fixture-brush-region-1",
           "worldRef": "fixture-world",
           "catalogueDigest": "89dfb22e3b674be56a66bb066ca5ee51fb0c0571725b2970ab0478658357cc57",
-          "chunkEdge": 16,
+          "partition": {
+            "edge": [
+              16,
+              16,
+              16
+            ]
+          },
           "chunks": [
             {
               "chunkPos": [
@@ -7074,7 +7386,8 @@
                 -1
               ],
               "block": {
-                "profileVersion": "region-voxels/v1",
+                "profileVersion": "region-voxels/v2",
+                "geometryProfile": "voxel-grid/v1",
                 "origin": [
                   -2,
                   0,
@@ -7123,7 +7436,8 @@
                 0
               ],
               "block": {
-                "profileVersion": "region-voxels/v1",
+                "profileVersion": "region-voxels/v2",
+                "geometryProfile": "voxel-grid/v1",
                 "origin": [
                   -2,
                   0,
@@ -7164,7 +7478,8 @@
                 -1
               ],
               "block": {
-                "profileVersion": "region-voxels/v1",
+                "profileVersion": "region-voxels/v2",
+                "geometryProfile": "voxel-grid/v1",
                 "origin": [
                   0,
                   0,
@@ -7237,7 +7552,8 @@
                 0
               ],
               "block": {
-                "profileVersion": "region-voxels/v1",
+                "profileVersion": "region-voxels/v2",
+                "geometryProfile": "voxel-grid/v1",
                 "origin": [
                   0,
                   0,
@@ -7290,7 +7606,8 @@
                 -1
               ],
               "block": {
-                "profileVersion": "region-voxels/v1",
+                "profileVersion": "region-voxels/v2",
+                "geometryProfile": "voxel-grid/v1",
                 "origin": [
                   16,
                   0,
@@ -7339,7 +7656,8 @@
                 0
               ],
               "block": {
-                "profileVersion": "region-voxels/v1",
+                "profileVersion": "region-voxels/v2",
+                "geometryProfile": "voxel-grid/v1",
                 "origin": [
                   16,
                   0,
@@ -7375,7 +7693,7 @@
             }
           ]
         },
-        "operationDigest": "5ca8c217ffc2a044244e87b6f150cf9175371abee2391e49a9b08ecd3da775fd",
+        "operationDigest": "6b5dde5c2481dfe4c2a750f41f06cb4d8a55e03645362e2acf56dfd740088825",
         "guarantee": "RECOVERABLE_VERIFIED",
         "localContext": {
           "connectionRef": "local-connection",
@@ -7385,16 +7703,23 @@
         }
       },
       "response": {
-        "contractVersion": "canvas-region/v2",
+        "contractVersion": "canvas-region/v3",
         "requestId": "commit-region-1",
         "result": {
           "transactionId": "region-tx-1",
           "worldRef": "fixture-world",
           "status": "ROLLED_BACK",
-          "operationDigest": "5ca8c217ffc2a044244e87b6f150cf9175371abee2391e49a9b08ecd3da775fd",
+          "operationDigest": "6b5dde5c2481dfe4c2a750f41f06cb4d8a55e03645362e2acf56dfd740088825",
           "beforeSummary": {
-            "profileVersion": "region-summary/v1",
+            "profileVersion": "region-summary/v2",
             "worldRef": "fixture-world",
+            "partition": {
+              "edge": [
+                16,
+                16,
+                16
+              ]
+            },
             "chunks": [
               {
                 "chunkPos": [
@@ -7414,7 +7739,7 @@
                     -1
                   ]
                 },
-                "stateDigest": "e0115e9cad4d978bbf84829f25350978f776c2a7f24870993b187102d2233d1e"
+                "stateDigest": "3dd4e330cfb941c8a84a451f839ee9edb514f31dd252d5c5b023356d6fff49fb"
               },
               {
                 "chunkPos": [
@@ -7434,7 +7759,7 @@
                     0
                   ]
                 },
-                "stateDigest": "081ec395d52091d802e998698482ec0decf69a623cb86b0bb0a509f8e8d4fe99"
+                "stateDigest": "878583d6d53cae96dde3d85d4e7489298fc27c91e81ecc221c8c40889a1b4710"
               },
               {
                 "chunkPos": [
@@ -7454,7 +7779,7 @@
                     -1
                   ]
                 },
-                "stateDigest": "c3abf6af5ef30bc817f62ed15933889bc119ffb20d6fff0604adc9a7df88b9e7"
+                "stateDigest": "38def0b62aba9044e23bafccbba017a2d6cf8ef9696c938eeccd6cc1be32115b"
               },
               {
                 "chunkPos": [
@@ -7474,7 +7799,7 @@
                     0
                   ]
                 },
-                "stateDigest": "c7d59d10f9961494c77651529006f1055d4e5db42e4f88924cf9c913b4bf4333"
+                "stateDigest": "bd134371dcaf634a078ab81dd9cc701d1cc193590bc02f1bd6cd9d80d446018f"
               },
               {
                 "chunkPos": [
@@ -7494,7 +7819,7 @@
                     -1
                   ]
                 },
-                "stateDigest": "90057e98225ce397b09583119eb0558c4bfd78736faecb54d06e2a86a12530d4"
+                "stateDigest": "f076080b9dddbfc39cd87a3a39c5b298f830eb0d19b860022bd4d4f0f328798b"
               },
               {
                 "chunkPos": [
@@ -7514,13 +7839,20 @@
                     0
                   ]
                 },
-                "stateDigest": "5a6c901554e575c743f2ff027540f0e66e5f16c2a91b3d96f226ed8d2fe4fec6"
+                "stateDigest": "e039550cf329058f1afad32ee1f669ffbf610b397bf3534b29e8d085a5dcd091"
               }
             ]
           },
           "expectedAfterSummary": {
-            "profileVersion": "region-summary/v1",
+            "profileVersion": "region-summary/v2",
             "worldRef": "fixture-world",
+            "partition": {
+              "edge": [
+                16,
+                16,
+                16
+              ]
+            },
             "chunks": [
               {
                 "chunkPos": [
@@ -7540,7 +7872,7 @@
                     -1
                   ]
                 },
-                "stateDigest": "d49508f93ec5ab912e301415fe2d5f0551661f600de0582239a1757c207be5b0"
+                "stateDigest": "bcb886208a9ab795c3a3bb0e23be77bd59494fd804af6d1e28004cccba18826c"
               },
               {
                 "chunkPos": [
@@ -7560,7 +7892,7 @@
                     0
                   ]
                 },
-                "stateDigest": "b5f745855ff3ef6238e66af46083e1717e7ddc465ba1071794dabdfffcb2e898"
+                "stateDigest": "be107441ac7128381066d9767597146895560d8b8b81fb693a25903eb2e223bb"
               },
               {
                 "chunkPos": [
@@ -7580,7 +7912,7 @@
                     -1
                   ]
                 },
-                "stateDigest": "ef44bd8e634f817bc3cd00615e06b7cf677aa4221c791d32d68520bb5c488a33"
+                "stateDigest": "cb3fd8ef76e7c43693862c676124254804f6371e8d0ec92c445384bd19813c81"
               },
               {
                 "chunkPos": [
@@ -7600,7 +7932,7 @@
                     0
                   ]
                 },
-                "stateDigest": "eaed2261d8685d6208b0adce3427a52a195bfc05f1a54174060c3422b1809b1a"
+                "stateDigest": "a9fd3f203f51ed5168678c1295a3b1c99579c7087af41b38f65df9cc9ac0a31b"
               },
               {
                 "chunkPos": [
@@ -7620,7 +7952,7 @@
                     -1
                   ]
                 },
-                "stateDigest": "08986e47c57816432da17efecc5e61a65e613c365b5b02babeec7ee95b11410f"
+                "stateDigest": "cc59d9f7ef30166defd375729b77b80ca99bec82c5d017036a2f592b87fede1b"
               },
               {
                 "chunkPos": [
@@ -7640,13 +7972,20 @@
                     0
                   ]
                 },
-                "stateDigest": "fc1b87442243b8c6936344f2c291081a30aa248baef749c4b3939fdab89a0a84"
+                "stateDigest": "8df88cd7831f15b103ebbdecfc84a63b9a23c0ca7f3abcd53988cd50c7109135"
               }
             ]
           },
           "actualSummary": {
-            "profileVersion": "region-summary/v1",
+            "profileVersion": "region-summary/v2",
             "worldRef": "fixture-world",
+            "partition": {
+              "edge": [
+                16,
+                16,
+                16
+              ]
+            },
             "chunks": [
               {
                 "chunkPos": [
@@ -7666,7 +8005,7 @@
                     -1
                   ]
                 },
-                "stateDigest": "e0115e9cad4d978bbf84829f25350978f776c2a7f24870993b187102d2233d1e"
+                "stateDigest": "3dd4e330cfb941c8a84a451f839ee9edb514f31dd252d5c5b023356d6fff49fb"
               },
               {
                 "chunkPos": [
@@ -7686,7 +8025,7 @@
                     0
                   ]
                 },
-                "stateDigest": "081ec395d52091d802e998698482ec0decf69a623cb86b0bb0a509f8e8d4fe99"
+                "stateDigest": "878583d6d53cae96dde3d85d4e7489298fc27c91e81ecc221c8c40889a1b4710"
               },
               {
                 "chunkPos": [
@@ -7706,7 +8045,7 @@
                     -1
                   ]
                 },
-                "stateDigest": "c3abf6af5ef30bc817f62ed15933889bc119ffb20d6fff0604adc9a7df88b9e7"
+                "stateDigest": "38def0b62aba9044e23bafccbba017a2d6cf8ef9696c938eeccd6cc1be32115b"
               },
               {
                 "chunkPos": [
@@ -7726,7 +8065,7 @@
                     0
                   ]
                 },
-                "stateDigest": "c7d59d10f9961494c77651529006f1055d4e5db42e4f88924cf9c913b4bf4333"
+                "stateDigest": "bd134371dcaf634a078ab81dd9cc701d1cc193590bc02f1bd6cd9d80d446018f"
               },
               {
                 "chunkPos": [
@@ -7746,7 +8085,7 @@
                     -1
                   ]
                 },
-                "stateDigest": "90057e98225ce397b09583119eb0558c4bfd78736faecb54d06e2a86a12530d4"
+                "stateDigest": "f076080b9dddbfc39cd87a3a39c5b298f830eb0d19b860022bd4d4f0f328798b"
               },
               {
                 "chunkPos": [
@@ -7766,19 +8105,20 @@
                     0
                   ]
                 },
-                "stateDigest": "5a6c901554e575c743f2ff027540f0e66e5f16c2a91b3d96f226ed8d2fe4fec6"
+                "stateDigest": "e039550cf329058f1afad32ee1f669ffbf610b397bf3534b29e8d085a5dcd091"
               }
             ]
           },
           "snapshot": {
             "profileVersion": "region-snapshot/v1",
-            "contentDigest": "74a90f96f7ec57941305e589b1ffdd6c5d478b2c7a5432b37dd2b6e6014ba49b",
-            "beforeSummaryDigest": "7d74a23c7ed190912cb7fdd38ab3d8d73ca9f24633cc6515da959c3664724410",
+            "contentDigest": "9a6b372b2a46f631185c86fe876267b68595f2e9210d01e269b6e4d6fda362b1",
+            "beforeSummaryDigest": "e9521ae8c7899282eaf4ac3e6c36d5105daabeb28bd11477ec9d03ef5aac584c",
             "compression": "gzip",
-            "compressedSha256": "d8d264150d7204583e97c27d997ff898b3ca1cc9118305c9122f9cfd11603b2e",
-            "compressedByteLength": 704
+            "compressedSha256": "d589b97cad7e8c37085dfd90cb035f82bde1912a8d8a6752611c891522e83f9e",
+            "compressedByteLength": 736
           },
           "historyRevision": "history-2",
+          "postWriteLighting": "REQUIRED",
           "lighting": {
             "status": "COMPLETE",
             "box": {
@@ -7793,7 +8133,7 @@
                 0
               ]
             },
-            "method": "fixture:voxelmanip.calc_lighting+write_to_map"
+            "method": "fixture:light-pass"
           },
           "affectedObjectRefs": [],
           "localContext": {
@@ -7818,18 +8158,24 @@
       "id": "R7",
       "what": "unknown field inside the cause",
       "request": {
-        "contractVersion": "canvas-region/v2",
+        "contractVersion": "canvas-region/v3",
         "sessionRef": "fixture-session",
         "requestId": "commit-region-1",
         "worldRef": "fixture-world",
         "transactionId": "region-tx-1",
         "operations": {
-          "contractVersion": "region-operations/v1",
-          "buildDigest": "267b7595e51404dd02931bae76c9e0ba9b6a0f69b4466bc5774dad0ed0a7456e",
+          "contractVersion": "region-operations/v2",
+          "buildDigest": "be60b6d2819008253a44725d88c6758ae38d0ffa1f67c19ce39ddc69ed27e0f7",
           "compilerRevision": "fixture-brush-region-1",
           "worldRef": "fixture-world",
           "catalogueDigest": "89dfb22e3b674be56a66bb066ca5ee51fb0c0571725b2970ab0478658357cc57",
-          "chunkEdge": 16,
+          "partition": {
+            "edge": [
+              16,
+              16,
+              16
+            ]
+          },
           "chunks": [
             {
               "chunkPos": [
@@ -7838,7 +8184,8 @@
                 -1
               ],
               "block": {
-                "profileVersion": "region-voxels/v1",
+                "profileVersion": "region-voxels/v2",
+                "geometryProfile": "voxel-grid/v1",
                 "origin": [
                   -2,
                   0,
@@ -7887,7 +8234,8 @@
                 0
               ],
               "block": {
-                "profileVersion": "region-voxels/v1",
+                "profileVersion": "region-voxels/v2",
+                "geometryProfile": "voxel-grid/v1",
                 "origin": [
                   -2,
                   0,
@@ -7928,7 +8276,8 @@
                 -1
               ],
               "block": {
-                "profileVersion": "region-voxels/v1",
+                "profileVersion": "region-voxels/v2",
+                "geometryProfile": "voxel-grid/v1",
                 "origin": [
                   0,
                   0,
@@ -8001,7 +8350,8 @@
                 0
               ],
               "block": {
-                "profileVersion": "region-voxels/v1",
+                "profileVersion": "region-voxels/v2",
+                "geometryProfile": "voxel-grid/v1",
                 "origin": [
                   0,
                   0,
@@ -8054,7 +8404,8 @@
                 -1
               ],
               "block": {
-                "profileVersion": "region-voxels/v1",
+                "profileVersion": "region-voxels/v2",
+                "geometryProfile": "voxel-grid/v1",
                 "origin": [
                   16,
                   0,
@@ -8103,7 +8454,8 @@
                 0
               ],
               "block": {
-                "profileVersion": "region-voxels/v1",
+                "profileVersion": "region-voxels/v2",
+                "geometryProfile": "voxel-grid/v1",
                 "origin": [
                   16,
                   0,
@@ -8139,7 +8491,7 @@
             }
           ]
         },
-        "operationDigest": "5ca8c217ffc2a044244e87b6f150cf9175371abee2391e49a9b08ecd3da775fd",
+        "operationDigest": "6b5dde5c2481dfe4c2a750f41f06cb4d8a55e03645362e2acf56dfd740088825",
         "guarantee": "RECOVERABLE_VERIFIED",
         "localContext": {
           "connectionRef": "local-connection",
@@ -8149,16 +8501,23 @@
         }
       },
       "response": {
-        "contractVersion": "canvas-region/v2",
+        "contractVersion": "canvas-region/v3",
         "requestId": "commit-region-1",
         "result": {
           "transactionId": "region-tx-1",
           "worldRef": "fixture-world",
           "status": "ROLLED_BACK",
-          "operationDigest": "5ca8c217ffc2a044244e87b6f150cf9175371abee2391e49a9b08ecd3da775fd",
+          "operationDigest": "6b5dde5c2481dfe4c2a750f41f06cb4d8a55e03645362e2acf56dfd740088825",
           "beforeSummary": {
-            "profileVersion": "region-summary/v1",
+            "profileVersion": "region-summary/v2",
             "worldRef": "fixture-world",
+            "partition": {
+              "edge": [
+                16,
+                16,
+                16
+              ]
+            },
             "chunks": [
               {
                 "chunkPos": [
@@ -8178,7 +8537,7 @@
                     -1
                   ]
                 },
-                "stateDigest": "e0115e9cad4d978bbf84829f25350978f776c2a7f24870993b187102d2233d1e"
+                "stateDigest": "3dd4e330cfb941c8a84a451f839ee9edb514f31dd252d5c5b023356d6fff49fb"
               },
               {
                 "chunkPos": [
@@ -8198,7 +8557,7 @@
                     0
                   ]
                 },
-                "stateDigest": "081ec395d52091d802e998698482ec0decf69a623cb86b0bb0a509f8e8d4fe99"
+                "stateDigest": "878583d6d53cae96dde3d85d4e7489298fc27c91e81ecc221c8c40889a1b4710"
               },
               {
                 "chunkPos": [
@@ -8218,7 +8577,7 @@
                     -1
                   ]
                 },
-                "stateDigest": "c3abf6af5ef30bc817f62ed15933889bc119ffb20d6fff0604adc9a7df88b9e7"
+                "stateDigest": "38def0b62aba9044e23bafccbba017a2d6cf8ef9696c938eeccd6cc1be32115b"
               },
               {
                 "chunkPos": [
@@ -8238,7 +8597,7 @@
                     0
                   ]
                 },
-                "stateDigest": "c7d59d10f9961494c77651529006f1055d4e5db42e4f88924cf9c913b4bf4333"
+                "stateDigest": "bd134371dcaf634a078ab81dd9cc701d1cc193590bc02f1bd6cd9d80d446018f"
               },
               {
                 "chunkPos": [
@@ -8258,7 +8617,7 @@
                     -1
                   ]
                 },
-                "stateDigest": "90057e98225ce397b09583119eb0558c4bfd78736faecb54d06e2a86a12530d4"
+                "stateDigest": "f076080b9dddbfc39cd87a3a39c5b298f830eb0d19b860022bd4d4f0f328798b"
               },
               {
                 "chunkPos": [
@@ -8278,13 +8637,20 @@
                     0
                   ]
                 },
-                "stateDigest": "5a6c901554e575c743f2ff027540f0e66e5f16c2a91b3d96f226ed8d2fe4fec6"
+                "stateDigest": "e039550cf329058f1afad32ee1f669ffbf610b397bf3534b29e8d085a5dcd091"
               }
             ]
           },
           "expectedAfterSummary": {
-            "profileVersion": "region-summary/v1",
+            "profileVersion": "region-summary/v2",
             "worldRef": "fixture-world",
+            "partition": {
+              "edge": [
+                16,
+                16,
+                16
+              ]
+            },
             "chunks": [
               {
                 "chunkPos": [
@@ -8304,7 +8670,7 @@
                     -1
                   ]
                 },
-                "stateDigest": "d49508f93ec5ab912e301415fe2d5f0551661f600de0582239a1757c207be5b0"
+                "stateDigest": "bcb886208a9ab795c3a3bb0e23be77bd59494fd804af6d1e28004cccba18826c"
               },
               {
                 "chunkPos": [
@@ -8324,7 +8690,7 @@
                     0
                   ]
                 },
-                "stateDigest": "b5f745855ff3ef6238e66af46083e1717e7ddc465ba1071794dabdfffcb2e898"
+                "stateDigest": "be107441ac7128381066d9767597146895560d8b8b81fb693a25903eb2e223bb"
               },
               {
                 "chunkPos": [
@@ -8344,7 +8710,7 @@
                     -1
                   ]
                 },
-                "stateDigest": "ef44bd8e634f817bc3cd00615e06b7cf677aa4221c791d32d68520bb5c488a33"
+                "stateDigest": "cb3fd8ef76e7c43693862c676124254804f6371e8d0ec92c445384bd19813c81"
               },
               {
                 "chunkPos": [
@@ -8364,7 +8730,7 @@
                     0
                   ]
                 },
-                "stateDigest": "eaed2261d8685d6208b0adce3427a52a195bfc05f1a54174060c3422b1809b1a"
+                "stateDigest": "a9fd3f203f51ed5168678c1295a3b1c99579c7087af41b38f65df9cc9ac0a31b"
               },
               {
                 "chunkPos": [
@@ -8384,7 +8750,7 @@
                     -1
                   ]
                 },
-                "stateDigest": "08986e47c57816432da17efecc5e61a65e613c365b5b02babeec7ee95b11410f"
+                "stateDigest": "cc59d9f7ef30166defd375729b77b80ca99bec82c5d017036a2f592b87fede1b"
               },
               {
                 "chunkPos": [
@@ -8404,13 +8770,20 @@
                     0
                   ]
                 },
-                "stateDigest": "fc1b87442243b8c6936344f2c291081a30aa248baef749c4b3939fdab89a0a84"
+                "stateDigest": "8df88cd7831f15b103ebbdecfc84a63b9a23c0ca7f3abcd53988cd50c7109135"
               }
             ]
           },
           "actualSummary": {
-            "profileVersion": "region-summary/v1",
+            "profileVersion": "region-summary/v2",
             "worldRef": "fixture-world",
+            "partition": {
+              "edge": [
+                16,
+                16,
+                16
+              ]
+            },
             "chunks": [
               {
                 "chunkPos": [
@@ -8430,7 +8803,7 @@
                     -1
                   ]
                 },
-                "stateDigest": "e0115e9cad4d978bbf84829f25350978f776c2a7f24870993b187102d2233d1e"
+                "stateDigest": "3dd4e330cfb941c8a84a451f839ee9edb514f31dd252d5c5b023356d6fff49fb"
               },
               {
                 "chunkPos": [
@@ -8450,7 +8823,7 @@
                     0
                   ]
                 },
-                "stateDigest": "081ec395d52091d802e998698482ec0decf69a623cb86b0bb0a509f8e8d4fe99"
+                "stateDigest": "878583d6d53cae96dde3d85d4e7489298fc27c91e81ecc221c8c40889a1b4710"
               },
               {
                 "chunkPos": [
@@ -8470,7 +8843,7 @@
                     -1
                   ]
                 },
-                "stateDigest": "c3abf6af5ef30bc817f62ed15933889bc119ffb20d6fff0604adc9a7df88b9e7"
+                "stateDigest": "38def0b62aba9044e23bafccbba017a2d6cf8ef9696c938eeccd6cc1be32115b"
               },
               {
                 "chunkPos": [
@@ -8490,7 +8863,7 @@
                     0
                   ]
                 },
-                "stateDigest": "c7d59d10f9961494c77651529006f1055d4e5db42e4f88924cf9c913b4bf4333"
+                "stateDigest": "bd134371dcaf634a078ab81dd9cc701d1cc193590bc02f1bd6cd9d80d446018f"
               },
               {
                 "chunkPos": [
@@ -8510,7 +8883,7 @@
                     -1
                   ]
                 },
-                "stateDigest": "90057e98225ce397b09583119eb0558c4bfd78736faecb54d06e2a86a12530d4"
+                "stateDigest": "f076080b9dddbfc39cd87a3a39c5b298f830eb0d19b860022bd4d4f0f328798b"
               },
               {
                 "chunkPos": [
@@ -8530,19 +8903,20 @@
                     0
                   ]
                 },
-                "stateDigest": "5a6c901554e575c743f2ff027540f0e66e5f16c2a91b3d96f226ed8d2fe4fec6"
+                "stateDigest": "e039550cf329058f1afad32ee1f669ffbf610b397bf3534b29e8d085a5dcd091"
               }
             ]
           },
           "snapshot": {
             "profileVersion": "region-snapshot/v1",
-            "contentDigest": "74a90f96f7ec57941305e589b1ffdd6c5d478b2c7a5432b37dd2b6e6014ba49b",
-            "beforeSummaryDigest": "7d74a23c7ed190912cb7fdd38ab3d8d73ca9f24633cc6515da959c3664724410",
+            "contentDigest": "9a6b372b2a46f631185c86fe876267b68595f2e9210d01e269b6e4d6fda362b1",
+            "beforeSummaryDigest": "e9521ae8c7899282eaf4ac3e6c36d5105daabeb28bd11477ec9d03ef5aac584c",
             "compression": "gzip",
-            "compressedSha256": "d8d264150d7204583e97c27d997ff898b3ca1cc9118305c9122f9cfd11603b2e",
-            "compressedByteLength": 704
+            "compressedSha256": "d589b97cad7e8c37085dfd90cb035f82bde1912a8d8a6752611c891522e83f9e",
+            "compressedByteLength": 736
           },
           "historyRevision": "history-2",
+          "postWriteLighting": "REQUIRED",
           "lighting": {
             "status": "COMPLETE",
             "box": {
@@ -8557,7 +8931,7 @@
                 0
               ]
             },
-            "method": "fixture:voxelmanip.calc_lighting+write_to_map"
+            "method": "fixture:light-pass"
           },
           "affectedObjectRefs": [],
           "localContext": {
@@ -8598,18 +8972,24 @@
       "id": "R8",
       "what": "successful rollback with a non-null envelope error and applyFailure (unchanged 1.1 refusal)",
       "request": {
-        "contractVersion": "canvas-region/v2",
+        "contractVersion": "canvas-region/v3",
         "sessionRef": "fixture-session",
         "requestId": "commit-region-1",
         "worldRef": "fixture-world",
         "transactionId": "region-tx-1",
         "operations": {
-          "contractVersion": "region-operations/v1",
-          "buildDigest": "267b7595e51404dd02931bae76c9e0ba9b6a0f69b4466bc5774dad0ed0a7456e",
+          "contractVersion": "region-operations/v2",
+          "buildDigest": "be60b6d2819008253a44725d88c6758ae38d0ffa1f67c19ce39ddc69ed27e0f7",
           "compilerRevision": "fixture-brush-region-1",
           "worldRef": "fixture-world",
           "catalogueDigest": "89dfb22e3b674be56a66bb066ca5ee51fb0c0571725b2970ab0478658357cc57",
-          "chunkEdge": 16,
+          "partition": {
+            "edge": [
+              16,
+              16,
+              16
+            ]
+          },
           "chunks": [
             {
               "chunkPos": [
@@ -8618,7 +8998,8 @@
                 -1
               ],
               "block": {
-                "profileVersion": "region-voxels/v1",
+                "profileVersion": "region-voxels/v2",
+                "geometryProfile": "voxel-grid/v1",
                 "origin": [
                   -2,
                   0,
@@ -8667,7 +9048,8 @@
                 0
               ],
               "block": {
-                "profileVersion": "region-voxels/v1",
+                "profileVersion": "region-voxels/v2",
+                "geometryProfile": "voxel-grid/v1",
                 "origin": [
                   -2,
                   0,
@@ -8708,7 +9090,8 @@
                 -1
               ],
               "block": {
-                "profileVersion": "region-voxels/v1",
+                "profileVersion": "region-voxels/v2",
+                "geometryProfile": "voxel-grid/v1",
                 "origin": [
                   0,
                   0,
@@ -8781,7 +9164,8 @@
                 0
               ],
               "block": {
-                "profileVersion": "region-voxels/v1",
+                "profileVersion": "region-voxels/v2",
+                "geometryProfile": "voxel-grid/v1",
                 "origin": [
                   0,
                   0,
@@ -8834,7 +9218,8 @@
                 -1
               ],
               "block": {
-                "profileVersion": "region-voxels/v1",
+                "profileVersion": "region-voxels/v2",
+                "geometryProfile": "voxel-grid/v1",
                 "origin": [
                   16,
                   0,
@@ -8883,7 +9268,8 @@
                 0
               ],
               "block": {
-                "profileVersion": "region-voxels/v1",
+                "profileVersion": "region-voxels/v2",
+                "geometryProfile": "voxel-grid/v1",
                 "origin": [
                   16,
                   0,
@@ -8919,7 +9305,7 @@
             }
           ]
         },
-        "operationDigest": "5ca8c217ffc2a044244e87b6f150cf9175371abee2391e49a9b08ecd3da775fd",
+        "operationDigest": "6b5dde5c2481dfe4c2a750f41f06cb4d8a55e03645362e2acf56dfd740088825",
         "guarantee": "RECOVERABLE_VERIFIED",
         "localContext": {
           "connectionRef": "local-connection",
@@ -8929,16 +9315,23 @@
         }
       },
       "response": {
-        "contractVersion": "canvas-region/v2",
+        "contractVersion": "canvas-region/v3",
         "requestId": "commit-region-1",
         "result": {
           "transactionId": "region-tx-1",
           "worldRef": "fixture-world",
           "status": "ROLLED_BACK",
-          "operationDigest": "5ca8c217ffc2a044244e87b6f150cf9175371abee2391e49a9b08ecd3da775fd",
+          "operationDigest": "6b5dde5c2481dfe4c2a750f41f06cb4d8a55e03645362e2acf56dfd740088825",
           "beforeSummary": {
-            "profileVersion": "region-summary/v1",
+            "profileVersion": "region-summary/v2",
             "worldRef": "fixture-world",
+            "partition": {
+              "edge": [
+                16,
+                16,
+                16
+              ]
+            },
             "chunks": [
               {
                 "chunkPos": [
@@ -8958,7 +9351,7 @@
                     -1
                   ]
                 },
-                "stateDigest": "e0115e9cad4d978bbf84829f25350978f776c2a7f24870993b187102d2233d1e"
+                "stateDigest": "3dd4e330cfb941c8a84a451f839ee9edb514f31dd252d5c5b023356d6fff49fb"
               },
               {
                 "chunkPos": [
@@ -8978,7 +9371,7 @@
                     0
                   ]
                 },
-                "stateDigest": "081ec395d52091d802e998698482ec0decf69a623cb86b0bb0a509f8e8d4fe99"
+                "stateDigest": "878583d6d53cae96dde3d85d4e7489298fc27c91e81ecc221c8c40889a1b4710"
               },
               {
                 "chunkPos": [
@@ -8998,7 +9391,7 @@
                     -1
                   ]
                 },
-                "stateDigest": "c3abf6af5ef30bc817f62ed15933889bc119ffb20d6fff0604adc9a7df88b9e7"
+                "stateDigest": "38def0b62aba9044e23bafccbba017a2d6cf8ef9696c938eeccd6cc1be32115b"
               },
               {
                 "chunkPos": [
@@ -9018,7 +9411,7 @@
                     0
                   ]
                 },
-                "stateDigest": "c7d59d10f9961494c77651529006f1055d4e5db42e4f88924cf9c913b4bf4333"
+                "stateDigest": "bd134371dcaf634a078ab81dd9cc701d1cc193590bc02f1bd6cd9d80d446018f"
               },
               {
                 "chunkPos": [
@@ -9038,7 +9431,7 @@
                     -1
                   ]
                 },
-                "stateDigest": "90057e98225ce397b09583119eb0558c4bfd78736faecb54d06e2a86a12530d4"
+                "stateDigest": "f076080b9dddbfc39cd87a3a39c5b298f830eb0d19b860022bd4d4f0f328798b"
               },
               {
                 "chunkPos": [
@@ -9058,13 +9451,20 @@
                     0
                   ]
                 },
-                "stateDigest": "5a6c901554e575c743f2ff027540f0e66e5f16c2a91b3d96f226ed8d2fe4fec6"
+                "stateDigest": "e039550cf329058f1afad32ee1f669ffbf610b397bf3534b29e8d085a5dcd091"
               }
             ]
           },
           "expectedAfterSummary": {
-            "profileVersion": "region-summary/v1",
+            "profileVersion": "region-summary/v2",
             "worldRef": "fixture-world",
+            "partition": {
+              "edge": [
+                16,
+                16,
+                16
+              ]
+            },
             "chunks": [
               {
                 "chunkPos": [
@@ -9084,7 +9484,7 @@
                     -1
                   ]
                 },
-                "stateDigest": "d49508f93ec5ab912e301415fe2d5f0551661f600de0582239a1757c207be5b0"
+                "stateDigest": "bcb886208a9ab795c3a3bb0e23be77bd59494fd804af6d1e28004cccba18826c"
               },
               {
                 "chunkPos": [
@@ -9104,7 +9504,7 @@
                     0
                   ]
                 },
-                "stateDigest": "b5f745855ff3ef6238e66af46083e1717e7ddc465ba1071794dabdfffcb2e898"
+                "stateDigest": "be107441ac7128381066d9767597146895560d8b8b81fb693a25903eb2e223bb"
               },
               {
                 "chunkPos": [
@@ -9124,7 +9524,7 @@
                     -1
                   ]
                 },
-                "stateDigest": "ef44bd8e634f817bc3cd00615e06b7cf677aa4221c791d32d68520bb5c488a33"
+                "stateDigest": "cb3fd8ef76e7c43693862c676124254804f6371e8d0ec92c445384bd19813c81"
               },
               {
                 "chunkPos": [
@@ -9144,7 +9544,7 @@
                     0
                   ]
                 },
-                "stateDigest": "eaed2261d8685d6208b0adce3427a52a195bfc05f1a54174060c3422b1809b1a"
+                "stateDigest": "a9fd3f203f51ed5168678c1295a3b1c99579c7087af41b38f65df9cc9ac0a31b"
               },
               {
                 "chunkPos": [
@@ -9164,7 +9564,7 @@
                     -1
                   ]
                 },
-                "stateDigest": "08986e47c57816432da17efecc5e61a65e613c365b5b02babeec7ee95b11410f"
+                "stateDigest": "cc59d9f7ef30166defd375729b77b80ca99bec82c5d017036a2f592b87fede1b"
               },
               {
                 "chunkPos": [
@@ -9184,13 +9584,20 @@
                     0
                   ]
                 },
-                "stateDigest": "fc1b87442243b8c6936344f2c291081a30aa248baef749c4b3939fdab89a0a84"
+                "stateDigest": "8df88cd7831f15b103ebbdecfc84a63b9a23c0ca7f3abcd53988cd50c7109135"
               }
             ]
           },
           "actualSummary": {
-            "profileVersion": "region-summary/v1",
+            "profileVersion": "region-summary/v2",
             "worldRef": "fixture-world",
+            "partition": {
+              "edge": [
+                16,
+                16,
+                16
+              ]
+            },
             "chunks": [
               {
                 "chunkPos": [
@@ -9210,7 +9617,7 @@
                     -1
                   ]
                 },
-                "stateDigest": "e0115e9cad4d978bbf84829f25350978f776c2a7f24870993b187102d2233d1e"
+                "stateDigest": "3dd4e330cfb941c8a84a451f839ee9edb514f31dd252d5c5b023356d6fff49fb"
               },
               {
                 "chunkPos": [
@@ -9230,7 +9637,7 @@
                     0
                   ]
                 },
-                "stateDigest": "081ec395d52091d802e998698482ec0decf69a623cb86b0bb0a509f8e8d4fe99"
+                "stateDigest": "878583d6d53cae96dde3d85d4e7489298fc27c91e81ecc221c8c40889a1b4710"
               },
               {
                 "chunkPos": [
@@ -9250,7 +9657,7 @@
                     -1
                   ]
                 },
-                "stateDigest": "c3abf6af5ef30bc817f62ed15933889bc119ffb20d6fff0604adc9a7df88b9e7"
+                "stateDigest": "38def0b62aba9044e23bafccbba017a2d6cf8ef9696c938eeccd6cc1be32115b"
               },
               {
                 "chunkPos": [
@@ -9270,7 +9677,7 @@
                     0
                   ]
                 },
-                "stateDigest": "c7d59d10f9961494c77651529006f1055d4e5db42e4f88924cf9c913b4bf4333"
+                "stateDigest": "bd134371dcaf634a078ab81dd9cc701d1cc193590bc02f1bd6cd9d80d446018f"
               },
               {
                 "chunkPos": [
@@ -9290,7 +9697,7 @@
                     -1
                   ]
                 },
-                "stateDigest": "90057e98225ce397b09583119eb0558c4bfd78736faecb54d06e2a86a12530d4"
+                "stateDigest": "f076080b9dddbfc39cd87a3a39c5b298f830eb0d19b860022bd4d4f0f328798b"
               },
               {
                 "chunkPos": [
@@ -9310,19 +9717,20 @@
                     0
                   ]
                 },
-                "stateDigest": "5a6c901554e575c743f2ff027540f0e66e5f16c2a91b3d96f226ed8d2fe4fec6"
+                "stateDigest": "e039550cf329058f1afad32ee1f669ffbf610b397bf3534b29e8d085a5dcd091"
               }
             ]
           },
           "snapshot": {
             "profileVersion": "region-snapshot/v1",
-            "contentDigest": "74a90f96f7ec57941305e589b1ffdd6c5d478b2c7a5432b37dd2b6e6014ba49b",
-            "beforeSummaryDigest": "7d74a23c7ed190912cb7fdd38ab3d8d73ca9f24633cc6515da959c3664724410",
+            "contentDigest": "9a6b372b2a46f631185c86fe876267b68595f2e9210d01e269b6e4d6fda362b1",
+            "beforeSummaryDigest": "e9521ae8c7899282eaf4ac3e6c36d5105daabeb28bd11477ec9d03ef5aac584c",
             "compression": "gzip",
-            "compressedSha256": "d8d264150d7204583e97c27d997ff898b3ca1cc9118305c9122f9cfd11603b2e",
-            "compressedByteLength": 704
+            "compressedSha256": "d589b97cad7e8c37085dfd90cb035f82bde1912a8d8a6752611c891522e83f9e",
+            "compressedByteLength": 736
           },
           "historyRevision": "history-2",
+          "postWriteLighting": "REQUIRED",
           "lighting": {
             "status": "COMPLETE",
             "box": {
@@ -9337,7 +9745,7 @@
                 0
               ]
             },
-            "method": "fixture:voxelmanip.calc_lighting+write_to_map"
+            "method": "fixture:light-pass"
           },
           "affectedObjectRefs": [],
           "localContext": {
@@ -9384,18 +9792,24 @@
       "id": "R9",
       "what": "response of another request (replay binding)",
       "request": {
-        "contractVersion": "canvas-region/v2",
+        "contractVersion": "canvas-region/v3",
         "sessionRef": "fixture-session",
         "requestId": "commit-region-1",
         "worldRef": "fixture-world",
         "transactionId": "region-tx-1",
         "operations": {
-          "contractVersion": "region-operations/v1",
-          "buildDigest": "267b7595e51404dd02931bae76c9e0ba9b6a0f69b4466bc5774dad0ed0a7456e",
+          "contractVersion": "region-operations/v2",
+          "buildDigest": "be60b6d2819008253a44725d88c6758ae38d0ffa1f67c19ce39ddc69ed27e0f7",
           "compilerRevision": "fixture-brush-region-1",
           "worldRef": "fixture-world",
           "catalogueDigest": "89dfb22e3b674be56a66bb066ca5ee51fb0c0571725b2970ab0478658357cc57",
-          "chunkEdge": 16,
+          "partition": {
+            "edge": [
+              16,
+              16,
+              16
+            ]
+          },
           "chunks": [
             {
               "chunkPos": [
@@ -9404,7 +9818,8 @@
                 -1
               ],
               "block": {
-                "profileVersion": "region-voxels/v1",
+                "profileVersion": "region-voxels/v2",
+                "geometryProfile": "voxel-grid/v1",
                 "origin": [
                   -2,
                   0,
@@ -9453,7 +9868,8 @@
                 0
               ],
               "block": {
-                "profileVersion": "region-voxels/v1",
+                "profileVersion": "region-voxels/v2",
+                "geometryProfile": "voxel-grid/v1",
                 "origin": [
                   -2,
                   0,
@@ -9494,7 +9910,8 @@
                 -1
               ],
               "block": {
-                "profileVersion": "region-voxels/v1",
+                "profileVersion": "region-voxels/v2",
+                "geometryProfile": "voxel-grid/v1",
                 "origin": [
                   0,
                   0,
@@ -9567,7 +9984,8 @@
                 0
               ],
               "block": {
-                "profileVersion": "region-voxels/v1",
+                "profileVersion": "region-voxels/v2",
+                "geometryProfile": "voxel-grid/v1",
                 "origin": [
                   0,
                   0,
@@ -9620,7 +10038,8 @@
                 -1
               ],
               "block": {
-                "profileVersion": "region-voxels/v1",
+                "profileVersion": "region-voxels/v2",
+                "geometryProfile": "voxel-grid/v1",
                 "origin": [
                   16,
                   0,
@@ -9669,7 +10088,8 @@
                 0
               ],
               "block": {
-                "profileVersion": "region-voxels/v1",
+                "profileVersion": "region-voxels/v2",
+                "geometryProfile": "voxel-grid/v1",
                 "origin": [
                   16,
                   0,
@@ -9705,7 +10125,7 @@
             }
           ]
         },
-        "operationDigest": "5ca8c217ffc2a044244e87b6f150cf9175371abee2391e49a9b08ecd3da775fd",
+        "operationDigest": "6b5dde5c2481dfe4c2a750f41f06cb4d8a55e03645362e2acf56dfd740088825",
         "guarantee": "RECOVERABLE_VERIFIED",
         "localContext": {
           "connectionRef": "local-connection",
@@ -9715,16 +10135,23 @@
         }
       },
       "response": {
-        "contractVersion": "canvas-region/v2",
+        "contractVersion": "canvas-region/v3",
         "requestId": "commit-region-other",
         "result": {
           "transactionId": "region-tx-1",
           "worldRef": "fixture-world",
           "status": "ROLLED_BACK",
-          "operationDigest": "5ca8c217ffc2a044244e87b6f150cf9175371abee2391e49a9b08ecd3da775fd",
+          "operationDigest": "6b5dde5c2481dfe4c2a750f41f06cb4d8a55e03645362e2acf56dfd740088825",
           "beforeSummary": {
-            "profileVersion": "region-summary/v1",
+            "profileVersion": "region-summary/v2",
             "worldRef": "fixture-world",
+            "partition": {
+              "edge": [
+                16,
+                16,
+                16
+              ]
+            },
             "chunks": [
               {
                 "chunkPos": [
@@ -9744,7 +10171,7 @@
                     -1
                   ]
                 },
-                "stateDigest": "e0115e9cad4d978bbf84829f25350978f776c2a7f24870993b187102d2233d1e"
+                "stateDigest": "3dd4e330cfb941c8a84a451f839ee9edb514f31dd252d5c5b023356d6fff49fb"
               },
               {
                 "chunkPos": [
@@ -9764,7 +10191,7 @@
                     0
                   ]
                 },
-                "stateDigest": "081ec395d52091d802e998698482ec0decf69a623cb86b0bb0a509f8e8d4fe99"
+                "stateDigest": "878583d6d53cae96dde3d85d4e7489298fc27c91e81ecc221c8c40889a1b4710"
               },
               {
                 "chunkPos": [
@@ -9784,7 +10211,7 @@
                     -1
                   ]
                 },
-                "stateDigest": "c3abf6af5ef30bc817f62ed15933889bc119ffb20d6fff0604adc9a7df88b9e7"
+                "stateDigest": "38def0b62aba9044e23bafccbba017a2d6cf8ef9696c938eeccd6cc1be32115b"
               },
               {
                 "chunkPos": [
@@ -9804,7 +10231,7 @@
                     0
                   ]
                 },
-                "stateDigest": "c7d59d10f9961494c77651529006f1055d4e5db42e4f88924cf9c913b4bf4333"
+                "stateDigest": "bd134371dcaf634a078ab81dd9cc701d1cc193590bc02f1bd6cd9d80d446018f"
               },
               {
                 "chunkPos": [
@@ -9824,7 +10251,7 @@
                     -1
                   ]
                 },
-                "stateDigest": "90057e98225ce397b09583119eb0558c4bfd78736faecb54d06e2a86a12530d4"
+                "stateDigest": "f076080b9dddbfc39cd87a3a39c5b298f830eb0d19b860022bd4d4f0f328798b"
               },
               {
                 "chunkPos": [
@@ -9844,13 +10271,20 @@
                     0
                   ]
                 },
-                "stateDigest": "5a6c901554e575c743f2ff027540f0e66e5f16c2a91b3d96f226ed8d2fe4fec6"
+                "stateDigest": "e039550cf329058f1afad32ee1f669ffbf610b397bf3534b29e8d085a5dcd091"
               }
             ]
           },
           "expectedAfterSummary": {
-            "profileVersion": "region-summary/v1",
+            "profileVersion": "region-summary/v2",
             "worldRef": "fixture-world",
+            "partition": {
+              "edge": [
+                16,
+                16,
+                16
+              ]
+            },
             "chunks": [
               {
                 "chunkPos": [
@@ -9870,7 +10304,7 @@
                     -1
                   ]
                 },
-                "stateDigest": "d49508f93ec5ab912e301415fe2d5f0551661f600de0582239a1757c207be5b0"
+                "stateDigest": "bcb886208a9ab795c3a3bb0e23be77bd59494fd804af6d1e28004cccba18826c"
               },
               {
                 "chunkPos": [
@@ -9890,7 +10324,7 @@
                     0
                   ]
                 },
-                "stateDigest": "b5f745855ff3ef6238e66af46083e1717e7ddc465ba1071794dabdfffcb2e898"
+                "stateDigest": "be107441ac7128381066d9767597146895560d8b8b81fb693a25903eb2e223bb"
               },
               {
                 "chunkPos": [
@@ -9910,7 +10344,7 @@
                     -1
                   ]
                 },
-                "stateDigest": "ef44bd8e634f817bc3cd00615e06b7cf677aa4221c791d32d68520bb5c488a33"
+                "stateDigest": "cb3fd8ef76e7c43693862c676124254804f6371e8d0ec92c445384bd19813c81"
               },
               {
                 "chunkPos": [
@@ -9930,7 +10364,7 @@
                     0
                   ]
                 },
-                "stateDigest": "eaed2261d8685d6208b0adce3427a52a195bfc05f1a54174060c3422b1809b1a"
+                "stateDigest": "a9fd3f203f51ed5168678c1295a3b1c99579c7087af41b38f65df9cc9ac0a31b"
               },
               {
                 "chunkPos": [
@@ -9950,7 +10384,7 @@
                     -1
                   ]
                 },
-                "stateDigest": "08986e47c57816432da17efecc5e61a65e613c365b5b02babeec7ee95b11410f"
+                "stateDigest": "cc59d9f7ef30166defd375729b77b80ca99bec82c5d017036a2f592b87fede1b"
               },
               {
                 "chunkPos": [
@@ -9970,13 +10404,20 @@
                     0
                   ]
                 },
-                "stateDigest": "fc1b87442243b8c6936344f2c291081a30aa248baef749c4b3939fdab89a0a84"
+                "stateDigest": "8df88cd7831f15b103ebbdecfc84a63b9a23c0ca7f3abcd53988cd50c7109135"
               }
             ]
           },
           "actualSummary": {
-            "profileVersion": "region-summary/v1",
+            "profileVersion": "region-summary/v2",
             "worldRef": "fixture-world",
+            "partition": {
+              "edge": [
+                16,
+                16,
+                16
+              ]
+            },
             "chunks": [
               {
                 "chunkPos": [
@@ -9996,7 +10437,7 @@
                     -1
                   ]
                 },
-                "stateDigest": "e0115e9cad4d978bbf84829f25350978f776c2a7f24870993b187102d2233d1e"
+                "stateDigest": "3dd4e330cfb941c8a84a451f839ee9edb514f31dd252d5c5b023356d6fff49fb"
               },
               {
                 "chunkPos": [
@@ -10016,7 +10457,7 @@
                     0
                   ]
                 },
-                "stateDigest": "081ec395d52091d802e998698482ec0decf69a623cb86b0bb0a509f8e8d4fe99"
+                "stateDigest": "878583d6d53cae96dde3d85d4e7489298fc27c91e81ecc221c8c40889a1b4710"
               },
               {
                 "chunkPos": [
@@ -10036,7 +10477,7 @@
                     -1
                   ]
                 },
-                "stateDigest": "c3abf6af5ef30bc817f62ed15933889bc119ffb20d6fff0604adc9a7df88b9e7"
+                "stateDigest": "38def0b62aba9044e23bafccbba017a2d6cf8ef9696c938eeccd6cc1be32115b"
               },
               {
                 "chunkPos": [
@@ -10056,7 +10497,7 @@
                     0
                   ]
                 },
-                "stateDigest": "c7d59d10f9961494c77651529006f1055d4e5db42e4f88924cf9c913b4bf4333"
+                "stateDigest": "bd134371dcaf634a078ab81dd9cc701d1cc193590bc02f1bd6cd9d80d446018f"
               },
               {
                 "chunkPos": [
@@ -10076,7 +10517,7 @@
                     -1
                   ]
                 },
-                "stateDigest": "90057e98225ce397b09583119eb0558c4bfd78736faecb54d06e2a86a12530d4"
+                "stateDigest": "f076080b9dddbfc39cd87a3a39c5b298f830eb0d19b860022bd4d4f0f328798b"
               },
               {
                 "chunkPos": [
@@ -10096,19 +10537,20 @@
                     0
                   ]
                 },
-                "stateDigest": "5a6c901554e575c743f2ff027540f0e66e5f16c2a91b3d96f226ed8d2fe4fec6"
+                "stateDigest": "e039550cf329058f1afad32ee1f669ffbf610b397bf3534b29e8d085a5dcd091"
               }
             ]
           },
           "snapshot": {
             "profileVersion": "region-snapshot/v1",
-            "contentDigest": "74a90f96f7ec57941305e589b1ffdd6c5d478b2c7a5432b37dd2b6e6014ba49b",
-            "beforeSummaryDigest": "7d74a23c7ed190912cb7fdd38ab3d8d73ca9f24633cc6515da959c3664724410",
+            "contentDigest": "9a6b372b2a46f631185c86fe876267b68595f2e9210d01e269b6e4d6fda362b1",
+            "beforeSummaryDigest": "e9521ae8c7899282eaf4ac3e6c36d5105daabeb28bd11477ec9d03ef5aac584c",
             "compression": "gzip",
-            "compressedSha256": "d8d264150d7204583e97c27d997ff898b3ca1cc9118305c9122f9cfd11603b2e",
-            "compressedByteLength": 704
+            "compressedSha256": "d589b97cad7e8c37085dfd90cb035f82bde1912a8d8a6752611c891522e83f9e",
+            "compressedByteLength": 736
           },
           "historyRevision": "history-2",
+          "postWriteLighting": "REQUIRED",
           "lighting": {
             "status": "COMPLETE",
             "box": {
@@ -10123,7 +10565,7 @@
                 0
               ]
             },
-            "method": "fixture:voxelmanip.calc_lighting+write_to_map"
+            "method": "fixture:light-pass"
           },
           "affectedObjectRefs": [],
           "localContext": {
@@ -10163,18 +10605,24 @@
       "id": "R10",
       "what": "response for another local context",
       "request": {
-        "contractVersion": "canvas-region/v2",
+        "contractVersion": "canvas-region/v3",
         "sessionRef": "fixture-session",
         "requestId": "commit-region-1",
         "worldRef": "fixture-world",
         "transactionId": "region-tx-1",
         "operations": {
-          "contractVersion": "region-operations/v1",
-          "buildDigest": "267b7595e51404dd02931bae76c9e0ba9b6a0f69b4466bc5774dad0ed0a7456e",
+          "contractVersion": "region-operations/v2",
+          "buildDigest": "be60b6d2819008253a44725d88c6758ae38d0ffa1f67c19ce39ddc69ed27e0f7",
           "compilerRevision": "fixture-brush-region-1",
           "worldRef": "fixture-world",
           "catalogueDigest": "89dfb22e3b674be56a66bb066ca5ee51fb0c0571725b2970ab0478658357cc57",
-          "chunkEdge": 16,
+          "partition": {
+            "edge": [
+              16,
+              16,
+              16
+            ]
+          },
           "chunks": [
             {
               "chunkPos": [
@@ -10183,7 +10631,8 @@
                 -1
               ],
               "block": {
-                "profileVersion": "region-voxels/v1",
+                "profileVersion": "region-voxels/v2",
+                "geometryProfile": "voxel-grid/v1",
                 "origin": [
                   -2,
                   0,
@@ -10232,7 +10681,8 @@
                 0
               ],
               "block": {
-                "profileVersion": "region-voxels/v1",
+                "profileVersion": "region-voxels/v2",
+                "geometryProfile": "voxel-grid/v1",
                 "origin": [
                   -2,
                   0,
@@ -10273,7 +10723,8 @@
                 -1
               ],
               "block": {
-                "profileVersion": "region-voxels/v1",
+                "profileVersion": "region-voxels/v2",
+                "geometryProfile": "voxel-grid/v1",
                 "origin": [
                   0,
                   0,
@@ -10346,7 +10797,8 @@
                 0
               ],
               "block": {
-                "profileVersion": "region-voxels/v1",
+                "profileVersion": "region-voxels/v2",
+                "geometryProfile": "voxel-grid/v1",
                 "origin": [
                   0,
                   0,
@@ -10399,7 +10851,8 @@
                 -1
               ],
               "block": {
-                "profileVersion": "region-voxels/v1",
+                "profileVersion": "region-voxels/v2",
+                "geometryProfile": "voxel-grid/v1",
                 "origin": [
                   16,
                   0,
@@ -10448,7 +10901,8 @@
                 0
               ],
               "block": {
-                "profileVersion": "region-voxels/v1",
+                "profileVersion": "region-voxels/v2",
+                "geometryProfile": "voxel-grid/v1",
                 "origin": [
                   16,
                   0,
@@ -10484,7 +10938,7 @@
             }
           ]
         },
-        "operationDigest": "5ca8c217ffc2a044244e87b6f150cf9175371abee2391e49a9b08ecd3da775fd",
+        "operationDigest": "6b5dde5c2481dfe4c2a750f41f06cb4d8a55e03645362e2acf56dfd740088825",
         "guarantee": "RECOVERABLE_VERIFIED",
         "localContext": {
           "connectionRef": "local-connection",
@@ -10494,16 +10948,23 @@
         }
       },
       "response": {
-        "contractVersion": "canvas-region/v2",
+        "contractVersion": "canvas-region/v3",
         "requestId": "commit-region-1",
         "result": {
           "transactionId": "region-tx-1",
           "worldRef": "fixture-world",
           "status": "ROLLED_BACK",
-          "operationDigest": "5ca8c217ffc2a044244e87b6f150cf9175371abee2391e49a9b08ecd3da775fd",
+          "operationDigest": "6b5dde5c2481dfe4c2a750f41f06cb4d8a55e03645362e2acf56dfd740088825",
           "beforeSummary": {
-            "profileVersion": "region-summary/v1",
+            "profileVersion": "region-summary/v2",
             "worldRef": "fixture-world",
+            "partition": {
+              "edge": [
+                16,
+                16,
+                16
+              ]
+            },
             "chunks": [
               {
                 "chunkPos": [
@@ -10523,7 +10984,7 @@
                     -1
                   ]
                 },
-                "stateDigest": "e0115e9cad4d978bbf84829f25350978f776c2a7f24870993b187102d2233d1e"
+                "stateDigest": "3dd4e330cfb941c8a84a451f839ee9edb514f31dd252d5c5b023356d6fff49fb"
               },
               {
                 "chunkPos": [
@@ -10543,7 +11004,7 @@
                     0
                   ]
                 },
-                "stateDigest": "081ec395d52091d802e998698482ec0decf69a623cb86b0bb0a509f8e8d4fe99"
+                "stateDigest": "878583d6d53cae96dde3d85d4e7489298fc27c91e81ecc221c8c40889a1b4710"
               },
               {
                 "chunkPos": [
@@ -10563,7 +11024,7 @@
                     -1
                   ]
                 },
-                "stateDigest": "c3abf6af5ef30bc817f62ed15933889bc119ffb20d6fff0604adc9a7df88b9e7"
+                "stateDigest": "38def0b62aba9044e23bafccbba017a2d6cf8ef9696c938eeccd6cc1be32115b"
               },
               {
                 "chunkPos": [
@@ -10583,7 +11044,7 @@
                     0
                   ]
                 },
-                "stateDigest": "c7d59d10f9961494c77651529006f1055d4e5db42e4f88924cf9c913b4bf4333"
+                "stateDigest": "bd134371dcaf634a078ab81dd9cc701d1cc193590bc02f1bd6cd9d80d446018f"
               },
               {
                 "chunkPos": [
@@ -10603,7 +11064,7 @@
                     -1
                   ]
                 },
-                "stateDigest": "90057e98225ce397b09583119eb0558c4bfd78736faecb54d06e2a86a12530d4"
+                "stateDigest": "f076080b9dddbfc39cd87a3a39c5b298f830eb0d19b860022bd4d4f0f328798b"
               },
               {
                 "chunkPos": [
@@ -10623,13 +11084,20 @@
                     0
                   ]
                 },
-                "stateDigest": "5a6c901554e575c743f2ff027540f0e66e5f16c2a91b3d96f226ed8d2fe4fec6"
+                "stateDigest": "e039550cf329058f1afad32ee1f669ffbf610b397bf3534b29e8d085a5dcd091"
               }
             ]
           },
           "expectedAfterSummary": {
-            "profileVersion": "region-summary/v1",
+            "profileVersion": "region-summary/v2",
             "worldRef": "fixture-world",
+            "partition": {
+              "edge": [
+                16,
+                16,
+                16
+              ]
+            },
             "chunks": [
               {
                 "chunkPos": [
@@ -10649,7 +11117,7 @@
                     -1
                   ]
                 },
-                "stateDigest": "d49508f93ec5ab912e301415fe2d5f0551661f600de0582239a1757c207be5b0"
+                "stateDigest": "bcb886208a9ab795c3a3bb0e23be77bd59494fd804af6d1e28004cccba18826c"
               },
               {
                 "chunkPos": [
@@ -10669,7 +11137,7 @@
                     0
                   ]
                 },
-                "stateDigest": "b5f745855ff3ef6238e66af46083e1717e7ddc465ba1071794dabdfffcb2e898"
+                "stateDigest": "be107441ac7128381066d9767597146895560d8b8b81fb693a25903eb2e223bb"
               },
               {
                 "chunkPos": [
@@ -10689,7 +11157,7 @@
                     -1
                   ]
                 },
-                "stateDigest": "ef44bd8e634f817bc3cd00615e06b7cf677aa4221c791d32d68520bb5c488a33"
+                "stateDigest": "cb3fd8ef76e7c43693862c676124254804f6371e8d0ec92c445384bd19813c81"
               },
               {
                 "chunkPos": [
@@ -10709,7 +11177,7 @@
                     0
                   ]
                 },
-                "stateDigest": "eaed2261d8685d6208b0adce3427a52a195bfc05f1a54174060c3422b1809b1a"
+                "stateDigest": "a9fd3f203f51ed5168678c1295a3b1c99579c7087af41b38f65df9cc9ac0a31b"
               },
               {
                 "chunkPos": [
@@ -10729,7 +11197,7 @@
                     -1
                   ]
                 },
-                "stateDigest": "08986e47c57816432da17efecc5e61a65e613c365b5b02babeec7ee95b11410f"
+                "stateDigest": "cc59d9f7ef30166defd375729b77b80ca99bec82c5d017036a2f592b87fede1b"
               },
               {
                 "chunkPos": [
@@ -10749,13 +11217,20 @@
                     0
                   ]
                 },
-                "stateDigest": "fc1b87442243b8c6936344f2c291081a30aa248baef749c4b3939fdab89a0a84"
+                "stateDigest": "8df88cd7831f15b103ebbdecfc84a63b9a23c0ca7f3abcd53988cd50c7109135"
               }
             ]
           },
           "actualSummary": {
-            "profileVersion": "region-summary/v1",
+            "profileVersion": "region-summary/v2",
             "worldRef": "fixture-world",
+            "partition": {
+              "edge": [
+                16,
+                16,
+                16
+              ]
+            },
             "chunks": [
               {
                 "chunkPos": [
@@ -10775,7 +11250,7 @@
                     -1
                   ]
                 },
-                "stateDigest": "e0115e9cad4d978bbf84829f25350978f776c2a7f24870993b187102d2233d1e"
+                "stateDigest": "3dd4e330cfb941c8a84a451f839ee9edb514f31dd252d5c5b023356d6fff49fb"
               },
               {
                 "chunkPos": [
@@ -10795,7 +11270,7 @@
                     0
                   ]
                 },
-                "stateDigest": "081ec395d52091d802e998698482ec0decf69a623cb86b0bb0a509f8e8d4fe99"
+                "stateDigest": "878583d6d53cae96dde3d85d4e7489298fc27c91e81ecc221c8c40889a1b4710"
               },
               {
                 "chunkPos": [
@@ -10815,7 +11290,7 @@
                     -1
                   ]
                 },
-                "stateDigest": "c3abf6af5ef30bc817f62ed15933889bc119ffb20d6fff0604adc9a7df88b9e7"
+                "stateDigest": "38def0b62aba9044e23bafccbba017a2d6cf8ef9696c938eeccd6cc1be32115b"
               },
               {
                 "chunkPos": [
@@ -10835,7 +11310,7 @@
                     0
                   ]
                 },
-                "stateDigest": "c7d59d10f9961494c77651529006f1055d4e5db42e4f88924cf9c913b4bf4333"
+                "stateDigest": "bd134371dcaf634a078ab81dd9cc701d1cc193590bc02f1bd6cd9d80d446018f"
               },
               {
                 "chunkPos": [
@@ -10855,7 +11330,7 @@
                     -1
                   ]
                 },
-                "stateDigest": "90057e98225ce397b09583119eb0558c4bfd78736faecb54d06e2a86a12530d4"
+                "stateDigest": "f076080b9dddbfc39cd87a3a39c5b298f830eb0d19b860022bd4d4f0f328798b"
               },
               {
                 "chunkPos": [
@@ -10875,19 +11350,20 @@
                     0
                   ]
                 },
-                "stateDigest": "5a6c901554e575c743f2ff027540f0e66e5f16c2a91b3d96f226ed8d2fe4fec6"
+                "stateDigest": "e039550cf329058f1afad32ee1f669ffbf610b397bf3534b29e8d085a5dcd091"
               }
             ]
           },
           "snapshot": {
             "profileVersion": "region-snapshot/v1",
-            "contentDigest": "74a90f96f7ec57941305e589b1ffdd6c5d478b2c7a5432b37dd2b6e6014ba49b",
-            "beforeSummaryDigest": "7d74a23c7ed190912cb7fdd38ab3d8d73ca9f24633cc6515da959c3664724410",
+            "contentDigest": "9a6b372b2a46f631185c86fe876267b68595f2e9210d01e269b6e4d6fda362b1",
+            "beforeSummaryDigest": "e9521ae8c7899282eaf4ac3e6c36d5105daabeb28bd11477ec9d03ef5aac584c",
             "compression": "gzip",
-            "compressedSha256": "d8d264150d7204583e97c27d997ff898b3ca1cc9118305c9122f9cfd11603b2e",
-            "compressedByteLength": 704
+            "compressedSha256": "d589b97cad7e8c37085dfd90cb035f82bde1912a8d8a6752611c891522e83f9e",
+            "compressedByteLength": 736
           },
           "historyRevision": "history-2",
+          "postWriteLighting": "REQUIRED",
           "lighting": {
             "status": "COMPLETE",
             "box": {
@@ -10902,7 +11378,7 @@
                 0
               ]
             },
-            "method": "fixture:voxelmanip.calc_lighting+write_to_map"
+            "method": "fixture:light-pass"
           },
           "affectedObjectRefs": [],
           "localContext": {
@@ -10942,18 +11418,24 @@
       "id": "R11",
       "what": "reading a rollback cause of a VERIFIED result",
       "request": {
-        "contractVersion": "canvas-region/v2",
+        "contractVersion": "canvas-region/v3",
         "sessionRef": "fixture-session",
         "requestId": "commit-region-1",
         "worldRef": "fixture-world",
         "transactionId": "region-tx-1",
         "operations": {
-          "contractVersion": "region-operations/v1",
-          "buildDigest": "267b7595e51404dd02931bae76c9e0ba9b6a0f69b4466bc5774dad0ed0a7456e",
+          "contractVersion": "region-operations/v2",
+          "buildDigest": "be60b6d2819008253a44725d88c6758ae38d0ffa1f67c19ce39ddc69ed27e0f7",
           "compilerRevision": "fixture-brush-region-1",
           "worldRef": "fixture-world",
           "catalogueDigest": "89dfb22e3b674be56a66bb066ca5ee51fb0c0571725b2970ab0478658357cc57",
-          "chunkEdge": 16,
+          "partition": {
+            "edge": [
+              16,
+              16,
+              16
+            ]
+          },
           "chunks": [
             {
               "chunkPos": [
@@ -10962,7 +11444,8 @@
                 -1
               ],
               "block": {
-                "profileVersion": "region-voxels/v1",
+                "profileVersion": "region-voxels/v2",
+                "geometryProfile": "voxel-grid/v1",
                 "origin": [
                   -2,
                   0,
@@ -11011,7 +11494,8 @@
                 0
               ],
               "block": {
-                "profileVersion": "region-voxels/v1",
+                "profileVersion": "region-voxels/v2",
+                "geometryProfile": "voxel-grid/v1",
                 "origin": [
                   -2,
                   0,
@@ -11052,7 +11536,8 @@
                 -1
               ],
               "block": {
-                "profileVersion": "region-voxels/v1",
+                "profileVersion": "region-voxels/v2",
+                "geometryProfile": "voxel-grid/v1",
                 "origin": [
                   0,
                   0,
@@ -11125,7 +11610,8 @@
                 0
               ],
               "block": {
-                "profileVersion": "region-voxels/v1",
+                "profileVersion": "region-voxels/v2",
+                "geometryProfile": "voxel-grid/v1",
                 "origin": [
                   0,
                   0,
@@ -11178,7 +11664,8 @@
                 -1
               ],
               "block": {
-                "profileVersion": "region-voxels/v1",
+                "profileVersion": "region-voxels/v2",
+                "geometryProfile": "voxel-grid/v1",
                 "origin": [
                   16,
                   0,
@@ -11227,7 +11714,8 @@
                 0
               ],
               "block": {
-                "profileVersion": "region-voxels/v1",
+                "profileVersion": "region-voxels/v2",
+                "geometryProfile": "voxel-grid/v1",
                 "origin": [
                   16,
                   0,
@@ -11263,7 +11751,7 @@
             }
           ]
         },
-        "operationDigest": "5ca8c217ffc2a044244e87b6f150cf9175371abee2391e49a9b08ecd3da775fd",
+        "operationDigest": "6b5dde5c2481dfe4c2a750f41f06cb4d8a55e03645362e2acf56dfd740088825",
         "guarantee": "RECOVERABLE_VERIFIED",
         "localContext": {
           "connectionRef": "local-connection",
@@ -11273,16 +11761,23 @@
         }
       },
       "response": {
-        "contractVersion": "canvas-region/v2",
+        "contractVersion": "canvas-region/v3",
         "requestId": "commit-region-1",
         "result": {
           "transactionId": "region-tx-1",
           "worldRef": "fixture-world",
           "status": "VERIFIED",
-          "operationDigest": "5ca8c217ffc2a044244e87b6f150cf9175371abee2391e49a9b08ecd3da775fd",
+          "operationDigest": "6b5dde5c2481dfe4c2a750f41f06cb4d8a55e03645362e2acf56dfd740088825",
           "beforeSummary": {
-            "profileVersion": "region-summary/v1",
+            "profileVersion": "region-summary/v2",
             "worldRef": "fixture-world",
+            "partition": {
+              "edge": [
+                16,
+                16,
+                16
+              ]
+            },
             "chunks": [
               {
                 "chunkPos": [
@@ -11302,7 +11797,7 @@
                     -1
                   ]
                 },
-                "stateDigest": "e0115e9cad4d978bbf84829f25350978f776c2a7f24870993b187102d2233d1e"
+                "stateDigest": "3dd4e330cfb941c8a84a451f839ee9edb514f31dd252d5c5b023356d6fff49fb"
               },
               {
                 "chunkPos": [
@@ -11322,7 +11817,7 @@
                     0
                   ]
                 },
-                "stateDigest": "081ec395d52091d802e998698482ec0decf69a623cb86b0bb0a509f8e8d4fe99"
+                "stateDigest": "878583d6d53cae96dde3d85d4e7489298fc27c91e81ecc221c8c40889a1b4710"
               },
               {
                 "chunkPos": [
@@ -11342,7 +11837,7 @@
                     -1
                   ]
                 },
-                "stateDigest": "c3abf6af5ef30bc817f62ed15933889bc119ffb20d6fff0604adc9a7df88b9e7"
+                "stateDigest": "38def0b62aba9044e23bafccbba017a2d6cf8ef9696c938eeccd6cc1be32115b"
               },
               {
                 "chunkPos": [
@@ -11362,7 +11857,7 @@
                     0
                   ]
                 },
-                "stateDigest": "c7d59d10f9961494c77651529006f1055d4e5db42e4f88924cf9c913b4bf4333"
+                "stateDigest": "bd134371dcaf634a078ab81dd9cc701d1cc193590bc02f1bd6cd9d80d446018f"
               },
               {
                 "chunkPos": [
@@ -11382,7 +11877,7 @@
                     -1
                   ]
                 },
-                "stateDigest": "90057e98225ce397b09583119eb0558c4bfd78736faecb54d06e2a86a12530d4"
+                "stateDigest": "f076080b9dddbfc39cd87a3a39c5b298f830eb0d19b860022bd4d4f0f328798b"
               },
               {
                 "chunkPos": [
@@ -11402,13 +11897,20 @@
                     0
                   ]
                 },
-                "stateDigest": "5a6c901554e575c743f2ff027540f0e66e5f16c2a91b3d96f226ed8d2fe4fec6"
+                "stateDigest": "e039550cf329058f1afad32ee1f669ffbf610b397bf3534b29e8d085a5dcd091"
               }
             ]
           },
           "expectedAfterSummary": {
-            "profileVersion": "region-summary/v1",
+            "profileVersion": "region-summary/v2",
             "worldRef": "fixture-world",
+            "partition": {
+              "edge": [
+                16,
+                16,
+                16
+              ]
+            },
             "chunks": [
               {
                 "chunkPos": [
@@ -11428,7 +11930,7 @@
                     -1
                   ]
                 },
-                "stateDigest": "d49508f93ec5ab912e301415fe2d5f0551661f600de0582239a1757c207be5b0"
+                "stateDigest": "bcb886208a9ab795c3a3bb0e23be77bd59494fd804af6d1e28004cccba18826c"
               },
               {
                 "chunkPos": [
@@ -11448,7 +11950,7 @@
                     0
                   ]
                 },
-                "stateDigest": "b5f745855ff3ef6238e66af46083e1717e7ddc465ba1071794dabdfffcb2e898"
+                "stateDigest": "be107441ac7128381066d9767597146895560d8b8b81fb693a25903eb2e223bb"
               },
               {
                 "chunkPos": [
@@ -11468,7 +11970,7 @@
                     -1
                   ]
                 },
-                "stateDigest": "ef44bd8e634f817bc3cd00615e06b7cf677aa4221c791d32d68520bb5c488a33"
+                "stateDigest": "cb3fd8ef76e7c43693862c676124254804f6371e8d0ec92c445384bd19813c81"
               },
               {
                 "chunkPos": [
@@ -11488,7 +11990,7 @@
                     0
                   ]
                 },
-                "stateDigest": "eaed2261d8685d6208b0adce3427a52a195bfc05f1a54174060c3422b1809b1a"
+                "stateDigest": "a9fd3f203f51ed5168678c1295a3b1c99579c7087af41b38f65df9cc9ac0a31b"
               },
               {
                 "chunkPos": [
@@ -11508,7 +12010,7 @@
                     -1
                   ]
                 },
-                "stateDigest": "08986e47c57816432da17efecc5e61a65e613c365b5b02babeec7ee95b11410f"
+                "stateDigest": "cc59d9f7ef30166defd375729b77b80ca99bec82c5d017036a2f592b87fede1b"
               },
               {
                 "chunkPos": [
@@ -11528,13 +12030,20 @@
                     0
                   ]
                 },
-                "stateDigest": "fc1b87442243b8c6936344f2c291081a30aa248baef749c4b3939fdab89a0a84"
+                "stateDigest": "8df88cd7831f15b103ebbdecfc84a63b9a23c0ca7f3abcd53988cd50c7109135"
               }
             ]
           },
           "actualSummary": {
-            "profileVersion": "region-summary/v1",
+            "profileVersion": "region-summary/v2",
             "worldRef": "fixture-world",
+            "partition": {
+              "edge": [
+                16,
+                16,
+                16
+              ]
+            },
             "chunks": [
               {
                 "chunkPos": [
@@ -11554,7 +12063,7 @@
                     -1
                   ]
                 },
-                "stateDigest": "d49508f93ec5ab912e301415fe2d5f0551661f600de0582239a1757c207be5b0"
+                "stateDigest": "bcb886208a9ab795c3a3bb0e23be77bd59494fd804af6d1e28004cccba18826c"
               },
               {
                 "chunkPos": [
@@ -11574,7 +12083,7 @@
                     0
                   ]
                 },
-                "stateDigest": "b5f745855ff3ef6238e66af46083e1717e7ddc465ba1071794dabdfffcb2e898"
+                "stateDigest": "be107441ac7128381066d9767597146895560d8b8b81fb693a25903eb2e223bb"
               },
               {
                 "chunkPos": [
@@ -11594,7 +12103,7 @@
                     -1
                   ]
                 },
-                "stateDigest": "ef44bd8e634f817bc3cd00615e06b7cf677aa4221c791d32d68520bb5c488a33"
+                "stateDigest": "cb3fd8ef76e7c43693862c676124254804f6371e8d0ec92c445384bd19813c81"
               },
               {
                 "chunkPos": [
@@ -11614,7 +12123,7 @@
                     0
                   ]
                 },
-                "stateDigest": "eaed2261d8685d6208b0adce3427a52a195bfc05f1a54174060c3422b1809b1a"
+                "stateDigest": "a9fd3f203f51ed5168678c1295a3b1c99579c7087af41b38f65df9cc9ac0a31b"
               },
               {
                 "chunkPos": [
@@ -11634,7 +12143,7 @@
                     -1
                   ]
                 },
-                "stateDigest": "08986e47c57816432da17efecc5e61a65e613c365b5b02babeec7ee95b11410f"
+                "stateDigest": "cc59d9f7ef30166defd375729b77b80ca99bec82c5d017036a2f592b87fede1b"
               },
               {
                 "chunkPos": [
@@ -11654,19 +12163,20 @@
                     0
                   ]
                 },
-                "stateDigest": "fc1b87442243b8c6936344f2c291081a30aa248baef749c4b3939fdab89a0a84"
+                "stateDigest": "8df88cd7831f15b103ebbdecfc84a63b9a23c0ca7f3abcd53988cd50c7109135"
               }
             ]
           },
           "snapshot": {
             "profileVersion": "region-snapshot/v1",
-            "contentDigest": "74a90f96f7ec57941305e589b1ffdd6c5d478b2c7a5432b37dd2b6e6014ba49b",
-            "beforeSummaryDigest": "7d74a23c7ed190912cb7fdd38ab3d8d73ca9f24633cc6515da959c3664724410",
+            "contentDigest": "9a6b372b2a46f631185c86fe876267b68595f2e9210d01e269b6e4d6fda362b1",
+            "beforeSummaryDigest": "e9521ae8c7899282eaf4ac3e6c36d5105daabeb28bd11477ec9d03ef5aac584c",
             "compression": "gzip",
-            "compressedSha256": "d8d264150d7204583e97c27d997ff898b3ca1cc9118305c9122f9cfd11603b2e",
-            "compressedByteLength": 704
+            "compressedSha256": "d589b97cad7e8c37085dfd90cb035f82bde1912a8d8a6752611c891522e83f9e",
+            "compressedByteLength": 736
           },
           "historyRevision": "history-2",
+          "postWriteLighting": "REQUIRED",
           "lighting": {
             "status": "COMPLETE",
             "box": {
@@ -11681,7 +12191,7 @@
                 0
               ]
             },
-            "method": "fixture:voxelmanip.calc_lighting+write_to_map"
+            "method": "fixture:light-pass"
           },
           "affectedObjectRefs": [],
           "localContext": {

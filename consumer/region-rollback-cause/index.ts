@@ -7,7 +7,7 @@ const read=regionRollbackCauseOf(request,checked);
 const cause:'REPORTED'|'UNKNOWN'=read.cause;
 const failure:FailureDetail|null=read.failure;
 const id:'region-rollback-cause/v1'=regionRollbackCause.id;
-const capability:'canvas-region/v2:rollback-cause'=regionRollbackCause.capability;
+const capability:'canvas-region/v3:rollback-cause'=regionRollbackCause.capability;
 declare const result:RegionCommitResult;
 // Optional, no null form: absent means UNKNOWN.
 const stated:FailureDetail|undefined=result.rollbackCause;
