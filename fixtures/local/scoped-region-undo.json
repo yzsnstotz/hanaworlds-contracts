@@ -1,0 +1,909 @@
+{
+  "evidence": "FIXTURE_ONLY: not a real world, source CAS or host receipt",
+  "origin": {
+    "request": {
+      "contractVersion": "canvas-region/v3",
+      "sessionRef": "fixture-session",
+      "requestId": "commit-region-1",
+      "worldRef": "fixture-world",
+      "transactionId": "region-tx-1",
+      "operations": {
+        "contractVersion": "region-operations/v2",
+        "buildDigest": "be60b6d2819008253a44725d88c6758ae38d0ffa1f67c19ce39ddc69ed27e0f7",
+        "compilerRevision": "fixture-brush-region-1",
+        "worldRef": "fixture-world",
+        "catalogueDigest": "89dfb22e3b674be56a66bb066ca5ee51fb0c0571725b2970ab0478658357cc57",
+        "partition": {
+          "edge": [
+            16,
+            16,
+            16
+          ]
+        },
+        "chunks": [
+          {
+            "chunkPos": [
+              0,
+              0,
+              0
+            ],
+            "block": {
+              "profileVersion": "region-voxels/v2",
+              "geometryProfile": "voxel-grid/v1",
+              "origin": [
+                0,
+                0,
+                0
+              ],
+              "size": [
+                4,
+                1,
+                4
+              ],
+              "indexOrder": "X_FASTEST_THEN_Y_THEN_Z",
+              "palette": [
+                {
+                  "materialRef": "fixture:glass",
+                  "orientation": 0
+                }
+              ],
+              "runs": [
+                [
+                  2,
+                  0
+                ],
+                [
+                  2,
+                  null
+                ],
+                [
+                  2,
+                  0
+                ],
+                [
+                  2,
+                  null
+                ],
+                [
+                  2,
+                  0
+                ],
+                [
+                  2,
+                  null
+                ],
+                [
+                  2,
+                  0
+                ],
+                [
+                  2,
+                  null
+                ]
+              ]
+            }
+          }
+        ]
+      },
+      "operationDigest": "c07b12704c5ef0deefa27bdad4f80a25ed00c07ced413075c529d91b901d1fef",
+      "guarantee": "RECOVERABLE_VERIFIED",
+      "localContext": {
+        "connectionRef": "local-connection",
+        "connectionIncarnationRef": "socket-open-1",
+        "worldRef": "fixture-world",
+        "selectionRevision": "selection-1"
+      }
+    },
+    "result": {
+      "transactionId": "region-tx-1",
+      "worldRef": "fixture-world",
+      "status": "VERIFIED",
+      "operationDigest": "c07b12704c5ef0deefa27bdad4f80a25ed00c07ced413075c529d91b901d1fef",
+      "beforeSummary": {
+        "profileVersion": "region-summary/v2",
+        "worldRef": "fixture-world",
+        "partition": {
+          "edge": [
+            16,
+            16,
+            16
+          ]
+        },
+        "chunks": [
+          {
+            "chunkPos": [
+              0,
+              0,
+              0
+            ],
+            "box": {
+              "min": [
+                0,
+                0,
+                0
+              ],
+              "max": [
+                3,
+                0,
+                3
+              ]
+            },
+            "stateDigest": "d3bd6fd00bca39bd4fcf64dce0327e94762ccebb7e3babcc5b3c368d89c07535"
+          }
+        ]
+      },
+      "expectedAfterSummary": {
+        "profileVersion": "region-summary/v2",
+        "worldRef": "fixture-world",
+        "partition": {
+          "edge": [
+            16,
+            16,
+            16
+          ]
+        },
+        "chunks": [
+          {
+            "chunkPos": [
+              0,
+              0,
+              0
+            ],
+            "box": {
+              "min": [
+                0,
+                0,
+                0
+              ],
+              "max": [
+                3,
+                0,
+                3
+              ]
+            },
+            "stateDigest": "c4a1e80a5f0f57c5c693b16ff6d81178beed29c27f227c6cb452165ce055c223"
+          }
+        ]
+      },
+      "actualSummary": {
+        "profileVersion": "region-summary/v2",
+        "worldRef": "fixture-world",
+        "partition": {
+          "edge": [
+            16,
+            16,
+            16
+          ]
+        },
+        "chunks": [
+          {
+            "chunkPos": [
+              0,
+              0,
+              0
+            ],
+            "box": {
+              "min": [
+                0,
+                0,
+                0
+              ],
+              "max": [
+                3,
+                0,
+                3
+              ]
+            },
+            "stateDigest": "c4a1e80a5f0f57c5c693b16ff6d81178beed29c27f227c6cb452165ce055c223"
+          }
+        ]
+      },
+      "snapshot": {
+        "profileVersion": "region-snapshot/v1",
+        "contentDigest": "d0dd624285d8e25241df6ec09505bb03a957cf5d88a94e3d58046f2756f450c4",
+        "beforeSummaryDigest": "51156469694a8730fe5756554471546c35f17e20fec7619eb9e247082895d57d",
+        "compression": "gzip",
+        "compressedSha256": "9abe8584dae72b1ecaea0203a3cd50c228ece77d973e0c9062f93a77709d5687",
+        "compressedByteLength": 397
+      },
+      "historyRevision": "history-2",
+      "postWriteLighting": "REQUIRED",
+      "lighting": {
+        "status": "COMPLETE",
+        "box": {
+          "min": [
+            -2,
+            0,
+            -2
+          ],
+          "max": [
+            17,
+            1,
+            0
+          ]
+        },
+        "method": "fixture:light-pass"
+      },
+      "affectedObjectRefs": [],
+      "localContext": {
+        "connectionRef": "local-connection",
+        "connectionIncarnationRef": "socket-open-1",
+        "worldRef": "fixture-world",
+        "selectionRevision": "selection-1"
+      }
+    },
+    "before": {
+      "profileVersion": "region-snapshot-content/v2",
+      "worldRef": "fixture-world",
+      "partition": {
+        "edge": [
+          16,
+          16,
+          16
+        ]
+      },
+      "chunks": [
+        {
+          "chunkPos": [
+            0,
+            0,
+            0
+          ],
+          "state": {
+            "profileVersion": "region-state/v2",
+            "worldRef": "fixture-world",
+            "block": {
+              "profileVersion": "region-voxels/v2",
+              "geometryProfile": "voxel-grid/v1",
+              "origin": [
+                0,
+                0,
+                0
+              ],
+              "size": [
+                4,
+                1,
+                4
+              ],
+              "indexOrder": "X_FASTEST_THEN_Y_THEN_Z",
+              "palette": [
+                {
+                  "materialRef": "air",
+                  "orientation": 0
+                }
+              ],
+              "runs": [
+                [
+                  16,
+                  0
+                ]
+              ]
+            },
+            "extras": [],
+            "stateProfile": {
+              "profileVersion": "state-profile/v3",
+              "derivedFields": [
+                "param1"
+              ],
+              "preservedFields": [],
+              "clearedFields": [
+                "inventory",
+                "metadata",
+                "timer"
+              ]
+            }
+          },
+          "stateDigest": "d3bd6fd00bca39bd4fcf64dce0327e94762ccebb7e3babcc5b3c368d89c07535"
+        }
+      ]
+    },
+    "after": {
+      "profileVersion": "region-snapshot-content/v2",
+      "worldRef": "fixture-world",
+      "partition": {
+        "edge": [
+          16,
+          16,
+          16
+        ]
+      },
+      "chunks": [
+        {
+          "chunkPos": [
+            0,
+            0,
+            0
+          ],
+          "state": {
+            "profileVersion": "region-state/v2",
+            "worldRef": "fixture-world",
+            "block": {
+              "profileVersion": "region-voxels/v2",
+              "geometryProfile": "voxel-grid/v1",
+              "origin": [
+                0,
+                0,
+                0
+              ],
+              "size": [
+                4,
+                1,
+                4
+              ],
+              "indexOrder": "X_FASTEST_THEN_Y_THEN_Z",
+              "palette": [
+                {
+                  "materialRef": "air",
+                  "orientation": 0
+                },
+                {
+                  "materialRef": "fixture:glass",
+                  "orientation": 0
+                }
+              ],
+              "runs": [
+                [
+                  2,
+                  1
+                ],
+                [
+                  2,
+                  0
+                ],
+                [
+                  2,
+                  1
+                ],
+                [
+                  2,
+                  0
+                ],
+                [
+                  2,
+                  1
+                ],
+                [
+                  2,
+                  0
+                ],
+                [
+                  2,
+                  1
+                ],
+                [
+                  2,
+                  0
+                ]
+              ]
+            },
+            "extras": [],
+            "stateProfile": {
+              "profileVersion": "state-profile/v3",
+              "derivedFields": [
+                "param1"
+              ],
+              "preservedFields": [],
+              "clearedFields": [
+                "inventory",
+                "metadata",
+                "timer"
+              ]
+            }
+          },
+          "stateDigest": "c4a1e80a5f0f57c5c693b16ff6d81178beed29c27f227c6cb452165ce055c223"
+        }
+      ]
+    }
+  },
+  "request": {
+    "contractVersion": "canvas-region/v3",
+    "sessionRef": "fixture-session",
+    "requestId": "undo-region-1",
+    "worldRef": "fixture-world",
+    "originTransactionId": "region-tx-1",
+    "undoTransactionId": "region-undo-1",
+    "expectedHistoryRevision": "history-2",
+    "localContext": {
+      "connectionRef": "local-connection",
+      "connectionIncarnationRef": "socket-open-1",
+      "worldRef": "fixture-world",
+      "selectionRevision": "selection-1"
+    },
+    "expectedScopeDigest": "b9d07248d6dc27b57a5e173b4124203111cebca0f2a438ff2f5671bdf994db0c"
+  },
+  "response": {
+    "contractVersion": "canvas-region/v3",
+    "requestId": "undo-region-1",
+    "result": {
+      "scope": {
+        "profileVersion": "confirmed-region-undo-scope/v1",
+        "originTransactionId": "region-tx-1",
+        "sessionRef": "fixture-session",
+        "worldRef": "fixture-world",
+        "localContext": {
+          "connectionRef": "local-connection",
+          "connectionIncarnationRef": "socket-open-1",
+          "worldRef": "fixture-world",
+          "selectionRevision": "selection-1"
+        },
+        "operationDigest": "c07b12704c5ef0deefa27bdad4f80a25ed00c07ced413075c529d91b901d1fef",
+        "beforeContentDigest": "d0dd624285d8e25241df6ec09505bb03a957cf5d88a94e3d58046f2756f450c4",
+        "afterContentDigest": "6ef2d3a50bd4d30e6cefc4659be09042ca9deb45f2ebee94d42d94cbe83c0d25",
+        "positions": [
+          [
+            0,
+            0,
+            0
+          ],
+          [
+            0,
+            0,
+            1
+          ],
+          [
+            0,
+            0,
+            2
+          ],
+          [
+            0,
+            0,
+            3
+          ],
+          [
+            1,
+            0,
+            0
+          ],
+          [
+            1,
+            0,
+            1
+          ],
+          [
+            1,
+            0,
+            2
+          ],
+          [
+            1,
+            0,
+            3
+          ]
+        ]
+      },
+      "outcome": {
+        "originTransactionId": "region-tx-1",
+        "undoTransactionId": "region-undo-1",
+        "worldRef": "fixture-world",
+        "status": "VERIFIED",
+        "originBeforeSummaryDigest": "51156469694a8730fe5756554471546c35f17e20fec7619eb9e247082895d57d",
+        "originAfterSummaryDigest": "cc46927983d1aec35e14928d96ff75bb6af57082c434023fa46195bae8e48d04",
+        "preUndoSummary": {
+          "profileVersion": "region-summary/v2",
+          "worldRef": "fixture-world",
+          "partition": {
+            "edge": [
+              16,
+              16,
+              16
+            ]
+          },
+          "chunks": [
+            {
+              "chunkPos": [
+                0,
+                0,
+                0
+              ],
+              "box": {
+                "min": [
+                  0,
+                  0,
+                  0
+                ],
+                "max": [
+                  3,
+                  0,
+                  3
+                ]
+              },
+              "stateDigest": "4a61f92228fed456df7b5199e411e2edd45921a460c528217c9e221f2af29bd8"
+            }
+          ]
+        },
+        "actualSummary": {
+          "profileVersion": "region-summary/v2",
+          "worldRef": "fixture-world",
+          "partition": {
+            "edge": [
+              16,
+              16,
+              16
+            ]
+          },
+          "chunks": [
+            {
+              "chunkPos": [
+                0,
+                0,
+                0
+              ],
+              "box": {
+                "min": [
+                  0,
+                  0,
+                  0
+                ],
+                "max": [
+                  3,
+                  0,
+                  3
+                ]
+              },
+              "stateDigest": "2f85aa2871cbd1d224111ffa16bd068ed9074cbdd500a9f37fa036efa4b46b9e"
+            }
+          ]
+        },
+        "historyRevision": "history-3",
+        "postWriteLighting": "REQUIRED",
+        "lighting": {
+          "status": "COMPLETE",
+          "box": {
+            "min": [
+              -2,
+              0,
+              -2
+            ],
+            "max": [
+              17,
+              1,
+              0
+            ]
+          },
+          "method": "fixture:light-pass"
+        },
+        "localContext": {
+          "connectionRef": "local-connection",
+          "connectionIncarnationRef": "socket-open-1",
+          "worldRef": "fixture-world",
+          "selectionRevision": "selection-1"
+        }
+      },
+      "preUndoContent": {
+        "profileVersion": "region-snapshot-content/v2",
+        "worldRef": "fixture-world",
+        "partition": {
+          "edge": [
+            16,
+            16,
+            16
+          ]
+        },
+        "chunks": [
+          {
+            "chunkPos": [
+              0,
+              0,
+              0
+            ],
+            "state": {
+              "profileVersion": "region-state/v2",
+              "worldRef": "fixture-world",
+              "block": {
+                "profileVersion": "region-voxels/v2",
+                "geometryProfile": "voxel-grid/v1",
+                "origin": [
+                  0,
+                  0,
+                  0
+                ],
+                "size": [
+                  4,
+                  1,
+                  4
+                ],
+                "indexOrder": "X_FASTEST_THEN_Y_THEN_Z",
+                "palette": [
+                  {
+                    "materialRef": "fixture:glass",
+                    "orientation": 0
+                  },
+                  {
+                    "materialRef": "fixture:gold",
+                    "orientation": 0
+                  }
+                ],
+                "runs": [
+                  [
+                    2,
+                    0
+                  ],
+                  [
+                    2,
+                    1
+                  ],
+                  [
+                    2,
+                    0
+                  ],
+                  [
+                    2,
+                    1
+                  ],
+                  [
+                    2,
+                    0
+                  ],
+                  [
+                    2,
+                    1
+                  ],
+                  [
+                    2,
+                    0
+                  ],
+                  [
+                    2,
+                    1
+                  ]
+                ]
+              },
+              "extras": [
+                {
+                  "position": [
+                    3,
+                    0,
+                    0
+                  ],
+                  "state": {
+                    "metadata": {
+                      "text": "external survives"
+                    }
+                  }
+                }
+              ],
+              "stateProfile": {
+                "profileVersion": "state-profile/v3",
+                "derivedFields": [
+                  "param1"
+                ],
+                "preservedFields": [],
+                "clearedFields": [
+                  "inventory",
+                  "metadata",
+                  "timer"
+                ]
+              }
+            },
+            "stateDigest": "4a61f92228fed456df7b5199e411e2edd45921a460c528217c9e221f2af29bd8"
+          }
+        ]
+      },
+      "actualContent": {
+        "profileVersion": "region-snapshot-content/v2",
+        "worldRef": "fixture-world",
+        "partition": {
+          "edge": [
+            16,
+            16,
+            16
+          ]
+        },
+        "chunks": [
+          {
+            "chunkPos": [
+              0,
+              0,
+              0
+            ],
+            "state": {
+              "profileVersion": "region-state/v2",
+              "worldRef": "fixture-world",
+              "block": {
+                "profileVersion": "region-voxels/v2",
+                "geometryProfile": "voxel-grid/v1",
+                "origin": [
+                  0,
+                  0,
+                  0
+                ],
+                "size": [
+                  4,
+                  1,
+                  4
+                ],
+                "indexOrder": "X_FASTEST_THEN_Y_THEN_Z",
+                "palette": [
+                  {
+                    "materialRef": "air",
+                    "orientation": 0
+                  },
+                  {
+                    "materialRef": "fixture:gold",
+                    "orientation": 0
+                  }
+                ],
+                "runs": [
+                  [
+                    2,
+                    0
+                  ],
+                  [
+                    2,
+                    1
+                  ],
+                  [
+                    2,
+                    0
+                  ],
+                  [
+                    2,
+                    1
+                  ],
+                  [
+                    2,
+                    0
+                  ],
+                  [
+                    2,
+                    1
+                  ],
+                  [
+                    2,
+                    0
+                  ],
+                  [
+                    2,
+                    1
+                  ]
+                ]
+              },
+              "extras": [
+                {
+                  "position": [
+                    3,
+                    0,
+                    0
+                  ],
+                  "state": {
+                    "metadata": {
+                      "text": "external survives"
+                    }
+                  }
+                }
+              ],
+              "stateProfile": {
+                "profileVersion": "state-profile/v3",
+                "derivedFields": [
+                  "param1"
+                ],
+                "preservedFields": [],
+                "clearedFields": [
+                  "inventory",
+                  "metadata",
+                  "timer"
+                ]
+              }
+            },
+            "stateDigest": "2f85aa2871cbd1d224111ffa16bd068ed9074cbdd500a9f37fa036efa4b46b9e"
+          }
+        ]
+      },
+      "preRestoreContent": {
+        "profileVersion": "region-snapshot-content/v2",
+        "worldRef": "fixture-world",
+        "partition": {
+          "edge": [
+            16,
+            16,
+            16
+          ]
+        },
+        "chunks": [
+          {
+            "chunkPos": [
+              0,
+              0,
+              0
+            ],
+            "state": {
+              "profileVersion": "region-state/v2",
+              "worldRef": "fixture-world",
+              "block": {
+                "profileVersion": "region-voxels/v2",
+                "geometryProfile": "voxel-grid/v1",
+                "origin": [
+                  0,
+                  0,
+                  0
+                ],
+                "size": [
+                  4,
+                  1,
+                  4
+                ],
+                "indexOrder": "X_FASTEST_THEN_Y_THEN_Z",
+                "palette": [
+                  {
+                    "materialRef": "fixture:glass",
+                    "orientation": 0
+                  },
+                  {
+                    "materialRef": "fixture:gold",
+                    "orientation": 0
+                  }
+                ],
+                "runs": [
+                  [
+                    2,
+                    0
+                  ],
+                  [
+                    2,
+                    1
+                  ],
+                  [
+                    2,
+                    0
+                  ],
+                  [
+                    2,
+                    1
+                  ],
+                  [
+                    2,
+                    0
+                  ],
+                  [
+                    2,
+                    1
+                  ],
+                  [
+                    2,
+                    0
+                  ],
+                  [
+                    2,
+                    1
+                  ]
+                ]
+              },
+              "extras": [
+                {
+                  "position": [
+                    3,
+                    0,
+                    0
+                  ],
+                  "state": {
+                    "metadata": {
+                      "text": "external survives"
+                    }
+                  }
+                }
+              ],
+              "stateProfile": {
+                "profileVersion": "state-profile/v3",
+                "derivedFields": [
+                  "param1"
+                ],
+                "preservedFields": [],
+                "clearedFields": [
+                  "inventory",
+                  "metadata",
+                  "timer"
+                ]
+              }
+            },
+            "stateDigest": "4a61f92228fed456df7b5199e411e2edd45921a460c528217c9e221f2af29bd8"
+          }
+        ]
+      }
+    },
+    "error": null,
+    "guardRefusal": null,
+    "applyFailure": null,
+    "undoFailure": null
+  }
+}
