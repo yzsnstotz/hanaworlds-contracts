@@ -577,6 +577,12 @@ export type ToolDirectBuildResult = { readonly "action": "build"; readonly "outc
 export type CurrentBuildUserRequest = { readonly "messageRef": Ref; readonly "text": Text; readonly "media": Media };
 export type HostBuildIntentAuthorization = { readonly "sessionRef": Ref; readonly "turnRef": Ref; readonly "turnRevision": Revision; readonly "localContext": LocalWorldContext | null; readonly "messageRef": Ref; readonly "messageDigest": Digest; readonly "intent": ConfirmedIntent; readonly "proposalDigest": Digest };
 export type ToolBuildHostFacts = { readonly "sessionRef": Ref; readonly "turnRef": Ref; readonly "turnRevision": Revision; readonly "localContext": LocalWorldContext | null; readonly "currentUserRequest"?: CurrentBuildUserRequest; readonly "intentAuthorization"?: HostBuildIntentAuthorization };
+export type PluginRole = "shell-ui" | "world-source" | "canvas" | "brush" | "painter" | "workshop" | "skills" | "desktop-bridge" | "local-runtime";
+export type PluginRolesStatus = "COMPLETE" | "PARTIAL" | "UNAVAILABLE";
+export type PluginRoleProviders = { readonly "shell-ui": ReadonlyArray<Ref>; readonly "world-source": ReadonlyArray<Ref>; readonly "canvas": ReadonlyArray<Ref>; readonly "brush": ReadonlyArray<Ref>; readonly "painter": ReadonlyArray<Ref>; readonly "workshop": ReadonlyArray<Ref>; readonly "skills": ReadonlyArray<Ref>; readonly "desktop-bridge": ReadonlyArray<Ref>; readonly "local-runtime": ReadonlyArray<Ref> };
+export type PluginRoles = { readonly "status": PluginRolesStatus; readonly "providers": PluginRoleProviders; readonly "missingRoles": ReadonlyArray<PluginRole> };
+export type ReadPluginRolesRequest = { readonly "contractVersion": "world-inspection/v1"; readonly "requestId": Ref };
+export type ReadPluginRolesResponse = { readonly "contractVersion": "world-inspection/v1"; readonly "requestId": Ref; readonly "result": PluginRoles | null; readonly "error": Error | null };
 export interface TypeMap {
 AbortPreparedHistoryTransactionRequest: AbortPreparedHistoryTransactionRequest;
 AbortPreparedHistoryTransactionResponse: AbortPreparedHistoryTransactionResponse;
@@ -1156,6 +1162,12 @@ ToolDirectBuildResult: ToolDirectBuildResult;
 CurrentBuildUserRequest: CurrentBuildUserRequest;
 HostBuildIntentAuthorization: HostBuildIntentAuthorization;
 ToolBuildHostFacts: ToolBuildHostFacts;
+PluginRole: PluginRole;
+PluginRolesStatus: PluginRolesStatus;
+PluginRoleProviders: PluginRoleProviders;
+PluginRoles: PluginRoles;
+ReadPluginRolesRequest: ReadPluginRolesRequest;
+ReadPluginRolesResponse: ReadPluginRolesResponse;
 }
 export type TypeName=keyof TypeMap;
 export interface OperationMap {
@@ -1266,6 +1278,7 @@ export interface OperationMap {
 };
 "world-inspection/v1": {
 "ReadInspectionContext": {request:ReadInspectionContextRequest;response:ReadInspectionContextResponse};
+"ReadPluginRoles": {request:ReadPluginRolesRequest;response:ReadPluginRolesResponse};
 };
 "world-lifecycle/v2": {
 "describe": {request:WorldLifecycleDescribeRequest;response:WorldLifecycleDescribeResponse};

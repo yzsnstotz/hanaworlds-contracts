@@ -13,3 +13,4 @@ export {describeSourceWorld,createLocalWorldSourceMock} from './local-world-sour
 export {toolManifest,buildingSkill,directBuild,validateToolRequest,validateToolResponse,createSkillToolsMock} from './skill-tools.mjs';
 export {worldErrorContext,targetWorldRef,worldUnavailableError,createWorldErrorMock} from './world-error.mjs';
 export {historicalReceipt,historicalReceiptResponse,readHistoricalReceipt,createHistoricalReceiptMock} from './history-receipt.mjs';
+export {pluginRoles,derivePluginRoles,pluginRolesResponse,pluginRolesUnavailable,createPluginRolesMock} from './plugin-roles.mjs';

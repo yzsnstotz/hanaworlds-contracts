@@ -136,7 +136,10 @@ test('2.5.0 definitions, operations, digests, ownership and old tool branches ar
  assert.deepEqual([d.QueryTransactionResponse.properties.currentLocalContext,d.QueryTransactionResponse.properties.receiptDigest],[{$ref:'#/definitions/LocalWorldContext'},{$ref:'#/definitions/Digest'}]);
  delete d.QueryTransactionResponse.properties.currentLocalContext;delete d.QueryTransactionResponse.properties.receiptDigest;
  assert.equal(sha(d),b.definitionsDigest);
- assert.equal(sha(a.operationContracts),b.operationsDigest);
+ // 2.9.0 appends world-inspection/v1 ReadPluginRoles; project it out of the frozen 2.5.0 operations.
+ const operations=structuredClone(a.operationContracts);
+ assert.deepEqual(operations['world-inspection/v1'].pop(),{operation:'ReadPluginRoles',request:'ReadPluginRolesRequest',response:'ReadPluginRolesResponse'});
+ assert.equal(sha(operations),b.operationsDigest);
  assert.equal(sha(a.digestProfile),b.digestDigest);
  assert.equal(sha(a.ownership),b.ownershipDigest);
  const tools=structuredClone(a.toolManifest.tools),t=tools.find(t=>t.name==='hanaworlds_build');

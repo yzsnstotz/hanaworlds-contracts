@@ -283,3 +283,15 @@ export interface HistoricalReceiptReading {readonly receipt:import('./contracts.
 export declare function historicalReceiptResponse(request:import('./contracts.js').QueryTransactionRequest,storedReceipt:import('./contracts.js').ReceiptProjection,storedReceiptDigest:string):import('./contracts.js').QueryTransactionResponse;
 export declare function readHistoricalReceipt(request:import('./contracts.js').QueryTransactionRequest,response:import('./contracts.js').QueryTransactionResponse):HistoricalReceiptReading;
 export declare function createHistoricalReceiptMock(fixture:unknown):(wire:'world-adapter/v8',operation:'QueryTransaction',request:unknown)=>import('./contracts.js').QueryTransactionResponse;
+/** 2.9.0 world-inspection/v1 ReadPluginRoles (C-world-inspection): role -> providing plugins, derived from the running host. */
+export type PluginRoleEvidence=Readonly<{kind:'service'|'skill';name:string}>;
+export declare const pluginRoles:Readonly<{introducedIn:'2.9.0';contract:'C-world-inspection';wire:'world-inspection/v1';operation:'ReadPluginRoles';provider:'desktop-bridge';consumers:ReadonlyArray<'shell-ui'>;type:'ReadPluginRolesResponse';roles:ReadonlyArray<import('./contracts.js').PluginRole>;requiredRoles:ReadonlyArray<import('./contracts.js').PluginRole>;evidence:Readonly<Record<import('./contracts.js').PluginRole,ReadonlyArray<PluginRoleEvidence>>>;meaning:string;identity:Readonly<{service:string;skill:string}>;status:string;failure:string;forbidden:string;errors:ReadonlyArray<'CAPABILITY_UNAVAILABLE'>;compatibility:string;fixture:string;mock:'createPluginRolesMock'}>;
+/** One active registered Cordis service and the loader module specifier of the plugin that registered it. */
+export interface RegisteredPluginService {readonly name:string;readonly moduleName:string;}
+/** One live skill-registry catalog entry and its registered provider name. */
+export interface RegisteredPluginSkill {readonly name:string;readonly provider:string;}
+export interface PluginRolesHost {readonly services?:Iterable<RegisteredPluginService>;readonly skills?:Iterable<RegisteredPluginSkill>;}
+export declare function derivePluginRoles(host?:PluginRolesHost):import('./contracts.js').PluginRoles;
+export declare function pluginRolesResponse(request:unknown,result:import('./contracts.js').PluginRoles):import('./contracts.js').ReadPluginRolesResponse;
+export declare function pluginRolesUnavailable(request:unknown):import('./contracts.js').ReadPluginRolesResponse;
+export declare function createPluginRolesMock(host:{readonly services?:ReadonlyArray<RegisteredPluginService>;readonly skills?:ReadonlyArray<RegisteredPluginSkill>}|{readonly unreadable:true}):(wire:'world-inspection/v1',operation:'ReadPluginRoles',request:unknown)=>import('./contracts.js').ReadPluginRolesResponse;

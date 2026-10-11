@@ -1,7 +1,7 @@
 {
   "profileVersion": "skill-tools/v1",
   "package": "hanaworlds-contracts",
-  "version": "2.8.0",
+  "version": "2.9.0",
   "schemaExport": "hanaworlds-contracts/schema",
   "tools": [
     {
@@ -17571,6 +17571,184 @@
       ],
       "additionalProperties": false,
       "x-typeName": "ToolBuildHostFacts"
+    },
+    "PluginRole": {
+      "x-typeName": "PluginRole",
+      "enum": [
+        "shell-ui",
+        "world-source",
+        "canvas",
+        "brush",
+        "painter",
+        "workshop",
+        "skills",
+        "desktop-bridge",
+        "local-runtime"
+      ],
+      "x-meaning": "A HanaWorlds plugin role. A role is filled by whichever plugins register the contract evidence pluginRoles.evidence names for it, never by package name or configuration."
+    },
+    "PluginRolesStatus": {
+      "x-typeName": "PluginRolesStatus",
+      "enum": [
+        "COMPLETE",
+        "PARTIAL",
+        "UNAVAILABLE"
+      ],
+      "x-meaning": "COMPLETE: every required role has a provider. PARTIAL: some required roles have a provider and missingRoles names the rest. UNAVAILABLE: the read succeeded and no required role has a provider. A failed read is never a status; it is the response error."
+    },
+    "PluginRoleProviders": {
+      "x-typeName": "PluginRoleProviders",
+      "type": "object",
+      "properties": {
+        "shell-ui": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/Ref"
+          }
+        },
+        "world-source": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/Ref"
+          }
+        },
+        "canvas": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/Ref"
+          }
+        },
+        "brush": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/Ref"
+          }
+        },
+        "painter": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/Ref"
+          }
+        },
+        "workshop": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/Ref"
+          }
+        },
+        "skills": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/Ref"
+          }
+        },
+        "desktop-bridge": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/Ref"
+          }
+        },
+        "local-runtime": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/Ref"
+          }
+        }
+      },
+      "required": [
+        "shell-ui",
+        "world-source",
+        "canvas",
+        "brush",
+        "painter",
+        "workshop",
+        "skills",
+        "desktop-bridge",
+        "local-runtime"
+      ],
+      "additionalProperties": false,
+      "x-meaning": "Role -> plugins currently providing it, each named by its loader module specifier (moduleName), sorted by code unit, no duplicates. An empty array means the role has no provider in the running host. One plugin may appear under several roles; one role may list several plugins. No versions (versions stay with remote.pluginManager.listBundles)."
+    },
+    "PluginRoles": {
+      "x-typeName": "PluginRoles",
+      "type": "object",
+      "properties": {
+        "status": {
+          "$ref": "#/definitions/PluginRolesStatus"
+        },
+        "providers": {
+          "$ref": "#/definitions/PluginRoleProviders"
+        },
+        "missingRoles": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/PluginRole"
+          }
+        }
+      },
+      "required": [
+        "status",
+        "providers",
+        "missingRoles"
+      ],
+      "additionalProperties": false,
+      "x-meaning": "missingRoles is exactly the required roles whose providers are empty, in pluginRoles.roles order."
+    },
+    "ReadPluginRolesRequest": {
+      "x-typeName": "ReadPluginRolesRequest",
+      "type": "object",
+      "properties": {
+        "contractVersion": {
+          "const": "world-inspection/v1"
+        },
+        "requestId": {
+          "$ref": "#/definitions/Ref"
+        }
+      },
+      "required": [
+        "contractVersion",
+        "requestId"
+      ],
+      "additionalProperties": false
+    },
+    "ReadPluginRolesResponse": {
+      "x-typeName": "ReadPluginRolesResponse",
+      "type": "object",
+      "properties": {
+        "contractVersion": {
+          "const": "world-inspection/v1"
+        },
+        "requestId": {
+          "$ref": "#/definitions/Ref"
+        },
+        "result": {
+          "anyOf": [
+            {
+              "$ref": "#/definitions/PluginRoles"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "error": {
+          "anyOf": [
+            {
+              "$ref": "#/definitions/Error"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        }
+      },
+      "required": [
+        "contractVersion",
+        "requestId",
+        "result",
+        "error"
+      ],
+      "additionalProperties": false
     }
   }
 }

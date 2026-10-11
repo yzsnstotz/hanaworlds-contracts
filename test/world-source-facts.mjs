@@ -23,7 +23,8 @@ const ops=fx.exchanges.map(x=>x.wire+' '+x.operation);
 test('named operations exist on their wires with the baseline errors (C-world-facts, C-world-adapter, C-world-inspection)',()=>{
  const names=w=>a.operationContracts[w].map(o=>o.operation);
  assert.deepEqual(names('world-facts/v1'),['ReadCatalogue','ReadMaterialSources','ReadEngineFacts','ReadWriteProfile']);
- assert.deepEqual(names('world-inspection/v1'),['ReadInspectionContext']);
+ // 2.9.0 appends ReadPluginRoles (pluginRoles metadata, test/plugin-roles-minor.mjs).
+ assert.deepEqual(names('world-inspection/v1'),['ReadInspectionContext','ReadPluginRoles']);
  assert.equal(names('world-adapter/v8').at(-1),'ReadWorldSourceCapabilities');
  const expected={ReadCatalogue:['ADAPTER_UNAVAILABLE','WORLD_NOT_BOUND'],ReadMaterialSources:['CAPABILITY_UNAVAILABLE'],ReadEngineFacts:['ADAPTER_UNAVAILABLE'],ReadWriteProfile:['ADAPTER_UNAVAILABLE','CAPABILITY_UNAVAILABLE'],ReadWorldSourceCapabilities:['ADAPTER_UNAVAILABLE'],ReadInspectionContext:['WORLD_NOT_BOUND','SESSION_NOT_FOUND']};
  assert.deepEqual(Object.fromEntries(a.worldSourceFacts.operations.map(o=>[o.operation,o.errors])),expected);

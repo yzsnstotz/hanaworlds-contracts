@@ -3,6 +3,7 @@ import { createHash } from 'node:crypto';
 import { contractMetadata, schemaBundle } from './generated/contracts.mjs';
 import {validateLifecycleDomain, validateLifecycleBinding} from './world-lifecycle.mjs';
 import {validateToolDomain, validateToolBinding} from './skill-tools.mjs';
+import {validatePluginRolesBinding} from './plugin-roles-binding.mjs';
 import { snapshotJSON, deepFreeze, decodeRawJSON } from '../strict-json.mjs';
 import { validateShape } from './schema-validator.mjs';
 import { validateDomain, validateEventDomain, guardRefusalError as domainGuardRefusalError } from './domain.mjs';
@@ -406,6 +407,7 @@ export function validateBoundResponse(wire,name,requestInput,responseInput) {
  associated(response.requestId===request.requestId);
  validateLifecycleBinding(wire,name,request,response);
  validateToolBinding(wire,name,request,response);
+ validatePluginRolesBinding(wire,name,request,response);
  // 2.7.0: an error naming its target world must name every world the request selected.
  if(response.error?.worldRef!==undefined)for(const selected of requestWorldSelectors(request))current(response.error.worldRef===selected);
  const history=historicalReceiptBinding(wire,name,request,response);
