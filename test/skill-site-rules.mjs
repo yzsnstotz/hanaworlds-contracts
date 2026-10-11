@@ -85,7 +85,7 @@ test('no contracts type can carry player geometry',()=>{
 // Region request with the given confirmed rules (and optionally a damaging palette node), digests rebound.
 function regionCase(rules,damage=null){
  const q=clone(region.proposalRequest);q.intent.confirmedIntent.siteRules=clone(rules);q.intentDigest=D('intent',q.intent);
- if(damage!==null){const name=q.proposal.block.palette.find(e=>e.nodeName!=='air').nodeName;q.catalogue.nodes[name].damagePerSecond=damage;q.catalogueDigest=D('catalogue',q.catalogue);}
+ if(damage!==null){const name=q.proposal.block.palette.find(e=>e.materialRef!=='air').materialRef;q.catalogue.materials[name].hazardPerSecond=damage;q.catalogueDigest=D('catalogue',q.catalogue);}
  return q;
 }
 test('region: confirmed rules apply; entrance/light refused by name; hazard checked per palette node with open limits',()=>{

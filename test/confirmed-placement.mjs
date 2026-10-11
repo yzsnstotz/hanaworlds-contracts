@@ -14,7 +14,7 @@ const rejects=(fn,error,title)=>assert.throws(fn,e=>{for(const [k,v] of Object.e
 const ins=n=>fx.inspections[n];
 
 test('contract surface: profile, placement types, wires and named failures',()=>{
- assert.equal(fx.profileVersion,'confirmed-placement-fixture/v1');assert.equal(a.contractsCompatibility.major,1);
+ assert.equal(fx.profileVersion,'confirmed-placement-fixture/v1');assert.equal(a.contractsCompatibility.major,2);
  assert.equal(a.confirmedPlacement.id,'confirmed-placement/v1');
  // 1.1: optional fields, no null form; absent keeps the 1.0 meaning.
  for(const [t,f] of [['Controls','placement'],['ConfirmedIntent','placement'],['RegionApplyBinding','confirmedPlacement'],['ApplyRegionCommitRequest','confirmedPlacement']]){

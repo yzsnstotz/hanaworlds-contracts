@@ -1,76 +1,78 @@
 {
   "evidence": "SOURCE/FIXTURE: hand-built region-voxels/v1 scenario; no real Painter, Brush, Adapter, Canvas, Luanti world or durable store ran.",
   "catalogue": {
-    "profileVersion": "catalogue/v2",
-    "engineProfile": "fixture-luanti-static",
-    "gameId": "fixture-game",
-    "gameRevision": "fixture-game-1",
-    "modRevisions": {
+    "profileVersion": "catalogue/v3",
+    "engineRevisions": {
+      "fixture-game": "fixture-game-1",
       "fixture-mod": "fixture-mod-1"
     },
-    "nodes": {
+    "emptyMaterialRef": "air",
+    "materials": {
       "air": {
-        "walkable": false,
-        "collisionBoxes": [],
-        "liquidType": "none",
-        "damagePerSecond": 0,
-        "lightSource": 0,
-        "param2Type": "none",
-        "allowedParam2": [
+        "passable": true,
+        "liquid": false,
+        "hazardPerSecond": 0,
+        "emitsLight": false,
+        "placeable": true,
+        "orientations": [
           0
         ],
-        "hasCallbacks": false,
-        "hasPersistentState": false,
         "definitionRevision": "fixture-def-1",
-        "unknownFields": []
+        "unknownFields": [],
+        "extension": {
+          "collisionBoxes": [],
+          "param2Type": "none"
+        }
       },
       "fixture:stone": {
-        "walkable": true,
-        "collisionBoxes": [
-          [
-            -0.5,
-            -0.5,
-            -0.5,
-            0.5,
-            0.5,
-            0.5
-          ]
-        ],
-        "liquidType": "none",
-        "damagePerSecond": 0,
-        "lightSource": 0,
-        "param2Type": "none",
-        "allowedParam2": [
+        "passable": false,
+        "liquid": false,
+        "hazardPerSecond": 0,
+        "emitsLight": false,
+        "placeable": true,
+        "orientations": [
           0
         ],
-        "hasCallbacks": false,
-        "hasPersistentState": false,
         "definitionRevision": "fixture-def-1",
-        "unknownFields": []
+        "unknownFields": [],
+        "extension": {
+          "collisionBoxes": [
+            [
+              -0.5,
+              -0.5,
+              -0.5,
+              0.5,
+              0.5,
+              0.5
+            ]
+          ],
+          "param2Type": "none"
+        }
       },
       "fixture:dirt": {
-        "walkable": true,
-        "collisionBoxes": [
-          [
-            -0.5,
-            -0.5,
-            -0.5,
-            0.5,
-            0.5,
-            0.5
-          ]
-        ],
-        "liquidType": "none",
-        "damagePerSecond": 0,
-        "lightSource": 0,
-        "param2Type": "none",
-        "allowedParam2": [
+        "passable": false,
+        "liquid": false,
+        "hazardPerSecond": 0,
+        "emitsLight": false,
+        "placeable": true,
+        "orientations": [
           0
         ],
-        "hasCallbacks": false,
-        "hasPersistentState": false,
         "definitionRevision": "fixture-def-1",
-        "unknownFields": []
+        "unknownFields": [],
+        "extension": {
+          "collisionBoxes": [
+            [
+              -0.5,
+              -0.5,
+              -0.5,
+              0.5,
+              0.5,
+              0.5
+            ]
+          ],
+          "param2Type": "none"
+        }
       }
     }
   },
@@ -140,80 +142,82 @@
     },
     "referenceBriefDigest": "2daf8a8d8cb72370103dd96855ef23e5b273911365cf748e2851337706103cf5",
     "catalogue": {
-      "profileVersion": "catalogue/v2",
-      "engineProfile": "fixture-luanti-static",
-      "gameId": "fixture-game",
-      "gameRevision": "fixture-game-1",
-      "modRevisions": {
+      "profileVersion": "catalogue/v3",
+      "engineRevisions": {
+        "fixture-game": "fixture-game-1",
         "fixture-mod": "fixture-mod-1"
       },
-      "nodes": {
+      "emptyMaterialRef": "air",
+      "materials": {
         "air": {
-          "walkable": false,
-          "collisionBoxes": [],
-          "liquidType": "none",
-          "damagePerSecond": 0,
-          "lightSource": 0,
-          "param2Type": "none",
-          "allowedParam2": [
+          "passable": true,
+          "liquid": false,
+          "hazardPerSecond": 0,
+          "emitsLight": false,
+          "placeable": true,
+          "orientations": [
             0
           ],
-          "hasCallbacks": false,
-          "hasPersistentState": false,
           "definitionRevision": "fixture-def-1",
-          "unknownFields": []
+          "unknownFields": [],
+          "extension": {
+            "collisionBoxes": [],
+            "param2Type": "none"
+          }
         },
         "fixture:stone": {
-          "walkable": true,
-          "collisionBoxes": [
-            [
-              -0.5,
-              -0.5,
-              -0.5,
-              0.5,
-              0.5,
-              0.5
-            ]
-          ],
-          "liquidType": "none",
-          "damagePerSecond": 0,
-          "lightSource": 0,
-          "param2Type": "none",
-          "allowedParam2": [
+          "passable": false,
+          "liquid": false,
+          "hazardPerSecond": 0,
+          "emitsLight": false,
+          "placeable": true,
+          "orientations": [
             0
           ],
-          "hasCallbacks": false,
-          "hasPersistentState": false,
           "definitionRevision": "fixture-def-1",
-          "unknownFields": []
+          "unknownFields": [],
+          "extension": {
+            "collisionBoxes": [
+              [
+                -0.5,
+                -0.5,
+                -0.5,
+                0.5,
+                0.5,
+                0.5
+              ]
+            ],
+            "param2Type": "none"
+          }
         },
         "fixture:dirt": {
-          "walkable": true,
-          "collisionBoxes": [
-            [
-              -0.5,
-              -0.5,
-              -0.5,
-              0.5,
-              0.5,
-              0.5
-            ]
-          ],
-          "liquidType": "none",
-          "damagePerSecond": 0,
-          "lightSource": 0,
-          "param2Type": "none",
-          "allowedParam2": [
+          "passable": false,
+          "liquid": false,
+          "hazardPerSecond": 0,
+          "emitsLight": false,
+          "placeable": true,
+          "orientations": [
             0
           ],
-          "hasCallbacks": false,
-          "hasPersistentState": false,
           "definitionRevision": "fixture-def-1",
-          "unknownFields": []
+          "unknownFields": [],
+          "extension": {
+            "collisionBoxes": [
+              [
+                -0.5,
+                -0.5,
+                -0.5,
+                0.5,
+                0.5,
+                0.5
+              ]
+            ],
+            "param2Type": "none"
+          }
         }
       }
     },
-    "catalogueDigest": "ebbca84efd0d22b7e499a6f046d5463908846604ddef442288e0bd3881f50162",
+    "catalogueDigest": "89dfb22e3b674be56a66bb066ca5ee51fb0c0571725b2970ab0478658357cc57",
     "proposal": {
       "decision": "REGION",
       "block": {
@@ -231,16 +235,16 @@
         "indexOrder": "X_FASTEST_THEN_Y_THEN_Z",
         "palette": [
           {
-            "nodeName": "air",
-            "param2": 0
+            "materialRef": "air",
+            "orientation": 0
           },
           {
-            "nodeName": "fixture:dirt",
-            "param2": 0
+            "materialRef": "fixture:dirt",
+            "orientation": 0
           },
           {
-            "nodeName": "fixture:stone",
-            "param2": 0
+            "materialRef": "fixture:stone",
+            "orientation": 0
           }
         ],
         "runs": [
@@ -316,7 +320,7 @@
         "documentId": "region-doc-1",
         "coordinateSpace": "WORLD_NODE",
         "worldRef": "fixture-world",
-        "catalogueDigest": "ebbca84efd0d22b7e499a6f046d5463908846604ddef442288e0bd3881f50162",
+        "catalogueDigest": "89dfb22e3b674be56a66bb066ca5ee51fb0c0571725b2970ab0478658357cc57",
         "block": {
           "profileVersion": "region-voxels/v1",
           "origin": [
@@ -332,16 +336,16 @@
           "indexOrder": "X_FASTEST_THEN_Y_THEN_Z",
           "palette": [
             {
-              "nodeName": "air",
-              "param2": 0
+              "materialRef": "air",
+              "orientation": 0
             },
             {
-              "nodeName": "fixture:dirt",
-              "param2": 0
+              "materialRef": "fixture:dirt",
+              "orientation": 0
             },
             {
-              "nodeName": "fixture:stone",
-              "param2": 0
+              "materialRef": "fixture:stone",
+              "orientation": 0
             }
           ],
           "runs": [
@@ -412,7 +416,7 @@
           ]
         }
       },
-      "buildDigest": "21f935e1b2c66636a520acdbda7571fb702b14eb47f91f820d432ca3262c9065"
+      "buildDigest": "267b7595e51404dd02931bae76c9e0ba9b6a0f69b4466bc5774dad0ed0a7456e"
     },
     "error": null
   },
@@ -426,7 +430,7 @@
       "documentId": "region-doc-1",
       "coordinateSpace": "WORLD_NODE",
       "worldRef": "fixture-world",
-      "catalogueDigest": "ebbca84efd0d22b7e499a6f046d5463908846604ddef442288e0bd3881f50162",
+      "catalogueDigest": "89dfb22e3b674be56a66bb066ca5ee51fb0c0571725b2970ab0478658357cc57",
       "block": {
         "profileVersion": "region-voxels/v1",
         "origin": [
@@ -442,16 +446,16 @@
         "indexOrder": "X_FASTEST_THEN_Y_THEN_Z",
         "palette": [
           {
-            "nodeName": "air",
-            "param2": 0
+            "materialRef": "air",
+            "orientation": 0
           },
           {
-            "nodeName": "fixture:dirt",
-            "param2": 0
+            "materialRef": "fixture:dirt",
+            "orientation": 0
           },
           {
-            "nodeName": "fixture:stone",
-            "param2": 0
+            "materialRef": "fixture:stone",
+            "orientation": 0
           }
         ],
         "runs": [
@@ -522,82 +526,84 @@
         ]
       }
     },
-    "buildDigest": "21f935e1b2c66636a520acdbda7571fb702b14eb47f91f820d432ca3262c9065",
+    "buildDigest": "267b7595e51404dd02931bae76c9e0ba9b6a0f69b4466bc5774dad0ed0a7456e",
     "catalogue": {
-      "profileVersion": "catalogue/v2",
-      "engineProfile": "fixture-luanti-static",
-      "gameId": "fixture-game",
-      "gameRevision": "fixture-game-1",
-      "modRevisions": {
+      "profileVersion": "catalogue/v3",
+      "engineRevisions": {
+        "fixture-game": "fixture-game-1",
         "fixture-mod": "fixture-mod-1"
       },
-      "nodes": {
+      "emptyMaterialRef": "air",
+      "materials": {
         "air": {
-          "walkable": false,
-          "collisionBoxes": [],
-          "liquidType": "none",
-          "damagePerSecond": 0,
-          "lightSource": 0,
-          "param2Type": "none",
-          "allowedParam2": [
+          "passable": true,
+          "liquid": false,
+          "hazardPerSecond": 0,
+          "emitsLight": false,
+          "placeable": true,
+          "orientations": [
             0
           ],
-          "hasCallbacks": false,
-          "hasPersistentState": false,
           "definitionRevision": "fixture-def-1",
-          "unknownFields": []
+          "unknownFields": [],
+          "extension": {
+            "collisionBoxes": [],
+            "param2Type": "none"
+          }
         },
         "fixture:stone": {
-          "walkable": true,
-          "collisionBoxes": [
-            [
-              -0.5,
-              -0.5,
-              -0.5,
-              0.5,
-              0.5,
-              0.5
-            ]
-          ],
-          "liquidType": "none",
-          "damagePerSecond": 0,
-          "lightSource": 0,
-          "param2Type": "none",
-          "allowedParam2": [
+          "passable": false,
+          "liquid": false,
+          "hazardPerSecond": 0,
+          "emitsLight": false,
+          "placeable": true,
+          "orientations": [
             0
           ],
-          "hasCallbacks": false,
-          "hasPersistentState": false,
           "definitionRevision": "fixture-def-1",
-          "unknownFields": []
+          "unknownFields": [],
+          "extension": {
+            "collisionBoxes": [
+              [
+                -0.5,
+                -0.5,
+                -0.5,
+                0.5,
+                0.5,
+                0.5
+              ]
+            ],
+            "param2Type": "none"
+          }
         },
         "fixture:dirt": {
-          "walkable": true,
-          "collisionBoxes": [
-            [
-              -0.5,
-              -0.5,
-              -0.5,
-              0.5,
-              0.5,
-              0.5
-            ]
-          ],
-          "liquidType": "none",
-          "damagePerSecond": 0,
-          "lightSource": 0,
-          "param2Type": "none",
-          "allowedParam2": [
+          "passable": false,
+          "liquid": false,
+          "hazardPerSecond": 0,
+          "emitsLight": false,
+          "placeable": true,
+          "orientations": [
             0
           ],
-          "hasCallbacks": false,
-          "hasPersistentState": false,
           "definitionRevision": "fixture-def-1",
-          "unknownFields": []
+          "unknownFields": [],
+          "extension": {
+            "collisionBoxes": [
+              [
+                -0.5,
+                -0.5,
+                -0.5,
+                0.5,
+                0.5,
+                0.5
+              ]
+            ],
+            "param2Type": "none"
+          }
         }
       }
     },
-    "catalogueDigest": "ebbca84efd0d22b7e499a6f046d5463908846604ddef442288e0bd3881f50162",
+    "catalogueDigest": "89dfb22e3b674be56a66bb066ca5ee51fb0c0571725b2970ab0478658357cc57",
     "compilerRevision": "fixture-brush-region-1",
     "localContext": {
       "connectionRef": "local-connection",
@@ -612,10 +618,10 @@
     "result": {
       "projection": {
         "contractVersion": "region-operations/v1",
-        "buildDigest": "21f935e1b2c66636a520acdbda7571fb702b14eb47f91f820d432ca3262c9065",
+        "buildDigest": "267b7595e51404dd02931bae76c9e0ba9b6a0f69b4466bc5774dad0ed0a7456e",
         "compilerRevision": "fixture-brush-region-1",
         "worldRef": "fixture-world",
-        "catalogueDigest": "ebbca84efd0d22b7e499a6f046d5463908846604ddef442288e0bd3881f50162",
+        "catalogueDigest": "89dfb22e3b674be56a66bb066ca5ee51fb0c0571725b2970ab0478658357cc57",
         "chunkEdge": 16,
         "chunks": [
           {
@@ -639,12 +645,12 @@
               "indexOrder": "X_FASTEST_THEN_Y_THEN_Z",
               "palette": [
                 {
-                  "nodeName": "fixture:dirt",
-                  "param2": 0
+                  "materialRef": "fixture:dirt",
+                  "orientation": 0
                 },
                 {
-                  "nodeName": "fixture:stone",
-                  "param2": 0
+                  "materialRef": "fixture:stone",
+                  "orientation": 0
                 }
               ],
               "runs": [
@@ -688,12 +694,12 @@
               "indexOrder": "X_FASTEST_THEN_Y_THEN_Z",
               "palette": [
                 {
-                  "nodeName": "fixture:dirt",
-                  "param2": 0
+                  "materialRef": "fixture:dirt",
+                  "orientation": 0
                 },
                 {
-                  "nodeName": "fixture:stone",
-                  "param2": 0
+                  "materialRef": "fixture:stone",
+                  "orientation": 0
                 }
               ],
               "runs": [
@@ -729,16 +735,16 @@
               "indexOrder": "X_FASTEST_THEN_Y_THEN_Z",
               "palette": [
                 {
-                  "nodeName": "air",
-                  "param2": 0
+                  "materialRef": "air",
+                  "orientation": 0
                 },
                 {
-                  "nodeName": "fixture:dirt",
-                  "param2": 0
+                  "materialRef": "fixture:dirt",
+                  "orientation": 0
                 },
                 {
-                  "nodeName": "fixture:stone",
-                  "param2": 0
+                  "materialRef": "fixture:stone",
+                  "orientation": 0
                 }
               ],
               "runs": [
@@ -802,16 +808,16 @@
               "indexOrder": "X_FASTEST_THEN_Y_THEN_Z",
               "palette": [
                 {
-                  "nodeName": "air",
-                  "param2": 0
+                  "materialRef": "air",
+                  "orientation": 0
                 },
                 {
-                  "nodeName": "fixture:dirt",
-                  "param2": 0
+                  "materialRef": "fixture:dirt",
+                  "orientation": 0
                 },
                 {
-                  "nodeName": "fixture:stone",
-                  "param2": 0
+                  "materialRef": "fixture:stone",
+                  "orientation": 0
                 }
               ],
               "runs": [
@@ -855,12 +861,12 @@
               "indexOrder": "X_FASTEST_THEN_Y_THEN_Z",
               "palette": [
                 {
-                  "nodeName": "fixture:dirt",
-                  "param2": 0
+                  "materialRef": "fixture:dirt",
+                  "orientation": 0
                 },
                 {
-                  "nodeName": "fixture:stone",
-                  "param2": 0
+                  "materialRef": "fixture:stone",
+                  "orientation": 0
                 }
               ],
               "runs": [
@@ -904,12 +910,12 @@
               "indexOrder": "X_FASTEST_THEN_Y_THEN_Z",
               "palette": [
                 {
-                  "nodeName": "fixture:dirt",
-                  "param2": 0
+                  "materialRef": "fixture:dirt",
+                  "orientation": 0
                 },
                 {
-                  "nodeName": "fixture:stone",
-                  "param2": 0
+                  "materialRef": "fixture:stone",
+                  "orientation": 0
                 }
               ],
               "runs": [
@@ -926,7 +932,7 @@
           }
         ]
       },
-      "operationDigest": "2498da7f1be2c7fd140ffb18bd1951469feb376f26bf8bc750ffeef6a2387e03",
+      "operationDigest": "5ca8c217ffc2a044244e87b6f150cf9175371abee2391e49a9b08ecd3da775fd",
       "writeBounds": {
         "min": [
           -2,
@@ -1007,7 +1013,7 @@
           "loadMethod": "ALREADY_LOADED",
           "unknownReason": null,
           "state": {
-            "profileVersion": "region-state/v1",
+            "profileVersion": "region-state/v2",
             "worldRef": "fixture-world",
             "block": {
               "profileVersion": "region-voxels/v1",
@@ -1024,8 +1030,8 @@
               "indexOrder": "X_FASTEST_THEN_Y_THEN_Z",
               "palette": [
                 {
-                  "nodeName": "fixture:stone",
-                  "param2": 0
+                  "materialRef": "fixture:stone",
+                  "orientation": 0
                 }
               ],
               "runs": [
@@ -1042,16 +1048,29 @@
                   0,
                   -2
                 ],
-                "metadata": {
-                  "infotext": "fixture sign"
-                },
-                "inventory": {},
-                "timer": null
+                "state": {
+                  "metadata": {
+                    "infotext": "fixture sign"
+                  },
+                  "inventory": {},
+                  "timer": null
+                }
               }
             ],
-            "derivedLightMode": "recompute-with-readback"
+            "stateProfile": {
+              "profileVersion": "state-profile/v3",
+              "derivedFields": [
+                "param1"
+              ],
+              "preservedFields": [],
+              "clearedFields": [
+                "inventory",
+                "metadata",
+                "timer"
+              ]
+            }
           },
-          "stateDigest": "5ea03b4b03ca2d28756e34f9a8e12860c5b1a5c54d4958063b0a58b3aa191790"
+          "stateDigest": "e0115e9cad4d978bbf84829f25350978f776c2a7f24870993b187102d2233d1e"
         },
         {
           "chunkPos": [
@@ -1072,10 +1091,10 @@
             ]
           },
           "availability": "KNOWN",
-          "loadMethod": "LOADED_BY_EMERGE",
+          "loadMethod": "LOADED_ON_DEMAND",
           "unknownReason": null,
           "state": {
-            "profileVersion": "region-state/v1",
+            "profileVersion": "region-state/v2",
             "worldRef": "fixture-world",
             "block": {
               "profileVersion": "region-voxels/v1",
@@ -1092,8 +1111,8 @@
               "indexOrder": "X_FASTEST_THEN_Y_THEN_Z",
               "palette": [
                 {
-                  "nodeName": "fixture:stone",
-                  "param2": 0
+                  "materialRef": "fixture:stone",
+                  "orientation": 0
                 }
               ],
               "runs": [
@@ -1104,9 +1123,20 @@
               ]
             },
             "extras": [],
-            "derivedLightMode": "recompute-with-readback"
+            "stateProfile": {
+              "profileVersion": "state-profile/v3",
+              "derivedFields": [
+                "param1"
+              ],
+              "preservedFields": [],
+              "clearedFields": [
+                "inventory",
+                "metadata",
+                "timer"
+              ]
+            }
           },
-          "stateDigest": "5e6ab6ebe2e1db5df5f29a0af6c15779d63d48b90fb384799c4b101d5aa4f535"
+          "stateDigest": "081ec395d52091d802e998698482ec0decf69a623cb86b0bb0a509f8e8d4fe99"
         },
         {
           "chunkPos": [
@@ -1130,7 +1160,7 @@
           "loadMethod": "ALREADY_LOADED",
           "unknownReason": null,
           "state": {
-            "profileVersion": "region-state/v1",
+            "profileVersion": "region-state/v2",
             "worldRef": "fixture-world",
             "block": {
               "profileVersion": "region-voxels/v1",
@@ -1147,8 +1177,8 @@
               "indexOrder": "X_FASTEST_THEN_Y_THEN_Z",
               "palette": [
                 {
-                  "nodeName": "fixture:stone",
-                  "param2": 0
+                  "materialRef": "fixture:stone",
+                  "orientation": 0
                 }
               ],
               "runs": [
@@ -1159,9 +1189,20 @@
               ]
             },
             "extras": [],
-            "derivedLightMode": "recompute-with-readback"
+            "stateProfile": {
+              "profileVersion": "state-profile/v3",
+              "derivedFields": [
+                "param1"
+              ],
+              "preservedFields": [],
+              "clearedFields": [
+                "inventory",
+                "metadata",
+                "timer"
+              ]
+            }
           },
-          "stateDigest": "17c515fcad77466049ffef9e083abf535e072084274dee47627d43a3403c7422"
+          "stateDigest": "c3abf6af5ef30bc817f62ed15933889bc119ffb20d6fff0604adc9a7df88b9e7"
         },
         {
           "chunkPos": [
@@ -1185,7 +1226,7 @@
           "loadMethod": "ALREADY_LOADED",
           "unknownReason": null,
           "state": {
-            "profileVersion": "region-state/v1",
+            "profileVersion": "region-state/v2",
             "worldRef": "fixture-world",
             "block": {
               "profileVersion": "region-voxels/v1",
@@ -1202,8 +1243,8 @@
               "indexOrder": "X_FASTEST_THEN_Y_THEN_Z",
               "palette": [
                 {
-                  "nodeName": "fixture:stone",
-                  "param2": 0
+                  "materialRef": "fixture:stone",
+                  "orientation": 0
                 }
               ],
               "runs": [
@@ -1214,9 +1255,20 @@
               ]
             },
             "extras": [],
-            "derivedLightMode": "recompute-with-readback"
+            "stateProfile": {
+              "profileVersion": "state-profile/v3",
+              "derivedFields": [
+                "param1"
+              ],
+              "preservedFields": [],
+              "clearedFields": [
+                "inventory",
+                "metadata",
+                "timer"
+              ]
+            }
           },
-          "stateDigest": "54d394c649445e72c2e5f3fbcabd4131a39308225fee28837f13ad662eb8118f"
+          "stateDigest": "c7d59d10f9961494c77651529006f1055d4e5db42e4f88924cf9c913b4bf4333"
         },
         {
           "chunkPos": [
@@ -1240,7 +1292,7 @@
           "loadMethod": "ALREADY_LOADED",
           "unknownReason": null,
           "state": {
-            "profileVersion": "region-state/v1",
+            "profileVersion": "region-state/v2",
             "worldRef": "fixture-world",
             "block": {
               "profileVersion": "region-voxels/v1",
@@ -1257,8 +1309,8 @@
               "indexOrder": "X_FASTEST_THEN_Y_THEN_Z",
               "palette": [
                 {
-                  "nodeName": "fixture:stone",
-                  "param2": 0
+                  "materialRef": "fixture:stone",
+                  "orientation": 0
                 }
               ],
               "runs": [
@@ -1269,9 +1321,20 @@
               ]
             },
             "extras": [],
-            "derivedLightMode": "recompute-with-readback"
+            "stateProfile": {
+              "profileVersion": "state-profile/v3",
+              "derivedFields": [
+                "param1"
+              ],
+              "preservedFields": [],
+              "clearedFields": [
+                "inventory",
+                "metadata",
+                "timer"
+              ]
+            }
           },
-          "stateDigest": "5e9a2d3b5f961fd4acb5e0f5a7a03fe1c7a542d3b057252168bfe109937412cb"
+          "stateDigest": "90057e98225ce397b09583119eb0558c4bfd78736faecb54d06e2a86a12530d4"
         },
         {
           "chunkPos": [
@@ -1295,7 +1358,7 @@
           "loadMethod": "ALREADY_LOADED",
           "unknownReason": null,
           "state": {
-            "profileVersion": "region-state/v1",
+            "profileVersion": "region-state/v2",
             "worldRef": "fixture-world",
             "block": {
               "profileVersion": "region-voxels/v1",
@@ -1312,8 +1375,8 @@
               "indexOrder": "X_FASTEST_THEN_Y_THEN_Z",
               "palette": [
                 {
-                  "nodeName": "fixture:stone",
-                  "param2": 0
+                  "materialRef": "fixture:stone",
+                  "orientation": 0
                 }
               ],
               "runs": [
@@ -1324,9 +1387,20 @@
               ]
             },
             "extras": [],
-            "derivedLightMode": "recompute-with-readback"
+            "stateProfile": {
+              "profileVersion": "state-profile/v3",
+              "derivedFields": [
+                "param1"
+              ],
+              "preservedFields": [],
+              "clearedFields": [
+                "inventory",
+                "metadata",
+                "timer"
+              ]
+            }
           },
-          "stateDigest": "15dabaa125af278811e9232ec666335c4f19ef00a3b1cd01ba54853a6883afce"
+          "stateDigest": "5a6c901554e575c743f2ff027540f0e66e5f16c2a91b3d96f226ed8d2fe4fec6"
         }
       ],
       "localContext": {
@@ -1352,7 +1426,7 @@
           0,
           -1
         ],
-        "expectedCurrentDigest": "5ea03b4b03ca2d28756e34f9a8e12860c5b1a5c54d4958063b0a58b3aa191790",
+        "expectedCurrentDigest": "e0115e9cad4d978bbf84829f25350978f776c2a7f24870993b187102d2233d1e",
         "ops": {
           "profileVersion": "region-voxels/v1",
           "origin": [
@@ -1368,12 +1442,12 @@
           "indexOrder": "X_FASTEST_THEN_Y_THEN_Z",
           "palette": [
             {
-              "nodeName": "fixture:dirt",
-              "param2": 0
+              "materialRef": "fixture:dirt",
+              "orientation": 0
             },
             {
-              "nodeName": "fixture:stone",
-              "param2": 0
+              "materialRef": "fixture:stone",
+              "orientation": 0
             }
           ],
           "runs": [
@@ -1403,7 +1477,7 @@
           0,
           0
         ],
-        "expectedCurrentDigest": "5e6ab6ebe2e1db5df5f29a0af6c15779d63d48b90fb384799c4b101d5aa4f535",
+        "expectedCurrentDigest": "081ec395d52091d802e998698482ec0decf69a623cb86b0bb0a509f8e8d4fe99",
         "ops": {
           "profileVersion": "region-voxels/v1",
           "origin": [
@@ -1419,12 +1493,12 @@
           "indexOrder": "X_FASTEST_THEN_Y_THEN_Z",
           "palette": [
             {
-              "nodeName": "fixture:dirt",
-              "param2": 0
+              "materialRef": "fixture:dirt",
+              "orientation": 0
             },
             {
-              "nodeName": "fixture:stone",
-              "param2": 0
+              "materialRef": "fixture:stone",
+              "orientation": 0
             }
           ],
           "runs": [
@@ -1446,7 +1520,7 @@
           0,
           -1
         ],
-        "expectedCurrentDigest": "17c515fcad77466049ffef9e083abf535e072084274dee47627d43a3403c7422",
+        "expectedCurrentDigest": "c3abf6af5ef30bc817f62ed15933889bc119ffb20d6fff0604adc9a7df88b9e7",
         "ops": {
           "profileVersion": "region-voxels/v1",
           "origin": [
@@ -1462,16 +1536,16 @@
           "indexOrder": "X_FASTEST_THEN_Y_THEN_Z",
           "palette": [
             {
-              "nodeName": "air",
-              "param2": 0
+              "materialRef": "air",
+              "orientation": 0
             },
             {
-              "nodeName": "fixture:dirt",
-              "param2": 0
+              "materialRef": "fixture:dirt",
+              "orientation": 0
             },
             {
-              "nodeName": "fixture:stone",
-              "param2": 0
+              "materialRef": "fixture:stone",
+              "orientation": 0
             }
           ],
           "runs": [
@@ -1521,7 +1595,7 @@
           0,
           0
         ],
-        "expectedCurrentDigest": "54d394c649445e72c2e5f3fbcabd4131a39308225fee28837f13ad662eb8118f",
+        "expectedCurrentDigest": "c7d59d10f9961494c77651529006f1055d4e5db42e4f88924cf9c913b4bf4333",
         "ops": {
           "profileVersion": "region-voxels/v1",
           "origin": [
@@ -1537,16 +1611,16 @@
           "indexOrder": "X_FASTEST_THEN_Y_THEN_Z",
           "palette": [
             {
-              "nodeName": "air",
-              "param2": 0
+              "materialRef": "air",
+              "orientation": 0
             },
             {
-              "nodeName": "fixture:dirt",
-              "param2": 0
+              "materialRef": "fixture:dirt",
+              "orientation": 0
             },
             {
-              "nodeName": "fixture:stone",
-              "param2": 0
+              "materialRef": "fixture:stone",
+              "orientation": 0
             }
           ],
           "runs": [
@@ -1576,7 +1650,7 @@
           0,
           -1
         ],
-        "expectedCurrentDigest": "5e9a2d3b5f961fd4acb5e0f5a7a03fe1c7a542d3b057252168bfe109937412cb",
+        "expectedCurrentDigest": "90057e98225ce397b09583119eb0558c4bfd78736faecb54d06e2a86a12530d4",
         "ops": {
           "profileVersion": "region-voxels/v1",
           "origin": [
@@ -1592,12 +1666,12 @@
           "indexOrder": "X_FASTEST_THEN_Y_THEN_Z",
           "palette": [
             {
-              "nodeName": "fixture:dirt",
-              "param2": 0
+              "materialRef": "fixture:dirt",
+              "orientation": 0
             },
             {
-              "nodeName": "fixture:stone",
-              "param2": 0
+              "materialRef": "fixture:stone",
+              "orientation": 0
             }
           ],
           "runs": [
@@ -1627,7 +1701,7 @@
           0,
           0
         ],
-        "expectedCurrentDigest": "15dabaa125af278811e9232ec666335c4f19ef00a3b1cd01ba54853a6883afce",
+        "expectedCurrentDigest": "5a6c901554e575c743f2ff027540f0e66e5f16c2a91b3d96f226ed8d2fe4fec6",
         "ops": {
           "profileVersion": "region-voxels/v1",
           "origin": [
@@ -1643,12 +1717,12 @@
           "indexOrder": "X_FASTEST_THEN_Y_THEN_Z",
           "palette": [
             {
-              "nodeName": "fixture:dirt",
-              "param2": 0
+              "materialRef": "fixture:dirt",
+              "orientation": 0
             },
             {
-              "nodeName": "fixture:stone",
-              "param2": 0
+              "materialRef": "fixture:stone",
+              "orientation": 0
             }
           ],
           "runs": [
@@ -1687,7 +1761,7 @@
             -1
           ],
           "status": "WRITTEN",
-          "readbackDigest": "a4131f48552dd4209c256b49925ec654f0c9e48135d3fbacd6ba95ae8503d8d4"
+          "readbackDigest": "d49508f93ec5ab912e301415fe2d5f0551661f600de0582239a1757c207be5b0"
         },
         {
           "chunkPos": [
@@ -1696,7 +1770,7 @@
             0
           ],
           "status": "WRITTEN",
-          "readbackDigest": "6d81485b194378163e5ae0171ec1c372afe2b1c454971f36a8e95811ebdba731"
+          "readbackDigest": "b5f745855ff3ef6238e66af46083e1717e7ddc465ba1071794dabdfffcb2e898"
         },
         {
           "chunkPos": [
@@ -1705,7 +1779,7 @@
             -1
           ],
           "status": "WRITTEN",
-          "readbackDigest": "03911c2cc9a7bb0fabb1789e3387dc59c2a63c0d9e5050c9644e4e5ce9a8953f"
+          "readbackDigest": "ef44bd8e634f817bc3cd00615e06b7cf677aa4221c791d32d68520bb5c488a33"
         },
         {
           "chunkPos": [
@@ -1714,7 +1788,7 @@
             0
           ],
           "status": "WRITTEN",
-          "readbackDigest": "7a7c61ee24a6062c8bf6abcf5375bc2195427885c7e36b26ce8454d7c7aacbe5"
+          "readbackDigest": "eaed2261d8685d6208b0adce3427a52a195bfc05f1a54174060c3422b1809b1a"
         },
         {
           "chunkPos": [
@@ -1723,7 +1797,7 @@
             -1
           ],
           "status": "WRITTEN",
-          "readbackDigest": "958183e7e13a5d975ceb11e1aa641f2feeb1267f43bff7b5d396ad93586469fc"
+          "readbackDigest": "08986e47c57816432da17efecc5e61a65e613c365b5b02babeec7ee95b11410f"
         },
         {
           "chunkPos": [
@@ -1732,7 +1806,7 @@
             0
           ],
           "status": "WRITTEN",
-          "readbackDigest": "f255f4f129a34f572522313cfc34bf52f0e309fb5f6e15c992cbb3c7be646128"
+          "readbackDigest": "fc1b87442243b8c6936344f2c291081a30aa248baef749c4b3939fdab89a0a84"
         }
       ],
       "lighting": {
@@ -1772,7 +1846,7 @@
           -1
         ],
         "state": {
-          "profileVersion": "region-state/v1",
+          "profileVersion": "region-state/v2",
           "worldRef": "fixture-world",
           "block": {
             "profileVersion": "region-voxels/v1",
@@ -1789,8 +1863,8 @@
             "indexOrder": "X_FASTEST_THEN_Y_THEN_Z",
             "palette": [
               {
-                "nodeName": "fixture:stone",
-                "param2": 0
+                "materialRef": "fixture:stone",
+                "orientation": 0
               }
             ],
             "runs": [
@@ -1807,16 +1881,29 @@
                 0,
                 -2
               ],
-              "metadata": {
-                "infotext": "fixture sign"
-              },
-              "inventory": {},
-              "timer": null
+              "state": {
+                "metadata": {
+                  "infotext": "fixture sign"
+                },
+                "inventory": {},
+                "timer": null
+              }
             }
           ],
-          "derivedLightMode": "recompute-with-readback"
+          "stateProfile": {
+            "profileVersion": "state-profile/v3",
+            "derivedFields": [
+              "param1"
+            ],
+            "preservedFields": [],
+            "clearedFields": [
+              "inventory",
+              "metadata",
+              "timer"
+            ]
+          }
         },
-        "stateDigest": "5ea03b4b03ca2d28756e34f9a8e12860c5b1a5c54d4958063b0a58b3aa191790"
+        "stateDigest": "e0115e9cad4d978bbf84829f25350978f776c2a7f24870993b187102d2233d1e"
       },
       {
         "chunkPos": [
@@ -1825,7 +1912,7 @@
           0
         ],
         "state": {
-          "profileVersion": "region-state/v1",
+          "profileVersion": "region-state/v2",
           "worldRef": "fixture-world",
           "block": {
             "profileVersion": "region-voxels/v1",
@@ -1842,8 +1929,8 @@
             "indexOrder": "X_FASTEST_THEN_Y_THEN_Z",
             "palette": [
               {
-                "nodeName": "fixture:stone",
-                "param2": 0
+                "materialRef": "fixture:stone",
+                "orientation": 0
               }
             ],
             "runs": [
@@ -1854,9 +1941,20 @@
             ]
           },
           "extras": [],
-          "derivedLightMode": "recompute-with-readback"
+          "stateProfile": {
+            "profileVersion": "state-profile/v3",
+            "derivedFields": [
+              "param1"
+            ],
+            "preservedFields": [],
+            "clearedFields": [
+              "inventory",
+              "metadata",
+              "timer"
+            ]
+          }
         },
-        "stateDigest": "5e6ab6ebe2e1db5df5f29a0af6c15779d63d48b90fb384799c4b101d5aa4f535"
+        "stateDigest": "081ec395d52091d802e998698482ec0decf69a623cb86b0bb0a509f8e8d4fe99"
       },
       {
         "chunkPos": [
@@ -1865,7 +1963,7 @@
           -1
         ],
         "state": {
-          "profileVersion": "region-state/v1",
+          "profileVersion": "region-state/v2",
           "worldRef": "fixture-world",
           "block": {
             "profileVersion": "region-voxels/v1",
@@ -1882,8 +1980,8 @@
             "indexOrder": "X_FASTEST_THEN_Y_THEN_Z",
             "palette": [
               {
-                "nodeName": "fixture:stone",
-                "param2": 0
+                "materialRef": "fixture:stone",
+                "orientation": 0
               }
             ],
             "runs": [
@@ -1894,9 +1992,20 @@
             ]
           },
           "extras": [],
-          "derivedLightMode": "recompute-with-readback"
+          "stateProfile": {
+            "profileVersion": "state-profile/v3",
+            "derivedFields": [
+              "param1"
+            ],
+            "preservedFields": [],
+            "clearedFields": [
+              "inventory",
+              "metadata",
+              "timer"
+            ]
+          }
         },
-        "stateDigest": "17c515fcad77466049ffef9e083abf535e072084274dee47627d43a3403c7422"
+        "stateDigest": "c3abf6af5ef30bc817f62ed15933889bc119ffb20d6fff0604adc9a7df88b9e7"
       },
       {
         "chunkPos": [
@@ -1905,7 +2014,7 @@
           0
         ],
         "state": {
-          "profileVersion": "region-state/v1",
+          "profileVersion": "region-state/v2",
           "worldRef": "fixture-world",
           "block": {
             "profileVersion": "region-voxels/v1",
@@ -1922,8 +2031,8 @@
             "indexOrder": "X_FASTEST_THEN_Y_THEN_Z",
             "palette": [
               {
-                "nodeName": "fixture:stone",
-                "param2": 0
+                "materialRef": "fixture:stone",
+                "orientation": 0
               }
             ],
             "runs": [
@@ -1934,9 +2043,20 @@
             ]
           },
           "extras": [],
-          "derivedLightMode": "recompute-with-readback"
+          "stateProfile": {
+            "profileVersion": "state-profile/v3",
+            "derivedFields": [
+              "param1"
+            ],
+            "preservedFields": [],
+            "clearedFields": [
+              "inventory",
+              "metadata",
+              "timer"
+            ]
+          }
         },
-        "stateDigest": "54d394c649445e72c2e5f3fbcabd4131a39308225fee28837f13ad662eb8118f"
+        "stateDigest": "c7d59d10f9961494c77651529006f1055d4e5db42e4f88924cf9c913b4bf4333"
       },
       {
         "chunkPos": [
@@ -1945,7 +2065,7 @@
           -1
         ],
         "state": {
-          "profileVersion": "region-state/v1",
+          "profileVersion": "region-state/v2",
           "worldRef": "fixture-world",
           "block": {
             "profileVersion": "region-voxels/v1",
@@ -1962,8 +2082,8 @@
             "indexOrder": "X_FASTEST_THEN_Y_THEN_Z",
             "palette": [
               {
-                "nodeName": "fixture:stone",
-                "param2": 0
+                "materialRef": "fixture:stone",
+                "orientation": 0
               }
             ],
             "runs": [
@@ -1974,9 +2094,20 @@
             ]
           },
           "extras": [],
-          "derivedLightMode": "recompute-with-readback"
+          "stateProfile": {
+            "profileVersion": "state-profile/v3",
+            "derivedFields": [
+              "param1"
+            ],
+            "preservedFields": [],
+            "clearedFields": [
+              "inventory",
+              "metadata",
+              "timer"
+            ]
+          }
         },
-        "stateDigest": "5e9a2d3b5f961fd4acb5e0f5a7a03fe1c7a542d3b057252168bfe109937412cb"
+        "stateDigest": "90057e98225ce397b09583119eb0558c4bfd78736faecb54d06e2a86a12530d4"
       },
       {
         "chunkPos": [
@@ -1985,7 +2116,7 @@
           0
         ],
         "state": {
-          "profileVersion": "region-state/v1",
+          "profileVersion": "region-state/v2",
           "worldRef": "fixture-world",
           "block": {
             "profileVersion": "region-voxels/v1",
@@ -2002,8 +2133,8 @@
             "indexOrder": "X_FASTEST_THEN_Y_THEN_Z",
             "palette": [
               {
-                "nodeName": "fixture:stone",
-                "param2": 0
+                "materialRef": "fixture:stone",
+                "orientation": 0
               }
             ],
             "runs": [
@@ -2014,13 +2145,24 @@
             ]
           },
           "extras": [],
-          "derivedLightMode": "recompute-with-readback"
+          "stateProfile": {
+            "profileVersion": "state-profile/v3",
+            "derivedFields": [
+              "param1"
+            ],
+            "preservedFields": [],
+            "clearedFields": [
+              "inventory",
+              "metadata",
+              "timer"
+            ]
+          }
         },
-        "stateDigest": "15dabaa125af278811e9232ec666335c4f19ef00a3b1cd01ba54853a6883afce"
+        "stateDigest": "5a6c901554e575c743f2ff027540f0e66e5f16c2a91b3d96f226ed8d2fe4fec6"
       }
     ]
   },
-  "snapshotGzipBase64": "H4sIAAAAAAACE+WWTW/TQBCG/wrasyN29ntzQ6KIAxREKwRUUTW7O5taTbyVvWkDUf47cnIotFWRIKpAnLy2xjPvzKPX4w2LF6vucmDTs83++L6MNxNoeDOBWcOGipXYdMPCosTL8dB2idbv+kQ9m7JP569enJwenZyen74+Oj7/vL98YQ0rfTtvuzGXGHOJWcOucEF1zHa2YV1JdIxLYlOW23Vd9TQdaumIjWE9LgWb8u34Tl9yu6CP1A9t6diU9TRvSze5LmtaDM+vgTWsX3Wj6DPX8Nkouf021hCNaMRs27BEfXtN6U07v6hvS6JdkliWV6tKk5u2Xkx6whQwXrKG0br2uJ9H211TV0v/lU0324YtqWLCivsZ5FJpXW/VPxvaece2DbsqQ1t3Un/ovLbLcVzdarF4rKndsPc93ZR+kT5Qvq0w2T0aS+zCXrZzGkYBmpDLoAKXEUUSzmpDUmWPjkA4w6MOgDpqlZTXjhsZOGoXJCJ4sJ6zbXOfPT8cev4E5NU98vD75A8PyGAwFEgQpKBT1ll45JhNBG2tT0Ym5YLnOUinrPdRBeCQNKLKWuq7gPjhvMmfyprmZ0Jg/sych0YENmrQOWKyVhnDlc+ZsifuJIaRAXEruFPCqkSkrBE2KYlScRmtEuIhRPxghJ7CQVLcB/Q3eUgl6VU0yiulyYooSGeZQ8SQFEhA6SV3QuhMJJyTNoPEZIyg4ABcvgvogPsNzD+53w7/lfMokgw6ewM5KYxBE88aLXKZCaJFrcYArq3QAowLmYB7L60CEcNDhPjhAP33Wwh0woAIQmMW1jkA8kIKisYYKXVUGTxlzlEGiIlDQK2clmick5gjsUd/XDq8Gi5KncTSVerqr8R9B1kx9pN4CgAA",
+  "snapshotGzipBase64": "H4sIAAAAAAACE+2W227TQBCGXwX5OlFnz7u5Q6IVV1BBhYCqqvYw21p17cp2QqDquzObFEib0quoQgrKRew9/PPvzqfx3Fbxct5eDdXs9Hb9eNyVlymbwGTKzibVMPoRq9ltFZouXpWHuk24fN8n7KtZ9fn86PXHk8OPJ+cnbw/fnX9Z/32tJlXX1xd1W7R40eKkdeMbHIsaBbsm2b72zQfMJJPr5TjvcTaMXYvrzdhS5LojBbgre/su1w1+wn5YDVY9XtDDdNEtsRkOFox29fO2mD+1Ezgr1usfJRaf0O/sblLhcuz9+qg33VCvxTfs/T5q3S4oetd/pxfad42jT37066ncjST0x/Orob5oK1o21tflStp509w953gV5mDBq/uIx+t1RT026HtMRzU2qRjdcLJh41coikFJqBebG258769ZtQqPA/abk095WjmY3g8fLEQ5yLeub9KDvExXQ2Vutf5NfYFDuQIExhS66JNMztgQspWWu8yVUEAD2RgduTeZS2vAORGYNQx44lyIxJAUt7GD3VEHLwid3IKOPYBuP4gAyzAKp5Li4FiywNE5q13hAiMkjFk7r7mIweoAIYAnUrJFm2SmpY+JgN3VIXjpMqQfIsH0ViHaDyai8CFrnxVmASFaZrLmmJhyQljrQmTM5Rw4JJ1zBg3Sp+i8Sdna4NA8xQTsDImXrBGCbxOxj1UimqRcYpCd00w6Gek7oZjiDkBnBkoliSoFyVESA47LmF10TAQZshRCPCZih90K5eQf61b2AwlKvTLoLOcqonAmgFNWUGXAQDzYSJlPxhqhs8cYlEygkXurPaNmA5J8CgnYHRH/O4mXBkJ5HR0wpagUGBWNFJnT14EbJSEDao0qs9JdOhZEcjpzrjHZxDMVDYy6erYHb/3NcNmN09i1I93COgF/N/cTCJHILigNAAA=",
   "commitRequest": {
     "contractVersion": "canvas-region/v2",
     "sessionRef": "fixture-session",
@@ -2029,10 +2171,10 @@
     "transactionId": "region-tx-1",
     "operations": {
       "contractVersion": "region-operations/v1",
-      "buildDigest": "21f935e1b2c66636a520acdbda7571fb702b14eb47f91f820d432ca3262c9065",
+      "buildDigest": "267b7595e51404dd02931bae76c9e0ba9b6a0f69b4466bc5774dad0ed0a7456e",
       "compilerRevision": "fixture-brush-region-1",
       "worldRef": "fixture-world",
-      "catalogueDigest": "ebbca84efd0d22b7e499a6f046d5463908846604ddef442288e0bd3881f50162",
+      "catalogueDigest": "89dfb22e3b674be56a66bb066ca5ee51fb0c0571725b2970ab0478658357cc57",
       "chunkEdge": 16,
       "chunks": [
         {
@@ -2056,12 +2198,12 @@
             "indexOrder": "X_FASTEST_THEN_Y_THEN_Z",
             "palette": [
               {
-                "nodeName": "fixture:dirt",
-                "param2": 0
+                "materialRef": "fixture:dirt",
+                "orientation": 0
               },
               {
-                "nodeName": "fixture:stone",
-                "param2": 0
+                "materialRef": "fixture:stone",
+                "orientation": 0
               }
             ],
             "runs": [
@@ -2105,12 +2247,12 @@
             "indexOrder": "X_FASTEST_THEN_Y_THEN_Z",
             "palette": [
               {
-                "nodeName": "fixture:dirt",
-                "param2": 0
+                "materialRef": "fixture:dirt",
+                "orientation": 0
               },
               {
-                "nodeName": "fixture:stone",
-                "param2": 0
+                "materialRef": "fixture:stone",
+                "orientation": 0
               }
             ],
             "runs": [
@@ -2146,16 +2288,16 @@
             "indexOrder": "X_FASTEST_THEN_Y_THEN_Z",
             "palette": [
               {
-                "nodeName": "air",
-                "param2": 0
+                "materialRef": "air",
+                "orientation": 0
               },
               {
-                "nodeName": "fixture:dirt",
-                "param2": 0
+                "materialRef": "fixture:dirt",
+                "orientation": 0
               },
               {
-                "nodeName": "fixture:stone",
-                "param2": 0
+                "materialRef": "fixture:stone",
+                "orientation": 0
               }
             ],
             "runs": [
@@ -2219,16 +2361,16 @@
             "indexOrder": "X_FASTEST_THEN_Y_THEN_Z",
             "palette": [
               {
-                "nodeName": "air",
-                "param2": 0
+                "materialRef": "air",
+                "orientation": 0
               },
               {
-                "nodeName": "fixture:dirt",
-                "param2": 0
+                "materialRef": "fixture:dirt",
+                "orientation": 0
               },
               {
-                "nodeName": "fixture:stone",
-                "param2": 0
+                "materialRef": "fixture:stone",
+                "orientation": 0
               }
             ],
             "runs": [
@@ -2272,12 +2414,12 @@
             "indexOrder": "X_FASTEST_THEN_Y_THEN_Z",
             "palette": [
               {
-                "nodeName": "fixture:dirt",
-                "param2": 0
+                "materialRef": "fixture:dirt",
+                "orientation": 0
               },
               {
-                "nodeName": "fixture:stone",
-                "param2": 0
+                "materialRef": "fixture:stone",
+                "orientation": 0
               }
             ],
             "runs": [
@@ -2321,12 +2463,12 @@
             "indexOrder": "X_FASTEST_THEN_Y_THEN_Z",
             "palette": [
               {
-                "nodeName": "fixture:dirt",
-                "param2": 0
+                "materialRef": "fixture:dirt",
+                "orientation": 0
               },
               {
-                "nodeName": "fixture:stone",
-                "param2": 0
+                "materialRef": "fixture:stone",
+                "orientation": 0
               }
             ],
             "runs": [
@@ -2343,7 +2485,7 @@
         }
       ]
     },
-    "operationDigest": "2498da7f1be2c7fd140ffb18bd1951469feb376f26bf8bc750ffeef6a2387e03",
+    "operationDigest": "5ca8c217ffc2a044244e87b6f150cf9175371abee2391e49a9b08ecd3da775fd",
     "guarantee": "RECOVERABLE_VERIFIED",
     "localContext": {
       "connectionRef": "local-connection",
@@ -2359,7 +2501,7 @@
       "transactionId": "region-tx-1",
       "worldRef": "fixture-world",
       "status": "VERIFIED",
-      "operationDigest": "2498da7f1be2c7fd140ffb18bd1951469feb376f26bf8bc750ffeef6a2387e03",
+      "operationDigest": "5ca8c217ffc2a044244e87b6f150cf9175371abee2391e49a9b08ecd3da775fd",
       "beforeSummary": {
         "profileVersion": "region-summary/v1",
         "worldRef": "fixture-world",
@@ -2382,7 +2524,7 @@
                 -1
               ]
             },
-            "stateDigest": "5ea03b4b03ca2d28756e34f9a8e12860c5b1a5c54d4958063b0a58b3aa191790"
+            "stateDigest": "e0115e9cad4d978bbf84829f25350978f776c2a7f24870993b187102d2233d1e"
           },
           {
             "chunkPos": [
@@ -2402,7 +2544,7 @@
                 0
               ]
             },
-            "stateDigest": "5e6ab6ebe2e1db5df5f29a0af6c15779d63d48b90fb384799c4b101d5aa4f535"
+            "stateDigest": "081ec395d52091d802e998698482ec0decf69a623cb86b0bb0a509f8e8d4fe99"
           },
           {
             "chunkPos": [
@@ -2422,7 +2564,7 @@
                 -1
               ]
             },
-            "stateDigest": "17c515fcad77466049ffef9e083abf535e072084274dee47627d43a3403c7422"
+            "stateDigest": "c3abf6af5ef30bc817f62ed15933889bc119ffb20d6fff0604adc9a7df88b9e7"
           },
           {
             "chunkPos": [
@@ -2442,7 +2584,7 @@
                 0
               ]
             },
-            "stateDigest": "54d394c649445e72c2e5f3fbcabd4131a39308225fee28837f13ad662eb8118f"
+            "stateDigest": "c7d59d10f9961494c77651529006f1055d4e5db42e4f88924cf9c913b4bf4333"
           },
           {
             "chunkPos": [
@@ -2462,7 +2604,7 @@
                 -1
               ]
             },
-            "stateDigest": "5e9a2d3b5f961fd4acb5e0f5a7a03fe1c7a542d3b057252168bfe109937412cb"
+            "stateDigest": "90057e98225ce397b09583119eb0558c4bfd78736faecb54d06e2a86a12530d4"
           },
           {
             "chunkPos": [
@@ -2482,7 +2624,7 @@
                 0
               ]
             },
-            "stateDigest": "15dabaa125af278811e9232ec666335c4f19ef00a3b1cd01ba54853a6883afce"
+            "stateDigest": "5a6c901554e575c743f2ff027540f0e66e5f16c2a91b3d96f226ed8d2fe4fec6"
           }
         ]
       },
@@ -2508,7 +2650,7 @@
                 -1
               ]
             },
-            "stateDigest": "a4131f48552dd4209c256b49925ec654f0c9e48135d3fbacd6ba95ae8503d8d4"
+            "stateDigest": "d49508f93ec5ab912e301415fe2d5f0551661f600de0582239a1757c207be5b0"
           },
           {
             "chunkPos": [
@@ -2528,7 +2670,7 @@
                 0
               ]
             },
-            "stateDigest": "6d81485b194378163e5ae0171ec1c372afe2b1c454971f36a8e95811ebdba731"
+            "stateDigest": "b5f745855ff3ef6238e66af46083e1717e7ddc465ba1071794dabdfffcb2e898"
           },
           {
             "chunkPos": [
@@ -2548,7 +2690,7 @@
                 -1
               ]
             },
-            "stateDigest": "03911c2cc9a7bb0fabb1789e3387dc59c2a63c0d9e5050c9644e4e5ce9a8953f"
+            "stateDigest": "ef44bd8e634f817bc3cd00615e06b7cf677aa4221c791d32d68520bb5c488a33"
           },
           {
             "chunkPos": [
@@ -2568,7 +2710,7 @@
                 0
               ]
             },
-            "stateDigest": "7a7c61ee24a6062c8bf6abcf5375bc2195427885c7e36b26ce8454d7c7aacbe5"
+            "stateDigest": "eaed2261d8685d6208b0adce3427a52a195bfc05f1a54174060c3422b1809b1a"
           },
           {
             "chunkPos": [
@@ -2588,7 +2730,7 @@
                 -1
               ]
             },
-            "stateDigest": "958183e7e13a5d975ceb11e1aa641f2feeb1267f43bff7b5d396ad93586469fc"
+            "stateDigest": "08986e47c57816432da17efecc5e61a65e613c365b5b02babeec7ee95b11410f"
           },
           {
             "chunkPos": [
@@ -2608,7 +2750,7 @@
                 0
               ]
             },
-            "stateDigest": "f255f4f129a34f572522313cfc34bf52f0e309fb5f6e15c992cbb3c7be646128"
+            "stateDigest": "fc1b87442243b8c6936344f2c291081a30aa248baef749c4b3939fdab89a0a84"
           }
         ]
       },
@@ -2634,7 +2776,7 @@
                 -1
               ]
             },
-            "stateDigest": "a4131f48552dd4209c256b49925ec654f0c9e48135d3fbacd6ba95ae8503d8d4"
+            "stateDigest": "d49508f93ec5ab912e301415fe2d5f0551661f600de0582239a1757c207be5b0"
           },
           {
             "chunkPos": [
@@ -2654,7 +2796,7 @@
                 0
               ]
             },
-            "stateDigest": "6d81485b194378163e5ae0171ec1c372afe2b1c454971f36a8e95811ebdba731"
+            "stateDigest": "b5f745855ff3ef6238e66af46083e1717e7ddc465ba1071794dabdfffcb2e898"
           },
           {
             "chunkPos": [
@@ -2674,7 +2816,7 @@
                 -1
               ]
             },
-            "stateDigest": "03911c2cc9a7bb0fabb1789e3387dc59c2a63c0d9e5050c9644e4e5ce9a8953f"
+            "stateDigest": "ef44bd8e634f817bc3cd00615e06b7cf677aa4221c791d32d68520bb5c488a33"
           },
           {
             "chunkPos": [
@@ -2694,7 +2836,7 @@
                 0
               ]
             },
-            "stateDigest": "7a7c61ee24a6062c8bf6abcf5375bc2195427885c7e36b26ce8454d7c7aacbe5"
+            "stateDigest": "eaed2261d8685d6208b0adce3427a52a195bfc05f1a54174060c3422b1809b1a"
           },
           {
             "chunkPos": [
@@ -2714,7 +2856,7 @@
                 -1
               ]
             },
-            "stateDigest": "958183e7e13a5d975ceb11e1aa641f2feeb1267f43bff7b5d396ad93586469fc"
+            "stateDigest": "08986e47c57816432da17efecc5e61a65e613c365b5b02babeec7ee95b11410f"
           },
           {
             "chunkPos": [
@@ -2734,17 +2876,17 @@
                 0
               ]
             },
-            "stateDigest": "f255f4f129a34f572522313cfc34bf52f0e309fb5f6e15c992cbb3c7be646128"
+            "stateDigest": "fc1b87442243b8c6936344f2c291081a30aa248baef749c4b3939fdab89a0a84"
           }
         ]
       },
       "snapshot": {
         "profileVersion": "region-snapshot/v1",
-        "contentDigest": "3da3d9f00f8bbb36df0717d09be873eb382887fbc66678cf8f7dfb52a0974bee",
-        "beforeSummaryDigest": "d8e89358699b34eefb63a42ba82e5bc0b6b1d2f6a72fe55339d9fa280cd0ce53",
+        "contentDigest": "74a90f96f7ec57941305e589b1ffdd6c5d478b2c7a5432b37dd2b6e6014ba49b",
+        "beforeSummaryDigest": "7d74a23c7ed190912cb7fdd38ab3d8d73ca9f24633cc6515da959c3664724410",
         "compression": "gzip",
-        "compressedSha256": "6adcea66f7c8c7979449e246574c30804bf125f8b09ba731c19442e705d59ef3",
-        "compressedByteLength": 666
+        "compressedSha256": "d8d264150d7204583e97c27d997ff898b3ca1cc9118305c9122f9cfd11603b2e",
+        "compressedByteLength": 704
       },
       "historyRevision": "history-2",
       "lighting": {
@@ -2798,8 +2940,8 @@
       "undoTransactionId": "region-undo-1",
       "worldRef": "fixture-world",
       "status": "VERIFIED",
-      "originBeforeSummaryDigest": "d8e89358699b34eefb63a42ba82e5bc0b6b1d2f6a72fe55339d9fa280cd0ce53",
-      "originAfterSummaryDigest": "9b374cc85f161415ea9ec24687cdf149450ac8c155f9d959dc2b660435227381",
+      "originBeforeSummaryDigest": "7d74a23c7ed190912cb7fdd38ab3d8d73ca9f24633cc6515da959c3664724410",
+      "originAfterSummaryDigest": "d3a22533fa9b0a0534d94e7250a1316c1db9755bf8aff03a02992129ca41a8c2",
       "preUndoSummary": {
         "profileVersion": "region-summary/v1",
         "worldRef": "fixture-world",
@@ -2822,7 +2964,7 @@
                 -1
               ]
             },
-            "stateDigest": "a4131f48552dd4209c256b49925ec654f0c9e48135d3fbacd6ba95ae8503d8d4"
+            "stateDigest": "d49508f93ec5ab912e301415fe2d5f0551661f600de0582239a1757c207be5b0"
           },
           {
             "chunkPos": [
@@ -2842,7 +2984,7 @@
                 0
               ]
             },
-            "stateDigest": "6d81485b194378163e5ae0171ec1c372afe2b1c454971f36a8e95811ebdba731"
+            "stateDigest": "b5f745855ff3ef6238e66af46083e1717e7ddc465ba1071794dabdfffcb2e898"
           },
           {
             "chunkPos": [
@@ -2862,7 +3004,7 @@
                 -1
               ]
             },
-            "stateDigest": "03911c2cc9a7bb0fabb1789e3387dc59c2a63c0d9e5050c9644e4e5ce9a8953f"
+            "stateDigest": "ef44bd8e634f817bc3cd00615e06b7cf677aa4221c791d32d68520bb5c488a33"
           },
           {
             "chunkPos": [
@@ -2882,7 +3024,7 @@
                 0
               ]
             },
-            "stateDigest": "7a7c61ee24a6062c8bf6abcf5375bc2195427885c7e36b26ce8454d7c7aacbe5"
+            "stateDigest": "eaed2261d8685d6208b0adce3427a52a195bfc05f1a54174060c3422b1809b1a"
           },
           {
             "chunkPos": [
@@ -2902,7 +3044,7 @@
                 -1
               ]
             },
-            "stateDigest": "958183e7e13a5d975ceb11e1aa641f2feeb1267f43bff7b5d396ad93586469fc"
+            "stateDigest": "08986e47c57816432da17efecc5e61a65e613c365b5b02babeec7ee95b11410f"
           },
           {
             "chunkPos": [
@@ -2922,7 +3064,7 @@
                 0
               ]
             },
-            "stateDigest": "f255f4f129a34f572522313cfc34bf52f0e309fb5f6e15c992cbb3c7be646128"
+            "stateDigest": "fc1b87442243b8c6936344f2c291081a30aa248baef749c4b3939fdab89a0a84"
           }
         ]
       },
@@ -2948,7 +3090,7 @@
                 -1
               ]
             },
-            "stateDigest": "5ea03b4b03ca2d28756e34f9a8e12860c5b1a5c54d4958063b0a58b3aa191790"
+            "stateDigest": "e0115e9cad4d978bbf84829f25350978f776c2a7f24870993b187102d2233d1e"
           },
           {
             "chunkPos": [
@@ -2968,7 +3110,7 @@
                 0
               ]
             },
-            "stateDigest": "5e6ab6ebe2e1db5df5f29a0af6c15779d63d48b90fb384799c4b101d5aa4f535"
+            "stateDigest": "081ec395d52091d802e998698482ec0decf69a623cb86b0bb0a509f8e8d4fe99"
           },
           {
             "chunkPos": [
@@ -2988,7 +3130,7 @@
                 -1
               ]
             },
-            "stateDigest": "17c515fcad77466049ffef9e083abf535e072084274dee47627d43a3403c7422"
+            "stateDigest": "c3abf6af5ef30bc817f62ed15933889bc119ffb20d6fff0604adc9a7df88b9e7"
           },
           {
             "chunkPos": [
@@ -3008,7 +3150,7 @@
                 0
               ]
             },
-            "stateDigest": "54d394c649445e72c2e5f3fbcabd4131a39308225fee28837f13ad662eb8118f"
+            "stateDigest": "c7d59d10f9961494c77651529006f1055d4e5db42e4f88924cf9c913b4bf4333"
           },
           {
             "chunkPos": [
@@ -3028,7 +3170,7 @@
                 -1
               ]
             },
-            "stateDigest": "5e9a2d3b5f961fd4acb5e0f5a7a03fe1c7a542d3b057252168bfe109937412cb"
+            "stateDigest": "90057e98225ce397b09583119eb0558c4bfd78736faecb54d06e2a86a12530d4"
           },
           {
             "chunkPos": [
@@ -3048,7 +3190,7 @@
                 0
               ]
             },
-            "stateDigest": "15dabaa125af278811e9232ec666335c4f19ef00a3b1cd01ba54853a6883afce"
+            "stateDigest": "5a6c901554e575c743f2ff027540f0e66e5f16c2a91b3d96f226ed8d2fe4fec6"
           }
         ]
       },

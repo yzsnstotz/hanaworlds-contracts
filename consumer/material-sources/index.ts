@@ -5,10 +5,10 @@ export async function read(port:MaterialSourceFactsPort,cat:Catalogue,current:Ma
  const {sourceRevision,...projection}=verified.snapshot;
  const exact:MaterialSourcesProjection=projection;
  const digest:string=digestValue('material-sources',exact).sha256;
- const statics:MaterialMap={stone:{nodeName:'fixture:stone',param2:0}};
+ const statics:MaterialMap={stone:{materialRef:'fixture:stone',orientation:0}};
  validateStaticMaterials(statics,cat);
  for(const row of verified.snapshot.materials){
-  if(row.availability==='KNOWN'){const hash:string=row.texture.bytesDigest;const p:number=row.param2;void hash;void p;}
+  if(row.availability==='KNOWN'){const hash:string=row.texture.bytesDigest;const p:number=row.orientation;void hash;void p;}
   else{const unavailable:null=row.texture;const reason:string=row.reason;void unavailable;void reason;}
  }
  const bytes:Uint8Array|undefined=verified.textures[0]?.bytes;void bytes;void digest;void sourceRevision;

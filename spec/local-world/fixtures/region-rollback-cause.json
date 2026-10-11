@@ -15,10 +15,10 @@
         "transactionId": "region-tx-1",
         "operations": {
           "contractVersion": "region-operations/v1",
-          "buildDigest": "21f935e1b2c66636a520acdbda7571fb702b14eb47f91f820d432ca3262c9065",
+          "buildDigest": "267b7595e51404dd02931bae76c9e0ba9b6a0f69b4466bc5774dad0ed0a7456e",
           "compilerRevision": "fixture-brush-region-1",
           "worldRef": "fixture-world",
-          "catalogueDigest": "ebbca84efd0d22b7e499a6f046d5463908846604ddef442288e0bd3881f50162",
+          "catalogueDigest": "89dfb22e3b674be56a66bb066ca5ee51fb0c0571725b2970ab0478658357cc57",
           "chunkEdge": 16,
           "chunks": [
             {
@@ -42,12 +42,12 @@
                 "indexOrder": "X_FASTEST_THEN_Y_THEN_Z",
                 "palette": [
                   {
-                    "nodeName": "fixture:dirt",
-                    "param2": 0
+                    "materialRef": "fixture:dirt",
+                    "orientation": 0
                   },
                   {
-                    "nodeName": "fixture:stone",
-                    "param2": 0
+                    "materialRef": "fixture:stone",
+                    "orientation": 0
                   }
                 ],
                 "runs": [
@@ -91,12 +91,12 @@
                 "indexOrder": "X_FASTEST_THEN_Y_THEN_Z",
                 "palette": [
                   {
-                    "nodeName": "fixture:dirt",
-                    "param2": 0
+                    "materialRef": "fixture:dirt",
+                    "orientation": 0
                   },
                   {
-                    "nodeName": "fixture:stone",
-                    "param2": 0
+                    "materialRef": "fixture:stone",
+                    "orientation": 0
                   }
                 ],
                 "runs": [
@@ -132,16 +132,16 @@
                 "indexOrder": "X_FASTEST_THEN_Y_THEN_Z",
                 "palette": [
                   {
-                    "nodeName": "air",
-                    "param2": 0
+                    "materialRef": "air",
+                    "orientation": 0
                   },
                   {
-                    "nodeName": "fixture:dirt",
-                    "param2": 0
+                    "materialRef": "fixture:dirt",
+                    "orientation": 0
                   },
                   {
-                    "nodeName": "fixture:stone",
-                    "param2": 0
+                    "materialRef": "fixture:stone",
+                    "orientation": 0
                   }
                 ],
                 "runs": [
@@ -205,16 +205,16 @@
                 "indexOrder": "X_FASTEST_THEN_Y_THEN_Z",
                 "palette": [
                   {
-                    "nodeName": "air",
-                    "param2": 0
+                    "materialRef": "air",
+                    "orientation": 0
                   },
                   {
-                    "nodeName": "fixture:dirt",
-                    "param2": 0
+                    "materialRef": "fixture:dirt",
+                    "orientation": 0
                   },
                   {
-                    "nodeName": "fixture:stone",
-                    "param2": 0
+                    "materialRef": "fixture:stone",
+                    "orientation": 0
                   }
                 ],
                 "runs": [
@@ -258,12 +258,12 @@
                 "indexOrder": "X_FASTEST_THEN_Y_THEN_Z",
                 "palette": [
                   {
-                    "nodeName": "fixture:dirt",
-                    "param2": 0
+                    "materialRef": "fixture:dirt",
+                    "orientation": 0
                   },
                   {
-                    "nodeName": "fixture:stone",
-                    "param2": 0
+                    "materialRef": "fixture:stone",
+                    "orientation": 0
                   }
                 ],
                 "runs": [
@@ -307,12 +307,12 @@
                 "indexOrder": "X_FASTEST_THEN_Y_THEN_Z",
                 "palette": [
                   {
-                    "nodeName": "fixture:dirt",
-                    "param2": 0
+                    "materialRef": "fixture:dirt",
+                    "orientation": 0
                   },
                   {
-                    "nodeName": "fixture:stone",
-                    "param2": 0
+                    "materialRef": "fixture:stone",
+                    "orientation": 0
                   }
                 ],
                 "runs": [
@@ -329,7 +329,7 @@
             }
           ]
         },
-        "operationDigest": "2498da7f1be2c7fd140ffb18bd1951469feb376f26bf8bc750ffeef6a2387e03",
+        "operationDigest": "5ca8c217ffc2a044244e87b6f150cf9175371abee2391e49a9b08ecd3da775fd",
         "guarantee": "RECOVERABLE_VERIFIED",
         "localContext": {
           "connectionRef": "local-connection",
@@ -345,7 +345,7 @@
           "transactionId": "region-tx-1",
           "worldRef": "fixture-world",
           "status": "ROLLED_BACK",
-          "operationDigest": "2498da7f1be2c7fd140ffb18bd1951469feb376f26bf8bc750ffeef6a2387e03",
+          "operationDigest": "5ca8c217ffc2a044244e87b6f150cf9175371abee2391e49a9b08ecd3da775fd",
           "beforeSummary": {
             "profileVersion": "region-summary/v1",
             "worldRef": "fixture-world",
@@ -368,7 +368,7 @@
                     -1
                   ]
                 },
-                "stateDigest": "5ea03b4b03ca2d28756e34f9a8e12860c5b1a5c54d4958063b0a58b3aa191790"
+                "stateDigest": "e0115e9cad4d978bbf84829f25350978f776c2a7f24870993b187102d2233d1e"
               },
               {
                 "chunkPos": [
@@ -388,7 +388,7 @@
                     0
                   ]
                 },
-                "stateDigest": "5e6ab6ebe2e1db5df5f29a0af6c15779d63d48b90fb384799c4b101d5aa4f535"
+                "stateDigest": "081ec395d52091d802e998698482ec0decf69a623cb86b0bb0a509f8e8d4fe99"
               },
               {
                 "chunkPos": [
@@ -408,7 +408,7 @@
                     -1
                   ]
                 },
-                "stateDigest": "17c515fcad77466049ffef9e083abf535e072084274dee47627d43a3403c7422"
+                "stateDigest": "c3abf6af5ef30bc817f62ed15933889bc119ffb20d6fff0604adc9a7df88b9e7"
               },
               {
                 "chunkPos": [
@@ -428,7 +428,7 @@
                     0
                   ]
                 },
-                "stateDigest": "54d394c649445e72c2e5f3fbcabd4131a39308225fee28837f13ad662eb8118f"
+                "stateDigest": "c7d59d10f9961494c77651529006f1055d4e5db42e4f88924cf9c913b4bf4333"
               },
               {
                 "chunkPos": [
@@ -448,7 +448,7 @@
                     -1
                   ]
                 },
-                "stateDigest": "5e9a2d3b5f961fd4acb5e0f5a7a03fe1c7a542d3b057252168bfe109937412cb"
+                "stateDigest": "90057e98225ce397b09583119eb0558c4bfd78736faecb54d06e2a86a12530d4"
               },
               {
                 "chunkPos": [
@@ -468,7 +468,7 @@
                     0
                   ]
                 },
-                "stateDigest": "15dabaa125af278811e9232ec666335c4f19ef00a3b1cd01ba54853a6883afce"
+                "stateDigest": "5a6c901554e575c743f2ff027540f0e66e5f16c2a91b3d96f226ed8d2fe4fec6"
               }
             ]
           },
@@ -494,7 +494,7 @@
                     -1
                   ]
                 },
-                "stateDigest": "a4131f48552dd4209c256b49925ec654f0c9e48135d3fbacd6ba95ae8503d8d4"
+                "stateDigest": "d49508f93ec5ab912e301415fe2d5f0551661f600de0582239a1757c207be5b0"
               },
               {
                 "chunkPos": [
@@ -514,7 +514,7 @@
                     0
                   ]
                 },
-                "stateDigest": "6d81485b194378163e5ae0171ec1c372afe2b1c454971f36a8e95811ebdba731"
+                "stateDigest": "b5f745855ff3ef6238e66af46083e1717e7ddc465ba1071794dabdfffcb2e898"
               },
               {
                 "chunkPos": [
@@ -534,7 +534,7 @@
                     -1
                   ]
                 },
-                "stateDigest": "03911c2cc9a7bb0fabb1789e3387dc59c2a63c0d9e5050c9644e4e5ce9a8953f"
+                "stateDigest": "ef44bd8e634f817bc3cd00615e06b7cf677aa4221c791d32d68520bb5c488a33"
               },
               {
                 "chunkPos": [
@@ -554,7 +554,7 @@
                     0
                   ]
                 },
-                "stateDigest": "7a7c61ee24a6062c8bf6abcf5375bc2195427885c7e36b26ce8454d7c7aacbe5"
+                "stateDigest": "eaed2261d8685d6208b0adce3427a52a195bfc05f1a54174060c3422b1809b1a"
               },
               {
                 "chunkPos": [
@@ -574,7 +574,7 @@
                     -1
                   ]
                 },
-                "stateDigest": "958183e7e13a5d975ceb11e1aa641f2feeb1267f43bff7b5d396ad93586469fc"
+                "stateDigest": "08986e47c57816432da17efecc5e61a65e613c365b5b02babeec7ee95b11410f"
               },
               {
                 "chunkPos": [
@@ -594,7 +594,7 @@
                     0
                   ]
                 },
-                "stateDigest": "f255f4f129a34f572522313cfc34bf52f0e309fb5f6e15c992cbb3c7be646128"
+                "stateDigest": "fc1b87442243b8c6936344f2c291081a30aa248baef749c4b3939fdab89a0a84"
               }
             ]
           },
@@ -620,7 +620,7 @@
                     -1
                   ]
                 },
-                "stateDigest": "5ea03b4b03ca2d28756e34f9a8e12860c5b1a5c54d4958063b0a58b3aa191790"
+                "stateDigest": "e0115e9cad4d978bbf84829f25350978f776c2a7f24870993b187102d2233d1e"
               },
               {
                 "chunkPos": [
@@ -640,7 +640,7 @@
                     0
                   ]
                 },
-                "stateDigest": "5e6ab6ebe2e1db5df5f29a0af6c15779d63d48b90fb384799c4b101d5aa4f535"
+                "stateDigest": "081ec395d52091d802e998698482ec0decf69a623cb86b0bb0a509f8e8d4fe99"
               },
               {
                 "chunkPos": [
@@ -660,7 +660,7 @@
                     -1
                   ]
                 },
-                "stateDigest": "17c515fcad77466049ffef9e083abf535e072084274dee47627d43a3403c7422"
+                "stateDigest": "c3abf6af5ef30bc817f62ed15933889bc119ffb20d6fff0604adc9a7df88b9e7"
               },
               {
                 "chunkPos": [
@@ -680,7 +680,7 @@
                     0
                   ]
                 },
-                "stateDigest": "54d394c649445e72c2e5f3fbcabd4131a39308225fee28837f13ad662eb8118f"
+                "stateDigest": "c7d59d10f9961494c77651529006f1055d4e5db42e4f88924cf9c913b4bf4333"
               },
               {
                 "chunkPos": [
@@ -700,7 +700,7 @@
                     -1
                   ]
                 },
-                "stateDigest": "5e9a2d3b5f961fd4acb5e0f5a7a03fe1c7a542d3b057252168bfe109937412cb"
+                "stateDigest": "90057e98225ce397b09583119eb0558c4bfd78736faecb54d06e2a86a12530d4"
               },
               {
                 "chunkPos": [
@@ -720,17 +720,17 @@
                     0
                   ]
                 },
-                "stateDigest": "15dabaa125af278811e9232ec666335c4f19ef00a3b1cd01ba54853a6883afce"
+                "stateDigest": "5a6c901554e575c743f2ff027540f0e66e5f16c2a91b3d96f226ed8d2fe4fec6"
               }
             ]
           },
           "snapshot": {
             "profileVersion": "region-snapshot/v1",
-            "contentDigest": "3da3d9f00f8bbb36df0717d09be873eb382887fbc66678cf8f7dfb52a0974bee",
-            "beforeSummaryDigest": "d8e89358699b34eefb63a42ba82e5bc0b6b1d2f6a72fe55339d9fa280cd0ce53",
+            "contentDigest": "74a90f96f7ec57941305e589b1ffdd6c5d478b2c7a5432b37dd2b6e6014ba49b",
+            "beforeSummaryDigest": "7d74a23c7ed190912cb7fdd38ab3d8d73ca9f24633cc6515da959c3664724410",
             "compression": "gzip",
-            "compressedSha256": "6adcea66f7c8c7979449e246574c30804bf125f8b09ba731c19442e705d59ef3",
-            "compressedByteLength": 666
+            "compressedSha256": "d8d264150d7204583e97c27d997ff898b3ca1cc9118305c9122f9cfd11603b2e",
+            "compressedByteLength": 704
           },
           "historyRevision": "history-2",
           "lighting": {
@@ -787,7 +787,7 @@
           "worldRef": "fixture-world",
           "selectionRevision": "selection-1"
         },
-        "operationDigest": "2498da7f1be2c7fd140ffb18bd1951469feb376f26bf8bc750ffeef6a2387e03",
+        "operationDigest": "5ca8c217ffc2a044244e87b6f150cf9175371abee2391e49a9b08ecd3da775fd",
         "cause": "REPORTED",
         "failure": {
           "error": {
@@ -818,10 +818,10 @@
         "transactionId": "region-tx-1",
         "operations": {
           "contractVersion": "region-operations/v1",
-          "buildDigest": "21f935e1b2c66636a520acdbda7571fb702b14eb47f91f820d432ca3262c9065",
+          "buildDigest": "267b7595e51404dd02931bae76c9e0ba9b6a0f69b4466bc5774dad0ed0a7456e",
           "compilerRevision": "fixture-brush-region-1",
           "worldRef": "fixture-world",
-          "catalogueDigest": "ebbca84efd0d22b7e499a6f046d5463908846604ddef442288e0bd3881f50162",
+          "catalogueDigest": "89dfb22e3b674be56a66bb066ca5ee51fb0c0571725b2970ab0478658357cc57",
           "chunkEdge": 16,
           "chunks": [
             {
@@ -845,12 +845,12 @@
                 "indexOrder": "X_FASTEST_THEN_Y_THEN_Z",
                 "palette": [
                   {
-                    "nodeName": "fixture:dirt",
-                    "param2": 0
+                    "materialRef": "fixture:dirt",
+                    "orientation": 0
                   },
                   {
-                    "nodeName": "fixture:stone",
-                    "param2": 0
+                    "materialRef": "fixture:stone",
+                    "orientation": 0
                   }
                 ],
                 "runs": [
@@ -894,12 +894,12 @@
                 "indexOrder": "X_FASTEST_THEN_Y_THEN_Z",
                 "palette": [
                   {
-                    "nodeName": "fixture:dirt",
-                    "param2": 0
+                    "materialRef": "fixture:dirt",
+                    "orientation": 0
                   },
                   {
-                    "nodeName": "fixture:stone",
-                    "param2": 0
+                    "materialRef": "fixture:stone",
+                    "orientation": 0
                   }
                 ],
                 "runs": [
@@ -935,16 +935,16 @@
                 "indexOrder": "X_FASTEST_THEN_Y_THEN_Z",
                 "palette": [
                   {
-                    "nodeName": "air",
-                    "param2": 0
+                    "materialRef": "air",
+                    "orientation": 0
                   },
                   {
-                    "nodeName": "fixture:dirt",
-                    "param2": 0
+                    "materialRef": "fixture:dirt",
+                    "orientation": 0
                   },
                   {
-                    "nodeName": "fixture:stone",
-                    "param2": 0
+                    "materialRef": "fixture:stone",
+                    "orientation": 0
                   }
                 ],
                 "runs": [
@@ -1008,16 +1008,16 @@
                 "indexOrder": "X_FASTEST_THEN_Y_THEN_Z",
                 "palette": [
                   {
-                    "nodeName": "air",
-                    "param2": 0
+                    "materialRef": "air",
+                    "orientation": 0
                   },
                   {
-                    "nodeName": "fixture:dirt",
-                    "param2": 0
+                    "materialRef": "fixture:dirt",
+                    "orientation": 0
                   },
                   {
-                    "nodeName": "fixture:stone",
-                    "param2": 0
+                    "materialRef": "fixture:stone",
+                    "orientation": 0
                   }
                 ],
                 "runs": [
@@ -1061,12 +1061,12 @@
                 "indexOrder": "X_FASTEST_THEN_Y_THEN_Z",
                 "palette": [
                   {
-                    "nodeName": "fixture:dirt",
-                    "param2": 0
+                    "materialRef": "fixture:dirt",
+                    "orientation": 0
                   },
                   {
-                    "nodeName": "fixture:stone",
-                    "param2": 0
+                    "materialRef": "fixture:stone",
+                    "orientation": 0
                   }
                 ],
                 "runs": [
@@ -1110,12 +1110,12 @@
                 "indexOrder": "X_FASTEST_THEN_Y_THEN_Z",
                 "palette": [
                   {
-                    "nodeName": "fixture:dirt",
-                    "param2": 0
+                    "materialRef": "fixture:dirt",
+                    "orientation": 0
                   },
                   {
-                    "nodeName": "fixture:stone",
-                    "param2": 0
+                    "materialRef": "fixture:stone",
+                    "orientation": 0
                   }
                 ],
                 "runs": [
@@ -1132,7 +1132,7 @@
             }
           ]
         },
-        "operationDigest": "2498da7f1be2c7fd140ffb18bd1951469feb376f26bf8bc750ffeef6a2387e03",
+        "operationDigest": "5ca8c217ffc2a044244e87b6f150cf9175371abee2391e49a9b08ecd3da775fd",
         "guarantee": "RECOVERABLE_VERIFIED",
         "localContext": {
           "connectionRef": "local-connection",
@@ -1148,7 +1148,7 @@
           "transactionId": "region-tx-1",
           "worldRef": "fixture-world",
           "status": "ROLLED_BACK",
-          "operationDigest": "2498da7f1be2c7fd140ffb18bd1951469feb376f26bf8bc750ffeef6a2387e03",
+          "operationDigest": "5ca8c217ffc2a044244e87b6f150cf9175371abee2391e49a9b08ecd3da775fd",
           "beforeSummary": {
             "profileVersion": "region-summary/v1",
             "worldRef": "fixture-world",
@@ -1171,7 +1171,7 @@
                     -1
                   ]
                 },
-                "stateDigest": "5ea03b4b03ca2d28756e34f9a8e12860c5b1a5c54d4958063b0a58b3aa191790"
+                "stateDigest": "e0115e9cad4d978bbf84829f25350978f776c2a7f24870993b187102d2233d1e"
               },
               {
                 "chunkPos": [
@@ -1191,7 +1191,7 @@
                     0
                   ]
                 },
-                "stateDigest": "5e6ab6ebe2e1db5df5f29a0af6c15779d63d48b90fb384799c4b101d5aa4f535"
+                "stateDigest": "081ec395d52091d802e998698482ec0decf69a623cb86b0bb0a509f8e8d4fe99"
               },
               {
                 "chunkPos": [
@@ -1211,7 +1211,7 @@
                     -1
                   ]
                 },
-                "stateDigest": "17c515fcad77466049ffef9e083abf535e072084274dee47627d43a3403c7422"
+                "stateDigest": "c3abf6af5ef30bc817f62ed15933889bc119ffb20d6fff0604adc9a7df88b9e7"
               },
               {
                 "chunkPos": [
@@ -1231,7 +1231,7 @@
                     0
                   ]
                 },
-                "stateDigest": "54d394c649445e72c2e5f3fbcabd4131a39308225fee28837f13ad662eb8118f"
+                "stateDigest": "c7d59d10f9961494c77651529006f1055d4e5db42e4f88924cf9c913b4bf4333"
               },
               {
                 "chunkPos": [
@@ -1251,7 +1251,7 @@
                     -1
                   ]
                 },
-                "stateDigest": "5e9a2d3b5f961fd4acb5e0f5a7a03fe1c7a542d3b057252168bfe109937412cb"
+                "stateDigest": "90057e98225ce397b09583119eb0558c4bfd78736faecb54d06e2a86a12530d4"
               },
               {
                 "chunkPos": [
@@ -1271,7 +1271,7 @@
                     0
                   ]
                 },
-                "stateDigest": "15dabaa125af278811e9232ec666335c4f19ef00a3b1cd01ba54853a6883afce"
+                "stateDigest": "5a6c901554e575c743f2ff027540f0e66e5f16c2a91b3d96f226ed8d2fe4fec6"
               }
             ]
           },
@@ -1297,7 +1297,7 @@
                     -1
                   ]
                 },
-                "stateDigest": "a4131f48552dd4209c256b49925ec654f0c9e48135d3fbacd6ba95ae8503d8d4"
+                "stateDigest": "d49508f93ec5ab912e301415fe2d5f0551661f600de0582239a1757c207be5b0"
               },
               {
                 "chunkPos": [
@@ -1317,7 +1317,7 @@
                     0
                   ]
                 },
-                "stateDigest": "6d81485b194378163e5ae0171ec1c372afe2b1c454971f36a8e95811ebdba731"
+                "stateDigest": "b5f745855ff3ef6238e66af46083e1717e7ddc465ba1071794dabdfffcb2e898"
               },
               {
                 "chunkPos": [
@@ -1337,7 +1337,7 @@
                     -1
                   ]
                 },
-                "stateDigest": "03911c2cc9a7bb0fabb1789e3387dc59c2a63c0d9e5050c9644e4e5ce9a8953f"
+                "stateDigest": "ef44bd8e634f817bc3cd00615e06b7cf677aa4221c791d32d68520bb5c488a33"
               },
               {
                 "chunkPos": [
@@ -1357,7 +1357,7 @@
                     0
                   ]
                 },
-                "stateDigest": "7a7c61ee24a6062c8bf6abcf5375bc2195427885c7e36b26ce8454d7c7aacbe5"
+                "stateDigest": "eaed2261d8685d6208b0adce3427a52a195bfc05f1a54174060c3422b1809b1a"
               },
               {
                 "chunkPos": [
@@ -1377,7 +1377,7 @@
                     -1
                   ]
                 },
-                "stateDigest": "958183e7e13a5d975ceb11e1aa641f2feeb1267f43bff7b5d396ad93586469fc"
+                "stateDigest": "08986e47c57816432da17efecc5e61a65e613c365b5b02babeec7ee95b11410f"
               },
               {
                 "chunkPos": [
@@ -1397,7 +1397,7 @@
                     0
                   ]
                 },
-                "stateDigest": "f255f4f129a34f572522313cfc34bf52f0e309fb5f6e15c992cbb3c7be646128"
+                "stateDigest": "fc1b87442243b8c6936344f2c291081a30aa248baef749c4b3939fdab89a0a84"
               }
             ]
           },
@@ -1423,7 +1423,7 @@
                     -1
                   ]
                 },
-                "stateDigest": "5ea03b4b03ca2d28756e34f9a8e12860c5b1a5c54d4958063b0a58b3aa191790"
+                "stateDigest": "e0115e9cad4d978bbf84829f25350978f776c2a7f24870993b187102d2233d1e"
               },
               {
                 "chunkPos": [
@@ -1443,7 +1443,7 @@
                     0
                   ]
                 },
-                "stateDigest": "5e6ab6ebe2e1db5df5f29a0af6c15779d63d48b90fb384799c4b101d5aa4f535"
+                "stateDigest": "081ec395d52091d802e998698482ec0decf69a623cb86b0bb0a509f8e8d4fe99"
               },
               {
                 "chunkPos": [
@@ -1463,7 +1463,7 @@
                     -1
                   ]
                 },
-                "stateDigest": "17c515fcad77466049ffef9e083abf535e072084274dee47627d43a3403c7422"
+                "stateDigest": "c3abf6af5ef30bc817f62ed15933889bc119ffb20d6fff0604adc9a7df88b9e7"
               },
               {
                 "chunkPos": [
@@ -1483,7 +1483,7 @@
                     0
                   ]
                 },
-                "stateDigest": "54d394c649445e72c2e5f3fbcabd4131a39308225fee28837f13ad662eb8118f"
+                "stateDigest": "c7d59d10f9961494c77651529006f1055d4e5db42e4f88924cf9c913b4bf4333"
               },
               {
                 "chunkPos": [
@@ -1503,7 +1503,7 @@
                     -1
                   ]
                 },
-                "stateDigest": "5e9a2d3b5f961fd4acb5e0f5a7a03fe1c7a542d3b057252168bfe109937412cb"
+                "stateDigest": "90057e98225ce397b09583119eb0558c4bfd78736faecb54d06e2a86a12530d4"
               },
               {
                 "chunkPos": [
@@ -1523,17 +1523,17 @@
                     0
                   ]
                 },
-                "stateDigest": "15dabaa125af278811e9232ec666335c4f19ef00a3b1cd01ba54853a6883afce"
+                "stateDigest": "5a6c901554e575c743f2ff027540f0e66e5f16c2a91b3d96f226ed8d2fe4fec6"
               }
             ]
           },
           "snapshot": {
             "profileVersion": "region-snapshot/v1",
-            "contentDigest": "3da3d9f00f8bbb36df0717d09be873eb382887fbc66678cf8f7dfb52a0974bee",
-            "beforeSummaryDigest": "d8e89358699b34eefb63a42ba82e5bc0b6b1d2f6a72fe55339d9fa280cd0ce53",
+            "contentDigest": "74a90f96f7ec57941305e589b1ffdd6c5d478b2c7a5432b37dd2b6e6014ba49b",
+            "beforeSummaryDigest": "7d74a23c7ed190912cb7fdd38ab3d8d73ca9f24633cc6515da959c3664724410",
             "compression": "gzip",
-            "compressedSha256": "6adcea66f7c8c7979449e246574c30804bf125f8b09ba731c19442e705d59ef3",
-            "compressedByteLength": 666
+            "compressedSha256": "d8d264150d7204583e97c27d997ff898b3ca1cc9118305c9122f9cfd11603b2e",
+            "compressedByteLength": 704
           },
           "historyRevision": "history-2",
           "lighting": {
@@ -1586,7 +1586,7 @@
           "worldRef": "fixture-world",
           "selectionRevision": "selection-1"
         },
-        "operationDigest": "2498da7f1be2c7fd140ffb18bd1951469feb376f26bf8bc750ffeef6a2387e03",
+        "operationDigest": "5ca8c217ffc2a044244e87b6f150cf9175371abee2391e49a9b08ecd3da775fd",
         "cause": "REPORTED",
         "failure": {
           "error": {
@@ -1613,10 +1613,10 @@
         "transactionId": "region-tx-1",
         "operations": {
           "contractVersion": "region-operations/v1",
-          "buildDigest": "21f935e1b2c66636a520acdbda7571fb702b14eb47f91f820d432ca3262c9065",
+          "buildDigest": "267b7595e51404dd02931bae76c9e0ba9b6a0f69b4466bc5774dad0ed0a7456e",
           "compilerRevision": "fixture-brush-region-1",
           "worldRef": "fixture-world",
-          "catalogueDigest": "ebbca84efd0d22b7e499a6f046d5463908846604ddef442288e0bd3881f50162",
+          "catalogueDigest": "89dfb22e3b674be56a66bb066ca5ee51fb0c0571725b2970ab0478658357cc57",
           "chunkEdge": 16,
           "chunks": [
             {
@@ -1640,12 +1640,12 @@
                 "indexOrder": "X_FASTEST_THEN_Y_THEN_Z",
                 "palette": [
                   {
-                    "nodeName": "fixture:dirt",
-                    "param2": 0
+                    "materialRef": "fixture:dirt",
+                    "orientation": 0
                   },
                   {
-                    "nodeName": "fixture:stone",
-                    "param2": 0
+                    "materialRef": "fixture:stone",
+                    "orientation": 0
                   }
                 ],
                 "runs": [
@@ -1689,12 +1689,12 @@
                 "indexOrder": "X_FASTEST_THEN_Y_THEN_Z",
                 "palette": [
                   {
-                    "nodeName": "fixture:dirt",
-                    "param2": 0
+                    "materialRef": "fixture:dirt",
+                    "orientation": 0
                   },
                   {
-                    "nodeName": "fixture:stone",
-                    "param2": 0
+                    "materialRef": "fixture:stone",
+                    "orientation": 0
                   }
                 ],
                 "runs": [
@@ -1730,16 +1730,16 @@
                 "indexOrder": "X_FASTEST_THEN_Y_THEN_Z",
                 "palette": [
                   {
-                    "nodeName": "air",
-                    "param2": 0
+                    "materialRef": "air",
+                    "orientation": 0
                   },
                   {
-                    "nodeName": "fixture:dirt",
-                    "param2": 0
+                    "materialRef": "fixture:dirt",
+                    "orientation": 0
                   },
                   {
-                    "nodeName": "fixture:stone",
-                    "param2": 0
+                    "materialRef": "fixture:stone",
+                    "orientation": 0
                   }
                 ],
                 "runs": [
@@ -1803,16 +1803,16 @@
                 "indexOrder": "X_FASTEST_THEN_Y_THEN_Z",
                 "palette": [
                   {
-                    "nodeName": "air",
-                    "param2": 0
+                    "materialRef": "air",
+                    "orientation": 0
                   },
                   {
-                    "nodeName": "fixture:dirt",
-                    "param2": 0
+                    "materialRef": "fixture:dirt",
+                    "orientation": 0
                   },
                   {
-                    "nodeName": "fixture:stone",
-                    "param2": 0
+                    "materialRef": "fixture:stone",
+                    "orientation": 0
                   }
                 ],
                 "runs": [
@@ -1856,12 +1856,12 @@
                 "indexOrder": "X_FASTEST_THEN_Y_THEN_Z",
                 "palette": [
                   {
-                    "nodeName": "fixture:dirt",
-                    "param2": 0
+                    "materialRef": "fixture:dirt",
+                    "orientation": 0
                   },
                   {
-                    "nodeName": "fixture:stone",
-                    "param2": 0
+                    "materialRef": "fixture:stone",
+                    "orientation": 0
                   }
                 ],
                 "runs": [
@@ -1905,12 +1905,12 @@
                 "indexOrder": "X_FASTEST_THEN_Y_THEN_Z",
                 "palette": [
                   {
-                    "nodeName": "fixture:dirt",
-                    "param2": 0
+                    "materialRef": "fixture:dirt",
+                    "orientation": 0
                   },
                   {
-                    "nodeName": "fixture:stone",
-                    "param2": 0
+                    "materialRef": "fixture:stone",
+                    "orientation": 0
                   }
                 ],
                 "runs": [
@@ -1927,7 +1927,7 @@
             }
           ]
         },
-        "operationDigest": "2498da7f1be2c7fd140ffb18bd1951469feb376f26bf8bc750ffeef6a2387e03",
+        "operationDigest": "5ca8c217ffc2a044244e87b6f150cf9175371abee2391e49a9b08ecd3da775fd",
         "guarantee": "RECOVERABLE_VERIFIED",
         "localContext": {
           "connectionRef": "local-connection",
@@ -1943,7 +1943,7 @@
           "transactionId": "region-tx-1",
           "worldRef": "fixture-world",
           "status": "ROLLED_BACK",
-          "operationDigest": "2498da7f1be2c7fd140ffb18bd1951469feb376f26bf8bc750ffeef6a2387e03",
+          "operationDigest": "5ca8c217ffc2a044244e87b6f150cf9175371abee2391e49a9b08ecd3da775fd",
           "beforeSummary": {
             "profileVersion": "region-summary/v1",
             "worldRef": "fixture-world",
@@ -1966,7 +1966,7 @@
                     -1
                   ]
                 },
-                "stateDigest": "5ea03b4b03ca2d28756e34f9a8e12860c5b1a5c54d4958063b0a58b3aa191790"
+                "stateDigest": "e0115e9cad4d978bbf84829f25350978f776c2a7f24870993b187102d2233d1e"
               },
               {
                 "chunkPos": [
@@ -1986,7 +1986,7 @@
                     0
                   ]
                 },
-                "stateDigest": "5e6ab6ebe2e1db5df5f29a0af6c15779d63d48b90fb384799c4b101d5aa4f535"
+                "stateDigest": "081ec395d52091d802e998698482ec0decf69a623cb86b0bb0a509f8e8d4fe99"
               },
               {
                 "chunkPos": [
@@ -2006,7 +2006,7 @@
                     -1
                   ]
                 },
-                "stateDigest": "17c515fcad77466049ffef9e083abf535e072084274dee47627d43a3403c7422"
+                "stateDigest": "c3abf6af5ef30bc817f62ed15933889bc119ffb20d6fff0604adc9a7df88b9e7"
               },
               {
                 "chunkPos": [
@@ -2026,7 +2026,7 @@
                     0
                   ]
                 },
-                "stateDigest": "54d394c649445e72c2e5f3fbcabd4131a39308225fee28837f13ad662eb8118f"
+                "stateDigest": "c7d59d10f9961494c77651529006f1055d4e5db42e4f88924cf9c913b4bf4333"
               },
               {
                 "chunkPos": [
@@ -2046,7 +2046,7 @@
                     -1
                   ]
                 },
-                "stateDigest": "5e9a2d3b5f961fd4acb5e0f5a7a03fe1c7a542d3b057252168bfe109937412cb"
+                "stateDigest": "90057e98225ce397b09583119eb0558c4bfd78736faecb54d06e2a86a12530d4"
               },
               {
                 "chunkPos": [
@@ -2066,7 +2066,7 @@
                     0
                   ]
                 },
-                "stateDigest": "15dabaa125af278811e9232ec666335c4f19ef00a3b1cd01ba54853a6883afce"
+                "stateDigest": "5a6c901554e575c743f2ff027540f0e66e5f16c2a91b3d96f226ed8d2fe4fec6"
               }
             ]
           },
@@ -2092,7 +2092,7 @@
                     -1
                   ]
                 },
-                "stateDigest": "a4131f48552dd4209c256b49925ec654f0c9e48135d3fbacd6ba95ae8503d8d4"
+                "stateDigest": "d49508f93ec5ab912e301415fe2d5f0551661f600de0582239a1757c207be5b0"
               },
               {
                 "chunkPos": [
@@ -2112,7 +2112,7 @@
                     0
                   ]
                 },
-                "stateDigest": "6d81485b194378163e5ae0171ec1c372afe2b1c454971f36a8e95811ebdba731"
+                "stateDigest": "b5f745855ff3ef6238e66af46083e1717e7ddc465ba1071794dabdfffcb2e898"
               },
               {
                 "chunkPos": [
@@ -2132,7 +2132,7 @@
                     -1
                   ]
                 },
-                "stateDigest": "03911c2cc9a7bb0fabb1789e3387dc59c2a63c0d9e5050c9644e4e5ce9a8953f"
+                "stateDigest": "ef44bd8e634f817bc3cd00615e06b7cf677aa4221c791d32d68520bb5c488a33"
               },
               {
                 "chunkPos": [
@@ -2152,7 +2152,7 @@
                     0
                   ]
                 },
-                "stateDigest": "7a7c61ee24a6062c8bf6abcf5375bc2195427885c7e36b26ce8454d7c7aacbe5"
+                "stateDigest": "eaed2261d8685d6208b0adce3427a52a195bfc05f1a54174060c3422b1809b1a"
               },
               {
                 "chunkPos": [
@@ -2172,7 +2172,7 @@
                     -1
                   ]
                 },
-                "stateDigest": "958183e7e13a5d975ceb11e1aa641f2feeb1267f43bff7b5d396ad93586469fc"
+                "stateDigest": "08986e47c57816432da17efecc5e61a65e613c365b5b02babeec7ee95b11410f"
               },
               {
                 "chunkPos": [
@@ -2192,7 +2192,7 @@
                     0
                   ]
                 },
-                "stateDigest": "f255f4f129a34f572522313cfc34bf52f0e309fb5f6e15c992cbb3c7be646128"
+                "stateDigest": "fc1b87442243b8c6936344f2c291081a30aa248baef749c4b3939fdab89a0a84"
               }
             ]
           },
@@ -2218,7 +2218,7 @@
                     -1
                   ]
                 },
-                "stateDigest": "5ea03b4b03ca2d28756e34f9a8e12860c5b1a5c54d4958063b0a58b3aa191790"
+                "stateDigest": "e0115e9cad4d978bbf84829f25350978f776c2a7f24870993b187102d2233d1e"
               },
               {
                 "chunkPos": [
@@ -2238,7 +2238,7 @@
                     0
                   ]
                 },
-                "stateDigest": "5e6ab6ebe2e1db5df5f29a0af6c15779d63d48b90fb384799c4b101d5aa4f535"
+                "stateDigest": "081ec395d52091d802e998698482ec0decf69a623cb86b0bb0a509f8e8d4fe99"
               },
               {
                 "chunkPos": [
@@ -2258,7 +2258,7 @@
                     -1
                   ]
                 },
-                "stateDigest": "17c515fcad77466049ffef9e083abf535e072084274dee47627d43a3403c7422"
+                "stateDigest": "c3abf6af5ef30bc817f62ed15933889bc119ffb20d6fff0604adc9a7df88b9e7"
               },
               {
                 "chunkPos": [
@@ -2278,7 +2278,7 @@
                     0
                   ]
                 },
-                "stateDigest": "54d394c649445e72c2e5f3fbcabd4131a39308225fee28837f13ad662eb8118f"
+                "stateDigest": "c7d59d10f9961494c77651529006f1055d4e5db42e4f88924cf9c913b4bf4333"
               },
               {
                 "chunkPos": [
@@ -2298,7 +2298,7 @@
                     -1
                   ]
                 },
-                "stateDigest": "5e9a2d3b5f961fd4acb5e0f5a7a03fe1c7a542d3b057252168bfe109937412cb"
+                "stateDigest": "90057e98225ce397b09583119eb0558c4bfd78736faecb54d06e2a86a12530d4"
               },
               {
                 "chunkPos": [
@@ -2318,17 +2318,17 @@
                     0
                   ]
                 },
-                "stateDigest": "15dabaa125af278811e9232ec666335c4f19ef00a3b1cd01ba54853a6883afce"
+                "stateDigest": "5a6c901554e575c743f2ff027540f0e66e5f16c2a91b3d96f226ed8d2fe4fec6"
               }
             ]
           },
           "snapshot": {
             "profileVersion": "region-snapshot/v1",
-            "contentDigest": "3da3d9f00f8bbb36df0717d09be873eb382887fbc66678cf8f7dfb52a0974bee",
-            "beforeSummaryDigest": "d8e89358699b34eefb63a42ba82e5bc0b6b1d2f6a72fe55339d9fa280cd0ce53",
+            "contentDigest": "74a90f96f7ec57941305e589b1ffdd6c5d478b2c7a5432b37dd2b6e6014ba49b",
+            "beforeSummaryDigest": "7d74a23c7ed190912cb7fdd38ab3d8d73ca9f24633cc6515da959c3664724410",
             "compression": "gzip",
-            "compressedSha256": "6adcea66f7c8c7979449e246574c30804bf125f8b09ba731c19442e705d59ef3",
-            "compressedByteLength": 666
+            "compressedSha256": "d8d264150d7204583e97c27d997ff898b3ca1cc9118305c9122f9cfd11603b2e",
+            "compressedByteLength": 704
           },
           "historyRevision": "history-2",
           "lighting": {
@@ -2381,7 +2381,7 @@
           "worldRef": "fixture-world",
           "selectionRevision": "selection-1"
         },
-        "operationDigest": "2498da7f1be2c7fd140ffb18bd1951469feb376f26bf8bc750ffeef6a2387e03",
+        "operationDigest": "5ca8c217ffc2a044244e87b6f150cf9175371abee2391e49a9b08ecd3da775fd",
         "cause": "REPORTED",
         "failure": {
           "error": {
@@ -2408,10 +2408,10 @@
         "transactionId": "region-tx-1",
         "operations": {
           "contractVersion": "region-operations/v1",
-          "buildDigest": "21f935e1b2c66636a520acdbda7571fb702b14eb47f91f820d432ca3262c9065",
+          "buildDigest": "267b7595e51404dd02931bae76c9e0ba9b6a0f69b4466bc5774dad0ed0a7456e",
           "compilerRevision": "fixture-brush-region-1",
           "worldRef": "fixture-world",
-          "catalogueDigest": "ebbca84efd0d22b7e499a6f046d5463908846604ddef442288e0bd3881f50162",
+          "catalogueDigest": "89dfb22e3b674be56a66bb066ca5ee51fb0c0571725b2970ab0478658357cc57",
           "chunkEdge": 16,
           "chunks": [
             {
@@ -2435,12 +2435,12 @@
                 "indexOrder": "X_FASTEST_THEN_Y_THEN_Z",
                 "palette": [
                   {
-                    "nodeName": "fixture:dirt",
-                    "param2": 0
+                    "materialRef": "fixture:dirt",
+                    "orientation": 0
                   },
                   {
-                    "nodeName": "fixture:stone",
-                    "param2": 0
+                    "materialRef": "fixture:stone",
+                    "orientation": 0
                   }
                 ],
                 "runs": [
@@ -2484,12 +2484,12 @@
                 "indexOrder": "X_FASTEST_THEN_Y_THEN_Z",
                 "palette": [
                   {
-                    "nodeName": "fixture:dirt",
-                    "param2": 0
+                    "materialRef": "fixture:dirt",
+                    "orientation": 0
                   },
                   {
-                    "nodeName": "fixture:stone",
-                    "param2": 0
+                    "materialRef": "fixture:stone",
+                    "orientation": 0
                   }
                 ],
                 "runs": [
@@ -2525,16 +2525,16 @@
                 "indexOrder": "X_FASTEST_THEN_Y_THEN_Z",
                 "palette": [
                   {
-                    "nodeName": "air",
-                    "param2": 0
+                    "materialRef": "air",
+                    "orientation": 0
                   },
                   {
-                    "nodeName": "fixture:dirt",
-                    "param2": 0
+                    "materialRef": "fixture:dirt",
+                    "orientation": 0
                   },
                   {
-                    "nodeName": "fixture:stone",
-                    "param2": 0
+                    "materialRef": "fixture:stone",
+                    "orientation": 0
                   }
                 ],
                 "runs": [
@@ -2598,16 +2598,16 @@
                 "indexOrder": "X_FASTEST_THEN_Y_THEN_Z",
                 "palette": [
                   {
-                    "nodeName": "air",
-                    "param2": 0
+                    "materialRef": "air",
+                    "orientation": 0
                   },
                   {
-                    "nodeName": "fixture:dirt",
-                    "param2": 0
+                    "materialRef": "fixture:dirt",
+                    "orientation": 0
                   },
                   {
-                    "nodeName": "fixture:stone",
-                    "param2": 0
+                    "materialRef": "fixture:stone",
+                    "orientation": 0
                   }
                 ],
                 "runs": [
@@ -2651,12 +2651,12 @@
                 "indexOrder": "X_FASTEST_THEN_Y_THEN_Z",
                 "palette": [
                   {
-                    "nodeName": "fixture:dirt",
-                    "param2": 0
+                    "materialRef": "fixture:dirt",
+                    "orientation": 0
                   },
                   {
-                    "nodeName": "fixture:stone",
-                    "param2": 0
+                    "materialRef": "fixture:stone",
+                    "orientation": 0
                   }
                 ],
                 "runs": [
@@ -2700,12 +2700,12 @@
                 "indexOrder": "X_FASTEST_THEN_Y_THEN_Z",
                 "palette": [
                   {
-                    "nodeName": "fixture:dirt",
-                    "param2": 0
+                    "materialRef": "fixture:dirt",
+                    "orientation": 0
                   },
                   {
-                    "nodeName": "fixture:stone",
-                    "param2": 0
+                    "materialRef": "fixture:stone",
+                    "orientation": 0
                   }
                 ],
                 "runs": [
@@ -2722,7 +2722,7 @@
             }
           ]
         },
-        "operationDigest": "2498da7f1be2c7fd140ffb18bd1951469feb376f26bf8bc750ffeef6a2387e03",
+        "operationDigest": "5ca8c217ffc2a044244e87b6f150cf9175371abee2391e49a9b08ecd3da775fd",
         "guarantee": "RECOVERABLE_VERIFIED",
         "localContext": {
           "connectionRef": "local-connection",
@@ -2738,7 +2738,7 @@
           "transactionId": "region-tx-1",
           "worldRef": "fixture-world",
           "status": "ROLLED_BACK",
-          "operationDigest": "2498da7f1be2c7fd140ffb18bd1951469feb376f26bf8bc750ffeef6a2387e03",
+          "operationDigest": "5ca8c217ffc2a044244e87b6f150cf9175371abee2391e49a9b08ecd3da775fd",
           "beforeSummary": {
             "profileVersion": "region-summary/v1",
             "worldRef": "fixture-world",
@@ -2761,7 +2761,7 @@
                     -1
                   ]
                 },
-                "stateDigest": "5ea03b4b03ca2d28756e34f9a8e12860c5b1a5c54d4958063b0a58b3aa191790"
+                "stateDigest": "e0115e9cad4d978bbf84829f25350978f776c2a7f24870993b187102d2233d1e"
               },
               {
                 "chunkPos": [
@@ -2781,7 +2781,7 @@
                     0
                   ]
                 },
-                "stateDigest": "5e6ab6ebe2e1db5df5f29a0af6c15779d63d48b90fb384799c4b101d5aa4f535"
+                "stateDigest": "081ec395d52091d802e998698482ec0decf69a623cb86b0bb0a509f8e8d4fe99"
               },
               {
                 "chunkPos": [
@@ -2801,7 +2801,7 @@
                     -1
                   ]
                 },
-                "stateDigest": "17c515fcad77466049ffef9e083abf535e072084274dee47627d43a3403c7422"
+                "stateDigest": "c3abf6af5ef30bc817f62ed15933889bc119ffb20d6fff0604adc9a7df88b9e7"
               },
               {
                 "chunkPos": [
@@ -2821,7 +2821,7 @@
                     0
                   ]
                 },
-                "stateDigest": "54d394c649445e72c2e5f3fbcabd4131a39308225fee28837f13ad662eb8118f"
+                "stateDigest": "c7d59d10f9961494c77651529006f1055d4e5db42e4f88924cf9c913b4bf4333"
               },
               {
                 "chunkPos": [
@@ -2841,7 +2841,7 @@
                     -1
                   ]
                 },
-                "stateDigest": "5e9a2d3b5f961fd4acb5e0f5a7a03fe1c7a542d3b057252168bfe109937412cb"
+                "stateDigest": "90057e98225ce397b09583119eb0558c4bfd78736faecb54d06e2a86a12530d4"
               },
               {
                 "chunkPos": [
@@ -2861,7 +2861,7 @@
                     0
                   ]
                 },
-                "stateDigest": "15dabaa125af278811e9232ec666335c4f19ef00a3b1cd01ba54853a6883afce"
+                "stateDigest": "5a6c901554e575c743f2ff027540f0e66e5f16c2a91b3d96f226ed8d2fe4fec6"
               }
             ]
           },
@@ -2887,7 +2887,7 @@
                     -1
                   ]
                 },
-                "stateDigest": "a4131f48552dd4209c256b49925ec654f0c9e48135d3fbacd6ba95ae8503d8d4"
+                "stateDigest": "d49508f93ec5ab912e301415fe2d5f0551661f600de0582239a1757c207be5b0"
               },
               {
                 "chunkPos": [
@@ -2907,7 +2907,7 @@
                     0
                   ]
                 },
-                "stateDigest": "6d81485b194378163e5ae0171ec1c372afe2b1c454971f36a8e95811ebdba731"
+                "stateDigest": "b5f745855ff3ef6238e66af46083e1717e7ddc465ba1071794dabdfffcb2e898"
               },
               {
                 "chunkPos": [
@@ -2927,7 +2927,7 @@
                     -1
                   ]
                 },
-                "stateDigest": "03911c2cc9a7bb0fabb1789e3387dc59c2a63c0d9e5050c9644e4e5ce9a8953f"
+                "stateDigest": "ef44bd8e634f817bc3cd00615e06b7cf677aa4221c791d32d68520bb5c488a33"
               },
               {
                 "chunkPos": [
@@ -2947,7 +2947,7 @@
                     0
                   ]
                 },
-                "stateDigest": "7a7c61ee24a6062c8bf6abcf5375bc2195427885c7e36b26ce8454d7c7aacbe5"
+                "stateDigest": "eaed2261d8685d6208b0adce3427a52a195bfc05f1a54174060c3422b1809b1a"
               },
               {
                 "chunkPos": [
@@ -2967,7 +2967,7 @@
                     -1
                   ]
                 },
-                "stateDigest": "958183e7e13a5d975ceb11e1aa641f2feeb1267f43bff7b5d396ad93586469fc"
+                "stateDigest": "08986e47c57816432da17efecc5e61a65e613c365b5b02babeec7ee95b11410f"
               },
               {
                 "chunkPos": [
@@ -2987,7 +2987,7 @@
                     0
                   ]
                 },
-                "stateDigest": "f255f4f129a34f572522313cfc34bf52f0e309fb5f6e15c992cbb3c7be646128"
+                "stateDigest": "fc1b87442243b8c6936344f2c291081a30aa248baef749c4b3939fdab89a0a84"
               }
             ]
           },
@@ -3013,7 +3013,7 @@
                     -1
                   ]
                 },
-                "stateDigest": "5ea03b4b03ca2d28756e34f9a8e12860c5b1a5c54d4958063b0a58b3aa191790"
+                "stateDigest": "e0115e9cad4d978bbf84829f25350978f776c2a7f24870993b187102d2233d1e"
               },
               {
                 "chunkPos": [
@@ -3033,7 +3033,7 @@
                     0
                   ]
                 },
-                "stateDigest": "5e6ab6ebe2e1db5df5f29a0af6c15779d63d48b90fb384799c4b101d5aa4f535"
+                "stateDigest": "081ec395d52091d802e998698482ec0decf69a623cb86b0bb0a509f8e8d4fe99"
               },
               {
                 "chunkPos": [
@@ -3053,7 +3053,7 @@
                     -1
                   ]
                 },
-                "stateDigest": "17c515fcad77466049ffef9e083abf535e072084274dee47627d43a3403c7422"
+                "stateDigest": "c3abf6af5ef30bc817f62ed15933889bc119ffb20d6fff0604adc9a7df88b9e7"
               },
               {
                 "chunkPos": [
@@ -3073,7 +3073,7 @@
                     0
                   ]
                 },
-                "stateDigest": "54d394c649445e72c2e5f3fbcabd4131a39308225fee28837f13ad662eb8118f"
+                "stateDigest": "c7d59d10f9961494c77651529006f1055d4e5db42e4f88924cf9c913b4bf4333"
               },
               {
                 "chunkPos": [
@@ -3093,7 +3093,7 @@
                     -1
                   ]
                 },
-                "stateDigest": "5e9a2d3b5f961fd4acb5e0f5a7a03fe1c7a542d3b057252168bfe109937412cb"
+                "stateDigest": "90057e98225ce397b09583119eb0558c4bfd78736faecb54d06e2a86a12530d4"
               },
               {
                 "chunkPos": [
@@ -3113,17 +3113,17 @@
                     0
                   ]
                 },
-                "stateDigest": "15dabaa125af278811e9232ec666335c4f19ef00a3b1cd01ba54853a6883afce"
+                "stateDigest": "5a6c901554e575c743f2ff027540f0e66e5f16c2a91b3d96f226ed8d2fe4fec6"
               }
             ]
           },
           "snapshot": {
             "profileVersion": "region-snapshot/v1",
-            "contentDigest": "3da3d9f00f8bbb36df0717d09be873eb382887fbc66678cf8f7dfb52a0974bee",
-            "beforeSummaryDigest": "d8e89358699b34eefb63a42ba82e5bc0b6b1d2f6a72fe55339d9fa280cd0ce53",
+            "contentDigest": "74a90f96f7ec57941305e589b1ffdd6c5d478b2c7a5432b37dd2b6e6014ba49b",
+            "beforeSummaryDigest": "7d74a23c7ed190912cb7fdd38ab3d8d73ca9f24633cc6515da959c3664724410",
             "compression": "gzip",
-            "compressedSha256": "6adcea66f7c8c7979449e246574c30804bf125f8b09ba731c19442e705d59ef3",
-            "compressedByteLength": 666
+            "compressedSha256": "d8d264150d7204583e97c27d997ff898b3ca1cc9118305c9122f9cfd11603b2e",
+            "compressedByteLength": 704
           },
           "historyRevision": "history-2",
           "lighting": {
@@ -3164,7 +3164,7 @@
           "worldRef": "fixture-world",
           "selectionRevision": "selection-1"
         },
-        "operationDigest": "2498da7f1be2c7fd140ffb18bd1951469feb376f26bf8bc750ffeef6a2387e03",
+        "operationDigest": "5ca8c217ffc2a044244e87b6f150cf9175371abee2391e49a9b08ecd3da775fd",
         "cause": "UNKNOWN",
         "failure": null
       }
@@ -3182,10 +3182,10 @@
         "transactionId": "region-tx-1",
         "operations": {
           "contractVersion": "region-operations/v1",
-          "buildDigest": "21f935e1b2c66636a520acdbda7571fb702b14eb47f91f820d432ca3262c9065",
+          "buildDigest": "267b7595e51404dd02931bae76c9e0ba9b6a0f69b4466bc5774dad0ed0a7456e",
           "compilerRevision": "fixture-brush-region-1",
           "worldRef": "fixture-world",
-          "catalogueDigest": "ebbca84efd0d22b7e499a6f046d5463908846604ddef442288e0bd3881f50162",
+          "catalogueDigest": "89dfb22e3b674be56a66bb066ca5ee51fb0c0571725b2970ab0478658357cc57",
           "chunkEdge": 16,
           "chunks": [
             {
@@ -3209,12 +3209,12 @@
                 "indexOrder": "X_FASTEST_THEN_Y_THEN_Z",
                 "palette": [
                   {
-                    "nodeName": "fixture:dirt",
-                    "param2": 0
+                    "materialRef": "fixture:dirt",
+                    "orientation": 0
                   },
                   {
-                    "nodeName": "fixture:stone",
-                    "param2": 0
+                    "materialRef": "fixture:stone",
+                    "orientation": 0
                   }
                 ],
                 "runs": [
@@ -3258,12 +3258,12 @@
                 "indexOrder": "X_FASTEST_THEN_Y_THEN_Z",
                 "palette": [
                   {
-                    "nodeName": "fixture:dirt",
-                    "param2": 0
+                    "materialRef": "fixture:dirt",
+                    "orientation": 0
                   },
                   {
-                    "nodeName": "fixture:stone",
-                    "param2": 0
+                    "materialRef": "fixture:stone",
+                    "orientation": 0
                   }
                 ],
                 "runs": [
@@ -3299,16 +3299,16 @@
                 "indexOrder": "X_FASTEST_THEN_Y_THEN_Z",
                 "palette": [
                   {
-                    "nodeName": "air",
-                    "param2": 0
+                    "materialRef": "air",
+                    "orientation": 0
                   },
                   {
-                    "nodeName": "fixture:dirt",
-                    "param2": 0
+                    "materialRef": "fixture:dirt",
+                    "orientation": 0
                   },
                   {
-                    "nodeName": "fixture:stone",
-                    "param2": 0
+                    "materialRef": "fixture:stone",
+                    "orientation": 0
                   }
                 ],
                 "runs": [
@@ -3372,16 +3372,16 @@
                 "indexOrder": "X_FASTEST_THEN_Y_THEN_Z",
                 "palette": [
                   {
-                    "nodeName": "air",
-                    "param2": 0
+                    "materialRef": "air",
+                    "orientation": 0
                   },
                   {
-                    "nodeName": "fixture:dirt",
-                    "param2": 0
+                    "materialRef": "fixture:dirt",
+                    "orientation": 0
                   },
                   {
-                    "nodeName": "fixture:stone",
-                    "param2": 0
+                    "materialRef": "fixture:stone",
+                    "orientation": 0
                   }
                 ],
                 "runs": [
@@ -3425,12 +3425,12 @@
                 "indexOrder": "X_FASTEST_THEN_Y_THEN_Z",
                 "palette": [
                   {
-                    "nodeName": "fixture:dirt",
-                    "param2": 0
+                    "materialRef": "fixture:dirt",
+                    "orientation": 0
                   },
                   {
-                    "nodeName": "fixture:stone",
-                    "param2": 0
+                    "materialRef": "fixture:stone",
+                    "orientation": 0
                   }
                 ],
                 "runs": [
@@ -3474,12 +3474,12 @@
                 "indexOrder": "X_FASTEST_THEN_Y_THEN_Z",
                 "palette": [
                   {
-                    "nodeName": "fixture:dirt",
-                    "param2": 0
+                    "materialRef": "fixture:dirt",
+                    "orientation": 0
                   },
                   {
-                    "nodeName": "fixture:stone",
-                    "param2": 0
+                    "materialRef": "fixture:stone",
+                    "orientation": 0
                   }
                 ],
                 "runs": [
@@ -3496,7 +3496,7 @@
             }
           ]
         },
-        "operationDigest": "2498da7f1be2c7fd140ffb18bd1951469feb376f26bf8bc750ffeef6a2387e03",
+        "operationDigest": "5ca8c217ffc2a044244e87b6f150cf9175371abee2391e49a9b08ecd3da775fd",
         "guarantee": "RECOVERABLE_VERIFIED",
         "localContext": {
           "connectionRef": "local-connection",
@@ -3512,7 +3512,7 @@
           "transactionId": "region-tx-1",
           "worldRef": "fixture-world",
           "status": "VERIFIED",
-          "operationDigest": "2498da7f1be2c7fd140ffb18bd1951469feb376f26bf8bc750ffeef6a2387e03",
+          "operationDigest": "5ca8c217ffc2a044244e87b6f150cf9175371abee2391e49a9b08ecd3da775fd",
           "beforeSummary": {
             "profileVersion": "region-summary/v1",
             "worldRef": "fixture-world",
@@ -3535,7 +3535,7 @@
                     -1
                   ]
                 },
-                "stateDigest": "5ea03b4b03ca2d28756e34f9a8e12860c5b1a5c54d4958063b0a58b3aa191790"
+                "stateDigest": "e0115e9cad4d978bbf84829f25350978f776c2a7f24870993b187102d2233d1e"
               },
               {
                 "chunkPos": [
@@ -3555,7 +3555,7 @@
                     0
                   ]
                 },
-                "stateDigest": "5e6ab6ebe2e1db5df5f29a0af6c15779d63d48b90fb384799c4b101d5aa4f535"
+                "stateDigest": "081ec395d52091d802e998698482ec0decf69a623cb86b0bb0a509f8e8d4fe99"
               },
               {
                 "chunkPos": [
@@ -3575,7 +3575,7 @@
                     -1
                   ]
                 },
-                "stateDigest": "17c515fcad77466049ffef9e083abf535e072084274dee47627d43a3403c7422"
+                "stateDigest": "c3abf6af5ef30bc817f62ed15933889bc119ffb20d6fff0604adc9a7df88b9e7"
               },
               {
                 "chunkPos": [
@@ -3595,7 +3595,7 @@
                     0
                   ]
                 },
-                "stateDigest": "54d394c649445e72c2e5f3fbcabd4131a39308225fee28837f13ad662eb8118f"
+                "stateDigest": "c7d59d10f9961494c77651529006f1055d4e5db42e4f88924cf9c913b4bf4333"
               },
               {
                 "chunkPos": [
@@ -3615,7 +3615,7 @@
                     -1
                   ]
                 },
-                "stateDigest": "5e9a2d3b5f961fd4acb5e0f5a7a03fe1c7a542d3b057252168bfe109937412cb"
+                "stateDigest": "90057e98225ce397b09583119eb0558c4bfd78736faecb54d06e2a86a12530d4"
               },
               {
                 "chunkPos": [
@@ -3635,7 +3635,7 @@
                     0
                   ]
                 },
-                "stateDigest": "15dabaa125af278811e9232ec666335c4f19ef00a3b1cd01ba54853a6883afce"
+                "stateDigest": "5a6c901554e575c743f2ff027540f0e66e5f16c2a91b3d96f226ed8d2fe4fec6"
               }
             ]
           },
@@ -3661,7 +3661,7 @@
                     -1
                   ]
                 },
-                "stateDigest": "a4131f48552dd4209c256b49925ec654f0c9e48135d3fbacd6ba95ae8503d8d4"
+                "stateDigest": "d49508f93ec5ab912e301415fe2d5f0551661f600de0582239a1757c207be5b0"
               },
               {
                 "chunkPos": [
@@ -3681,7 +3681,7 @@
                     0
                   ]
                 },
-                "stateDigest": "6d81485b194378163e5ae0171ec1c372afe2b1c454971f36a8e95811ebdba731"
+                "stateDigest": "b5f745855ff3ef6238e66af46083e1717e7ddc465ba1071794dabdfffcb2e898"
               },
               {
                 "chunkPos": [
@@ -3701,7 +3701,7 @@
                     -1
                   ]
                 },
-                "stateDigest": "03911c2cc9a7bb0fabb1789e3387dc59c2a63c0d9e5050c9644e4e5ce9a8953f"
+                "stateDigest": "ef44bd8e634f817bc3cd00615e06b7cf677aa4221c791d32d68520bb5c488a33"
               },
               {
                 "chunkPos": [
@@ -3721,7 +3721,7 @@
                     0
                   ]
                 },
-                "stateDigest": "7a7c61ee24a6062c8bf6abcf5375bc2195427885c7e36b26ce8454d7c7aacbe5"
+                "stateDigest": "eaed2261d8685d6208b0adce3427a52a195bfc05f1a54174060c3422b1809b1a"
               },
               {
                 "chunkPos": [
@@ -3741,7 +3741,7 @@
                     -1
                   ]
                 },
-                "stateDigest": "958183e7e13a5d975ceb11e1aa641f2feeb1267f43bff7b5d396ad93586469fc"
+                "stateDigest": "08986e47c57816432da17efecc5e61a65e613c365b5b02babeec7ee95b11410f"
               },
               {
                 "chunkPos": [
@@ -3761,7 +3761,7 @@
                     0
                   ]
                 },
-                "stateDigest": "f255f4f129a34f572522313cfc34bf52f0e309fb5f6e15c992cbb3c7be646128"
+                "stateDigest": "fc1b87442243b8c6936344f2c291081a30aa248baef749c4b3939fdab89a0a84"
               }
             ]
           },
@@ -3787,7 +3787,7 @@
                     -1
                   ]
                 },
-                "stateDigest": "a4131f48552dd4209c256b49925ec654f0c9e48135d3fbacd6ba95ae8503d8d4"
+                "stateDigest": "d49508f93ec5ab912e301415fe2d5f0551661f600de0582239a1757c207be5b0"
               },
               {
                 "chunkPos": [
@@ -3807,7 +3807,7 @@
                     0
                   ]
                 },
-                "stateDigest": "6d81485b194378163e5ae0171ec1c372afe2b1c454971f36a8e95811ebdba731"
+                "stateDigest": "b5f745855ff3ef6238e66af46083e1717e7ddc465ba1071794dabdfffcb2e898"
               },
               {
                 "chunkPos": [
@@ -3827,7 +3827,7 @@
                     -1
                   ]
                 },
-                "stateDigest": "03911c2cc9a7bb0fabb1789e3387dc59c2a63c0d9e5050c9644e4e5ce9a8953f"
+                "stateDigest": "ef44bd8e634f817bc3cd00615e06b7cf677aa4221c791d32d68520bb5c488a33"
               },
               {
                 "chunkPos": [
@@ -3847,7 +3847,7 @@
                     0
                   ]
                 },
-                "stateDigest": "7a7c61ee24a6062c8bf6abcf5375bc2195427885c7e36b26ce8454d7c7aacbe5"
+                "stateDigest": "eaed2261d8685d6208b0adce3427a52a195bfc05f1a54174060c3422b1809b1a"
               },
               {
                 "chunkPos": [
@@ -3867,7 +3867,7 @@
                     -1
                   ]
                 },
-                "stateDigest": "958183e7e13a5d975ceb11e1aa641f2feeb1267f43bff7b5d396ad93586469fc"
+                "stateDigest": "08986e47c57816432da17efecc5e61a65e613c365b5b02babeec7ee95b11410f"
               },
               {
                 "chunkPos": [
@@ -3887,17 +3887,17 @@
                     0
                   ]
                 },
-                "stateDigest": "f255f4f129a34f572522313cfc34bf52f0e309fb5f6e15c992cbb3c7be646128"
+                "stateDigest": "fc1b87442243b8c6936344f2c291081a30aa248baef749c4b3939fdab89a0a84"
               }
             ]
           },
           "snapshot": {
             "profileVersion": "region-snapshot/v1",
-            "contentDigest": "3da3d9f00f8bbb36df0717d09be873eb382887fbc66678cf8f7dfb52a0974bee",
-            "beforeSummaryDigest": "d8e89358699b34eefb63a42ba82e5bc0b6b1d2f6a72fe55339d9fa280cd0ce53",
+            "contentDigest": "74a90f96f7ec57941305e589b1ffdd6c5d478b2c7a5432b37dd2b6e6014ba49b",
+            "beforeSummaryDigest": "7d74a23c7ed190912cb7fdd38ab3d8d73ca9f24633cc6515da959c3664724410",
             "compression": "gzip",
-            "compressedSha256": "6adcea66f7c8c7979449e246574c30804bf125f8b09ba731c19442e705d59ef3",
-            "compressedByteLength": 666
+            "compressedSha256": "d8d264150d7204583e97c27d997ff898b3ca1cc9118305c9122f9cfd11603b2e",
+            "compressedByteLength": 704
           },
           "historyRevision": "history-2",
           "lighting": {
@@ -3957,10 +3957,10 @@
         "transactionId": "region-tx-1",
         "operations": {
           "contractVersion": "region-operations/v1",
-          "buildDigest": "21f935e1b2c66636a520acdbda7571fb702b14eb47f91f820d432ca3262c9065",
+          "buildDigest": "267b7595e51404dd02931bae76c9e0ba9b6a0f69b4466bc5774dad0ed0a7456e",
           "compilerRevision": "fixture-brush-region-1",
           "worldRef": "fixture-world",
-          "catalogueDigest": "ebbca84efd0d22b7e499a6f046d5463908846604ddef442288e0bd3881f50162",
+          "catalogueDigest": "89dfb22e3b674be56a66bb066ca5ee51fb0c0571725b2970ab0478658357cc57",
           "chunkEdge": 16,
           "chunks": [
             {
@@ -3984,12 +3984,12 @@
                 "indexOrder": "X_FASTEST_THEN_Y_THEN_Z",
                 "palette": [
                   {
-                    "nodeName": "fixture:dirt",
-                    "param2": 0
+                    "materialRef": "fixture:dirt",
+                    "orientation": 0
                   },
                   {
-                    "nodeName": "fixture:stone",
-                    "param2": 0
+                    "materialRef": "fixture:stone",
+                    "orientation": 0
                   }
                 ],
                 "runs": [
@@ -4033,12 +4033,12 @@
                 "indexOrder": "X_FASTEST_THEN_Y_THEN_Z",
                 "palette": [
                   {
-                    "nodeName": "fixture:dirt",
-                    "param2": 0
+                    "materialRef": "fixture:dirt",
+                    "orientation": 0
                   },
                   {
-                    "nodeName": "fixture:stone",
-                    "param2": 0
+                    "materialRef": "fixture:stone",
+                    "orientation": 0
                   }
                 ],
                 "runs": [
@@ -4074,16 +4074,16 @@
                 "indexOrder": "X_FASTEST_THEN_Y_THEN_Z",
                 "palette": [
                   {
-                    "nodeName": "air",
-                    "param2": 0
+                    "materialRef": "air",
+                    "orientation": 0
                   },
                   {
-                    "nodeName": "fixture:dirt",
-                    "param2": 0
+                    "materialRef": "fixture:dirt",
+                    "orientation": 0
                   },
                   {
-                    "nodeName": "fixture:stone",
-                    "param2": 0
+                    "materialRef": "fixture:stone",
+                    "orientation": 0
                   }
                 ],
                 "runs": [
@@ -4147,16 +4147,16 @@
                 "indexOrder": "X_FASTEST_THEN_Y_THEN_Z",
                 "palette": [
                   {
-                    "nodeName": "air",
-                    "param2": 0
+                    "materialRef": "air",
+                    "orientation": 0
                   },
                   {
-                    "nodeName": "fixture:dirt",
-                    "param2": 0
+                    "materialRef": "fixture:dirt",
+                    "orientation": 0
                   },
                   {
-                    "nodeName": "fixture:stone",
-                    "param2": 0
+                    "materialRef": "fixture:stone",
+                    "orientation": 0
                   }
                 ],
                 "runs": [
@@ -4200,12 +4200,12 @@
                 "indexOrder": "X_FASTEST_THEN_Y_THEN_Z",
                 "palette": [
                   {
-                    "nodeName": "fixture:dirt",
-                    "param2": 0
+                    "materialRef": "fixture:dirt",
+                    "orientation": 0
                   },
                   {
-                    "nodeName": "fixture:stone",
-                    "param2": 0
+                    "materialRef": "fixture:stone",
+                    "orientation": 0
                   }
                 ],
                 "runs": [
@@ -4249,12 +4249,12 @@
                 "indexOrder": "X_FASTEST_THEN_Y_THEN_Z",
                 "palette": [
                   {
-                    "nodeName": "fixture:dirt",
-                    "param2": 0
+                    "materialRef": "fixture:dirt",
+                    "orientation": 0
                   },
                   {
-                    "nodeName": "fixture:stone",
-                    "param2": 0
+                    "materialRef": "fixture:stone",
+                    "orientation": 0
                   }
                 ],
                 "runs": [
@@ -4271,7 +4271,7 @@
             }
           ]
         },
-        "operationDigest": "2498da7f1be2c7fd140ffb18bd1951469feb376f26bf8bc750ffeef6a2387e03",
+        "operationDigest": "5ca8c217ffc2a044244e87b6f150cf9175371abee2391e49a9b08ecd3da775fd",
         "guarantee": "RECOVERABLE_VERIFIED",
         "localContext": {
           "connectionRef": "local-connection",
@@ -4287,7 +4287,7 @@
           "transactionId": "region-tx-1",
           "worldRef": "fixture-world",
           "status": "ROLLED_BACK",
-          "operationDigest": "2498da7f1be2c7fd140ffb18bd1951469feb376f26bf8bc750ffeef6a2387e03",
+          "operationDigest": "5ca8c217ffc2a044244e87b6f150cf9175371abee2391e49a9b08ecd3da775fd",
           "beforeSummary": {
             "profileVersion": "region-summary/v1",
             "worldRef": "fixture-world",
@@ -4310,7 +4310,7 @@
                     -1
                   ]
                 },
-                "stateDigest": "5ea03b4b03ca2d28756e34f9a8e12860c5b1a5c54d4958063b0a58b3aa191790"
+                "stateDigest": "e0115e9cad4d978bbf84829f25350978f776c2a7f24870993b187102d2233d1e"
               },
               {
                 "chunkPos": [
@@ -4330,7 +4330,7 @@
                     0
                   ]
                 },
-                "stateDigest": "5e6ab6ebe2e1db5df5f29a0af6c15779d63d48b90fb384799c4b101d5aa4f535"
+                "stateDigest": "081ec395d52091d802e998698482ec0decf69a623cb86b0bb0a509f8e8d4fe99"
               },
               {
                 "chunkPos": [
@@ -4350,7 +4350,7 @@
                     -1
                   ]
                 },
-                "stateDigest": "17c515fcad77466049ffef9e083abf535e072084274dee47627d43a3403c7422"
+                "stateDigest": "c3abf6af5ef30bc817f62ed15933889bc119ffb20d6fff0604adc9a7df88b9e7"
               },
               {
                 "chunkPos": [
@@ -4370,7 +4370,7 @@
                     0
                   ]
                 },
-                "stateDigest": "54d394c649445e72c2e5f3fbcabd4131a39308225fee28837f13ad662eb8118f"
+                "stateDigest": "c7d59d10f9961494c77651529006f1055d4e5db42e4f88924cf9c913b4bf4333"
               },
               {
                 "chunkPos": [
@@ -4390,7 +4390,7 @@
                     -1
                   ]
                 },
-                "stateDigest": "5e9a2d3b5f961fd4acb5e0f5a7a03fe1c7a542d3b057252168bfe109937412cb"
+                "stateDigest": "90057e98225ce397b09583119eb0558c4bfd78736faecb54d06e2a86a12530d4"
               },
               {
                 "chunkPos": [
@@ -4410,7 +4410,7 @@
                     0
                   ]
                 },
-                "stateDigest": "15dabaa125af278811e9232ec666335c4f19ef00a3b1cd01ba54853a6883afce"
+                "stateDigest": "5a6c901554e575c743f2ff027540f0e66e5f16c2a91b3d96f226ed8d2fe4fec6"
               }
             ]
           },
@@ -4436,7 +4436,7 @@
                     -1
                   ]
                 },
-                "stateDigest": "a4131f48552dd4209c256b49925ec654f0c9e48135d3fbacd6ba95ae8503d8d4"
+                "stateDigest": "d49508f93ec5ab912e301415fe2d5f0551661f600de0582239a1757c207be5b0"
               },
               {
                 "chunkPos": [
@@ -4456,7 +4456,7 @@
                     0
                   ]
                 },
-                "stateDigest": "6d81485b194378163e5ae0171ec1c372afe2b1c454971f36a8e95811ebdba731"
+                "stateDigest": "b5f745855ff3ef6238e66af46083e1717e7ddc465ba1071794dabdfffcb2e898"
               },
               {
                 "chunkPos": [
@@ -4476,7 +4476,7 @@
                     -1
                   ]
                 },
-                "stateDigest": "03911c2cc9a7bb0fabb1789e3387dc59c2a63c0d9e5050c9644e4e5ce9a8953f"
+                "stateDigest": "ef44bd8e634f817bc3cd00615e06b7cf677aa4221c791d32d68520bb5c488a33"
               },
               {
                 "chunkPos": [
@@ -4496,7 +4496,7 @@
                     0
                   ]
                 },
-                "stateDigest": "7a7c61ee24a6062c8bf6abcf5375bc2195427885c7e36b26ce8454d7c7aacbe5"
+                "stateDigest": "eaed2261d8685d6208b0adce3427a52a195bfc05f1a54174060c3422b1809b1a"
               },
               {
                 "chunkPos": [
@@ -4516,7 +4516,7 @@
                     -1
                   ]
                 },
-                "stateDigest": "958183e7e13a5d975ceb11e1aa641f2feeb1267f43bff7b5d396ad93586469fc"
+                "stateDigest": "08986e47c57816432da17efecc5e61a65e613c365b5b02babeec7ee95b11410f"
               },
               {
                 "chunkPos": [
@@ -4536,7 +4536,7 @@
                     0
                   ]
                 },
-                "stateDigest": "f255f4f129a34f572522313cfc34bf52f0e309fb5f6e15c992cbb3c7be646128"
+                "stateDigest": "fc1b87442243b8c6936344f2c291081a30aa248baef749c4b3939fdab89a0a84"
               }
             ]
           },
@@ -4562,7 +4562,7 @@
                     -1
                   ]
                 },
-                "stateDigest": "5ea03b4b03ca2d28756e34f9a8e12860c5b1a5c54d4958063b0a58b3aa191790"
+                "stateDigest": "e0115e9cad4d978bbf84829f25350978f776c2a7f24870993b187102d2233d1e"
               },
               {
                 "chunkPos": [
@@ -4582,7 +4582,7 @@
                     0
                   ]
                 },
-                "stateDigest": "5e6ab6ebe2e1db5df5f29a0af6c15779d63d48b90fb384799c4b101d5aa4f535"
+                "stateDigest": "081ec395d52091d802e998698482ec0decf69a623cb86b0bb0a509f8e8d4fe99"
               },
               {
                 "chunkPos": [
@@ -4602,7 +4602,7 @@
                     -1
                   ]
                 },
-                "stateDigest": "17c515fcad77466049ffef9e083abf535e072084274dee47627d43a3403c7422"
+                "stateDigest": "c3abf6af5ef30bc817f62ed15933889bc119ffb20d6fff0604adc9a7df88b9e7"
               },
               {
                 "chunkPos": [
@@ -4622,7 +4622,7 @@
                     0
                   ]
                 },
-                "stateDigest": "54d394c649445e72c2e5f3fbcabd4131a39308225fee28837f13ad662eb8118f"
+                "stateDigest": "c7d59d10f9961494c77651529006f1055d4e5db42e4f88924cf9c913b4bf4333"
               },
               {
                 "chunkPos": [
@@ -4642,7 +4642,7 @@
                     -1
                   ]
                 },
-                "stateDigest": "5e9a2d3b5f961fd4acb5e0f5a7a03fe1c7a542d3b057252168bfe109937412cb"
+                "stateDigest": "90057e98225ce397b09583119eb0558c4bfd78736faecb54d06e2a86a12530d4"
               },
               {
                 "chunkPos": [
@@ -4662,17 +4662,17 @@
                     0
                   ]
                 },
-                "stateDigest": "15dabaa125af278811e9232ec666335c4f19ef00a3b1cd01ba54853a6883afce"
+                "stateDigest": "5a6c901554e575c743f2ff027540f0e66e5f16c2a91b3d96f226ed8d2fe4fec6"
               }
             ]
           },
           "snapshot": {
             "profileVersion": "region-snapshot/v1",
-            "contentDigest": "3da3d9f00f8bbb36df0717d09be873eb382887fbc66678cf8f7dfb52a0974bee",
-            "beforeSummaryDigest": "d8e89358699b34eefb63a42ba82e5bc0b6b1d2f6a72fe55339d9fa280cd0ce53",
+            "contentDigest": "74a90f96f7ec57941305e589b1ffdd6c5d478b2c7a5432b37dd2b6e6014ba49b",
+            "beforeSummaryDigest": "7d74a23c7ed190912cb7fdd38ab3d8d73ca9f24633cc6515da959c3664724410",
             "compression": "gzip",
-            "compressedSha256": "6adcea66f7c8c7979449e246574c30804bf125f8b09ba731c19442e705d59ef3",
-            "compressedByteLength": 666
+            "compressedSha256": "d8d264150d7204583e97c27d997ff898b3ca1cc9118305c9122f9cfd11603b2e",
+            "compressedByteLength": 704
           },
           "historyRevision": "history-2",
           "lighting": {
@@ -4732,10 +4732,10 @@
         "transactionId": "region-tx-1",
         "operations": {
           "contractVersion": "region-operations/v1",
-          "buildDigest": "21f935e1b2c66636a520acdbda7571fb702b14eb47f91f820d432ca3262c9065",
+          "buildDigest": "267b7595e51404dd02931bae76c9e0ba9b6a0f69b4466bc5774dad0ed0a7456e",
           "compilerRevision": "fixture-brush-region-1",
           "worldRef": "fixture-world",
-          "catalogueDigest": "ebbca84efd0d22b7e499a6f046d5463908846604ddef442288e0bd3881f50162",
+          "catalogueDigest": "89dfb22e3b674be56a66bb066ca5ee51fb0c0571725b2970ab0478658357cc57",
           "chunkEdge": 16,
           "chunks": [
             {
@@ -4759,12 +4759,12 @@
                 "indexOrder": "X_FASTEST_THEN_Y_THEN_Z",
                 "palette": [
                   {
-                    "nodeName": "fixture:dirt",
-                    "param2": 0
+                    "materialRef": "fixture:dirt",
+                    "orientation": 0
                   },
                   {
-                    "nodeName": "fixture:stone",
-                    "param2": 0
+                    "materialRef": "fixture:stone",
+                    "orientation": 0
                   }
                 ],
                 "runs": [
@@ -4808,12 +4808,12 @@
                 "indexOrder": "X_FASTEST_THEN_Y_THEN_Z",
                 "palette": [
                   {
-                    "nodeName": "fixture:dirt",
-                    "param2": 0
+                    "materialRef": "fixture:dirt",
+                    "orientation": 0
                   },
                   {
-                    "nodeName": "fixture:stone",
-                    "param2": 0
+                    "materialRef": "fixture:stone",
+                    "orientation": 0
                   }
                 ],
                 "runs": [
@@ -4849,16 +4849,16 @@
                 "indexOrder": "X_FASTEST_THEN_Y_THEN_Z",
                 "palette": [
                   {
-                    "nodeName": "air",
-                    "param2": 0
+                    "materialRef": "air",
+                    "orientation": 0
                   },
                   {
-                    "nodeName": "fixture:dirt",
-                    "param2": 0
+                    "materialRef": "fixture:dirt",
+                    "orientation": 0
                   },
                   {
-                    "nodeName": "fixture:stone",
-                    "param2": 0
+                    "materialRef": "fixture:stone",
+                    "orientation": 0
                   }
                 ],
                 "runs": [
@@ -4922,16 +4922,16 @@
                 "indexOrder": "X_FASTEST_THEN_Y_THEN_Z",
                 "palette": [
                   {
-                    "nodeName": "air",
-                    "param2": 0
+                    "materialRef": "air",
+                    "orientation": 0
                   },
                   {
-                    "nodeName": "fixture:dirt",
-                    "param2": 0
+                    "materialRef": "fixture:dirt",
+                    "orientation": 0
                   },
                   {
-                    "nodeName": "fixture:stone",
-                    "param2": 0
+                    "materialRef": "fixture:stone",
+                    "orientation": 0
                   }
                 ],
                 "runs": [
@@ -4975,12 +4975,12 @@
                 "indexOrder": "X_FASTEST_THEN_Y_THEN_Z",
                 "palette": [
                   {
-                    "nodeName": "fixture:dirt",
-                    "param2": 0
+                    "materialRef": "fixture:dirt",
+                    "orientation": 0
                   },
                   {
-                    "nodeName": "fixture:stone",
-                    "param2": 0
+                    "materialRef": "fixture:stone",
+                    "orientation": 0
                   }
                 ],
                 "runs": [
@@ -5024,12 +5024,12 @@
                 "indexOrder": "X_FASTEST_THEN_Y_THEN_Z",
                 "palette": [
                   {
-                    "nodeName": "fixture:dirt",
-                    "param2": 0
+                    "materialRef": "fixture:dirt",
+                    "orientation": 0
                   },
                   {
-                    "nodeName": "fixture:stone",
-                    "param2": 0
+                    "materialRef": "fixture:stone",
+                    "orientation": 0
                   }
                 ],
                 "runs": [
@@ -5046,7 +5046,7 @@
             }
           ]
         },
-        "operationDigest": "2498da7f1be2c7fd140ffb18bd1951469feb376f26bf8bc750ffeef6a2387e03",
+        "operationDigest": "5ca8c217ffc2a044244e87b6f150cf9175371abee2391e49a9b08ecd3da775fd",
         "guarantee": "RECOVERABLE_VERIFIED",
         "localContext": {
           "connectionRef": "local-connection",
@@ -5062,7 +5062,7 @@
           "transactionId": "region-tx-1",
           "worldRef": "fixture-world",
           "status": "ROLLED_BACK",
-          "operationDigest": "2498da7f1be2c7fd140ffb18bd1951469feb376f26bf8bc750ffeef6a2387e03",
+          "operationDigest": "5ca8c217ffc2a044244e87b6f150cf9175371abee2391e49a9b08ecd3da775fd",
           "beforeSummary": {
             "profileVersion": "region-summary/v1",
             "worldRef": "fixture-world",
@@ -5085,7 +5085,7 @@
                     -1
                   ]
                 },
-                "stateDigest": "5ea03b4b03ca2d28756e34f9a8e12860c5b1a5c54d4958063b0a58b3aa191790"
+                "stateDigest": "e0115e9cad4d978bbf84829f25350978f776c2a7f24870993b187102d2233d1e"
               },
               {
                 "chunkPos": [
@@ -5105,7 +5105,7 @@
                     0
                   ]
                 },
-                "stateDigest": "5e6ab6ebe2e1db5df5f29a0af6c15779d63d48b90fb384799c4b101d5aa4f535"
+                "stateDigest": "081ec395d52091d802e998698482ec0decf69a623cb86b0bb0a509f8e8d4fe99"
               },
               {
                 "chunkPos": [
@@ -5125,7 +5125,7 @@
                     -1
                   ]
                 },
-                "stateDigest": "17c515fcad77466049ffef9e083abf535e072084274dee47627d43a3403c7422"
+                "stateDigest": "c3abf6af5ef30bc817f62ed15933889bc119ffb20d6fff0604adc9a7df88b9e7"
               },
               {
                 "chunkPos": [
@@ -5145,7 +5145,7 @@
                     0
                   ]
                 },
-                "stateDigest": "54d394c649445e72c2e5f3fbcabd4131a39308225fee28837f13ad662eb8118f"
+                "stateDigest": "c7d59d10f9961494c77651529006f1055d4e5db42e4f88924cf9c913b4bf4333"
               },
               {
                 "chunkPos": [
@@ -5165,7 +5165,7 @@
                     -1
                   ]
                 },
-                "stateDigest": "5e9a2d3b5f961fd4acb5e0f5a7a03fe1c7a542d3b057252168bfe109937412cb"
+                "stateDigest": "90057e98225ce397b09583119eb0558c4bfd78736faecb54d06e2a86a12530d4"
               },
               {
                 "chunkPos": [
@@ -5185,7 +5185,7 @@
                     0
                   ]
                 },
-                "stateDigest": "15dabaa125af278811e9232ec666335c4f19ef00a3b1cd01ba54853a6883afce"
+                "stateDigest": "5a6c901554e575c743f2ff027540f0e66e5f16c2a91b3d96f226ed8d2fe4fec6"
               }
             ]
           },
@@ -5211,7 +5211,7 @@
                     -1
                   ]
                 },
-                "stateDigest": "a4131f48552dd4209c256b49925ec654f0c9e48135d3fbacd6ba95ae8503d8d4"
+                "stateDigest": "d49508f93ec5ab912e301415fe2d5f0551661f600de0582239a1757c207be5b0"
               },
               {
                 "chunkPos": [
@@ -5231,7 +5231,7 @@
                     0
                   ]
                 },
-                "stateDigest": "6d81485b194378163e5ae0171ec1c372afe2b1c454971f36a8e95811ebdba731"
+                "stateDigest": "b5f745855ff3ef6238e66af46083e1717e7ddc465ba1071794dabdfffcb2e898"
               },
               {
                 "chunkPos": [
@@ -5251,7 +5251,7 @@
                     -1
                   ]
                 },
-                "stateDigest": "03911c2cc9a7bb0fabb1789e3387dc59c2a63c0d9e5050c9644e4e5ce9a8953f"
+                "stateDigest": "ef44bd8e634f817bc3cd00615e06b7cf677aa4221c791d32d68520bb5c488a33"
               },
               {
                 "chunkPos": [
@@ -5271,7 +5271,7 @@
                     0
                   ]
                 },
-                "stateDigest": "7a7c61ee24a6062c8bf6abcf5375bc2195427885c7e36b26ce8454d7c7aacbe5"
+                "stateDigest": "eaed2261d8685d6208b0adce3427a52a195bfc05f1a54174060c3422b1809b1a"
               },
               {
                 "chunkPos": [
@@ -5291,7 +5291,7 @@
                     -1
                   ]
                 },
-                "stateDigest": "958183e7e13a5d975ceb11e1aa641f2feeb1267f43bff7b5d396ad93586469fc"
+                "stateDigest": "08986e47c57816432da17efecc5e61a65e613c365b5b02babeec7ee95b11410f"
               },
               {
                 "chunkPos": [
@@ -5311,7 +5311,7 @@
                     0
                   ]
                 },
-                "stateDigest": "f255f4f129a34f572522313cfc34bf52f0e309fb5f6e15c992cbb3c7be646128"
+                "stateDigest": "fc1b87442243b8c6936344f2c291081a30aa248baef749c4b3939fdab89a0a84"
               }
             ]
           },
@@ -5337,7 +5337,7 @@
                     -1
                   ]
                 },
-                "stateDigest": "5ea03b4b03ca2d28756e34f9a8e12860c5b1a5c54d4958063b0a58b3aa191790"
+                "stateDigest": "e0115e9cad4d978bbf84829f25350978f776c2a7f24870993b187102d2233d1e"
               },
               {
                 "chunkPos": [
@@ -5357,7 +5357,7 @@
                     0
                   ]
                 },
-                "stateDigest": "5e6ab6ebe2e1db5df5f29a0af6c15779d63d48b90fb384799c4b101d5aa4f535"
+                "stateDigest": "081ec395d52091d802e998698482ec0decf69a623cb86b0bb0a509f8e8d4fe99"
               },
               {
                 "chunkPos": [
@@ -5377,7 +5377,7 @@
                     -1
                   ]
                 },
-                "stateDigest": "17c515fcad77466049ffef9e083abf535e072084274dee47627d43a3403c7422"
+                "stateDigest": "c3abf6af5ef30bc817f62ed15933889bc119ffb20d6fff0604adc9a7df88b9e7"
               },
               {
                 "chunkPos": [
@@ -5397,7 +5397,7 @@
                     0
                   ]
                 },
-                "stateDigest": "54d394c649445e72c2e5f3fbcabd4131a39308225fee28837f13ad662eb8118f"
+                "stateDigest": "c7d59d10f9961494c77651529006f1055d4e5db42e4f88924cf9c913b4bf4333"
               },
               {
                 "chunkPos": [
@@ -5417,7 +5417,7 @@
                     -1
                   ]
                 },
-                "stateDigest": "5e9a2d3b5f961fd4acb5e0f5a7a03fe1c7a542d3b057252168bfe109937412cb"
+                "stateDigest": "90057e98225ce397b09583119eb0558c4bfd78736faecb54d06e2a86a12530d4"
               },
               {
                 "chunkPos": [
@@ -5437,17 +5437,17 @@
                     0
                   ]
                 },
-                "stateDigest": "15dabaa125af278811e9232ec666335c4f19ef00a3b1cd01ba54853a6883afce"
+                "stateDigest": "5a6c901554e575c743f2ff027540f0e66e5f16c2a91b3d96f226ed8d2fe4fec6"
               }
             ]
           },
           "snapshot": {
             "profileVersion": "region-snapshot/v1",
-            "contentDigest": "3da3d9f00f8bbb36df0717d09be873eb382887fbc66678cf8f7dfb52a0974bee",
-            "beforeSummaryDigest": "d8e89358699b34eefb63a42ba82e5bc0b6b1d2f6a72fe55339d9fa280cd0ce53",
+            "contentDigest": "74a90f96f7ec57941305e589b1ffdd6c5d478b2c7a5432b37dd2b6e6014ba49b",
+            "beforeSummaryDigest": "7d74a23c7ed190912cb7fdd38ab3d8d73ca9f24633cc6515da959c3664724410",
             "compression": "gzip",
-            "compressedSha256": "6adcea66f7c8c7979449e246574c30804bf125f8b09ba731c19442e705d59ef3",
-            "compressedByteLength": 666
+            "compressedSha256": "d8d264150d7204583e97c27d997ff898b3ca1cc9118305c9122f9cfd11603b2e",
+            "compressedByteLength": 704
           },
           "historyRevision": "history-2",
           "lighting": {
@@ -5507,10 +5507,10 @@
         "transactionId": "region-tx-1",
         "operations": {
           "contractVersion": "region-operations/v1",
-          "buildDigest": "21f935e1b2c66636a520acdbda7571fb702b14eb47f91f820d432ca3262c9065",
+          "buildDigest": "267b7595e51404dd02931bae76c9e0ba9b6a0f69b4466bc5774dad0ed0a7456e",
           "compilerRevision": "fixture-brush-region-1",
           "worldRef": "fixture-world",
-          "catalogueDigest": "ebbca84efd0d22b7e499a6f046d5463908846604ddef442288e0bd3881f50162",
+          "catalogueDigest": "89dfb22e3b674be56a66bb066ca5ee51fb0c0571725b2970ab0478658357cc57",
           "chunkEdge": 16,
           "chunks": [
             {
@@ -5534,12 +5534,12 @@
                 "indexOrder": "X_FASTEST_THEN_Y_THEN_Z",
                 "palette": [
                   {
-                    "nodeName": "fixture:dirt",
-                    "param2": 0
+                    "materialRef": "fixture:dirt",
+                    "orientation": 0
                   },
                   {
-                    "nodeName": "fixture:stone",
-                    "param2": 0
+                    "materialRef": "fixture:stone",
+                    "orientation": 0
                   }
                 ],
                 "runs": [
@@ -5583,12 +5583,12 @@
                 "indexOrder": "X_FASTEST_THEN_Y_THEN_Z",
                 "palette": [
                   {
-                    "nodeName": "fixture:dirt",
-                    "param2": 0
+                    "materialRef": "fixture:dirt",
+                    "orientation": 0
                   },
                   {
-                    "nodeName": "fixture:stone",
-                    "param2": 0
+                    "materialRef": "fixture:stone",
+                    "orientation": 0
                   }
                 ],
                 "runs": [
@@ -5624,16 +5624,16 @@
                 "indexOrder": "X_FASTEST_THEN_Y_THEN_Z",
                 "palette": [
                   {
-                    "nodeName": "air",
-                    "param2": 0
+                    "materialRef": "air",
+                    "orientation": 0
                   },
                   {
-                    "nodeName": "fixture:dirt",
-                    "param2": 0
+                    "materialRef": "fixture:dirt",
+                    "orientation": 0
                   },
                   {
-                    "nodeName": "fixture:stone",
-                    "param2": 0
+                    "materialRef": "fixture:stone",
+                    "orientation": 0
                   }
                 ],
                 "runs": [
@@ -5697,16 +5697,16 @@
                 "indexOrder": "X_FASTEST_THEN_Y_THEN_Z",
                 "palette": [
                   {
-                    "nodeName": "air",
-                    "param2": 0
+                    "materialRef": "air",
+                    "orientation": 0
                   },
                   {
-                    "nodeName": "fixture:dirt",
-                    "param2": 0
+                    "materialRef": "fixture:dirt",
+                    "orientation": 0
                   },
                   {
-                    "nodeName": "fixture:stone",
-                    "param2": 0
+                    "materialRef": "fixture:stone",
+                    "orientation": 0
                   }
                 ],
                 "runs": [
@@ -5750,12 +5750,12 @@
                 "indexOrder": "X_FASTEST_THEN_Y_THEN_Z",
                 "palette": [
                   {
-                    "nodeName": "fixture:dirt",
-                    "param2": 0
+                    "materialRef": "fixture:dirt",
+                    "orientation": 0
                   },
                   {
-                    "nodeName": "fixture:stone",
-                    "param2": 0
+                    "materialRef": "fixture:stone",
+                    "orientation": 0
                   }
                 ],
                 "runs": [
@@ -5799,12 +5799,12 @@
                 "indexOrder": "X_FASTEST_THEN_Y_THEN_Z",
                 "palette": [
                   {
-                    "nodeName": "fixture:dirt",
-                    "param2": 0
+                    "materialRef": "fixture:dirt",
+                    "orientation": 0
                   },
                   {
-                    "nodeName": "fixture:stone",
-                    "param2": 0
+                    "materialRef": "fixture:stone",
+                    "orientation": 0
                   }
                 ],
                 "runs": [
@@ -5821,7 +5821,7 @@
             }
           ]
         },
-        "operationDigest": "2498da7f1be2c7fd140ffb18bd1951469feb376f26bf8bc750ffeef6a2387e03",
+        "operationDigest": "5ca8c217ffc2a044244e87b6f150cf9175371abee2391e49a9b08ecd3da775fd",
         "guarantee": "RECOVERABLE_VERIFIED",
         "localContext": {
           "connectionRef": "local-connection",
@@ -5837,7 +5837,7 @@
           "transactionId": "region-tx-1",
           "worldRef": "fixture-world",
           "status": "ROLLED_BACK",
-          "operationDigest": "2498da7f1be2c7fd140ffb18bd1951469feb376f26bf8bc750ffeef6a2387e03",
+          "operationDigest": "5ca8c217ffc2a044244e87b6f150cf9175371abee2391e49a9b08ecd3da775fd",
           "beforeSummary": {
             "profileVersion": "region-summary/v1",
             "worldRef": "fixture-world",
@@ -5860,7 +5860,7 @@
                     -1
                   ]
                 },
-                "stateDigest": "5ea03b4b03ca2d28756e34f9a8e12860c5b1a5c54d4958063b0a58b3aa191790"
+                "stateDigest": "e0115e9cad4d978bbf84829f25350978f776c2a7f24870993b187102d2233d1e"
               },
               {
                 "chunkPos": [
@@ -5880,7 +5880,7 @@
                     0
                   ]
                 },
-                "stateDigest": "5e6ab6ebe2e1db5df5f29a0af6c15779d63d48b90fb384799c4b101d5aa4f535"
+                "stateDigest": "081ec395d52091d802e998698482ec0decf69a623cb86b0bb0a509f8e8d4fe99"
               },
               {
                 "chunkPos": [
@@ -5900,7 +5900,7 @@
                     -1
                   ]
                 },
-                "stateDigest": "17c515fcad77466049ffef9e083abf535e072084274dee47627d43a3403c7422"
+                "stateDigest": "c3abf6af5ef30bc817f62ed15933889bc119ffb20d6fff0604adc9a7df88b9e7"
               },
               {
                 "chunkPos": [
@@ -5920,7 +5920,7 @@
                     0
                   ]
                 },
-                "stateDigest": "54d394c649445e72c2e5f3fbcabd4131a39308225fee28837f13ad662eb8118f"
+                "stateDigest": "c7d59d10f9961494c77651529006f1055d4e5db42e4f88924cf9c913b4bf4333"
               },
               {
                 "chunkPos": [
@@ -5940,7 +5940,7 @@
                     -1
                   ]
                 },
-                "stateDigest": "5e9a2d3b5f961fd4acb5e0f5a7a03fe1c7a542d3b057252168bfe109937412cb"
+                "stateDigest": "90057e98225ce397b09583119eb0558c4bfd78736faecb54d06e2a86a12530d4"
               },
               {
                 "chunkPos": [
@@ -5960,7 +5960,7 @@
                     0
                   ]
                 },
-                "stateDigest": "15dabaa125af278811e9232ec666335c4f19ef00a3b1cd01ba54853a6883afce"
+                "stateDigest": "5a6c901554e575c743f2ff027540f0e66e5f16c2a91b3d96f226ed8d2fe4fec6"
               }
             ]
           },
@@ -5986,7 +5986,7 @@
                     -1
                   ]
                 },
-                "stateDigest": "a4131f48552dd4209c256b49925ec654f0c9e48135d3fbacd6ba95ae8503d8d4"
+                "stateDigest": "d49508f93ec5ab912e301415fe2d5f0551661f600de0582239a1757c207be5b0"
               },
               {
                 "chunkPos": [
@@ -6006,7 +6006,7 @@
                     0
                   ]
                 },
-                "stateDigest": "6d81485b194378163e5ae0171ec1c372afe2b1c454971f36a8e95811ebdba731"
+                "stateDigest": "b5f745855ff3ef6238e66af46083e1717e7ddc465ba1071794dabdfffcb2e898"
               },
               {
                 "chunkPos": [
@@ -6026,7 +6026,7 @@
                     -1
                   ]
                 },
-                "stateDigest": "03911c2cc9a7bb0fabb1789e3387dc59c2a63c0d9e5050c9644e4e5ce9a8953f"
+                "stateDigest": "ef44bd8e634f817bc3cd00615e06b7cf677aa4221c791d32d68520bb5c488a33"
               },
               {
                 "chunkPos": [
@@ -6046,7 +6046,7 @@
                     0
                   ]
                 },
-                "stateDigest": "7a7c61ee24a6062c8bf6abcf5375bc2195427885c7e36b26ce8454d7c7aacbe5"
+                "stateDigest": "eaed2261d8685d6208b0adce3427a52a195bfc05f1a54174060c3422b1809b1a"
               },
               {
                 "chunkPos": [
@@ -6066,7 +6066,7 @@
                     -1
                   ]
                 },
-                "stateDigest": "958183e7e13a5d975ceb11e1aa641f2feeb1267f43bff7b5d396ad93586469fc"
+                "stateDigest": "08986e47c57816432da17efecc5e61a65e613c365b5b02babeec7ee95b11410f"
               },
               {
                 "chunkPos": [
@@ -6086,7 +6086,7 @@
                     0
                   ]
                 },
-                "stateDigest": "f255f4f129a34f572522313cfc34bf52f0e309fb5f6e15c992cbb3c7be646128"
+                "stateDigest": "fc1b87442243b8c6936344f2c291081a30aa248baef749c4b3939fdab89a0a84"
               }
             ]
           },
@@ -6112,7 +6112,7 @@
                     -1
                   ]
                 },
-                "stateDigest": "5ea03b4b03ca2d28756e34f9a8e12860c5b1a5c54d4958063b0a58b3aa191790"
+                "stateDigest": "e0115e9cad4d978bbf84829f25350978f776c2a7f24870993b187102d2233d1e"
               },
               {
                 "chunkPos": [
@@ -6132,7 +6132,7 @@
                     0
                   ]
                 },
-                "stateDigest": "5e6ab6ebe2e1db5df5f29a0af6c15779d63d48b90fb384799c4b101d5aa4f535"
+                "stateDigest": "081ec395d52091d802e998698482ec0decf69a623cb86b0bb0a509f8e8d4fe99"
               },
               {
                 "chunkPos": [
@@ -6152,7 +6152,7 @@
                     -1
                   ]
                 },
-                "stateDigest": "17c515fcad77466049ffef9e083abf535e072084274dee47627d43a3403c7422"
+                "stateDigest": "c3abf6af5ef30bc817f62ed15933889bc119ffb20d6fff0604adc9a7df88b9e7"
               },
               {
                 "chunkPos": [
@@ -6172,7 +6172,7 @@
                     0
                   ]
                 },
-                "stateDigest": "54d394c649445e72c2e5f3fbcabd4131a39308225fee28837f13ad662eb8118f"
+                "stateDigest": "c7d59d10f9961494c77651529006f1055d4e5db42e4f88924cf9c913b4bf4333"
               },
               {
                 "chunkPos": [
@@ -6192,7 +6192,7 @@
                     -1
                   ]
                 },
-                "stateDigest": "5e9a2d3b5f961fd4acb5e0f5a7a03fe1c7a542d3b057252168bfe109937412cb"
+                "stateDigest": "90057e98225ce397b09583119eb0558c4bfd78736faecb54d06e2a86a12530d4"
               },
               {
                 "chunkPos": [
@@ -6212,17 +6212,17 @@
                     0
                   ]
                 },
-                "stateDigest": "15dabaa125af278811e9232ec666335c4f19ef00a3b1cd01ba54853a6883afce"
+                "stateDigest": "5a6c901554e575c743f2ff027540f0e66e5f16c2a91b3d96f226ed8d2fe4fec6"
               }
             ]
           },
           "snapshot": {
             "profileVersion": "region-snapshot/v1",
-            "contentDigest": "3da3d9f00f8bbb36df0717d09be873eb382887fbc66678cf8f7dfb52a0974bee",
-            "beforeSummaryDigest": "d8e89358699b34eefb63a42ba82e5bc0b6b1d2f6a72fe55339d9fa280cd0ce53",
+            "contentDigest": "74a90f96f7ec57941305e589b1ffdd6c5d478b2c7a5432b37dd2b6e6014ba49b",
+            "beforeSummaryDigest": "7d74a23c7ed190912cb7fdd38ab3d8d73ca9f24633cc6515da959c3664724410",
             "compression": "gzip",
-            "compressedSha256": "6adcea66f7c8c7979449e246574c30804bf125f8b09ba731c19442e705d59ef3",
-            "compressedByteLength": 666
+            "compressedSha256": "d8d264150d7204583e97c27d997ff898b3ca1cc9118305c9122f9cfd11603b2e",
+            "compressedByteLength": 704
           },
           "historyRevision": "history-2",
           "lighting": {
@@ -6282,10 +6282,10 @@
         "transactionId": "region-tx-1",
         "operations": {
           "contractVersion": "region-operations/v1",
-          "buildDigest": "21f935e1b2c66636a520acdbda7571fb702b14eb47f91f820d432ca3262c9065",
+          "buildDigest": "267b7595e51404dd02931bae76c9e0ba9b6a0f69b4466bc5774dad0ed0a7456e",
           "compilerRevision": "fixture-brush-region-1",
           "worldRef": "fixture-world",
-          "catalogueDigest": "ebbca84efd0d22b7e499a6f046d5463908846604ddef442288e0bd3881f50162",
+          "catalogueDigest": "89dfb22e3b674be56a66bb066ca5ee51fb0c0571725b2970ab0478658357cc57",
           "chunkEdge": 16,
           "chunks": [
             {
@@ -6309,12 +6309,12 @@
                 "indexOrder": "X_FASTEST_THEN_Y_THEN_Z",
                 "palette": [
                   {
-                    "nodeName": "fixture:dirt",
-                    "param2": 0
+                    "materialRef": "fixture:dirt",
+                    "orientation": 0
                   },
                   {
-                    "nodeName": "fixture:stone",
-                    "param2": 0
+                    "materialRef": "fixture:stone",
+                    "orientation": 0
                   }
                 ],
                 "runs": [
@@ -6358,12 +6358,12 @@
                 "indexOrder": "X_FASTEST_THEN_Y_THEN_Z",
                 "palette": [
                   {
-                    "nodeName": "fixture:dirt",
-                    "param2": 0
+                    "materialRef": "fixture:dirt",
+                    "orientation": 0
                   },
                   {
-                    "nodeName": "fixture:stone",
-                    "param2": 0
+                    "materialRef": "fixture:stone",
+                    "orientation": 0
                   }
                 ],
                 "runs": [
@@ -6399,16 +6399,16 @@
                 "indexOrder": "X_FASTEST_THEN_Y_THEN_Z",
                 "palette": [
                   {
-                    "nodeName": "air",
-                    "param2": 0
+                    "materialRef": "air",
+                    "orientation": 0
                   },
                   {
-                    "nodeName": "fixture:dirt",
-                    "param2": 0
+                    "materialRef": "fixture:dirt",
+                    "orientation": 0
                   },
                   {
-                    "nodeName": "fixture:stone",
-                    "param2": 0
+                    "materialRef": "fixture:stone",
+                    "orientation": 0
                   }
                 ],
                 "runs": [
@@ -6472,16 +6472,16 @@
                 "indexOrder": "X_FASTEST_THEN_Y_THEN_Z",
                 "palette": [
                   {
-                    "nodeName": "air",
-                    "param2": 0
+                    "materialRef": "air",
+                    "orientation": 0
                   },
                   {
-                    "nodeName": "fixture:dirt",
-                    "param2": 0
+                    "materialRef": "fixture:dirt",
+                    "orientation": 0
                   },
                   {
-                    "nodeName": "fixture:stone",
-                    "param2": 0
+                    "materialRef": "fixture:stone",
+                    "orientation": 0
                   }
                 ],
                 "runs": [
@@ -6525,12 +6525,12 @@
                 "indexOrder": "X_FASTEST_THEN_Y_THEN_Z",
                 "palette": [
                   {
-                    "nodeName": "fixture:dirt",
-                    "param2": 0
+                    "materialRef": "fixture:dirt",
+                    "orientation": 0
                   },
                   {
-                    "nodeName": "fixture:stone",
-                    "param2": 0
+                    "materialRef": "fixture:stone",
+                    "orientation": 0
                   }
                 ],
                 "runs": [
@@ -6574,12 +6574,12 @@
                 "indexOrder": "X_FASTEST_THEN_Y_THEN_Z",
                 "palette": [
                   {
-                    "nodeName": "fixture:dirt",
-                    "param2": 0
+                    "materialRef": "fixture:dirt",
+                    "orientation": 0
                   },
                   {
-                    "nodeName": "fixture:stone",
-                    "param2": 0
+                    "materialRef": "fixture:stone",
+                    "orientation": 0
                   }
                 ],
                 "runs": [
@@ -6596,7 +6596,7 @@
             }
           ]
         },
-        "operationDigest": "2498da7f1be2c7fd140ffb18bd1951469feb376f26bf8bc750ffeef6a2387e03",
+        "operationDigest": "5ca8c217ffc2a044244e87b6f150cf9175371abee2391e49a9b08ecd3da775fd",
         "guarantee": "RECOVERABLE_VERIFIED",
         "localContext": {
           "connectionRef": "local-connection",
@@ -6612,7 +6612,7 @@
           "transactionId": "region-tx-1",
           "worldRef": "fixture-world",
           "status": "ROLLED_BACK",
-          "operationDigest": "2498da7f1be2c7fd140ffb18bd1951469feb376f26bf8bc750ffeef6a2387e03",
+          "operationDigest": "5ca8c217ffc2a044244e87b6f150cf9175371abee2391e49a9b08ecd3da775fd",
           "beforeSummary": {
             "profileVersion": "region-summary/v1",
             "worldRef": "fixture-world",
@@ -6635,7 +6635,7 @@
                     -1
                   ]
                 },
-                "stateDigest": "5ea03b4b03ca2d28756e34f9a8e12860c5b1a5c54d4958063b0a58b3aa191790"
+                "stateDigest": "e0115e9cad4d978bbf84829f25350978f776c2a7f24870993b187102d2233d1e"
               },
               {
                 "chunkPos": [
@@ -6655,7 +6655,7 @@
                     0
                   ]
                 },
-                "stateDigest": "5e6ab6ebe2e1db5df5f29a0af6c15779d63d48b90fb384799c4b101d5aa4f535"
+                "stateDigest": "081ec395d52091d802e998698482ec0decf69a623cb86b0bb0a509f8e8d4fe99"
               },
               {
                 "chunkPos": [
@@ -6675,7 +6675,7 @@
                     -1
                   ]
                 },
-                "stateDigest": "17c515fcad77466049ffef9e083abf535e072084274dee47627d43a3403c7422"
+                "stateDigest": "c3abf6af5ef30bc817f62ed15933889bc119ffb20d6fff0604adc9a7df88b9e7"
               },
               {
                 "chunkPos": [
@@ -6695,7 +6695,7 @@
                     0
                   ]
                 },
-                "stateDigest": "54d394c649445e72c2e5f3fbcabd4131a39308225fee28837f13ad662eb8118f"
+                "stateDigest": "c7d59d10f9961494c77651529006f1055d4e5db42e4f88924cf9c913b4bf4333"
               },
               {
                 "chunkPos": [
@@ -6715,7 +6715,7 @@
                     -1
                   ]
                 },
-                "stateDigest": "5e9a2d3b5f961fd4acb5e0f5a7a03fe1c7a542d3b057252168bfe109937412cb"
+                "stateDigest": "90057e98225ce397b09583119eb0558c4bfd78736faecb54d06e2a86a12530d4"
               },
               {
                 "chunkPos": [
@@ -6735,7 +6735,7 @@
                     0
                   ]
                 },
-                "stateDigest": "15dabaa125af278811e9232ec666335c4f19ef00a3b1cd01ba54853a6883afce"
+                "stateDigest": "5a6c901554e575c743f2ff027540f0e66e5f16c2a91b3d96f226ed8d2fe4fec6"
               }
             ]
           },
@@ -6761,7 +6761,7 @@
                     -1
                   ]
                 },
-                "stateDigest": "a4131f48552dd4209c256b49925ec654f0c9e48135d3fbacd6ba95ae8503d8d4"
+                "stateDigest": "d49508f93ec5ab912e301415fe2d5f0551661f600de0582239a1757c207be5b0"
               },
               {
                 "chunkPos": [
@@ -6781,7 +6781,7 @@
                     0
                   ]
                 },
-                "stateDigest": "6d81485b194378163e5ae0171ec1c372afe2b1c454971f36a8e95811ebdba731"
+                "stateDigest": "b5f745855ff3ef6238e66af46083e1717e7ddc465ba1071794dabdfffcb2e898"
               },
               {
                 "chunkPos": [
@@ -6801,7 +6801,7 @@
                     -1
                   ]
                 },
-                "stateDigest": "03911c2cc9a7bb0fabb1789e3387dc59c2a63c0d9e5050c9644e4e5ce9a8953f"
+                "stateDigest": "ef44bd8e634f817bc3cd00615e06b7cf677aa4221c791d32d68520bb5c488a33"
               },
               {
                 "chunkPos": [
@@ -6821,7 +6821,7 @@
                     0
                   ]
                 },
-                "stateDigest": "7a7c61ee24a6062c8bf6abcf5375bc2195427885c7e36b26ce8454d7c7aacbe5"
+                "stateDigest": "eaed2261d8685d6208b0adce3427a52a195bfc05f1a54174060c3422b1809b1a"
               },
               {
                 "chunkPos": [
@@ -6841,7 +6841,7 @@
                     -1
                   ]
                 },
-                "stateDigest": "958183e7e13a5d975ceb11e1aa641f2feeb1267f43bff7b5d396ad93586469fc"
+                "stateDigest": "08986e47c57816432da17efecc5e61a65e613c365b5b02babeec7ee95b11410f"
               },
               {
                 "chunkPos": [
@@ -6861,7 +6861,7 @@
                     0
                   ]
                 },
-                "stateDigest": "f255f4f129a34f572522313cfc34bf52f0e309fb5f6e15c992cbb3c7be646128"
+                "stateDigest": "fc1b87442243b8c6936344f2c291081a30aa248baef749c4b3939fdab89a0a84"
               }
             ]
           },
@@ -6887,7 +6887,7 @@
                     -1
                   ]
                 },
-                "stateDigest": "5ea03b4b03ca2d28756e34f9a8e12860c5b1a5c54d4958063b0a58b3aa191790"
+                "stateDigest": "e0115e9cad4d978bbf84829f25350978f776c2a7f24870993b187102d2233d1e"
               },
               {
                 "chunkPos": [
@@ -6907,7 +6907,7 @@
                     0
                   ]
                 },
-                "stateDigest": "5e6ab6ebe2e1db5df5f29a0af6c15779d63d48b90fb384799c4b101d5aa4f535"
+                "stateDigest": "081ec395d52091d802e998698482ec0decf69a623cb86b0bb0a509f8e8d4fe99"
               },
               {
                 "chunkPos": [
@@ -6927,7 +6927,7 @@
                     -1
                   ]
                 },
-                "stateDigest": "17c515fcad77466049ffef9e083abf535e072084274dee47627d43a3403c7422"
+                "stateDigest": "c3abf6af5ef30bc817f62ed15933889bc119ffb20d6fff0604adc9a7df88b9e7"
               },
               {
                 "chunkPos": [
@@ -6947,7 +6947,7 @@
                     0
                   ]
                 },
-                "stateDigest": "54d394c649445e72c2e5f3fbcabd4131a39308225fee28837f13ad662eb8118f"
+                "stateDigest": "c7d59d10f9961494c77651529006f1055d4e5db42e4f88924cf9c913b4bf4333"
               },
               {
                 "chunkPos": [
@@ -6967,7 +6967,7 @@
                     -1
                   ]
                 },
-                "stateDigest": "5e9a2d3b5f961fd4acb5e0f5a7a03fe1c7a542d3b057252168bfe109937412cb"
+                "stateDigest": "90057e98225ce397b09583119eb0558c4bfd78736faecb54d06e2a86a12530d4"
               },
               {
                 "chunkPos": [
@@ -6987,17 +6987,17 @@
                     0
                   ]
                 },
-                "stateDigest": "15dabaa125af278811e9232ec666335c4f19ef00a3b1cd01ba54853a6883afce"
+                "stateDigest": "5a6c901554e575c743f2ff027540f0e66e5f16c2a91b3d96f226ed8d2fe4fec6"
               }
             ]
           },
           "snapshot": {
             "profileVersion": "region-snapshot/v1",
-            "contentDigest": "3da3d9f00f8bbb36df0717d09be873eb382887fbc66678cf8f7dfb52a0974bee",
-            "beforeSummaryDigest": "d8e89358699b34eefb63a42ba82e5bc0b6b1d2f6a72fe55339d9fa280cd0ce53",
+            "contentDigest": "74a90f96f7ec57941305e589b1ffdd6c5d478b2c7a5432b37dd2b6e6014ba49b",
+            "beforeSummaryDigest": "7d74a23c7ed190912cb7fdd38ab3d8d73ca9f24633cc6515da959c3664724410",
             "compression": "gzip",
-            "compressedSha256": "6adcea66f7c8c7979449e246574c30804bf125f8b09ba731c19442e705d59ef3",
-            "compressedByteLength": 666
+            "compressedSha256": "d8d264150d7204583e97c27d997ff898b3ca1cc9118305c9122f9cfd11603b2e",
+            "compressedByteLength": 704
           },
           "historyRevision": "history-2",
           "lighting": {
@@ -7061,10 +7061,10 @@
         "transactionId": "region-tx-1",
         "operations": {
           "contractVersion": "region-operations/v1",
-          "buildDigest": "21f935e1b2c66636a520acdbda7571fb702b14eb47f91f820d432ca3262c9065",
+          "buildDigest": "267b7595e51404dd02931bae76c9e0ba9b6a0f69b4466bc5774dad0ed0a7456e",
           "compilerRevision": "fixture-brush-region-1",
           "worldRef": "fixture-world",
-          "catalogueDigest": "ebbca84efd0d22b7e499a6f046d5463908846604ddef442288e0bd3881f50162",
+          "catalogueDigest": "89dfb22e3b674be56a66bb066ca5ee51fb0c0571725b2970ab0478658357cc57",
           "chunkEdge": 16,
           "chunks": [
             {
@@ -7088,12 +7088,12 @@
                 "indexOrder": "X_FASTEST_THEN_Y_THEN_Z",
                 "palette": [
                   {
-                    "nodeName": "fixture:dirt",
-                    "param2": 0
+                    "materialRef": "fixture:dirt",
+                    "orientation": 0
                   },
                   {
-                    "nodeName": "fixture:stone",
-                    "param2": 0
+                    "materialRef": "fixture:stone",
+                    "orientation": 0
                   }
                 ],
                 "runs": [
@@ -7137,12 +7137,12 @@
                 "indexOrder": "X_FASTEST_THEN_Y_THEN_Z",
                 "palette": [
                   {
-                    "nodeName": "fixture:dirt",
-                    "param2": 0
+                    "materialRef": "fixture:dirt",
+                    "orientation": 0
                   },
                   {
-                    "nodeName": "fixture:stone",
-                    "param2": 0
+                    "materialRef": "fixture:stone",
+                    "orientation": 0
                   }
                 ],
                 "runs": [
@@ -7178,16 +7178,16 @@
                 "indexOrder": "X_FASTEST_THEN_Y_THEN_Z",
                 "palette": [
                   {
-                    "nodeName": "air",
-                    "param2": 0
+                    "materialRef": "air",
+                    "orientation": 0
                   },
                   {
-                    "nodeName": "fixture:dirt",
-                    "param2": 0
+                    "materialRef": "fixture:dirt",
+                    "orientation": 0
                   },
                   {
-                    "nodeName": "fixture:stone",
-                    "param2": 0
+                    "materialRef": "fixture:stone",
+                    "orientation": 0
                   }
                 ],
                 "runs": [
@@ -7251,16 +7251,16 @@
                 "indexOrder": "X_FASTEST_THEN_Y_THEN_Z",
                 "palette": [
                   {
-                    "nodeName": "air",
-                    "param2": 0
+                    "materialRef": "air",
+                    "orientation": 0
                   },
                   {
-                    "nodeName": "fixture:dirt",
-                    "param2": 0
+                    "materialRef": "fixture:dirt",
+                    "orientation": 0
                   },
                   {
-                    "nodeName": "fixture:stone",
-                    "param2": 0
+                    "materialRef": "fixture:stone",
+                    "orientation": 0
                   }
                 ],
                 "runs": [
@@ -7304,12 +7304,12 @@
                 "indexOrder": "X_FASTEST_THEN_Y_THEN_Z",
                 "palette": [
                   {
-                    "nodeName": "fixture:dirt",
-                    "param2": 0
+                    "materialRef": "fixture:dirt",
+                    "orientation": 0
                   },
                   {
-                    "nodeName": "fixture:stone",
-                    "param2": 0
+                    "materialRef": "fixture:stone",
+                    "orientation": 0
                   }
                 ],
                 "runs": [
@@ -7353,12 +7353,12 @@
                 "indexOrder": "X_FASTEST_THEN_Y_THEN_Z",
                 "palette": [
                   {
-                    "nodeName": "fixture:dirt",
-                    "param2": 0
+                    "materialRef": "fixture:dirt",
+                    "orientation": 0
                   },
                   {
-                    "nodeName": "fixture:stone",
-                    "param2": 0
+                    "materialRef": "fixture:stone",
+                    "orientation": 0
                   }
                 ],
                 "runs": [
@@ -7375,7 +7375,7 @@
             }
           ]
         },
-        "operationDigest": "2498da7f1be2c7fd140ffb18bd1951469feb376f26bf8bc750ffeef6a2387e03",
+        "operationDigest": "5ca8c217ffc2a044244e87b6f150cf9175371abee2391e49a9b08ecd3da775fd",
         "guarantee": "RECOVERABLE_VERIFIED",
         "localContext": {
           "connectionRef": "local-connection",
@@ -7391,7 +7391,7 @@
           "transactionId": "region-tx-1",
           "worldRef": "fixture-world",
           "status": "ROLLED_BACK",
-          "operationDigest": "2498da7f1be2c7fd140ffb18bd1951469feb376f26bf8bc750ffeef6a2387e03",
+          "operationDigest": "5ca8c217ffc2a044244e87b6f150cf9175371abee2391e49a9b08ecd3da775fd",
           "beforeSummary": {
             "profileVersion": "region-summary/v1",
             "worldRef": "fixture-world",
@@ -7414,7 +7414,7 @@
                     -1
                   ]
                 },
-                "stateDigest": "5ea03b4b03ca2d28756e34f9a8e12860c5b1a5c54d4958063b0a58b3aa191790"
+                "stateDigest": "e0115e9cad4d978bbf84829f25350978f776c2a7f24870993b187102d2233d1e"
               },
               {
                 "chunkPos": [
@@ -7434,7 +7434,7 @@
                     0
                   ]
                 },
-                "stateDigest": "5e6ab6ebe2e1db5df5f29a0af6c15779d63d48b90fb384799c4b101d5aa4f535"
+                "stateDigest": "081ec395d52091d802e998698482ec0decf69a623cb86b0bb0a509f8e8d4fe99"
               },
               {
                 "chunkPos": [
@@ -7454,7 +7454,7 @@
                     -1
                   ]
                 },
-                "stateDigest": "17c515fcad77466049ffef9e083abf535e072084274dee47627d43a3403c7422"
+                "stateDigest": "c3abf6af5ef30bc817f62ed15933889bc119ffb20d6fff0604adc9a7df88b9e7"
               },
               {
                 "chunkPos": [
@@ -7474,7 +7474,7 @@
                     0
                   ]
                 },
-                "stateDigest": "54d394c649445e72c2e5f3fbcabd4131a39308225fee28837f13ad662eb8118f"
+                "stateDigest": "c7d59d10f9961494c77651529006f1055d4e5db42e4f88924cf9c913b4bf4333"
               },
               {
                 "chunkPos": [
@@ -7494,7 +7494,7 @@
                     -1
                   ]
                 },
-                "stateDigest": "5e9a2d3b5f961fd4acb5e0f5a7a03fe1c7a542d3b057252168bfe109937412cb"
+                "stateDigest": "90057e98225ce397b09583119eb0558c4bfd78736faecb54d06e2a86a12530d4"
               },
               {
                 "chunkPos": [
@@ -7514,7 +7514,7 @@
                     0
                   ]
                 },
-                "stateDigest": "15dabaa125af278811e9232ec666335c4f19ef00a3b1cd01ba54853a6883afce"
+                "stateDigest": "5a6c901554e575c743f2ff027540f0e66e5f16c2a91b3d96f226ed8d2fe4fec6"
               }
             ]
           },
@@ -7540,7 +7540,7 @@
                     -1
                   ]
                 },
-                "stateDigest": "a4131f48552dd4209c256b49925ec654f0c9e48135d3fbacd6ba95ae8503d8d4"
+                "stateDigest": "d49508f93ec5ab912e301415fe2d5f0551661f600de0582239a1757c207be5b0"
               },
               {
                 "chunkPos": [
@@ -7560,7 +7560,7 @@
                     0
                   ]
                 },
-                "stateDigest": "6d81485b194378163e5ae0171ec1c372afe2b1c454971f36a8e95811ebdba731"
+                "stateDigest": "b5f745855ff3ef6238e66af46083e1717e7ddc465ba1071794dabdfffcb2e898"
               },
               {
                 "chunkPos": [
@@ -7580,7 +7580,7 @@
                     -1
                   ]
                 },
-                "stateDigest": "03911c2cc9a7bb0fabb1789e3387dc59c2a63c0d9e5050c9644e4e5ce9a8953f"
+                "stateDigest": "ef44bd8e634f817bc3cd00615e06b7cf677aa4221c791d32d68520bb5c488a33"
               },
               {
                 "chunkPos": [
@@ -7600,7 +7600,7 @@
                     0
                   ]
                 },
-                "stateDigest": "7a7c61ee24a6062c8bf6abcf5375bc2195427885c7e36b26ce8454d7c7aacbe5"
+                "stateDigest": "eaed2261d8685d6208b0adce3427a52a195bfc05f1a54174060c3422b1809b1a"
               },
               {
                 "chunkPos": [
@@ -7620,7 +7620,7 @@
                     -1
                   ]
                 },
-                "stateDigest": "958183e7e13a5d975ceb11e1aa641f2feeb1267f43bff7b5d396ad93586469fc"
+                "stateDigest": "08986e47c57816432da17efecc5e61a65e613c365b5b02babeec7ee95b11410f"
               },
               {
                 "chunkPos": [
@@ -7640,7 +7640,7 @@
                     0
                   ]
                 },
-                "stateDigest": "f255f4f129a34f572522313cfc34bf52f0e309fb5f6e15c992cbb3c7be646128"
+                "stateDigest": "fc1b87442243b8c6936344f2c291081a30aa248baef749c4b3939fdab89a0a84"
               }
             ]
           },
@@ -7666,7 +7666,7 @@
                     -1
                   ]
                 },
-                "stateDigest": "5ea03b4b03ca2d28756e34f9a8e12860c5b1a5c54d4958063b0a58b3aa191790"
+                "stateDigest": "e0115e9cad4d978bbf84829f25350978f776c2a7f24870993b187102d2233d1e"
               },
               {
                 "chunkPos": [
@@ -7686,7 +7686,7 @@
                     0
                   ]
                 },
-                "stateDigest": "5e6ab6ebe2e1db5df5f29a0af6c15779d63d48b90fb384799c4b101d5aa4f535"
+                "stateDigest": "081ec395d52091d802e998698482ec0decf69a623cb86b0bb0a509f8e8d4fe99"
               },
               {
                 "chunkPos": [
@@ -7706,7 +7706,7 @@
                     -1
                   ]
                 },
-                "stateDigest": "17c515fcad77466049ffef9e083abf535e072084274dee47627d43a3403c7422"
+                "stateDigest": "c3abf6af5ef30bc817f62ed15933889bc119ffb20d6fff0604adc9a7df88b9e7"
               },
               {
                 "chunkPos": [
@@ -7726,7 +7726,7 @@
                     0
                   ]
                 },
-                "stateDigest": "54d394c649445e72c2e5f3fbcabd4131a39308225fee28837f13ad662eb8118f"
+                "stateDigest": "c7d59d10f9961494c77651529006f1055d4e5db42e4f88924cf9c913b4bf4333"
               },
               {
                 "chunkPos": [
@@ -7746,7 +7746,7 @@
                     -1
                   ]
                 },
-                "stateDigest": "5e9a2d3b5f961fd4acb5e0f5a7a03fe1c7a542d3b057252168bfe109937412cb"
+                "stateDigest": "90057e98225ce397b09583119eb0558c4bfd78736faecb54d06e2a86a12530d4"
               },
               {
                 "chunkPos": [
@@ -7766,17 +7766,17 @@
                     0
                   ]
                 },
-                "stateDigest": "15dabaa125af278811e9232ec666335c4f19ef00a3b1cd01ba54853a6883afce"
+                "stateDigest": "5a6c901554e575c743f2ff027540f0e66e5f16c2a91b3d96f226ed8d2fe4fec6"
               }
             ]
           },
           "snapshot": {
             "profileVersion": "region-snapshot/v1",
-            "contentDigest": "3da3d9f00f8bbb36df0717d09be873eb382887fbc66678cf8f7dfb52a0974bee",
-            "beforeSummaryDigest": "d8e89358699b34eefb63a42ba82e5bc0b6b1d2f6a72fe55339d9fa280cd0ce53",
+            "contentDigest": "74a90f96f7ec57941305e589b1ffdd6c5d478b2c7a5432b37dd2b6e6014ba49b",
+            "beforeSummaryDigest": "7d74a23c7ed190912cb7fdd38ab3d8d73ca9f24633cc6515da959c3664724410",
             "compression": "gzip",
-            "compressedSha256": "6adcea66f7c8c7979449e246574c30804bf125f8b09ba731c19442e705d59ef3",
-            "compressedByteLength": 666
+            "compressedSha256": "d8d264150d7204583e97c27d997ff898b3ca1cc9118305c9122f9cfd11603b2e",
+            "compressedByteLength": 704
           },
           "historyRevision": "history-2",
           "lighting": {
@@ -7825,10 +7825,10 @@
         "transactionId": "region-tx-1",
         "operations": {
           "contractVersion": "region-operations/v1",
-          "buildDigest": "21f935e1b2c66636a520acdbda7571fb702b14eb47f91f820d432ca3262c9065",
+          "buildDigest": "267b7595e51404dd02931bae76c9e0ba9b6a0f69b4466bc5774dad0ed0a7456e",
           "compilerRevision": "fixture-brush-region-1",
           "worldRef": "fixture-world",
-          "catalogueDigest": "ebbca84efd0d22b7e499a6f046d5463908846604ddef442288e0bd3881f50162",
+          "catalogueDigest": "89dfb22e3b674be56a66bb066ca5ee51fb0c0571725b2970ab0478658357cc57",
           "chunkEdge": 16,
           "chunks": [
             {
@@ -7852,12 +7852,12 @@
                 "indexOrder": "X_FASTEST_THEN_Y_THEN_Z",
                 "palette": [
                   {
-                    "nodeName": "fixture:dirt",
-                    "param2": 0
+                    "materialRef": "fixture:dirt",
+                    "orientation": 0
                   },
                   {
-                    "nodeName": "fixture:stone",
-                    "param2": 0
+                    "materialRef": "fixture:stone",
+                    "orientation": 0
                   }
                 ],
                 "runs": [
@@ -7901,12 +7901,12 @@
                 "indexOrder": "X_FASTEST_THEN_Y_THEN_Z",
                 "palette": [
                   {
-                    "nodeName": "fixture:dirt",
-                    "param2": 0
+                    "materialRef": "fixture:dirt",
+                    "orientation": 0
                   },
                   {
-                    "nodeName": "fixture:stone",
-                    "param2": 0
+                    "materialRef": "fixture:stone",
+                    "orientation": 0
                   }
                 ],
                 "runs": [
@@ -7942,16 +7942,16 @@
                 "indexOrder": "X_FASTEST_THEN_Y_THEN_Z",
                 "palette": [
                   {
-                    "nodeName": "air",
-                    "param2": 0
+                    "materialRef": "air",
+                    "orientation": 0
                   },
                   {
-                    "nodeName": "fixture:dirt",
-                    "param2": 0
+                    "materialRef": "fixture:dirt",
+                    "orientation": 0
                   },
                   {
-                    "nodeName": "fixture:stone",
-                    "param2": 0
+                    "materialRef": "fixture:stone",
+                    "orientation": 0
                   }
                 ],
                 "runs": [
@@ -8015,16 +8015,16 @@
                 "indexOrder": "X_FASTEST_THEN_Y_THEN_Z",
                 "palette": [
                   {
-                    "nodeName": "air",
-                    "param2": 0
+                    "materialRef": "air",
+                    "orientation": 0
                   },
                   {
-                    "nodeName": "fixture:dirt",
-                    "param2": 0
+                    "materialRef": "fixture:dirt",
+                    "orientation": 0
                   },
                   {
-                    "nodeName": "fixture:stone",
-                    "param2": 0
+                    "materialRef": "fixture:stone",
+                    "orientation": 0
                   }
                 ],
                 "runs": [
@@ -8068,12 +8068,12 @@
                 "indexOrder": "X_FASTEST_THEN_Y_THEN_Z",
                 "palette": [
                   {
-                    "nodeName": "fixture:dirt",
-                    "param2": 0
+                    "materialRef": "fixture:dirt",
+                    "orientation": 0
                   },
                   {
-                    "nodeName": "fixture:stone",
-                    "param2": 0
+                    "materialRef": "fixture:stone",
+                    "orientation": 0
                   }
                 ],
                 "runs": [
@@ -8117,12 +8117,12 @@
                 "indexOrder": "X_FASTEST_THEN_Y_THEN_Z",
                 "palette": [
                   {
-                    "nodeName": "fixture:dirt",
-                    "param2": 0
+                    "materialRef": "fixture:dirt",
+                    "orientation": 0
                   },
                   {
-                    "nodeName": "fixture:stone",
-                    "param2": 0
+                    "materialRef": "fixture:stone",
+                    "orientation": 0
                   }
                 ],
                 "runs": [
@@ -8139,7 +8139,7 @@
             }
           ]
         },
-        "operationDigest": "2498da7f1be2c7fd140ffb18bd1951469feb376f26bf8bc750ffeef6a2387e03",
+        "operationDigest": "5ca8c217ffc2a044244e87b6f150cf9175371abee2391e49a9b08ecd3da775fd",
         "guarantee": "RECOVERABLE_VERIFIED",
         "localContext": {
           "connectionRef": "local-connection",
@@ -8155,7 +8155,7 @@
           "transactionId": "region-tx-1",
           "worldRef": "fixture-world",
           "status": "ROLLED_BACK",
-          "operationDigest": "2498da7f1be2c7fd140ffb18bd1951469feb376f26bf8bc750ffeef6a2387e03",
+          "operationDigest": "5ca8c217ffc2a044244e87b6f150cf9175371abee2391e49a9b08ecd3da775fd",
           "beforeSummary": {
             "profileVersion": "region-summary/v1",
             "worldRef": "fixture-world",
@@ -8178,7 +8178,7 @@
                     -1
                   ]
                 },
-                "stateDigest": "5ea03b4b03ca2d28756e34f9a8e12860c5b1a5c54d4958063b0a58b3aa191790"
+                "stateDigest": "e0115e9cad4d978bbf84829f25350978f776c2a7f24870993b187102d2233d1e"
               },
               {
                 "chunkPos": [
@@ -8198,7 +8198,7 @@
                     0
                   ]
                 },
-                "stateDigest": "5e6ab6ebe2e1db5df5f29a0af6c15779d63d48b90fb384799c4b101d5aa4f535"
+                "stateDigest": "081ec395d52091d802e998698482ec0decf69a623cb86b0bb0a509f8e8d4fe99"
               },
               {
                 "chunkPos": [
@@ -8218,7 +8218,7 @@
                     -1
                   ]
                 },
-                "stateDigest": "17c515fcad77466049ffef9e083abf535e072084274dee47627d43a3403c7422"
+                "stateDigest": "c3abf6af5ef30bc817f62ed15933889bc119ffb20d6fff0604adc9a7df88b9e7"
               },
               {
                 "chunkPos": [
@@ -8238,7 +8238,7 @@
                     0
                   ]
                 },
-                "stateDigest": "54d394c649445e72c2e5f3fbcabd4131a39308225fee28837f13ad662eb8118f"
+                "stateDigest": "c7d59d10f9961494c77651529006f1055d4e5db42e4f88924cf9c913b4bf4333"
               },
               {
                 "chunkPos": [
@@ -8258,7 +8258,7 @@
                     -1
                   ]
                 },
-                "stateDigest": "5e9a2d3b5f961fd4acb5e0f5a7a03fe1c7a542d3b057252168bfe109937412cb"
+                "stateDigest": "90057e98225ce397b09583119eb0558c4bfd78736faecb54d06e2a86a12530d4"
               },
               {
                 "chunkPos": [
@@ -8278,7 +8278,7 @@
                     0
                   ]
                 },
-                "stateDigest": "15dabaa125af278811e9232ec666335c4f19ef00a3b1cd01ba54853a6883afce"
+                "stateDigest": "5a6c901554e575c743f2ff027540f0e66e5f16c2a91b3d96f226ed8d2fe4fec6"
               }
             ]
           },
@@ -8304,7 +8304,7 @@
                     -1
                   ]
                 },
-                "stateDigest": "a4131f48552dd4209c256b49925ec654f0c9e48135d3fbacd6ba95ae8503d8d4"
+                "stateDigest": "d49508f93ec5ab912e301415fe2d5f0551661f600de0582239a1757c207be5b0"
               },
               {
                 "chunkPos": [
@@ -8324,7 +8324,7 @@
                     0
                   ]
                 },
-                "stateDigest": "6d81485b194378163e5ae0171ec1c372afe2b1c454971f36a8e95811ebdba731"
+                "stateDigest": "b5f745855ff3ef6238e66af46083e1717e7ddc465ba1071794dabdfffcb2e898"
               },
               {
                 "chunkPos": [
@@ -8344,7 +8344,7 @@
                     -1
                   ]
                 },
-                "stateDigest": "03911c2cc9a7bb0fabb1789e3387dc59c2a63c0d9e5050c9644e4e5ce9a8953f"
+                "stateDigest": "ef44bd8e634f817bc3cd00615e06b7cf677aa4221c791d32d68520bb5c488a33"
               },
               {
                 "chunkPos": [
@@ -8364,7 +8364,7 @@
                     0
                   ]
                 },
-                "stateDigest": "7a7c61ee24a6062c8bf6abcf5375bc2195427885c7e36b26ce8454d7c7aacbe5"
+                "stateDigest": "eaed2261d8685d6208b0adce3427a52a195bfc05f1a54174060c3422b1809b1a"
               },
               {
                 "chunkPos": [
@@ -8384,7 +8384,7 @@
                     -1
                   ]
                 },
-                "stateDigest": "958183e7e13a5d975ceb11e1aa641f2feeb1267f43bff7b5d396ad93586469fc"
+                "stateDigest": "08986e47c57816432da17efecc5e61a65e613c365b5b02babeec7ee95b11410f"
               },
               {
                 "chunkPos": [
@@ -8404,7 +8404,7 @@
                     0
                   ]
                 },
-                "stateDigest": "f255f4f129a34f572522313cfc34bf52f0e309fb5f6e15c992cbb3c7be646128"
+                "stateDigest": "fc1b87442243b8c6936344f2c291081a30aa248baef749c4b3939fdab89a0a84"
               }
             ]
           },
@@ -8430,7 +8430,7 @@
                     -1
                   ]
                 },
-                "stateDigest": "5ea03b4b03ca2d28756e34f9a8e12860c5b1a5c54d4958063b0a58b3aa191790"
+                "stateDigest": "e0115e9cad4d978bbf84829f25350978f776c2a7f24870993b187102d2233d1e"
               },
               {
                 "chunkPos": [
@@ -8450,7 +8450,7 @@
                     0
                   ]
                 },
-                "stateDigest": "5e6ab6ebe2e1db5df5f29a0af6c15779d63d48b90fb384799c4b101d5aa4f535"
+                "stateDigest": "081ec395d52091d802e998698482ec0decf69a623cb86b0bb0a509f8e8d4fe99"
               },
               {
                 "chunkPos": [
@@ -8470,7 +8470,7 @@
                     -1
                   ]
                 },
-                "stateDigest": "17c515fcad77466049ffef9e083abf535e072084274dee47627d43a3403c7422"
+                "stateDigest": "c3abf6af5ef30bc817f62ed15933889bc119ffb20d6fff0604adc9a7df88b9e7"
               },
               {
                 "chunkPos": [
@@ -8490,7 +8490,7 @@
                     0
                   ]
                 },
-                "stateDigest": "54d394c649445e72c2e5f3fbcabd4131a39308225fee28837f13ad662eb8118f"
+                "stateDigest": "c7d59d10f9961494c77651529006f1055d4e5db42e4f88924cf9c913b4bf4333"
               },
               {
                 "chunkPos": [
@@ -8510,7 +8510,7 @@
                     -1
                   ]
                 },
-                "stateDigest": "5e9a2d3b5f961fd4acb5e0f5a7a03fe1c7a542d3b057252168bfe109937412cb"
+                "stateDigest": "90057e98225ce397b09583119eb0558c4bfd78736faecb54d06e2a86a12530d4"
               },
               {
                 "chunkPos": [
@@ -8530,17 +8530,17 @@
                     0
                   ]
                 },
-                "stateDigest": "15dabaa125af278811e9232ec666335c4f19ef00a3b1cd01ba54853a6883afce"
+                "stateDigest": "5a6c901554e575c743f2ff027540f0e66e5f16c2a91b3d96f226ed8d2fe4fec6"
               }
             ]
           },
           "snapshot": {
             "profileVersion": "region-snapshot/v1",
-            "contentDigest": "3da3d9f00f8bbb36df0717d09be873eb382887fbc66678cf8f7dfb52a0974bee",
-            "beforeSummaryDigest": "d8e89358699b34eefb63a42ba82e5bc0b6b1d2f6a72fe55339d9fa280cd0ce53",
+            "contentDigest": "74a90f96f7ec57941305e589b1ffdd6c5d478b2c7a5432b37dd2b6e6014ba49b",
+            "beforeSummaryDigest": "7d74a23c7ed190912cb7fdd38ab3d8d73ca9f24633cc6515da959c3664724410",
             "compression": "gzip",
-            "compressedSha256": "6adcea66f7c8c7979449e246574c30804bf125f8b09ba731c19442e705d59ef3",
-            "compressedByteLength": 666
+            "compressedSha256": "d8d264150d7204583e97c27d997ff898b3ca1cc9118305c9122f9cfd11603b2e",
+            "compressedByteLength": 704
           },
           "historyRevision": "history-2",
           "lighting": {
@@ -8605,10 +8605,10 @@
         "transactionId": "region-tx-1",
         "operations": {
           "contractVersion": "region-operations/v1",
-          "buildDigest": "21f935e1b2c66636a520acdbda7571fb702b14eb47f91f820d432ca3262c9065",
+          "buildDigest": "267b7595e51404dd02931bae76c9e0ba9b6a0f69b4466bc5774dad0ed0a7456e",
           "compilerRevision": "fixture-brush-region-1",
           "worldRef": "fixture-world",
-          "catalogueDigest": "ebbca84efd0d22b7e499a6f046d5463908846604ddef442288e0bd3881f50162",
+          "catalogueDigest": "89dfb22e3b674be56a66bb066ca5ee51fb0c0571725b2970ab0478658357cc57",
           "chunkEdge": 16,
           "chunks": [
             {
@@ -8632,12 +8632,12 @@
                 "indexOrder": "X_FASTEST_THEN_Y_THEN_Z",
                 "palette": [
                   {
-                    "nodeName": "fixture:dirt",
-                    "param2": 0
+                    "materialRef": "fixture:dirt",
+                    "orientation": 0
                   },
                   {
-                    "nodeName": "fixture:stone",
-                    "param2": 0
+                    "materialRef": "fixture:stone",
+                    "orientation": 0
                   }
                 ],
                 "runs": [
@@ -8681,12 +8681,12 @@
                 "indexOrder": "X_FASTEST_THEN_Y_THEN_Z",
                 "palette": [
                   {
-                    "nodeName": "fixture:dirt",
-                    "param2": 0
+                    "materialRef": "fixture:dirt",
+                    "orientation": 0
                   },
                   {
-                    "nodeName": "fixture:stone",
-                    "param2": 0
+                    "materialRef": "fixture:stone",
+                    "orientation": 0
                   }
                 ],
                 "runs": [
@@ -8722,16 +8722,16 @@
                 "indexOrder": "X_FASTEST_THEN_Y_THEN_Z",
                 "palette": [
                   {
-                    "nodeName": "air",
-                    "param2": 0
+                    "materialRef": "air",
+                    "orientation": 0
                   },
                   {
-                    "nodeName": "fixture:dirt",
-                    "param2": 0
+                    "materialRef": "fixture:dirt",
+                    "orientation": 0
                   },
                   {
-                    "nodeName": "fixture:stone",
-                    "param2": 0
+                    "materialRef": "fixture:stone",
+                    "orientation": 0
                   }
                 ],
                 "runs": [
@@ -8795,16 +8795,16 @@
                 "indexOrder": "X_FASTEST_THEN_Y_THEN_Z",
                 "palette": [
                   {
-                    "nodeName": "air",
-                    "param2": 0
+                    "materialRef": "air",
+                    "orientation": 0
                   },
                   {
-                    "nodeName": "fixture:dirt",
-                    "param2": 0
+                    "materialRef": "fixture:dirt",
+                    "orientation": 0
                   },
                   {
-                    "nodeName": "fixture:stone",
-                    "param2": 0
+                    "materialRef": "fixture:stone",
+                    "orientation": 0
                   }
                 ],
                 "runs": [
@@ -8848,12 +8848,12 @@
                 "indexOrder": "X_FASTEST_THEN_Y_THEN_Z",
                 "palette": [
                   {
-                    "nodeName": "fixture:dirt",
-                    "param2": 0
+                    "materialRef": "fixture:dirt",
+                    "orientation": 0
                   },
                   {
-                    "nodeName": "fixture:stone",
-                    "param2": 0
+                    "materialRef": "fixture:stone",
+                    "orientation": 0
                   }
                 ],
                 "runs": [
@@ -8897,12 +8897,12 @@
                 "indexOrder": "X_FASTEST_THEN_Y_THEN_Z",
                 "palette": [
                   {
-                    "nodeName": "fixture:dirt",
-                    "param2": 0
+                    "materialRef": "fixture:dirt",
+                    "orientation": 0
                   },
                   {
-                    "nodeName": "fixture:stone",
-                    "param2": 0
+                    "materialRef": "fixture:stone",
+                    "orientation": 0
                   }
                 ],
                 "runs": [
@@ -8919,7 +8919,7 @@
             }
           ]
         },
-        "operationDigest": "2498da7f1be2c7fd140ffb18bd1951469feb376f26bf8bc750ffeef6a2387e03",
+        "operationDigest": "5ca8c217ffc2a044244e87b6f150cf9175371abee2391e49a9b08ecd3da775fd",
         "guarantee": "RECOVERABLE_VERIFIED",
         "localContext": {
           "connectionRef": "local-connection",
@@ -8935,7 +8935,7 @@
           "transactionId": "region-tx-1",
           "worldRef": "fixture-world",
           "status": "ROLLED_BACK",
-          "operationDigest": "2498da7f1be2c7fd140ffb18bd1951469feb376f26bf8bc750ffeef6a2387e03",
+          "operationDigest": "5ca8c217ffc2a044244e87b6f150cf9175371abee2391e49a9b08ecd3da775fd",
           "beforeSummary": {
             "profileVersion": "region-summary/v1",
             "worldRef": "fixture-world",
@@ -8958,7 +8958,7 @@
                     -1
                   ]
                 },
-                "stateDigest": "5ea03b4b03ca2d28756e34f9a8e12860c5b1a5c54d4958063b0a58b3aa191790"
+                "stateDigest": "e0115e9cad4d978bbf84829f25350978f776c2a7f24870993b187102d2233d1e"
               },
               {
                 "chunkPos": [
@@ -8978,7 +8978,7 @@
                     0
                   ]
                 },
-                "stateDigest": "5e6ab6ebe2e1db5df5f29a0af6c15779d63d48b90fb384799c4b101d5aa4f535"
+                "stateDigest": "081ec395d52091d802e998698482ec0decf69a623cb86b0bb0a509f8e8d4fe99"
               },
               {
                 "chunkPos": [
@@ -8998,7 +8998,7 @@
                     -1
                   ]
                 },
-                "stateDigest": "17c515fcad77466049ffef9e083abf535e072084274dee47627d43a3403c7422"
+                "stateDigest": "c3abf6af5ef30bc817f62ed15933889bc119ffb20d6fff0604adc9a7df88b9e7"
               },
               {
                 "chunkPos": [
@@ -9018,7 +9018,7 @@
                     0
                   ]
                 },
-                "stateDigest": "54d394c649445e72c2e5f3fbcabd4131a39308225fee28837f13ad662eb8118f"
+                "stateDigest": "c7d59d10f9961494c77651529006f1055d4e5db42e4f88924cf9c913b4bf4333"
               },
               {
                 "chunkPos": [
@@ -9038,7 +9038,7 @@
                     -1
                   ]
                 },
-                "stateDigest": "5e9a2d3b5f961fd4acb5e0f5a7a03fe1c7a542d3b057252168bfe109937412cb"
+                "stateDigest": "90057e98225ce397b09583119eb0558c4bfd78736faecb54d06e2a86a12530d4"
               },
               {
                 "chunkPos": [
@@ -9058,7 +9058,7 @@
                     0
                   ]
                 },
-                "stateDigest": "15dabaa125af278811e9232ec666335c4f19ef00a3b1cd01ba54853a6883afce"
+                "stateDigest": "5a6c901554e575c743f2ff027540f0e66e5f16c2a91b3d96f226ed8d2fe4fec6"
               }
             ]
           },
@@ -9084,7 +9084,7 @@
                     -1
                   ]
                 },
-                "stateDigest": "a4131f48552dd4209c256b49925ec654f0c9e48135d3fbacd6ba95ae8503d8d4"
+                "stateDigest": "d49508f93ec5ab912e301415fe2d5f0551661f600de0582239a1757c207be5b0"
               },
               {
                 "chunkPos": [
@@ -9104,7 +9104,7 @@
                     0
                   ]
                 },
-                "stateDigest": "6d81485b194378163e5ae0171ec1c372afe2b1c454971f36a8e95811ebdba731"
+                "stateDigest": "b5f745855ff3ef6238e66af46083e1717e7ddc465ba1071794dabdfffcb2e898"
               },
               {
                 "chunkPos": [
@@ -9124,7 +9124,7 @@
                     -1
                   ]
                 },
-                "stateDigest": "03911c2cc9a7bb0fabb1789e3387dc59c2a63c0d9e5050c9644e4e5ce9a8953f"
+                "stateDigest": "ef44bd8e634f817bc3cd00615e06b7cf677aa4221c791d32d68520bb5c488a33"
               },
               {
                 "chunkPos": [
@@ -9144,7 +9144,7 @@
                     0
                   ]
                 },
-                "stateDigest": "7a7c61ee24a6062c8bf6abcf5375bc2195427885c7e36b26ce8454d7c7aacbe5"
+                "stateDigest": "eaed2261d8685d6208b0adce3427a52a195bfc05f1a54174060c3422b1809b1a"
               },
               {
                 "chunkPos": [
@@ -9164,7 +9164,7 @@
                     -1
                   ]
                 },
-                "stateDigest": "958183e7e13a5d975ceb11e1aa641f2feeb1267f43bff7b5d396ad93586469fc"
+                "stateDigest": "08986e47c57816432da17efecc5e61a65e613c365b5b02babeec7ee95b11410f"
               },
               {
                 "chunkPos": [
@@ -9184,7 +9184,7 @@
                     0
                   ]
                 },
-                "stateDigest": "f255f4f129a34f572522313cfc34bf52f0e309fb5f6e15c992cbb3c7be646128"
+                "stateDigest": "fc1b87442243b8c6936344f2c291081a30aa248baef749c4b3939fdab89a0a84"
               }
             ]
           },
@@ -9210,7 +9210,7 @@
                     -1
                   ]
                 },
-                "stateDigest": "5ea03b4b03ca2d28756e34f9a8e12860c5b1a5c54d4958063b0a58b3aa191790"
+                "stateDigest": "e0115e9cad4d978bbf84829f25350978f776c2a7f24870993b187102d2233d1e"
               },
               {
                 "chunkPos": [
@@ -9230,7 +9230,7 @@
                     0
                   ]
                 },
-                "stateDigest": "5e6ab6ebe2e1db5df5f29a0af6c15779d63d48b90fb384799c4b101d5aa4f535"
+                "stateDigest": "081ec395d52091d802e998698482ec0decf69a623cb86b0bb0a509f8e8d4fe99"
               },
               {
                 "chunkPos": [
@@ -9250,7 +9250,7 @@
                     -1
                   ]
                 },
-                "stateDigest": "17c515fcad77466049ffef9e083abf535e072084274dee47627d43a3403c7422"
+                "stateDigest": "c3abf6af5ef30bc817f62ed15933889bc119ffb20d6fff0604adc9a7df88b9e7"
               },
               {
                 "chunkPos": [
@@ -9270,7 +9270,7 @@
                     0
                   ]
                 },
-                "stateDigest": "54d394c649445e72c2e5f3fbcabd4131a39308225fee28837f13ad662eb8118f"
+                "stateDigest": "c7d59d10f9961494c77651529006f1055d4e5db42e4f88924cf9c913b4bf4333"
               },
               {
                 "chunkPos": [
@@ -9290,7 +9290,7 @@
                     -1
                   ]
                 },
-                "stateDigest": "5e9a2d3b5f961fd4acb5e0f5a7a03fe1c7a542d3b057252168bfe109937412cb"
+                "stateDigest": "90057e98225ce397b09583119eb0558c4bfd78736faecb54d06e2a86a12530d4"
               },
               {
                 "chunkPos": [
@@ -9310,17 +9310,17 @@
                     0
                   ]
                 },
-                "stateDigest": "15dabaa125af278811e9232ec666335c4f19ef00a3b1cd01ba54853a6883afce"
+                "stateDigest": "5a6c901554e575c743f2ff027540f0e66e5f16c2a91b3d96f226ed8d2fe4fec6"
               }
             ]
           },
           "snapshot": {
             "profileVersion": "region-snapshot/v1",
-            "contentDigest": "3da3d9f00f8bbb36df0717d09be873eb382887fbc66678cf8f7dfb52a0974bee",
-            "beforeSummaryDigest": "d8e89358699b34eefb63a42ba82e5bc0b6b1d2f6a72fe55339d9fa280cd0ce53",
+            "contentDigest": "74a90f96f7ec57941305e589b1ffdd6c5d478b2c7a5432b37dd2b6e6014ba49b",
+            "beforeSummaryDigest": "7d74a23c7ed190912cb7fdd38ab3d8d73ca9f24633cc6515da959c3664724410",
             "compression": "gzip",
-            "compressedSha256": "6adcea66f7c8c7979449e246574c30804bf125f8b09ba731c19442e705d59ef3",
-            "compressedByteLength": 666
+            "compressedSha256": "d8d264150d7204583e97c27d997ff898b3ca1cc9118305c9122f9cfd11603b2e",
+            "compressedByteLength": 704
           },
           "historyRevision": "history-2",
           "lighting": {
@@ -9391,10 +9391,10 @@
         "transactionId": "region-tx-1",
         "operations": {
           "contractVersion": "region-operations/v1",
-          "buildDigest": "21f935e1b2c66636a520acdbda7571fb702b14eb47f91f820d432ca3262c9065",
+          "buildDigest": "267b7595e51404dd02931bae76c9e0ba9b6a0f69b4466bc5774dad0ed0a7456e",
           "compilerRevision": "fixture-brush-region-1",
           "worldRef": "fixture-world",
-          "catalogueDigest": "ebbca84efd0d22b7e499a6f046d5463908846604ddef442288e0bd3881f50162",
+          "catalogueDigest": "89dfb22e3b674be56a66bb066ca5ee51fb0c0571725b2970ab0478658357cc57",
           "chunkEdge": 16,
           "chunks": [
             {
@@ -9418,12 +9418,12 @@
                 "indexOrder": "X_FASTEST_THEN_Y_THEN_Z",
                 "palette": [
                   {
-                    "nodeName": "fixture:dirt",
-                    "param2": 0
+                    "materialRef": "fixture:dirt",
+                    "orientation": 0
                   },
                   {
-                    "nodeName": "fixture:stone",
-                    "param2": 0
+                    "materialRef": "fixture:stone",
+                    "orientation": 0
                   }
                 ],
                 "runs": [
@@ -9467,12 +9467,12 @@
                 "indexOrder": "X_FASTEST_THEN_Y_THEN_Z",
                 "palette": [
                   {
-                    "nodeName": "fixture:dirt",
-                    "param2": 0
+                    "materialRef": "fixture:dirt",
+                    "orientation": 0
                   },
                   {
-                    "nodeName": "fixture:stone",
-                    "param2": 0
+                    "materialRef": "fixture:stone",
+                    "orientation": 0
                   }
                 ],
                 "runs": [
@@ -9508,16 +9508,16 @@
                 "indexOrder": "X_FASTEST_THEN_Y_THEN_Z",
                 "palette": [
                   {
-                    "nodeName": "air",
-                    "param2": 0
+                    "materialRef": "air",
+                    "orientation": 0
                   },
                   {
-                    "nodeName": "fixture:dirt",
-                    "param2": 0
+                    "materialRef": "fixture:dirt",
+                    "orientation": 0
                   },
                   {
-                    "nodeName": "fixture:stone",
-                    "param2": 0
+                    "materialRef": "fixture:stone",
+                    "orientation": 0
                   }
                 ],
                 "runs": [
@@ -9581,16 +9581,16 @@
                 "indexOrder": "X_FASTEST_THEN_Y_THEN_Z",
                 "palette": [
                   {
-                    "nodeName": "air",
-                    "param2": 0
+                    "materialRef": "air",
+                    "orientation": 0
                   },
                   {
-                    "nodeName": "fixture:dirt",
-                    "param2": 0
+                    "materialRef": "fixture:dirt",
+                    "orientation": 0
                   },
                   {
-                    "nodeName": "fixture:stone",
-                    "param2": 0
+                    "materialRef": "fixture:stone",
+                    "orientation": 0
                   }
                 ],
                 "runs": [
@@ -9634,12 +9634,12 @@
                 "indexOrder": "X_FASTEST_THEN_Y_THEN_Z",
                 "palette": [
                   {
-                    "nodeName": "fixture:dirt",
-                    "param2": 0
+                    "materialRef": "fixture:dirt",
+                    "orientation": 0
                   },
                   {
-                    "nodeName": "fixture:stone",
-                    "param2": 0
+                    "materialRef": "fixture:stone",
+                    "orientation": 0
                   }
                 ],
                 "runs": [
@@ -9683,12 +9683,12 @@
                 "indexOrder": "X_FASTEST_THEN_Y_THEN_Z",
                 "palette": [
                   {
-                    "nodeName": "fixture:dirt",
-                    "param2": 0
+                    "materialRef": "fixture:dirt",
+                    "orientation": 0
                   },
                   {
-                    "nodeName": "fixture:stone",
-                    "param2": 0
+                    "materialRef": "fixture:stone",
+                    "orientation": 0
                   }
                 ],
                 "runs": [
@@ -9705,7 +9705,7 @@
             }
           ]
         },
-        "operationDigest": "2498da7f1be2c7fd140ffb18bd1951469feb376f26bf8bc750ffeef6a2387e03",
+        "operationDigest": "5ca8c217ffc2a044244e87b6f150cf9175371abee2391e49a9b08ecd3da775fd",
         "guarantee": "RECOVERABLE_VERIFIED",
         "localContext": {
           "connectionRef": "local-connection",
@@ -9721,7 +9721,7 @@
           "transactionId": "region-tx-1",
           "worldRef": "fixture-world",
           "status": "ROLLED_BACK",
-          "operationDigest": "2498da7f1be2c7fd140ffb18bd1951469feb376f26bf8bc750ffeef6a2387e03",
+          "operationDigest": "5ca8c217ffc2a044244e87b6f150cf9175371abee2391e49a9b08ecd3da775fd",
           "beforeSummary": {
             "profileVersion": "region-summary/v1",
             "worldRef": "fixture-world",
@@ -9744,7 +9744,7 @@
                     -1
                   ]
                 },
-                "stateDigest": "5ea03b4b03ca2d28756e34f9a8e12860c5b1a5c54d4958063b0a58b3aa191790"
+                "stateDigest": "e0115e9cad4d978bbf84829f25350978f776c2a7f24870993b187102d2233d1e"
               },
               {
                 "chunkPos": [
@@ -9764,7 +9764,7 @@
                     0
                   ]
                 },
-                "stateDigest": "5e6ab6ebe2e1db5df5f29a0af6c15779d63d48b90fb384799c4b101d5aa4f535"
+                "stateDigest": "081ec395d52091d802e998698482ec0decf69a623cb86b0bb0a509f8e8d4fe99"
               },
               {
                 "chunkPos": [
@@ -9784,7 +9784,7 @@
                     -1
                   ]
                 },
-                "stateDigest": "17c515fcad77466049ffef9e083abf535e072084274dee47627d43a3403c7422"
+                "stateDigest": "c3abf6af5ef30bc817f62ed15933889bc119ffb20d6fff0604adc9a7df88b9e7"
               },
               {
                 "chunkPos": [
@@ -9804,7 +9804,7 @@
                     0
                   ]
                 },
-                "stateDigest": "54d394c649445e72c2e5f3fbcabd4131a39308225fee28837f13ad662eb8118f"
+                "stateDigest": "c7d59d10f9961494c77651529006f1055d4e5db42e4f88924cf9c913b4bf4333"
               },
               {
                 "chunkPos": [
@@ -9824,7 +9824,7 @@
                     -1
                   ]
                 },
-                "stateDigest": "5e9a2d3b5f961fd4acb5e0f5a7a03fe1c7a542d3b057252168bfe109937412cb"
+                "stateDigest": "90057e98225ce397b09583119eb0558c4bfd78736faecb54d06e2a86a12530d4"
               },
               {
                 "chunkPos": [
@@ -9844,7 +9844,7 @@
                     0
                   ]
                 },
-                "stateDigest": "15dabaa125af278811e9232ec666335c4f19ef00a3b1cd01ba54853a6883afce"
+                "stateDigest": "5a6c901554e575c743f2ff027540f0e66e5f16c2a91b3d96f226ed8d2fe4fec6"
               }
             ]
           },
@@ -9870,7 +9870,7 @@
                     -1
                   ]
                 },
-                "stateDigest": "a4131f48552dd4209c256b49925ec654f0c9e48135d3fbacd6ba95ae8503d8d4"
+                "stateDigest": "d49508f93ec5ab912e301415fe2d5f0551661f600de0582239a1757c207be5b0"
               },
               {
                 "chunkPos": [
@@ -9890,7 +9890,7 @@
                     0
                   ]
                 },
-                "stateDigest": "6d81485b194378163e5ae0171ec1c372afe2b1c454971f36a8e95811ebdba731"
+                "stateDigest": "b5f745855ff3ef6238e66af46083e1717e7ddc465ba1071794dabdfffcb2e898"
               },
               {
                 "chunkPos": [
@@ -9910,7 +9910,7 @@
                     -1
                   ]
                 },
-                "stateDigest": "03911c2cc9a7bb0fabb1789e3387dc59c2a63c0d9e5050c9644e4e5ce9a8953f"
+                "stateDigest": "ef44bd8e634f817bc3cd00615e06b7cf677aa4221c791d32d68520bb5c488a33"
               },
               {
                 "chunkPos": [
@@ -9930,7 +9930,7 @@
                     0
                   ]
                 },
-                "stateDigest": "7a7c61ee24a6062c8bf6abcf5375bc2195427885c7e36b26ce8454d7c7aacbe5"
+                "stateDigest": "eaed2261d8685d6208b0adce3427a52a195bfc05f1a54174060c3422b1809b1a"
               },
               {
                 "chunkPos": [
@@ -9950,7 +9950,7 @@
                     -1
                   ]
                 },
-                "stateDigest": "958183e7e13a5d975ceb11e1aa641f2feeb1267f43bff7b5d396ad93586469fc"
+                "stateDigest": "08986e47c57816432da17efecc5e61a65e613c365b5b02babeec7ee95b11410f"
               },
               {
                 "chunkPos": [
@@ -9970,7 +9970,7 @@
                     0
                   ]
                 },
-                "stateDigest": "f255f4f129a34f572522313cfc34bf52f0e309fb5f6e15c992cbb3c7be646128"
+                "stateDigest": "fc1b87442243b8c6936344f2c291081a30aa248baef749c4b3939fdab89a0a84"
               }
             ]
           },
@@ -9996,7 +9996,7 @@
                     -1
                   ]
                 },
-                "stateDigest": "5ea03b4b03ca2d28756e34f9a8e12860c5b1a5c54d4958063b0a58b3aa191790"
+                "stateDigest": "e0115e9cad4d978bbf84829f25350978f776c2a7f24870993b187102d2233d1e"
               },
               {
                 "chunkPos": [
@@ -10016,7 +10016,7 @@
                     0
                   ]
                 },
-                "stateDigest": "5e6ab6ebe2e1db5df5f29a0af6c15779d63d48b90fb384799c4b101d5aa4f535"
+                "stateDigest": "081ec395d52091d802e998698482ec0decf69a623cb86b0bb0a509f8e8d4fe99"
               },
               {
                 "chunkPos": [
@@ -10036,7 +10036,7 @@
                     -1
                   ]
                 },
-                "stateDigest": "17c515fcad77466049ffef9e083abf535e072084274dee47627d43a3403c7422"
+                "stateDigest": "c3abf6af5ef30bc817f62ed15933889bc119ffb20d6fff0604adc9a7df88b9e7"
               },
               {
                 "chunkPos": [
@@ -10056,7 +10056,7 @@
                     0
                   ]
                 },
-                "stateDigest": "54d394c649445e72c2e5f3fbcabd4131a39308225fee28837f13ad662eb8118f"
+                "stateDigest": "c7d59d10f9961494c77651529006f1055d4e5db42e4f88924cf9c913b4bf4333"
               },
               {
                 "chunkPos": [
@@ -10076,7 +10076,7 @@
                     -1
                   ]
                 },
-                "stateDigest": "5e9a2d3b5f961fd4acb5e0f5a7a03fe1c7a542d3b057252168bfe109937412cb"
+                "stateDigest": "90057e98225ce397b09583119eb0558c4bfd78736faecb54d06e2a86a12530d4"
               },
               {
                 "chunkPos": [
@@ -10096,17 +10096,17 @@
                     0
                   ]
                 },
-                "stateDigest": "15dabaa125af278811e9232ec666335c4f19ef00a3b1cd01ba54853a6883afce"
+                "stateDigest": "5a6c901554e575c743f2ff027540f0e66e5f16c2a91b3d96f226ed8d2fe4fec6"
               }
             ]
           },
           "snapshot": {
             "profileVersion": "region-snapshot/v1",
-            "contentDigest": "3da3d9f00f8bbb36df0717d09be873eb382887fbc66678cf8f7dfb52a0974bee",
-            "beforeSummaryDigest": "d8e89358699b34eefb63a42ba82e5bc0b6b1d2f6a72fe55339d9fa280cd0ce53",
+            "contentDigest": "74a90f96f7ec57941305e589b1ffdd6c5d478b2c7a5432b37dd2b6e6014ba49b",
+            "beforeSummaryDigest": "7d74a23c7ed190912cb7fdd38ab3d8d73ca9f24633cc6515da959c3664724410",
             "compression": "gzip",
-            "compressedSha256": "6adcea66f7c8c7979449e246574c30804bf125f8b09ba731c19442e705d59ef3",
-            "compressedByteLength": 666
+            "compressedSha256": "d8d264150d7204583e97c27d997ff898b3ca1cc9118305c9122f9cfd11603b2e",
+            "compressedByteLength": 704
           },
           "historyRevision": "history-2",
           "lighting": {
@@ -10170,10 +10170,10 @@
         "transactionId": "region-tx-1",
         "operations": {
           "contractVersion": "region-operations/v1",
-          "buildDigest": "21f935e1b2c66636a520acdbda7571fb702b14eb47f91f820d432ca3262c9065",
+          "buildDigest": "267b7595e51404dd02931bae76c9e0ba9b6a0f69b4466bc5774dad0ed0a7456e",
           "compilerRevision": "fixture-brush-region-1",
           "worldRef": "fixture-world",
-          "catalogueDigest": "ebbca84efd0d22b7e499a6f046d5463908846604ddef442288e0bd3881f50162",
+          "catalogueDigest": "89dfb22e3b674be56a66bb066ca5ee51fb0c0571725b2970ab0478658357cc57",
           "chunkEdge": 16,
           "chunks": [
             {
@@ -10197,12 +10197,12 @@
                 "indexOrder": "X_FASTEST_THEN_Y_THEN_Z",
                 "palette": [
                   {
-                    "nodeName": "fixture:dirt",
-                    "param2": 0
+                    "materialRef": "fixture:dirt",
+                    "orientation": 0
                   },
                   {
-                    "nodeName": "fixture:stone",
-                    "param2": 0
+                    "materialRef": "fixture:stone",
+                    "orientation": 0
                   }
                 ],
                 "runs": [
@@ -10246,12 +10246,12 @@
                 "indexOrder": "X_FASTEST_THEN_Y_THEN_Z",
                 "palette": [
                   {
-                    "nodeName": "fixture:dirt",
-                    "param2": 0
+                    "materialRef": "fixture:dirt",
+                    "orientation": 0
                   },
                   {
-                    "nodeName": "fixture:stone",
-                    "param2": 0
+                    "materialRef": "fixture:stone",
+                    "orientation": 0
                   }
                 ],
                 "runs": [
@@ -10287,16 +10287,16 @@
                 "indexOrder": "X_FASTEST_THEN_Y_THEN_Z",
                 "palette": [
                   {
-                    "nodeName": "air",
-                    "param2": 0
+                    "materialRef": "air",
+                    "orientation": 0
                   },
                   {
-                    "nodeName": "fixture:dirt",
-                    "param2": 0
+                    "materialRef": "fixture:dirt",
+                    "orientation": 0
                   },
                   {
-                    "nodeName": "fixture:stone",
-                    "param2": 0
+                    "materialRef": "fixture:stone",
+                    "orientation": 0
                   }
                 ],
                 "runs": [
@@ -10360,16 +10360,16 @@
                 "indexOrder": "X_FASTEST_THEN_Y_THEN_Z",
                 "palette": [
                   {
-                    "nodeName": "air",
-                    "param2": 0
+                    "materialRef": "air",
+                    "orientation": 0
                   },
                   {
-                    "nodeName": "fixture:dirt",
-                    "param2": 0
+                    "materialRef": "fixture:dirt",
+                    "orientation": 0
                   },
                   {
-                    "nodeName": "fixture:stone",
-                    "param2": 0
+                    "materialRef": "fixture:stone",
+                    "orientation": 0
                   }
                 ],
                 "runs": [
@@ -10413,12 +10413,12 @@
                 "indexOrder": "X_FASTEST_THEN_Y_THEN_Z",
                 "palette": [
                   {
-                    "nodeName": "fixture:dirt",
-                    "param2": 0
+                    "materialRef": "fixture:dirt",
+                    "orientation": 0
                   },
                   {
-                    "nodeName": "fixture:stone",
-                    "param2": 0
+                    "materialRef": "fixture:stone",
+                    "orientation": 0
                   }
                 ],
                 "runs": [
@@ -10462,12 +10462,12 @@
                 "indexOrder": "X_FASTEST_THEN_Y_THEN_Z",
                 "palette": [
                   {
-                    "nodeName": "fixture:dirt",
-                    "param2": 0
+                    "materialRef": "fixture:dirt",
+                    "orientation": 0
                   },
                   {
-                    "nodeName": "fixture:stone",
-                    "param2": 0
+                    "materialRef": "fixture:stone",
+                    "orientation": 0
                   }
                 ],
                 "runs": [
@@ -10484,7 +10484,7 @@
             }
           ]
         },
-        "operationDigest": "2498da7f1be2c7fd140ffb18bd1951469feb376f26bf8bc750ffeef6a2387e03",
+        "operationDigest": "5ca8c217ffc2a044244e87b6f150cf9175371abee2391e49a9b08ecd3da775fd",
         "guarantee": "RECOVERABLE_VERIFIED",
         "localContext": {
           "connectionRef": "local-connection",
@@ -10500,7 +10500,7 @@
           "transactionId": "region-tx-1",
           "worldRef": "fixture-world",
           "status": "ROLLED_BACK",
-          "operationDigest": "2498da7f1be2c7fd140ffb18bd1951469feb376f26bf8bc750ffeef6a2387e03",
+          "operationDigest": "5ca8c217ffc2a044244e87b6f150cf9175371abee2391e49a9b08ecd3da775fd",
           "beforeSummary": {
             "profileVersion": "region-summary/v1",
             "worldRef": "fixture-world",
@@ -10523,7 +10523,7 @@
                     -1
                   ]
                 },
-                "stateDigest": "5ea03b4b03ca2d28756e34f9a8e12860c5b1a5c54d4958063b0a58b3aa191790"
+                "stateDigest": "e0115e9cad4d978bbf84829f25350978f776c2a7f24870993b187102d2233d1e"
               },
               {
                 "chunkPos": [
@@ -10543,7 +10543,7 @@
                     0
                   ]
                 },
-                "stateDigest": "5e6ab6ebe2e1db5df5f29a0af6c15779d63d48b90fb384799c4b101d5aa4f535"
+                "stateDigest": "081ec395d52091d802e998698482ec0decf69a623cb86b0bb0a509f8e8d4fe99"
               },
               {
                 "chunkPos": [
@@ -10563,7 +10563,7 @@
                     -1
                   ]
                 },
-                "stateDigest": "17c515fcad77466049ffef9e083abf535e072084274dee47627d43a3403c7422"
+                "stateDigest": "c3abf6af5ef30bc817f62ed15933889bc119ffb20d6fff0604adc9a7df88b9e7"
               },
               {
                 "chunkPos": [
@@ -10583,7 +10583,7 @@
                     0
                   ]
                 },
-                "stateDigest": "54d394c649445e72c2e5f3fbcabd4131a39308225fee28837f13ad662eb8118f"
+                "stateDigest": "c7d59d10f9961494c77651529006f1055d4e5db42e4f88924cf9c913b4bf4333"
               },
               {
                 "chunkPos": [
@@ -10603,7 +10603,7 @@
                     -1
                   ]
                 },
-                "stateDigest": "5e9a2d3b5f961fd4acb5e0f5a7a03fe1c7a542d3b057252168bfe109937412cb"
+                "stateDigest": "90057e98225ce397b09583119eb0558c4bfd78736faecb54d06e2a86a12530d4"
               },
               {
                 "chunkPos": [
@@ -10623,7 +10623,7 @@
                     0
                   ]
                 },
-                "stateDigest": "15dabaa125af278811e9232ec666335c4f19ef00a3b1cd01ba54853a6883afce"
+                "stateDigest": "5a6c901554e575c743f2ff027540f0e66e5f16c2a91b3d96f226ed8d2fe4fec6"
               }
             ]
           },
@@ -10649,7 +10649,7 @@
                     -1
                   ]
                 },
-                "stateDigest": "a4131f48552dd4209c256b49925ec654f0c9e48135d3fbacd6ba95ae8503d8d4"
+                "stateDigest": "d49508f93ec5ab912e301415fe2d5f0551661f600de0582239a1757c207be5b0"
               },
               {
                 "chunkPos": [
@@ -10669,7 +10669,7 @@
                     0
                   ]
                 },
-                "stateDigest": "6d81485b194378163e5ae0171ec1c372afe2b1c454971f36a8e95811ebdba731"
+                "stateDigest": "b5f745855ff3ef6238e66af46083e1717e7ddc465ba1071794dabdfffcb2e898"
               },
               {
                 "chunkPos": [
@@ -10689,7 +10689,7 @@
                     -1
                   ]
                 },
-                "stateDigest": "03911c2cc9a7bb0fabb1789e3387dc59c2a63c0d9e5050c9644e4e5ce9a8953f"
+                "stateDigest": "ef44bd8e634f817bc3cd00615e06b7cf677aa4221c791d32d68520bb5c488a33"
               },
               {
                 "chunkPos": [
@@ -10709,7 +10709,7 @@
                     0
                   ]
                 },
-                "stateDigest": "7a7c61ee24a6062c8bf6abcf5375bc2195427885c7e36b26ce8454d7c7aacbe5"
+                "stateDigest": "eaed2261d8685d6208b0adce3427a52a195bfc05f1a54174060c3422b1809b1a"
               },
               {
                 "chunkPos": [
@@ -10729,7 +10729,7 @@
                     -1
                   ]
                 },
-                "stateDigest": "958183e7e13a5d975ceb11e1aa641f2feeb1267f43bff7b5d396ad93586469fc"
+                "stateDigest": "08986e47c57816432da17efecc5e61a65e613c365b5b02babeec7ee95b11410f"
               },
               {
                 "chunkPos": [
@@ -10749,7 +10749,7 @@
                     0
                   ]
                 },
-                "stateDigest": "f255f4f129a34f572522313cfc34bf52f0e309fb5f6e15c992cbb3c7be646128"
+                "stateDigest": "fc1b87442243b8c6936344f2c291081a30aa248baef749c4b3939fdab89a0a84"
               }
             ]
           },
@@ -10775,7 +10775,7 @@
                     -1
                   ]
                 },
-                "stateDigest": "5ea03b4b03ca2d28756e34f9a8e12860c5b1a5c54d4958063b0a58b3aa191790"
+                "stateDigest": "e0115e9cad4d978bbf84829f25350978f776c2a7f24870993b187102d2233d1e"
               },
               {
                 "chunkPos": [
@@ -10795,7 +10795,7 @@
                     0
                   ]
                 },
-                "stateDigest": "5e6ab6ebe2e1db5df5f29a0af6c15779d63d48b90fb384799c4b101d5aa4f535"
+                "stateDigest": "081ec395d52091d802e998698482ec0decf69a623cb86b0bb0a509f8e8d4fe99"
               },
               {
                 "chunkPos": [
@@ -10815,7 +10815,7 @@
                     -1
                   ]
                 },
-                "stateDigest": "17c515fcad77466049ffef9e083abf535e072084274dee47627d43a3403c7422"
+                "stateDigest": "c3abf6af5ef30bc817f62ed15933889bc119ffb20d6fff0604adc9a7df88b9e7"
               },
               {
                 "chunkPos": [
@@ -10835,7 +10835,7 @@
                     0
                   ]
                 },
-                "stateDigest": "54d394c649445e72c2e5f3fbcabd4131a39308225fee28837f13ad662eb8118f"
+                "stateDigest": "c7d59d10f9961494c77651529006f1055d4e5db42e4f88924cf9c913b4bf4333"
               },
               {
                 "chunkPos": [
@@ -10855,7 +10855,7 @@
                     -1
                   ]
                 },
-                "stateDigest": "5e9a2d3b5f961fd4acb5e0f5a7a03fe1c7a542d3b057252168bfe109937412cb"
+                "stateDigest": "90057e98225ce397b09583119eb0558c4bfd78736faecb54d06e2a86a12530d4"
               },
               {
                 "chunkPos": [
@@ -10875,17 +10875,17 @@
                     0
                   ]
                 },
-                "stateDigest": "15dabaa125af278811e9232ec666335c4f19ef00a3b1cd01ba54853a6883afce"
+                "stateDigest": "5a6c901554e575c743f2ff027540f0e66e5f16c2a91b3d96f226ed8d2fe4fec6"
               }
             ]
           },
           "snapshot": {
             "profileVersion": "region-snapshot/v1",
-            "contentDigest": "3da3d9f00f8bbb36df0717d09be873eb382887fbc66678cf8f7dfb52a0974bee",
-            "beforeSummaryDigest": "d8e89358699b34eefb63a42ba82e5bc0b6b1d2f6a72fe55339d9fa280cd0ce53",
+            "contentDigest": "74a90f96f7ec57941305e589b1ffdd6c5d478b2c7a5432b37dd2b6e6014ba49b",
+            "beforeSummaryDigest": "7d74a23c7ed190912cb7fdd38ab3d8d73ca9f24633cc6515da959c3664724410",
             "compression": "gzip",
-            "compressedSha256": "6adcea66f7c8c7979449e246574c30804bf125f8b09ba731c19442e705d59ef3",
-            "compressedByteLength": 666
+            "compressedSha256": "d8d264150d7204583e97c27d997ff898b3ca1cc9118305c9122f9cfd11603b2e",
+            "compressedByteLength": 704
           },
           "historyRevision": "history-2",
           "lighting": {
@@ -10949,10 +10949,10 @@
         "transactionId": "region-tx-1",
         "operations": {
           "contractVersion": "region-operations/v1",
-          "buildDigest": "21f935e1b2c66636a520acdbda7571fb702b14eb47f91f820d432ca3262c9065",
+          "buildDigest": "267b7595e51404dd02931bae76c9e0ba9b6a0f69b4466bc5774dad0ed0a7456e",
           "compilerRevision": "fixture-brush-region-1",
           "worldRef": "fixture-world",
-          "catalogueDigest": "ebbca84efd0d22b7e499a6f046d5463908846604ddef442288e0bd3881f50162",
+          "catalogueDigest": "89dfb22e3b674be56a66bb066ca5ee51fb0c0571725b2970ab0478658357cc57",
           "chunkEdge": 16,
           "chunks": [
             {
@@ -10976,12 +10976,12 @@
                 "indexOrder": "X_FASTEST_THEN_Y_THEN_Z",
                 "palette": [
                   {
-                    "nodeName": "fixture:dirt",
-                    "param2": 0
+                    "materialRef": "fixture:dirt",
+                    "orientation": 0
                   },
                   {
-                    "nodeName": "fixture:stone",
-                    "param2": 0
+                    "materialRef": "fixture:stone",
+                    "orientation": 0
                   }
                 ],
                 "runs": [
@@ -11025,12 +11025,12 @@
                 "indexOrder": "X_FASTEST_THEN_Y_THEN_Z",
                 "palette": [
                   {
-                    "nodeName": "fixture:dirt",
-                    "param2": 0
+                    "materialRef": "fixture:dirt",
+                    "orientation": 0
                   },
                   {
-                    "nodeName": "fixture:stone",
-                    "param2": 0
+                    "materialRef": "fixture:stone",
+                    "orientation": 0
                   }
                 ],
                 "runs": [
@@ -11066,16 +11066,16 @@
                 "indexOrder": "X_FASTEST_THEN_Y_THEN_Z",
                 "palette": [
                   {
-                    "nodeName": "air",
-                    "param2": 0
+                    "materialRef": "air",
+                    "orientation": 0
                   },
                   {
-                    "nodeName": "fixture:dirt",
-                    "param2": 0
+                    "materialRef": "fixture:dirt",
+                    "orientation": 0
                   },
                   {
-                    "nodeName": "fixture:stone",
-                    "param2": 0
+                    "materialRef": "fixture:stone",
+                    "orientation": 0
                   }
                 ],
                 "runs": [
@@ -11139,16 +11139,16 @@
                 "indexOrder": "X_FASTEST_THEN_Y_THEN_Z",
                 "palette": [
                   {
-                    "nodeName": "air",
-                    "param2": 0
+                    "materialRef": "air",
+                    "orientation": 0
                   },
                   {
-                    "nodeName": "fixture:dirt",
-                    "param2": 0
+                    "materialRef": "fixture:dirt",
+                    "orientation": 0
                   },
                   {
-                    "nodeName": "fixture:stone",
-                    "param2": 0
+                    "materialRef": "fixture:stone",
+                    "orientation": 0
                   }
                 ],
                 "runs": [
@@ -11192,12 +11192,12 @@
                 "indexOrder": "X_FASTEST_THEN_Y_THEN_Z",
                 "palette": [
                   {
-                    "nodeName": "fixture:dirt",
-                    "param2": 0
+                    "materialRef": "fixture:dirt",
+                    "orientation": 0
                   },
                   {
-                    "nodeName": "fixture:stone",
-                    "param2": 0
+                    "materialRef": "fixture:stone",
+                    "orientation": 0
                   }
                 ],
                 "runs": [
@@ -11241,12 +11241,12 @@
                 "indexOrder": "X_FASTEST_THEN_Y_THEN_Z",
                 "palette": [
                   {
-                    "nodeName": "fixture:dirt",
-                    "param2": 0
+                    "materialRef": "fixture:dirt",
+                    "orientation": 0
                   },
                   {
-                    "nodeName": "fixture:stone",
-                    "param2": 0
+                    "materialRef": "fixture:stone",
+                    "orientation": 0
                   }
                 ],
                 "runs": [
@@ -11263,7 +11263,7 @@
             }
           ]
         },
-        "operationDigest": "2498da7f1be2c7fd140ffb18bd1951469feb376f26bf8bc750ffeef6a2387e03",
+        "operationDigest": "5ca8c217ffc2a044244e87b6f150cf9175371abee2391e49a9b08ecd3da775fd",
         "guarantee": "RECOVERABLE_VERIFIED",
         "localContext": {
           "connectionRef": "local-connection",
@@ -11279,7 +11279,7 @@
           "transactionId": "region-tx-1",
           "worldRef": "fixture-world",
           "status": "VERIFIED",
-          "operationDigest": "2498da7f1be2c7fd140ffb18bd1951469feb376f26bf8bc750ffeef6a2387e03",
+          "operationDigest": "5ca8c217ffc2a044244e87b6f150cf9175371abee2391e49a9b08ecd3da775fd",
           "beforeSummary": {
             "profileVersion": "region-summary/v1",
             "worldRef": "fixture-world",
@@ -11302,7 +11302,7 @@
                     -1
                   ]
                 },
-                "stateDigest": "5ea03b4b03ca2d28756e34f9a8e12860c5b1a5c54d4958063b0a58b3aa191790"
+                "stateDigest": "e0115e9cad4d978bbf84829f25350978f776c2a7f24870993b187102d2233d1e"
               },
               {
                 "chunkPos": [
@@ -11322,7 +11322,7 @@
                     0
                   ]
                 },
-                "stateDigest": "5e6ab6ebe2e1db5df5f29a0af6c15779d63d48b90fb384799c4b101d5aa4f535"
+                "stateDigest": "081ec395d52091d802e998698482ec0decf69a623cb86b0bb0a509f8e8d4fe99"
               },
               {
                 "chunkPos": [
@@ -11342,7 +11342,7 @@
                     -1
                   ]
                 },
-                "stateDigest": "17c515fcad77466049ffef9e083abf535e072084274dee47627d43a3403c7422"
+                "stateDigest": "c3abf6af5ef30bc817f62ed15933889bc119ffb20d6fff0604adc9a7df88b9e7"
               },
               {
                 "chunkPos": [
@@ -11362,7 +11362,7 @@
                     0
                   ]
                 },
-                "stateDigest": "54d394c649445e72c2e5f3fbcabd4131a39308225fee28837f13ad662eb8118f"
+                "stateDigest": "c7d59d10f9961494c77651529006f1055d4e5db42e4f88924cf9c913b4bf4333"
               },
               {
                 "chunkPos": [
@@ -11382,7 +11382,7 @@
                     -1
                   ]
                 },
-                "stateDigest": "5e9a2d3b5f961fd4acb5e0f5a7a03fe1c7a542d3b057252168bfe109937412cb"
+                "stateDigest": "90057e98225ce397b09583119eb0558c4bfd78736faecb54d06e2a86a12530d4"
               },
               {
                 "chunkPos": [
@@ -11402,7 +11402,7 @@
                     0
                   ]
                 },
-                "stateDigest": "15dabaa125af278811e9232ec666335c4f19ef00a3b1cd01ba54853a6883afce"
+                "stateDigest": "5a6c901554e575c743f2ff027540f0e66e5f16c2a91b3d96f226ed8d2fe4fec6"
               }
             ]
           },
@@ -11428,7 +11428,7 @@
                     -1
                   ]
                 },
-                "stateDigest": "a4131f48552dd4209c256b49925ec654f0c9e48135d3fbacd6ba95ae8503d8d4"
+                "stateDigest": "d49508f93ec5ab912e301415fe2d5f0551661f600de0582239a1757c207be5b0"
               },
               {
                 "chunkPos": [
@@ -11448,7 +11448,7 @@
                     0
                   ]
                 },
-                "stateDigest": "6d81485b194378163e5ae0171ec1c372afe2b1c454971f36a8e95811ebdba731"
+                "stateDigest": "b5f745855ff3ef6238e66af46083e1717e7ddc465ba1071794dabdfffcb2e898"
               },
               {
                 "chunkPos": [
@@ -11468,7 +11468,7 @@
                     -1
                   ]
                 },
-                "stateDigest": "03911c2cc9a7bb0fabb1789e3387dc59c2a63c0d9e5050c9644e4e5ce9a8953f"
+                "stateDigest": "ef44bd8e634f817bc3cd00615e06b7cf677aa4221c791d32d68520bb5c488a33"
               },
               {
                 "chunkPos": [
@@ -11488,7 +11488,7 @@
                     0
                   ]
                 },
-                "stateDigest": "7a7c61ee24a6062c8bf6abcf5375bc2195427885c7e36b26ce8454d7c7aacbe5"
+                "stateDigest": "eaed2261d8685d6208b0adce3427a52a195bfc05f1a54174060c3422b1809b1a"
               },
               {
                 "chunkPos": [
@@ -11508,7 +11508,7 @@
                     -1
                   ]
                 },
-                "stateDigest": "958183e7e13a5d975ceb11e1aa641f2feeb1267f43bff7b5d396ad93586469fc"
+                "stateDigest": "08986e47c57816432da17efecc5e61a65e613c365b5b02babeec7ee95b11410f"
               },
               {
                 "chunkPos": [
@@ -11528,7 +11528,7 @@
                     0
                   ]
                 },
-                "stateDigest": "f255f4f129a34f572522313cfc34bf52f0e309fb5f6e15c992cbb3c7be646128"
+                "stateDigest": "fc1b87442243b8c6936344f2c291081a30aa248baef749c4b3939fdab89a0a84"
               }
             ]
           },
@@ -11554,7 +11554,7 @@
                     -1
                   ]
                 },
-                "stateDigest": "a4131f48552dd4209c256b49925ec654f0c9e48135d3fbacd6ba95ae8503d8d4"
+                "stateDigest": "d49508f93ec5ab912e301415fe2d5f0551661f600de0582239a1757c207be5b0"
               },
               {
                 "chunkPos": [
@@ -11574,7 +11574,7 @@
                     0
                   ]
                 },
-                "stateDigest": "6d81485b194378163e5ae0171ec1c372afe2b1c454971f36a8e95811ebdba731"
+                "stateDigest": "b5f745855ff3ef6238e66af46083e1717e7ddc465ba1071794dabdfffcb2e898"
               },
               {
                 "chunkPos": [
@@ -11594,7 +11594,7 @@
                     -1
                   ]
                 },
-                "stateDigest": "03911c2cc9a7bb0fabb1789e3387dc59c2a63c0d9e5050c9644e4e5ce9a8953f"
+                "stateDigest": "ef44bd8e634f817bc3cd00615e06b7cf677aa4221c791d32d68520bb5c488a33"
               },
               {
                 "chunkPos": [
@@ -11614,7 +11614,7 @@
                     0
                   ]
                 },
-                "stateDigest": "7a7c61ee24a6062c8bf6abcf5375bc2195427885c7e36b26ce8454d7c7aacbe5"
+                "stateDigest": "eaed2261d8685d6208b0adce3427a52a195bfc05f1a54174060c3422b1809b1a"
               },
               {
                 "chunkPos": [
@@ -11634,7 +11634,7 @@
                     -1
                   ]
                 },
-                "stateDigest": "958183e7e13a5d975ceb11e1aa641f2feeb1267f43bff7b5d396ad93586469fc"
+                "stateDigest": "08986e47c57816432da17efecc5e61a65e613c365b5b02babeec7ee95b11410f"
               },
               {
                 "chunkPos": [
@@ -11654,17 +11654,17 @@
                     0
                   ]
                 },
-                "stateDigest": "f255f4f129a34f572522313cfc34bf52f0e309fb5f6e15c992cbb3c7be646128"
+                "stateDigest": "fc1b87442243b8c6936344f2c291081a30aa248baef749c4b3939fdab89a0a84"
               }
             ]
           },
           "snapshot": {
             "profileVersion": "region-snapshot/v1",
-            "contentDigest": "3da3d9f00f8bbb36df0717d09be873eb382887fbc66678cf8f7dfb52a0974bee",
-            "beforeSummaryDigest": "d8e89358699b34eefb63a42ba82e5bc0b6b1d2f6a72fe55339d9fa280cd0ce53",
+            "contentDigest": "74a90f96f7ec57941305e589b1ffdd6c5d478b2c7a5432b37dd2b6e6014ba49b",
+            "beforeSummaryDigest": "7d74a23c7ed190912cb7fdd38ab3d8d73ca9f24633cc6515da959c3664724410",
             "compression": "gzip",
-            "compressedSha256": "6adcea66f7c8c7979449e246574c30804bf125f8b09ba731c19442e705d59ef3",
-            "compressedByteLength": 666
+            "compressedSha256": "d8d264150d7204583e97c27d997ff898b3ca1cc9118305c9122f9cfd11603b2e",
+            "compressedByteLength": 704
           },
           "historyRevision": "history-2",
           "lighting": {

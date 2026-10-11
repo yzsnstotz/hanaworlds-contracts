@@ -1,5 +1,5 @@
 {
-  "version": "1.2.0",
+  "version": "2.0.0-dev.1",
   "wireVersions": [
     "interaction-surface/v4",
     "session/v4",
@@ -414,14 +414,14 @@
       "placement-proposal": "PlacementProposal"
     },
     "domainPrefixByKind": {
-      "material-sources": "HanaWorlds|contracts@0.4.2|",
+      "material-sources": "HanaWorlds|material-sources/v2|",
       "region-block": "HanaWorlds|region-voxels/v1|",
       "region-state": "HanaWorlds|region-voxels/v1|",
       "region-build": "HanaWorlds|region-voxels/v1|",
       "region-operations": "HanaWorlds|region-voxels/v1|",
       "region-summary": "HanaWorlds|region-voxels/v1|",
       "region-snapshot-content": "HanaWorlds|region-voxels/v1|",
-      "config-engine-facts": "HanaWorlds|config-engine-facts/v1|",
+      "config-engine-facts": "HanaWorlds|config-engine-facts/v2|",
       "placement-proposal": "HanaWorlds|placement-proposal/v1|"
     }
   },
@@ -2491,7 +2491,7 @@
           "$ref": "#/definitions/Revision"
         },
         "painterId": {
-          "const": "picture-blocks"
+          "const": "building-exterior"
         },
         "invocationId": {
           "$ref": "#/definitions/Ref"
@@ -2800,34 +2800,27 @@
       "type": "object",
       "properties": {
         "profileVersion": {
-          "const": "catalogue/v2"
+          "const": "catalogue/v3"
         },
-        "engineProfile": {
+        "engineRevisions": {
+          "$ref": "#/definitions/EngineRevisions"
+        },
+        "emptyMaterialRef": {
           "$ref": "#/definitions/Ref"
         },
-        "gameId": {
-          "$ref": "#/definitions/Ref"
-        },
-        "gameRevision": {
-          "$ref": "#/definitions/Revision"
-        },
-        "modRevisions": {
-          "$ref": "#/definitions/ModRevisions"
-        },
-        "nodes": {
-          "$ref": "#/definitions/NodeMap"
+        "materials": {
+          "$ref": "#/definitions/MaterialTagMap"
         }
       },
       "required": [
         "profileVersion",
-        "engineProfile",
-        "gameId",
-        "gameRevision",
-        "modRevisions",
-        "nodes"
+        "engineRevisions",
+        "emptyMaterialRef",
+        "materials"
       ],
       "additionalProperties": false,
-      "x-typeName": "Catalogue"
+      "x-typeName": "Catalogue",
+      "x-meaning": "The world source's own material vocabulary. emptyMaterialRef names the material that means an empty cell; it must be a key of materials."
     },
     "ClarificationNeed": {
       "type": "object",
@@ -2862,57 +2855,14 @@
       "additionalProperties": false,
       "x-typeName": "ClarificationNeed"
     },
-    "CollisionBox": {
-      "type": "array",
-      "items": [
-        {
-          "$ref": "#/definitions/Finite"
-        },
-        {
-          "$ref": "#/definitions/Finite"
-        },
-        {
-          "$ref": "#/definitions/Finite"
-        },
-        {
-          "$ref": "#/definitions/Finite"
-        },
-        {
-          "$ref": "#/definitions/Finite"
-        },
-        {
-          "$ref": "#/definitions/Finite"
-        }
-      ],
-      "minItems": 6,
-      "maxItems": 6,
-      "additionalItems": false,
-      "x-typeName": "CollisionBox",
-      "x-order": "minX,minY,minZ,maxX,maxY,maxZ"
-    },
-    "CollisionBoxes": {
-      "type": "array",
-      "items": {
-        "$ref": "#/definitions/CollisionBox"
-      },
-      "uniqueItems": true,
-      "x-typeName": "CollisionBoxes",
-      "x-order": "numeric lexicographic six coordinates"
-    },
     "CompilationConfig": {
       "type": "object",
       "properties": {
         "profileVersion": {
-          "const": "compilation-config/v2"
+          "const": "compilation-config/v3"
         },
-        "backendProfileId": {
-          "$ref": "#/definitions/Ref"
-        },
-        "worldeditRevision": {
-          "$ref": "#/definitions/Revision"
-        },
-        "nodeWriteSemantics": {
-          "const": "explicit-nodeName-param2-static-v2"
+        "writeBackend": {
+          "$ref": "#/definitions/WriteBackendRef"
         },
         "overlapRule": {
           "const": "last-writer-wins"
@@ -2926,9 +2876,7 @@
       },
       "required": [
         "profileVersion",
-        "backendProfileId",
-        "worldeditRevision",
-        "nodeWriteSemantics",
+        "writeBackend",
         "overlapRule",
         "effectOrder",
         "compressionRule"
@@ -3777,17 +3725,17 @@
         "position": {
           "$ref": "#/definitions/Position"
         },
-        "nodeName": {
+        "materialRef": {
           "$ref": "#/definitions/Ref"
         },
-        "param2": {
-          "$ref": "#/definitions/Byte"
+        "orientation": {
+          "$ref": "#/definitions/Orientation"
         }
       },
       "required": [
         "position",
-        "nodeName",
-        "param2"
+        "materialRef",
+        "orientation"
       ],
       "additionalProperties": false,
       "x-typeName": "Effect"
@@ -5037,14 +4985,6 @@
       "x-order": "limitKind,source UTF16",
       "x-uniqueBy": "limitKind,source"
     },
-    "Liquid": {
-      "enum": [
-        "none",
-        "source",
-        "flowing"
-      ],
-      "x-typeName": "Liquid"
-    },
     "ListObjectsRequest": {
       "type": "object",
       "properties": {
@@ -5477,7 +5417,7 @@
         "$ref": "#/definitions/Ref"
       },
       "additionalProperties": {
-        "$ref": "#/definitions/NodeSpec"
+        "$ref": "#/definitions/MaterialSpec"
       },
       "minProperties": 1,
       "x-typeName": "MaterialMap"
@@ -5562,16 +5502,6 @@
       "uniqueItems": true,
       "x-typeName": "MediaTypes",
       "x-order": "UTF16 ascending"
-    },
-    "ModRevisions": {
-      "type": "object",
-      "propertyNames": {
-        "$ref": "#/definitions/Ref"
-      },
-      "additionalProperties": {
-        "$ref": "#/definitions/Revision"
-      },
-      "x-typeName": "ModRevisions"
     },
     "MutationState": {
       "enum": [
@@ -5722,175 +5652,6 @@
         "operationRef"
       ],
       "additionalProperties": false
-    },
-    "NodeCapability": {
-      "type": "object",
-      "properties": {
-        "walkable": {
-          "anyOf": [
-            {
-              "$ref": "#/definitions/Bool"
-            },
-            {
-              "type": "null"
-            }
-          ]
-        },
-        "collisionBoxes": {
-          "anyOf": [
-            {
-              "$ref": "#/definitions/CollisionBoxes"
-            },
-            {
-              "type": "null"
-            }
-          ]
-        },
-        "liquidType": {
-          "anyOf": [
-            {
-              "$ref": "#/definitions/Liquid"
-            },
-            {
-              "type": "null"
-            }
-          ]
-        },
-        "damagePerSecond": {
-          "anyOf": [
-            {
-              "$ref": "#/definitions/NonNegativeFinite"
-            },
-            {
-              "type": "null"
-            }
-          ]
-        },
-        "lightSource": {
-          "anyOf": [
-            {
-              "$ref": "#/definitions/Byte"
-            },
-            {
-              "type": "null"
-            }
-          ]
-        },
-        "param2Type": {
-          "anyOf": [
-            {
-              "$ref": "#/definitions/Ref"
-            },
-            {
-              "type": "null"
-            }
-          ]
-        },
-        "allowedParam2": {
-          "anyOf": [
-            {
-              "$ref": "#/definitions/Param2s"
-            },
-            {
-              "type": "null"
-            }
-          ]
-        },
-        "hasCallbacks": {
-          "anyOf": [
-            {
-              "$ref": "#/definitions/Bool"
-            },
-            {
-              "type": "null"
-            }
-          ]
-        },
-        "hasPersistentState": {
-          "anyOf": [
-            {
-              "$ref": "#/definitions/Bool"
-            },
-            {
-              "type": "null"
-            }
-          ]
-        },
-        "definitionRevision": {
-          "anyOf": [
-            {
-              "$ref": "#/definitions/Revision"
-            },
-            {
-              "type": "null"
-            }
-          ]
-        },
-        "unknownFields": {
-          "$ref": "#/definitions/FieldNames"
-        }
-      },
-      "required": [
-        "walkable",
-        "collisionBoxes",
-        "liquidType",
-        "damagePerSecond",
-        "lightSource",
-        "param2Type",
-        "allowedParam2",
-        "hasCallbacks",
-        "hasPersistentState",
-        "definitionRevision",
-        "unknownFields"
-      ],
-      "additionalProperties": false,
-      "x-typeName": "NodeCapability"
-    },
-    "NodeFields": {
-      "type": "array",
-      "items": [
-        {
-          "const": "nodeName"
-        },
-        {
-          "const": "param1"
-        },
-        {
-          "const": "param2"
-        }
-      ],
-      "minItems": 3,
-      "maxItems": 3,
-      "additionalItems": false,
-      "x-typeName": "NodeFields",
-      "x-order": "fixed explicit complete node fields"
-    },
-    "NodeMap": {
-      "type": "object",
-      "propertyNames": {
-        "$ref": "#/definitions/Ref"
-      },
-      "additionalProperties": {
-        "$ref": "#/definitions/NodeCapability"
-      },
-      "x-typeName": "NodeMap"
-    },
-    "NodeSpec": {
-      "type": "object",
-      "properties": {
-        "nodeName": {
-          "$ref": "#/definitions/Ref"
-        },
-        "param2": {
-          "$ref": "#/definitions/Byte"
-        }
-      },
-      "required": [
-        "nodeName",
-        "param2"
-      ],
-      "additionalProperties": false,
-      "x-typeName": "NodeSpec"
     },
     "NonNegativeFinite": {
       "type": "number",
@@ -6473,17 +6234,17 @@
         "position": {
           "$ref": "#/definitions/Position"
         },
-        "nodeName": {
+        "materialRef": {
           "$ref": "#/definitions/Ref"
         },
-        "param2": {
-          "$ref": "#/definitions/Byte"
+        "orientation": {
+          "$ref": "#/definitions/Orientation"
         }
       },
       "required": [
         "position",
-        "nodeName",
-        "param2"
+        "materialRef",
+        "orientation"
       ],
       "additionalProperties": false,
       "x-typeName": "OccupiedCell"
@@ -6553,19 +6314,10 @@
     },
     "PainterId": {
       "enum": [
-        "picture-blocks",
+        "building-exterior",
         "interior"
       ],
       "x-typeName": "PainterId"
-    },
-    "Param2s": {
-      "type": "array",
-      "items": {
-        "$ref": "#/definitions/Byte"
-      },
-      "uniqueItems": true,
-      "x-typeName": "Param2s",
-      "x-order": "numeric ascending"
     },
     "PersistRequiredArtifactResourcesRequest": {
       "type": "object",
@@ -7912,40 +7664,21 @@
         "position": {
           "$ref": "#/definitions/Position"
         },
-        "nodeName": {
+        "materialRef": {
           "$ref": "#/definitions/Ref"
         },
-        "param1": {
-          "$ref": "#/definitions/Byte"
+        "orientation": {
+          "$ref": "#/definitions/Orientation"
         },
-        "param2": {
-          "$ref": "#/definitions/Byte"
-        },
-        "metadata": {
-          "$ref": "#/definitions/StringMap"
-        },
-        "inventory": {
-          "$ref": "#/definitions/Inventory"
-        },
-        "timer": {
-          "anyOf": [
-            {
-              "$ref": "#/definitions/Timer"
-            },
-            {
-              "type": "null"
-            }
-          ]
+        "state": {
+          "$ref": "#/definitions/OpaqueMap"
         }
       },
       "required": [
         "position",
-        "nodeName",
-        "param1",
-        "param2",
-        "metadata",
-        "inventory",
-        "timer"
+        "materialRef",
+        "orientation",
+        "state"
       ],
       "additionalProperties": false,
       "x-typeName": "Record"
@@ -9642,34 +9375,27 @@
       "type": "object",
       "properties": {
         "profileVersion": {
-          "const": "state-profile/v2"
+          "const": "state-profile/v3"
         },
-        "nodeFields": {
-          "$ref": "#/definitions/NodeFields"
+        "derivedFields": {
+          "$ref": "#/definitions/FieldNames"
         },
-        "metadataMode": {
-          "const": "exact"
+        "preservedFields": {
+          "$ref": "#/definitions/FieldNames"
         },
-        "inventoryMode": {
-          "const": "exact"
-        },
-        "timerMode": {
-          "const": "exact"
-        },
-        "derivedLightMode": {
-          "const": "recompute-with-readback"
+        "clearedFields": {
+          "$ref": "#/definitions/FieldNames"
         }
       },
       "required": [
         "profileVersion",
-        "nodeFields",
-        "metadataMode",
-        "inventoryMode",
-        "timerMode",
-        "derivedLightMode"
+        "derivedFields",
+        "preservedFields",
+        "clearedFields"
       ],
       "additionalProperties": false,
-      "x-typeName": "StateProfile"
+      "x-typeName": "StateProfile",
+      "x-meaning": "Declared by the world source for the state map of a Record. derivedFields are recomputed by the engine after a write and are never compared: the expected value is the readback value. preservedFields keep the before value when a cell is written. clearedFields are absent after a cell is written. The three sets are disjoint; a field in none of them is not expected to exist after a write."
     },
     "StringMap": {
       "type": "object",
@@ -10413,7 +10139,7 @@
           "$ref": "#/definitions/Position"
         },
         "reason": {
-          "$ref": "#/definitions/UnknownReason"
+          "$ref": "#/definitions/OpaqueCode"
         }
       },
       "required": [
@@ -10431,14 +10157,6 @@
       "x-typeName": "UnknownCells",
       "x-order": "position numeric x,y,z",
       "x-uniqueBy": "position"
-    },
-    "UnknownReason": {
-      "enum": [
-        "UNLOADED",
-        "IGNORE",
-        "READ_FAILED"
-      ],
-      "x-typeName": "UnknownReason"
     },
     "UsableVolume": {
       "type": "object",
@@ -10498,7 +10216,7 @@
           "$ref": "#/definitions/Revision"
         },
         "painterId": {
-          "const": "picture-blocks"
+          "const": "building-exterior"
         },
         "invocationId": {
           "$ref": "#/definitions/Ref"
@@ -11022,7 +10740,7 @@
     "MaterialSourceUnknownReason": {
       "x-typeName": "MaterialSourceUnknownReason",
       "enum": [
-        "UNKNOWN_PARAM2",
+        "UNKNOWN_ORIENTATION",
         "UNKNOWN_DEFINITION",
         "MISSING_TEXTURE",
         "UNRESOLVED_SOURCE",
@@ -11036,11 +10754,11 @@
         "availability": {
           "const": "KNOWN"
         },
-        "nodeName": {
+        "materialRef": {
           "$ref": "#/definitions/Ref"
         },
-        "param2": {
-          "$ref": "#/definitions/Byte"
+        "orientation": {
+          "$ref": "#/definitions/Orientation"
         },
         "definitionRevision": {
           "$ref": "#/definitions/Revision"
@@ -11051,8 +10769,8 @@
       },
       "required": [
         "availability",
-        "nodeName",
-        "param2",
+        "materialRef",
+        "orientation",
         "definitionRevision",
         "texture"
       ],
@@ -11065,13 +10783,13 @@
         "availability": {
           "const": "UNKNOWN"
         },
-        "nodeName": {
+        "materialRef": {
           "$ref": "#/definitions/Ref"
         },
-        "param2": {
+        "orientation": {
           "anyOf": [
             {
-              "$ref": "#/definitions/Byte"
+              "$ref": "#/definitions/Orientation"
             },
             {
               "type": "null"
@@ -11097,8 +10815,8 @@
       },
       "required": [
         "availability",
-        "nodeName",
-        "param2",
+        "materialRef",
+        "orientation",
         "definitionRevision",
         "texture",
         "reason"
@@ -11126,7 +10844,7 @@
       "type": "object",
       "properties": {
         "profileVersion": {
-          "const": "material-sources/v1"
+          "const": "material-sources/v2"
         },
         "connection": {
           "$ref": "#/definitions/MaterialSourceConnection"
@@ -11134,14 +10852,11 @@
         "catalogueDigest": {
           "$ref": "#/definitions/Digest"
         },
-        "gameId": {
-          "$ref": "#/definitions/Ref"
-        },
-        "gameRevision": {
-          "$ref": "#/definitions/Revision"
+        "engineRevisions": {
+          "$ref": "#/definitions/EngineRevisions"
         },
         "sourceBasis": {
-          "const": "SERVER_ASSET_ONLY"
+          "const": "WORLD_SOURCE_ASSET_ONLY"
         },
         "materials": {
           "type": "array",
@@ -11154,8 +10869,7 @@
         "profileVersion",
         "connection",
         "catalogueDigest",
-        "gameId",
-        "gameRevision",
+        "engineRevisions",
         "sourceBasis",
         "materials"
       ],
@@ -11166,7 +10880,7 @@
       "type": "object",
       "properties": {
         "profileVersion": {
-          "const": "material-sources/v1"
+          "const": "material-sources/v2"
         },
         "connection": {
           "$ref": "#/definitions/MaterialSourceConnection"
@@ -11174,14 +10888,11 @@
         "catalogueDigest": {
           "$ref": "#/definitions/Digest"
         },
-        "gameId": {
-          "$ref": "#/definitions/Ref"
-        },
-        "gameRevision": {
-          "$ref": "#/definitions/Revision"
+        "engineRevisions": {
+          "$ref": "#/definitions/EngineRevisions"
         },
         "sourceBasis": {
-          "const": "SERVER_ASSET_ONLY"
+          "const": "WORLD_SOURCE_ASSET_ONLY"
         },
         "materials": {
           "type": "array",
@@ -11197,8 +10908,7 @@
         "profileVersion",
         "connection",
         "catalogueDigest",
-        "gameId",
-        "gameRevision",
+        "engineRevisions",
         "sourceBasis",
         "materials",
         "sourceRevision"
@@ -11279,10 +10989,10 @@
       "x-typeName": "RegionPalette",
       "type": "array",
       "items": {
-        "$ref": "#/definitions/NodeSpec"
+        "$ref": "#/definitions/MaterialSpec"
       },
-      "x-order": "nodeName UTF16 then param2 numeric",
-      "x-uniqueBy": "nodeName,param2",
+      "x-order": "materialRef UTF16 then orientation numeric",
+      "x-uniqueBy": "materialRef,orientation",
       "minItems": 1
     },
     "RegionVoxelBlock": {
@@ -11325,28 +11035,13 @@
         "position": {
           "$ref": "#/definitions/Position"
         },
-        "metadata": {
-          "$ref": "#/definitions/StringMap"
-        },
-        "inventory": {
-          "$ref": "#/definitions/Inventory"
-        },
-        "timer": {
-          "anyOf": [
-            {
-              "$ref": "#/definitions/Timer"
-            },
-            {
-              "type": "null"
-            }
-          ]
+        "state": {
+          "$ref": "#/definitions/OpaqueMap"
         }
       },
       "required": [
         "position",
-        "metadata",
-        "inventory",
-        "timer"
+        "state"
       ],
       "additionalProperties": false
     },
@@ -11364,7 +11059,7 @@
       "type": "object",
       "properties": {
         "profileVersion": {
-          "const": "region-state/v1"
+          "const": "region-state/v2"
         },
         "worldRef": {
           "$ref": "#/definitions/Ref"
@@ -11375,8 +11070,8 @@
         "extras": {
           "$ref": "#/definitions/RegionExtras"
         },
-        "derivedLightMode": {
-          "const": "recompute-with-readback"
+        "stateProfile": {
+          "$ref": "#/definitions/StateProfile"
         }
       },
       "required": [
@@ -11384,7 +11079,7 @@
         "worldRef",
         "block",
         "extras",
-        "derivedLightMode"
+        "stateProfile"
       ],
       "additionalProperties": false
     },
@@ -11759,16 +11454,7 @@
       "x-typeName": "RegionLoadMethod",
       "enum": [
         "ALREADY_LOADED",
-        "LOADED_BY_EMERGE"
-      ]
-    },
-    "RegionUnknownReason": {
-      "x-typeName": "RegionUnknownReason",
-      "enum": [
-        "LOAD_FAILED",
-        "NOT_GENERATED",
-        "OUTSIDE_WORLD_LIMITS",
-        "READ_FAILED"
+        "LOADED_ON_DEMAND"
       ]
     },
     "RegionChunkRead": {
@@ -11797,7 +11483,7 @@
         "unknownReason": {
           "anyOf": [
             {
-              "$ref": "#/definitions/RegionUnknownReason"
+              "$ref": "#/definitions/OpaqueCode"
             },
             {
               "type": "null"
@@ -12858,50 +12544,6 @@
       ],
       "additionalProperties": false
     },
-    "NodeWritePathHooks": {
-      "x-typeName": "NodeWritePathHooks",
-      "type": "object",
-      "properties": {
-        "nodeName": {
-          "$ref": "#/definitions/Ref"
-        },
-        "definitionRevision": {
-          "anyOf": [
-            {
-              "$ref": "#/definitions/Revision"
-            },
-            {
-              "type": "null"
-            }
-          ]
-        },
-        "definedCallbacks": {
-          "anyOf": [
-            {
-              "$ref": "#/definitions/RefSet"
-            },
-            {
-              "type": "null"
-            }
-          ]
-        }
-      },
-      "required": [
-        "nodeName",
-        "definitionRevision",
-        "definedCallbacks"
-      ],
-      "additionalProperties": false
-    },
-    "NodeWritePathHooksList": {
-      "x-typeName": "NodeWritePathHooksList",
-      "type": "array",
-      "items": {
-        "$ref": "#/definitions/NodeWritePathHooks"
-      },
-      "x-order": "nodeName UTF16 ascending",
-      "x-uniqueBy": "nodeName"
-    },
     "WritePathEvidence": {
       "x-typeName": "WritePathEvidence",
       "type": "object",
@@ -12913,7 +12555,7 @@
           "const": "write-path-init/v1"
         },
         "writePath": {
-          "const": "CALLBACK_FREE_NODE_DATA"
+          "const": "CALLBACK_FREE_WRITE"
         },
         "catalogueDigest": {
           "$ref": "#/definitions/Digest"
@@ -12928,8 +12570,8 @@
             }
           ]
         },
-        "nodes": {
-          "$ref": "#/definitions/NodeWritePathHooksList"
+        "materials": {
+          "$ref": "#/definitions/MaterialWritePathHooksList"
         }
       },
       "required": [
@@ -12938,7 +12580,7 @@
         "writePath",
         "catalogueDigest",
         "globalWriteCallbacks",
-        "nodes"
+        "materials"
       ],
       "additionalProperties": false
     },
@@ -13595,18 +13237,14 @@
         "basis": {
           "const": "LOADED_PAYLOAD_DECLARATION"
         },
-        "backendProfileId": {
-          "$ref": "#/definitions/Ref"
-        },
-        "nodeWriteSemantics": {
-          "const": "explicit-nodeName-param2-static-v2"
+        "writeBackend": {
+          "$ref": "#/definitions/WriteBackendRef"
         }
       },
       "required": [
         "availability",
         "basis",
-        "backendProfileId",
-        "nodeWriteSemantics"
+        "writeBackend"
       ],
       "additionalProperties": false
     },
@@ -13668,7 +13306,7 @@
       "type": "object",
       "properties": {
         "profileVersion": {
-          "const": "config-engine-facts/v1"
+          "const": "config-engine-facts/v2"
         },
         "connection": {
           "$ref": "#/definitions/MaterialSourceConnection"
@@ -13697,7 +13335,7 @@
       "type": "object",
       "properties": {
         "profileVersion": {
-          "const": "config-engine-facts/v1"
+          "const": "config-engine-facts/v2"
         },
         "connection": {
           "$ref": "#/definitions/MaterialSourceConnection"
@@ -14092,6 +13730,239 @@
       ],
       "additionalProperties": false,
       "x-typeName": "ConfirmedPlacementBinding"
+    },
+    "OpaqueValue": {
+      "x-typeName": "OpaqueValue",
+      "x-opaque": true,
+      "x-meaning": "Any strict JSON value owned by the world source. Carried and digested unchanged; never interpreted outside the world source."
+    },
+    "OpaqueMap": {
+      "x-typeName": "OpaqueMap",
+      "type": "object",
+      "propertyNames": {
+        "$ref": "#/definitions/Ref"
+      },
+      "additionalProperties": {
+        "$ref": "#/definitions/OpaqueValue"
+      }
+    },
+    "OpaqueCode": {
+      "type": "string",
+      "minLength": 1,
+      "x-typeName": "OpaqueCode",
+      "x-normalization": "NONE; exact Unicode scalar sequence; never trim/lower/NFC; not a path",
+      "x-meaning": "A reason code defined by the world source. Consumers show or relay it; they never branch on its value."
+    },
+    "Orientation": {
+      "x-typeName": "Orientation",
+      "type": "integer",
+      "minimum": 0,
+      "maximum": 9007199254740991,
+      "x-meaning": "Neutral orientation index of a material, from the set the Catalogue declares for that material. Conversion to an engine encoding happens only inside the world source."
+    },
+    "Orientations": {
+      "type": "array",
+      "items": {
+        "$ref": "#/definitions/Orientation"
+      },
+      "uniqueItems": true,
+      "x-order": "numeric ascending",
+      "x-typeName": "Orientations"
+    },
+    "MaterialSpec": {
+      "type": "object",
+      "properties": {
+        "materialRef": {
+          "$ref": "#/definitions/Ref"
+        },
+        "orientation": {
+          "$ref": "#/definitions/Orientation"
+        }
+      },
+      "required": [
+        "materialRef",
+        "orientation"
+      ],
+      "additionalProperties": false,
+      "x-typeName": "MaterialSpec"
+    },
+    "MaterialWritePathHooks": {
+      "x-typeName": "MaterialWritePathHooks",
+      "type": "object",
+      "properties": {
+        "materialRef": {
+          "$ref": "#/definitions/Ref"
+        },
+        "definitionRevision": {
+          "anyOf": [
+            {
+              "$ref": "#/definitions/Revision"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "definedCallbacks": {
+          "anyOf": [
+            {
+              "$ref": "#/definitions/RefSet"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        }
+      },
+      "required": [
+        "materialRef",
+        "definitionRevision",
+        "definedCallbacks"
+      ],
+      "additionalProperties": false
+    },
+    "MaterialWritePathHooksList": {
+      "x-typeName": "MaterialWritePathHooksList",
+      "type": "array",
+      "items": {
+        "$ref": "#/definitions/MaterialWritePathHooks"
+      },
+      "x-order": "materialRef UTF16 ascending",
+      "x-uniqueBy": "materialRef"
+    },
+    "MaterialTags": {
+      "type": "object",
+      "properties": {
+        "passable": {
+          "anyOf": [
+            {
+              "$ref": "#/definitions/Bool"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "liquid": {
+          "anyOf": [
+            {
+              "$ref": "#/definitions/Bool"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "hazardPerSecond": {
+          "anyOf": [
+            {
+              "$ref": "#/definitions/NonNegativeFinite"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "emitsLight": {
+          "anyOf": [
+            {
+              "$ref": "#/definitions/Bool"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "placeable": {
+          "anyOf": [
+            {
+              "$ref": "#/definitions/Bool"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "orientations": {
+          "anyOf": [
+            {
+              "$ref": "#/definitions/Orientations"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "definitionRevision": {
+          "anyOf": [
+            {
+              "$ref": "#/definitions/Revision"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "unknownFields": {
+          "$ref": "#/definitions/FieldNames"
+        },
+        "extension": {
+          "$ref": "#/definitions/OpaqueMap"
+        }
+      },
+      "required": [
+        "passable",
+        "liquid",
+        "hazardPerSecond",
+        "emitsLight",
+        "placeable",
+        "orientations",
+        "definitionRevision",
+        "unknownFields",
+        "extension"
+      ],
+      "additionalProperties": false,
+      "x-meaning": "Neutral tags the world source normalises from its own material definitions. placeable is the world source's conclusion that the material can be written and restored on its declared write path with no side effect and no persistent state; null is unknown and never treated as false or true. Raw engine fields stay in extension and are never read outside the world source.",
+      "x-typeName": "MaterialTags"
+    },
+    "MaterialTagMap": {
+      "type": "object",
+      "propertyNames": {
+        "$ref": "#/definitions/Ref"
+      },
+      "additionalProperties": {
+        "$ref": "#/definitions/MaterialTags"
+      },
+      "x-typeName": "MaterialTagMap"
+    },
+    "EngineRevisions": {
+      "type": "object",
+      "propertyNames": {
+        "$ref": "#/definitions/Ref"
+      },
+      "additionalProperties": {
+        "$ref": "#/definitions/Revision"
+      },
+      "x-typeName": "EngineRevisions",
+      "x-meaning": "Opaque revisions the world source reports for what defines its materials. Compared for equality only."
+    },
+    "WriteBackendRef": {
+      "x-typeName": "WriteBackendRef",
+      "type": "object",
+      "properties": {
+        "profileId": {
+          "$ref": "#/definitions/Ref"
+        },
+        "revision": {
+          "$ref": "#/definitions/Revision"
+        }
+      },
+      "required": [
+        "profileId",
+        "revision"
+      ],
+      "additionalProperties": false,
+      "x-meaning": "Opaque identity of the world source's write backend. Compared for equality only."
     }
   },
   "placementSettings": [
@@ -14219,7 +14090,7 @@
     {
       "id": "region-build/v1:compile-mapblock-chunks",
       "owner": "hanaworlds-brush",
-      "meaning": "Pure compile of RegionBuildProjection into mapblock-aligned RegionChunks; unspecified cells stay unspecified, air stays explicit carve."
+      "meaning": "Pure compile of RegionBuildProjection into chunks aligned to the world source partition; unspecified cells stay unspecified, the empty material stays an explicit carve."
     },
     {
       "id": "BUILD/V4:per-cell-compile",
@@ -14229,32 +14100,32 @@
     {
       "id": "painter-region/v2:validate-region-proposal",
       "owner": "hanaworlds-building-exterior-painter",
-      "meaning": "Validates coordinates, extent, palette legality and air carve of a skill region proposal on the existing proposal channel; never writes the world or plans on its own."
+      "meaning": "Validates coordinates, extent, palette legality and empty-material carve of a skill region proposal on the existing proposal channel; never writes the world or plans on its own."
     },
     {
       "id": "world-adapter-region/v2:chunked-read",
-      "owner": "hanaworlds-adapter-luanti",
-      "meaning": "Reads RegionState per mapblock with VoxelManip in bulk."
+      "owner": "world-source",
+      "meaning": "Reads RegionState per chunk in bulk."
     },
     {
       "id": "world-adapter-region/v2:load-then-know",
-      "owner": "hanaworlds-adapter-luanti",
-      "meaning": "Loads unloaded mapblocks with the engine's emerge mechanism and reads back before reporting KNOWN; anything still unknown is reported UNKNOWN."
+      "owner": "world-source",
+      "meaning": "Loads unloaded chunks and reads them back before reporting KNOWN; anything still unknown is reported UNKNOWN with the world source's opaque reason code."
     },
     {
       "id": "world-adapter-region/v2:chunked-write",
-      "owner": "hanaworlds-adapter-luanti",
-      "meaning": "Writes per mapblock with VoxelManip after comparing expectedCurrentDigest; returns per-chunk facts and never claims an atomic transaction."
+      "owner": "world-source",
+      "meaning": "Writes per chunk after comparing expectedCurrentDigest; returns per-chunk facts and never claims an atomic transaction."
     },
     {
       "id": "world-adapter-region/v2:restore-state",
-      "owner": "hanaworlds-adapter-luanti",
-      "meaning": "Writes a complete RegionState (node, param2, air and extras) for rollback or Undo."
+      "owner": "world-source",
+      "meaning": "Writes a complete RegionState (material, orientation, empty material and per-cell state) for rollback or Undo."
     },
     {
       "id": "world-adapter-region/v2:lighting-complete",
-      "owner": "hanaworlds-adapter-luanti",
-      "meaning": "Returns a COMPLETE lighting fact only after the bulk light recalculation for the written box has finished."
+      "owner": "world-source",
+      "meaning": "Returns a COMPLETE lighting fact only after the light recalculation for the written box has finished."
     },
     {
       "id": "canvas-region/v2:single-logical-transaction",
@@ -14278,18 +14149,18 @@
     },
     {
       "id": "world-adapter/v7:callback-free-write",
-      "owner": "hanaworlds-adapter-luanti",
-      "meaning": "Per-cell writes and restores use the CALLBACK_FREE_NODE_DATA path of write-path-init/v1."
+      "owner": "world-source",
+      "meaning": "Per-cell writes and restores use the CALLBACK_FREE_WRITE path of write-path-init/v1."
     },
     {
       "id": "world-adapter-region/v2:callback-free-write",
-      "owner": "hanaworlds-adapter-luanti",
-      "meaning": "Region writes and restores use the CALLBACK_FREE_NODE_DATA path of write-path-init/v1."
+      "owner": "world-source",
+      "meaning": "Region writes and restores use the CALLBACK_FREE_WRITE path of write-path-init/v1."
     },
     {
       "id": "world-adapter/v7:write-path-state-facts",
-      "owner": "hanaworlds-adapter-luanti",
-      "meaning": "Catalogue hasCallbacks/hasPersistentState are published under scope write-path-init/v1 and agree with a WritePathEvidence inventory (validateCatalogueWritePathFacts)."
+      "owner": "world-source",
+      "meaning": "Catalogue placeable is published under scope write-path-init/v1 and agrees with a WritePathEvidence inventory (validateCatalogueWritePathFacts)."
     },
     {
       "id": "canvas-region/v2:rollback-cause",
@@ -14302,14 +14173,14 @@
       "id": "REGION-UNSPECIFIED-IS-KEEP",
       "owner": "Contracts",
       "switchable": false,
-      "text": "A null run is UNSPECIFIED: the cell is not written and keeps its current state. Only an explicit palette entry {nodeName:'air',param2:0} carves.",
-      "consequence": "Unspecified cells are never turned into air."
+      "text": "A null run is UNSPECIFIED: the cell is not written and keeps its current state. Only an explicit palette entry of the Catalogue emptyMaterialRef carves.",
+      "consequence": "Unspecified cells are never turned into the empty material."
     },
     {
       "id": "REGION-LOAD-THEN-KNOW",
       "owner": "Adapter and Canvas",
       "switchable": false,
-      "text": "Unloaded mapblocks are loaded and read back first; a chunk that is still UNKNOWN rejects the write.",
+      "text": "Unloaded chunks are loaded and read back first; a chunk that is still UNKNOWN rejects the write.",
       "consequence": "Unknown terrain is never overwritten blindly."
     },
     {
@@ -14337,8 +14208,8 @@
       "id": "MATERIAL-FACT-SCOPE",
       "owner": "Contracts and Adapter",
       "switchable": false,
-      "text": "hasCallbacks/hasPersistentState are facts about the declared callback-free write and initialization path only; unknown or side-effecting initialization rejects the write, and UNKNOWN is never treated as false.",
-      "consequence": "Plain nodes such as stone can be written; nodes that need initialization or carry state are refused before writing; later independent changes surface as readback/Undo conflicts."
+      "text": "placeable is a fact about the declared callback-free write and initialization path only; unknown or side-effecting initialization rejects the write, and UNKNOWN is never treated as true.",
+      "consequence": "Plain materials such as stone can be written; materials that need initialization or carry state are refused before writing; later independent changes surface as readback/Undo conflicts."
     },
     {
       "id": "REGION-ROLLBACK-CAUSE-OBSERVED",
@@ -14350,11 +14221,10 @@
   ],
   "writePathStateScope": {
     "id": "write-path-init/v1",
-    "writePath": "CALLBACK_FREE_NODE_DATA",
-    "writePathMeaning": "The declared write and restore path sets node name and param2 as bulk node data (Luanti VoxelManip set_data/write_to_map; param1 is recomputed light). The engine runs no node-definition callback and creates no metadata, inventory or timer on this path. An Adapter declares that its per-cell and region writes use exactly this path with the capabilities world-adapter/v7:callback-free-write and world-adapter-region/v2:callback-free-write.",
+    "writePath": "CALLBACK_FREE_WRITE",
+    "writePathMeaning": "The declared write and restore path sets material and orientation as bulk data. The engine runs no material-definition callback and creates no per-cell state on this path; fields the StateProfile declares derived are recomputed by the engine. A world source declares that its per-cell and region writes use exactly this path with the capabilities world-adapter/v7:callback-free-write and world-adapter-region/v2:callback-free-write.",
     "factsMeaning": {
-      "hasCallbacks": "true when the node definition relies on a lifecycle callback that normal engine placement/removal would run and this path skips (initializationCallbacks); false when none is defined and globalWriteCallbacks is known to be empty; null when the definition callback inventory or the global write-path callback inventory is unknown or non-empty.",
-      "hasPersistentState": "false only when neither initializationCallbacks nor stateIndicatorCallbacks are defined and globalWriteCallbacks is known to be empty, i.e. writing (and later restoring) this node on this path can leave no metadata, inventory or timer at the cell. Otherwise null. Never inferred true or false from opaque Lua bodies; UNKNOWN is never defaulted to false."
+      "placeable": "true only when the definition defines none of initializationCallbacks or stateIndicatorCallbacks and globalWriteCallbacks is known to be empty, i.e. writing (and later restoring) this material on this path runs no skipped lifecycle callback and can leave no per-cell state. false when an initialization callback is defined. null when the definition callback inventory or the global write-path callback inventory is unknown or non-empty, or when only state indicators are defined. Never inferred from opaque engine code; UNKNOWN is never defaulted to true."
     },
     "initializationCallbacks": [
       "after_destruct",
@@ -14373,14 +14243,14 @@
       "on_receive_fields",
       "preserve_metadata"
     ],
-    "globalWriteCallbacks": "Names of engine global callback registries that fire on this path and currently have handlers (e.g. register_on_mapblocks_changed). Must be an empty set for any false fact; null or non-empty forces null for every node.",
+    "globalWriteCallbacks": "Names of engine global callback registries that fire on this path and currently have handlers. Must be an empty set for any true placeable fact; null or non-empty forces null for every material.",
     "outOfScope": [
       "Player-triggered node callbacks (on_punch, on_dig, after_dig_node, on_rightclick, can_dig, on_rotate and global punch/dig handlers)",
       "Independent world dynamics (ABM, LBM, on_blast, on_flood, other mods' later actions)",
       "Mod-private custom fields that the engine never calls on this path",
       "External effects that a replaced node's skipped on_destruct/after_destruct would have had outside its own cell"
     ],
-    "guards": "Out-of-scope later changes are not claimed absent. They are detected by the complete RegionState readback (node, param2 and extras) and its summary digest, and by same-transaction Undo rejecting with UNDO_CONFLICT/EXTERNAL_EDIT_CONFLICT when the current summary no longer equals the verified after summary. Canvas still decides every transaction."
+    "guards": "Out-of-scope later changes are not claimed absent. They are detected by the complete RegionState readback (material, orientation and per-cell state) and its summary digest, and by same-transaction Undo rejecting with UNDO_CONFLICT/EXTERNAL_EDIT_CONFLICT when the current summary no longer equals the verified after summary. Canvas still decides every transaction."
   },
   "sessionWorldSeam": {
     "id": "session-world-seam/v1",
@@ -14439,12 +14309,12 @@
     "compatibility": "Additive only, as protocol minors within the existing majors (protocolPolicy): session/v4 minor 1 adds ReadSessionIdentity/ListSessions; canvas/v6 minor 1 adds UnselectWorldConnection, RetireSessionSelection, ListWorldSelections, ReserveWorldRetirement, ReleaseWorldRetirement. Existing operations keep their order and every existing type, field, enum value, ownership row and digest domain is unchanged; no new wire. The exact-package handshake still requires every composition to re-pin one package."
   },
   "configEngineFacts": {
-    "id": "config-engine-facts/v1",
+    "id": "config-engine-facts/v2",
     "evidence": "SOURCE/FIXTURE normative definition; Adapter provider and Canvas consumer implementations and real runtime NOT_RUN",
-    "port": "Additive in-process method readConfigEngineFacts(worldRef) of the existing hanaworldsLuantiNativeFacts service (ConfigEngineFactsPort). Not a wire operation, model argument, tool or persisted record; no wire, operation, existing type, field or enum value changes.",
-    "producer": "hanaworlds-adapter-luanti. writeBackend comes from the declaration of the Adapter payload actually loaded on the paired connection; avatarEnvelope is always the fixed UNAVAILABLE record below. No other origin produces, defaults or overrides either.",
-    "consumer": "hanaworlds-canvas assembles CompilationConfig.backendProfileId only from a validated KNOWN writeBackend (requireKnownWriteBackend). No consumer assembles player geometry: SafetyProfile (safety-profile/v4) has no avatar size and comes only from safetyProfileFromConfirmedIntent; requireKnownAvatarEnvelope always refuses for anyone who asks for player geometry. Nothing persists player geometry. Brush, Painter, Workshop and Host consume only the assembled configuration.",
-    "writeBackend": "backendProfileId identifies the write backend that the loaded Adapter payload uses to execute world-adapter/v7 scoped Prepare/Apply of compiled operations with nodeWriteSemantics explicit-nodeName-param2-static-v2, as declared by that payload. adapterId, payloadVersion, capabilityRevision, a package or contracts version, or a default are not substitutes. NOT_DECLARED_BY_PAYLOAD when the loaded payload declares none; ENGINE_FACT_UNREADABLE when the declaration cannot be read.",
+    "port": "In-process method readConfigEngineFacts(worldRef) of the world source facts service (ConfigEngineFactsPort). Not a wire operation, model argument, tool or persisted record.",
+    "producer": "world-source. writeBackend comes from the declaration of the world source payload actually loaded on the paired connection; avatarEnvelope is always the fixed UNAVAILABLE record below. No other origin produces, defaults or overrides either.",
+    "consumer": "hanaworlds-canvas assembles CompilationConfig.writeBackend only from a validated KNOWN writeBackend (requireKnownWriteBackend), unchanged. No consumer assembles player geometry: SafetyProfile (safety-profile/v4) has no avatar size and comes only from safetyProfileFromConfirmedIntent; requireKnownAvatarEnvelope always refuses for anyone who asks for player geometry. Nothing persists player geometry. Brush, Painter, Workshop and Host consume only the assembled configuration.",
+    "writeBackend": "writeBackend {profileId, revision} is the opaque identity of the write backend that the loaded world source payload uses to execute world-adapter/v7 scoped Prepare/Apply of compiled operations, as declared by that payload. adapterId, payloadVersion, capabilityRevision, a package or contracts version, or a default are not substitutes. NOT_DECLARED_BY_PAYLOAD when the loaded payload declares none; ENGINE_FACT_UNREADABLE when the declaration cannot be read.",
     "domainAndLifecycle": "Valid only for the exact connection {worldRef, connectionRef, connectionIncarnationRef} and catalogueDigest. The producer reads the connection before and after reading the declaration and fails with CURRENT_WORLD_MISMATCH or STALE_REVISION instead of returning a mixed result. A payload change, reconnect (new incarnation), Catalogue change or world change yields a different sourceRevision or a rejected read. Players joining, leaving or changing posture never change the record. No push: consumers re-read before each assembly and treat a different sourceRevision, connection or Catalogue as invalidating every CompilationConfig assembled from the previous fact.",
     "avatarDimensions": {
       "publicSource": "NONE",
@@ -14453,7 +14323,7 @@
         "reason": "NO_PUBLIC_SOURCE"
       },
       "cause": "INV-POSE-STAYS-IN-ENGINE",
-      "rule": "No contracts type carries player geometry: SafetyProfile (safety-profile/v4), RegionInspection, BodyWitness and EntranceWitness have no avatar size and no body cells. Body safety is decided inside the engine: inspection rejects footprints overlapping any connected player's actual box, and Prepare/apply recheck every written cell (INV-BODY-RECHECK-AT-PREPARE). Entrance sizing uses the skill-proposed, player-confirmed SiteRules.entranceClearance, a building design value that is not a player measurement. Actual collision boxes, extents, positions, yaw and posture stay inside the Luanti payload (INV-POSE-STAYS-IN-ENGINE).",
+      "rule": "No contracts type carries player geometry: SafetyProfile (safety-profile/v4), RegionInspection, BodyWitness and EntranceWitness have no avatar size and no body cells. Body safety is decided inside the engine: inspection rejects footprints overlapping any connected player's actual box, and Prepare/apply recheck every written cell (INV-BODY-RECHECK-AT-PREPARE). Entrance sizing uses the skill-proposed, player-confirmed SiteRules.entranceClearance, a building design value that is not a player measurement. Actual collision boxes, extents, positions, yaw and posture stay inside the world source payload (INV-POSE-STAYS-IN-ENGINE).",
       "refusal": {
         "code": "CAPABILITY_UNAVAILABLE",
         "phase": "validate",

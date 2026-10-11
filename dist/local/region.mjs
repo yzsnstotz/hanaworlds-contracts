@@ -33,7 +33,7 @@ export function encodeRegionBlock({ origin, size, palette, indices }) {
   validateType('Position', origin); validateType('RegionSize', size);
   const total = blockCellCount({ size });
   requireFact(indices && typeof indices.length === 'number' && indices.length === total);
-  const entries = palette.map(p => validateType('NodeSpec', p));
+  const entries = palette.map(p => validateType('MaterialSpec', p));
   const used = [...new Set(Array.from(indices).filter(i => i !== -1))];
   requireFact(used.every(i => Number.isInteger(i) && i >= 0 && i < entries.length));
   const sorted = [...new Map(used.map(i => [canonicalJSON(entries[i]), entries[i]])).values()].sort(comparePalette);
@@ -46,17 +46,18 @@ export function encodeRegionBlock({ origin, size, palette, indices }) {
     if (runs.length && runs.at(-1)[1] === value) runs.at(-1)[0]++; else runs.push([1, value]);
   }
   return validateType('RegionVoxelBlock', { profileVersion: 'region-voxels/v1', origin: [...origin], size: [...size],
-    indexOrder: 'X_FASTEST_THEN_Y_THEN_Z', palette: sorted.map(e => ({ nodeName: e.nodeName, param2: e.param2 })), runs });
+    indexOrder: 'X_FASTEST_THEN_Y_THEN_Z', palette: sorted.map(e => ({ materialRef: e.materialRef, orientation: e.orientation })), runs });
 }
-/** Every palette entry (air included) must be a known static node with legal
- * param2 in the current Catalogue; the same rule as per-cell BUILD materials. */
+/** Every palette entry (the empty material included) must be a placeable material with a
+ * declared orientation in the current Catalogue; the same rule as per-cell BUILD materials. */
 export function validateRegionPalette(blockInput, catalogue) {
   const block = validateType('RegionVoxelBlock', blockInput);
   validateStaticMaterials(Object.fromEntries(block.palette.map((e, i) => ['p' + i, e])), catalogue);
   return block;
 }
-/** After-state of a successful write: specified cells take the palette node and
- * lose extras; UNSPECIFIED cells keep node, param2 and extras unchanged. */
+/** After-state of a successful write, by the StateProfile the world source declared on the
+ * before state: specified cells take the palette material and orientation and keep only the
+ * preservedFields of their state; UNSPECIFIED cells keep material, orientation and state. */
 export function expectedRegionState(beforeInput, opsInput) {
   const before = validateType('RegionState', beforeInput); const ops = expandRegionBlock(opsInput);
   requireFact(same(blockBox(before.block), ops.box), 'SCHEMA_INVALID', 'INVALID_GEOMETRY');
@@ -64,12 +65,15 @@ export function expectedRegionState(beforeInput, opsInput) {
   const palette = [...prior.palette, ...ops.palette]; const offset = prior.palette.length;
   const indices = Int32Array.from(prior.indices, (v, i) => ops.indices[i] === -1 ? v : ops.indices[i] + offset);
   const { min, max } = ops.box; const sx = max[0] - min[0] + 1, sy = max[1] - min[1] + 1;
-  const extras = before.extras.filter(e => {
+  const preserved = before.stateProfile.preservedFields;
+  const extras = before.extras.flatMap(e => {
     const [x, y, z] = e.position.map((v, a) => v - min[a]);
-    return ops.indices[x + sx * (y + sy * z)] === -1;
+    if (ops.indices[x + sx * (y + sy * z)] === -1) return [e];
+    const state = Object.fromEntries(preserved.filter(k => Object.hasOwn(e.state, k)).map(k => [k, e.state[k]]));
+    return Object.keys(state).length ? [{ position: e.position, state }] : [];
   });
-  return validateType('RegionState', { profileVersion: 'region-state/v1', worldRef: before.worldRef,
-    block: encodeRegionBlock({ origin: before.block.origin, size: before.block.size, palette, indices }), extras, derivedLightMode: 'recompute-with-readback' });
+  return validateType('RegionState', { profileVersion: 'region-state/v2', worldRef: before.worldRef,
+    block: encodeRegionBlock({ origin: before.block.origin, size: before.block.size, palette, indices }), extras, stateProfile: before.stateProfile });
 }
 export function summarizeRegionStates(worldRef, chunks) {
   return validateType('RegionSummary', { profileVersion: 'region-summary/v1', worldRef,
@@ -101,10 +105,10 @@ export function validateRegionProposalRequest(input) {
     requireRegionPlacementTarget(placement, expandRegionBlock(block));
   }
   for (const entry of block.palette) {
-    const node = request.catalogue.nodes[entry.nodeName];
-    requireFact(node.liquidType !== null && node.damagePerSecond !== null, 'UNSUPPORTED_MATERIAL', 'REQUIRED_FACT_UNKNOWN');
-    requireFact((!rules.hazardPolicy.forbidLiquid || node.liquidType === 'none') &&
-      node.damagePerSecond <= rules.hazardPolicy.maximumDamagePerSecond, 'SAFETY_INVARIANT_FAILED', 'REQUIRED_FACT_UNKNOWN');
+    const tags = request.catalogue.materials[entry.materialRef];
+    requireFact(tags.liquid !== null && tags.hazardPerSecond !== null, 'UNSUPPORTED_MATERIAL', 'REQUIRED_FACT_UNKNOWN');
+    requireFact((!rules.hazardPolicy.forbidLiquid || tags.liquid === false) &&
+      tags.hazardPerSecond <= rules.hazardPolicy.maximumDamagePerSecond, 'SAFETY_INVARIANT_FAILED', 'REQUIRED_FACT_UNKNOWN');
   }
   return request;
 }
@@ -130,7 +134,7 @@ export function validateCompileRegionBuildRequest(input) {
   return request;
 }
 /** Exact equivalence: chunks specify exactly the build's specified cells with the
- * same node/param2; UNSPECIFIED never becomes air; nothing outside the build box. */
+ * same material/orientation; UNSPECIFIED never becomes the empty material; nothing outside the build box. */
 export function validateCompiledRegionSet(requestInput, responseInput) {
   const request = validateCompileRegionBuildRequest(requestInput);
   const response = validateResponse('region-build/v1', 'CompileRegionBuild', responseInput);

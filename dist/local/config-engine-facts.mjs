@@ -1,4 +1,4 @@
-/** config-engine-facts/v1: pure checks over Adapter-supplied engine facts. No engine read, default,
+/** config-engine-facts/v2: pure checks over Adapter-supplied engine facts. No engine read, default,
  * persistence or world write. Provider authenticity/currentness stay with the caller.
  * No player geometry is representable here (INV-POSE-STAYS-IN-ENGINE). */
 import {requireFact} from '../errors.mjs';
@@ -19,7 +19,7 @@ export function validateConfigEngineFacts(input, catalogue, currentConnection) {
 export function requireKnownWriteBackend(facts) {
  const f=validateType('ConfigEngineFacts',facts);
  requireFact(f.writeBackend.availability==='KNOWN','CAPABILITY_UNAVAILABLE','REQUIRED_FACT_UNKNOWN');
- return f.writeBackend.backendProfileId;
+ return f.writeBackend.writeBackend;
 }
 // avatarEnvelope has no KNOWN form: player geometry stays in the engine.
 export function requireKnownAvatarEnvelope(facts) {

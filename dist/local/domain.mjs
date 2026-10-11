@@ -60,8 +60,8 @@ function arrayCompare(name, order) {
   if (order === 'UTF16 ascending') return compareUTF16;
   if (order === 'numeric x,y,z' || order === 'numeric lexicographic six coordinates') return comparePosition;
   if (order === 'position numeric x,y,z') return (a, b) => comparePosition(a.position, b.position);
-  if (order === 'nodeName UTF16 then param2 numeric') return comparePalette;
-  if (order === 'nodeName UTF16 ascending') return (a, b) => compareUTF16(a.nodeName, b.nodeName);
+  if (order === 'materialRef UTF16 then orientation numeric') return comparePalette;
+  if (order === 'materialRef UTF16 ascending') return (a, b) => compareUTF16(a.materialRef, b.materialRef);
   if (order === 'chunkPos numeric x,y,z') return (a, b) => comparePosition(a.chunkPos, b.chunkPos);
   if (order === 'EngineGuardStage enum order') return enumOrder('EngineGuardStage', x => x);
   if (order === 'guard EngineGuard enum order') return enumOrder('EngineGuard', x => x.guard);
@@ -167,12 +167,16 @@ export function validateDomain(visits) {
     else if (name === 'UnselectWorldConnectionRequest') shape(v.expectedContext.worldRef === v.worldRef);
     else if (name === 'SelectionConnectionState') shape((v.status === 'UNBOUND') === (v.worldRef === null) && (v.worldRef === null) === (v.connectionRef === null));
     else if (name === 'Axes') geometry(new Set(v.map(x => x[1])).size === 3);
-    else if (name === 'CollisionBox') geometry(v.slice(0, 3).every((x, a) => x <= v[a + 3]));
-    else if (name === 'NodeCapability') {
+    else if (name === 'MaterialTags') {
       const nulls = Object.keys(v).filter(k => k !== 'unknownFields' && v[k] === null).sort(compareUTF16);
       shape(same(nulls, v.unknownFields));
+    } else if (name === 'Catalogue') {
+      // The empty material is a declared material of the same vocabulary, never a contracts literal.
+      shape(Object.hasOwn(v.materials, v.emptyMaterialRef));
+    } else if (name === 'StateProfile') {
+      const all = [...v.derivedFields, ...v.preservedFields, ...v.clearedFields];
+      shape(new Set(all).size === all.length);
     } else if (name === 'Coverage') geometry(v.sampledPositions.every(p => inside(p, v.sampledBounds)));
-    else if (name === 'OccupiedCell') requireFact(v.nodeName !== 'air', 'SCHEMA_INVALID', 'INVALID_SHAPE');
     else if (name === 'Portal') {
       geometry(v.positions.length > 0);
       geometry([0,1,2].some(axis => v.positions.every(p => p[axis] === v.positions[0][axis])));
@@ -229,7 +233,7 @@ export function validateDomain(visits) {
     } else if (name === 'CreateBuildPlanRequest') {
       // Payload-decidable painter/v3 rules in the approved order; digest coherence is in validateBoundRequest.
       if (v.targetFacts.source === 'REGION_INSPECTED') {
-        requireFact(v.painterId === 'picture-blocks', 'TARGET_REQUIRED', 'SCOPE_DENIED');
+        requireFact(v.painterId === 'building-exterior', 'TARGET_REQUIRED', 'SCOPE_DENIED');
         requireFact(v.regionInspection !== null, 'TARGET_FACTS_INCOMPLETE', 'REQUIRED_FACT_UNKNOWN');
       } else decodeShape(v.regionInspection === null);
     }

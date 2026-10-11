@@ -6,7 +6,7 @@ const {request:r,response:resp,facts}=fixture,ctx=r.localContext,D=(k,v)=>a.dige
 let passed=0;function test(name,fn){fn();console.log('ok',++passed,name)}
 const bound=(w,n,x)=>a.validateBoundRequest(w,n,x);
 const envelope=(wire,requestId,fields)=>({contractVersion:wire,sessionRef:r.sessionRef,requestId,worldRef:r.worldRef,localContext:ctx,...fields});
-const stateProfile={profileVersion:'state-profile/v2',nodeFields:['nodeName','param1','param2'],metadataMode:'exact',inventoryMode:'exact',timerMode:'exact',derivedLightMode:'recompute-with-readback'};
+const stateProfile={profileVersion:'state-profile/v3',derivedFields:['param1'],preservedFields:[],clearedFields:['inventory','metadata','timer']};
 test('current package and same-major handshake',()=>{a.checkContractsVersion(a.contractHandshake.contracts);assert.equal(a.contractHandshake.contracts,'hanaworlds-contracts@'+a.version);a.checkContractHandshake(a.contractHandshake);a.checkContractHandshake({...a.contractHandshake,contracts:'hanaworlds-contracts@'+a.contractsCompatibility.major+'.99.0'});assert.throws(()=>a.checkContractHandshake({...a.contractHandshake,contracts:'hanaworlds-contracts@'+(a.contractsCompatibility.major+1)+'.0.0'}),{code:'UNSUPPORTED_VERSION'});});
 test('all current request/schema fields have no MVP authority or protection dependency',()=>{assert.doesNotMatch(JSON.stringify(a.schemaBundle),/authorization|grantEpoch|allowedActions|requireProtected|protectedPositions|AuthProjection|OriginalSessionBinding|regionProtectionWriters/);assert.equal(a.ownership['world-adapter/v7'].mutationCaller,'Canvas only through internal dispatch');assert.equal(a.ownership['painter/v5'].mutationCaller,'none');});
 const capabilities={providerRef:'adapter',capabilityRevision:'cap-1',worldRef:r.worldRef,engineBounds:r.targetFacts.sampledBounds,limits:[],recoveryGuarantee:'RECOVERABLE_VERIFIED',stateProfile,sessionDeleteSupported:true,imageMediaTypes:[],model:null,
@@ -23,7 +23,7 @@ test('Desktop discovers and reads the actual local connection before Canvas sele
 test('Workshop and Painter consume the no-authority proposal and exact BUILD',()=>{a.validateBuildProposalContext(r,facts);a.validateBuildProposalResponse(r,resp);});
 const b=resp.result.build,positions=r.targetFacts.knownEmptyCells.filter(p=>b.operations.some(o=>p.every((v,i)=>v>=o.min[i]&&v<=o.max[i]))).sort(a.comparePosition);
 const effects=positions.map(position=>({position,...b.materials[b.operations.findLast(o=>position.every((v,i)=>v>=o.min[i]&&v<=o.max[i])).materialRef]}));
-const config={profileVersion:'compilation-config/v2',backendProfileId:'static-local',worldeditRevision:'static-1',nodeWriteSemantics:'explicit-nodeName-param2-static-v2',overlapRule:'last-writer-wins',effectOrder:'numeric-x-y-z',compressionRule:'exact-final-effects-only'};
+const config={profileVersion:'compilation-config/v3',writeBackend:{profileId:'static-local',revision:'static-1'},overlapRule:'last-writer-wins',effectOrder:'numeric-x-y-z',compressionRule:'exact-final-effects-only'};
 const operations={contractVersion:'operations/v3',buildDigest:resp.result.buildDigest,compilerRevision:'brush-1',compilationConfigDigest:D('compilation-config',config),worldRef:r.worldRef,frameDigest:r.targetFacts.frameDigest,catalogueDigest:b.catalogueDigest,targetFactsDigest:r.targetFactsDigest,effects};
 const operationDigest=D('operations',operations);
 test('Brush validates public BUILD and exact compilation effects',()=>{
@@ -46,13 +46,13 @@ test('Canvas prepares and applies one exact scoped transaction via Adapter',()=>
  a.validateBoundResponse('world-adapter/v7','PrepareRecoverableTransaction',req,{contractVersion:'world-adapter/v7',requestId:req.requestId,result:prepared,error:null,guardRefusal:null});
  bound('world-adapter/v7','ApplyCompiledTransaction',{...req,requestId:'transport-apply',preparedTransaction:a.projectScopedPreparedTransaction(prepared)});
 });
-const records=effects.map(e=>({...e,param1:0,metadata:{},inventory:{},timer:null}));
+const records=effects.map(e=>({...e,state:{param1:0,metadata:{},inventory:{},timer:null}}));
 const readback={worldRef:r.worldRef,coveredPositions:positions,records,stateProfile};
 const receipt={contractVersion:'canvas/v6',transactionId:apply.transactionId,operationDigest,transactionPayloadDigest:prepared.transactionPayloadDigest,status:'VERIFIED',previousWorldRevision:r.targetFacts.worldRevision,observedWorldRevision:'world-2',readbackDigest:D('readback',readback),restoreStatus:'NOT_REQUIRED',error:null,localContext:ctx,guardRefusal:null,applyFailure:null};
 const history={transactionId:apply.transactionId,originTransactionId:null,affectedObjectRefs:['object-1'],operationDigest,beforeImageDigest,expectedAfterReadbackDigest:receipt.readbackDigest,receiptDigest:D('receipt',receipt),historyRevision:'history-1',status:'VERIFIED'};
 test('Canvas verifies matching complete readback with same durable history row',()=>{a.validateCommitReadback(receipt,readback,readback,history);});
 test('completed duplicate returns stored outcome without a second write instruction',()=>{const admission=a.validateCurrentRequest('canvas/v6','ApplyRecoverableCommit',apply,facts.requestFacts);assert.equal(admission.disposition,'EXECUTE');const duplicate=a.validateCurrentRequest('canvas/v6','ApplyRecoverableCommit',apply,{...facts.requestFacts,requestState:'COMPLETED',replay:'EXACT_REPLAY',priorRequestDigest:admission.requestDigest});assert.equal(duplicate.disposition,'RETURN_STORED');});
-const before={...readback,records:records.map(x=>({...x,nodeName:'air',param2:0}))};
+const before={...readback,records:records.map(x=>({...x,materialRef:'air',orientation:0}))};
 test('failed apply expresses whole-before-image rollback with verified readback',()=>{const rollback={...receipt,status:'ROLLED_BACK',restoreStatus:'VERIFIED_RESTORED',readbackDigest:D('readback',before)};a.validateCommitReadback(rollback,before,before,null);});
 test('history Undo carries the original transaction and before-state target',()=>{
  const req=envelope('world-adapter/v7','undo-prepare',{originTransactionId:apply.transactionId,transactionId:'undo-1',direction:'UNDO',affectedObjectRefs:['object-1'],originVerifiedReceiptDigest:history.receiptDigest,originBeforeImageDigest:history.beforeImageDigest,originBeforeStateReadbackDigest:D('readback',before),originAfterReadbackDigest:receipt.readbackDigest,expectedHistoryRevision:'history-1',expectedWorldRevision:'world-2',expectedObjectRevisions:{'object-1':'object-revision-1'},expectedCurrentStateDigest:receipt.readbackDigest,targetStateDigest:D('readback',before),guarantee:'RECOVERABLE_VERIFIED'});
@@ -63,7 +63,7 @@ test('history Undo carries the original transaction and before-state target',()=
 });
 test('wrong current world or reopened connection rejects old work',()=>{assert.throws(()=>a.validateCurrentRequest('canvas/v6','ApplyRecoverableCommit',apply,{...facts.requestFacts,currentContext:{...ctx,worldRef:'different'}}),{code:'CURRENT_WORLD_MISMATCH'});assert.throws(()=>a.validateCurrentRequest('canvas/v6','ApplyRecoverableCommit',apply,{...facts.requestFacts,currentContext:{...ctx,connectionIncarnationRef:'socket-open-2'}}),{code:'CURRENT_WORLD_MISMATCH'});});
 test('Painter geometry and existing Canvas object conflict stay enforced',()=>{const q=clone(r);q.proposal.boxes[0].max[0]=Number.MAX_SAFE_INTEGER;assert.throws(()=>a.validateBuildProposalRequest(q));const s=clone(submission);s.analysis.affectedObjectRefs=['existing-object'];s.apply.analysisDigest=D('affected-analysis',s.analysis);assert.throws(()=>a.validateCurrentBuildSubmission(s,facts.requestFacts),{code:'OTHER_OBJECTS_AFFECTED'});});
-test('readback mismatch never becomes verified success',()=>{const bad=clone(readback);bad.records[0].nodeName='air';assert.throws(()=>a.validateCommitReadback(receipt,readback,bad,history),{code:'READBACK_MISMATCH'});});
+test('readback mismatch never becomes verified success',()=>{const bad=clone(readback);bad.records[0].materialRef='air';assert.throws(()=>a.validateCommitReadback(receipt,readback,bad,history),{code:'READBACK_MISMATCH'});});
 test('strict unknown authority fields and duplicate raw keys are rejected',()=>{assert.throws(()=>bound('session/v4','AdvanceCurrentBuild',{...advance,authorizationRef:'fake'}),{code:'UNKNOWN_REQUIRED_FIELD'});assert.throws(()=>a.admitRequest('session/v4','AdvanceCurrentBuild','{"requestId":"a","requestId":"b"}'));});
 
 test('existing local acquire and native process facts need no account credentials',()=>{
@@ -75,4 +75,19 @@ test('existing local acquire and native process facts need no account credential
  assert.throws(()=>a.validateType('LocalWorldAcquireInput',{...input,username:'unused',password:'unused'}),{code:'UNKNOWN_REQUIRED_FIELD'});
 });
 
+test('material, state and write backend are world-source vocabulary, never engine literals',()=>{
+ const cat=r.catalogue,defs=JSON.stringify(a.schemaBundle.definitions);
+ assert.doesNotMatch(defs,/nodeName|param[12]|worldedit|nodeWriteSemantics|derivedLightMode|LOADED_BY_EMERGE|picture-blocks|adapter-luanti/i);
+ assert.ok(a.regionCapabilities.every(c=>!/adapter-luanti/.test(c.owner)));
+ assert.throws(()=>a.validateType('Catalogue',{...cat,emptyMaterialRef:'not-declared'}),{code:'SCHEMA_INVALID'});
+ assert.throws(()=>a.validateType('StateProfile',{...stateProfile,preservedFields:['param1']}),{code:'SCHEMA_INVALID'});
+ const occupied=clone(r.targetFacts);occupied.occupiedCells[0].materialRef=cat.emptyMaterialRef;
+ assert.throws(()=>a.requireOccupiedNotEmpty(occupied,cat),{code:'SCHEMA_INVALID'});
+ // The state map is opaque: any strict JSON the world source reports is carried and digested unchanged.
+ const record={position:[0,1,3],materialRef:'fixture:stone',orientation:0,state:{param1:0,opaque:{nested:[1,'x',null,true]}}};
+ assert.equal(a.canonicalJSON(a.validateType('Record',record)),a.canonicalJSON(record));
+ assert.throws(()=>a.validateType('Record',{...record,param2:0}),{code:'UNKNOWN_REQUIRED_FIELD'});
+ assert.throws(()=>a.validateType('MaterialSpec',{materialRef:'fixture:stone',orientation:-1}),{code:'SCHEMA_INVALID'});
+ assert.deepEqual({...a.requireKnownWriteBackend({profileVersion:'config-engine-facts/v2',connection:{worldRef:r.worldRef,connectionRef:ctx.connectionRef,connectionIncarnationRef:ctx.connectionIncarnationRef},catalogueDigest:'0'.repeat(64),avatarEnvelope:{availability:'UNAVAILABLE',reason:'NO_PUBLIC_SOURCE'},writeBackend:{availability:'KNOWN',basis:'LOADED_PAYLOAD_DECLARATION',writeBackend:config.writeBackend},sourceRevision:'0'.repeat(64)})},config.writeBackend);
+});
 console.log(JSON.stringify({evidence:'SOURCE/FIXTURE',checks:passed,worldWrites:0,realRuntime:'NOT_RUN',realUI:'NOT_RUN'}));

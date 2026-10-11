@@ -2,7 +2,7 @@ import {encodeRegionBlock,expandRegionBlock,validateRegionRead,requireKnownRegio
  checkProtocolCompatibility,protocolRequirement,digestValue,regionChunksOfBox,validateCompiledRegionSet,regionInvariants} from 'hanaworlds-contracts';
 import type {RegionVoxelBlock,RegionState,ReadRegionRequest,WriteRegionRequest,RegionCommitResult,ProtocolHandshake,WriteMethodDescriptor,
  RegionRun,CompileRegionBuildRequest,RegionUndoResult,TypeMap} from 'hanaworlds-contracts';
-const air={nodeName:'air',param2:0} as const;
+const air={materialRef:'air',orientation:0} as const;
 export const carve:RegionVoxelBlock=encodeRegionBlock({origin:[0,0,0],size:[2,1,1],palette:[air],indices:[0,-1]});
 const run:RegionRun=carve.runs[1];const unspecified:number|null=run[1];void unspecified;
 const indices:Int32Array=expandRegionBlock(carve).indices;void indices;
@@ -25,16 +25,16 @@ export const tool:WriteMethodDescriptor={method:'REGION',toolName:'write_region'
 const invariants:readonly string[]=regionInvariants.map(i=>i.id);void invariants;
 // @ts-expect-error tool self-description has no threshold field.
 export const capped:WriteMethodDescriptor={...tool,maxCells:4096};
-// @ts-expect-error a run is a [count, index|null] pair, not a node name.
+// @ts-expect-error a run is a [count, index|null] pair, not a material reference.
 export const bad:RegionRun=[1,'air'];
 type Ops=TypeMap['RegionOperationsProjection'];export type Edge=Ops['chunkEdge'];const edge:Edge=16;void edge;
 import {writePathStateFacts,validateCatalogueWritePathFacts,writePathStateScope} from 'hanaworlds-contracts';
-import type {WritePathEvidence,Catalogue,WritePathNodeFacts} from 'hanaworlds-contracts';
+import type {WritePathEvidence,Catalogue,WritePathMaterialFacts} from 'hanaworlds-contracts';
 export function scoped(cat:Catalogue,ev:WritePathEvidence):readonly string[]{
- const f:Readonly<Record<string,WritePathNodeFacts>>=writePathStateFacts(ev);
- const p:false|null|undefined=f['air']?.hasPersistentState;void p;
+ const f:Readonly<Record<string,WritePathMaterialFacts>>=writePathStateFacts(ev);
+ const p:boolean|null|undefined=f['air']?.placeable;void p;
  const scope:'write-path-init/v1'=writePathStateScope.id;void scope;
  return validateCatalogueWritePathFacts(cat,ev).verified;
 }
-// @ts-expect-error hasPersistentState is never derived true from opaque callbacks.
-export const neverTrue:WritePathNodeFacts['hasPersistentState']=true;
+// @ts-expect-error placeable is a tri-state fact, never a callback list.
+export const notAList:WritePathMaterialFacts['placeable']=['on_construct'];

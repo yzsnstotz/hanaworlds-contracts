@@ -7,10 +7,10 @@ export function buildRegionScenario(a, base) {
   const D = (k, v) => a.digestValue(k, v).sha256;
   const r = base.request;
   const catalogue = structuredClone(r.catalogue);
-  catalogue.nodes['fixture:dirt'] = { ...catalogue.nodes['fixture:stone'], definitionRevision: 'fixture-def-1' };
+  catalogue.materials['fixture:dirt'] = { ...catalogue.materials['fixture:stone'], definitionRevision: 'fixture-def-1' };
   const catalogueDigest = D('catalogue', catalogue);
   const localContext = r.localContext, worldRef = r.worldRef, sessionRef = r.sessionRef;
-  const stone = { nodeName: 'fixture:stone', param2: 0 }, dirt = { nodeName: 'fixture:dirt', param2: 0 }, air = { nodeName: 'air', param2: 0 };
+  const stone = { materialRef: 'fixture:stone', orientation: 0 }, dirt = { materialRef: 'fixture:dirt', orientation: 0 }, air = { materialRef: 'air', orientation: 0 };
   // Build box x -2..17, y 0..1, z -2..0 crosses mapblocks x=-1,0,1 and z=-1,0.
   const origin = [-2, 0, -2], size = [20, 2, 3];
   const n = size[0] * size[1] * size[2];
@@ -46,14 +46,14 @@ export function buildRegionScenario(a, base) {
   const writeBounds = { min: [0, 1, 2].map(k => Math.min(...boxes.map(b => b.min[k]))), max: [0, 1, 2].map(k => Math.max(...boxes.map(b => b.max[k]))) };
   const compileResponse = { contractVersion: 'region-build/v1', requestId: 'compile-region-1', result: { projection, operationDigest: D('region-operations', projection), writeBounds }, error: null };
   // Adapter read before writing: each chunk loaded (or emerged) and known. One
-  // grass-like cell carries metadata so restore needs more than node/param2.
-  const stateOf = (box, withExtra) => ({ profileVersion: 'region-state/v1', worldRef,
+  // grass-like cell carries per-cell state so restore needs more than material/orientation.
+  const stateOf = (box, withExtra) => ({ profileVersion: 'region-state/v2', worldRef,
     block: a.encodeRegionBlock({ origin: box.min, size: [0, 1, 2].map(k => box.max[k] - box.min[k] + 1), palette: [stone], indices: new Array((box.max[0] - box.min[0] + 1) * (box.max[1] - box.min[1] + 1) * (box.max[2] - box.min[2] + 1)).fill(0) }),
-    extras: withExtra ? [{ position: [...box.min], metadata: { infotext: 'fixture sign' }, inventory: {}, timer: null }] : [], derivedLightMode: 'recompute-with-readback' });
+    extras: withExtra ? [{ position: [...box.min], state: { metadata: { infotext: 'fixture sign' }, inventory: {}, timer: null } }] : [], stateProfile: { profileVersion: 'state-profile/v3', derivedFields: ['param1'], preservedFields: [], clearedFields: ['inventory', 'metadata', 'timer'] } });
   const readRequest = { contractVersion: 'world-adapter-region/v2', sessionRef, requestId: 'read-region-1', worldRef, box: writeBounds, purpose: 'BEFORE_IMAGE', localContext };
   const reads = a.regionChunksOfBox(writeBounds).map(({ chunkPos, box }, i) => {
     const state = stateOf(box, i === 0);
-    return { chunkPos, box, availability: 'KNOWN', loadMethod: i === 1 ? 'LOADED_BY_EMERGE' : 'ALREADY_LOADED', unknownReason: null, state, stateDigest: D('region-state', state) };
+    return { chunkPos, box, availability: 'KNOWN', loadMethod: i === 1 ? 'LOADED_ON_DEMAND' : 'ALREADY_LOADED', unknownReason: null, state, stateDigest: D('region-state', state) };
   });
   const readResponse = { contractVersion: 'world-adapter-region/v2', requestId: 'read-region-1', result: { worldRef, box: writeBounds, chunks: reads, localContext }, error: null };
   const beforeByChunk = new Map(reads.map(c => [JSON.stringify(c.chunkPos), c.state]));

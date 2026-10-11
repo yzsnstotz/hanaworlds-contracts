@@ -12,7 +12,7 @@ let passed=0;function test(name,fn){fn();console.log('ok',++passed,name)}
 const rejects=(fn,error,title)=>assert.throws(fn,e=>{for(const [k,v] of Object.entries(error))assert.equal(e[k],v,`${title}: ${k}`);return true;},title);
 
 test('contract surface: optional field without null form, capability, invariant, metadata',()=>{
- assert.equal(a.contractsCompatibility.major,1);
+ assert.equal(a.contractsCompatibility.major,2);
  const def=a.schemaBundle.definitions.RegionCommitResult;
  assert.ok(!def.required.includes('rollbackCause'));assert.deepEqual(def.properties.rollbackCause,{$ref:'#/definitions/FailureDetail'});
  assert.equal(a.regionRollbackCause.id,'region-rollback-cause/v1');assert.equal(a.regionRollbackCause.unknown,'UNKNOWN');

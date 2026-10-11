@@ -44,7 +44,7 @@ export function validateExactEffects(operations, materials, effects) {
     const op = operations.findLast(item => inside(effect.position, item));
     requireFact(op && Object.hasOwn(materials, op.materialRef), 'CATALOGUE_MISMATCH', 'CATALOGUE_UNRESOLVED');
     const material = materials[op.materialRef];
-    requireFact(effect.nodeName === material.nodeName && effect.param2 === material.param2, 'SCHEMA_INVALID', 'INVALID_GEOMETRY');
+    requireFact(effect.materialRef === material.materialRef && effect.orientation === material.orientation, 'SCHEMA_INVALID', 'INVALID_GEOMETRY');
   }
   return true;
 }

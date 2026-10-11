@@ -1,9 +1,9 @@
 {
   "$schema": "http://json-schema.org/draft-07/schema#",
-  "$id": "https://hanaworlds.invalid/contracts/1.2.0/schema.json",
+  "$id": "https://hanaworlds.invalid/contracts/2.0.0-dev.1/schema.json",
   "x-contractsCompatibility": {
     "package": "hanaworlds-contracts",
-    "major": 1,
+    "major": 2,
     "rule": "same-major"
   },
   "definitions": {
@@ -1844,7 +1844,7 @@
           "$ref": "#/definitions/Revision"
         },
         "painterId": {
-          "const": "picture-blocks"
+          "const": "building-exterior"
         },
         "invocationId": {
           "$ref": "#/definitions/Ref"
@@ -2153,34 +2153,27 @@
       "type": "object",
       "properties": {
         "profileVersion": {
-          "const": "catalogue/v2"
+          "const": "catalogue/v3"
         },
-        "engineProfile": {
+        "engineRevisions": {
+          "$ref": "#/definitions/EngineRevisions"
+        },
+        "emptyMaterialRef": {
           "$ref": "#/definitions/Ref"
         },
-        "gameId": {
-          "$ref": "#/definitions/Ref"
-        },
-        "gameRevision": {
-          "$ref": "#/definitions/Revision"
-        },
-        "modRevisions": {
-          "$ref": "#/definitions/ModRevisions"
-        },
-        "nodes": {
-          "$ref": "#/definitions/NodeMap"
+        "materials": {
+          "$ref": "#/definitions/MaterialTagMap"
         }
       },
       "required": [
         "profileVersion",
-        "engineProfile",
-        "gameId",
-        "gameRevision",
-        "modRevisions",
-        "nodes"
+        "engineRevisions",
+        "emptyMaterialRef",
+        "materials"
       ],
       "additionalProperties": false,
-      "x-typeName": "Catalogue"
+      "x-typeName": "Catalogue",
+      "x-meaning": "The world source's own material vocabulary. emptyMaterialRef names the material that means an empty cell; it must be a key of materials."
     },
     "ClarificationNeed": {
       "type": "object",
@@ -2215,57 +2208,14 @@
       "additionalProperties": false,
       "x-typeName": "ClarificationNeed"
     },
-    "CollisionBox": {
-      "type": "array",
-      "items": [
-        {
-          "$ref": "#/definitions/Finite"
-        },
-        {
-          "$ref": "#/definitions/Finite"
-        },
-        {
-          "$ref": "#/definitions/Finite"
-        },
-        {
-          "$ref": "#/definitions/Finite"
-        },
-        {
-          "$ref": "#/definitions/Finite"
-        },
-        {
-          "$ref": "#/definitions/Finite"
-        }
-      ],
-      "minItems": 6,
-      "maxItems": 6,
-      "additionalItems": false,
-      "x-typeName": "CollisionBox",
-      "x-order": "minX,minY,minZ,maxX,maxY,maxZ"
-    },
-    "CollisionBoxes": {
-      "type": "array",
-      "items": {
-        "$ref": "#/definitions/CollisionBox"
-      },
-      "uniqueItems": true,
-      "x-typeName": "CollisionBoxes",
-      "x-order": "numeric lexicographic six coordinates"
-    },
     "CompilationConfig": {
       "type": "object",
       "properties": {
         "profileVersion": {
-          "const": "compilation-config/v2"
+          "const": "compilation-config/v3"
         },
-        "backendProfileId": {
-          "$ref": "#/definitions/Ref"
-        },
-        "worldeditRevision": {
-          "$ref": "#/definitions/Revision"
-        },
-        "nodeWriteSemantics": {
-          "const": "explicit-nodeName-param2-static-v2"
+        "writeBackend": {
+          "$ref": "#/definitions/WriteBackendRef"
         },
         "overlapRule": {
           "const": "last-writer-wins"
@@ -2279,9 +2229,7 @@
       },
       "required": [
         "profileVersion",
-        "backendProfileId",
-        "worldeditRevision",
-        "nodeWriteSemantics",
+        "writeBackend",
         "overlapRule",
         "effectOrder",
         "compressionRule"
@@ -3130,17 +3078,17 @@
         "position": {
           "$ref": "#/definitions/Position"
         },
-        "nodeName": {
+        "materialRef": {
           "$ref": "#/definitions/Ref"
         },
-        "param2": {
-          "$ref": "#/definitions/Byte"
+        "orientation": {
+          "$ref": "#/definitions/Orientation"
         }
       },
       "required": [
         "position",
-        "nodeName",
-        "param2"
+        "materialRef",
+        "orientation"
       ],
       "additionalProperties": false,
       "x-typeName": "Effect"
@@ -4390,14 +4338,6 @@
       "x-order": "limitKind,source UTF16",
       "x-uniqueBy": "limitKind,source"
     },
-    "Liquid": {
-      "enum": [
-        "none",
-        "source",
-        "flowing"
-      ],
-      "x-typeName": "Liquid"
-    },
     "ListObjectsRequest": {
       "type": "object",
       "properties": {
@@ -4830,7 +4770,7 @@
         "$ref": "#/definitions/Ref"
       },
       "additionalProperties": {
-        "$ref": "#/definitions/NodeSpec"
+        "$ref": "#/definitions/MaterialSpec"
       },
       "minProperties": 1,
       "x-typeName": "MaterialMap"
@@ -4915,16 +4855,6 @@
       "uniqueItems": true,
       "x-typeName": "MediaTypes",
       "x-order": "UTF16 ascending"
-    },
-    "ModRevisions": {
-      "type": "object",
-      "propertyNames": {
-        "$ref": "#/definitions/Ref"
-      },
-      "additionalProperties": {
-        "$ref": "#/definitions/Revision"
-      },
-      "x-typeName": "ModRevisions"
     },
     "MutationState": {
       "enum": [
@@ -5075,175 +5005,6 @@
         "operationRef"
       ],
       "additionalProperties": false
-    },
-    "NodeCapability": {
-      "type": "object",
-      "properties": {
-        "walkable": {
-          "anyOf": [
-            {
-              "$ref": "#/definitions/Bool"
-            },
-            {
-              "type": "null"
-            }
-          ]
-        },
-        "collisionBoxes": {
-          "anyOf": [
-            {
-              "$ref": "#/definitions/CollisionBoxes"
-            },
-            {
-              "type": "null"
-            }
-          ]
-        },
-        "liquidType": {
-          "anyOf": [
-            {
-              "$ref": "#/definitions/Liquid"
-            },
-            {
-              "type": "null"
-            }
-          ]
-        },
-        "damagePerSecond": {
-          "anyOf": [
-            {
-              "$ref": "#/definitions/NonNegativeFinite"
-            },
-            {
-              "type": "null"
-            }
-          ]
-        },
-        "lightSource": {
-          "anyOf": [
-            {
-              "$ref": "#/definitions/Byte"
-            },
-            {
-              "type": "null"
-            }
-          ]
-        },
-        "param2Type": {
-          "anyOf": [
-            {
-              "$ref": "#/definitions/Ref"
-            },
-            {
-              "type": "null"
-            }
-          ]
-        },
-        "allowedParam2": {
-          "anyOf": [
-            {
-              "$ref": "#/definitions/Param2s"
-            },
-            {
-              "type": "null"
-            }
-          ]
-        },
-        "hasCallbacks": {
-          "anyOf": [
-            {
-              "$ref": "#/definitions/Bool"
-            },
-            {
-              "type": "null"
-            }
-          ]
-        },
-        "hasPersistentState": {
-          "anyOf": [
-            {
-              "$ref": "#/definitions/Bool"
-            },
-            {
-              "type": "null"
-            }
-          ]
-        },
-        "definitionRevision": {
-          "anyOf": [
-            {
-              "$ref": "#/definitions/Revision"
-            },
-            {
-              "type": "null"
-            }
-          ]
-        },
-        "unknownFields": {
-          "$ref": "#/definitions/FieldNames"
-        }
-      },
-      "required": [
-        "walkable",
-        "collisionBoxes",
-        "liquidType",
-        "damagePerSecond",
-        "lightSource",
-        "param2Type",
-        "allowedParam2",
-        "hasCallbacks",
-        "hasPersistentState",
-        "definitionRevision",
-        "unknownFields"
-      ],
-      "additionalProperties": false,
-      "x-typeName": "NodeCapability"
-    },
-    "NodeFields": {
-      "type": "array",
-      "items": [
-        {
-          "const": "nodeName"
-        },
-        {
-          "const": "param1"
-        },
-        {
-          "const": "param2"
-        }
-      ],
-      "minItems": 3,
-      "maxItems": 3,
-      "additionalItems": false,
-      "x-typeName": "NodeFields",
-      "x-order": "fixed explicit complete node fields"
-    },
-    "NodeMap": {
-      "type": "object",
-      "propertyNames": {
-        "$ref": "#/definitions/Ref"
-      },
-      "additionalProperties": {
-        "$ref": "#/definitions/NodeCapability"
-      },
-      "x-typeName": "NodeMap"
-    },
-    "NodeSpec": {
-      "type": "object",
-      "properties": {
-        "nodeName": {
-          "$ref": "#/definitions/Ref"
-        },
-        "param2": {
-          "$ref": "#/definitions/Byte"
-        }
-      },
-      "required": [
-        "nodeName",
-        "param2"
-      ],
-      "additionalProperties": false,
-      "x-typeName": "NodeSpec"
     },
     "NonNegativeFinite": {
       "type": "number",
@@ -5826,17 +5587,17 @@
         "position": {
           "$ref": "#/definitions/Position"
         },
-        "nodeName": {
+        "materialRef": {
           "$ref": "#/definitions/Ref"
         },
-        "param2": {
-          "$ref": "#/definitions/Byte"
+        "orientation": {
+          "$ref": "#/definitions/Orientation"
         }
       },
       "required": [
         "position",
-        "nodeName",
-        "param2"
+        "materialRef",
+        "orientation"
       ],
       "additionalProperties": false,
       "x-typeName": "OccupiedCell"
@@ -5906,19 +5667,10 @@
     },
     "PainterId": {
       "enum": [
-        "picture-blocks",
+        "building-exterior",
         "interior"
       ],
       "x-typeName": "PainterId"
-    },
-    "Param2s": {
-      "type": "array",
-      "items": {
-        "$ref": "#/definitions/Byte"
-      },
-      "uniqueItems": true,
-      "x-typeName": "Param2s",
-      "x-order": "numeric ascending"
     },
     "PersistRequiredArtifactResourcesRequest": {
       "type": "object",
@@ -7265,40 +7017,21 @@
         "position": {
           "$ref": "#/definitions/Position"
         },
-        "nodeName": {
+        "materialRef": {
           "$ref": "#/definitions/Ref"
         },
-        "param1": {
-          "$ref": "#/definitions/Byte"
+        "orientation": {
+          "$ref": "#/definitions/Orientation"
         },
-        "param2": {
-          "$ref": "#/definitions/Byte"
-        },
-        "metadata": {
-          "$ref": "#/definitions/StringMap"
-        },
-        "inventory": {
-          "$ref": "#/definitions/Inventory"
-        },
-        "timer": {
-          "anyOf": [
-            {
-              "$ref": "#/definitions/Timer"
-            },
-            {
-              "type": "null"
-            }
-          ]
+        "state": {
+          "$ref": "#/definitions/OpaqueMap"
         }
       },
       "required": [
         "position",
-        "nodeName",
-        "param1",
-        "param2",
-        "metadata",
-        "inventory",
-        "timer"
+        "materialRef",
+        "orientation",
+        "state"
       ],
       "additionalProperties": false,
       "x-typeName": "Record"
@@ -8995,34 +8728,27 @@
       "type": "object",
       "properties": {
         "profileVersion": {
-          "const": "state-profile/v2"
+          "const": "state-profile/v3"
         },
-        "nodeFields": {
-          "$ref": "#/definitions/NodeFields"
+        "derivedFields": {
+          "$ref": "#/definitions/FieldNames"
         },
-        "metadataMode": {
-          "const": "exact"
+        "preservedFields": {
+          "$ref": "#/definitions/FieldNames"
         },
-        "inventoryMode": {
-          "const": "exact"
-        },
-        "timerMode": {
-          "const": "exact"
-        },
-        "derivedLightMode": {
-          "const": "recompute-with-readback"
+        "clearedFields": {
+          "$ref": "#/definitions/FieldNames"
         }
       },
       "required": [
         "profileVersion",
-        "nodeFields",
-        "metadataMode",
-        "inventoryMode",
-        "timerMode",
-        "derivedLightMode"
+        "derivedFields",
+        "preservedFields",
+        "clearedFields"
       ],
       "additionalProperties": false,
-      "x-typeName": "StateProfile"
+      "x-typeName": "StateProfile",
+      "x-meaning": "Declared by the world source for the state map of a Record. derivedFields are recomputed by the engine after a write and are never compared: the expected value is the readback value. preservedFields keep the before value when a cell is written. clearedFields are absent after a cell is written. The three sets are disjoint; a field in none of them is not expected to exist after a write."
     },
     "StringMap": {
       "type": "object",
@@ -9766,7 +9492,7 @@
           "$ref": "#/definitions/Position"
         },
         "reason": {
-          "$ref": "#/definitions/UnknownReason"
+          "$ref": "#/definitions/OpaqueCode"
         }
       },
       "required": [
@@ -9784,14 +9510,6 @@
       "x-typeName": "UnknownCells",
       "x-order": "position numeric x,y,z",
       "x-uniqueBy": "position"
-    },
-    "UnknownReason": {
-      "enum": [
-        "UNLOADED",
-        "IGNORE",
-        "READ_FAILED"
-      ],
-      "x-typeName": "UnknownReason"
     },
     "UsableVolume": {
       "type": "object",
@@ -9851,7 +9569,7 @@
           "$ref": "#/definitions/Revision"
         },
         "painterId": {
-          "const": "picture-blocks"
+          "const": "building-exterior"
         },
         "invocationId": {
           "$ref": "#/definitions/Ref"
@@ -10375,7 +10093,7 @@
     "MaterialSourceUnknownReason": {
       "x-typeName": "MaterialSourceUnknownReason",
       "enum": [
-        "UNKNOWN_PARAM2",
+        "UNKNOWN_ORIENTATION",
         "UNKNOWN_DEFINITION",
         "MISSING_TEXTURE",
         "UNRESOLVED_SOURCE",
@@ -10389,11 +10107,11 @@
         "availability": {
           "const": "KNOWN"
         },
-        "nodeName": {
+        "materialRef": {
           "$ref": "#/definitions/Ref"
         },
-        "param2": {
-          "$ref": "#/definitions/Byte"
+        "orientation": {
+          "$ref": "#/definitions/Orientation"
         },
         "definitionRevision": {
           "$ref": "#/definitions/Revision"
@@ -10404,8 +10122,8 @@
       },
       "required": [
         "availability",
-        "nodeName",
-        "param2",
+        "materialRef",
+        "orientation",
         "definitionRevision",
         "texture"
       ],
@@ -10418,13 +10136,13 @@
         "availability": {
           "const": "UNKNOWN"
         },
-        "nodeName": {
+        "materialRef": {
           "$ref": "#/definitions/Ref"
         },
-        "param2": {
+        "orientation": {
           "anyOf": [
             {
-              "$ref": "#/definitions/Byte"
+              "$ref": "#/definitions/Orientation"
             },
             {
               "type": "null"
@@ -10450,8 +10168,8 @@
       },
       "required": [
         "availability",
-        "nodeName",
-        "param2",
+        "materialRef",
+        "orientation",
         "definitionRevision",
         "texture",
         "reason"
@@ -10479,7 +10197,7 @@
       "type": "object",
       "properties": {
         "profileVersion": {
-          "const": "material-sources/v1"
+          "const": "material-sources/v2"
         },
         "connection": {
           "$ref": "#/definitions/MaterialSourceConnection"
@@ -10487,14 +10205,11 @@
         "catalogueDigest": {
           "$ref": "#/definitions/Digest"
         },
-        "gameId": {
-          "$ref": "#/definitions/Ref"
-        },
-        "gameRevision": {
-          "$ref": "#/definitions/Revision"
+        "engineRevisions": {
+          "$ref": "#/definitions/EngineRevisions"
         },
         "sourceBasis": {
-          "const": "SERVER_ASSET_ONLY"
+          "const": "WORLD_SOURCE_ASSET_ONLY"
         },
         "materials": {
           "type": "array",
@@ -10507,8 +10222,7 @@
         "profileVersion",
         "connection",
         "catalogueDigest",
-        "gameId",
-        "gameRevision",
+        "engineRevisions",
         "sourceBasis",
         "materials"
       ],
@@ -10519,7 +10233,7 @@
       "type": "object",
       "properties": {
         "profileVersion": {
-          "const": "material-sources/v1"
+          "const": "material-sources/v2"
         },
         "connection": {
           "$ref": "#/definitions/MaterialSourceConnection"
@@ -10527,14 +10241,11 @@
         "catalogueDigest": {
           "$ref": "#/definitions/Digest"
         },
-        "gameId": {
-          "$ref": "#/definitions/Ref"
-        },
-        "gameRevision": {
-          "$ref": "#/definitions/Revision"
+        "engineRevisions": {
+          "$ref": "#/definitions/EngineRevisions"
         },
         "sourceBasis": {
-          "const": "SERVER_ASSET_ONLY"
+          "const": "WORLD_SOURCE_ASSET_ONLY"
         },
         "materials": {
           "type": "array",
@@ -10550,8 +10261,7 @@
         "profileVersion",
         "connection",
         "catalogueDigest",
-        "gameId",
-        "gameRevision",
+        "engineRevisions",
         "sourceBasis",
         "materials",
         "sourceRevision"
@@ -10632,10 +10342,10 @@
       "x-typeName": "RegionPalette",
       "type": "array",
       "items": {
-        "$ref": "#/definitions/NodeSpec"
+        "$ref": "#/definitions/MaterialSpec"
       },
-      "x-order": "nodeName UTF16 then param2 numeric",
-      "x-uniqueBy": "nodeName,param2",
+      "x-order": "materialRef UTF16 then orientation numeric",
+      "x-uniqueBy": "materialRef,orientation",
       "minItems": 1
     },
     "RegionVoxelBlock": {
@@ -10678,28 +10388,13 @@
         "position": {
           "$ref": "#/definitions/Position"
         },
-        "metadata": {
-          "$ref": "#/definitions/StringMap"
-        },
-        "inventory": {
-          "$ref": "#/definitions/Inventory"
-        },
-        "timer": {
-          "anyOf": [
-            {
-              "$ref": "#/definitions/Timer"
-            },
-            {
-              "type": "null"
-            }
-          ]
+        "state": {
+          "$ref": "#/definitions/OpaqueMap"
         }
       },
       "required": [
         "position",
-        "metadata",
-        "inventory",
-        "timer"
+        "state"
       ],
       "additionalProperties": false
     },
@@ -10717,7 +10412,7 @@
       "type": "object",
       "properties": {
         "profileVersion": {
-          "const": "region-state/v1"
+          "const": "region-state/v2"
         },
         "worldRef": {
           "$ref": "#/definitions/Ref"
@@ -10728,8 +10423,8 @@
         "extras": {
           "$ref": "#/definitions/RegionExtras"
         },
-        "derivedLightMode": {
-          "const": "recompute-with-readback"
+        "stateProfile": {
+          "$ref": "#/definitions/StateProfile"
         }
       },
       "required": [
@@ -10737,7 +10432,7 @@
         "worldRef",
         "block",
         "extras",
-        "derivedLightMode"
+        "stateProfile"
       ],
       "additionalProperties": false
     },
@@ -11112,16 +10807,7 @@
       "x-typeName": "RegionLoadMethod",
       "enum": [
         "ALREADY_LOADED",
-        "LOADED_BY_EMERGE"
-      ]
-    },
-    "RegionUnknownReason": {
-      "x-typeName": "RegionUnknownReason",
-      "enum": [
-        "LOAD_FAILED",
-        "NOT_GENERATED",
-        "OUTSIDE_WORLD_LIMITS",
-        "READ_FAILED"
+        "LOADED_ON_DEMAND"
       ]
     },
     "RegionChunkRead": {
@@ -11150,7 +10836,7 @@
         "unknownReason": {
           "anyOf": [
             {
-              "$ref": "#/definitions/RegionUnknownReason"
+              "$ref": "#/definitions/OpaqueCode"
             },
             {
               "type": "null"
@@ -12211,50 +11897,6 @@
       ],
       "additionalProperties": false
     },
-    "NodeWritePathHooks": {
-      "x-typeName": "NodeWritePathHooks",
-      "type": "object",
-      "properties": {
-        "nodeName": {
-          "$ref": "#/definitions/Ref"
-        },
-        "definitionRevision": {
-          "anyOf": [
-            {
-              "$ref": "#/definitions/Revision"
-            },
-            {
-              "type": "null"
-            }
-          ]
-        },
-        "definedCallbacks": {
-          "anyOf": [
-            {
-              "$ref": "#/definitions/RefSet"
-            },
-            {
-              "type": "null"
-            }
-          ]
-        }
-      },
-      "required": [
-        "nodeName",
-        "definitionRevision",
-        "definedCallbacks"
-      ],
-      "additionalProperties": false
-    },
-    "NodeWritePathHooksList": {
-      "x-typeName": "NodeWritePathHooksList",
-      "type": "array",
-      "items": {
-        "$ref": "#/definitions/NodeWritePathHooks"
-      },
-      "x-order": "nodeName UTF16 ascending",
-      "x-uniqueBy": "nodeName"
-    },
     "WritePathEvidence": {
       "x-typeName": "WritePathEvidence",
       "type": "object",
@@ -12266,7 +11908,7 @@
           "const": "write-path-init/v1"
         },
         "writePath": {
-          "const": "CALLBACK_FREE_NODE_DATA"
+          "const": "CALLBACK_FREE_WRITE"
         },
         "catalogueDigest": {
           "$ref": "#/definitions/Digest"
@@ -12281,8 +11923,8 @@
             }
           ]
         },
-        "nodes": {
-          "$ref": "#/definitions/NodeWritePathHooksList"
+        "materials": {
+          "$ref": "#/definitions/MaterialWritePathHooksList"
         }
       },
       "required": [
@@ -12291,7 +11933,7 @@
         "writePath",
         "catalogueDigest",
         "globalWriteCallbacks",
-        "nodes"
+        "materials"
       ],
       "additionalProperties": false
     },
@@ -12948,18 +12590,14 @@
         "basis": {
           "const": "LOADED_PAYLOAD_DECLARATION"
         },
-        "backendProfileId": {
-          "$ref": "#/definitions/Ref"
-        },
-        "nodeWriteSemantics": {
-          "const": "explicit-nodeName-param2-static-v2"
+        "writeBackend": {
+          "$ref": "#/definitions/WriteBackendRef"
         }
       },
       "required": [
         "availability",
         "basis",
-        "backendProfileId",
-        "nodeWriteSemantics"
+        "writeBackend"
       ],
       "additionalProperties": false
     },
@@ -13021,7 +12659,7 @@
       "type": "object",
       "properties": {
         "profileVersion": {
-          "const": "config-engine-facts/v1"
+          "const": "config-engine-facts/v2"
         },
         "connection": {
           "$ref": "#/definitions/MaterialSourceConnection"
@@ -13050,7 +12688,7 @@
       "type": "object",
       "properties": {
         "profileVersion": {
-          "const": "config-engine-facts/v1"
+          "const": "config-engine-facts/v2"
         },
         "connection": {
           "$ref": "#/definitions/MaterialSourceConnection"
@@ -13445,6 +13083,239 @@
       ],
       "additionalProperties": false,
       "x-typeName": "ConfirmedPlacementBinding"
+    },
+    "OpaqueValue": {
+      "x-typeName": "OpaqueValue",
+      "x-opaque": true,
+      "x-meaning": "Any strict JSON value owned by the world source. Carried and digested unchanged; never interpreted outside the world source."
+    },
+    "OpaqueMap": {
+      "x-typeName": "OpaqueMap",
+      "type": "object",
+      "propertyNames": {
+        "$ref": "#/definitions/Ref"
+      },
+      "additionalProperties": {
+        "$ref": "#/definitions/OpaqueValue"
+      }
+    },
+    "OpaqueCode": {
+      "type": "string",
+      "minLength": 1,
+      "x-typeName": "OpaqueCode",
+      "x-normalization": "NONE; exact Unicode scalar sequence; never trim/lower/NFC; not a path",
+      "x-meaning": "A reason code defined by the world source. Consumers show or relay it; they never branch on its value."
+    },
+    "Orientation": {
+      "x-typeName": "Orientation",
+      "type": "integer",
+      "minimum": 0,
+      "maximum": 9007199254740991,
+      "x-meaning": "Neutral orientation index of a material, from the set the Catalogue declares for that material. Conversion to an engine encoding happens only inside the world source."
+    },
+    "Orientations": {
+      "type": "array",
+      "items": {
+        "$ref": "#/definitions/Orientation"
+      },
+      "uniqueItems": true,
+      "x-order": "numeric ascending",
+      "x-typeName": "Orientations"
+    },
+    "MaterialSpec": {
+      "type": "object",
+      "properties": {
+        "materialRef": {
+          "$ref": "#/definitions/Ref"
+        },
+        "orientation": {
+          "$ref": "#/definitions/Orientation"
+        }
+      },
+      "required": [
+        "materialRef",
+        "orientation"
+      ],
+      "additionalProperties": false,
+      "x-typeName": "MaterialSpec"
+    },
+    "MaterialWritePathHooks": {
+      "x-typeName": "MaterialWritePathHooks",
+      "type": "object",
+      "properties": {
+        "materialRef": {
+          "$ref": "#/definitions/Ref"
+        },
+        "definitionRevision": {
+          "anyOf": [
+            {
+              "$ref": "#/definitions/Revision"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "definedCallbacks": {
+          "anyOf": [
+            {
+              "$ref": "#/definitions/RefSet"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        }
+      },
+      "required": [
+        "materialRef",
+        "definitionRevision",
+        "definedCallbacks"
+      ],
+      "additionalProperties": false
+    },
+    "MaterialWritePathHooksList": {
+      "x-typeName": "MaterialWritePathHooksList",
+      "type": "array",
+      "items": {
+        "$ref": "#/definitions/MaterialWritePathHooks"
+      },
+      "x-order": "materialRef UTF16 ascending",
+      "x-uniqueBy": "materialRef"
+    },
+    "MaterialTags": {
+      "type": "object",
+      "properties": {
+        "passable": {
+          "anyOf": [
+            {
+              "$ref": "#/definitions/Bool"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "liquid": {
+          "anyOf": [
+            {
+              "$ref": "#/definitions/Bool"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "hazardPerSecond": {
+          "anyOf": [
+            {
+              "$ref": "#/definitions/NonNegativeFinite"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "emitsLight": {
+          "anyOf": [
+            {
+              "$ref": "#/definitions/Bool"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "placeable": {
+          "anyOf": [
+            {
+              "$ref": "#/definitions/Bool"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "orientations": {
+          "anyOf": [
+            {
+              "$ref": "#/definitions/Orientations"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "definitionRevision": {
+          "anyOf": [
+            {
+              "$ref": "#/definitions/Revision"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "unknownFields": {
+          "$ref": "#/definitions/FieldNames"
+        },
+        "extension": {
+          "$ref": "#/definitions/OpaqueMap"
+        }
+      },
+      "required": [
+        "passable",
+        "liquid",
+        "hazardPerSecond",
+        "emitsLight",
+        "placeable",
+        "orientations",
+        "definitionRevision",
+        "unknownFields",
+        "extension"
+      ],
+      "additionalProperties": false,
+      "x-meaning": "Neutral tags the world source normalises from its own material definitions. placeable is the world source's conclusion that the material can be written and restored on its declared write path with no side effect and no persistent state; null is unknown and never treated as false or true. Raw engine fields stay in extension and are never read outside the world source.",
+      "x-typeName": "MaterialTags"
+    },
+    "MaterialTagMap": {
+      "type": "object",
+      "propertyNames": {
+        "$ref": "#/definitions/Ref"
+      },
+      "additionalProperties": {
+        "$ref": "#/definitions/MaterialTags"
+      },
+      "x-typeName": "MaterialTagMap"
+    },
+    "EngineRevisions": {
+      "type": "object",
+      "propertyNames": {
+        "$ref": "#/definitions/Ref"
+      },
+      "additionalProperties": {
+        "$ref": "#/definitions/Revision"
+      },
+      "x-typeName": "EngineRevisions",
+      "x-meaning": "Opaque revisions the world source reports for what defines its materials. Compared for equality only."
+    },
+    "WriteBackendRef": {
+      "x-typeName": "WriteBackendRef",
+      "type": "object",
+      "properties": {
+        "profileId": {
+          "$ref": "#/definitions/Ref"
+        },
+        "revision": {
+          "$ref": "#/definitions/Revision"
+        }
+      },
+      "required": [
+        "profileId",
+        "revision"
+      ],
+      "additionalProperties": false,
+      "x-meaning": "Opaque identity of the world source's write backend. Compared for equality only."
     }
   }
 }

@@ -30,23 +30,23 @@ export function validateMaterialSources(input, catalogue, currentConnection) {
  const cat=validateType('Catalogue',catalogue);
  const current=validateType('MaterialSourceConnection',currentConnection);
  requireFact(canonicalJSON(snapshot.connection)===canonicalJSON(current),'CURRENT_WORLD_MISMATCH');
- requireFact(snapshot.catalogueDigest===digestValue('catalogue',cat).sha256 && snapshot.gameId===cat.gameId && snapshot.gameRevision===cat.gameRevision,'CATALOGUE_MISMATCH');
+ requireFact(snapshot.catalogueDigest===digestValue('catalogue',cat).sha256 && canonicalJSON(snapshot.engineRevisions)===canonicalJSON(cat.engineRevisions),'CATALOGUE_MISMATCH');
  const {sourceRevision,...projection}=snapshot;
  requireFact(sourceRevision===digestValue('material-sources',projection).sha256,'NON_CANONICAL_AMBIGUITY');
  const needed=new Map();let previous=null;
  for(const row of snapshot.materials){
-  // Stable order: UTF-16 node name, then null (-1) or numeric param2. A null
-  // variant represents unresolved node facts, never an implied param2=0.
-  if(previous)requireFact(compareUTF16(previous.nodeName,row.nodeName)<0 || (previous.nodeName===row.nodeName && (previous.param2??-1)<(row.param2??-1)));
+  // Stable order: UTF-16 materialRef, then null (-1) or numeric orientation. A null
+  // variant represents unresolved material facts, never an implied orientation 0.
+  if(previous)requireFact(compareUTF16(previous.materialRef,row.materialRef)<0 || (previous.materialRef===row.materialRef && (previous.orientation??-1)<(row.orientation??-1)));
   previous=row;
-  requireFact(Object.hasOwn(cat.nodes,row.nodeName),'CATALOGUE_MISMATCH');
-  const node=cat.nodes[row.nodeName];
-  requireFact(row.definitionRevision===node.definitionRevision,'CATALOGUE_MISMATCH');
-  if(row.param2!==null)requireFact(node.allowedParam2!==null && node.allowedParam2.includes(row.param2),'UNSUPPORTED_MUTATION_SEMANTICS');
-  else requireFact(node.allowedParam2===null,'UNSUPPORTED_MUTATION_SEMANTICS');
+  requireFact(Object.hasOwn(cat.materials,row.materialRef),'CATALOGUE_MISMATCH');
+  const tags=cat.materials[row.materialRef];
+  requireFact(row.definitionRevision===tags.definitionRevision,'CATALOGUE_MISMATCH');
+  if(row.orientation!==null)requireFact(tags.orientations!==null && tags.orientations.includes(row.orientation),'UNSUPPORTED_MUTATION_SEMANTICS');
+  else requireFact(tags.orientations===null,'UNSUPPORTED_MUTATION_SEMANTICS');
   if(row.availability==='UNKNOWN'){
-   if(row.reason==='UNKNOWN_PARAM2')requireFact(node.allowedParam2===null);
-   if(row.reason==='UNKNOWN_DEFINITION')requireFact(node.definitionRevision===null);
+   if(row.reason==='UNKNOWN_ORIENTATION')requireFact(tags.orientations===null);
+   if(row.reason==='UNKNOWN_DEFINITION')requireFact(tags.definitionRevision===null);
    continue;
   }
   // Known texture is only a source fact, not static-material eligibility.

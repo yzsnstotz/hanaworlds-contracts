@@ -15,6 +15,8 @@ export function validateShape(typeName, value) {
       s = schemaBundle.definitions[key];
       if (!s) throw new TypeError('Broken generated schema reference');
     }
+    // World-source-owned value: strict decoding already admitted only pure JSON; carried, never interpreted.
+    if (s['x-opaque']) { visits.push({ name: s['x-typeName'], value: v, parent: entry.parent, field: entry.field }); continue; }
     if (s.anyOf) {
       // A union of several constants (TargetFacts.profileVersion) selects the matching constant;
       // otherwise the first is checked so a mismatch reports exactly as a single constant would.
@@ -81,7 +83,7 @@ export function validateShape(typeName, value) {
   }
   if (numericDomains.length) {
     const d = numericDomains[0];
-    fail('SCHEMA_INVALID', 'validate', d.parent === 'Position' || d.parent === 'CollisionBox' ? 'INVALID_GEOMETRY' : 'INVALID_SHAPE');
+    fail('SCHEMA_INVALID', 'validate', d.parent === 'Position' ? 'INVALID_GEOMETRY' : 'INVALID_SHAPE');
   }
   return visits;
 }

@@ -10,13 +10,13 @@ const {worldRef,connectionRef,connectionIncarnationRef}=main.request.localContex
 const connection={worldRef,connectionRef,connectionIncarnationRef};
 const catalogueDigest=a.digestValue('catalogue',catalogue).sha256;
 const avatarEnvelope={availability:'UNAVAILABLE',reason:'NO_PUBLIC_SOURCE'};
-const declared=id=>({availability:'KNOWN',basis:'LOADED_PAYLOAD_DECLARATION',backendProfileId:id,nodeWriteSemantics:'explicit-nodeName-param2-static-v2'});
+const declared=(profileId,revision='fixture-backend-revision-1')=>({availability:'KNOWN',basis:'LOADED_PAYLOAD_DECLARATION',writeBackend:{profileId,revision}});
 const backend=declared('fixture-backend-profile');
 const sign=p=>({...p,sourceRevision:a.digestValue('config-engine-facts',p).sha256});
-const facts=(writeBackend,conn=connection)=>sign({profileVersion:'config-engine-facts/v1',connection:conn,catalogueDigest,avatarEnvelope,writeBackend});
+const facts=(writeBackend,conn=connection)=>sign({profileVersion:'config-engine-facts/v2',connection:conn,catalogueDigest,avatarEnvelope,writeBackend});
 const known=facts(backend);
-// Same record shape Adapter 0.8.1 reports emitting; the id is used here only as fixture input.
-const adapterShape=facts(declared('hanaworlds-luanti-worldedit-cell-write/v1'));
+// Any world-source-chosen identity is opaque; this id is used here only as fixture input.
+const adapterShape=facts(declared('fixture-world-source-cell-write/v1','fixture-world-source-rev-7'));
 const undeclared=facts({availability:'UNAVAILABLE',reason:'NOT_DECLARED_BY_PAYLOAD'});
 const changed=facts(declared('fixture-backend-profile-reloaded'));
 const otherIncarnation={...connection,connectionIncarnationRef:connectionIncarnationRef+'-fixture-reconnected'};
@@ -26,13 +26,13 @@ const resign=f=>{const {sourceRevision,...p}=structuredClone(known);f(p);return 
 const err=(code,reason)=>({code,reason});
 const leak=err('UNKNOWN_REQUIRED_FIELD','UNKNOWN_FIELD');
 const fixture={
- evidence:'FIXTURE · config-engine-facts/v1 public contract fixture for both sides (Adapter provider, Canvas consumer). Catalogue/connection come from fixtures/main request; backend refs are fixture inputs, never a real payload declaration. avatarEnvelope has no KNOWN form: no player geometry exists in this seam.',
+ evidence:'FIXTURE · config-engine-facts/v2 public contract fixture for both sides (world source provider, Canvas consumer). Catalogue/connection come from fixtures/main request; backend refs are fixture inputs, never a real payload declaration. avatarEnvelope has no KNOWN form: no player geometry exists in this seam.',
  catalogueRef:'fixtures/local/main.json#/request/catalogue',
  connection,
  provider:{
   valid:[
    {title:'payload declares its write backend; avatar has no public source',facts:known},
-   {title:'Adapter 0.8.1 reported record shape validates',facts:adapterShape},
+   {title:'an opaque world-source backend identity validates',facts:adapterShape},
    {title:'payload declares no backend is a named UNAVAILABLE',facts:undeclared}
   ],
   invalid:[
@@ -43,16 +43,16 @@ const fixture={
    {title:'player position is not representable',facts:tamper(x=>{x.avatarEnvelope.position=[1,2,3];}),expect:leak},
    {title:'player yaw is not representable',facts:tamper(x=>{x.yaw=1.5;}),expect:leak},
    {title:'player identity is not representable',facts:tamper(x=>{x.playerNames=['fixture-player'];}),expect:leak},
-   {title:'UNAVAILABLE backend carries a filled value',facts:tamper(x=>{x.writeBackend={availability:'UNAVAILABLE',reason:'NOT_DECLARED_BY_PAYLOAD',backendProfileId:'fixture-default'};}),expect:leak},
-   {title:'backend for other write semantics',facts:tamper(x=>{x.writeBackend.nodeWriteSemantics='other-semantics';}),expect:err('SCHEMA_INVALID','INVALID_SHAPE')},
-   {title:'sourceRevision not recomputed',facts:tamper(x=>{x.writeBackend.backendProfileId='fixture-other';}),expect:err('NON_CANONICAL_AMBIGUITY','INVALID_SHAPE')},
+   {title:'UNAVAILABLE backend carries a filled value',facts:tamper(x=>{x.writeBackend={availability:'UNAVAILABLE',reason:'NOT_DECLARED_BY_PAYLOAD',writeBackend:{profileId:'fixture-default',revision:'fixture-default-1'}};}),expect:leak},
+   {title:'backend identity without a revision',facts:tamper(x=>{delete x.writeBackend.writeBackend.revision;}),expect:err('SCHEMA_INVALID','INVALID_SHAPE')},
+   {title:'sourceRevision not recomputed',facts:tamper(x=>{x.writeBackend.writeBackend.profileId='fixture-other';}),expect:err('NON_CANONICAL_AMBIGUITY','INVALID_SHAPE')},
    {title:'Catalogue changed',facts:resign(p=>{p.catalogueDigest='0'.repeat(64);}),expect:err('CATALOGUE_MISMATCH','INVALID_SHAPE')}
   ]
  },
  consumer:{
   assemble:[
-   {title:'KNOWN backend assembles backendProfileId',facts:known,backendProfileId:'fixture-backend-profile'},
-   {title:'UNAVAILABLE backend refuses without a value',facts:undeclared,backendProfileId:err('CAPABILITY_UNAVAILABLE','REQUIRED_FACT_UNKNOWN')}
+   {title:'KNOWN backend assembles writeBackend unchanged',facts:known,writeBackend:{profileId:'fixture-backend-profile',revision:'fixture-backend-revision-1'}},
+   {title:'UNAVAILABLE backend refuses without a value',facts:undeclared,writeBackend:err('CAPABILITY_UNAVAILABLE','REQUIRED_FACT_UNKNOWN')}
   ],
   avatarDimensions:{title:'SafetyProfile.avatarDimensions always refuses; cause INV-POSE-STAYS-IN-ENGINE; nothing filled or persisted',cause:'INV-POSE-STAYS-IN-ENGINE',refusal:{code:'CAPABILITY_UNAVAILABLE',phase:'validate',reason:'REQUIRED_FACT_UNKNOWN'}},
   lifecycle:[

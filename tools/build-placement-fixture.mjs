@@ -18,7 +18,7 @@ const expectError=fn=>{try{fn();}catch(e){return e;}throw Error('expected a refu
 function inspection({id,x0,x1,z=3,worldRef=r0.worldRef,worldRevision='fixture-world-10',transformRevision='fixture-adapter-exec-1',cells=null,bounds=null}){
  const frame={...clone(r0.regionInspection.frame),transformRevision};
  const sampledBounds=bounds??{min:[x0,0,z],max:[x1,1,z]};
- const occupiedCells=cells?[]:range(x0,x1,x=>({position:[x,0,z],nodeName:'fixture:stone',param2:0}));
+ const occupiedCells=cells?[]:range(x0,x1,x=>({position:[x,0,z],materialRef:'fixture:stone',orientation:0}));
  const knownEmptyCells=cells??range(x0,x1,x=>[x,1,z]);
  const sampledPositions=[...occupiedCells.map(c=>c.position),...knownEmptyCells].sort(a.comparePosition);
  const evidence={...clone(r0.regionInspection.evidence),worldRef,worldRevision,sourceRevision:transformRevision};
@@ -100,7 +100,7 @@ const source={reject:[{title:'another World',placement:'A',inspection:'otherWorl
 for(const c of source.reject)expectError(()=>a.requirePlacementSource(placements[c.placement],inspections[c.inspection],c.worldRef));
 
 // --- Workshop submission and Canvas canvas/v6 apply (Canvas rechecks before any write).
-const config={profileVersion:'compilation-config/v2',backendProfileId:'static-local',worldeditRevision:'static-1',nodeWriteSemantics:'explicit-nodeName-param2-static-v2',overlapRule:'last-writer-wins',effectOrder:'numeric-x-y-z',compressionRule:'exact-final-effects-only'};
+const config={profileVersion:'compilation-config/v3',writeBackend:{profileId:'static-local',revision:'static-1'},overlapRule:'last-writer-wins',effectOrder:'numeric-x-y-z',compressionRule:'exact-final-effects-only'};
 function submission(r,{binding='confirmed',bindingIntent=r.intent}={}){
  const {response,effects}=respond(r),b=response.result.build,tf=r.targetFacts;
  const operations={contractVersion:'operations/v3',buildDigest:response.result.buildDigest,compilerRevision:'brush-1',compilationConfigDigest:D('compilation-config',config),worldRef:r.worldRef,frameDigest:tf.frameDigest,catalogueDigest:b.catalogueDigest,targetFactsDigest:r.targetFactsDigest,effects};
@@ -190,7 +190,7 @@ for(const c of canvasRegion.accept){a.validateRegionCommitSubmission(c.intent,c.
 for(const c of canvasRegion.reject){const e=expectError(()=>runRegion(c));for(const [k,v] of Object.entries(c.error))if(e[k]!==v)throw Error(`${c.title}: ${k}=${e[k]}`);}
 
 // --- painter/v5 CreateBuildPlan (model path): the same binding without a model-supplied proposal.
-function plan(r){const q=clone(r);delete q.proposal;q.painterId='picture-blocks';return q;}
+function plan(r){const q=clone(r);delete q.proposal;q.painterId='building-exterior';return q;}
 function planned(r,boxes){const withBoxes=clone(r);withBoxes.proposal.boxes=boxes.map(([min,max])=>({min,max,materialRef:'stone'}));
  const {response}=respond(withBoxes);return {contractVersion:'painter/v5',requestId:r.requestId,result:response.result,error:null};}
 const inspectedOnly=(()=>{const q=plan(perCell({inspection:inspections.view1,brief:A,boxes:[local(0,2)]}));

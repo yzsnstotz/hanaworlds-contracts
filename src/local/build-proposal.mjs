@@ -3,7 +3,7 @@
 import { validateType, validateRequest, validateResponse, validateDigestBinding,
   digestValue, canonicalJSON, checkContractHandshake,
   schemaBundle, validateBoundRequest, validateCurrentRequest, validateRegionInspection, validateStaticMaterials,
-  validateWitnessCoherence, safetyProfileFromConfirmedIntent, requireSiteRuleChecks } from './runtime.mjs';
+  validateWitnessCoherence, safetyProfileFromConfirmedIntent, requireSiteRuleChecks, requireOccupiedNotEmpty } from './runtime.mjs';
 import { requireFact } from '../errors.mjs';
 import { confirmedPlacementOf, requirePlacementSource, requirePlacementTarget, requirePlacementInspection, requireOperationsPlacementTarget } from './placement.mjs';
 import { inside, unionCellCount, comparePosition } from '../geometry.mjs';
@@ -51,11 +51,11 @@ function proposalGeometry(request) {
     return { position, ...proposal.materials[op.materialRef] };
   });
   for (const effect of effects) {
-    const node = request.catalogue.nodes[effect.nodeName];
-    requireFact(node.liquidType !== null && node.damagePerSecond !== null,
+    const tags = request.catalogue.materials[effect.materialRef];
+    requireFact(tags.liquid !== null && tags.hazardPerSecond !== null,
       'UNSUPPORTED_MATERIAL', 'REQUIRED_FACT_UNKNOWN');
-    requireFact((!safety.hazardPolicy.forbidLiquid || node.liquidType === 'none') &&
-      node.damagePerSecond <= safety.hazardPolicy.maximumDamagePerSecond,
+    requireFact((!safety.hazardPolicy.forbidLiquid || tags.liquid === false) &&
+      tags.hazardPerSecond <= safety.hazardPolicy.maximumDamagePerSecond,
       'SAFETY_INVARIANT_FAILED', 'REQUIRED_FACT_UNKNOWN');
   }
   return { operations, effects };
@@ -82,6 +82,7 @@ export function validateBuildProposalRequest(input) {
     region.targetFactsDigest === request.targetFactsDigest &&
     facts.catalogueDigest === digestValue('catalogue', request.catalogue).sha256 &&
     region.evidence.worldRef === request.worldRef && region.evidence.worldRevision === facts.worldRevision);
+  requireOccupiedNotEmpty(facts, request.catalogue);
   // A confirmed structured placement binds this build to the inspection it was proposed from.
   const placement = confirmedPlacementOf(intent, brief);
   if (placement !== null) requirePlacementSource(placement, region, request.worldRef);

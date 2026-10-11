@@ -6,7 +6,7 @@ export const CHUNK_EDGE = 16; // Luanti MAP_BLOCKSIZE: engine unit, not a policy
 const shape = ok => requireFact(ok, 'SCHEMA_INVALID', 'INVALID_SHAPE');
 const geometry = ok => requireFact(ok, 'SCHEMA_INVALID', 'INVALID_GEOMETRY');
 const same = (a, b) => JSON.stringify(a) === JSON.stringify(b);
-export const comparePalette = (a, b) => compareUTF16(a.nodeName, b.nodeName) || (a.param2 - b.param2);
+export const comparePalette = (a, b) => compareUTF16(a.materialRef, b.materialRef) || (a.orientation - b.orientation);
 /** Inclusive node box of a block; BigInt guards the max corner against overflow. */
 export function blockBox(block) {
   const max = block.origin.map((o, a) => BigInt(o) + BigInt(block.size[a]) - 1n);
@@ -37,8 +37,8 @@ function regionBlock(v) {
   const total = blockCellCount(v); blockBox(v);
   for (const entry of v.palette) {
     // The engine's own skip marker would make UNSPECIFIED ambiguous.
-    shape(entry.nodeName !== 'ignore');
-    if (entry.nodeName === 'air') shape(entry.param2 === 0);
+    shape(entry.materialRef !== 'ignore');
+    if (entry.materialRef === 'air') shape(entry.orientation === 0);
   }
   let sum = 0, previous, specified = false; const used = new Set();
   for (const [count, index] of v.runs) {
@@ -52,9 +52,12 @@ function regionBlock(v) {
 function regionState(v) {
   shape(v.block.runs.every(([, index]) => index !== null));
   const box = blockBox(v.block);
+  // A region summary compares whole states, so engine-derived fields are never carried in one.
+  const derived = new Set(v.stateProfile.derivedFields);
   for (const extra of v.extras) {
+    shape(Object.keys(extra.state).every(k => !derived.has(k)));
     geometry(extra.position.every((p, a) => p >= box.min[a] && p <= box.max[a]));
-    shape(Object.keys(extra.metadata).length > 0 || Object.keys(extra.inventory).length > 0 || extra.timer !== null);
+    shape(Object.keys(extra.state).length > 0);
   }
 }
 const inChunk = (chunkPos, box) => geometry(boxWithin(box, chunkBox(chunkPos)));

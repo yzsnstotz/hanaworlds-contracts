@@ -35,6 +35,8 @@ export declare function validateBuildProposalResponse(input:unknown,response:unk
 export declare function validateRegionInspection(input:unknown):RegionInspection;
 export declare function validateFactsCoverage(input:TargetFacts,coverage:Coverage):TargetFacts;
 export declare function validateStaticMaterials(input:MaterialMap,catalogue:Catalogue):MaterialMap;
+/** SCHEMA_INVALID/INVALID_SHAPE when an occupied cell reports the Catalogue emptyMaterialRef. */
+export declare function requireOccupiedNotEmpty(facts:import('./contracts.js').TargetFacts,catalogue:Catalogue):import('./contracts.js').TargetFacts;
 export declare function safetyProfileFromConfirmedIntent(intent:import('./contracts.js').IntentProjection):SafetyProfile;
 /** Named site-rule checks that no peer of this major can perform yet (light rule, region entrance). */
 export type SafetyCapabilityId='painter/v5:light-rule'|'painter-region/v2:entrance-rule';
@@ -89,23 +91,23 @@ export interface LocalEngineControlPort {
  * validateMaterialSources returns owned copies; typed array elements remain mutable. */
 export interface MaterialTextureBytes {readonly bytesDigest:import('./contracts.js').Digest;readonly bytes:Uint8Array;}
 export interface MaterialSources {readonly snapshot:import('./contracts.js').MaterialSourcesSnapshot;readonly textures:ReadonlyArray<MaterialTextureBytes>;}
-/** Additive subset of the existing hanaworldsLuantiNativeFacts service.
+/** In-process method of the world source facts service.
  * Provider must verify the paired world/incarnation and source stability across
  * the read. Host supplies a fresh Catalogue and fresh connection to validation. */
 export interface MaterialSourceFactsPort {readMaterialSources(worldRef:import('./contracts.js').Ref):Promise<MaterialSources>;}
 /** Checks association and content integrity, not provider authenticity, image
  * decoding or static build eligibility. Call validateStaticMaterials as usual. */
 export declare function validateMaterialSources(input:unknown,catalogue:Catalogue,currentConnection:import('./contracts.js').MaterialSourceConnection):MaterialSources;
-/** region-voxels/v1. Runs are [count, paletteIndex|null] in Luanti VoxelArea order
- * (x fastest, then y, then z). null is UNSPECIFIED (keep); only an explicit
- * {nodeName:'air',param2:0} palette entry carves. Pure helpers over supplied facts. */
+/** region-voxels/v1. Runs are [count, paletteIndex|null] in X_FASTEST_THEN_Y_THEN_Z order.
+ * null is UNSPECIFIED (keep); only an explicit palette entry of the Catalogue emptyMaterialRef
+ * carves. Pure helpers over supplied facts. */
 type C=import('./contracts.js').TypeMap;
 export interface ExpandedRegionBlock {readonly box:C['Box'];readonly size:C['RegionSize'];readonly palette:C['RegionPalette'];readonly indices:Int32Array;}
 export declare function regionBlockBox(block:C['RegionVoxelBlock']):C['Box'];
 export declare function mapblockOf(position:C['Position']):C['ChunkPosition'];
 export declare function regionChunksOfBox(box:C['Box']):ReadonlyArray<{readonly chunkPos:C['ChunkPosition'];readonly box:C['Box']}>;
 export declare function expandRegionBlock(block:C['RegionVoxelBlock']):ExpandedRegionBlock;
-export declare function encodeRegionBlock(input:{origin:C['Position'];size:C['RegionSize'];palette:ReadonlyArray<C['NodeSpec']>;indices:ArrayLike<number>}):C['RegionVoxelBlock'];
+export declare function encodeRegionBlock(input:{origin:C['Position'];size:C['RegionSize'];palette:ReadonlyArray<C['MaterialSpec']>;indices:ArrayLike<number>}):C['RegionVoxelBlock'];
 export declare function validateRegionPalette(block:C['RegionVoxelBlock'],catalogue:C['Catalogue']):C['RegionVoxelBlock'];
 export declare function expectedRegionState(before:C['RegionState'],ops:C['RegionVoxelBlock']):C['RegionState'];
 export declare function summarizeRegionStates(worldRef:C['Ref'],chunks:ReadonlyArray<{chunkPos:C['ChunkPosition'];state:C['RegionState']}>):C['RegionSummary'];
@@ -132,30 +134,30 @@ export declare const contractProtocols:ReadonlyArray<C['ProtocolDescriptor']>;
 export declare const protocolPolicy:Readonly<Record<'rule'|'majors'|'minor'|'rejection'|'legacy'|'digestDomain',string>>;
 export declare const regionCapabilities:ReadonlyArray<{readonly id:string;readonly owner:string;readonly meaning:string}>;
 export declare const regionInvariants:ReadonlyArray<{readonly id:string;readonly owner:string;readonly switchable:false;readonly text:string;readonly consequence:string}>;
-/** write-path-init/v1: Catalogue hasCallbacks/hasPersistentState describe only the declared
- * CALLBACK_FREE_NODE_DATA write/restore path and its initialization; out-of-scope later changes
+/** write-path-init/v1: Catalogue placeable describes only the declared
+ * CALLBACK_FREE_WRITE write/restore path and its initialization; out-of-scope later changes
  * are caught by full-state readback and same-transaction Undo conflict, not claimed absent. */
-export declare const writePathStateScope:Readonly<{id:'write-path-init/v1';writePath:'CALLBACK_FREE_NODE_DATA';writePathMeaning:string;factsMeaning:Readonly<Record<'hasCallbacks'|'hasPersistentState',string>>;initializationCallbacks:ReadonlyArray<string>;stateIndicatorCallbacks:ReadonlyArray<string>;globalWriteCallbacks:string;outOfScope:ReadonlyArray<string>;guards:string}>;
-export interface WritePathNodeFacts {readonly definitionRevision:string|null;readonly hasCallbacks:boolean|null;readonly hasPersistentState:false|null;readonly initialization:ReadonlyArray<string>;readonly stateIndicators:ReadonlyArray<string>;}
-export declare function writePathStateFacts(evidence:C['WritePathEvidence']):Readonly<Record<string,WritePathNodeFacts>>;
-export declare function validateCatalogueWritePathFacts(catalogue:C['Catalogue'],evidence:C['WritePathEvidence']):{readonly scope:'write-path-init/v1';readonly writePath:'CALLBACK_FREE_NODE_DATA';readonly verified:ReadonlyArray<string>;readonly stricter:ReadonlyArray<string>};
+export declare const writePathStateScope:Readonly<{id:'write-path-init/v1';writePath:'CALLBACK_FREE_WRITE';writePathMeaning:string;factsMeaning:Readonly<Record<'placeable',string>>;initializationCallbacks:ReadonlyArray<string>;stateIndicatorCallbacks:ReadonlyArray<string>;globalWriteCallbacks:string;outOfScope:ReadonlyArray<string>;guards:string}>;
+export interface WritePathMaterialFacts {readonly definitionRevision:string|null;readonly placeable:boolean|null;readonly initialization:ReadonlyArray<string>;readonly stateIndicators:ReadonlyArray<string>;}
+export declare function writePathStateFacts(evidence:C['WritePathEvidence']):Readonly<Record<string,WritePathMaterialFacts>>;
+export declare function validateCatalogueWritePathFacts(catalogue:C['Catalogue'],evidence:C['WritePathEvidence']):{readonly scope:'write-path-init/v1';readonly writePath:'CALLBACK_FREE_WRITE';readonly verified:ReadonlyArray<string>;readonly stricter:ReadonlyArray<string>};
 /** session-world-seam/v1 (additive). Canvas owns selection, inventory, retirement and
  * selectionRevision; Workshop owns Session identity; Adapter consumes readiness/transport. */
 export declare const sessionWorldSeam:Readonly<{id:'session-world-seam/v1';evidence:string;authority:Readonly<Record<'sessionToWorldSelection'|'sessionIdentityAndLifecycle'|'nativeReadinessAndTransport'|'worldDeletion',string>>;sequences:Readonly<Record<'selectSession'|'unbind'|'deleteSession'|'deleteWorld',string>>;namedFailures:ReadonlyArray<{readonly case:string;readonly code:string;readonly reason?:string}>;clarifications:Readonly<Record<'C1'|'C2'|'C3',string>>;selectedObjectSnapshot:string;compatibility:string}>;
 export declare function requireWorldRetirable(inventory:unknown):C['WorldSelectionInventory'];
 export declare function describeSelectionConnection(selection:unknown,inventory:unknown):C['SelectionConnectionState'];
 export declare function requireSessionDeleteSupported(capabilities:unknown):C['PublicCapabilities'];
-/** config-engine-facts/v1 (additive). Adapter produces from its loaded payload's declaration; Canvas
- * assembles CompilationConfig.backendProfileId from a KNOWN writeBackend only. avatarEnvelope is always
+/** config-engine-facts/v2. The world source produces from its loaded payload's declaration; Canvas
+ * assembles CompilationConfig.writeBackend from a KNOWN writeBackend only, unchanged. avatarEnvelope is always
  * UNAVAILABLE/NO_PUBLIC_SOURCE: no player geometry is representable (INV-POSE-STAYS-IN-ENGINE).
- * Additive subset of the existing hanaworldsLuantiNativeFacts service; provider verifies the paired
+ * In-process method of the world source facts service; provider verifies the paired
  * world/incarnation across the read. */
 export interface ConfigEngineFactsPort {readConfigEngineFacts(worldRef:C['Ref']):Promise<C['ConfigEngineFacts']>;}
-export declare const configEngineFacts:Readonly<{id:'config-engine-facts/v1';evidence:string;port:string;producer:string;consumer:string;writeBackend:string;domainAndLifecycle:string;avatarDimensions:Readonly<{publicSource:'NONE';record:Readonly<{availability:'UNAVAILABLE';reason:'NO_PUBLIC_SOURCE'}>;cause:'INV-POSE-STAYS-IN-ENGINE';rule:string;refusal:Readonly<{code:'CAPABILITY_UNAVAILABLE';phase:'validate';reason:'REQUIRED_FACT_UNKNOWN'}>}>;notDecidedHere:string}>;
+export declare const configEngineFacts:Readonly<{id:'config-engine-facts/v2';evidence:string;port:string;producer:string;consumer:string;writeBackend:string;domainAndLifecycle:string;avatarDimensions:Readonly<{publicSource:'NONE';record:Readonly<{availability:'UNAVAILABLE';reason:'NO_PUBLIC_SOURCE'}>;cause:'INV-POSE-STAYS-IN-ENGINE';rule:string;refusal:Readonly<{code:'CAPABILITY_UNAVAILABLE';phase:'validate';reason:'REQUIRED_FACT_UNKNOWN'}>}>;notDecidedHere:string}>;
 /** Checks shape, current connection, fresh Catalogue digest and sourceRevision; not provider authenticity. */
 export declare function validateConfigEngineFacts(input:unknown,catalogue:C['Catalogue'],currentConnection:C['MaterialSourceConnection']):C['ConfigEngineFacts'];
 /** CAPABILITY_UNAVAILABLE/REQUIRED_FACT_UNKNOWN when UNAVAILABLE; never a default. */
-export declare function requireKnownWriteBackend(facts:unknown):C['Ref'];
+export declare function requireKnownWriteBackend(facts:unknown):C['WriteBackendRef'];
 /** Always throws CAPABILITY_UNAVAILABLE/validate/REQUIRED_FACT_UNKNOWN: avatarDimensions has no public source. */
 export declare function requireKnownAvatarEnvelope(facts:unknown):never;
 /** confirmed-placement/v1: a placement shown before confirmation is a PlacementProposal (data, not prose),

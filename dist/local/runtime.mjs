@@ -126,13 +126,19 @@ export function validateFactsCoverage(factsInput, coverageInput) {
 export function validateStaticMaterials(materialsInput, catalogueInput) {
   const materials = validateType('MaterialMap', materialsInput); const catalogue = validateType('Catalogue', catalogueInput);
   for (const material of Object.values(materials)) {
-    requireFact(Object.hasOwn(catalogue.nodes, material.nodeName), 'CATALOGUE_MISMATCH', 'CATALOGUE_UNRESOLVED');
-    const capability = catalogue.nodes[material.nodeName];
-    requireFact(capability.allowedParam2 !== null && capability.definitionRevision !== null && capability.hasCallbacks === false && capability.hasPersistentState === false,
+    requireFact(Object.hasOwn(catalogue.materials, material.materialRef), 'CATALOGUE_MISMATCH', 'CATALOGUE_UNRESOLVED');
+    const tags = catalogue.materials[material.materialRef];
+    requireFact(tags.orientations !== null && tags.definitionRevision !== null && tags.placeable === true,
       'UNSUPPORTED_MUTATION_SEMANTICS', 'REQUIRED_FACT_UNKNOWN');
-    requireFact(capability.allowedParam2.includes(material.param2), 'UNSUPPORTED_MUTATION_SEMANTICS', 'REQUIRED_FACT_UNKNOWN');
+    requireFact(tags.orientations.includes(material.orientation), 'UNSUPPORTED_MUTATION_SEMANTICS', 'REQUIRED_FACT_UNKNOWN');
   }
   return materials;
+}
+/** An occupied cell never reports the Catalogue's empty material (that cell is known empty). */
+export function requireOccupiedNotEmpty(factsInput, catalogueInput) {
+  const facts = validateType('TargetFacts', factsInput); const catalogue = validateType('Catalogue', catalogueInput);
+  requireFact(facts.occupiedCells.every(c => c.materialRef !== catalogue.emptyMaterialRef), 'SCHEMA_INVALID', 'INVALID_SHAPE');
+  return facts;
 }
 /** Safety capabilities: who must advertise which check, and the exact public error when it is
  * absent or fails. Contracts fix no rule value; they only name what can be checked. */
@@ -204,6 +210,7 @@ export function safetyProfileFromConfirmedIntent(intentInput) {
 export function validateWitnessCoherence({ build: buildInput, finalEffects: effectsInput, targetFacts: factsInput, safetyProfile: safetyInput, catalogue: catalogueInput }) {
   const build = validateType('BuildProjection', buildInput), effects = validateType('FinalEffects', effectsInput), facts = validateType('TargetFacts', factsInput), safety = validateType('SafetyProfile', safetyInput), catalogue = validateType('Catalogue', catalogueInput);
   validateStaticMaterials(build.materials, catalogue);
+  requireOccupiedNotEmpty(facts, catalogue);
   validateExactEffects(build.operations, build.materials, effects.effects);
   const hashes = { finalEffectsDigest: digestValue('final-effects', effects).sha256, targetFactsDigest: digestValue('target-facts', facts).sha256, safetyProfileDigest: digestValue('safety-profile', safety).sha256 };
   ambiguity(build.catalogueDigest === digestValue('catalogue', catalogue).sha256 && build.targetFactsDigest === hashes.targetFactsDigest && build.safetyProfileDigest === hashes.safetyProfileDigest);
@@ -228,11 +235,11 @@ export function validateWitnessCoherence({ build: buildInput, finalEffects: effe
         const written = effects.effects.find(e => JSON.stringify(e.position) === JSON.stringify(p));
         const occupied = facts.occupiedCells.find(e => JSON.stringify(e.position) === JSON.stringify(p));
         const empty = facts.knownEmptyCells.some(q => JSON.stringify(q) === JSON.stringify(p));
-        const nodeName = written?.nodeName ?? occupied?.nodeName ?? (empty ? 'air' : null);
-        requireFact(nodeName !== null && Object.hasOwn(catalogue.nodes, nodeName), 'TARGET_FACTS_INCOMPLETE', 'REQUIRED_FACT_UNKNOWN');
-        const c = catalogue.nodes[nodeName];
-        requireFact(c.liquidType !== null && c.damagePerSecond !== null, 'UNSUPPORTED_MUTATION_SEMANTICS', 'REQUIRED_FACT_UNKNOWN');
-        requireFact((!w.facts.forbidLiquid || c.liquidType === 'none') && c.damagePerSecond <= w.facts.maximumDamagePerSecond, 'SAFETY_INVARIANT_FAILED', 'REQUIRED_FACT_UNKNOWN');
+        const materialRef = written?.materialRef ?? occupied?.materialRef ?? (empty ? catalogue.emptyMaterialRef : null);
+        requireFact(materialRef !== null && Object.hasOwn(catalogue.materials, materialRef), 'TARGET_FACTS_INCOMPLETE', 'REQUIRED_FACT_UNKNOWN');
+        const c = catalogue.materials[materialRef];
+        requireFact(c.liquid !== null && c.hazardPerSecond !== null, 'UNSUPPORTED_MUTATION_SEMANTICS', 'REQUIRED_FACT_UNKNOWN');
+        requireFact((!w.facts.forbidLiquid || c.liquid === false) && c.hazardPerSecond <= w.facts.maximumDamagePerSecond, 'SAFETY_INVARIANT_FAILED', 'REQUIRED_FACT_UNKNOWN');
       }
     }
   }

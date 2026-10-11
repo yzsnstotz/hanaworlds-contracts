@@ -11,12 +11,12 @@ let passed=0;function test(name,fn){fn();console.log('ok',++passed,name)}
 const code=e=>({code:e.code,reason:e.reason});
 test('same-major package; facts are an in-process port, not a wire or a changed type',()=>{
  a.checkContractsVersion(a.contractHandshake.contracts);assert.equal(a.contractHandshake.contracts,'hanaworlds-contracts@'+a.version);a.checkContractHandshake(a.contractHandshake);
- assert.equal(a.configEngineFacts.id,'config-engine-facts/v1');
- assert.equal(profile.configEngineFacts.id,'config-engine-facts/v1');
+ assert.equal(a.configEngineFacts.id,'config-engine-facts/v2');
+ assert.equal(profile.configEngineFacts.id,'config-engine-facts/v2');
  for(const ops of Object.values(a.operationContracts))for(const o of ops)assert.ok(!/EngineFacts/.test(o.operation));
- assert.equal(a.schemaBundle.definitions.CompilationConfig.properties.backendProfileId.$ref,'#/definitions/Ref');
+ assert.equal(a.schemaBundle.definitions.CompilationConfig.properties.writeBackend.$ref,'#/definitions/WriteBackendRef');
  assert.deepEqual(a.schemaBundle.definitions.SafetyProfile.required,['profileVersion','connectivity','requireBodyClearance','requireEntranceConnectivity','hazardPolicy','optionalLightRule']);
- assert.equal(a.digestProfile.domainPrefixByKind['config-engine-facts'],'HanaWorlds|config-engine-facts/v1|');
+ assert.equal(a.digestProfile.domainPrefixByKind['config-engine-facts'],'HanaWorlds|config-engine-facts/v2|');
 });
 test('no player geometry leaves the Adapter: avatarEnvelope has only the fixed UNAVAILABLE form',()=>{
  const d=a.schemaBundle.definitions;
@@ -42,11 +42,12 @@ test('provider: every leak or inconsistency is rejected with its named error',()
 });
 test('consumer: KNOWN backend assembles an unchanged CompilationConfig, UNAVAILABLE refuses without a value',()=>{
  for(const c of fx.consumer.assemble){
-  const want=c.backendProfileId;
-  if(typeof want==='object')assert.throws(()=>a.requireKnownWriteBackend(c.facts),e=>{assert.deepEqual(code(e),want,c.title);return true;});
+  const want=c.writeBackend;
+  if(Object.hasOwn(want,'code'))assert.throws(()=>a.requireKnownWriteBackend(c.facts),e=>{assert.deepEqual(code(e),want,c.title);return true;});
   else{
-   assert.equal(a.requireKnownWriteBackend(c.facts),want,c.title);
-   a.validateType('CompilationConfig',{profileVersion:'compilation-config/v2',backendProfileId:want,worldeditRevision:'fixture-worldedit-revision',nodeWriteSemantics:c.facts.writeBackend.nodeWriteSemantics,overlapRule:'last-writer-wins',effectOrder:'numeric-x-y-z',compressionRule:'exact-final-effects-only'});
+   const writeBackend=a.requireKnownWriteBackend(c.facts);
+   assert.deepEqual({...writeBackend},want,c.title);
+   a.validateType('CompilationConfig',{profileVersion:'compilation-config/v3',writeBackend,overlapRule:'last-writer-wins',effectOrder:'numeric-x-y-z',compressionRule:'exact-final-effects-only'});
   }
  }
 });

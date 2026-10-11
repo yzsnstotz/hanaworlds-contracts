@@ -43,8 +43,8 @@ test('projection variant and projected-byte digest stay paired and retained',()=
 });
 test('image package handshake is same-major with no other-major fallback',()=>{
  a.checkContractsVersion(a.contractHandshake.contracts);assert.equal(a.contractHandshake.contracts,'hanaworlds-contracts@'+a.version);a.checkBuildProposalHandshake(a.contractHandshake);
- a.checkBuildProposalHandshake({...a.contractHandshake,contracts:'hanaworlds-contracts@1.0.0'});
- assert.throws(()=>a.checkBuildProposalHandshake({...a.contractHandshake,contracts:'hanaworlds-contracts@0.4.0'}),{code:'UNSUPPORTED_VERSION'});
- assert.throws(()=>a.checkBuildProposalHandshake({...a.contractHandshake,contracts:'hanaworlds-contracts@2.0.0'}),{code:'UNSUPPORTED_VERSION'});
+ a.checkBuildProposalHandshake({...a.contractHandshake,contracts:'hanaworlds-contracts@2.0.0'});
+ assert.throws(()=>a.checkBuildProposalHandshake({...a.contractHandshake,contracts:'hanaworlds-contracts@1.2.0'}),{code:'UNSUPPORTED_VERSION'});
+ assert.throws(()=>a.checkBuildProposalHandshake({...a.contractHandshake,contracts:'hanaworlds-contracts@3.0.0'}),{code:'UNSUPPORTED_VERSION'});
 });
 console.log(JSON.stringify({evidence:'SOURCE/FIXTURE',checks,mediaBytes:bytes.length,storedBytesDigest,modelCalls:0,worldWrites:0,realRuntime:'NOT_RUN',realUI:'NOT_RUN'}));

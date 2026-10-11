@@ -1,5 +1,5 @@
 {
-  "evidence": "FIXTURE · config-engine-facts/v1 public contract fixture for both sides (Adapter provider, Canvas consumer). Catalogue/connection come from fixtures/main request; backend refs are fixture inputs, never a real payload declaration. avatarEnvelope has no KNOWN form: no player geometry exists in this seam.",
+  "evidence": "FIXTURE · config-engine-facts/v2 public contract fixture for both sides (world source provider, Canvas consumer). Catalogue/connection come from fixtures/main request; backend refs are fixture inputs, never a real payload declaration. avatarEnvelope has no KNOWN form: no player geometry exists in this seam.",
   "catalogueRef": "fixtures/local/main.json#/request/catalogue",
   "connection": {
     "worldRef": "fixture-world",
@@ -11,13 +11,13 @@
       {
         "title": "payload declares its write backend; avatar has no public source",
         "facts": {
-          "profileVersion": "config-engine-facts/v1",
+          "profileVersion": "config-engine-facts/v2",
           "connection": {
             "worldRef": "fixture-world",
             "connectionRef": "local-connection",
             "connectionIncarnationRef": "socket-open-1"
           },
-          "catalogueDigest": "e3492942a2dd2855fc880f41be6b55a02eacd1a4a43be45318ca0436bf57b817",
+          "catalogueDigest": "8429d43abbf2e574c8db6ce4045583924f9973ab615c86da0c876191ce745574",
           "avatarEnvelope": {
             "availability": "UNAVAILABLE",
             "reason": "NO_PUBLIC_SOURCE"
@@ -25,22 +25,24 @@
           "writeBackend": {
             "availability": "KNOWN",
             "basis": "LOADED_PAYLOAD_DECLARATION",
-            "backendProfileId": "fixture-backend-profile",
-            "nodeWriteSemantics": "explicit-nodeName-param2-static-v2"
+            "writeBackend": {
+              "profileId": "fixture-backend-profile",
+              "revision": "fixture-backend-revision-1"
+            }
           },
-          "sourceRevision": "cd46e7c3f15b3655cd5b1631bb851a48839e941c26ec8daf5adcdd2c1266d56f"
+          "sourceRevision": "ba7e899d30ead4bd4b157b6a5266377cb74158fae2e0b2ac5bc29767643da669"
         }
       },
       {
-        "title": "Adapter 0.8.1 reported record shape validates",
+        "title": "an opaque world-source backend identity validates",
         "facts": {
-          "profileVersion": "config-engine-facts/v1",
+          "profileVersion": "config-engine-facts/v2",
           "connection": {
             "worldRef": "fixture-world",
             "connectionRef": "local-connection",
             "connectionIncarnationRef": "socket-open-1"
           },
-          "catalogueDigest": "e3492942a2dd2855fc880f41be6b55a02eacd1a4a43be45318ca0436bf57b817",
+          "catalogueDigest": "8429d43abbf2e574c8db6ce4045583924f9973ab615c86da0c876191ce745574",
           "avatarEnvelope": {
             "availability": "UNAVAILABLE",
             "reason": "NO_PUBLIC_SOURCE"
@@ -48,22 +50,24 @@
           "writeBackend": {
             "availability": "KNOWN",
             "basis": "LOADED_PAYLOAD_DECLARATION",
-            "backendProfileId": "hanaworlds-luanti-worldedit-cell-write/v1",
-            "nodeWriteSemantics": "explicit-nodeName-param2-static-v2"
+            "writeBackend": {
+              "profileId": "fixture-world-source-cell-write/v1",
+              "revision": "fixture-world-source-rev-7"
+            }
           },
-          "sourceRevision": "fbfb996e53bb3a876248d835f6aefbb0b8fa03834021d2eeec15256ac2fdfba1"
+          "sourceRevision": "54238995573bb2796b6e94809aabac30805eacf010965c4ac8ca12f511ac723d"
         }
       },
       {
         "title": "payload declares no backend is a named UNAVAILABLE",
         "facts": {
-          "profileVersion": "config-engine-facts/v1",
+          "profileVersion": "config-engine-facts/v2",
           "connection": {
             "worldRef": "fixture-world",
             "connectionRef": "local-connection",
             "connectionIncarnationRef": "socket-open-1"
           },
-          "catalogueDigest": "e3492942a2dd2855fc880f41be6b55a02eacd1a4a43be45318ca0436bf57b817",
+          "catalogueDigest": "8429d43abbf2e574c8db6ce4045583924f9973ab615c86da0c876191ce745574",
           "avatarEnvelope": {
             "availability": "UNAVAILABLE",
             "reason": "NO_PUBLIC_SOURCE"
@@ -72,7 +76,7 @@
             "availability": "UNAVAILABLE",
             "reason": "NOT_DECLARED_BY_PAYLOAD"
           },
-          "sourceRevision": "b159eb1367c30bc7601f9b08faff315494803937fbbe8efd412910063c95f5ee"
+          "sourceRevision": "8f3526380b8f50008b7b2531aad60482d2f56debe383d884d586701d70980c02"
         }
       }
     ],
@@ -80,13 +84,13 @@
       {
         "title": "KNOWN avatar envelope is not representable",
         "facts": {
-          "profileVersion": "config-engine-facts/v1",
+          "profileVersion": "config-engine-facts/v2",
           "connection": {
             "worldRef": "fixture-world",
             "connectionRef": "local-connection",
             "connectionIncarnationRef": "socket-open-1"
           },
-          "catalogueDigest": "e3492942a2dd2855fc880f41be6b55a02eacd1a4a43be45318ca0436bf57b817",
+          "catalogueDigest": "8429d43abbf2e574c8db6ce4045583924f9973ab615c86da0c876191ce745574",
           "avatarEnvelope": {
             "availability": "KNOWN",
             "basis": "CONNECTED_PLAYERS_MAX_COLLISION_EXTENT",
@@ -100,10 +104,12 @@
           "writeBackend": {
             "availability": "KNOWN",
             "basis": "LOADED_PAYLOAD_DECLARATION",
-            "backendProfileId": "fixture-backend-profile",
-            "nodeWriteSemantics": "explicit-nodeName-param2-static-v2"
+            "writeBackend": {
+              "profileId": "fixture-backend-profile",
+              "revision": "fixture-backend-revision-1"
+            }
           },
-          "sourceRevision": "cd46e7c3f15b3655cd5b1631bb851a48839e941c26ec8daf5adcdd2c1266d56f"
+          "sourceRevision": "ba7e899d30ead4bd4b157b6a5266377cb74158fae2e0b2ac5bc29767643da669"
         },
         "expect": {
           "code": "UNKNOWN_REQUIRED_FIELD",
@@ -113,13 +119,13 @@
       {
         "title": "avatar dimensions on the UNAVAILABLE record are not representable",
         "facts": {
-          "profileVersion": "config-engine-facts/v1",
+          "profileVersion": "config-engine-facts/v2",
           "connection": {
             "worldRef": "fixture-world",
             "connectionRef": "local-connection",
             "connectionIncarnationRef": "socket-open-1"
           },
-          "catalogueDigest": "e3492942a2dd2855fc880f41be6b55a02eacd1a4a43be45318ca0436bf57b817",
+          "catalogueDigest": "8429d43abbf2e574c8db6ce4045583924f9973ab615c86da0c876191ce745574",
           "avatarEnvelope": {
             "availability": "UNAVAILABLE",
             "reason": "NO_PUBLIC_SOURCE",
@@ -133,10 +139,12 @@
           "writeBackend": {
             "availability": "KNOWN",
             "basis": "LOADED_PAYLOAD_DECLARATION",
-            "backendProfileId": "fixture-backend-profile",
-            "nodeWriteSemantics": "explicit-nodeName-param2-static-v2"
+            "writeBackend": {
+              "profileId": "fixture-backend-profile",
+              "revision": "fixture-backend-revision-1"
+            }
           },
-          "sourceRevision": "cd46e7c3f15b3655cd5b1631bb851a48839e941c26ec8daf5adcdd2c1266d56f"
+          "sourceRevision": "ba7e899d30ead4bd4b157b6a5266377cb74158fae2e0b2ac5bc29767643da669"
         },
         "expect": {
           "code": "UNKNOWN_REQUIRED_FIELD",
@@ -146,13 +154,13 @@
       {
         "title": "live-box reasons are not representable",
         "facts": {
-          "profileVersion": "config-engine-facts/v1",
+          "profileVersion": "config-engine-facts/v2",
           "connection": {
             "worldRef": "fixture-world",
             "connectionRef": "local-connection",
             "connectionIncarnationRef": "socket-open-1"
           },
-          "catalogueDigest": "e3492942a2dd2855fc880f41be6b55a02eacd1a4a43be45318ca0436bf57b817",
+          "catalogueDigest": "8429d43abbf2e574c8db6ce4045583924f9973ab615c86da0c876191ce745574",
           "avatarEnvelope": {
             "availability": "UNAVAILABLE",
             "reason": "NO_CONNECTED_PLAYER"
@@ -160,10 +168,12 @@
           "writeBackend": {
             "availability": "KNOWN",
             "basis": "LOADED_PAYLOAD_DECLARATION",
-            "backendProfileId": "fixture-backend-profile",
-            "nodeWriteSemantics": "explicit-nodeName-param2-static-v2"
+            "writeBackend": {
+              "profileId": "fixture-backend-profile",
+              "revision": "fixture-backend-revision-1"
+            }
           },
-          "sourceRevision": "cd46e7c3f15b3655cd5b1631bb851a48839e941c26ec8daf5adcdd2c1266d56f"
+          "sourceRevision": "ba7e899d30ead4bd4b157b6a5266377cb74158fae2e0b2ac5bc29767643da669"
         },
         "expect": {
           "code": "SCHEMA_INVALID",
@@ -173,13 +183,13 @@
       {
         "title": "player collision box is not representable",
         "facts": {
-          "profileVersion": "config-engine-facts/v1",
+          "profileVersion": "config-engine-facts/v2",
           "connection": {
             "worldRef": "fixture-world",
             "connectionRef": "local-connection",
             "connectionIncarnationRef": "socket-open-1"
           },
-          "catalogueDigest": "e3492942a2dd2855fc880f41be6b55a02eacd1a4a43be45318ca0436bf57b817",
+          "catalogueDigest": "8429d43abbf2e574c8db6ce4045583924f9973ab615c86da0c876191ce745574",
           "avatarEnvelope": {
             "availability": "UNAVAILABLE",
             "reason": "NO_PUBLIC_SOURCE"
@@ -187,10 +197,12 @@
           "writeBackend": {
             "availability": "KNOWN",
             "basis": "LOADED_PAYLOAD_DECLARATION",
-            "backendProfileId": "fixture-backend-profile",
-            "nodeWriteSemantics": "explicit-nodeName-param2-static-v2"
+            "writeBackend": {
+              "profileId": "fixture-backend-profile",
+              "revision": "fixture-backend-revision-1"
+            }
           },
-          "sourceRevision": "cd46e7c3f15b3655cd5b1631bb851a48839e941c26ec8daf5adcdd2c1266d56f",
+          "sourceRevision": "ba7e899d30ead4bd4b157b6a5266377cb74158fae2e0b2ac5bc29767643da669",
           "collisionBox": [
             -0.375,
             0,
@@ -208,13 +220,13 @@
       {
         "title": "player position is not representable",
         "facts": {
-          "profileVersion": "config-engine-facts/v1",
+          "profileVersion": "config-engine-facts/v2",
           "connection": {
             "worldRef": "fixture-world",
             "connectionRef": "local-connection",
             "connectionIncarnationRef": "socket-open-1"
           },
-          "catalogueDigest": "e3492942a2dd2855fc880f41be6b55a02eacd1a4a43be45318ca0436bf57b817",
+          "catalogueDigest": "8429d43abbf2e574c8db6ce4045583924f9973ab615c86da0c876191ce745574",
           "avatarEnvelope": {
             "availability": "UNAVAILABLE",
             "reason": "NO_PUBLIC_SOURCE",
@@ -227,10 +239,12 @@
           "writeBackend": {
             "availability": "KNOWN",
             "basis": "LOADED_PAYLOAD_DECLARATION",
-            "backendProfileId": "fixture-backend-profile",
-            "nodeWriteSemantics": "explicit-nodeName-param2-static-v2"
+            "writeBackend": {
+              "profileId": "fixture-backend-profile",
+              "revision": "fixture-backend-revision-1"
+            }
           },
-          "sourceRevision": "cd46e7c3f15b3655cd5b1631bb851a48839e941c26ec8daf5adcdd2c1266d56f"
+          "sourceRevision": "ba7e899d30ead4bd4b157b6a5266377cb74158fae2e0b2ac5bc29767643da669"
         },
         "expect": {
           "code": "UNKNOWN_REQUIRED_FIELD",
@@ -240,13 +254,13 @@
       {
         "title": "player yaw is not representable",
         "facts": {
-          "profileVersion": "config-engine-facts/v1",
+          "profileVersion": "config-engine-facts/v2",
           "connection": {
             "worldRef": "fixture-world",
             "connectionRef": "local-connection",
             "connectionIncarnationRef": "socket-open-1"
           },
-          "catalogueDigest": "e3492942a2dd2855fc880f41be6b55a02eacd1a4a43be45318ca0436bf57b817",
+          "catalogueDigest": "8429d43abbf2e574c8db6ce4045583924f9973ab615c86da0c876191ce745574",
           "avatarEnvelope": {
             "availability": "UNAVAILABLE",
             "reason": "NO_PUBLIC_SOURCE"
@@ -254,10 +268,12 @@
           "writeBackend": {
             "availability": "KNOWN",
             "basis": "LOADED_PAYLOAD_DECLARATION",
-            "backendProfileId": "fixture-backend-profile",
-            "nodeWriteSemantics": "explicit-nodeName-param2-static-v2"
+            "writeBackend": {
+              "profileId": "fixture-backend-profile",
+              "revision": "fixture-backend-revision-1"
+            }
           },
-          "sourceRevision": "cd46e7c3f15b3655cd5b1631bb851a48839e941c26ec8daf5adcdd2c1266d56f",
+          "sourceRevision": "ba7e899d30ead4bd4b157b6a5266377cb74158fae2e0b2ac5bc29767643da669",
           "yaw": 1.5
         },
         "expect": {
@@ -268,13 +284,13 @@
       {
         "title": "player identity is not representable",
         "facts": {
-          "profileVersion": "config-engine-facts/v1",
+          "profileVersion": "config-engine-facts/v2",
           "connection": {
             "worldRef": "fixture-world",
             "connectionRef": "local-connection",
             "connectionIncarnationRef": "socket-open-1"
           },
-          "catalogueDigest": "e3492942a2dd2855fc880f41be6b55a02eacd1a4a43be45318ca0436bf57b817",
+          "catalogueDigest": "8429d43abbf2e574c8db6ce4045583924f9973ab615c86da0c876191ce745574",
           "avatarEnvelope": {
             "availability": "UNAVAILABLE",
             "reason": "NO_PUBLIC_SOURCE"
@@ -282,10 +298,12 @@
           "writeBackend": {
             "availability": "KNOWN",
             "basis": "LOADED_PAYLOAD_DECLARATION",
-            "backendProfileId": "fixture-backend-profile",
-            "nodeWriteSemantics": "explicit-nodeName-param2-static-v2"
+            "writeBackend": {
+              "profileId": "fixture-backend-profile",
+              "revision": "fixture-backend-revision-1"
+            }
           },
-          "sourceRevision": "cd46e7c3f15b3655cd5b1631bb851a48839e941c26ec8daf5adcdd2c1266d56f",
+          "sourceRevision": "ba7e899d30ead4bd4b157b6a5266377cb74158fae2e0b2ac5bc29767643da669",
           "playerNames": [
             "fixture-player"
           ]
@@ -298,13 +316,13 @@
       {
         "title": "UNAVAILABLE backend carries a filled value",
         "facts": {
-          "profileVersion": "config-engine-facts/v1",
+          "profileVersion": "config-engine-facts/v2",
           "connection": {
             "worldRef": "fixture-world",
             "connectionRef": "local-connection",
             "connectionIncarnationRef": "socket-open-1"
           },
-          "catalogueDigest": "e3492942a2dd2855fc880f41be6b55a02eacd1a4a43be45318ca0436bf57b817",
+          "catalogueDigest": "8429d43abbf2e574c8db6ce4045583924f9973ab615c86da0c876191ce745574",
           "avatarEnvelope": {
             "availability": "UNAVAILABLE",
             "reason": "NO_PUBLIC_SOURCE"
@@ -312,9 +330,12 @@
           "writeBackend": {
             "availability": "UNAVAILABLE",
             "reason": "NOT_DECLARED_BY_PAYLOAD",
-            "backendProfileId": "fixture-default"
+            "writeBackend": {
+              "profileId": "fixture-default",
+              "revision": "fixture-default-1"
+            }
           },
-          "sourceRevision": "cd46e7c3f15b3655cd5b1631bb851a48839e941c26ec8daf5adcdd2c1266d56f"
+          "sourceRevision": "ba7e899d30ead4bd4b157b6a5266377cb74158fae2e0b2ac5bc29767643da669"
         },
         "expect": {
           "code": "UNKNOWN_REQUIRED_FIELD",
@@ -322,15 +343,15 @@
         }
       },
       {
-        "title": "backend for other write semantics",
+        "title": "backend identity without a revision",
         "facts": {
-          "profileVersion": "config-engine-facts/v1",
+          "profileVersion": "config-engine-facts/v2",
           "connection": {
             "worldRef": "fixture-world",
             "connectionRef": "local-connection",
             "connectionIncarnationRef": "socket-open-1"
           },
-          "catalogueDigest": "e3492942a2dd2855fc880f41be6b55a02eacd1a4a43be45318ca0436bf57b817",
+          "catalogueDigest": "8429d43abbf2e574c8db6ce4045583924f9973ab615c86da0c876191ce745574",
           "avatarEnvelope": {
             "availability": "UNAVAILABLE",
             "reason": "NO_PUBLIC_SOURCE"
@@ -338,10 +359,11 @@
           "writeBackend": {
             "availability": "KNOWN",
             "basis": "LOADED_PAYLOAD_DECLARATION",
-            "backendProfileId": "fixture-backend-profile",
-            "nodeWriteSemantics": "other-semantics"
+            "writeBackend": {
+              "profileId": "fixture-backend-profile"
+            }
           },
-          "sourceRevision": "cd46e7c3f15b3655cd5b1631bb851a48839e941c26ec8daf5adcdd2c1266d56f"
+          "sourceRevision": "ba7e899d30ead4bd4b157b6a5266377cb74158fae2e0b2ac5bc29767643da669"
         },
         "expect": {
           "code": "SCHEMA_INVALID",
@@ -351,13 +373,13 @@
       {
         "title": "sourceRevision not recomputed",
         "facts": {
-          "profileVersion": "config-engine-facts/v1",
+          "profileVersion": "config-engine-facts/v2",
           "connection": {
             "worldRef": "fixture-world",
             "connectionRef": "local-connection",
             "connectionIncarnationRef": "socket-open-1"
           },
-          "catalogueDigest": "e3492942a2dd2855fc880f41be6b55a02eacd1a4a43be45318ca0436bf57b817",
+          "catalogueDigest": "8429d43abbf2e574c8db6ce4045583924f9973ab615c86da0c876191ce745574",
           "avatarEnvelope": {
             "availability": "UNAVAILABLE",
             "reason": "NO_PUBLIC_SOURCE"
@@ -365,10 +387,12 @@
           "writeBackend": {
             "availability": "KNOWN",
             "basis": "LOADED_PAYLOAD_DECLARATION",
-            "backendProfileId": "fixture-other",
-            "nodeWriteSemantics": "explicit-nodeName-param2-static-v2"
+            "writeBackend": {
+              "profileId": "fixture-other",
+              "revision": "fixture-backend-revision-1"
+            }
           },
-          "sourceRevision": "cd46e7c3f15b3655cd5b1631bb851a48839e941c26ec8daf5adcdd2c1266d56f"
+          "sourceRevision": "ba7e899d30ead4bd4b157b6a5266377cb74158fae2e0b2ac5bc29767643da669"
         },
         "expect": {
           "code": "NON_CANONICAL_AMBIGUITY",
@@ -378,7 +402,7 @@
       {
         "title": "Catalogue changed",
         "facts": {
-          "profileVersion": "config-engine-facts/v1",
+          "profileVersion": "config-engine-facts/v2",
           "connection": {
             "worldRef": "fixture-world",
             "connectionRef": "local-connection",
@@ -392,10 +416,12 @@
           "writeBackend": {
             "availability": "KNOWN",
             "basis": "LOADED_PAYLOAD_DECLARATION",
-            "backendProfileId": "fixture-backend-profile",
-            "nodeWriteSemantics": "explicit-nodeName-param2-static-v2"
+            "writeBackend": {
+              "profileId": "fixture-backend-profile",
+              "revision": "fixture-backend-revision-1"
+            }
           },
-          "sourceRevision": "4bc41854b9469b107c6936838dfb474ebcc481c5a659544329474ccbc26569f4"
+          "sourceRevision": "cb03176042fa1274114e1f608105738502f6371faab39b84af4ba1b23e552872"
         },
         "expect": {
           "code": "CATALOGUE_MISMATCH",
@@ -407,15 +433,15 @@
   "consumer": {
     "assemble": [
       {
-        "title": "KNOWN backend assembles backendProfileId",
+        "title": "KNOWN backend assembles writeBackend unchanged",
         "facts": {
-          "profileVersion": "config-engine-facts/v1",
+          "profileVersion": "config-engine-facts/v2",
           "connection": {
             "worldRef": "fixture-world",
             "connectionRef": "local-connection",
             "connectionIncarnationRef": "socket-open-1"
           },
-          "catalogueDigest": "e3492942a2dd2855fc880f41be6b55a02eacd1a4a43be45318ca0436bf57b817",
+          "catalogueDigest": "8429d43abbf2e574c8db6ce4045583924f9973ab615c86da0c876191ce745574",
           "avatarEnvelope": {
             "availability": "UNAVAILABLE",
             "reason": "NO_PUBLIC_SOURCE"
@@ -423,23 +449,28 @@
           "writeBackend": {
             "availability": "KNOWN",
             "basis": "LOADED_PAYLOAD_DECLARATION",
-            "backendProfileId": "fixture-backend-profile",
-            "nodeWriteSemantics": "explicit-nodeName-param2-static-v2"
+            "writeBackend": {
+              "profileId": "fixture-backend-profile",
+              "revision": "fixture-backend-revision-1"
+            }
           },
-          "sourceRevision": "cd46e7c3f15b3655cd5b1631bb851a48839e941c26ec8daf5adcdd2c1266d56f"
+          "sourceRevision": "ba7e899d30ead4bd4b157b6a5266377cb74158fae2e0b2ac5bc29767643da669"
         },
-        "backendProfileId": "fixture-backend-profile"
+        "writeBackend": {
+          "profileId": "fixture-backend-profile",
+          "revision": "fixture-backend-revision-1"
+        }
       },
       {
         "title": "UNAVAILABLE backend refuses without a value",
         "facts": {
-          "profileVersion": "config-engine-facts/v1",
+          "profileVersion": "config-engine-facts/v2",
           "connection": {
             "worldRef": "fixture-world",
             "connectionRef": "local-connection",
             "connectionIncarnationRef": "socket-open-1"
           },
-          "catalogueDigest": "e3492942a2dd2855fc880f41be6b55a02eacd1a4a43be45318ca0436bf57b817",
+          "catalogueDigest": "8429d43abbf2e574c8db6ce4045583924f9973ab615c86da0c876191ce745574",
           "avatarEnvelope": {
             "availability": "UNAVAILABLE",
             "reason": "NO_PUBLIC_SOURCE"
@@ -448,9 +479,9 @@
             "availability": "UNAVAILABLE",
             "reason": "NOT_DECLARED_BY_PAYLOAD"
           },
-          "sourceRevision": "b159eb1367c30bc7601f9b08faff315494803937fbbe8efd412910063c95f5ee"
+          "sourceRevision": "8f3526380b8f50008b7b2531aad60482d2f56debe383d884d586701d70980c02"
         },
-        "backendProfileId": {
+        "writeBackend": {
           "code": "CAPABILITY_UNAVAILABLE",
           "reason": "REQUIRED_FACT_UNKNOWN"
         }
@@ -469,13 +500,13 @@
       {
         "title": "payload declaration change yields a new sourceRevision; previous assembly is invalidated",
         "previous": {
-          "profileVersion": "config-engine-facts/v1",
+          "profileVersion": "config-engine-facts/v2",
           "connection": {
             "worldRef": "fixture-world",
             "connectionRef": "local-connection",
             "connectionIncarnationRef": "socket-open-1"
           },
-          "catalogueDigest": "e3492942a2dd2855fc880f41be6b55a02eacd1a4a43be45318ca0436bf57b817",
+          "catalogueDigest": "8429d43abbf2e574c8db6ce4045583924f9973ab615c86da0c876191ce745574",
           "avatarEnvelope": {
             "availability": "UNAVAILABLE",
             "reason": "NO_PUBLIC_SOURCE"
@@ -483,19 +514,21 @@
           "writeBackend": {
             "availability": "KNOWN",
             "basis": "LOADED_PAYLOAD_DECLARATION",
-            "backendProfileId": "fixture-backend-profile",
-            "nodeWriteSemantics": "explicit-nodeName-param2-static-v2"
+            "writeBackend": {
+              "profileId": "fixture-backend-profile",
+              "revision": "fixture-backend-revision-1"
+            }
           },
-          "sourceRevision": "cd46e7c3f15b3655cd5b1631bb851a48839e941c26ec8daf5adcdd2c1266d56f"
+          "sourceRevision": "ba7e899d30ead4bd4b157b6a5266377cb74158fae2e0b2ac5bc29767643da669"
         },
         "current": {
-          "profileVersion": "config-engine-facts/v1",
+          "profileVersion": "config-engine-facts/v2",
           "connection": {
             "worldRef": "fixture-world",
             "connectionRef": "local-connection",
             "connectionIncarnationRef": "socket-open-1"
           },
-          "catalogueDigest": "e3492942a2dd2855fc880f41be6b55a02eacd1a4a43be45318ca0436bf57b817",
+          "catalogueDigest": "8429d43abbf2e574c8db6ce4045583924f9973ab615c86da0c876191ce745574",
           "avatarEnvelope": {
             "availability": "UNAVAILABLE",
             "reason": "NO_PUBLIC_SOURCE"
@@ -503,10 +536,12 @@
           "writeBackend": {
             "availability": "KNOWN",
             "basis": "LOADED_PAYLOAD_DECLARATION",
-            "backendProfileId": "fixture-backend-profile-reloaded",
-            "nodeWriteSemantics": "explicit-nodeName-param2-static-v2"
+            "writeBackend": {
+              "profileId": "fixture-backend-profile-reloaded",
+              "revision": "fixture-backend-revision-1"
+            }
           },
-          "sourceRevision": "bb2a120aeae43861643ab37a5e0d4ead668f2c011770983a7b977134f623fbc0"
+          "sourceRevision": "6a6d1698904f3ab560c9a73d47c20820b551689a6926f275ec5926ab196112d8"
         },
         "currentConnection": {
           "worldRef": "fixture-world",
@@ -518,13 +553,13 @@
       {
         "title": "reconnect: facts of the previous incarnation are rejected against the new connection",
         "previous": {
-          "profileVersion": "config-engine-facts/v1",
+          "profileVersion": "config-engine-facts/v2",
           "connection": {
             "worldRef": "fixture-world",
             "connectionRef": "local-connection",
             "connectionIncarnationRef": "socket-open-1"
           },
-          "catalogueDigest": "e3492942a2dd2855fc880f41be6b55a02eacd1a4a43be45318ca0436bf57b817",
+          "catalogueDigest": "8429d43abbf2e574c8db6ce4045583924f9973ab615c86da0c876191ce745574",
           "avatarEnvelope": {
             "availability": "UNAVAILABLE",
             "reason": "NO_PUBLIC_SOURCE"
@@ -532,19 +567,21 @@
           "writeBackend": {
             "availability": "KNOWN",
             "basis": "LOADED_PAYLOAD_DECLARATION",
-            "backendProfileId": "fixture-backend-profile",
-            "nodeWriteSemantics": "explicit-nodeName-param2-static-v2"
+            "writeBackend": {
+              "profileId": "fixture-backend-profile",
+              "revision": "fixture-backend-revision-1"
+            }
           },
-          "sourceRevision": "cd46e7c3f15b3655cd5b1631bb851a48839e941c26ec8daf5adcdd2c1266d56f"
+          "sourceRevision": "ba7e899d30ead4bd4b157b6a5266377cb74158fae2e0b2ac5bc29767643da669"
         },
         "current": {
-          "profileVersion": "config-engine-facts/v1",
+          "profileVersion": "config-engine-facts/v2",
           "connection": {
             "worldRef": "fixture-world",
             "connectionRef": "local-connection",
             "connectionIncarnationRef": "socket-open-1-fixture-reconnected"
           },
-          "catalogueDigest": "e3492942a2dd2855fc880f41be6b55a02eacd1a4a43be45318ca0436bf57b817",
+          "catalogueDigest": "8429d43abbf2e574c8db6ce4045583924f9973ab615c86da0c876191ce745574",
           "avatarEnvelope": {
             "availability": "UNAVAILABLE",
             "reason": "NO_PUBLIC_SOURCE"
@@ -552,10 +589,12 @@
           "writeBackend": {
             "availability": "KNOWN",
             "basis": "LOADED_PAYLOAD_DECLARATION",
-            "backendProfileId": "fixture-backend-profile",
-            "nodeWriteSemantics": "explicit-nodeName-param2-static-v2"
+            "writeBackend": {
+              "profileId": "fixture-backend-profile",
+              "revision": "fixture-backend-revision-1"
+            }
           },
-          "sourceRevision": "b5a69e998116cda5c3c0e3dcd420fd4355292c11534f44b35e7f97b473904931"
+          "sourceRevision": "f8f6c89cec13bb8e029846c00388669716c139abca4cdb8b083144d4d1dae552"
         },
         "currentConnection": {
           "worldRef": "fixture-world",

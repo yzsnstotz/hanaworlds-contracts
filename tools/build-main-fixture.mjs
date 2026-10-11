@@ -1,6 +1,6 @@
 // Rebinds spec/local-world/fixtures/main.json from its own content (idempotent): the SafetyProfile is
 // derived only from the confirmed intent, and every digest, witness binding and provider-facts
-// context copy is recomputed. Run after `npm run build`; then build again to publish fixtures/local.
+// context copy (and the witnesses' final-effects digest) is recomputed. Run after `npm run build`; then build again to publish fixtures/local.
 import {readFile,writeFile} from 'node:fs/promises';
 import * as a from '../dist/local/index.mjs';
 const path='spec/local-world/fixtures/main.json';
@@ -13,7 +13,11 @@ r.safetyProfile=structuredClone(a.safetyProfileFromConfirmedIntent(r.intent));
 r.safetyProfileDigest=D('safety-profile',r.safetyProfile);
 const b=f.response.result.build;
 b.safetyProfileDigest=r.safetyProfileDigest;
-for(const w of b.witnesses)w.safetyProfileDigest=r.safetyProfileDigest;
+const covers=(p,o)=>p.every((v,i)=>v>=o.min[i]&&v<=o.max[i]);
+const effects=r.targetFacts.knownEmptyCells.filter(p=>b.operations.some(o=>covers(p,o))).sort(a.comparePosition)
+ .map(position=>({position,...b.materials[b.operations.findLast(o=>covers(position,o)).materialRef]}));
+const finalEffectsDigest=D('final-effects',{profileVersion:'final-effects/v2',frameDigest:r.targetFacts.frameDigest,catalogueDigest:b.catalogueDigest,effects});
+for(const w of b.witnesses){w.safetyProfileDigest=r.safetyProfileDigest;w.finalEffectsDigest=finalEffectsDigest;}
 f.response.result.buildDigest=D('build',b);
 const keys=Object.keys(a.schemaBundle.definitions.BuildProposalContext.properties);
 const context=Object.fromEntries(keys.map(k=>[k,structuredClone(r[k])]));

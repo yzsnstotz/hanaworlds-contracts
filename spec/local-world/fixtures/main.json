@@ -6,7 +6,7 @@
     "requestId": "workshop-paint-1",
     "worldRef": "fixture-world",
     "turnRevision": "fixture-turn-4",
-    "painterId": "picture-blocks",
+    "painterId": "building-exterior",
     "invocationId": "fixture-luanti-invocation-7",
     "intent": {
       "contractVersion": "session/v4",
@@ -67,52 +67,53 @@
     },
     "referenceBriefDigest": "2daf8a8d8cb72370103dd96855ef23e5b273911365cf748e2851337706103cf5",
     "catalogue": {
-      "profileVersion": "catalogue/v2",
-      "engineProfile": "fixture-luanti-static",
-      "gameId": "fixture-game",
-      "gameRevision": "fixture-game-1",
-      "modRevisions": {
+      "profileVersion": "catalogue/v3",
+      "engineRevisions": {
+        "fixture-game": "fixture-game-1",
         "fixture-mod": "fixture-mod-1"
       },
-      "nodes": {
+      "emptyMaterialRef": "air",
+      "materials": {
         "air": {
-          "walkable": false,
-          "collisionBoxes": [],
-          "liquidType": "none",
-          "damagePerSecond": 0,
-          "lightSource": 0,
-          "param2Type": "none",
-          "allowedParam2": [
+          "passable": true,
+          "liquid": false,
+          "hazardPerSecond": 0,
+          "emitsLight": false,
+          "placeable": true,
+          "orientations": [
             0
           ],
-          "hasCallbacks": false,
-          "hasPersistentState": false,
           "definitionRevision": "fixture-def-1",
-          "unknownFields": []
+          "unknownFields": [],
+          "extension": {
+            "collisionBoxes": [],
+            "param2Type": "none"
+          }
         },
         "fixture:stone": {
-          "walkable": true,
-          "collisionBoxes": [
-            [
-              -0.5,
-              -0.5,
-              -0.5,
-              0.5,
-              0.5,
-              0.5
-            ]
-          ],
-          "liquidType": "none",
-          "damagePerSecond": 0,
-          "lightSource": 0,
-          "param2Type": "none",
-          "allowedParam2": [
+          "passable": false,
+          "liquid": false,
+          "hazardPerSecond": 0,
+          "emitsLight": false,
+          "placeable": true,
+          "orientations": [
             0
           ],
-          "hasCallbacks": false,
-          "hasPersistentState": false,
           "definitionRevision": "fixture-def-1",
-          "unknownFields": []
+          "unknownFields": [],
+          "extension": {
+            "collisionBoxes": [
+              [
+                -0.5,
+                -0.5,
+                -0.5,
+                0.5,
+                0.5,
+                0.5
+              ]
+            ],
+            "param2Type": "none"
+          }
         }
       }
     },
@@ -125,7 +126,7 @@
       "objectRevision": null,
       "buildDigest": null,
       "planRevision": null,
-      "catalogueDigest": "e3492942a2dd2855fc880f41be6b55a02eacd1a4a43be45318ca0436bf57b817",
+      "catalogueDigest": "8429d43abbf2e574c8db6ce4045583924f9973ab615c86da0c876191ce745574",
       "frameDigest": "d17042f1f5e4d592a350737b929a0497d9efa758eefdfd6699c5edeaf9718baa",
       "sampledBounds": {
         "min": [
@@ -147,8 +148,8 @@
             0,
             3
           ],
-          "nodeName": "fixture:stone",
-          "param2": 0
+          "materialRef": "fixture:stone",
+          "orientation": 0
         }
       ],
       "knownEmptyCells": [
@@ -167,7 +168,7 @@
         "unit": "node"
       }
     },
-    "targetFactsDigest": "c8e1e456f4d25f3ba3ef9f947088885083a5112ce54c105b19bac5824aa1e7ef",
+    "targetFactsDigest": "62d22094b9008e4c894a2c37117477cdc94e77825affe2b72f2d46ca8cb877cb",
     "safetyProfile": {
       "profileVersion": "safety-profile/v4",
       "connectivity": 6,
@@ -192,7 +193,7 @@
         "objectRevision": null,
         "buildDigest": null,
         "planRevision": null,
-        "catalogueDigest": "e3492942a2dd2855fc880f41be6b55a02eacd1a4a43be45318ca0436bf57b817",
+        "catalogueDigest": "8429d43abbf2e574c8db6ce4045583924f9973ab615c86da0c876191ce745574",
         "frameDigest": "d17042f1f5e4d592a350737b929a0497d9efa758eefdfd6699c5edeaf9718baa",
         "sampledBounds": {
           "min": [
@@ -214,8 +215,8 @@
               0,
               3
             ],
-            "nodeName": "fixture:stone",
-            "param2": 0
+            "materialRef": "fixture:stone",
+            "orientation": 0
           }
         ],
         "knownEmptyCells": [
@@ -234,7 +235,7 @@
           "unit": "node"
         }
       },
-      "targetFactsDigest": "c8e1e456f4d25f3ba3ef9f947088885083a5112ce54c105b19bac5824aa1e7ef",
+      "targetFactsDigest": "62d22094b9008e4c894a2c37117477cdc94e77825affe2b72f2d46ca8cb877cb",
       "frame": {
         "profileVersion": "frame/v2",
         "frameId": "luanti-world-grid:fixture-world",
@@ -274,8 +275,8 @@
       "decision": "BUILD",
       "materials": {
         "stone": {
-          "nodeName": "fixture:stone",
-          "param2": 0
+          "materialRef": "fixture:stone",
+          "orientation": 0
         }
       },
       "boxes": [
@@ -329,13 +330,13 @@
           },
           "transformRevision": "fixture-adapter-exec-1"
         },
-        "catalogueDigest": "e3492942a2dd2855fc880f41be6b55a02eacd1a4a43be45318ca0436bf57b817",
-        "targetFactsDigest": "c8e1e456f4d25f3ba3ef9f947088885083a5112ce54c105b19bac5824aa1e7ef",
+        "catalogueDigest": "8429d43abbf2e574c8db6ce4045583924f9973ab615c86da0c876191ce745574",
+        "targetFactsDigest": "62d22094b9008e4c894a2c37117477cdc94e77825affe2b72f2d46ca8cb877cb",
         "safetyProfileDigest": "68cd994299d897623b5798a5aefe65e6b103190a726495f5278d345e14c67590",
         "materials": {
           "stone": {
-            "nodeName": "fixture:stone",
-            "param2": 0
+            "materialRef": "fixture:stone",
+            "orientation": 0
           }
         },
         "operations": [
@@ -370,8 +371,8 @@
           {
             "witnessId": "w1",
             "predicate": "COVERAGE",
-            "finalEffectsDigest": "9988c1f39190b23af3fa0c30c639c9b62ea27733cb7c44c47f7f351dec45c3e7",
-            "targetFactsDigest": "c8e1e456f4d25f3ba3ef9f947088885083a5112ce54c105b19bac5824aa1e7ef",
+            "finalEffectsDigest": "93661bc2f15e4c06e5ee2075d40ce1c14f7e75b7fed44559af957cb615a70b1b",
+            "targetFactsDigest": "62d22094b9008e4c894a2c37117477cdc94e77825affe2b72f2d46ca8cb877cb",
             "safetyProfileDigest": "68cd994299d897623b5798a5aefe65e6b103190a726495f5278d345e14c67590",
             "facts": {
               "evidence": {
@@ -392,8 +393,8 @@
           {
             "witnessId": "w3",
             "predicate": "BODY_CLEARANCE",
-            "finalEffectsDigest": "9988c1f39190b23af3fa0c30c639c9b62ea27733cb7c44c47f7f351dec45c3e7",
-            "targetFactsDigest": "c8e1e456f4d25f3ba3ef9f947088885083a5112ce54c105b19bac5824aa1e7ef",
+            "finalEffectsDigest": "93661bc2f15e4c06e5ee2075d40ce1c14f7e75b7fed44559af957cb615a70b1b",
+            "targetFactsDigest": "62d22094b9008e4c894a2c37117477cdc94e77825affe2b72f2d46ca8cb877cb",
             "safetyProfileDigest": "68cd994299d897623b5798a5aefe65e6b103190a726495f5278d345e14c67590",
             "facts": {
               "evidence": {
@@ -414,8 +415,8 @@
           {
             "witnessId": "w4",
             "predicate": "HAZARD",
-            "finalEffectsDigest": "9988c1f39190b23af3fa0c30c639c9b62ea27733cb7c44c47f7f351dec45c3e7",
-            "targetFactsDigest": "c8e1e456f4d25f3ba3ef9f947088885083a5112ce54c105b19bac5824aa1e7ef",
+            "finalEffectsDigest": "93661bc2f15e4c06e5ee2075d40ce1c14f7e75b7fed44559af957cb615a70b1b",
+            "targetFactsDigest": "62d22094b9008e4c894a2c37117477cdc94e77825affe2b72f2d46ca8cb877cb",
             "safetyProfileDigest": "68cd994299d897623b5798a5aefe65e6b103190a726495f5278d345e14c67590",
             "facts": {
               "evidence": {
@@ -437,7 +438,7 @@
           }
         ]
       },
-      "buildDigest": "7e206226c5bc13a900cbeed87de937b06a6c1fac18b39e60994db40d4593c25e"
+      "buildDigest": "98e1c02b252e9cebddc6bc500eb46b2ee2ec173dc97aadb736d6e6b781eefb6d"
     },
     "error": null
   },
@@ -447,7 +448,7 @@
       "sessionRef": "fixture-session",
       "worldRef": "fixture-world",
       "turnRevision": "fixture-turn-4",
-      "painterId": "picture-blocks",
+      "painterId": "building-exterior",
       "invocationId": "fixture-luanti-invocation-7",
       "intent": {
         "contractVersion": "session/v4",
@@ -508,52 +509,53 @@
       },
       "referenceBriefDigest": "2daf8a8d8cb72370103dd96855ef23e5b273911365cf748e2851337706103cf5",
       "catalogue": {
-        "profileVersion": "catalogue/v2",
-        "engineProfile": "fixture-luanti-static",
-        "gameId": "fixture-game",
-        "gameRevision": "fixture-game-1",
-        "modRevisions": {
+        "profileVersion": "catalogue/v3",
+        "engineRevisions": {
+          "fixture-game": "fixture-game-1",
           "fixture-mod": "fixture-mod-1"
         },
-        "nodes": {
+        "emptyMaterialRef": "air",
+        "materials": {
           "air": {
-            "walkable": false,
-            "collisionBoxes": [],
-            "liquidType": "none",
-            "damagePerSecond": 0,
-            "lightSource": 0,
-            "param2Type": "none",
-            "allowedParam2": [
+            "passable": true,
+            "liquid": false,
+            "hazardPerSecond": 0,
+            "emitsLight": false,
+            "placeable": true,
+            "orientations": [
               0
             ],
-            "hasCallbacks": false,
-            "hasPersistentState": false,
             "definitionRevision": "fixture-def-1",
-            "unknownFields": []
+            "unknownFields": [],
+            "extension": {
+              "collisionBoxes": [],
+              "param2Type": "none"
+            }
           },
           "fixture:stone": {
-            "walkable": true,
-            "collisionBoxes": [
-              [
-                -0.5,
-                -0.5,
-                -0.5,
-                0.5,
-                0.5,
-                0.5
-              ]
-            ],
-            "liquidType": "none",
-            "damagePerSecond": 0,
-            "lightSource": 0,
-            "param2Type": "none",
-            "allowedParam2": [
+            "passable": false,
+            "liquid": false,
+            "hazardPerSecond": 0,
+            "emitsLight": false,
+            "placeable": true,
+            "orientations": [
               0
             ],
-            "hasCallbacks": false,
-            "hasPersistentState": false,
             "definitionRevision": "fixture-def-1",
-            "unknownFields": []
+            "unknownFields": [],
+            "extension": {
+              "collisionBoxes": [
+                [
+                  -0.5,
+                  -0.5,
+                  -0.5,
+                  0.5,
+                  0.5,
+                  0.5
+                ]
+              ],
+              "param2Type": "none"
+            }
           }
         }
       },
@@ -566,7 +568,7 @@
         "objectRevision": null,
         "buildDigest": null,
         "planRevision": null,
-        "catalogueDigest": "e3492942a2dd2855fc880f41be6b55a02eacd1a4a43be45318ca0436bf57b817",
+        "catalogueDigest": "8429d43abbf2e574c8db6ce4045583924f9973ab615c86da0c876191ce745574",
         "frameDigest": "d17042f1f5e4d592a350737b929a0497d9efa758eefdfd6699c5edeaf9718baa",
         "sampledBounds": {
           "min": [
@@ -588,8 +590,8 @@
               0,
               3
             ],
-            "nodeName": "fixture:stone",
-            "param2": 0
+            "materialRef": "fixture:stone",
+            "orientation": 0
           }
         ],
         "knownEmptyCells": [
@@ -608,7 +610,7 @@
           "unit": "node"
         }
       },
-      "targetFactsDigest": "c8e1e456f4d25f3ba3ef9f947088885083a5112ce54c105b19bac5824aa1e7ef",
+      "targetFactsDigest": "62d22094b9008e4c894a2c37117477cdc94e77825affe2b72f2d46ca8cb877cb",
       "safetyProfile": {
         "profileVersion": "safety-profile/v4",
         "connectivity": 6,
@@ -633,7 +635,7 @@
           "objectRevision": null,
           "buildDigest": null,
           "planRevision": null,
-          "catalogueDigest": "e3492942a2dd2855fc880f41be6b55a02eacd1a4a43be45318ca0436bf57b817",
+          "catalogueDigest": "8429d43abbf2e574c8db6ce4045583924f9973ab615c86da0c876191ce745574",
           "frameDigest": "d17042f1f5e4d592a350737b929a0497d9efa758eefdfd6699c5edeaf9718baa",
           "sampledBounds": {
             "min": [
@@ -655,8 +657,8 @@
                 0,
                 3
               ],
-              "nodeName": "fixture:stone",
-              "param2": 0
+              "materialRef": "fixture:stone",
+              "orientation": 0
             }
           ],
           "knownEmptyCells": [
@@ -675,7 +677,7 @@
             "unit": "node"
           }
         },
-        "targetFactsDigest": "c8e1e456f4d25f3ba3ef9f947088885083a5112ce54c105b19bac5824aa1e7ef",
+        "targetFactsDigest": "62d22094b9008e4c894a2c37117477cdc94e77825affe2b72f2d46ca8cb877cb",
         "frame": {
           "profileVersion": "frame/v2",
           "frameId": "luanti-world-grid:fixture-world",
@@ -723,7 +725,7 @@
       "sessionRef": "fixture-session",
       "worldRef": "fixture-world",
       "turnRevision": "fixture-turn-4",
-      "painterId": "picture-blocks",
+      "painterId": "building-exterior",
       "invocationId": "fixture-luanti-invocation-7",
       "intent": {
         "contractVersion": "session/v4",
@@ -784,52 +786,53 @@
       },
       "referenceBriefDigest": "2daf8a8d8cb72370103dd96855ef23e5b273911365cf748e2851337706103cf5",
       "catalogue": {
-        "profileVersion": "catalogue/v2",
-        "engineProfile": "fixture-luanti-static",
-        "gameId": "fixture-game",
-        "gameRevision": "fixture-game-1",
-        "modRevisions": {
+        "profileVersion": "catalogue/v3",
+        "engineRevisions": {
+          "fixture-game": "fixture-game-1",
           "fixture-mod": "fixture-mod-1"
         },
-        "nodes": {
+        "emptyMaterialRef": "air",
+        "materials": {
           "air": {
-            "walkable": false,
-            "collisionBoxes": [],
-            "liquidType": "none",
-            "damagePerSecond": 0,
-            "lightSource": 0,
-            "param2Type": "none",
-            "allowedParam2": [
+            "passable": true,
+            "liquid": false,
+            "hazardPerSecond": 0,
+            "emitsLight": false,
+            "placeable": true,
+            "orientations": [
               0
             ],
-            "hasCallbacks": false,
-            "hasPersistentState": false,
             "definitionRevision": "fixture-def-1",
-            "unknownFields": []
+            "unknownFields": [],
+            "extension": {
+              "collisionBoxes": [],
+              "param2Type": "none"
+            }
           },
           "fixture:stone": {
-            "walkable": true,
-            "collisionBoxes": [
-              [
-                -0.5,
-                -0.5,
-                -0.5,
-                0.5,
-                0.5,
-                0.5
-              ]
-            ],
-            "liquidType": "none",
-            "damagePerSecond": 0,
-            "lightSource": 0,
-            "param2Type": "none",
-            "allowedParam2": [
+            "passable": false,
+            "liquid": false,
+            "hazardPerSecond": 0,
+            "emitsLight": false,
+            "placeable": true,
+            "orientations": [
               0
             ],
-            "hasCallbacks": false,
-            "hasPersistentState": false,
             "definitionRevision": "fixture-def-1",
-            "unknownFields": []
+            "unknownFields": [],
+            "extension": {
+              "collisionBoxes": [
+                [
+                  -0.5,
+                  -0.5,
+                  -0.5,
+                  0.5,
+                  0.5,
+                  0.5
+                ]
+              ],
+              "param2Type": "none"
+            }
           }
         }
       },
@@ -842,7 +845,7 @@
         "objectRevision": null,
         "buildDigest": null,
         "planRevision": null,
-        "catalogueDigest": "e3492942a2dd2855fc880f41be6b55a02eacd1a4a43be45318ca0436bf57b817",
+        "catalogueDigest": "8429d43abbf2e574c8db6ce4045583924f9973ab615c86da0c876191ce745574",
         "frameDigest": "d17042f1f5e4d592a350737b929a0497d9efa758eefdfd6699c5edeaf9718baa",
         "sampledBounds": {
           "min": [
@@ -864,8 +867,8 @@
               0,
               3
             ],
-            "nodeName": "fixture:stone",
-            "param2": 0
+            "materialRef": "fixture:stone",
+            "orientation": 0
           }
         ],
         "knownEmptyCells": [
@@ -884,7 +887,7 @@
           "unit": "node"
         }
       },
-      "targetFactsDigest": "c8e1e456f4d25f3ba3ef9f947088885083a5112ce54c105b19bac5824aa1e7ef",
+      "targetFactsDigest": "62d22094b9008e4c894a2c37117477cdc94e77825affe2b72f2d46ca8cb877cb",
       "safetyProfile": {
         "profileVersion": "safety-profile/v4",
         "connectivity": 6,
@@ -909,7 +912,7 @@
           "objectRevision": null,
           "buildDigest": null,
           "planRevision": null,
-          "catalogueDigest": "e3492942a2dd2855fc880f41be6b55a02eacd1a4a43be45318ca0436bf57b817",
+          "catalogueDigest": "8429d43abbf2e574c8db6ce4045583924f9973ab615c86da0c876191ce745574",
           "frameDigest": "d17042f1f5e4d592a350737b929a0497d9efa758eefdfd6699c5edeaf9718baa",
           "sampledBounds": {
             "min": [
@@ -931,8 +934,8 @@
                 0,
                 3
               ],
-              "nodeName": "fixture:stone",
-              "param2": 0
+              "materialRef": "fixture:stone",
+              "orientation": 0
             }
           ],
           "knownEmptyCells": [
@@ -951,7 +954,7 @@
             "unit": "node"
           }
         },
-        "targetFactsDigest": "c8e1e456f4d25f3ba3ef9f947088885083a5112ce54c105b19bac5824aa1e7ef",
+        "targetFactsDigest": "62d22094b9008e4c894a2c37117477cdc94e77825affe2b72f2d46ca8cb877cb",
         "frame": {
           "profileVersion": "frame/v2",
           "frameId": "luanti-world-grid:fixture-world",

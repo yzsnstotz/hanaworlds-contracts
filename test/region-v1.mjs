@@ -13,7 +13,7 @@ const code = c => ({ code: c });
 // Validators return frozen null-prototype snapshots; compare JSON content.
 const plain = x => JSON.parse(JSON.stringify(x, (k, v) => ArrayBuffer.isView(v) ? Array.from(v) : v));
 const eq = (x, y) => assert.deepEqual(plain(x), plain(y));
-const stone = { nodeName: 'fixture:stone', param2: 0 }, air = { nodeName: 'air', param2: 0 };
+const stone = { materialRef: 'fixture:stone', orientation: 0 }, air = { materialRef: 'air', orientation: 0 };
 const block = (runs, palette = [stone], size = [4, 1, 1], origin = [0, 0, 0]) => ({ profileVersion: 'region-voxels/v1', origin, size, indexOrder: 'X_FASTEST_THEN_Y_THEN_Z', palette, runs });
 let checks = 0; function test(name, run) { run(); console.log('ok', ++checks, name); }
 
@@ -34,8 +34,8 @@ test('fill: block+palette decodes, expands in VoxelArea order (x, then y, then z
   a.validateRegionPalette(s.compileRequest.build.block, s.catalogue);
 });
 test('carve: explicit air is distinct from UNSPECIFIED; unspecified cells and their extras are kept', () => {
-  const before = { profileVersion: 'region-state/v1', worldRef: 'w', block: block([[4, 0]]), derivedLightMode: 'recompute-with-readback',
-    extras: [{ position: [1, 0, 0], metadata: { k: 'v' }, inventory: {}, timer: null }, { position: [2, 0, 0], metadata: { k: 'v' }, inventory: {}, timer: null }] };
+  const before = { profileVersion: 'region-state/v2', worldRef: 'w', block: block([[4, 0]]), stateProfile: { profileVersion: 'state-profile/v3', derivedFields: ['param1'], preservedFields: [], clearedFields: ['inventory', 'metadata', 'timer'] },
+    extras: [{ position: [1, 0, 0], state: { metadata: { k: 'v' } } }, { position: [2, 0, 0], state: { metadata: { k: 'v' } } }] };
   const carve = block([[1, 0], [1, null], [1, 0], [1, null]], [air]);
   const after = a.expectedRegionState(before, carve);
   eq(after.block.palette, [air, stone]);
@@ -43,8 +43,8 @@ test('carve: explicit air is distinct from UNSPECIFIED; unspecified cells and th
   eq(after.extras.map(x => x.position), [[1, 0, 0]]);
   assert.notEqual(D('region-block', carve), D('region-block', block([[4, 0]], [air])));
   assert.throws(() => a.validateType('RegionVoxelBlock', block([[4, null]])), code('SCHEMA_INVALID'));
-  assert.throws(() => a.validateType('RegionVoxelBlock', block([[4, 0]], [{ nodeName: 'ignore', param2: 0 }])), code('SCHEMA_INVALID'));
-  assert.throws(() => a.validateType('RegionVoxelBlock', block([[4, 0]], [{ nodeName: 'air', param2: 1 }])), code('SCHEMA_INVALID'));
+  assert.throws(() => a.validateType('RegionVoxelBlock', block([[4, 0]], [{ materialRef: 'ignore', orientation: 0 }])), code('SCHEMA_INVALID'));
+  assert.throws(() => a.validateType('RegionVoxelBlock', block([[4, 0]], [{ materialRef: 'air', orientation: 1 }])), code('SCHEMA_INVALID'));
   assert.throws(() => a.validateType('RegionState', { ...before, block: carve }), code('SCHEMA_INVALID'));
 });
 test('strict canonical decoding rejects ambiguous or malformed blocks', () => {
@@ -56,11 +56,11 @@ test('strict canonical decoding rejects ambiguous or malformed blocks', () => {
   assert.throws(() => a.validateType('RegionVoxelBlock', { ...block([[4, 0]]), indexOrder: 'Z_FASTEST' }), code('SCHEMA_INVALID'));
   assert.throws(() => a.admitType('RegionVoxelBlock', '{"profileVersion":"region-voxels/v1","profileVersion":"region-voxels/v1"}'), code('SCHEMA_INVALID'));
 });
-test('catalogue legality: unknown node, illegal param2 and unknown static capability are rejected before any write', () => {
+test('catalogue legality: unknown node, illegal orientation and unknown static capability are rejected before any write', () => {
   const s = S(); const cat = s.catalogue;
-  assert.throws(() => a.validateRegionPalette(block([[4, 0]], [{ nodeName: 'fixture:unknown', param2: 0 }]), cat), code('CATALOGUE_MISMATCH'));
-  assert.throws(() => a.validateRegionPalette(block([[4, 0]], [{ nodeName: 'fixture:stone', param2: 3 }]), cat), code('UNSUPPORTED_MUTATION_SEMANTICS'));
-  const unknown = structuredClone(cat); unknown.nodes['fixture:stone'].hasCallbacks = null; unknown.nodes['fixture:stone'].unknownFields = ['hasCallbacks'];
+  assert.throws(() => a.validateRegionPalette(block([[4, 0]], [{ materialRef: 'fixture:unknown', orientation: 0 }]), cat), code('CATALOGUE_MISMATCH'));
+  assert.throws(() => a.validateRegionPalette(block([[4, 0]], [{ materialRef: 'fixture:stone', orientation: 3 }]), cat), code('UNSUPPORTED_MUTATION_SEMANTICS'));
+  const unknown = structuredClone(cat); unknown.materials['fixture:stone'].placeable = null; unknown.materials['fixture:stone'].unknownFields = ['placeable'];
   assert.throws(() => a.validateRegionPalette(block([[4, 0]]), unknown), code('UNSUPPORTED_MUTATION_SEMANTICS'));
 });
 test('per-cell BUILD/V4 is retained unchanged beside region v1', () => {
@@ -89,7 +89,7 @@ test('Brush compile: mapblock chunks equal the build exactly; UNSPECIFIED never 
   assert.equal(s.compileResponse.result.projection.chunks.length, 6);
   const resign = x => { x.compileResponse.result.operationDigest = D('region-operations', x.compileResponse.result.projection); return x; };
   const carved = S(); const c = carved.compileResponse.result.projection.chunks[2];
-  const e = a.expandRegionBlock(c.block); const idx = Array.from(e.indices); idx[idx.lastIndexOf(-1)] = e.palette.findIndex(p => p.nodeName === 'air');
+  const e = a.expandRegionBlock(c.block); const idx = Array.from(e.indices); idx[idx.lastIndexOf(-1)] = e.palette.findIndex(p => p.materialRef === 'air');
   c.block = a.encodeRegionBlock({ origin: c.block.origin, size: c.block.size, palette: e.palette, indices: idx });
   assert.throws(() => a.validateCompiledRegionSet(carved.compileRequest, resign(carved).compileResponse), code('BUILD_INVALID'));
   const dropped = S(); dropped.compileResponse.result.projection.chunks.pop();
@@ -103,7 +103,7 @@ test('Brush compile: mapblock chunks equal the build exactly; UNSPECIFIED never 
 });
 test('Adapter read: loaded-then-known chunks bind digests; still UNKNOWN rejects the write', () => {
   const s = S(); a.validateRegionRead(s.readRequest, s.readResponse); a.requireKnownRegion(s.readResponse.result);
-  assert.ok(s.readResponse.result.chunks.some(c => c.loadMethod === 'LOADED_BY_EMERGE'));
+  assert.ok(s.readResponse.result.chunks.some(c => c.loadMethod === 'LOADED_ON_DEMAND'));
   const unknown = S(); Object.assign(unknown.readResponse.result.chunks[3], { availability: 'UNKNOWN', loadMethod: null, unknownReason: 'LOAD_FAILED', state: null, stateDigest: null });
   a.validateRegionRead(unknown.readRequest, unknown.readResponse);
   assert.throws(() => a.requireKnownRegion(unknown.readResponse.result), code('TARGET_FACTS_INCOMPLETE'));
